@@ -5,6 +5,11 @@
 //  Created by Eric Whitley on 6/14/16.
 //  Copyright © 2016 StatTag. All rights reserved.
 //
+/*
+ This is a temporary approach to match the .NET.
+ 
+ We should look at other options 
+ */
 
 #import <Foundation/Foundation.h>
 
