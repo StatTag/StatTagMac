@@ -15,10 +15,10 @@
 
 
 #import "STFileHandler.h"
+#import "STConstants.h"
 
 @implementation STFileHandler
 
-NSString *const STStatTagErrorDomain = @"StatTagErrorDomain";
 
 - (NSArray*) ReadAllLines:(NSURL*)filePath error:(NSError**)error {
   BOOL isDir;

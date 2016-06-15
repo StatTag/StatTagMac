@@ -13,8 +13,7 @@
 @synthesize Type = Type;
 @synthesize Code = Code;
 @synthesize Result = Result;
-//FIXME:    public Tag Tag { get; set; }
-// @synthesize Tag = Tag;
+@synthesize Tag = Tag;
 
 -(id)init {
   self = [super init];

@@ -8,6 +8,8 @@
 
 #import "STConstants.h"
 
+NSString *const STStatTagErrorDomain = @"StatTagErrorDomain";
+
 @implementation STConstantsStatisticalPackages
 +(NSString*)Stata { return @"Stata";}
 +(NSString*)R { return @"R";}

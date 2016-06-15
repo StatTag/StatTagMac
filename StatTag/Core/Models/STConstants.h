@@ -13,6 +13,7 @@
 
 #import <Foundation/Foundation.h>
 
+extern NSString *const STStatTagErrorDomain;
 
 @interface STConstantsStatisticalPackages : NSObject
 +(NSString*)Stata;

@@ -15,7 +15,6 @@
   
 }
 
-extern NSString *const STStatTagErrorDomain;
 
 - (NSArray*) ReadAllLines:(NSURL*)filePath error:(NSError**)error;
 - (BOOL) Exists:(NSURL*)filePath error:(NSError**)error;
