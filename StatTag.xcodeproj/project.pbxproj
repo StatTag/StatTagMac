@@ -17,6 +17,15 @@
 		380A67A51D106FBB0045B72B /* STCommandResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 380A67A31D106FBB0045B72B /* STCommandResult.m */; };
 		380A67A71D1077490045B72B /* STConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 380A67A61D1077490045B72B /* STConstants.m */; };
 		380A67AA1D107A820045B72B /* StatTagConstantsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 380A67A91D107A820045B72B /* StatTagConstantsTests.m */; };
+		382C284E1D1202D400697D6F /* STBaseParameterParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 382C284C1D1202D400697D6F /* STBaseParameterParser.h */; };
+		382C284F1D1202D400697D6F /* STBaseParameterParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 382C284D1D1202D400697D6F /* STBaseParameterParser.m */; };
+		382C28511D13247800697D6F /* StatTagObjCPortingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 382C28501D13247700697D6F /* StatTagObjCPortingTests.m */; };
+		382C28541D1324EB00697D6F /* ObjCPortingScratchPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 382C28531D1324EB00697D6F /* ObjCPortingScratchPad.m */; };
+		382C28561D13306400697D6F /* STTableFormat.h in Headers */ = {isa = PBXBuildFile; fileRef = 382C28551D13306400697D6F /* STTableFormat.h */; };
+		382C28581D13307200697D6F /* STTableFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = 382C28571D13307200697D6F /* STTableFormat.m */; };
+		382C285B1D133BCD00697D6F /* STValueFormat.h in Headers */ = {isa = PBXBuildFile; fileRef = 382C28591D133BCD00697D6F /* STValueFormat.h */; };
+		382C285C1D133BCD00697D6F /* STValueFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = 382C285A1D133BCD00697D6F /* STValueFormat.m */; };
+		382C285E1D135DE200697D6F /* StatTagSTValueFormatTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 382C285D1D135DE200697D6F /* StatTagSTValueFormatTests.m */; };
 		382C8D271D0F672F00FE6878 /* StatTag.h in Headers */ = {isa = PBXBuildFile; fileRef = 382C8D261D0F672F00FE6878 /* StatTag.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		382C8D371D0F68B200FE6878 /* STCodeFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 382C8D351D0F68B200FE6878 /* STCodeFile.h */; };
 		382C8D381D0F68B200FE6878 /* STCodeFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 382C8D361D0F68B200FE6878 /* STCodeFile.m */; };
@@ -66,6 +75,16 @@
 		380A67A61D1077490045B72B /* STConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STConstants.m; sourceTree = "<group>"; };
 		380A67A81D1077550045B72B /* STConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = STConstants.h; sourceTree = "<group>"; };
 		380A67A91D107A820045B72B /* StatTagConstantsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagConstantsTests.m; sourceTree = "<group>"; };
+		382C284C1D1202D400697D6F /* STBaseParameterParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STBaseParameterParser.h; sourceTree = "<group>"; };
+		382C284D1D1202D400697D6F /* STBaseParameterParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STBaseParameterParser.m; sourceTree = "<group>"; };
+		382C28501D13247700697D6F /* StatTagObjCPortingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagObjCPortingTests.m; sourceTree = "<group>"; };
+		382C28521D1324EB00697D6F /* ObjCPortingScratchPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjCPortingScratchPad.h; sourceTree = "<group>"; };
+		382C28531D1324EB00697D6F /* ObjCPortingScratchPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjCPortingScratchPad.m; sourceTree = "<group>"; };
+		382C28551D13306400697D6F /* STTableFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STTableFormat.h; sourceTree = "<group>"; };
+		382C28571D13307200697D6F /* STTableFormat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STTableFormat.m; sourceTree = "<group>"; };
+		382C28591D133BCD00697D6F /* STValueFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STValueFormat.h; sourceTree = "<group>"; };
+		382C285A1D133BCD00697D6F /* STValueFormat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STValueFormat.m; sourceTree = "<group>"; };
+		382C285D1D135DE200697D6F /* StatTagSTValueFormatTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagSTValueFormatTests.m; sourceTree = "<group>"; };
 		382C8D231D0F672F00FE6878 /* StatTag.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StatTag.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		382C8D261D0F672F00FE6878 /* StatTag.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StatTag.h; sourceTree = "<group>"; };
 		382C8D281D0F672F00FE6878 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -175,8 +194,12 @@
 				382C8D3A1D0F9E1D00FE6878 /* STFileHandler.m */,
 				380A67981D1061100045B72B /* STTable.h */,
 				380A67991D1061100045B72B /* STTable.m */,
+				382C28551D13306400697D6F /* STTableFormat.h */,
+				382C28571D13307200697D6F /* STTableFormat.m */,
 				38C9B2161D10A8CF003B571E /* STTag.h */,
 				38C9B2171D10A8CF003B571E /* STTag.m */,
+				382C28591D133BCD00697D6F /* STValueFormat.h */,
+				382C285A1D133BCD00697D6F /* STValueFormat.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -201,6 +224,8 @@
 				38C9B2141D10A89D003B571E /* STIParser.h */,
 				38C9B21A1D10AA55003B571E /* STBaseParser.h */,
 				38C9B21B1D10AA55003B571E /* STBaseParser.m */,
+				382C284C1D1202D400697D6F /* STBaseParameterParser.h */,
+				382C284D1D1202D400697D6F /* STBaseParameterParser.m */,
 			);
 			path = Parser;
 			sourceTree = "<group>";
@@ -227,15 +252,19 @@
 		382C8D421D101C2700FE6878 /* StatTagFrameworkTests */ = {
 			isa = PBXGroup;
 			children = (
-				38C9B21E1D10B97D003B571E /* STBaseParserTests.m */,
-				38C9B2121D10A4D4003B571E /* StatTagValueFormatterStataTests.m */,
-				38C9B2101D10A3B9003B571E /* StatTagValueFormatterBaseValueFormatterTests.m */,
-				380A67A91D107A820045B72B /* StatTagConstantsTests.m */,
-				380A679C1D1061490045B72B /* StatTagModelTableTests.m */,
-				382C8D431D101C2700FE6878 /* StatTagModelFileHandlerTests.m */,
+				382C285D1D135DE200697D6F /* StatTagSTValueFormatTests.m */,
 				382C8D451D101C2700FE6878 /* Info.plist */,
-				382C8D4C1D101CE000FE6878 /* TestSourceTextFile.txt */,
+				382C28521D1324EB00697D6F /* ObjCPortingScratchPad.h */,
+				382C28531D1324EB00697D6F /* ObjCPortingScratchPad.m */,
+				380A67A91D107A820045B72B /* StatTagConstantsTests.m */,
+				382C8D431D101C2700FE6878 /* StatTagModelFileHandlerTests.m */,
+				380A679C1D1061490045B72B /* StatTagModelTableTests.m */,
+				382C28501D13247700697D6F /* StatTagObjCPortingTests.m */,
+				38C9B2101D10A3B9003B571E /* StatTagValueFormatterBaseValueFormatterTests.m */,
+				38C9B2121D10A4D4003B571E /* StatTagValueFormatterStataTests.m */,
+				38C9B21E1D10B97D003B571E /* STBaseParserTests.m */,
 				380A67961D102FFA0045B72B /* TestDestinationTextFile.txt */,
+				382C8D4C1D101CE000FE6878 /* TestSourceTextFile.txt */,
 			);
 			path = StatTagFrameworkTests;
 			sourceTree = "<group>";
@@ -254,12 +283,15 @@
 				380A67A41D106FBB0045B72B /* STCommandResult.h in Headers */,
 				382C8D3B1D0F9E1D00FE6878 /* STFileHandler.h in Headers */,
 				382C8D371D0F68B200FE6878 /* STCodeFile.h in Headers */,
+				382C285B1D133BCD00697D6F /* STValueFormat.h in Headers */,
 				38C9B21C1D10AA55003B571E /* STBaseParser.h in Headers */,
 				380A679A1D1061110045B72B /* STTable.h in Headers */,
 				380A67A01D106E090045B72B /* STCodeFileAction.h in Headers */,
 				382C8D271D0F672F00FE6878 /* StatTag.h in Headers */,
 				38C9B2151D10A89D003B571E /* STIParser.h in Headers */,
 				38C9B2081D109F6B003B571E /* STBaseValueFormatter.h in Headers */,
+				382C28561D13306400697D6F /* STTableFormat.h in Headers */,
+				382C284E1D1202D400697D6F /* STBaseParameterParser.h in Headers */,
 				38C9B2181D10A8CF003B571E /* STTag.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -363,14 +395,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				380A67A51D106FBB0045B72B /* STCommandResult.m in Sources */,
+				382C285C1D133BCD00697D6F /* STValueFormat.m in Sources */,
 				380A679B1D1061110045B72B /* STTable.m in Sources */,
 				380A67A71D1077490045B72B /* STConstants.m in Sources */,
+				382C284F1D1202D400697D6F /* STBaseParameterParser.m in Sources */,
 				380A67A11D106E090045B72B /* STCodeFileAction.m in Sources */,
 				38C9B2011D109B40003B571E /* STExecutionStep.m in Sources */,
 				38C9B2051D109D0A003B571E /* STFigureFormat.m in Sources */,
 				38C9B2191D10A8CF003B571E /* STTag.m in Sources */,
 				38C9B2091D109F6B003B571E /* STBaseValueFormatter.m in Sources */,
 				38C9B21D1D10AA55003B571E /* STBaseParser.m in Sources */,
+				382C28581D13307200697D6F /* STTableFormat.m in Sources */,
 				382C8D381D0F68B200FE6878 /* STCodeFile.m in Sources */,
 				38C9B20F1D10A2B2003B571E /* STStataBaseValueFormatter.m in Sources */,
 				382C8D3C1D0F9E1D00FE6878 /* STFileHandler.m in Sources */,
@@ -381,8 +416,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				382C28541D1324EB00697D6F /* ObjCPortingScratchPad.m in Sources */,
 				38C9B21F1D10B97D003B571E /* STBaseParserTests.m in Sources */,
+				382C285E1D135DE200697D6F /* StatTagSTValueFormatTests.m in Sources */,
 				382C8D441D101C2700FE6878 /* StatTagModelFileHandlerTests.m in Sources */,
+				382C28511D13247800697D6F /* StatTagObjCPortingTests.m in Sources */,
 				38C9B2131D10A4D4003B571E /* StatTagValueFormatterStataTests.m in Sources */,
 				38C9B2111D10A3B9003B571E /* StatTagValueFormatterBaseValueFormatterTests.m in Sources */,
 				380A67AA1D107A820045B72B /* StatTagConstantsTests.m in Sources */,

@@ -252,17 +252,17 @@
 -(void)ProcessTag:(NSString*)tagText Tag:(STTag*)tag error:(NSError**)error {
   if([tagText hasPrefix:[STConstantsTagType Value]]) {
     tag.Type = [STConstantsTagType Value];
-    //FIXME: complete implementation
+    //FIXME: incomplete implementation
     //    ValueParameterParser.Parse(tagText, tag);
     
   } else if([tagText hasPrefix:[STConstantsTagType Figure]]) {
     tag.Type = [STConstantsTagType Figure];
-    //FIXME: complete implementation
+    //FIXME: incomplete implementation
     //    FigureParameterParser.Parse(tagText, tag);
     
   } else if([tagText hasPrefix:[STConstantsTagType Table]]) {
     tag.Type = [STConstantsTagType Table];
-    //FIXME: complete implementation
+    //FIXME: incomplete implementation
     //    TableParameterParser.Parse(tagText, tag);
     //    ValueParameterParser.Parse(tagText, tag);
   } else {
