@@ -15,7 +15,7 @@
 }
 
 -(NSString*)Finalize:(NSString*)value {
-  NSCharacterSet *ws = [NSCharacterSet whitespaceCharacterSet];
+  NSCharacterSet *ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
   return [[value stringByTrimmingCharactersInSet: ws] length] == 0 ? [self GetMissingValue] : value;
 }
 

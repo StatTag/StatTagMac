@@ -16,7 +16,7 @@
 @synthesize TableResult;
 
 -(BOOL)IsEmpty {
-  NSCharacterSet *ws = [NSCharacterSet whitespaceCharacterSet];
+  NSCharacterSet *ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
   return (
       [[ValueResult stringByTrimmingCharactersInSet: ws] length] == 0
       && [[FigureResult stringByTrimmingCharactersInSet: ws] length] == 0
@@ -25,7 +25,7 @@
   );
 }
 -(NSString*)ToString {  
-  NSCharacterSet *ws = [NSCharacterSet whitespaceCharacterSet];
+  NSCharacterSet *ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
   if ([[ValueResult stringByTrimmingCharactersInSet: ws] length] > 0) {
     return ValueResult;
   }

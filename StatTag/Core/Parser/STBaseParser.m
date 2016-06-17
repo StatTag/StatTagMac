@@ -88,7 +88,7 @@
   for (int index = 0; index < [lines count]; index++) {
 
     //var line = lines[index].Trim();
-    NSString *line = [[lines objectAtIndex:index] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    NSString *line = [[lines objectAtIndex:index] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     
     //var match = StartTagRegEx.Match(line);
     NSArray* matches = [StartTagRegEx matchesInString:line options:0 range: NSMakeRange(0, line.length)];
@@ -152,7 +152,7 @@
 
   for (int index = 0; index < [lines count]; index++)
   {
-    NSString *line = [[lines objectAtIndex:index] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    NSString *line = [[lines objectAtIndex:index] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     
     if(step == nil){
       step = [[STExecutionStep alloc]init];

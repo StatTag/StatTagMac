@@ -26,7 +26,7 @@
     valueFormatter = [[STBaseValueFormatter alloc] init];
   }
 
-  NSCharacterSet *ws = [NSCharacterSet whitespaceCharacterSet];
+  NSCharacterSet *ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
   if ([[value stringByTrimmingCharactersInSet: ws] length] == 0){
     return @"";
   }
@@ -59,12 +59,18 @@
  @param value: The string value to be formatted
  */
 -(NSString*) FormatNumeric:(NSString*) value {
-  double numericValue = [value doubleValue];
-  //FIXME: figure out a better way to see if we have a conversion failure
-  if(numericValue == 0 && ![value  isEqual: @"0"]) {
+  
+  NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
+  f.numberStyle = NSNumberFormatterDecimalStyle;
+  NSNumber *aNumber = [f numberFromString:value];
+  
+  if(aNumber == nil) {
     if(AllowInvalidTypes){return value;}
     return @"";
   }
+  
+  double numericValue = [aNumber doubleValue];
+
   
   NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
   if(UseThousands){
@@ -81,12 +87,16 @@
  @param value: The string value to be formatted
  */
 -(NSString*) FormatPercentage:(NSString*) value {
-  double numericValue = [value doubleValue];
-  //FIXME: figure out a better way to see if we have a conversion failure
-  if(numericValue == 0 && ![value  isEqual: @"0"]) {
+  NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
+  f.numberStyle = NSNumberFormatterDecimalStyle;
+  NSNumber *aNumber = [f numberFromString:value];
+  
+  if(aNumber == nil) {
     if(AllowInvalidTypes){return value;}
     return @"";
   }
+  
+  double numericValue = [aNumber doubleValue];
   
   NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
   [formatter setNumberStyle:NSNumberFormatterPercentStyle];
@@ -122,7 +132,7 @@
   }
   
   NSString *format = @"";
-  NSCharacterSet *ws = [NSCharacterSet whitespaceCharacterSet];
+  NSCharacterSet *ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
   if (!([[DateFormat stringByTrimmingCharactersInSet: ws] length] == 0)){
     if ([DateFormat isEqualToString:[STConstantsDateFormats MMDDYYYY]]
         || [DateFormat isEqualToString:[STConstantsDateFormats MonthDDYYYY]])
