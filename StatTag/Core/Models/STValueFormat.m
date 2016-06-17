@@ -62,6 +62,7 @@
   
   NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
   f.numberStyle = NSNumberFormatterDecimalStyle;
+  f.locale = [NSLocale currentLocale]; //this is the default, but explicitly setting this in code so it's clear there may be issues with conflicting locales (what's in data vs. user preference)
   NSNumber *aNumber = [f numberFromString:value];
   
   if(aNumber == nil) {
@@ -89,6 +90,7 @@
 -(NSString*) FormatPercentage:(NSString*) value {
   NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
   f.numberStyle = NSNumberFormatterDecimalStyle;
+  f.locale = [NSLocale currentLocale]; //this is the default, but explicitly setting this in code so it's clear there may be issues with conflicting locales (what's in data vs. user preference)
   NSNumber *aNumber = [f numberFromString:value];
   
   if(aNumber == nil) {
@@ -100,7 +102,7 @@
   
   NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
   [formatter setNumberStyle:NSNumberFormatterPercentStyle];
-  [formatter setMultiplier:@1.0];//our numbers are already in percentages
+  //[formatter setMultiplier:@1.0];//if our numbers are already in percentages (ex: 10 vs 0.1)
   [formatter setMinimumFractionDigits:DecimalPlaces];
   [formatter setMaximumFractionDigits:DecimalPlaces];
   [formatter setRoundingMode: NSNumberFormatterRoundHalfEven];
@@ -132,24 +134,28 @@
   }
   
   NSString *format = @"";
+  NSString *timeSeparator = @"";
+  //NOTE: difference from c#. Our date/time formatting isn't going to allow empty spaces in the string, so we want to set up a 'separator' and only populate it and use it if we have both a date and a time
+  
+  NSLog(@"DateFormat = %@", DateFormat);
   NSCharacterSet *ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
   if (!([[DateFormat stringByTrimmingCharactersInSet: ws] length] == 0)){
     if ([DateFormat isEqualToString:[STConstantsDateFormats MMDDYYYY]]
         || [DateFormat isEqualToString:[STConstantsDateFormats MonthDDYYYY]])
     {
       format = DateFormat;
+      timeSeparator = @" ";
     }
   }
   if (!([[TimeFormat stringByTrimmingCharactersInSet: ws] length] == 0)){
     if ([TimeFormat isEqualToString:[STConstantsTimeFormats HHMM]]
         || [TimeFormat isEqualToString:[STConstantsTimeFormats HHMMSS]])
     {
-      //format = TimeFormat;
-      format = [NSString stringWithFormat:@"%@ %@", format, TimeFormat];
+      format = [NSString stringWithFormat:@"%@%@%@", format, timeSeparator, TimeFormat];
     }
   }
 
-  if (!([[format stringByTrimmingCharactersInSet: ws] length] == 0)){
+  if ([[format stringByTrimmingCharactersInSet: ws] length] == 0){
     return @"";
   }
   

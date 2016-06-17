@@ -71,6 +71,53 @@
 
 }
 
+- (void)testFormatPercentage {
+  STValueFormat *format = [[STValueFormat alloc] init];
+  format.FormatType = [STConstantsValueFormatType Percentage];
+
+  XCTAssertEqualObjects(@"", [format Format:@"Not a number"]);
+  XCTAssertEqualObjects(@"111%", [format Format:@"1.11"]);
+  XCTAssertEqualObjects(@"12%", [format Format:@"0.1234"]);
+  format.DecimalPlaces = 2;
+  XCTAssertEqualObjects(@"12.35%", [format Format:@"0.123456789"]); // Rounds up with decimal places
+  format.DecimalPlaces = 10;
+  XCTAssertEqualObjects(@"12.3400000000%", [format Format:@"0.1234"]); // Rounds up with decimal places
+  
+  format.AllowInvalidTypes = true;
+  XCTAssertEqualObjects(@"test", [format Format:@"test"]);
+  
+}
+
+- (void)testFormatDateTime {
+
+  // Date only
+  STValueFormat *format = [[STValueFormat alloc] init];
+  format.FormatType = [STConstantsValueFormatType DateTime];
+  XCTAssertEqualObjects(@"", [format Format:@"Not a date"]);
+  format.DateFormat = [STConstantsDateFormats MMDDYYYY];
+  XCTAssertEqualObjects(@"03/11/2012", [format Format:@"3/11/2012"]);
+  XCTAssertEqualObjects(@"11/11/2011", [format Format:@"11/11/11 11:11"]);
+  format.DateFormat = [STConstantsDateFormats MonthDDYYYY];
+  XCTAssertEqualObjects(@"March 11, 2012", [format Format:@"3/11/2012"]);
+  XCTAssertEqualObjects(@"November 11, 2011", [format Format:@"11/11/11 11:11:11"]);
+  
+  // Time only
+  format.DateFormat = @"";
+  format.TimeFormat = [STConstantsTimeFormats HHMM];
+  XCTAssertEqualObjects(@"11:30", [format Format:@"11:30:50"]);
+  format.TimeFormat = [STConstantsTimeFormats HHMMSS];
+  XCTAssertEqualObjects(@"15:30:50", [format Format:@"11/11/11 15:30:50"]);
+  
+  // Date and time
+  format.DateFormat = [STConstantsDateFormats MMDDYYYY];
+  format.TimeFormat = [STConstantsTimeFormats HHMMSS];
+  XCTAssertEqualObjects(@"03/11/2012 11:30:00", [format Format:@"3/11/2012 11:30"]);
+
+  format.AllowInvalidTypes = true;
+  XCTAssertEqualObjects(@"test", [format Format:@"test"]);
+  
+}
+
 - (void)testEquals {
   
   STValueFormat *firstObject = [[STValueFormat alloc] init];
