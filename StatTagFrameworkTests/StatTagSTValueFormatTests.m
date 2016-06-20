@@ -88,20 +88,76 @@
   
 }
 
--(NSString*)extractTime:(NSString*)value {
+
+-(NSDate*)extractDate:(NSString*)value {
   
+  NSDate *dateValue;
+  //NSTimeZone *timeZone = [NSTimeZone localTimeZone];
+  
+  //Let's see if we can get the formatted date - we should be careful of locale here...
+  //http://stackoverflow.com/questions/5135482/how-to-determine-if-locales-date-format-is-month-day-or-day-month
+  
+  //  BOOL dayFirst = [[NSDateFormatter dateFormatFromTemplate:@"MMMMd" options:0 locale:[NSLocale currentLocale]] hasPrefix:@"d"];
+  //
+  //  NSArray *likelyFormats = @[
+  //              @"dd/MM/yyyy",
+  //              @"dd/MM/yyyy hh:mm a",
+  //
+  //              @"MM/dd/yyyy",
+  //              @"MM/dd/yyyy hh:mm a"
+  //            ];
+  //  NSMutableArray *dateFormats = [[NSMutableArray alloc] init];
+  
+  NSArray *dateFormats = @[@"hh:mm a", @"hh:mm"];
+  
+  //add times
+  //@[@"dd/MM/yyyy",@"hh:mm a",@"hh:mm",@"dd/MM/yyyy hh:mm a"];
+  
+  NSDateFormatter *formatter=[[NSDateFormatter alloc] init];
+  
+  for (NSString *dateFormat in dateFormats) {
+    [formatter setDateFormat:dateFormat];
+    dateValue = [formatter dateFromString:value];
+    if (dateValue) {
+      return dateValue;
+    }
+  }
+  
+  //failing that, let's see if we can detect the date using a data detector
   NSError *error = NULL;
   NSDataDetector *detector = [NSDataDetector dataDetectorWithTypes:(NSTextCheckingTypes)NSTextCheckingTypeDate error:&error];
   
   NSArray *matches = [detector matchesInString:value options:0 range:NSMakeRange(0, [value length])];
-  NSDate *dateValue;
   
   for (NSTextCheckingResult *match in matches) {
     if ([match resultType] == NSTextCheckingTypeDate) {
       dateValue = [match date];
+      if(dateValue) {
+        return dateValue;
+      }
     }
   }
+  
+  //nothing
+  return dateValue;
+}
 
+-(NSString*)extractTime:(NSString*)value {
+  
+//  NSError *error = NULL;
+//  NSDataDetector *detector = [NSDataDetector dataDetectorWithTypes:(NSTextCheckingTypes)NSTextCheckingTypeDate error:&error];
+//  
+//  NSArray *matches = [detector matchesInString:value options:0 range:NSMakeRange(0, [value length])];
+//  NSDate *dateValue;
+//  
+//  for (NSTextCheckingResult *match in matches) {
+//    if ([match resultType] == NSTextCheckingTypeDate) {
+//      dateValue = [match date];
+//    }
+//  }
+
+  NSDate *dateValue = [self extractDate:value];
+  
   NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
   [formatter setDateFormat:@"HH:mm"];
   NSString *time = [formatter stringFromDate:dateValue];
@@ -109,12 +165,19 @@
   NSLog(@"original:%@ got_date:%@ formatted_time:%@", value, dateValue, time);
   
   return time;
+
+
   
 }
 
 -(void)testTimeExtraction {
   
-  NSArray<NSString*>* times = @[@"07:30", @"8:30", @"9:30", @"10:30", @"11:30"];
+  NSArray<NSString*>* times = @[
+              @"00:30", @"1:30", @"2:30", @"3:30", @"4:30", @"5:30", @"6:30",
+              @"07:30", @"8:30", @"9:30", @"10:30", @"11:30", @"12:30", @"13:30",
+              @"14:30", @"15:30", @"16:30", @"17:30", @"18:30", @"19:30", @"20:30",
+              @"21:30", @"22:30", @"23:30", @"01:30pm", @"02:30pm", @"03:30pm"
+        ];
   
   for(NSString *time in times) {
     NSLog(@"%@", [self extractTime:time]);

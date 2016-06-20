@@ -197,18 +197,19 @@ the cached results in another tag.
   return [NSDictionary dictionaryWithObjectsAndKeys:
           self.StatisticalPackage, @"StatisticalPackage",
           [self.FilePath path], @"FilePath",
-          self.LastCached, @"LastCached", //format?
+          [STJSONUtility convertDateToDateString:self.LastCached], @"LastCached", //format?
           nil
           ];
 }
 
-+(NSString*)SerializeObject:(STCodeFile*)codeFile error:(NSError**)error
+-(NSString*)SerializeObject:(NSError**)error
 {
-  
-  NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[codeFile toDictionary] options:NSJSONWritingPrettyPrinted error:error];
+  //NSJSONWritingPrettyPrinted
+  NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[self toDictionary] options:0 error:error];
   NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
   return jsonString;
 }
+
 
 
 /**
@@ -251,9 +252,56 @@ the cached results in another tag.
   return nil;
 }
 
-+(STCodeFile*)DeserializeObject:(NSString*)codeFile error:(NSError**)error
+-(void)setWithDictionary:(NSDictionary*)dict {
+  for (NSString* key in dict) {
+    if([key isEqualToString:@"FilePath"]) {
+      [self setValue:[NSURL fileURLWithPath:[dict valueForKey:key]] forKey:key];
+    } else if([key isEqualToString:@"LastCached"]) {
+      [self setValue:[STJSONUtility dateFromString:[dict valueForKey:key]] forKey:key];
+      NSLog(@"LastCached : %@", [self LastCached]);
+    } else {
+      [self setValue:[dict valueForKey:key] forKey:key];
+      //NSLog(@"[JSONDictionary valueForKey:key] : %@", [JSONDictionary valueForKey:key]);
+      //NSLog(@"[self valueForKey:key] : %@", [self valueForKey:key]);
+    }
+  }
+}
+
+-(instancetype)initWithDictionary:(NSDictionary*)dict
 {
-  return nil;
+  self = [super init];
+  if (self) {
+    [self setWithDictionary:dict];
+  }
+  return self;
+}
+
+-(instancetype)initWithJSONString:(NSString*)JSONString error:(NSError**)outError
+{
+  
+  self = [super init];
+  if (self) {
+    
+    NSError *error = nil;
+    NSData *JSONData = [JSONString dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *JSONDictionary = [NSJSONSerialization JSONObjectWithData:JSONData options:0 error:&error];
+    
+    if (!error && JSONDictionary) {
+      //Loop method
+      //      for (NSString* key in JSONDictionary) {
+      //        [self setValue:[JSONDictionary valueForKey:key] forKey:key];
+      //      }
+      //[self setValuesForKeysWithDictionary:JSONDictionary]; //we have a URL, so we can't do this
+      [self setWithDictionary:JSONDictionary];
+    } else {
+      if (outError) {
+        *outError = [NSError errorWithDomain:STStatTagErrorDomain
+                                        code:[error code]
+                                    userInfo:@{NSUnderlyingErrorKey: error}];
+      }
+    }
+  }
+  return self;
 }
 
 /**
@@ -261,34 +309,26 @@ the cached results in another tag.
   CodeFile objects.  This does not resolve the list of tags that may be
   associated with the CodeFile.
  */
-+(NSArray<STCodeFile*>*)DeserializeList:(NSString*)List error:(NSError**)error
++(NSArray<STCodeFile*>*)DeserializeList:(NSString*)List error:(NSError**)outError
 {
+
+  NSMutableArray *list = [[NSMutableArray<STCodeFile*> alloc] init];
 
   //FIXME: this is not complete - at all
   NSData *jsonData = [List dataUsingEncoding:NSUTF8StringEncoding];
-  NSArray *values = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:nil];
-  //return JsonConvert.DeserializeObject<List<CodeFile>>(value);
-  
-  NSMutableArray *codeFiles = [[NSMutableArray<STCodeFile*> alloc] init];
-  for(id x in values) {
-//    STCodeFile *file = [STCodeFile Des]
+  NSError *error = nil;
+  NSArray *values = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
+  if ([values isKindOfClass:[NSArray class]] && error == nil) {
+    for(id d in values) {
+      if([d isKindOfClass:[NSDictionary class]]){
+      STCodeFile *file = [[STCodeFile alloc] initWithDictionary:d];
+        if(file != nil) {
+          [list addObject:file];
+        }
+      }
+    }
   }
-  
-  return codeFiles;
-  
-//  // if you are expecting  the JSON string to be in form of array else use NSDictionary instead
-//  id object = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:error];
-//  
-//  if ([object isKindOfClass:[NSDictionary class]] && error == nil)
-//  {
-//    NSArray *array;
-//    if ([[object objectForKey:@"results"] isKindOfClass:[NSArray class]])
-//    {
-//      array = [object objectForKey:@"results"];
-//      return array;
-//    }
-//  }
-//  return nil;
+  return list;
 }
 
 

@@ -9,6 +9,7 @@
 #import "STValueFormat.h"
 #import "STBaseValueFormatter.h"
 #import "STConstants.h"
+#import "STJSONUtility.h"
 
 @implementation STValueFormat
 
@@ -116,23 +117,24 @@
 -(NSString*) FormatDateTime:(NSString*) value {
 
   NSDate *dateValue;
-  NSTimeZone *timeZone = [NSTimeZone localTimeZone];
-  
-  NSError *error = NULL;
-  NSDataDetector *detector = [NSDataDetector dataDetectorWithTypes:(NSTextCheckingTypes)NSTextCheckingTypeDate error:&error];
-  
-  NSArray *matches = [detector matchesInString:value options:0 range:NSMakeRange(0, [value length])];
-  
-  for (NSTextCheckingResult *match in matches) {
-    if ([match resultType] == NSTextCheckingTypeDate) {
-      dateValue = [match date];
-      //NSLog(@"timezone: %@", [match timeZone]);
-      //NSLog(@"match: %@", match);
-      if([match timeZone] == nil) {
-        
-      }
-    }
-  }
+  dateValue = [STJSONUtility dateFromString:value];
+//  NSTimeZone *timeZone = [NSTimeZone localTimeZone];
+//  
+//  NSError *error = NULL;
+//  NSDataDetector *detector = [NSDataDetector dataDetectorWithTypes:(NSTextCheckingTypes)NSTextCheckingTypeDate error:&error];
+//  
+//  NSArray *matches = [detector matchesInString:value options:0 range:NSMakeRange(0, [value length])];
+//  
+//  for (NSTextCheckingResult *match in matches) {
+//    if ([match resultType] == NSTextCheckingTypeDate) {
+//      dateValue = [match date];
+//      //NSLog(@"timezone: %@", [match timeZone]);
+//      //NSLog(@"match: %@", match);
+//      if([match timeZone] == nil) {
+//        
+//      }
+//    }
+//  }
   
   if(dateValue == nil) {
     if(_AllowInvalidTypes){return value;}
@@ -175,7 +177,8 @@
   [formatter setDateFormat:format];
   //FIXME: locale...
   [formatter setLocale:currentLoc];
-  [formatter setTimeZone:timeZone];
+  //  NSTimeZone *timeZone = [NSTimeZone localTimeZone];
+  [formatter setTimeZone:[NSTimeZone localTimeZone]];
   return [formatter stringFromDate:dateValue];
 
   return nil;

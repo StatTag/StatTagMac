@@ -7,6 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "STJSONable.h"
+
 @class STTag;
 @class STFileHandler;
 @protocol STIFileHandler;
@@ -16,7 +18,7 @@
  in a statistical package (e.g. Stata, R, SAS), and will be used within
  a Word document to derive values that are placed into the document text.
 */
-@interface STCodeFile : NSObject {
+@interface STCodeFile : NSObject <STJSONAble> {
 //  NSMutableArray<NSString *> *ContentCache;
   NSString* _StatisticalPackage;
   NSURL* _FilePath;
@@ -24,7 +26,6 @@
   NSMutableArray<STTag*>*_Tags;
   
   NSMutableArray<NSString*>* _Content;
-
 }
 
 //NSMutableArray<NSString *> *onlyStrings
@@ -61,12 +62,14 @@
 -(void)Save:(NSError**)error;
 -(void)SaveBackup:(NSError**)error;
 
+
+//MARK: JSON
 -(NSDictionary *)toDictionary;
+-(NSString*)SerializeObject:(NSError**)error;
+-(instancetype)initWithDictionary:(NSDictionary*)dict;
+-(instancetype)initWithJSONString:(NSString*)JSONString error:(NSError**)error;
 
-+(NSString*)SerializeObject:(STCodeFile*)codeFile error:(NSError**)error;
 +(NSString*)SerializeList:(NSArray<STCodeFile*>*) files error:(NSError**)error;
-
-+(STCodeFile*)DeserializeObject:(NSString*)codeFile error:(NSError**)error;
 +(NSArray<STCodeFile*>*)DeserializeList:(NSString*)List error:(NSError**)error;
 
 @end

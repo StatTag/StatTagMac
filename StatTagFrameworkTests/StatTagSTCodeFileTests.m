@@ -29,11 +29,12 @@
   STCodeFile *f = [[STCodeFile alloc] init];
   f.StatisticalPackage = @"R";
   f.FilePath = [NSURL fileURLWithPath:@"/Applications/SomePath/somefile.txt"];
+  f.LastCached = [NSDate date];
   
   NSLog(@"f: %@", f);
  
   NSError *error;
-  NSString *json = [STCodeFile SerializeObject:f error:&error];
+  NSString *json = [f SerializeObject:&error];
   NSLog(@"JSON: %@", json);
   NSLog(@"error: %@", error);
 }
@@ -56,6 +57,23 @@
   NSLog(@"error: %@", error);
 }
 
+- (void)testJSONInit {
+  //-(instancetype)initWithJSONString:(NSString*)JSONString error:(NSError**)error
+  NSString* jsonString = @"{\"StatisticalPackage\" : \"R 0\",\"FilePath\" : \"/Applications/SomePath/somefile___0.txt\",\"LastCached\":\"06/20/2016, 09:18:29 -0500\"}";
+  NSError* error;
+  STCodeFile* f = [[STCodeFile alloc] initWithJSONString:jsonString error:&error];
+  NSLog(@"error: %@", error);
+  NSLog(@"f: %@", f);
+  NSLog(@"f (StatisticalPackage): %@", [f StatisticalPackage]);
+  NSLog(@"f (LastCached): %@", [f LastCached]);
+}
 
+- (void)testJSONArrayInit {
+  NSString* jsonString = @"[{\"StatisticalPackage\" : \"R 0\",\"FilePath\" : \"/Applications/SomePath/somefile___0.txt\"},{\"StatisticalPackage\" : \"R 1\",\"FilePath\" : \"/Applications/SomePath/somefile___1.txt\"},{\"StatisticalPackage\" : \"R 2\",\"FilePath\" : \"/Applications/SomePath/somefile___2.txt\"},{\"StatisticalPackage\" : \"R 3\",\"FilePath\" : \"/Applications/SomePath/somefile___3.txt\"},{\"StatisticalPackage\" : \"R 4\",\"FilePath\" : \"/Applications/SomePath/somefile___4.txt\"}]";
+  NSError* error;
+  NSArray<STCodeFile*>* list = [STCodeFile DeserializeList:jsonString error:&error];
+  NSLog(@"error: %@", error);
+  NSLog(@"f: %@", list);
+}
 
 @end
