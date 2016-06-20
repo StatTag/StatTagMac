@@ -10,4 +10,14 @@
 
 @implementation STFigureFormat
 
+//MARK: copying
+
+-(id)copyWithZone:(NSZone *)zone
+{
+  STFigureFormat *format = [[STFigureFormat alloc] init];
+  
+  return format;
+}
+
+
 @end

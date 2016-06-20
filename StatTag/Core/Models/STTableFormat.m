@@ -18,6 +18,18 @@
 @synthesize IncludeRowNames = _IncludeRowNames;
 
 
+//MARK: copying
+
+-(id)copyWithZone:(NSZone *)zone
+{
+  STTableFormat *format = [[STTableFormat alloc] init];
+  
+  format.IncludeColumnNames = _IncludeColumnNames;
+  format.IncludeRowNames = _IncludeRowNames;
+  
+  return format;
+}
+
 //This is going to start out assuming left to right filling.  In the future
 //this will have different fill options.
 -(NSArray<NSString*>*)Format:(STTable*)tableData valueFormatter:(NSObject<STIValueFormatter>*)valueFormatter {

@@ -21,6 +21,23 @@
 @synthesize AllowInvalidTypes = _AllowInvalidTypes;
 
 
+//MARK: copying
+
+-(id)copyWithZone:(NSZone *)zone
+{
+  STValueFormat *format = [[STValueFormat alloc] init];
+
+  format.FormatType = [_FormatType copyWithZone:zone];
+  format.DecimalPlaces = _DecimalPlaces;
+  format.UseThousands = _UseThousands;
+  format.DateFormat = [_DateFormat copyWithZone:zone];
+  format.TimeFormat = [_TimeFormat copyWithZone:zone];
+  format.AllowInvalidTypes = _AllowInvalidTypes;
+
+  return format;
+}
+
+
 -(NSString*)Format:(NSString*)value valueFormatter:(NSObject<STIValueFormatter>*)valueFormatter {
   
   if(valueFormatter == nil) {

@@ -8,6 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-@interface STFigureFormat : NSObject
+@interface STFigureFormat : NSObject <NSCopying>
 
 @end

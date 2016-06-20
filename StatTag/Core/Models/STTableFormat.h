@@ -13,7 +13,7 @@
 @class STTable;
 @class STBaseValueFormatter;
 
-@interface STTableFormat : NSObject {
+@interface STTableFormat : NSObject <NSCopying> {
   BOOL _IncludeColumnNames;
   BOOL _IncludeRowNames;
 }

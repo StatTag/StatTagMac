@@ -8,6 +8,8 @@
 
 #import "STJSONUtility.h"
 #import "STValueFormat.h"
+#import "STJSONAble.h"
+#import "STConstants.h"
 
 @implementation STJSONUtility
 
@@ -114,6 +116,47 @@
   NSString *dateString = [dateFormatter stringFromDate:date];
   return dateString;
 }
+
+
+/**
+ Utility method to serialize the list of code files into a JSON array.
+ */
++(NSString*)SerializeList:(NSArray<NSObject<STJSONAble>*>*)files error:(NSError**)outError {
+  
+  NSData *json;
+  NSError *error = nil;
+  
+  NSMutableArray *fileList = [[NSMutableArray alloc] init];
+  for (NSObject<STJSONAble> *o in files){
+    [fileList addObject:[o toDictionary]];
+  }
+  
+  if ([NSJSONSerialization isValidJSONObject:fileList])
+  {
+    json = [NSJSONSerialization dataWithJSONObject:fileList options:NSJSONWritingPrettyPrinted error:&error];
+    
+    if (json != nil && error == nil)
+    {
+      return [[NSString alloc] initWithData:json encoding:NSUTF8StringEncoding];
+    }
+    
+    if (outError) {
+      *outError = [NSError errorWithDomain:STStatTagErrorDomain
+                                      code:[error code]
+                                  userInfo:@{NSUnderlyingErrorKey: error}];
+    }
+    NSLog(@"error: %@", [error localizedDescription]);
+  } else {
+    NSLog(@"invalid json");
+    *outError = [NSError errorWithDomain:STStatTagErrorDomain
+                                    code:-1
+                                userInfo:@{NSLocalizedDescriptionKey: @"Invalid JSON"}];
+    
+  }
+  return nil;
+}
+
+
 
 
 @end

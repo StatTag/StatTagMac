@@ -9,6 +9,14 @@
    - assign
    - readonly
    - int/bool/double?
+5) in Tag, should the equality comparison be case insensitive?
+
+    //FIXME: should these be case insensitive comparisons?
+    if(![_Name isEqualToString:[tag Name]]) {
+      return false;
+    }
+6) in Tag, check to see about "current culture" comparison
+    //return Type != null && Type.Equals(Constants.TagType.Table, StringComparison.CurrentCulture);
 
 
 
@@ -46,3 +54,11 @@ NSLog(@"%@", [self attributesOfProp:key ofObj:self]);
 //    }
 //  }
 //  return nil;
+
+
+
+//Loop method
+//      for (NSString* key in JSONDictionary) {
+//        [self setValue:[JSONDictionary valueForKey:key] forKey:key];
+//      }
+//[self setValuesForKeysWithDictionary:JSONDictionary]; //we have a URL, so we can't do this

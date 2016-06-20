@@ -8,7 +8,7 @@
 
 #import <XCTest/XCTest.h>
 #import "ObjCPortingScratchPad.h"
-
+#import "STTag.h"
 
 @interface StatTagObjCPortingTests : XCTestCase
 
@@ -112,5 +112,13 @@
 
   
 }
+
+-(void)testObjectCopy {
+  STTag *tag1 = [[STTag alloc] init];
+  tag1.RunFrequency = @"run_frequency";
+  
+  STTag *tag2 = [STTag initWithTag:tag1];
+}
+
 
 @end

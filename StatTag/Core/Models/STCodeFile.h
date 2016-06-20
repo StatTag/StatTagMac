@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "STJSONable.h"
 
+
 @class STTag;
 @class STFileHandler;
 @protocol STIFileHandler;
@@ -18,7 +19,7 @@
  in a statistical package (e.g. Stata, R, SAS), and will be used within
  a Word document to derive values that are placed into the document text.
 */
-@interface STCodeFile : NSObject <STJSONAble> {
+@interface STCodeFile : NSObject <STJSONAble, NSCopying> {
 //  NSMutableArray<NSString *> *ContentCache;
   NSString* _StatisticalPackage;
   NSURL* _FilePath;
@@ -69,7 +70,33 @@
 -(instancetype)initWithDictionary:(NSDictionary*)dict;
 -(instancetype)initWithJSONString:(NSString*)JSONString error:(NSError**)error;
 
+/**
+ Utility method to serialize the list of code files into a JSON array.
+ */
 +(NSString*)SerializeList:(NSArray<STCodeFile*>*) files error:(NSError**)error;
+/**
+ Utility method to take a JSON array string and convert it back into a list of
+ CodeFile objects.  This does not resolve the list of tags that may be
+ associated with the CodeFile.
+ */
 +(NSArray<STCodeFile*>*)DeserializeList:(NSString*)List error:(NSError**)error;
+
+
+//MARK: other
++ (NSString*) GuessStatisticalPackage:(NSString*) path;
+/**
+ Removes an tag from the file, and from the internal cache.
+ */
+- (void)RemoveTag:(STTag*)tag;
+
+/**
+ Updates or inserts an tag in the file.  An update takes place only if oldTag is defined, and it is able to match that old tag.
+
+ @ param matchWithPosition: When looking to replace an existing tag (which assumes that oldTag is specified), this parameter when set to true will only replace the tag if the line numbers match.  This is to be used when updating duplicate named tags, but shouldn't be used otherwise.</param>
+
+ */
+- (STTag*)AddTag:(STTag*)newTag oldTag:(STTag*)oldTag matchWithPosition:(BOOL)matchWithPosition;
+- (STTag*)AddTag:(STTag*)newTag oldTag:(STTag*)oldTag;
+- (STTag*)AddTag:(STTag*)newTag;
 
 @end

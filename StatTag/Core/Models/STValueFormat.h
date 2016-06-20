@@ -10,7 +10,7 @@
 
 @protocol STIValueFormatter;
 
-@interface STValueFormat : NSObject {
+@interface STValueFormat : NSObject <NSCopying> {
   NSString* _FormatType;
   int _DecimalPlaces;
   BOOL _UseThousands;
