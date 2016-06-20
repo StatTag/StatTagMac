@@ -10,15 +10,15 @@
 
 @implementation STExecutionStep
 
-@synthesize Type = Type;
-@synthesize Code = Code;
-@synthesize Result = Result;
-@synthesize Tag = Tag;
+@synthesize Type = _Type;
+@synthesize Code = _Code;
+@synthesize Result = _Result;
+@synthesize Tag = _Tag;
 
 -(id)init {
   self = [super init];
   if(self){
-    Code = [[NSMutableArray alloc] init];
+    _Code = [[NSMutableArray alloc] init];
   }
   return self;
 }

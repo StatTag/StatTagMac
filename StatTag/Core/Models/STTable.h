@@ -15,20 +15,20 @@
 
  */
 @interface STTable : NSObject {
-  NSMutableArray<NSString *> *RowNames;
-  NSMutableArray<NSString *> *ColumnNames;
-  int RowSize;
-  int ColumnSize;
-  NSMutableArray<NSNumber *> *Data; //type is double
-  NSMutableArray<NSString *> *FormattedCells;
+  NSMutableArray<NSString*>* _RowNames;
+  NSMutableArray<NSString*>* _ColumnNames;
+  int _RowSize;
+  int _ColumnSize;
+  NSMutableArray<NSNumber*>* _Data; //type is double
+  NSMutableArray<NSString*>* _FormattedCells;
 }
 
-@property NSMutableArray<NSString *> *RowNames;
-@property NSMutableArray<NSString *> *ColumnNames;
+@property (strong, nonatomic) NSMutableArray<NSString*>* RowNames;
+@property (strong, nonatomic) NSMutableArray<NSString*>* ColumnNames;
 @property int RowSize;
 @property int ColumnSize;
-@property NSMutableArray<NSNumber *> *Data; //type is double
-@property NSMutableArray<NSString *> *FormattedCells;
+@property (strong, nonatomic) NSMutableArray<NSNumber*>* Data; //type is double
+@property (strong, nonatomic) NSMutableArray<NSString*>* FormattedCells;
 
 -(id)init;
 -(id)init:(NSArray <NSString *>*)rowNames columnNames:(NSArray <NSString *>*)columnNames rowSize:(int)rowSize columnSize:(int)columnSize data:(NSArray <NSNumber *>*)data;

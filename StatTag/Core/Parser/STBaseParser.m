@@ -13,8 +13,8 @@
 
 @implementation STBaseParser
 
-@synthesize StartTagRegEx = StartTagRegEx;
-@synthesize EndTagRegEx = EndTagRegEx;
+@synthesize StartTagRegEx = _StartTagRegEx;
+@synthesize EndTagRegEx = _EndTagRegEx;
 
 -(NSString*)CommentCharacter {
   return @"";
@@ -43,14 +43,14 @@
   //FIXME: go back and look at regex - Luke is setting options on the regex here so we should go back and have this return some sort of regex object (if possible) with options set instead of just the string
   // RegexOptions.Singleline
   NSError *error;
-  if(StartTagRegEx == nil){
-    StartTagRegEx = [NSRegularExpression regularExpressionWithPattern:[NSString stringWithFormat:@"\\s*[\\%@]{{2,}}\\s*%@\\s*%@(.*)", [self CommentCharacter], [STConstantsTagTags StartTag], [STConstantsTagTags TagPrefix]] options:0 error:&error] ;
+  if(_StartTagRegEx == nil){
+    _StartTagRegEx = [NSRegularExpression regularExpressionWithPattern:[NSString stringWithFormat:@"\\s*[\\%@]{{2,}}\\s*%@\\s*%@(.*)", [self CommentCharacter], [STConstantsTagTags StartTag], [STConstantsTagTags TagPrefix]] options:0 error:&error] ;
     if(error != nil){
       NSLog(@"%@ - StartTagRegEx: %@", NSStringFromSelector(_cmd), error);
     }
   }
-  if(EndTagRegEx == nil){
-    EndTagRegEx = [NSRegularExpression regularExpressionWithPattern:[NSString stringWithFormat:@"\\s*[\\%@]{{2,}}\\s*%@", [self CommentCharacter], [STConstantsTagTags EndTag]] options:0 error:&error] ;
+  if(_EndTagRegEx == nil){
+    _EndTagRegEx = [NSRegularExpression regularExpressionWithPattern:[NSString stringWithFormat:@"\\s*[\\%@]{{2,}}\\s*%@", [self CommentCharacter], [STConstantsTagTags EndTag]] options:0 error:&error] ;
     if(error != nil){
       NSLog(@"%@ - EndTagRegEx: %@", NSStringFromSelector(_cmd), error);
     }
@@ -64,6 +64,12 @@
 
 
 //MARK: protocol implementation - the subclasses will need to actually override this
+-(NSArray<STTag*>*)Parse:(STCodeFile*)file  {
+  return [self Parse:file filterMode:[STConstantsParserFilterMode IncludeAll] tagsToRun:nil];
+}
+-(NSArray<STTag*>*)Parse:(STCodeFile*)file filterMode:(int)filterMode {
+  return [self Parse:file filterMode:filterMode tagsToRun:nil];
+}
 -(NSArray<STTag*>*)Parse:(STCodeFile*)file filterMode:(int)filterMode tagsToRun:(NSArray<STTag*>*)tagsToRun {
   
   [self SetupRegEx];
@@ -91,7 +97,7 @@
     NSString *line = [[lines objectAtIndex:index] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     
     //var match = StartTagRegEx.Match(line);
-    NSArray* matches = [StartTagRegEx matchesInString:line options:0 range: NSMakeRange(0, line.length)];
+    NSArray* matches = [_StartTagRegEx matchesInString:line options:0 range: NSMakeRange(0, line.length)];
     
     if([matches count] > 0){
       tag = [[STTag alloc] init];
@@ -107,7 +113,7 @@
       [self ProcessTag:matchText Tag:tag error:nil];
 
     } else if (startIndex != nil) {
-      matches = [EndTagRegEx matchesInString:line options:0 range: NSMakeRange(0, line.length)];
+      matches = [_EndTagRegEx matchesInString:line options:0 range: NSMakeRange(0, line.length)];
       if([matches count] > 0){
         //FIXME: review this - we're not using primitive types, so it's unclear what happens if we set the value like this
         //tests show it seems to work, but be careful to test
@@ -137,6 +143,13 @@
   
 }
 
+
+-(NSArray<STExecutionStep*>*)GetExecutionSteps:(STCodeFile*)file{
+  return [self GetExecutionSteps:file filterMode:[STConstantsParserFilterMode IncludeAll] tagsToRun:nil];
+}
+-(NSArray<STExecutionStep*>*)GetExecutionSteps:(STCodeFile*)file filterMode:(int)filterMode{
+  return [self GetExecutionSteps:file filterMode:filterMode tagsToRun:nil];
+}
 -(NSArray<STExecutionStep*>*)GetExecutionSteps:(STCodeFile*)file filterMode:(int)filterMode tagsToRun:(NSArray<STTag*>*)tagsToRun {
   
   NSMutableArray<STExecutionStep*> *executionSteps = [[NSMutableArray alloc]init];
@@ -158,7 +171,7 @@
       step = [[STExecutionStep alloc]init];
     }
     
-    NSArray* matches = [StartTagRegEx matchesInString:line options:0 range: NSMakeRange(0, line.length)];
+    NSArray* matches = [_StartTagRegEx matchesInString:line options:0 range: NSMakeRange(0, line.length)];
 
     if([matches count] > 0){
       // If the previous code block had content, save it off and create a new one
@@ -200,7 +213,7 @@
         [[step Code] addObject:line];
       }
 
-      matches = [EndTagRegEx matchesInString:line options:0 range: NSMakeRange(0, line.length)];
+      matches = [_EndTagRegEx matchesInString:line options:0 range: NSMakeRange(0, line.length)];
       if([matches count] > 0){
         isSkipping = NO;
         startIndex = nil;
@@ -249,6 +262,7 @@
   return nil;
 }
 
+//TODO: not implemented
 -(void)ProcessTag:(NSString*)tagText Tag:(STTag*)tag error:(NSError**)error {
   if([tagText hasPrefix:[STConstantsTagType Value]]) {
     tag.Type = [STConstantsTagType Value];

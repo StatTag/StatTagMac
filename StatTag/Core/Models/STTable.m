@@ -10,18 +10,18 @@
 
 @implementation STTable
 
-@synthesize RowNames = RowNames;
-@synthesize ColumnNames = ColumnNames;
-@synthesize RowSize = RowSize;
-@synthesize ColumnSize = ColumnSize;
-@synthesize Data = Data; //type is double
-@synthesize FormattedCells = FormattedCells;
+@synthesize RowNames = _RowNames;
+@synthesize ColumnNames = _ColumnNames;
+@synthesize RowSize = _RowSize;
+@synthesize ColumnSize = _ColumnSize;
+@synthesize Data = _Data; //type is double
+@synthesize FormattedCells = _FormattedCells;
 
 -(id)init {
   self = [super init];
   if(self) {
-    RowNames = [[NSMutableArray alloc] init];
-    ColumnNames = [[NSMutableArray alloc] init];
+    _RowNames = [[NSMutableArray alloc] init];
+    _ColumnNames = [[NSMutableArray alloc] init];
   }
   return self;
 }
@@ -29,11 +29,11 @@
 -(id)init:(NSArray <NSString *>*)rowNames columnNames:(NSArray <NSString *>*)columnNames rowSize:(int)rowSize columnSize:(int)columnSize data:(NSArray <NSNumber *>*)data {
   self = [super init];
   if(self) {
-    RowNames = rowNames != nil ? [[NSMutableArray alloc]initWithArray: rowNames] : [[NSMutableArray alloc] init];
-    ColumnNames = ColumnNames != nil ? [[NSMutableArray alloc]initWithArray: columnNames] : [[NSMutableArray alloc] init];
-    RowSize = rowSize;
-    ColumnSize = columnSize;
-    Data = [[NSMutableArray alloc] initWithArray:data];
+    _RowNames = rowNames != nil ? [[NSMutableArray alloc]initWithArray: rowNames] : [[NSMutableArray alloc] init];
+    _ColumnNames = _ColumnNames != nil ? [[NSMutableArray alloc]initWithArray: columnNames] : [[NSMutableArray alloc] init];
+    _RowSize = rowSize;
+    _ColumnSize = columnSize;
+    _Data = [[NSMutableArray alloc] initWithArray:data];
   }
   return self;
 }
@@ -43,7 +43,7 @@
  @returns true if empty, false otherwise
  */
 -(BOOL)isEmpty {
-  return (Data == nil || [Data count] == 0 || RowSize == 0 || ColumnSize == 0);
+  return (_Data == nil || [_Data count] == 0 || _RowSize == 0 || _ColumnSize == 0);
 }
 
 -(NSString*)ToString {

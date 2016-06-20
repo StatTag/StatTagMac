@@ -17,16 +17,18 @@
 /*
  Tag[] Parse(CodeFile file, int filterMode = Constants.ParserFilterMode.IncludeAll, List<Tag> tagsToRun = null);
  List<ExecutionStep> GetExecutionSteps(CodeFile file, int filterMode = Constants.ParserFilterMode.IncludeAll, List<Tag> tagsToRun = null);
- bool IsImageExport(string command);
- string GetImageSaveLocation(string command);
- bool IsValueDisplay(string command);
- string GetValueName(string command);
- bool IsTableResult(string command);
- string GetTableName(string command);
+
+
  */
 
 -(NSArray<STTag*>*)Parse:(STCodeFile*)file filterMode:(int)filterMode tagsToRun:(NSArray<STTag*>*)tagsToRun;
+-(NSArray<STTag*>*)Parse:(STCodeFile*)file filterMode:(int)filterMode;
+-(NSArray<STTag*>*)Parse:(STCodeFile*)file;
+
 -(NSArray<STExecutionStep*>*)GetExecutionSteps:(STCodeFile*)file filterMode:(int)filterMode tagsToRun:(NSArray<STTag*>*)tagsToRun;
+-(NSArray<STExecutionStep*>*)GetExecutionSteps:(STCodeFile*)file filterMode:(int)filterMode;
+-(NSArray<STExecutionStep*>*)GetExecutionSteps:(STCodeFile*)file;
+
 -(BOOL)IsImageExport:(NSString*)command;
 -(NSString*)GetImageSaveLocation:(NSString*)command;
 -(BOOL)IsValueDisplay:(NSString*)command;

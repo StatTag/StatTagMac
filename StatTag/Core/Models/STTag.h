@@ -21,35 +21,35 @@
    public TableFormat TableFormat { get; set; }
    public List<CommandResult> CachedResult { get; set; }
    */
-  STCodeFile *CodeFile;
-  NSString *Type;
-  NSString *Name;
-  NSString *RunFrequency;
+  STCodeFile* _CodeFile;
+  NSString* _Type;
+  NSString* _Name;
+  NSString* _RunFrequency;
   //STValueFormat *ValueFormat;
   //STTableFormat *TableFormat;
-  NSMutableArray<STCommandResult*> *CachedResult;
-  NSNumber *LineStart;
-  NSNumber *LineEnd;
+  NSMutableArray<STCommandResult*>* _CachedResult;
+  NSNumber* _LineStart;
+  NSNumber* _LineEnd;
 }
 
 
-@property STCodeFile *CodeFile;
-@property NSString *Type;
-@property NSString *Name;
-@property NSString *RunFrequency;
+@property (strong, nonatomic) STCodeFile *CodeFile;
+@property (copy, nonatomic) NSString *Type;
+@property (copy, nonatomic) NSString *Name;
+@property (copy, nonatomic) NSString *RunFrequency;
 //@property STValueFormat *ValueFormat;
 //@property STTableFormat *TableFormat;
-@property NSMutableArray<STCommandResult*> *CachedResult;
+@property (strong, nonatomic) NSMutableArray<STCommandResult*> *CachedResult;
 
 /**
  @brief The starting line is the 0-based line index where the opening tag tag exists.
  */
-@property NSNumber *LineStart; //nil-able int
+@property (copy, nonatomic) NSNumber *LineStart; //nil-able int
 
 /**
  @brief The ending line is the 0-based line index where the closing tag tag exists.
  */
-@property NSNumber *LineEnd; //nil-able int
+@property (copy, nonatomic) NSNumber *LineEnd; //nil-able int
 
 
 @end

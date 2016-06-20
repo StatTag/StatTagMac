@@ -12,12 +12,12 @@
 
 @implementation STValueFormat
 
-@synthesize FormatType = FormatType;
-@synthesize DecimalPlaces = DecimalPlaces;
-@synthesize UseThousands = UseThousands;
-@synthesize DateFormat = DateFormat;
-@synthesize TimeFormat = TimeFormat;
-@synthesize AllowInvalidTypes = AllowInvalidTypes;
+@synthesize FormatType = _FormatType;
+@synthesize DecimalPlaces = _DecimalPlaces;
+@synthesize UseThousands = _UseThousands;
+@synthesize DateFormat = _DateFormat;
+@synthesize TimeFormat = _TimeFormat;
+@synthesize AllowInvalidTypes = _AllowInvalidTypes;
 
 
 -(NSString*)Format:(NSString*)value valueFormatter:(NSObject<STIValueFormatter>*)valueFormatter {
@@ -31,11 +31,11 @@
     return @"";
   }
 
-  if(FormatType == [STConstantsValueFormatType Numeric]) {
+  if(_FormatType == [STConstantsValueFormatType Numeric]) {
     value = [self FormatNumeric:value];
-  } else if (FormatType == [STConstantsValueFormatType Percentage]) {
+  } else if (_FormatType == [STConstantsValueFormatType Percentage]) {
     value = [self FormatPercentage:value];
-  } else if (FormatType == [STConstantsValueFormatType DateTime]) {
+  } else if (_FormatType == [STConstantsValueFormatType DateTime]) {
     value = [self FormatDateTime:value];
   }
   
@@ -66,7 +66,7 @@
   NSNumber *aNumber = [f numberFromString:value];
   
   if(aNumber == nil) {
-    if(AllowInvalidTypes){return value;}
+    if(_AllowInvalidTypes){return value;}
     return @"";
   }
   
@@ -74,11 +74,11 @@
 
   
   NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-  if(UseThousands){
+  if(_UseThousands){
     [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
   }
-  [formatter setMinimumFractionDigits:DecimalPlaces];
-  [formatter setMaximumFractionDigits:DecimalPlaces];
+  [formatter setMinimumFractionDigits:_DecimalPlaces];
+  [formatter setMaximumFractionDigits:_DecimalPlaces];
   [formatter setRoundingMode: NSNumberFormatterRoundHalfEven];
   return [formatter stringFromNumber:[NSNumber numberWithDouble:numericValue]];
 }
@@ -94,7 +94,7 @@
   NSNumber *aNumber = [f numberFromString:value];
   
   if(aNumber == nil) {
-    if(AllowInvalidTypes){return value;}
+    if(_AllowInvalidTypes){return value;}
     return @"";
   }
   
@@ -103,8 +103,8 @@
   NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
   [formatter setNumberStyle:NSNumberFormatterPercentStyle];
   //[formatter setMultiplier:@1.0];//if our numbers are already in percentages (ex: 10 vs 0.1)
-  [formatter setMinimumFractionDigits:DecimalPlaces];
-  [formatter setMaximumFractionDigits:DecimalPlaces];
+  [formatter setMinimumFractionDigits:_DecimalPlaces];
+  [formatter setMaximumFractionDigits:_DecimalPlaces];
   [formatter setRoundingMode: NSNumberFormatterRoundHalfEven];
   return [formatter stringFromNumber:[NSNumber numberWithDouble:numericValue]];
 }
@@ -116,6 +116,7 @@
 -(NSString*) FormatDateTime:(NSString*) value {
 
   NSDate *dateValue;
+  NSTimeZone *timeZone = [NSTimeZone localTimeZone];
   
   NSError *error = NULL;
   NSDataDetector *detector = [NSDataDetector dataDetectorWithTypes:(NSTextCheckingTypes)NSTextCheckingTypeDate error:&error];
@@ -125,11 +126,16 @@
   for (NSTextCheckingResult *match in matches) {
     if ([match resultType] == NSTextCheckingTypeDate) {
       dateValue = [match date];
+      //NSLog(@"timezone: %@", [match timeZone]);
+      //NSLog(@"match: %@", match);
+      if([match timeZone] == nil) {
+        
+      }
     }
   }
   
   if(dateValue == nil) {
-    if(AllowInvalidTypes){return value;}
+    if(_AllowInvalidTypes){return value;}
     return @"";
   }
   
@@ -137,21 +143,21 @@
   NSString *timeSeparator = @"";
   //NOTE: difference from c#. Our date/time formatting isn't going to allow empty spaces in the string, so we want to set up a 'separator' and only populate it and use it if we have both a date and a time
   
-  NSLog(@"DateFormat = %@", DateFormat);
+  //NSLog(@"DateFormat = %@", DateFormat);
   NSCharacterSet *ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
-  if (!([[DateFormat stringByTrimmingCharactersInSet: ws] length] == 0)){
-    if ([DateFormat isEqualToString:[STConstantsDateFormats MMDDYYYY]]
-        || [DateFormat isEqualToString:[STConstantsDateFormats MonthDDYYYY]])
+  if (!([[_DateFormat stringByTrimmingCharactersInSet: ws] length] == 0)){
+    if ([_DateFormat isEqualToString:[STConstantsDateFormats MMDDYYYY]]
+        || [_DateFormat isEqualToString:[STConstantsDateFormats MonthDDYYYY]])
     {
-      format = DateFormat;
+      format = _DateFormat;
       timeSeparator = @" ";
     }
   }
-  if (!([[TimeFormat stringByTrimmingCharactersInSet: ws] length] == 0)){
-    if ([TimeFormat isEqualToString:[STConstantsTimeFormats HHMM]]
-        || [TimeFormat isEqualToString:[STConstantsTimeFormats HHMMSS]])
+  if (!([[_TimeFormat stringByTrimmingCharactersInSet: ws] length] == 0)){
+    if ([_TimeFormat isEqualToString:[STConstantsTimeFormats HHMM]]
+        || [_TimeFormat isEqualToString:[STConstantsTimeFormats HHMMSS]])
     {
-      format = [NSString stringWithFormat:@"%@%@%@", format, timeSeparator, TimeFormat];
+      format = [NSString stringWithFormat:@"%@%@%@", format, timeSeparator, _TimeFormat];
     }
   }
 
@@ -162,27 +168,28 @@
   //this is a huge guess... we need to discuss locale handling
   NSLocale* currentLoc = [NSLocale currentLocale];
 
+  NSLog(@"Date: %@", dateValue);
+  
   //FIXME: date formatter should be moved to a shared global property
   NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
   [formatter setDateFormat:format];
   //FIXME: locale...
   [formatter setLocale:currentLoc];
+  [formatter setTimeZone:timeZone];
   return [formatter stringFromDate:dateValue];
 
   return nil;
 }
 
 
-
-//FIXME: test this
-//NOTE: apparently isEqual is different in obj-c (compared to Swift or C#), so triple-check this
+//MARK: equality
 - (NSUInteger)hash {
-  int hashCode = (FormatType != nil ? [FormatType hash] : 0);
-  hashCode = (hashCode*397) ^ DecimalPlaces;
-  hashCode = (hashCode*397) ^ UseThousands;
-  hashCode = (hashCode*397) ^ (DateFormat != nil ? [DateFormat hash] : 0);
-  hashCode = (hashCode*397) ^ (TimeFormat != nil ? [TimeFormat hash] : 0);
-  hashCode = (hashCode*397) ^ (AllowInvalidTypes ? 1 : 0);
+  int hashCode = (_FormatType != nil ? [_FormatType hash] : 0);
+  hashCode = (hashCode*397) ^ _DecimalPlaces;
+  hashCode = (hashCode*397) ^ _UseThousands;
+  hashCode = (hashCode*397) ^ (_DateFormat != nil ? [_DateFormat hash] : 0);
+  hashCode = (hashCode*397) ^ (_TimeFormat != nil ? [_TimeFormat hash] : 0);
+  hashCode = (hashCode*397) ^ (_AllowInvalidTypes ? 1 : 0);
   
   return (NSUInteger)abs(hashCode);
 }

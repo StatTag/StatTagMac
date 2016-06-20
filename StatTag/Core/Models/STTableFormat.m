@@ -14,6 +14,10 @@
 
 @implementation STTableFormat
 
+@synthesize IncludeColumnNames = _IncludeColumnNames;
+@synthesize IncludeRowNames = _IncludeRowNames;
+
+
 //This is going to start out assuming left to right filling.  In the future
 //this will have different fill options.
 -(NSArray<NSString*>*)Format:(STTable*)tableData valueFormatter:(NSObject<STIValueFormatter>*)valueFormatter {
@@ -30,14 +34,14 @@
     return formattedResults;
   }
 
-  BOOL canIncludeColumnNames = (IncludeColumnNames && [tableData ColumnNames] != nil);
+  BOOL canIncludeColumnNames = (_IncludeColumnNames && [tableData ColumnNames] != nil);
 
   if (canIncludeColumnNames)
   {
     [formattedResults addObjectsFromArray:[tableData ColumnNames]];
   }
 
-  BOOL canIncludeRowNames = (IncludeRowNames && [tableData RowNames] != nil);
+  BOOL canIncludeRowNames = (_IncludeRowNames && [tableData RowNames] != nil);
   for (int rowIndex = 0; rowIndex < [tableData RowSize]; rowIndex++)
   {
     if (canIncludeRowNames)

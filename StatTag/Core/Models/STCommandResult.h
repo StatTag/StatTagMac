@@ -10,14 +10,14 @@
 @class STTable;
 
 @interface STCommandResult : NSObject {
-  NSString* ValueResult;
-  NSString* FigureResult;
-  STTable *TableResult;
+  NSString* _ValueResult;
+  NSString* _FigureResult;
+  STTable* _TableResult;
 }
 
-@property (nonatomic, copy) NSString* ValueResult;
-@property (nonatomic, copy) NSString* FigureResult;
-@property STTable *TableResult;
+@property (copy, nonatomic) NSString* ValueResult;
+@property (copy, nonatomic) NSString* FigureResult;
+@property (strong, nonatomic) STTable* TableResult;
 
 -(BOOL)IsEmpty;
 -(NSString*)ToString;

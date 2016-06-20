@@ -14,8 +14,8 @@
 @class STBaseValueFormatter;
 
 @interface STTableFormat : NSObject {
-  BOOL IncludeColumnNames;
-  BOOL IncludeRowNames;
+  BOOL _IncludeColumnNames;
+  BOOL _IncludeRowNames;
 }
 
 @property BOOL IncludeColumnNames;

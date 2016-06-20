@@ -11,19 +11,19 @@
 @protocol STIValueFormatter;
 
 @interface STValueFormat : NSObject {
-  NSString* FormatType;
-  int DecimalPlaces;
-  BOOL UseThousands;
-  NSString* DateFormat;
-  NSString* TimeFormat;
-  BOOL AllowInvalidTypes;
+  NSString* _FormatType;
+  int _DecimalPlaces;
+  BOOL _UseThousands;
+  NSString* _DateFormat;
+  NSString* _TimeFormat;
+  BOOL _AllowInvalidTypes;
 }
 
-@property NSString* FormatType;
+@property (copy, nonatomic) NSString* FormatType;
 @property int DecimalPlaces;
 @property BOOL UseThousands;
-@property NSString* DateFormat;
-@property NSString* TimeFormat;
+@property (copy, nonatomic) NSString* DateFormat;
+@property (copy, nonatomic) NSString* TimeFormat;
 @property BOOL AllowInvalidTypes;
 
 

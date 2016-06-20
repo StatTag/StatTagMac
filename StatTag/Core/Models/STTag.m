@@ -10,15 +10,15 @@
 
 @implementation STTag
 
-@synthesize CodeFile = CodeFile;
-@synthesize Type = Type;
-@synthesize Name = Name;
-@synthesize RunFrequency = RunFrequency;
+@synthesize CodeFile = _CodeFile;
+@synthesize Type = _Type;
+@synthesize Name = _Name;
+@synthesize RunFrequency = _RunFrequency;
 //@synthesize ValueFormat = ValueFormat;
 //@synthesize TableFormat = TableFormat;
-@synthesize CachedResult = CachedResult;
-@synthesize LineStart = LineStart;
-@synthesize LineEnd = LineEnd;
+@synthesize CachedResult = _CachedResult;
+@synthesize LineStart = _LineStart;
+@synthesize LineEnd = _LineEnd;
 
 
 @end

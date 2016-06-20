@@ -13,15 +13,15 @@
         are tags referenced in the document that it depends on.
  */
 @interface STCodeFileAction : NSObject {
-  NSString *Label;
-  int Action;
-  id Parameter;
+  NSString* _Label;
+  int _Action;
+  id _Parameter;
 }
 
 /**
  @brief The description of the action (for the UI)
  */
-@property (nonatomic, copy) NSString *Label;
+@property (copy, nonatomic) NSString *Label;
 /**
  @brief The action that should be performed, from Constants.CodeFileActionTask
  */
@@ -30,7 +30,7 @@
  @brief An optional parameter associated with an action.  For example, linking to a new file will
         specify the file to link to as the parameter.
  */
-@property id Parameter;
+@property (strong, nonatomic) id Parameter;
 
 -(NSString *)ToString;
 

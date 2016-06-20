@@ -11,29 +11,29 @@
 
 @implementation STCommandResult
 
-@synthesize ValueResult;
-@synthesize FigureResult;
-@synthesize TableResult;
+@synthesize ValueResult = _ValueResult;
+@synthesize FigureResult = _FigureResult;
+@synthesize TableResult = _TableResult;
 
 -(BOOL)IsEmpty {
   NSCharacterSet *ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
   return (
-      [[ValueResult stringByTrimmingCharactersInSet: ws] length] == 0
-      && [[FigureResult stringByTrimmingCharactersInSet: ws] length] == 0
-      && TableResult == nil
-      && [TableResult isEmpty]
+      [[_ValueResult stringByTrimmingCharactersInSet: ws] length] == 0
+      && [[_FigureResult stringByTrimmingCharactersInSet: ws] length] == 0
+      && _TableResult == nil
+      && [_TableResult isEmpty]
   );
 }
 -(NSString*)ToString {  
   NSCharacterSet *ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
-  if ([[ValueResult stringByTrimmingCharactersInSet: ws] length] > 0) {
-    return ValueResult;
+  if ([[_ValueResult stringByTrimmingCharactersInSet: ws] length] > 0) {
+    return _ValueResult;
   }
-  if ([[FigureResult stringByTrimmingCharactersInSet: ws] length] > 0) {
-    return FigureResult;
+  if ([[_FigureResult stringByTrimmingCharactersInSet: ws] length] > 0) {
+    return _FigureResult;
   }
-  if(TableResult != nil){
-    return [TableResult ToString];
+  if(_TableResult != nil){
+    return [_TableResult ToString];
   }
   return @"";
 }

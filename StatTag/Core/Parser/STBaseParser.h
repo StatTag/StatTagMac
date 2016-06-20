@@ -12,14 +12,21 @@
 #import "STCodeFile.h"
 
 @interface STBaseParser : NSObject <STIParser> {
-  NSRegularExpression* StartTagRegEx;
-  NSRegularExpression* EndTagRegEx;
+  NSRegularExpression* _StartTagRegEx;
+  NSRegularExpression* _EndTagRegEx;
 }
 
 
 //MARK: protocol implementation
+
 -(NSArray<STTag*>*)Parse:(STCodeFile*)file filterMode:(int)filterMode tagsToRun:(NSArray<STTag*>*)tagsToRun;
+-(NSArray<STTag*>*)Parse:(STCodeFile*)file filterMode:(int)filterMode;
+-(NSArray<STTag*>*)Parse:(STCodeFile*)file;
+
 -(NSArray<STExecutionStep*>*)GetExecutionSteps:(STCodeFile*)file filterMode:(int)filterMode tagsToRun:(NSArray<STTag*>*)tagsToRun;
+-(NSArray<STExecutionStep*>*)GetExecutionSteps:(STCodeFile*)file filterMode:(int)filterMode;
+-(NSArray<STExecutionStep*>*)GetExecutionSteps:(STCodeFile*)file;
+
 
 //These are empty because this was an abstract class in the original code
 -(BOOL)IsImageExport:(NSString*)command;
@@ -31,8 +38,8 @@
 
 
 //MARK: other methods and properties
-@property NSRegularExpression* StartTagRegEx;
-@property NSRegularExpression* EndTagRegEx;
+@property (copy, nonatomic) NSRegularExpression* StartTagRegEx;
+@property (copy, nonatomic) NSRegularExpression* EndTagRegEx;
 
 -(NSString*)CommentCharacter;
 

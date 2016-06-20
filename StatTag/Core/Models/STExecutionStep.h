@@ -10,17 +10,16 @@
 @class STTag;
 
 @interface STExecutionStep : NSObject {
-  int Type;
-  NSMutableArray<NSString*>* Code;
-  NSMutableArray<NSString*>* Result;
-  //FIXME:    public Tag Tag { get; set; }
-  STTag *Tag;
+  int _Type;
+  NSMutableArray<NSString*>* _Code;
+  NSMutableArray<NSString*>* _Result;
+  STTag* _Tag;
 }
 
 @property int Type;
-@property NSMutableArray<NSString*>* Code;
-@property NSMutableArray<NSString*>* Result;
+@property (strong, nonatomic) NSMutableArray<NSString*>* Code;
+@property (strong, nonatomic) NSMutableArray<NSString*>* Result;
 //FIXME:    public Tag Tag { get; set; }
-@property STTag *Tag;
+@property (strong, nonatomic) STTag *Tag;
 
 @end

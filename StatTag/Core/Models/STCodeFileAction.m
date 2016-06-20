@@ -10,13 +10,13 @@
 
 @implementation STCodeFileAction
 
-@synthesize Label;
-@synthesize Action;
-@synthesize Parameter;
+@synthesize Label = _Label;
+@synthesize Action = _Action;
+@synthesize Parameter = _Parameter;
 
 //FIXME: just blindly copying for now - this should probably be "description"
 -(NSString*)ToString {
-  return Label;
+  return _Label;
 }
 -(NSString*)description {
   return [self ToString];
