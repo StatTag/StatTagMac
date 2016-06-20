@@ -13,6 +13,7 @@
 #import "STFactories.h"
 #import "STIParser.h"
 #import "STConstants.h"
+#import "STIGenerator.h"
 
 @implementation STCodeFile
 
@@ -434,13 +435,59 @@ the cached results in another tag.
     //STTag* refreshedOldTag = _Tags.FirstOrDefault(tag => oldTag.Equals(tag, matchWithPosition));
     if (refreshedOldTag == nil)
     {
-      throw new InvalidDataException("Unable to find the existing tag to update.");
+      //FIXME: we shouldn't be doing things this way - fix
+      [NSException raise:@"Unable to find the existing tag to update." format:@"Unable to find the existing tag to update."];
+    }
+    
+    if ([refreshedOldTag LineStart] > [refreshedOldTag LineEnd])
+    {
+      //FIXME: we shouldn't be doing things this way - fix
+      [NSException raise:@"Invalid LineStart and LineEnd" format:@"The new tag start index is after the end index, which is not allowed."];
     }
 
+    // Remove the starting tag and then adjust indices as appropriate
+    [ContentCache removeObjectAtIndex:[[refreshedOldTag LineStart] integerValue] ];
+
+    if ([updatedTag LineStart] > [refreshedOldTag LineStart])
+    {
+      updatedTag.LineStart = [NSNumber numberWithInteger:[[updatedTag LineStart] integerValue] -1 ];
+      updatedTag.LineEnd = [NSNumber numberWithInteger:[[updatedTag LineEnd] integerValue] -1 ]; // We know line end >= line start
+    }
+    else if ([updatedTag LineEnd] > [refreshedOldTag LineStart])
+    {
+      updatedTag.LineEnd = [NSNumber numberWithInteger:[[updatedTag LineEnd] integerValue] -1 ]; // We know line end >= line start
+    }
+
+    refreshedOldTag.LineEnd = [NSNumber numberWithInteger:[[refreshedOldTag LineEnd] integerValue] -1 ]; // Don't forget to adjust the old tag index
+    [ContentCache removeObjectAtIndex:[[refreshedOldTag LineEnd] integerValue] ];
+    if ([updatedTag LineStart] > [refreshedOldTag LineEnd])
+    {
+      updatedTag.LineStart = [NSNumber numberWithInteger:[[updatedTag LineStart] integerValue] -1 ];
+      updatedTag.LineEnd = [NSNumber numberWithInteger:[[updatedTag LineEnd] integerValue] -1 ];
+    }
+    else if ([updatedTag LineEnd] >= [refreshedOldTag LineEnd])
+    {
+      updatedTag.LineEnd = [NSNumber numberWithInteger:[[updatedTag LineEnd] integerValue] -1 ];
+    }
+
+    //FIXME: this should be replaced with better nsindexset search and removal
+    predicate = [NSPredicate predicateWithBlock:^BOOL(STTag *aTag, NSDictionary *bindings) {
+      return [aTag Equals:refreshedOldTag usePosition:matchWithPosition];
+    }];
+    NSArray<STTag*>* foundTags = [_Tags filteredArrayUsingPredicate:predicate];
+    [_Tags removeObjectsInArray:foundTags];
   }
 
+  NSObject<STIGenerator>* generator = [STFactories GetGenerator:self];
   
+  [ContentCache insertObject:[generator CreateOpenTag:updatedTag] atIndex:[[updatedTag LineStart] integerValue]];
+  updatedTag.LineEnd = [NSNumber numberWithInteger:[[updatedTag LineEnd] integerValue] +2 ]; // Offset one line for the opening tag, the second line is for the closing tag
+
+  [ContentCache insertObject:[generator CreateClosingTag] atIndex:[[updatedTag LineEnd] integerValue]];
   
+  // Add to our collection of tags
+  [_Tags addObject:updatedTag];
+  return updatedTag;
 }
 - (STTag*)AddTag:(STTag*)newTag oldTag:(STTag*)oldTag {
   return [self AddTag:newTag oldTag:oldTag matchWithPosition:false];
@@ -448,6 +495,9 @@ the cached results in another tag.
 - (STTag*)AddTag:(STTag*)newTag {
   return [self AddTag:newTag oldTag:nil matchWithPosition:false];
 }
+
+
+
 
 
 

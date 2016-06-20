@@ -16,7 +16,6 @@
 #import "STFactories.h"
 #import "STTable.h"
 
-
 @implementation STTag
 
 @synthesize CodeFile = _CodeFile;
@@ -250,6 +249,12 @@
 
   return [super description];
 }
+
+-(BOOL) Equals:(STTag*)other usePosition:(BOOL)usePosition
+{
+  return (usePosition) ? [self EqualsWithPosition:other] : [self isEqual:other];
+}
+
 
 - (BOOL) EqualsWithPosition:(STTag*)tag {
   return [self isEqual:tag] && [_LineStart isEqual:[tag LineStart]] && [_LineEnd isEqual:[tag LineEnd]];

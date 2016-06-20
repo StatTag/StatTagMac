@@ -7,14 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
-@class STITag;
+@class STTag;
 
 @protocol STIGenerator <NSObject>
 
 -(NSString*)CommentCharacter;
 -(NSString*)CreateOpenTagBase;
 -(NSString*)CreateClosingTag;
--(NSString*)CreateOpenTag:(STITag*) tag;
+-(NSString*)CreateOpenTag:(STTag*) tag;
 
 
 @end

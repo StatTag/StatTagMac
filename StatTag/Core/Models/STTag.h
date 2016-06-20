@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "STJSONable.h"
 @class STCodeFile;
 @class STCommandResult;
 @class STTableFormat;
@@ -80,6 +81,7 @@
 
 -(NSString*)ToString;
 
+-(BOOL) Equals:(STTag*)other usePosition:(BOOL)usePosition;
 /**
  A more specialized version of Equals that takes into account line numbers.  This is used when trying
  to disambiguate tags that have the same label in the same code file.
