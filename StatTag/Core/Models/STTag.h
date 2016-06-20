@@ -13,7 +13,7 @@
 @class STValueFormat;
 @class STFigureFormat;
 
-@interface STTag : NSObject <NSCopying> {
+@interface STTag : NSObject <STJSONAble, NSCopying> {
   /*
    public CodeFile CodeFile { get; set; }
    public string Type { get; set; }
@@ -70,6 +70,14 @@
 
 +(instancetype)initWithTag:(STTag*)tag;
 
+
+//MARK: JSON
+-(NSDictionary *)toDictionary;
+-(NSString*)SerializeObject:(NSError**)error;
+-(instancetype)initWithDictionary:(NSDictionary*)dict;
+-(instancetype)initWithJSONString:(NSString*)JSONString error:(NSError**)error;
+
+
 -(NSString*)ToString;
 
 /**
@@ -100,5 +108,13 @@
  Update the underlying table data associated with this tag.
  */
 - (void)UpdateFormattedTableData;
+
+/**
+ Get the dimensions for the displayable table.  This factors in not only the data, but if column and
+ row labels are included.
+ 
+ return type within array is: int
+ */
+- (NSArray<NSNumber*>*)GetTableDisplayDimensions;
 
 @end

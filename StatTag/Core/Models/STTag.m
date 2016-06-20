@@ -55,8 +55,8 @@
   
   // Table tags should never return the placeholder.  We assume that there could reasonably
   // be empty cells at some point, so we will not correct those like we do for individual values.
-  return (!IsTableTag() && string.IsNullOrWhiteSpace(formattedValue)) ?
-  Constants.Placeholders.EmptyField : formattedValue;
+  return (![self IsTableTag ] && [[formattedValue stringByTrimmingCharactersInSet: ws] length] == 0) ?
+  [STConstantsPlaceholders EmptyField] : formattedValue;
 }
 
 
@@ -93,6 +93,84 @@
 
 
 //TODO: JSON methods
+
+//NOTE: go back later and figure out if/how the bulk of this can be centralized in some sort of generic or category (if possible)
+
+-(NSDictionary *)toDictionary {
+  return [NSDictionary dictionaryWithObjectsAndKeys:
+          _CodeFile, @"CodeFile",
+          _Type, @"Type",
+          [STTag NormalizeName:_Name], @"Name",
+          _RunFrequency, @"RunFrequency",
+          _ValueFormat, @"ValueFormat",
+          _FigureFormat, @"FigureFormat",
+          _TableFormat, @"TableFormat",
+          _CachedResult, @"CachedResult",
+          _LineStart, @"LineStart",
+          _LineEnd, @"LineEnd",
+          [self Id], @"Id",
+          [self FormattedResult], @"FormattedResult",
+          nil
+          ];
+}
+
+-(NSString*)SerializeObject:(NSError**)error
+{
+  //NSJSONWritingPrettyPrinted
+  NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[self toDictionary] options:0 error:error];
+  NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+  return jsonString;
+}
+
+-(void)setWithDictionary:(NSDictionary*)dict {
+  for (NSString* key in dict) {
+    if([key isEqualToString:@"CodeFile"]) {
+      NSLog(@"STTag - attempting to recover CodeFile with value %@", [dict valueForKey:key]);
+      id aValue = [dict valueForKey:key];
+      NSDictionary *objDict = aValue;
+      if(objDict != nil) {
+        [self setValue:[[STCodeFile alloc] initWithDictionary:objDict] forKey:key];
+      }
+    } else if([key isEqualToString:@"Name"]) {
+      NSLog(@"STTag - attempting to recover normalized Name with value %@, normalized value: %@", [dict valueForKey:key], [STTag NormalizeName:[dict valueForKey:key]]);
+      [self setValue:[STTag NormalizeName:[dict valueForKey:key]] forKey:key];
+    } else {
+      [self setValue:[dict valueForKey:key] forKey:key];
+    }
+  }
+}
+
+-(instancetype)initWithDictionary:(NSDictionary*)dict
+{
+  self = [super init];
+  if (self) {
+    [self setWithDictionary:dict];
+  }
+  return self;
+}
+
+-(instancetype)initWithJSONString:(NSString*)JSONString error:(NSError**)outError
+{
+  self = [super init];
+  if (self) {
+    
+    NSError *error = nil;
+    NSData *JSONData = [JSONString dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *JSONDictionary = [NSJSONSerialization JSONObjectWithData:JSONData options:0 error:&error];
+    
+    if (!error && JSONDictionary) {
+      [self setWithDictionary:JSONDictionary];
+    } else {
+      if (outError) {
+        *outError = [NSError errorWithDomain:STStatTagErrorDomain
+                                        code:[error code]
+                                    userInfo:@{NSUnderlyingErrorKey: error}];
+      }
+    }
+  }
+  return self;
+}
+
 
 /*
  /// <summary>
@@ -222,6 +300,58 @@
   table.FormattedCells = [NSMutableArray arrayWithArray:[_TableFormat Format:table valueFormatter:[STFactories GetValueFormatter:_CodeFile]]];
 }
 
+/**
+ Get the dimensions for the displayable table.  This factors in not only the data, but if column and
+row labels are included.
+
+ return type within array is: int
+ */
+- (NSArray<NSNumber*>*)GetTableDisplayDimensions {
+ 
+  if (![self IsTableTag] || _TableFormat == nil || ![ self HasTableData])
+  {
+    return nil;
+  }
+  
+  STTable* tableData = [[_CachedResult firstObject] TableResult];
+//  NSInteger dimensions[2];
+//  dimensions[0] = [tableData RowSize];
+//  dimensions[1] = [tableData ColumnSize];
+  
+  NSMutableArray<NSNumber*>* dimensions = [[NSMutableArray alloc] initWithObjects:[NSNumber numberWithInteger:[tableData RowSize]], [NSNumber numberWithInteger:[tableData ColumnSize]], nil];
+  
+  if ([_TableFormat IncludeColumnNames] && [tableData ColumnNames] != nil)
+  {
+    dimensions[STConstantsDimensionIndex.Rows] = [NSNumber numberWithInteger:[dimensions[STConstantsDimensionIndex.Rows] integerValue] + 1];
+    //dimensions[STConstantsDimensionIndex.Rows]++;
+  }
+
+  if ([_TableFormat IncludeRowNames] && [tableData RowNames] != nil)
+  {
+    dimensions[STConstantsDimensionIndex.Columns] = [NSNumber numberWithInteger:[dimensions[STConstantsDimensionIndex.Columns] integerValue] + 1];
+    //dimensions[STConstantsDimensionIndex.Columns]++;
+  }
+  
+  return dimensions;
+}
+
+/**
+ Provide a string representation of the range of lines that this Tag spans in
+ its code file.  If there is only one line, just that line number is returned.
+ */
+-(NSString*)FormatLineNumberRange {
+  if (_LineStart == 0 || _LineEnd == 0)
+  {
+    return @"";
+  }
+  
+  if ([_LineStart isEqual:_LineEnd])
+  {
+    return [NSString stringWithFormat:@"%@", _LineStart];
+  }
+  
+  return [NSString stringWithFormat:@"%@ - %@", _LineStart, _LineEnd];
+}
 
 
 @end
