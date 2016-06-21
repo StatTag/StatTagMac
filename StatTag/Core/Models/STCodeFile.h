@@ -34,7 +34,7 @@
 //@property NSMutableArray<NSString *> *ContentCache;
 @property (copy, nonatomic) NSString *StatisticalPackage;
 @property (copy, nonatomic) NSURL *FilePath;
-@property (strong, nonatomic) NSDate *LastCached;
+@property (copy, nonatomic) NSDate *LastCached;
 @property (strong, nonatomic) NSMutableArray<STTag *> *Tags;
 
 @property (strong, nonatomic) NSMutableArray<NSString *> *Content;

@@ -64,7 +64,7 @@
   return self;
 }
 
-+(instancetype)initWithTag:(STTag*)tag {
+-(instancetype)initWithTag:(STTag*)tag {
   STTag *newTag = [tag copy];
   return newTag;
 }
@@ -91,7 +91,7 @@
 }
 
 
-//TODO: JSON methods
+//MARK: JSON methods
 
 //NOTE: go back later and figure out if/how the bulk of this can be centralized in some sort of generic or category (if possible)
 

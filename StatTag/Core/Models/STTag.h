@@ -69,7 +69,7 @@
 
 
 
-+(instancetype)initWithTag:(STTag*)tag;
+-(instancetype)initWithTag:(STTag*)tag;
 
 
 //MARK: JSON
@@ -77,7 +77,7 @@
 -(NSString*)SerializeObject:(NSError**)error;
 -(instancetype)initWithDictionary:(NSDictionary*)dict;
 -(instancetype)initWithJSONString:(NSString*)JSONString error:(NSError**)error;
-
+-(void)setWithDictionary:(NSDictionary*)dict;
 
 -(NSString*)ToString;
 

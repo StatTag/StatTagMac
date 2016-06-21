@@ -17,7 +17,7 @@
     }
 6) in Tag, check to see about "current culture" comparison
     //return Type != null && Type.Equals(Constants.TagType.Table, StringComparison.CurrentCulture);
-
+7) Update STFieldTag to fix new properties in object copy
 
 
 

@@ -38,6 +38,8 @@
 		382C289F1D182CA400697D6F /* STJSONAble.h in Headers */ = {isa = PBXBuildFile; fileRef = 382C289E1D182CA400697D6F /* STJSONAble.h */; };
 		382C28A41D18322900697D6F /* STJSONUtility.h in Headers */ = {isa = PBXBuildFile; fileRef = 382C28A21D18322900697D6F /* STJSONUtility.h */; };
 		382C28A51D18322900697D6F /* STJSONUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 382C28A31D18322900697D6F /* STJSONUtility.m */; };
+		382C28AC1D195C2500697D6F /* STFieldTag.h in Headers */ = {isa = PBXBuildFile; fileRef = 382C28AA1D195C2500697D6F /* STFieldTag.h */; };
+		382C28AD1D195C2500697D6F /* STFieldTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 382C28AB1D195C2500697D6F /* STFieldTag.m */; };
 		382C8D271D0F672F00FE6878 /* StatTag.h in Headers */ = {isa = PBXBuildFile; fileRef = 382C8D261D0F672F00FE6878 /* StatTag.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		382C8D371D0F68B200FE6878 /* STCodeFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 382C8D351D0F68B200FE6878 /* STCodeFile.h */; };
 		382C8D381D0F68B200FE6878 /* STCodeFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 382C8D361D0F68B200FE6878 /* STCodeFile.m */; };
@@ -109,6 +111,8 @@
 		382C289E1D182CA400697D6F /* STJSONAble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STJSONAble.h; sourceTree = "<group>"; };
 		382C28A21D18322900697D6F /* STJSONUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STJSONUtility.h; sourceTree = "<group>"; };
 		382C28A31D18322900697D6F /* STJSONUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STJSONUtility.m; sourceTree = "<group>"; };
+		382C28AA1D195C2500697D6F /* STFieldTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STFieldTag.h; sourceTree = "<group>"; };
+		382C28AB1D195C2500697D6F /* STFieldTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STFieldTag.m; sourceTree = "<group>"; };
 		382C8D231D0F672F00FE6878 /* StatTag.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StatTag.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		382C8D261D0F672F00FE6878 /* StatTag.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StatTag.h; sourceTree = "<group>"; };
 		382C8D281D0F672F00FE6878 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -215,7 +219,6 @@
 		382C8D2F1D0F67BA00FE6878 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				382C289E1D182CA400697D6F /* STJSONAble.h */,
 				382C8D351D0F68B200FE6878 /* STCodeFile.h */,
 				382C8D361D0F68B200FE6878 /* STCodeFile.m */,
 				380A679E1D106E080045B72B /* STCodeFileAction.h */,
@@ -230,6 +233,7 @@
 				38C9B2031D109D0A003B571E /* STFigureFormat.m */,
 				382C8D391D0F9E1D00FE6878 /* STFileHandler.h */,
 				382C8D3A1D0F9E1D00FE6878 /* STFileHandler.m */,
+				382C289E1D182CA400697D6F /* STJSONAble.h */,
 				380A67981D1061100045B72B /* STTable.h */,
 				380A67991D1061100045B72B /* STTable.m */,
 				382C28551D13306400697D6F /* STTableFormat.h */,
@@ -238,6 +242,8 @@
 				38C9B2171D10A8CF003B571E /* STTag.m */,
 				382C28591D133BCD00697D6F /* STValueFormat.h */,
 				382C285A1D133BCD00697D6F /* STValueFormat.m */,
+				382C28AA1D195C2500697D6F /* STFieldTag.h */,
+				382C28AB1D195C2500697D6F /* STFieldTag.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -329,6 +335,7 @@
 				380A67A41D106FBB0045B72B /* STCommandResult.h in Headers */,
 				382C8D3B1D0F9E1D00FE6878 /* STFileHandler.h in Headers */,
 				382C8D371D0F68B200FE6878 /* STCodeFile.h in Headers */,
+				382C28AC1D195C2500697D6F /* STFieldTag.h in Headers */,
 				382C285B1D133BCD00697D6F /* STValueFormat.h in Headers */,
 				38C9B21C1D10AA55003B571E /* STBaseParser.h in Headers */,
 				380A679A1D1061110045B72B /* STTable.h in Headers */,
@@ -456,6 +463,7 @@
 				380A67A11D106E090045B72B /* STCodeFileAction.m in Sources */,
 				38C9B2011D109B40003B571E /* STExecutionStep.m in Sources */,
 				38C9B2051D109D0A003B571E /* STFigureFormat.m in Sources */,
+				382C28AD1D195C2500697D6F /* STFieldTag.m in Sources */,
 				38C9B2191D10A8CF003B571E /* STTag.m in Sources */,
 				38C9B2091D109F6B003B571E /* STBaseValueFormatter.m in Sources */,
 				38C9B21D1D10AA55003B571E /* STBaseParser.m in Sources */,
