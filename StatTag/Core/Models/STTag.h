@@ -14,17 +14,12 @@
 @class STValueFormat;
 @class STFigureFormat;
 
+/**
+  A tag is a sequence of lines in a CodeFile that is defined by special
+  comment tags.  It contains configuration information on how to interpret and
+  format the result of the code block within the document.
+*/
 @interface STTag : NSObject <STJSONAble, NSCopying> {
-  /*
-   public CodeFile CodeFile { get; set; }
-   public string Type { get; set; }
-   public string Name { get; set; }
-   public string RunFrequency { get; set; }
-   public ValueFormat ValueFormat { get; set; }
-   public FigureFormat FigureFormat { get; set; }
-   public TableFormat TableFormat { get; set; }
-   public List<CommandResult> CachedResult { get; set; }
-   */
   STCodeFile* _CodeFile;
   NSString* _Type;
   NSString* _Name;
@@ -33,14 +28,16 @@
   STFigureFormat* _FigureFormat;
   STTableFormat* _TableFormat;
   NSMutableArray<STCommandResult*>* _CachedResult;
+
+  NSString* _Id;
+  NSString* _FormattedResult;
+  
   NSNumber* _LineStart;
   NSNumber* _LineEnd;
   
-  NSString* _Id;
-  NSString* _FormattedResult;
 }
 
-
+//MARK: properties
 @property (strong, nonatomic) STCodeFile *CodeFile;
 @property (copy, nonatomic) NSString *Type;
 @property (copy, nonatomic) NSString *Name;
@@ -68,7 +65,8 @@
 @property (copy, nonatomic) NSNumber *LineEnd; //nil-able int
 
 
-
+//MARK: initializers
+-(instancetype)init;
 -(instancetype)initWithTag:(STTag*)tag;
 
 
@@ -79,8 +77,10 @@
 -(instancetype)initWithJSONString:(NSString*)JSONString error:(NSError**)error;
 -(void)setWithDictionary:(NSDictionary*)dict;
 
+//MARK: descriptions
 -(NSString*)ToString;
 
+//MARK: equality
 -(BOOL) Equals:(STTag*)other usePosition:(BOOL)usePosition;
 /**
  A more specialized version of Equals that takes into account line numbers.  This is used when trying
@@ -88,6 +88,7 @@
  */
 - (BOOL) EqualsWithPosition:(STTag*)tag;
 
+//MARK: other methods
 /**
  Ensure that all reserved characters that appear in an tag name are removed
  and replaced with a space.

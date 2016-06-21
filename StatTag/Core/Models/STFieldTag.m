@@ -179,7 +179,6 @@
  only carry the specific cell value.
  */
 - (void)SetCachedValue {
-  
   if([self IsTableTag] && _TableCellIndex != nil && _CachedResult != nil && [_CachedResult count] > 0 ) {
     STTable* table = [[_CachedResult lastObject] TableResult];
     if (table != nil && [table FormattedCells] != nil)
@@ -190,7 +189,6 @@
       [_CachedResult addObject:cr];
     }
   }
-
 }
 
 

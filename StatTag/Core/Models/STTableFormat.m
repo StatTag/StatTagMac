@@ -35,8 +35,9 @@
 -(NSArray<NSString*>*)Format:(STTable*)tableData valueFormatter:(NSObject<STIValueFormatter>*)valueFormatter {
   
   //            valueFormatter = valueFormatter ?? new BaseValueFormatter();
+  
   if(valueFormatter == nil) {
-    STBaseValueFormatter *valueFormatter = [[STBaseValueFormatter alloc] init];
+    valueFormatter = [[STBaseValueFormatter alloc] init];
   }
   
   NSMutableArray<NSString*> *formattedResults = [[NSMutableArray<NSString*> alloc] init];

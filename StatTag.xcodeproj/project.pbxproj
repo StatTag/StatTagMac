@@ -40,6 +40,8 @@
 		382C28A51D18322900697D6F /* STJSONUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 382C28A31D18322900697D6F /* STJSONUtility.m */; };
 		382C28AC1D195C2500697D6F /* STFieldTag.h in Headers */ = {isa = PBXBuildFile; fileRef = 382C28AA1D195C2500697D6F /* STFieldTag.h */; };
 		382C28AD1D195C2500697D6F /* STFieldTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 382C28AB1D195C2500697D6F /* STFieldTag.m */; };
+		382C28B01D1992E900697D6F /* STUpdatePair.h in Headers */ = {isa = PBXBuildFile; fileRef = 382C28AE1D1992E900697D6F /* STUpdatePair.h */; };
+		382C28B11D1992E900697D6F /* STUpdatePair.m in Sources */ = {isa = PBXBuildFile; fileRef = 382C28AF1D1992E900697D6F /* STUpdatePair.m */; };
 		382C8D271D0F672F00FE6878 /* StatTag.h in Headers */ = {isa = PBXBuildFile; fileRef = 382C8D261D0F672F00FE6878 /* StatTag.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		382C8D371D0F68B200FE6878 /* STCodeFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 382C8D351D0F68B200FE6878 /* STCodeFile.h */; };
 		382C8D381D0F68B200FE6878 /* STCodeFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 382C8D361D0F68B200FE6878 /* STCodeFile.m */; };
@@ -108,11 +110,13 @@
 		382C286B1D16C52500697D6F /* todo.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = todo.md; sourceTree = "<group>"; };
 		382C286D1D16C77400697D6F /* StatTagSTCodeFileTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagSTCodeFileTests.m; sourceTree = "<group>"; };
 		382C28701D180CB900697D6F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		382C289E1D182CA400697D6F /* STJSONAble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STJSONAble.h; sourceTree = "<group>"; };
+		382C289E1D182CA400697D6F /* STJSONAble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STJSONAble.h; path = ../Models/STJSONAble.h; sourceTree = "<group>"; };
 		382C28A21D18322900697D6F /* STJSONUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STJSONUtility.h; sourceTree = "<group>"; };
 		382C28A31D18322900697D6F /* STJSONUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STJSONUtility.m; sourceTree = "<group>"; };
 		382C28AA1D195C2500697D6F /* STFieldTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STFieldTag.h; sourceTree = "<group>"; };
 		382C28AB1D195C2500697D6F /* STFieldTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STFieldTag.m; sourceTree = "<group>"; };
+		382C28AE1D1992E900697D6F /* STUpdatePair.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STUpdatePair.h; sourceTree = "<group>"; };
+		382C28AF1D1992E900697D6F /* STUpdatePair.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STUpdatePair.m; sourceTree = "<group>"; };
 		382C8D231D0F672F00FE6878 /* StatTag.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StatTag.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		382C8D261D0F672F00FE6878 /* StatTag.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StatTag.h; sourceTree = "<group>"; };
 		382C8D281D0F672F00FE6878 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -229,21 +233,22 @@
 				380A67A61D1077490045B72B /* STConstants.m */,
 				38C9B1FE1D109B40003B571E /* STExecutionStep.h */,
 				38C9B1FF1D109B40003B571E /* STExecutionStep.m */,
+				382C28AA1D195C2500697D6F /* STFieldTag.h */,
+				382C28AB1D195C2500697D6F /* STFieldTag.m */,
 				38C9B2021D109D0A003B571E /* STFigureFormat.h */,
 				38C9B2031D109D0A003B571E /* STFigureFormat.m */,
 				382C8D391D0F9E1D00FE6878 /* STFileHandler.h */,
 				382C8D3A1D0F9E1D00FE6878 /* STFileHandler.m */,
-				382C289E1D182CA400697D6F /* STJSONAble.h */,
 				380A67981D1061100045B72B /* STTable.h */,
 				380A67991D1061100045B72B /* STTable.m */,
 				382C28551D13306400697D6F /* STTableFormat.h */,
 				382C28571D13307200697D6F /* STTableFormat.m */,
 				38C9B2161D10A8CF003B571E /* STTag.h */,
 				38C9B2171D10A8CF003B571E /* STTag.m */,
+				382C28AE1D1992E900697D6F /* STUpdatePair.h */,
+				382C28AF1D1992E900697D6F /* STUpdatePair.m */,
 				382C28591D133BCD00697D6F /* STValueFormat.h */,
 				382C285A1D133BCD00697D6F /* STValueFormat.m */,
-				382C28AA1D195C2500697D6F /* STFieldTag.h */,
-				382C28AB1D195C2500697D6F /* STFieldTag.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -251,6 +256,7 @@
 		382C8D301D0F67C200FE6878 /* Interfaces */ = {
 			isa = PBXGroup;
 			children = (
+				382C289E1D182CA400697D6F /* STJSONAble.h */,
 				382C285F1D14539C00697D6F /* STIFileHandler.h */,
 				382C28611D1454D900697D6F /* STIResultCommandFormatter.h */,
 				382C28631D14552100697D6F /* STIResultCommandList.h */,
@@ -343,6 +349,7 @@
 				382C8D271D0F672F00FE6878 /* StatTag.h in Headers */,
 				382C28601D14539C00697D6F /* STIFileHandler.h in Headers */,
 				382C28621D1454D900697D6F /* STIResultCommandFormatter.h in Headers */,
+				382C28B01D1992E900697D6F /* STUpdatePair.h in Headers */,
 				382C28641D14552100697D6F /* STIResultCommandList.h in Headers */,
 				38C9B2151D10A89D003B571E /* STIParser.h in Headers */,
 				38C9B2081D109F6B003B571E /* STBaseValueFormatter.h in Headers */,
@@ -472,6 +479,7 @@
 				38C9B20F1D10A2B2003B571E /* STStataBaseValueFormatter.m in Sources */,
 				382C8D3C1D0F9E1D00FE6878 /* STFileHandler.m in Sources */,
 				382C28681D14880900697D6F /* STFactories.m in Sources */,
+				382C28B11D1992E900697D6F /* STUpdatePair.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -14,8 +14,8 @@
 
 +(NSString*) MissingValue;
 
--(NSString*)Finalize:(NSString*)value;
 -(NSString*)GetMissingValue;
+-(NSString*)Finalize:(NSString*)value;
 
 
 @end

@@ -9,10 +9,9 @@
 #import <Foundation/Foundation.h>
 
 /**
- @brief A table is a generic representation of a matrix, vector, list, etc. from different
-        statistical packages.  It provides a consistent interface across the statistical
-        package representations, but is not necessarily an optimized view of the data.
-
+  A table is a generic representation of a matrix, vector, list, etc. from different
+  statistical packages.  It provides a consistent interface across the statistical
+  package representations, but is not necessarily an optimized view of the data.
  */
 @interface STTable : NSObject {
   NSMutableArray<NSString*>* _RowNames;
@@ -32,6 +31,7 @@
 
 -(id)init;
 -(id)init:(NSArray <NSString *>*)rowNames columnNames:(NSArray <NSString *>*)columnNames rowSize:(int)rowSize columnSize:(int)columnSize data:(NSArray <NSNumber *>*)data;
+
 -(BOOL)isEmpty;
 -(NSString*)ToString;
 

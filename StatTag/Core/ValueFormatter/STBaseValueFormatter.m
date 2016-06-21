@@ -14,14 +14,15 @@
   return @"";
 }
 
+-(NSString*)GetMissingValue {
+  return [[self class] MissingValue];
+}
+
 -(NSString*)Finalize:(NSString*)value {
   NSCharacterSet *ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
   return [[value stringByTrimmingCharactersInSet: ws] length] == 0 ? [self GetMissingValue] : value;
 }
 
--(NSString*)GetMissingValue {
-  return [[self class] MissingValue];
-}
 
 
 @end
