@@ -51,12 +51,30 @@ NSMutableDictionary<NSString*,NSRegularExpression*>* RegexCache;
   parameters, as that will uniquely create the regex string.
  */
 +(NSRegularExpression*) BuildRegex:(NSString*)name valueMatch:(NSString*)valueMatch  isQuoted:(BOOL)isQuoted {
-  //FIXME: incomplete implementation
-  //            string key = string.Format("{0}-{1}-{2}", name, valueMatch, isQuoted);
   NSString *key = [NSString stringWithFormat:@"%@-%@-%hhd", name, valueMatch, isQuoted];
-  if([RegexCach])
-  
-  return nil;
+  if([RegexCache objectForKey:key] != nil) {
+
+    NSString* regexPattern = [NSString stringWithFormat:@"\\%@.*%@\\s*=\\s*%@(%@)%@.*\\%@",
+                                [STConstantsTagTags ParamStart],
+                                name,
+                                (isQuoted ? @"\\\"" : @""),
+                                valueMatch,
+                                name,
+                                [STConstantsTagTags ParamEnd]
+                              ];
+    /*
+     Original parameters: "\\{2}.*{0}\\s*=\\s*{1}({4}){1}.*\\{3}"
+     -------
+     (0) -> name,
+     (1) -> (isQuoted ? "\\\"" : string.Empty),
+     (2) -> Constants.TagTags.ParamStart,
+     (3) -> Constants.TagTags.ParamEnd,
+     (4) -> valueMatch
+     */
+    NSRegularExpression* regex = [NSRegularExpression regularExpressionWithPattern:regexPattern options:0 error:nil];
+    [RegexCache setObject:regex forKey:key];
+  }
+  return [RegexCache objectForKey:key];
 }
 
 +(NSString*)GetParameter:(NSString*) name valueMatch:(NSString*)valueMatch text:(NSString*)text defaultValue:(NSString*)defaultValue quoted:(BOOL)quoted {
