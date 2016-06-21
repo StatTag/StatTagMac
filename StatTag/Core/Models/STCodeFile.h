@@ -99,4 +99,16 @@
 - (STTag*)AddTag:(STTag*)newTag oldTag:(STTag*)oldTag;
 - (STTag*)AddTag:(STTag*)newTag;
 
+/**
+ Look at all of the tags that are defined within this code file, and create a list
+ of any tags that have duplicate names.
+ */
+-(NSDictionary<STTag*, NSArray<STTag*>*>*)FindDuplicateTags;
+
+/**
+ Given the content passed as a parameter, this method updates the file on disk with the new
+ content and refreshes the internal cache.
+ */
+-(void)UpdateContent:(NSString*)text error:(NSError*)outError;
+
 @end

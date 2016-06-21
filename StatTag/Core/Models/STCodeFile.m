@@ -496,9 +496,58 @@ the cached results in another tag.
   return [self AddTag:newTag oldTag:nil matchWithPosition:false];
 }
 
+/**
+ Look at all of the tags that are defined within this code file, and create a list
+ of any tags that have duplicate names.
+ */
+-(NSDictionary<STTag*, NSArray<STTag*>*>*)FindDuplicateTags {
+  
+  NSMutableDictionary<STTag*, NSMutableArray<STTag*>*>* duplicates = [[NSMutableDictionary<STTag*, NSMutableArray<STTag*>*> alloc] init];
 
+  if (_Tags == nil)
+  {
+    return duplicates;
+  }
+  
 
+  NSMutableDictionary<NSString*, STTag*>* distinct = [[NSMutableDictionary<NSString*, STTag*> alloc] init];
+  
+  for (STTag* tag in _Tags)
+  {
+    NSString* searchLabel = [[tag Name] uppercaseString];
+    
+    // See if we already have this in the distinct list of tag names
+    if([distinct objectForKey:searchLabel] != nil)
+    {
+      // If the duplicates collection hasn't been initialized, we will do that now.
+      if([duplicates objectForKey:[distinct objectForKey:searchLabel]] != nil)
+      {
+        [duplicates setObject:[[NSMutableArray<STTag*> alloc] init] forKey:[distinct objectForKey:searchLabel]];
+        //duplicates.Add(distinct[searchLabel], new List<Tag>());
+      }
+      //http://stackoverflow.com/questions/5526941/nsdictionary-containing-an-nsarray
+      //apparently the array reference is a pointer so we can just add things to it... should check this.
+      NSMutableArray<STTag*>* someTags = [duplicates objectForKey:[distinct objectForKey:searchLabel]];
+      [someTags addObject:tag];
+      //duplicates[distinct[searchLabel]].Add(tag);
+    }
+    else
+    {
+      [distinct setObject:tag forKey:[[tag Name] uppercaseString]];
+    }
+  }
+  return duplicates;
+}
 
+/**
+ Given the content passed as a parameter, this method updates the file on disk with the new
+ content and refreshes the internal cache.
+ */
+-(void)UpdateContent:(NSString*)text error:(NSError*)outError {
+  NSError* error;
+  [_FileHandler WriteAllText:_FilePath withContent:text error:&error];
+  [self LoadTagsFromContent];
+}
 
 
 @end
