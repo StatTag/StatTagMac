@@ -52,5 +52,4 @@
  */
 -(NSArray<NSString*>*)PreProcessContent:(NSArray<NSString*>*) originalContent;
 
-
 @end

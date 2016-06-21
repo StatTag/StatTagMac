@@ -241,6 +241,32 @@
   return executionSteps;
 }
 
+-(void)ProcessTag:(NSString*)tagText Tag:(STTag*)tag error:(NSError**)error {
+  if([tagText hasPrefix:[STConstantsTagType Value]]) {
+    tag.Type = [STConstantsTagType Value];
+    [STValueParameterParser Parse:tagText tag:tag];
+  } else if([tagText hasPrefix:[STConstantsTagType Figure]]) {
+    tag.Type = [STConstantsTagType Figure];
+    [STFigureParameterParser Parse:tagText tag:tag];
+    
+  } else if([tagText hasPrefix:[STConstantsTagType Table]]) {
+    tag.Type = [STConstantsTagType Table];
+    [STTableParameterParser Parse:tagText tag:tag];
+    [STValueParameterParser Parse:tagText tag:tag];
+  } else {
+    //populate error
+    NSDictionary *userInfo = @{
+                               NSLocalizedDescriptionKey: NSLocalizedString(@"Unsupported tag type", nil),
+                               NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Unsupported tag type", nil),
+                               NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Unsupported tag type", nil)
+                               };
+    *error = [NSError errorWithDomain:STStatTagErrorDomain code:NSURLErrorFileDoesNotExist userInfo:userInfo];
+  }
+
+}
+
+
+//MARK: "Abstract" methods - not implemented in the base class
 -(BOOL)IsImageExport:(NSString*)command {
   return false;
 }
@@ -263,37 +289,6 @@
 
 -(NSString*)GetTableName:(NSString*)command {
   return nil;
-}
-
-//TODO: not implemented
--(void)ProcessTag:(NSString*)tagText Tag:(STTag*)tag error:(NSError**)error {
-  if([tagText hasPrefix:[STConstantsTagType Value]]) {
-    tag.Type = [STConstantsTagType Value];
-    //FIXME: incomplete implementation
-    [STValueParameterParser Parse:tagText tag:tag];
-    
-  } else if([tagText hasPrefix:[STConstantsTagType Figure]]) {
-    tag.Type = [STConstantsTagType Figure];
-    //FIXME: incomplete implementation
-    [STFigureParameterParser Parse:tagText tag:tag];
-    
-  } else if([tagText hasPrefix:[STConstantsTagType Table]]) {
-    tag.Type = [STConstantsTagType Table];
-    //FIXME: incomplete implementation
-    //    TableParameterParser.Parse(tagText, tag);
-    //    ValueParameterParser.Parse(tagText, tag);
-    [STTableParameterParser Parse:tagText tag:tag];
-    [STValueParameterParser Parse:tagText tag:tag];
-  } else {
-    //populate error
-    NSDictionary *userInfo = @{
-                               NSLocalizedDescriptionKey: NSLocalizedString(@"Unsupported tag type", nil),
-                               NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Unsupported tag type", nil),
-                               NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Unsupported tag type", nil)
-                               };
-    *error = [NSError errorWithDomain:STStatTagErrorDomain code:NSURLErrorFileDoesNotExist userInfo:userInfo];
-  }
-
 }
 
 @end
