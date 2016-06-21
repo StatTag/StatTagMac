@@ -418,9 +418,11 @@ the cached results in another tag.
     [NSException raise:@"Invalid LineStart and LineEnd" format:@"The new tag start index is after the end index, which is not allowed."];
   }
 
-  STTag* updatedTag = [STTag initWithTag:newTag];
+  STTag* updatedTag = [[STTag alloc]initWithTag:newTag];
+  
   
   NSMutableArray<NSString*>* content = [self Content];  // Force cache to load so we can reference it later w/o accessor overhead
+  #pragma unused(content) //touching this just forces things to work - ignore the variable not being used
 
   if(oldTag != nil) {
     //var refreshedOldTag = (matchWithPosition ? Tags.FirstOrDefault(tag => oldTag.EqualsWithPosition(tag)) : Tags.FirstOrDefault(tag => oldTag.Equals(tag)));

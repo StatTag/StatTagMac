@@ -53,7 +53,7 @@ NSMutableDictionary<NSString*,NSRegularExpression*>* RegexCache;
   //FIXME: incomplete implementation
   //            string key = string.Format("{0}-{1}-{2}", name, valueMatch, isQuoted);
   NSString *key = [NSString stringWithFormat:@"%@-%@-%hhd", name, valueMatch, isQuoted];
-  //if([RegexCach])
+  if([RegexCach])
   
   return nil;
 }

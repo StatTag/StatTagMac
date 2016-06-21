@@ -117,7 +117,7 @@
   STTag *tag1 = [[STTag alloc] init];
   tag1.RunFrequency = @"run_frequency";
   
-  STTag *tag2 = [STTag initWithTag:tag1];
+  STTag *tag2 = [[STTag alloc] initWithTag:tag1];
 }
 
 
