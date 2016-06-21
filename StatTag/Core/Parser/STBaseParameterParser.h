@@ -22,6 +22,7 @@
 + (instancetype)sharedInstance;
 
 +(void)Parse:(NSString*)tagText Tag:(STTag*)tag;
+
 +(NSRegularExpression*) BuildRegex:(NSString*)name valueMatch:(NSString*)valueMatch  isQuoted:(BOOL)isQuoted;
 
 +(NSString*)GetParameter:(NSString*) name valueMatch:(NSString*)valueMatch text:(NSString*)text defaultValue:(NSString*)defaultValue quoted:(BOOL)quoted;

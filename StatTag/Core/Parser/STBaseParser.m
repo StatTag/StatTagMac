@@ -10,6 +10,9 @@
 #import "STConstants.h"
 #import "STTag.h"
 #import "STExecutionStep.h"
+#import "STValueParameterParser.h"
+#import "STTableParameterParser.h"
+#import "STFigureParameterParser.h"
 
 @implementation STBaseParser
 
@@ -267,18 +270,20 @@
   if([tagText hasPrefix:[STConstantsTagType Value]]) {
     tag.Type = [STConstantsTagType Value];
     //FIXME: incomplete implementation
-    //    ValueParameterParser.Parse(tagText, tag);
+    [STValueParameterParser Parse:tagText tag:tag];
     
   } else if([tagText hasPrefix:[STConstantsTagType Figure]]) {
     tag.Type = [STConstantsTagType Figure];
     //FIXME: incomplete implementation
-    //    FigureParameterParser.Parse(tagText, tag);
+    [STFigureParameterParser Parse:tagText tag:tag];
     
   } else if([tagText hasPrefix:[STConstantsTagType Table]]) {
     tag.Type = [STConstantsTagType Table];
     //FIXME: incomplete implementation
     //    TableParameterParser.Parse(tagText, tag);
     //    ValueParameterParser.Parse(tagText, tag);
+    [STTableParameterParser Parse:tagText tag:tag];
+    [STValueParameterParser Parse:tagText tag:tag];
   } else {
     //populate error
     NSDictionary *userInfo = @{
