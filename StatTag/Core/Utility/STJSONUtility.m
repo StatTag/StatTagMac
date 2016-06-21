@@ -75,7 +75,7 @@
   //First - let's see if we have one of those fixed time formats (without a date)
   //  **** See above note on why ****
   //---------------------------
-  NSArray *dateFormats = @[@"hh:mm a", @"hh:mm"];
+  NSArray *dateFormats = @[@"hh:mm a", @"hh:mm", @"hh:mm:ss a", @"hh:mm:ss"];
   NSDateFormatter *formatter=[[NSDateFormatter alloc] init];
   for (NSString *dateFormat in dateFormats) {
     [formatter setDateFormat:dateFormat];

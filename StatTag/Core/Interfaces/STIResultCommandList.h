@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol IResultCommandList <NSObject>
+@protocol STIResultCommandList <NSObject>
 
 -(NSArray<NSString*>*)GetCommands;
 

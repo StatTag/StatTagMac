@@ -11,11 +11,11 @@
 #import "STConstants.h"
 
 
-@interface StatTagSTValueFormatTests : XCTestCase
+@interface StatTagModelSTValueFormatTests : XCTestCase
 
 @end
 
-@implementation StatTagSTValueFormatTests
+@implementation StatTagModelSTValueFormatTests
 
 - (void)setUp {
     [super setUp];
@@ -207,18 +207,18 @@
   format.DateFormat = @"";
   format.TimeFormat = [STConstantsTimeFormats HHMM];
 
-  NSLog(@"format 1: %@", [format Format:@"01:30:50"]);
-  NSLog(@"format 2: %@", [format Format:@"02:30:50"]);
-  NSLog(@"format 3: %@", [format Format:@"03:30:50"]);
-  NSLog(@"format 4: %@", [format Format:@"04:30:50"]);
-  NSLog(@"format 5: %@", [format Format:@"05:30:50"]);
-  NSLog(@"format 6: %@", [format Format:@"06:30:50"]);
-  NSLog(@"format 7: %@", [format Format:@"07:30:50"]);
-  NSLog(@"format 8: %@", [format Format:@"08:30:50"]);
-  NSLog(@"format 9: %@", [format Format:@"09:30:50"]);
-  NSLog(@"format 10: %@", [format Format:@"10:30:50"]);
-  NSLog(@"format 11: %@", [format Format:@"11:30:50"]);
-  NSLog(@"format 11: %@", [format Format:@"12:30:50"]);
+//  NSLog(@"format 1: %@", [format Format:@"01:30:50"]);
+//  NSLog(@"format 2: %@", [format Format:@"02:30:50"]);
+//  NSLog(@"format 3: %@", [format Format:@"03:30:50"]);
+//  NSLog(@"format 4: %@", [format Format:@"04:30:50"]);
+//  NSLog(@"format 5: %@", [format Format:@"05:30:50"]);
+//  NSLog(@"format 6: %@", [format Format:@"06:30:50"]);
+//  NSLog(@"format 7: %@", [format Format:@"07:30:50"]);
+//  NSLog(@"format 8: %@", [format Format:@"08:30:50"]);
+//  NSLog(@"format 9: %@", [format Format:@"09:30:50"]);
+//  NSLog(@"format 10: %@", [format Format:@"10:30:50"]);
+//  NSLog(@"format 11: %@", [format Format:@"11:30:50"]);
+//  NSLog(@"format 11: %@", [format Format:@"12:30:50"]);
 
   
   XCTAssertEqualObjects(@"11:30", [format Format:@"11:30:50"]);

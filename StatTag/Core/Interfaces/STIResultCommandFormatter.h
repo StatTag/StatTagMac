@@ -9,11 +9,11 @@
 #import <Foundation/Foundation.h>
 #import "STIResultCommandList.h"
 
-@protocol IResultCommandFormatter <NSObject>
+@protocol STIResultCommandFormatter <NSObject>
 
--(STIResultCommandList*)ValueResultCommands;
--(STIResultCommandList*)FigureResultCommands;
--(STIResultCommandList*)TableResultCommands;
+-(NSObject<STIResultCommandList>*)ValueResultCommands;
+-(NSObject<STIResultCommandList>*)FigureResultCommands;
+-(NSObject<STIResultCommandList>*)TableResultCommands;
 
 
 @end
