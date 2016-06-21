@@ -26,23 +26,30 @@
 }
 
 - (void)testFormat_Empty {
-  
   STTableFormat* format = [[STTableFormat alloc] init];
   XCTAssertNotNil([format Format:nil]);
-//  Assert.IsNotNull(format.Format(null));
-
   XCTAssertEqual(0, [[format Format:nil] count]);
-//  Assert.AreEqual(0, format.Format(null).Length);
-
-  
   XCTAssertNotNil([format Format:[[STTable alloc]init]]);
-  //  Assert.IsNotNull(format.Format(new Table()));
-
-  
   XCTAssertEqual(0, [[format Format:[[STTable alloc]init]] count]);
-  //  Assert.AreEqual(0, format.Format(new Table()).Length);
-
-  
 }
+
+- (void)testFormat_DataOnly {
+  STTableFormat* format = [[STTableFormat alloc] init];
+  format.IncludeColumnNames = false;
+  format.IncludeRowNames = false;
+  
+  STTable* table = [[STTable alloc]
+                    init:[NSArray arrayWithObjects:@"Row1", @"Row2", nil] columnNames:[NSArray arrayWithObjects:@"Col1", @"Col2", nil] rowSize:2 columnSize:2 data:[NSArray arrayWithObjects:@0.0, @1.0, @2.0, @3.0, nil]];
+  XCTAssertEqual(4, [[format Format:table] count]);
+  XCTAssert([@"0, 1, 2, 3" isEqualToString:[[format Format:table] componentsJoinedByString:@", "]]);
+
+  table = [[STTable alloc]
+           init:nil columnNames:nil rowSize:2 columnSize:2 data:[NSArray arrayWithObjects:@0.0, @1.0, @2.0, @3.0, nil]];
+  XCTAssertEqual(4, [[format Format:table] count]);
+  XCTAssert([@"0, 1, 2, 3" isEqualToString:[[format Format:table] componentsJoinedByString:@", "]]);
+}
+
+
+
 
 @end
