@@ -42,6 +42,18 @@
 		382C28AD1D195C2500697D6F /* STFieldTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 382C28AB1D195C2500697D6F /* STFieldTag.m */; };
 		382C28B01D1992E900697D6F /* STUpdatePair.h in Headers */ = {isa = PBXBuildFile; fileRef = 382C28AE1D1992E900697D6F /* STUpdatePair.h */; };
 		382C28B11D1992E900697D6F /* STUpdatePair.m in Sources */ = {isa = PBXBuildFile; fileRef = 382C28AF1D1992E900697D6F /* STUpdatePair.m */; };
+		382C28B41D1994DE00697D6F /* STBaseGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 382C28B21D1994DE00697D6F /* STBaseGenerator.h */; };
+		382C28B51D1994DE00697D6F /* STBaseGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 382C28B31D1994DE00697D6F /* STBaseGenerator.m */; };
+		382C28B81D199ACC00697D6F /* STBaseParameterGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 382C28B61D199ACC00697D6F /* STBaseParameterGenerator.h */; };
+		382C28B91D199ACC00697D6F /* STBaseParameterGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 382C28B71D199ACC00697D6F /* STBaseParameterGenerator.m */; };
+		382C28BC1D199ED000697D6F /* STFigureGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 382C28BA1D199ED000697D6F /* STFigureGenerator.h */; };
+		382C28BD1D199ED000697D6F /* STFigureGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 382C28BB1D199ED000697D6F /* STFigureGenerator.m */; };
+		382C28C01D199F9A00697D6F /* STStataBaseGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 382C28BE1D199F9A00697D6F /* STStataBaseGenerator.h */; };
+		382C28C11D199F9A00697D6F /* STStataBaseGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 382C28BF1D199F9A00697D6F /* STStataBaseGenerator.m */; };
+		382C28C41D19A00D00697D6F /* STTableGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 382C28C21D19A00D00697D6F /* STTableGenerator.h */; };
+		382C28C51D19A00D00697D6F /* STTableGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 382C28C31D19A00D00697D6F /* STTableGenerator.m */; };
+		382C28C71D19A23100697D6F /* STValueGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 382C28C61D19A23100697D6F /* STValueGenerator.h */; };
+		382C28C91D19A24200697D6F /* STValueGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 382C28C81D19A24200697D6F /* STValueGenerator.m */; };
 		382C8D271D0F672F00FE6878 /* StatTag.h in Headers */ = {isa = PBXBuildFile; fileRef = 382C8D261D0F672F00FE6878 /* StatTag.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		382C8D371D0F68B200FE6878 /* STCodeFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 382C8D351D0F68B200FE6878 /* STCodeFile.h */; };
 		382C8D381D0F68B200FE6878 /* STCodeFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 382C8D361D0F68B200FE6878 /* STCodeFile.m */; };
@@ -117,6 +129,18 @@
 		382C28AB1D195C2500697D6F /* STFieldTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STFieldTag.m; sourceTree = "<group>"; };
 		382C28AE1D1992E900697D6F /* STUpdatePair.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STUpdatePair.h; sourceTree = "<group>"; };
 		382C28AF1D1992E900697D6F /* STUpdatePair.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STUpdatePair.m; sourceTree = "<group>"; };
+		382C28B21D1994DE00697D6F /* STBaseGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STBaseGenerator.h; sourceTree = "<group>"; };
+		382C28B31D1994DE00697D6F /* STBaseGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STBaseGenerator.m; sourceTree = "<group>"; };
+		382C28B61D199ACC00697D6F /* STBaseParameterGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STBaseParameterGenerator.h; sourceTree = "<group>"; };
+		382C28B71D199ACC00697D6F /* STBaseParameterGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STBaseParameterGenerator.m; sourceTree = "<group>"; };
+		382C28BA1D199ED000697D6F /* STFigureGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STFigureGenerator.h; sourceTree = "<group>"; };
+		382C28BB1D199ED000697D6F /* STFigureGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STFigureGenerator.m; sourceTree = "<group>"; };
+		382C28BE1D199F9A00697D6F /* STStataBaseGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STStataBaseGenerator.h; sourceTree = "<group>"; };
+		382C28BF1D199F9A00697D6F /* STStataBaseGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STStataBaseGenerator.m; sourceTree = "<group>"; };
+		382C28C21D19A00D00697D6F /* STTableGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STTableGenerator.h; sourceTree = "<group>"; };
+		382C28C31D19A00D00697D6F /* STTableGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STTableGenerator.m; sourceTree = "<group>"; };
+		382C28C61D19A23100697D6F /* STValueGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STValueGenerator.h; sourceTree = "<group>"; };
+		382C28C81D19A24200697D6F /* STValueGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STValueGenerator.m; sourceTree = "<group>"; };
 		382C8D231D0F672F00FE6878 /* StatTag.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StatTag.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		382C8D261D0F672F00FE6878 /* StatTag.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StatTag.h; sourceTree = "<group>"; };
 		382C8D281D0F672F00FE6878 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -267,7 +291,19 @@
 		382C8D311D0F67CE00FE6878 /* Generator */ = {
 			isa = PBXGroup;
 			children = (
+				382C28B21D1994DE00697D6F /* STBaseGenerator.h */,
+				382C28B31D1994DE00697D6F /* STBaseGenerator.m */,
+				382C28B61D199ACC00697D6F /* STBaseParameterGenerator.h */,
+				382C28B71D199ACC00697D6F /* STBaseParameterGenerator.m */,
+				382C28BA1D199ED000697D6F /* STFigureGenerator.h */,
+				382C28BB1D199ED000697D6F /* STFigureGenerator.m */,
 				382C28691D1488F200697D6F /* STIGenerator.h */,
+				382C28BE1D199F9A00697D6F /* STStataBaseGenerator.h */,
+				382C28BF1D199F9A00697D6F /* STStataBaseGenerator.m */,
+				382C28C21D19A00D00697D6F /* STTableGenerator.h */,
+				382C28C31D19A00D00697D6F /* STTableGenerator.m */,
+				382C28C61D19A23100697D6F /* STValueGenerator.h */,
+				382C28C81D19A24200697D6F /* STValueGenerator.m */,
 			);
 			path = Generator;
 			sourceTree = "<group>";
@@ -334,6 +370,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				38C9B2041D109D0A003B571E /* STFigureFormat.h in Headers */,
+				382C28B41D1994DE00697D6F /* STBaseGenerator.h in Headers */,
 				38C9B2001D109B40003B571E /* STExecutionStep.h in Headers */,
 				382C289F1D182CA400697D6F /* STJSONAble.h in Headers */,
 				38C9B20B1D109FA8003B571E /* STIValueFormatter.h in Headers */,
@@ -346,12 +383,17 @@
 				38C9B21C1D10AA55003B571E /* STBaseParser.h in Headers */,
 				380A679A1D1061110045B72B /* STTable.h in Headers */,
 				380A67A01D106E090045B72B /* STCodeFileAction.h in Headers */,
+				382C28C01D199F9A00697D6F /* STStataBaseGenerator.h in Headers */,
+				382C28C41D19A00D00697D6F /* STTableGenerator.h in Headers */,
 				382C8D271D0F672F00FE6878 /* StatTag.h in Headers */,
 				382C28601D14539C00697D6F /* STIFileHandler.h in Headers */,
 				382C28621D1454D900697D6F /* STIResultCommandFormatter.h in Headers */,
+				382C28C71D19A23100697D6F /* STValueGenerator.h in Headers */,
 				382C28B01D1992E900697D6F /* STUpdatePair.h in Headers */,
+				382C28B81D199ACC00697D6F /* STBaseParameterGenerator.h in Headers */,
 				382C28641D14552100697D6F /* STIResultCommandList.h in Headers */,
 				38C9B2151D10A89D003B571E /* STIParser.h in Headers */,
+				382C28BC1D199ED000697D6F /* STFigureGenerator.h in Headers */,
 				38C9B2081D109F6B003B571E /* STBaseValueFormatter.h in Headers */,
 				382C28A41D18322900697D6F /* STJSONUtility.h in Headers */,
 				382C28561D13306400697D6F /* STTableFormat.h in Headers */,
@@ -467,14 +509,20 @@
 				382C286C1D16C52500697D6F /* todo.md in Sources */,
 				380A67A71D1077490045B72B /* STConstants.m in Sources */,
 				382C284F1D1202D400697D6F /* STBaseParameterParser.m in Sources */,
+				382C28B91D199ACC00697D6F /* STBaseParameterGenerator.m in Sources */,
 				380A67A11D106E090045B72B /* STCodeFileAction.m in Sources */,
 				38C9B2011D109B40003B571E /* STExecutionStep.m in Sources */,
 				38C9B2051D109D0A003B571E /* STFigureFormat.m in Sources */,
 				382C28AD1D195C2500697D6F /* STFieldTag.m in Sources */,
+				382C28C91D19A24200697D6F /* STValueGenerator.m in Sources */,
 				38C9B2191D10A8CF003B571E /* STTag.m in Sources */,
 				38C9B2091D109F6B003B571E /* STBaseValueFormatter.m in Sources */,
+				382C28B51D1994DE00697D6F /* STBaseGenerator.m in Sources */,
+				382C28C11D199F9A00697D6F /* STStataBaseGenerator.m in Sources */,
+				382C28C51D19A00D00697D6F /* STTableGenerator.m in Sources */,
 				38C9B21D1D10AA55003B571E /* STBaseParser.m in Sources */,
 				382C28581D13307200697D6F /* STTableFormat.m in Sources */,
+				382C28BD1D199ED000697D6F /* STFigureGenerator.m in Sources */,
 				382C8D381D0F68B200FE6878 /* STCodeFile.m in Sources */,
 				38C9B20F1D10A2B2003B571E /* STStataBaseValueFormatter.m in Sources */,
 				382C8D3C1D0F9E1D00FE6878 /* STFileHandler.m in Sources */,

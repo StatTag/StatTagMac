@@ -18,7 +18,10 @@
 6) in Tag, check to see about "current culture" comparison
     //return Type != null && Type.Equals(Constants.TagType.Table, StringComparison.CurrentCulture);
 7) Update STFieldTag to fix new properties in object copy
-
+8) Specifically test STBaseParameterGenerator -> CleanResult (put in a trailing comma)
+9) STableGenerator -
+    //FIXME: is this going to emit "YES" or "true" or "1"?
+    -(NSString*)CreateTableParameters:(STTag*) tag
 
 
 #import <objc/runtime.h>
