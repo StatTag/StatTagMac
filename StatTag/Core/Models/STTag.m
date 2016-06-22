@@ -65,17 +65,40 @@
 }
 
 -(instancetype)initWithTag:(STTag*)tag {
-  STTag *newTag = [tag copy];
-  return newTag;
+  //can't do the following or the type is wrong for any of our subclasses
+  //  STTag *newTag = [tag copy];
+  //  return newTag;
+  
+  self = [super init];
+  if(self){
+    self.CodeFile = [[tag CodeFile] copy];
+    self.Type = [[tag Type] copy];
+    self.Name = [STTag NormalizeName:[tag Name]]; //Name = NormalizeName(tag.Name);
+    self.RunFrequency = [[tag RunFrequency] copy];
+    self.ValueFormat = [[tag ValueFormat] copy];
+    self.FigureFormat = [[tag FigureFormat] copy];
+    self.TableFormat = [[tag TableFormat] copy];
+    self.CachedResult = [[tag CachedResult] copy];
+    self.LineStart = [[tag LineStart ] copy];
+    self.LineEnd = [[tag LineEnd] copy];
+  }
+  return self;
 }
 
 
 +(instancetype)tagWithName:(NSString*)name andCodeFile:(STCodeFile*)codeFile {
+  return [STTag tagWithName:name andCodeFile:codeFile andType:nil];
+}
+
++(instancetype)tagWithName:(NSString*)name andCodeFile:(STCodeFile*)codeFile andType:(NSString*)type {
   STTag* tag = [[STTag alloc] init];
   tag.Name = name;
   tag.CodeFile = codeFile;
+  tag.Type = type;
   return tag;
 }
+
+
 
 -(id)copyWithZone:(NSZone *)zone
 {

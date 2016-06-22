@@ -31,6 +31,15 @@ within the table.</remarks>
  */
 @property (nonatomic, copy) NSURL* CodeFilePath;
 
+//MARK: initializers
+-(instancetype)initWithTag:(STTag*)tag;
+-(instancetype)initWithTag:(STTag*)tag andTableCellIndex:(NSNumber*)tableCellIndex;
+-(instancetype)initWithTag:(STTag*)tag andFieldTag:(STFieldTag*)fieldTag;
+-(instancetype)initWithFieldTag:(STFieldTag*)tag;
+
+
+//MARK: JSON
+-(NSDictionary *)toDictionary;
 
 /**
  Create a new Tag object given a JSON string

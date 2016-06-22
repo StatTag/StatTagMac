@@ -25,6 +25,15 @@
   [super tearDown];
 }
 
+
+//MARK: c# test methods
+
+
+
+
+//MARK: JSON testing - not in original C#
+
+
 - (void)testJSONEncoding {
   STCodeFile *f = [[STCodeFile alloc] init];
   f.StatisticalPackage = @"R";
@@ -75,6 +84,9 @@
   NSLog(@"error: %@", error);
   NSLog(@"f: %@", list);
 }
+
+
+//MARK: Object copy/dictionary
 
 - (void)testBasicObjectForKey {
   STCodeFile *f = [[STCodeFile alloc] init];

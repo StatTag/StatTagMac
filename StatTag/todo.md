@@ -1,4 +1,5 @@
-
+TO DO:
+==================
 1) Fix date parsing - still odd issues with times w/o dates pulling incorrect timezone
 2) Change all inner members to _variable notation and fix property mappings
 3) Fix all error handlers - currently returning nils
@@ -23,13 +24,16 @@
     //FIXME: is this going to emit "YES" or "true" or "1"?
     -(NSString*)CreateTableParameters:(STTag*) tag
    ***** NOTE: this is in several places - so may have to scan for all BOOLs used in strings
+11) isEqualTo vs isEqual - should we do both?
+
+
+FIXED:
+==================
+
+
 10) TagUtil - this method is probably wrong on the obj-c side
-    +(BOOL)IsDuplicateLabelInSameFile:(STTag*)tag result:(NSDictionary<STCodeFile*, NSArray<NSNumber*>*>*)result
-    FIXED: - now checking integerValue instead of just > (value)
-
-
-
-
++(BOOL)IsDuplicateLabelInSameFile:(STTag*)tag result:(NSDictionary<STCodeFile*, NSArray<NSNumber*>*>*)result
+FIXED: - now checking integerValue instead of just > (value)
 
 
 

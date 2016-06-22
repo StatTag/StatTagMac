@@ -69,6 +69,7 @@
 -(instancetype)init;
 -(instancetype)initWithTag:(STTag*)tag;
 +(instancetype)tagWithName:(NSString*)name andCodeFile:(STCodeFile*)codeFile;
++(instancetype)tagWithName:(NSString*)name andCodeFile:(STCodeFile*)codeFile andType:(NSString*)type;
 
 
 //MARK: JSON

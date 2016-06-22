@@ -26,8 +26,6 @@
 }
 
 - (void)testCheckMissingValue {
-  //NSLog(@"1: %@", [STStataBaseValueFormatter MissingValue]);
-  //NSLog(@"2: %@", [[[STStataBaseValueFormatter alloc] init] GetMissingValue]);
   XCTAssertEqual([STStataBaseValueFormatter MissingValue], [[[STStataBaseValueFormatter alloc] init] GetMissingValue]);
 }
 
