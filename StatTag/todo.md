@@ -25,6 +25,7 @@
    ***** NOTE: this is in several places - so may have to scan for all BOOLs used in strings
 10) TagUtil - this method is probably wrong on the obj-c side
     +(BOOL)IsDuplicateLabelInSameFile:(STTag*)tag result:(NSDictionary<STCodeFile*, NSArray<NSNumber*>*>*)result
+    FIXED: - now checking integerValue instead of just > (value)
 
 
 

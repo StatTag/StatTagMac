@@ -45,19 +45,28 @@ NSMutableArray<NSString *> *ContentCache;
 NSObject<STIFileHandler>* _FileHandler;
 
 //MARK: initializers
--(id)init{
+-(instancetype)init{
   self = [super init];
   if(self){
     [self initialize:nil];
   }
   return self;
 }
--(id)init:(NSObject<STIFileHandler>*)handler {
+-(instancetype)init:(NSObject<STIFileHandler>*)handler {
   self = [super init];
   if(self){
     [self initialize:handler];
   }
   return self;
+}
++(instancetype)codeFileWithFilePath:(NSURL*)filePath{
+  return [STCodeFile codeFileWithFilePath:filePath andTags:nil];
+}
++(instancetype)codeFileWithFilePath:(NSURL*)filePath andTags:(NSArray<STTag*>*)tags {
+  STCodeFile* f = [[STCodeFile alloc] init];
+  f.FilePath = filePath;
+  f.Tags = [NSMutableArray<STTag*> arrayWithArray:tags];
+  return f;
 }
 -(void)initialize:(NSObject<STIFileHandler>*)handler {
   _Tags = [[NSMutableArray<STTag*> alloc] init];
@@ -101,8 +110,6 @@ NSObject<STIFileHandler>* _FileHandler;
   if(other == nil) {
     return false;
   }
-  NSLog(@"[[other FilePath] path] : %@", [[other FilePath] path]);
-  NSLog(@"[_FilePath path] : %@", [_FilePath path]);
   return ([[[other FilePath] path] caseInsensitiveCompare:[_FilePath path]] == NSOrderedSame);
 }
 

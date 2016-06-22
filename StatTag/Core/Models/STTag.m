@@ -70,6 +70,13 @@
 }
 
 
++(instancetype)tagWithName:(NSString*)name andCodeFile:(STCodeFile*)codeFile {
+  STTag* tag = [[STTag alloc] init];
+  tag.Name = name;
+  tag.CodeFile = codeFile;
+  return tag;
+}
+
 -(id)copyWithZone:(NSZone *)zone
 {
   NSLog(@"tag - copyWithZone");

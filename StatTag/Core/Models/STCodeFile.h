@@ -56,8 +56,11 @@
 -(void)LoadTagsFromContent;
 
 
--(id)init:(NSObject<STIFileHandler>*)handler;
--(id)init;
+-(instancetype)init:(NSObject<STIFileHandler>*)handler;
+-(instancetype)init;
++(instancetype)codeFileWithFilePath:(NSURL*)filePath;
++(instancetype)codeFileWithFilePath:(NSURL*)filePath andTags:(NSArray<STTag*>*)tags;
+
 
 - (NSUInteger)hash;
 - (BOOL)isEqual:(id)object;

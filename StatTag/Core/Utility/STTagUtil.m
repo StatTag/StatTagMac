@@ -90,33 +90,22 @@
     if([duplicateCount objectForKey:[otherTag CodeFile] ] == nil)
     {
       [duplicateCount setObject:[NSMutableArray arrayWithObjects:[NSNumber numberWithInteger:0],[NSNumber numberWithInteger:0], nil] forKey:[otherTag CodeFile]];
-//      NSLog(@"just set dictionary - duplicateCount: %@", duplicateCount);
-//      NSLog(@"value: %@", [NSMutableArray arrayWithObjects:[NSNumber numberWithInteger:0],[NSNumber numberWithInteger:0], nil]);
-//      NSLog(@"key: %@", [otherTag CodeFile]);
     }
-    
-//    NSLog(@"[otherTag CodeFile] = %@", [otherTag CodeFile]);
-//    NSLog(@"duplicateCount = %@", duplicateCount);
-//    NSLog(@"[duplicateCount objectForKey:[otherTag CodeFile]] : %@", [duplicateCount objectForKey:[otherTag CodeFile]]);
     
     // If the tag names are an exact match, they go into the first bucket.
     // Otherwise, they are a case-insensitive match and go into the second bucket.
     if ([[tag Name] isEqualToString:[otherTag Name]])
     {
       NSMutableArray* a = [duplicateCount objectForKey:[otherTag CodeFile]];
-      //NSLog(@"a = %@", a);
       NSNumber* i = [NSNumber numberWithInteger:[[a objectAtIndex: 0] integerValue] + 1];
       [a setObject:i atIndexedSubscript:0];
-      //NSNumber* i = [NSNumber numberWithInteger:[[duplicateCount objectForKey:[otherTag CodeFile]][0] integerValue] + 1];
       [duplicateCount setObject:a forKey:[otherTag CodeFile]];
     }
     else
     {
       NSMutableArray* a = [duplicateCount objectForKey:[otherTag CodeFile]];
-      //NSLog(@"a = %@", a);
       NSNumber* i = [NSNumber numberWithInteger:[[a objectAtIndex: 1] integerValue] + 1];
       [a setObject:i atIndexedSubscript:1];
-      //NSNumber* i = [NSNumber numberWithInteger:[[duplicateCount objectForKey:[otherTag CodeFile]][0] integerValue] + 1];
       [duplicateCount setObject:a forKey:[otherTag CodeFile]];
     }
   }
@@ -142,7 +131,6 @@
   //The above appears to just be pulling the first array value for a matching key?
   NSArray<NSNumber*>* codeFileResult = [result objectForKey:[tag CodeFile]];
 
-  
   // This really shouldn't happen, but as a guard we'll look to see if the code file exists.  If not, we will assume that there
   // is no duplicate label in this file.
   if (codeFileResult == nil)
@@ -152,7 +140,8 @@
   
   // The last check is if the code file has any duplicate entries that are found.  We consider matches - even not with exact
   // case - as duplicates.
-  return (codeFileResult[0] > 0 || codeFileResult[1] > 0);
+  // EWW: NOTE - these are NSNumber, so make sure you access the integerValue or you might get the wrong result (ex: it might just do a bool check)
+  return ([codeFileResult[0] integerValue] > 0 || [codeFileResult[1] integerValue] > 0);
 }
 
 

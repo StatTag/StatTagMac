@@ -91,7 +91,7 @@ NSMutableArray<STCodeFile*>* DistinctTags;
   [cf.Tags addObject:tag];
 
   tag = [[STTag alloc] init];
-  tag.Name = @"Test1";
+  tag.Name = @"test1";
   [cf.Tags addObject:tag];
 
   [DuplicateTags addObject:cf];
@@ -102,11 +102,11 @@ NSMutableArray<STCodeFile*>* DistinctTags;
   cf.Tags = [[NSMutableArray<STTag*> alloc] init];
   
   tag = [[STTag alloc] init];
-  tag.Name = @"Test1";
+  tag.Name = @"test1";
   [cf.Tags addObject:tag];
   
   tag = [[STTag alloc] init];
-  tag.Name = @"Test2";
+  tag.Name = @"test2";
   [cf.Tags addObject:tag];
   
   tag = [[STTag alloc] init];
@@ -214,12 +214,111 @@ NSMutableArray<STCodeFile*>* DistinctTags;
   
 - (void)testCheckForDuplicateLabels_MultipleResults {
   
+  // Here we simulate creating a new tag object in an existing file, which is going to have
+  // the same name as an existing tag.  We will also identify those tags that have
+  // case-insensitive name matches.  All of these should be identified by the check.
+  
+  STTag* tag = [[STTag alloc] init];
+  tag.Name = @"Test1";
+  tag.CodeFile = [DuplicateTags firstObject];
+
+  NSDictionary<STCodeFile*, NSArray<NSNumber*>*>* results = [STTagUtil CheckForDuplicateLabels:tag files:DuplicateTags];
+  XCTAssertEqual(2, [results count]);
+  XCTAssertEqual(1, [[[results objectForKey:[[results allKeys] objectAtIndex:0]] objectAtIndex:0] integerValue]);
+  XCTAssertEqual(1, [[[results objectForKey:[[results allKeys] objectAtIndex:0]] objectAtIndex:1] integerValue]);
+  XCTAssertEqual(1, [[[results objectForKey:[[results allKeys] objectAtIndex:1]] objectAtIndex:0] integerValue]);
+  XCTAssertEqual(1, [[[results objectForKey:[[results allKeys] objectAtIndex:1]] objectAtIndex:1] integerValue]);
+  
+  // Next find those with matching labels (both exact and non-exact) even if we're in another file
+  tag = [[STTag alloc] init];
+  tag.Name = @"Test1";
+  STCodeFile *f = [[STCodeFile alloc] init];
+  f.FilePath = [NSURL fileURLWithPath:@"NewCodeFile.r"];
+  tag.CodeFile = f;
+
+  results = [STTagUtil CheckForDuplicateLabels:tag files:DuplicateTags];
+  XCTAssertEqual(2, [results count]);
+  XCTAssertEqual(1, [[[results objectForKey:[[results allKeys] objectAtIndex:0]] objectAtIndex:0] integerValue]);
+  XCTAssertEqual(1, [[[results objectForKey:[[results allKeys] objectAtIndex:0]] objectAtIndex:1] integerValue]);
+  XCTAssertEqual(1, [[[results objectForKey:[[results allKeys] objectAtIndex:1]] objectAtIndex:0] integerValue]);
+  XCTAssertEqual(1, [[[results objectForKey:[[results allKeys] objectAtIndex:1]] objectAtIndex:1] integerValue]);
+  
+  // Search with the first tag which is the same object as an existing one.  We should know that
+  // they are the same and not count it.
+  tag = [[STTag alloc] init];
+  tag = [[[DuplicateTags firstObject] Tags] firstObject];
+  results = [STTagUtil CheckForDuplicateLabels:tag files:DuplicateTags];
+  XCTAssertEqual(2, [results count]);
+  //EWW: From what I understand of both C# and Obj-C (well.. Foundation) Dictionaries, accessing by position isn't guaranteed because the dictionary order is non-deterministic.  This works, but... will it always?
+  XCTAssertEqual(0, [[[results objectForKey:[[results allKeys] objectAtIndex:0]] objectAtIndex:0] integerValue]);
+  XCTAssertEqual(1, [[[results objectForKey:[[results allKeys] objectAtIndex:0]] objectAtIndex:1] integerValue]);
+  XCTAssertEqual(1, [[[results objectForKey:[[results allKeys] objectAtIndex:1]] objectAtIndex:0] integerValue]);
+  XCTAssertEqual(1, [[[results objectForKey:[[results allKeys] objectAtIndex:1]] objectAtIndex:1] integerValue]);
+//  Assert.AreEqual(0, results.ElementAt(0).Value[0]);
+//  Assert.AreEqual(1, results.ElementAt(0).Value[1]);
+//  Assert.AreEqual(1, results.ElementAt(1).Value[0]);
+//  Assert.AreEqual(1, results.ElementAt(1).Value[1]);
+  
 }
 
 - (void)testShouldCheckForDuplicateLabel {
+  
+  STTag* oldTag;
+  STTag* newTag;
+  XCTAssertFalse([STTagUtil ShouldCheckForDuplicateLabel:oldTag newTag:newTag]);
+  
+  // We went from having no tag (null) to a new tag.  It should perform the check.
+  newTag = [[STTag alloc] init];
+  newTag.Name = @"Test";
+  XCTAssertTrue([STTagUtil ShouldCheckForDuplicateLabel:oldTag newTag:newTag]);
+  
+  // We now have the old tag and the new tag being the same.  It should not do the check.
+  oldTag = [[STTag alloc] init];
+  oldTag.Name = @"Test";
+  XCTAssertFalse([STTagUtil ShouldCheckForDuplicateLabel:oldTag newTag:newTag]);
+  
+  // The name is slightly different - now it should do the check
+  oldTag = [[STTag alloc] init];
+  oldTag.Name = @"test";
+  XCTAssertTrue([STTagUtil ShouldCheckForDuplicateLabel:oldTag newTag:newTag]);
+  
+  // Finally, the new tag is null.  There's nothing there, so we do not want to do a check.
+  newTag = nil;
+  XCTAssertFalse([STTagUtil ShouldCheckForDuplicateLabel:oldTag newTag:newTag]);
+  
 }
 
 - (void)testIsDuplicateLabelInSameFile {
+  
+  // We will have results for two different code files.  We will have an tag that is represented in one
+  // of the code files, and one that isn't.
+  NSMutableDictionary<STCodeFile*, NSArray<NSNumber*>*>* results = [[NSMutableDictionary<STCodeFile*, NSArray<NSNumber*>*> alloc] init];
+
+  [results setObject:[NSArray<NSNumber*> arrayWithObjects:@0, @0, nil] forKey:[STCodeFile codeFileWithFilePath:[NSURL fileURLWithPath:@"Test1.do"]]];
+  [results setObject:[NSArray<NSNumber*> arrayWithObjects:@0, @0, nil] forKey:[STCodeFile codeFileWithFilePath:[NSURL fileURLWithPath:@"Test2.do"]]];
+
+  STTag* tagInFile = [STTag tagWithName:@"Test" andCodeFile:[[results allKeys] firstObject]];
+  STTag* tagNotInFile = [STTag tagWithName:@"Test" andCodeFile:nil];
+  STTag* tagInOtherFile = [STTag tagWithName:@"Test" andCodeFile:[STCodeFile codeFileWithFilePath:[NSURL fileURLWithPath:@"Test3.do"]]];
+  
+  // Check our null conditions first
+  XCTAssertFalse([STTagUtil IsDuplicateLabelInSameFile:nil result:results]);
+  XCTAssertFalse([STTagUtil IsDuplicateLabelInSameFile:tagInFile result:nil]);
+  XCTAssertFalse([STTagUtil IsDuplicateLabelInSameFile:tagNotInFile result:results]);
+  
+  // If the code file isn't found in the results, it means there is no duplicate.
+  XCTAssertFalse([STTagUtil IsDuplicateLabelInSameFile:tagInOtherFile result:results]);
+  
+  // If the code file is found in the results, it only counts if there are duplicates counted in the results.
+  XCTAssertFalse([STTagUtil IsDuplicateLabelInSameFile:tagInFile result:results]);
+  
+  // It's a duplicate once we have any kind of result.
+  [results setObject:[NSArray<NSNumber*> arrayWithObjects:@1, @0, nil] forKey:[[results allKeys] firstObject]];
+  XCTAssertTrue([STTagUtil IsDuplicateLabelInSameFile:tagInFile result:results]);
+  [results setObject:[NSArray<NSNumber*> arrayWithObjects:@0, @1, nil] forKey:[[results allKeys] firstObject]];
+  XCTAssertTrue([STTagUtil IsDuplicateLabelInSameFile:tagInFile result:results]);
+  [results setObject:[NSArray<NSNumber*> arrayWithObjects:@1, @1, nil] forKey:[[results allKeys] firstObject]];
+  XCTAssertTrue([STTagUtil IsDuplicateLabelInSameFile:tagInFile result:results]);
 }
 
 
