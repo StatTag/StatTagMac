@@ -87,24 +87,22 @@
 
 
 +(instancetype)tagWithName:(NSString*)name andCodeFile:(STCodeFile*)codeFile {
-  return [STTag tagWithName:name andCodeFile:codeFile andType:nil];
+  return [[self class] tagWithName:name andCodeFile:codeFile andType:nil];
 }
 
 +(instancetype)tagWithName:(NSString*)name andCodeFile:(STCodeFile*)codeFile andType:(NSString*)type {
-  STTag* tag = [[STTag alloc] init];
+  STTag* tag = [[[self class] alloc] init];
   tag.Name = name;
   tag.CodeFile = codeFile;
   tag.Type = type;
   return tag;
 }
 
-
-
 -(id)copyWithZone:(NSZone *)zone
 {
   NSLog(@"tag - copyWithZone");
 
-  STTag *tag = [[STTag alloc] init];
+  STTag *tag = [[[self class] allocWithZone:zone] init];
 
   tag.CodeFile = [_CodeFile copyWithZone: zone];
   tag.Type = [_Type copy];
@@ -201,29 +199,26 @@
 }
 
 
-/*
- /// <summary>
- /// Serialize the current object, excluding circular elements like CodeFile
- /// </summary>
- /// <returns></returns>
- public string Serialize()
- {
- Name = NormalizeName(Name);
- return JsonConvert.SerializeObject(this);
- }
- 
- /// <summary>
- /// Create a new Tag object given a JSON string
- /// </summary>
- /// <param name="json"></param>
- /// <returns></returns>
- public static Tag Deserialize(string json)
- {
- var tag = JsonConvert.DeserializeObject<Tag>(json);
- tag.Name = NormalizeName(tag.Name);
- return tag;
- }
- */
+/**
+ Serialize the current object, excluding circular elements like CodeFile
+*/
+-(NSString*)Serialize
+{
+  _Name = [[self class] NormalizeName:[self Name]];
+ return [self SerializeObject:nil];
+}
+
+/**
+ Create a new Tag object given a JSON string
+*/
++(instancetype)Deserialize:(NSString*)json error:(NSError**)outError
+{
+  NSError* error;
+  STTag* tag = [[[self class] alloc] initWithJSONString:json error:&error];
+  tag.Name = [[self class] NormalizeName:[tag Name]];
+  return tag;
+}
+
 
 
 //MARK: equality

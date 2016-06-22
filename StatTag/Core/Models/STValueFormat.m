@@ -25,7 +25,7 @@
 
 -(id)copyWithZone:(NSZone *)zone
 {
-  STValueFormat *format = [[STValueFormat alloc] init];
+  STValueFormat *format = [[[self class] allocWithZone:zone] init];//[[STValueFormat alloc] init];
 
   format.FormatType = [_FormatType copyWithZone:zone];
   format.DecimalPlaces = _DecimalPlaces;

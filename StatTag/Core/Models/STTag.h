@@ -78,6 +78,12 @@
 -(instancetype)initWithDictionary:(NSDictionary*)dict;
 -(instancetype)initWithJSONString:(NSString*)JSONString error:(NSError**)error;
 -(void)setWithDictionary:(NSDictionary*)dict;
+-(NSString*)Serialize;
+/**
+ Create a new Tag object given a JSON string
+ */
++(instancetype)Deserialize:(NSString*)json error:(NSError**)outError;
+
 
 //MARK: descriptions
 -(NSString*)ToString;

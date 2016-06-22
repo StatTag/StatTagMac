@@ -14,7 +14,7 @@
 
 -(id)copyWithZone:(NSZone *)zone
 {
-  STFigureFormat *format = [[STFigureFormat alloc] init];
+  STFigureFormat *format = [[[self class] allocWithZone:zone] init];//[[STFigureFormat alloc] init];
   
   return format;
 }

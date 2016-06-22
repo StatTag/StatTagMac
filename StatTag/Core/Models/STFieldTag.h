@@ -52,11 +52,18 @@ within the table.</remarks>
 +(void)LinkToCodeFile:(STFieldTag*)tag CodeFile:(NSArray<STCodeFile*>*)files;
 
 /**
+ Create a new Tag object given a JSON string
+*/
++(instancetype)Deserialize:(NSString*)json withFiles:(NSArray<STCodeFile*>*)files error:(NSError**)outError;
+
+/**
  Utility function called when a FieldTag is created from an existing tag and
  a cell index (meaning it's a table tag).  We want to update this tag to
  only carry the specific cell value.
  */
 - (void)SetCachedValue;
+
+
 
 
 @end

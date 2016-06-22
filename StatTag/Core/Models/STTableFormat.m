@@ -22,7 +22,7 @@
 
 -(id)copyWithZone:(NSZone *)zone
 {
-  STTableFormat *format = [[STTableFormat alloc] init];
+  STTableFormat *format = [[[self class] allocWithZone:zone] init];//[[STTableFormat alloc] init];
   
   format.IncludeColumnNames = _IncludeColumnNames;
   format.IncludeRowNames = _IncludeRowNames;

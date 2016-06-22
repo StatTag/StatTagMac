@@ -76,7 +76,7 @@ NSObject<STIFileHandler>* _FileHandler;
 //MARK: copying
 -(id)copyWithZone:(NSZone *)zone
 {
-  STCodeFile *codeFile = [[STCodeFile alloc] init];
+  STCodeFile *codeFile = [[[self class] allocWithZone:zone] init];//[[STCodeFile alloc] init];
 
   codeFile.StatisticalPackage = [_StatisticalPackage copyWithZone:zone];
   codeFile.FilePath = [_FilePath copyWithZone:zone];

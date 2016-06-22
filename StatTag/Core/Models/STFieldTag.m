@@ -17,18 +17,18 @@
 @synthesize TableCellIndex = _TableCellIndex;
 
 //@synthesize CodeFilePath = _CodeFilePath;
+- (NSURL*) CodeFilePath {
+  if(_CodeFile != nil) {
+    return [_CodeFile FilePath];
+  }
+  return nil;
+}
 - (void) setCodeFilePath:(NSURL *)c {
   if (_CodeFile == nil)
   {
     _CodeFile = [[STCodeFile alloc] init];
     _CodeFile.FilePath = c;
   }
-}
-- (NSURL*) CodeFilePath {
-  if(_CodeFile != nil) {
-    return [_CodeFile FilePath];
-  }
-  return nil;
 }
 
 //MARK: initializers
@@ -67,7 +67,7 @@
   }
   if(self){
     _TableCellIndex = [fieldTag TableCellIndex];
-    _CodeFilePath = [fieldTag CodeFilePath];
+    [self setCodeFilePath:[fieldTag CodeFilePath]]; //= [fieldTag CodeFilePath];
     [self SetCachedValue];
   }
   return self;
@@ -80,6 +80,23 @@
   }
   return self;
 }
+
+-(id)copyWithZone:(NSZone *)zone
+{
+  STFieldTag *tag = (STFieldTag *)[super copyWithZone:zone];
+  return tag;
+}
+
+
++(instancetype)tagWithName:(NSString*)name andCodeFile:(STCodeFile*)codeFile {
+  return [[self class] tagWithName:name andCodeFile:codeFile andType:nil];
+}
+
++(instancetype)tagWithName:(NSString*)name andCodeFile:(STCodeFile*)codeFile andType:(NSString*)type {
+  STFieldTag* tag = (STFieldTag *)[super tagWithName:(NSString*)name andCodeFile:(STCodeFile*)codeFile andType:(NSString*)type ];
+  return tag;
+}
+
 
 //MARK: JSON methods
 
@@ -172,6 +189,19 @@
     }
   }
 }
+
+/**
+ Create a new Tag object given a JSON string
+ */
++(instancetype)Deserialize:(NSString*)json withFiles:(NSArray<STCodeFile*>*)files error:(NSError**)outError
+{
+  NSError* error;
+  STFieldTag* tag = (STFieldTag*)[super Deserialize:json error:&error];
+  //tag.Name = [[self class] NormalizeName:[tag Name]]; //should be in the parent
+  [[self class] LinkToCodeFile:tag CodeFile:files];
+  return tag;
+}
+
 
 /**
  Utility function called when a FieldTag is created from an existing tag and
