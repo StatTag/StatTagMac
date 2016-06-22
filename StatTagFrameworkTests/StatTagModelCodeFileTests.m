@@ -9,11 +9,11 @@
 #import <XCTest/XCTest.h>
 #import "STCodeFile.h"
 
-@interface StatTagSTCodeFileTests : XCTestCase
+@interface StatTagModelCodeFileTests : XCTestCase
 
 @end
 
-@implementation StatTagSTCodeFileTests
+@implementation StatTagModelCodeFileTests
 
 - (void)setUp {
   [super setUp];
@@ -75,5 +75,17 @@
   NSLog(@"error: %@", error);
   NSLog(@"f: %@", list);
 }
+
+- (void)testBasicObjectForKey {
+  STCodeFile *f = [[STCodeFile alloc] init];
+  f.FilePath = [NSURL fileURLWithPath:@"afile"];
+  
+  NSMutableDictionary<STCodeFile*, NSNumber*>* d = [[NSMutableDictionary<STCodeFile*, NSNumber*> alloc] init];
+  [d setObject:@1 forKey:f];
+  NSLog(@"f(FilePath): %@", [[f FilePath] path]);
+  NSLog(@"d: %@", d);
+  NSLog(@"d(value): %@", [d objectForKey:f]);
+}
+
 
 @end

@@ -59,7 +59,11 @@
 -(id)init:(NSObject<STIFileHandler>*)handler;
 -(id)init;
 
+- (NSUInteger)hash;
+- (BOOL)isEqual:(id)object;
+
 -(NSString*)ToString;
+-(NSString*)description;
 -(void)Save:(NSError**)error;
 -(void)SaveBackup:(NSError**)error;
 

@@ -79,6 +79,7 @@
 
 //MARK: descriptions
 -(NSString*)ToString;
+-(NSString*)description;
 
 //MARK: equality
 -(BOOL) Equals:(STTag*)other usePosition:(BOOL)usePosition;

@@ -65,13 +65,12 @@ NSObject<STIFileHandler>* _FileHandler;
 }
 
 //MARK: copying
-
 -(id)copyWithZone:(NSZone *)zone
 {
   STCodeFile *codeFile = [[STCodeFile alloc] init];
 
   codeFile.StatisticalPackage = [_StatisticalPackage copyWithZone:zone];
-  codeFile.FilePath = [_StatisticalPackage copyWithZone:zone];
+  codeFile.FilePath = [_FilePath copyWithZone:zone];
   codeFile.LastCached = [_LastCached copyWithZone:zone];
   codeFile.Tags = [_Tags copyWithZone:zone];
   
@@ -99,6 +98,11 @@ NSObject<STIFileHandler>* _FileHandler;
     return NO;
   }
   STCodeFile *other = object;
+  if(other == nil) {
+    return false;
+  }
+  NSLog(@"[[other FilePath] path] : %@", [[other FilePath] path]);
+  NSLog(@"[_FilePath path] : %@", [_FilePath path]);
   return ([[[other FilePath] path] caseInsensitiveCompare:[_FilePath path]] == NSOrderedSame);
 }
 

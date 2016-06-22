@@ -239,11 +239,11 @@
 
   NSCharacterSet *ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
 
-  if ([[_Name stringByTrimmingCharactersInSet: ws] length] == 0) {
+  if ([[_Name stringByTrimmingCharactersInSet: ws] length] != 0) {
     return _Name;
   }
 
-  if ([[_Type stringByTrimmingCharactersInSet: ws] length] == 0) {
+  if ([[_Type stringByTrimmingCharactersInSet: ws] length] != 0) {
     return _Type;
   }
 

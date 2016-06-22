@@ -10,11 +10,11 @@
 #import "STConstants.h"
 
 
-@interface StatTagConstantsTests : XCTestCase
+@interface StatTagModelConstantsTests : XCTestCase
 
 @end
 
-@implementation StatTagConstantsTests
+@implementation StatTagModelConstantsTests
 
 - (void)setUp {
     [super setUp];

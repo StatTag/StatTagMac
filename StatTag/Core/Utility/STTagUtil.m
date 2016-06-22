@@ -64,7 +64,6 @@
  the same tag name.
 */
 +(NSDictionary<STCodeFile*, NSArray<NSNumber*>*>*)CheckForDuplicateLabels:(STTag*)tag files:(NSArray<STCodeFile*>*)files
-
 //public static Dictionary<CodeFile, int[]> CheckForDuplicateLabels(Tag tag, List<CodeFile> files)
 {
   if (tag == nil)
@@ -91,13 +90,21 @@
     if([duplicateCount objectForKey:[otherTag CodeFile] ] == nil)
     {
       [duplicateCount setObject:[NSMutableArray arrayWithObjects:[NSNumber numberWithInteger:0],[NSNumber numberWithInteger:0], nil] forKey:[otherTag CodeFile]];
+//      NSLog(@"just set dictionary - duplicateCount: %@", duplicateCount);
+//      NSLog(@"value: %@", [NSMutableArray arrayWithObjects:[NSNumber numberWithInteger:0],[NSNumber numberWithInteger:0], nil]);
+//      NSLog(@"key: %@", [otherTag CodeFile]);
     }
+    
+//    NSLog(@"[otherTag CodeFile] = %@", [otherTag CodeFile]);
+//    NSLog(@"duplicateCount = %@", duplicateCount);
+//    NSLog(@"[duplicateCount objectForKey:[otherTag CodeFile]] : %@", [duplicateCount objectForKey:[otherTag CodeFile]]);
     
     // If the tag names are an exact match, they go into the first bucket.
     // Otherwise, they are a case-insensitive match and go into the second bucket.
     if ([[tag Name] isEqualToString:[otherTag Name]])
     {
       NSMutableArray* a = [duplicateCount objectForKey:[otherTag CodeFile]];
+      //NSLog(@"a = %@", a);
       NSNumber* i = [NSNumber numberWithInteger:[[a objectAtIndex: 0] integerValue] + 1];
       [a setObject:i atIndexedSubscript:0];
       //NSNumber* i = [NSNumber numberWithInteger:[[duplicateCount objectForKey:[otherTag CodeFile]][0] integerValue] + 1];
@@ -106,6 +113,7 @@
     else
     {
       NSMutableArray* a = [duplicateCount objectForKey:[otherTag CodeFile]];
+      //NSLog(@"a = %@", a);
       NSNumber* i = [NSNumber numberWithInteger:[[a objectAtIndex: 1] integerValue] + 1];
       [a setObject:i atIndexedSubscript:1];
       //NSNumber* i = [NSNumber numberWithInteger:[[duplicateCount objectForKey:[otherTag CodeFile]][0] integerValue] + 1];
