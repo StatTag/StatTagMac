@@ -29,8 +29,11 @@
 -(id)init:(NSArray <NSString *>*)rowNames columnNames:(NSArray <NSString *>*)columnNames rowSize:(int)rowSize columnSize:(int)columnSize data:(NSArray <NSNumber *>*)data {
   self = [super init];
   if(self) {
-    _RowNames = rowNames != nil ? [[NSMutableArray alloc]initWithArray: rowNames] : [[NSMutableArray alloc] init];
-    _ColumnNames = _ColumnNames != nil ? [[NSMutableArray alloc]initWithArray: columnNames] : [[NSMutableArray alloc] init];
+    //note: original c# passes nil to the row/column name arrays if we send nil arguments
+    //originally I had changed this to init the arrays, but this causes issues later with format checks (see STTableFormat where it checks if row/column name arrays are nil
+    _RowNames = rowNames == nil ? nil : [[NSMutableArray alloc]initWithArray: rowNames];//[[NSMutableArray alloc] init];
+    _ColumnNames = columnNames == nil ? nil : [[NSMutableArray alloc]initWithArray: columnNames];//[[NSMutableArray alloc] init];
+
     _RowSize = rowSize;
     _ColumnSize = columnSize;
     _Data = [[NSMutableArray alloc] initWithArray:data];
