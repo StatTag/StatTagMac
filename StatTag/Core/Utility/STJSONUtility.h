@@ -14,6 +14,10 @@
 + (NSDate*)dateFromString:(NSString*)dateString;
 + (NSString*)convertDateToDateString:(NSDate*)date;
 
++ (NSString*)SerializeObject:(NSObject<STJSONAble>*)object error:(NSError**)outError;
 + (NSString*)SerializeList:(NSArray<NSObject<STJSONAble>*>*)files error:(NSError**)outError;
+
+
++(NSArray<NSObject<STJSONAble>*>*)DeserializeList:(NSString*)List forClass:(id)c error:(NSError**)outError;
 
 @end

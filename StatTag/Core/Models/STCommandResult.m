@@ -8,6 +8,7 @@
 
 #import "STCommandResult.h"
 #import "STTable.h"
+#import "STConstants.h"
 
 @implementation STCommandResult
 
@@ -36,6 +37,83 @@
     return [_TableResult ToString];
   }
   return @"";
+}
+
+
+
+//MARK: JSON
+//NOTE: go back later and figure out if/how the bulk of this can be centralized in some sort of generic or category (if possible)
+-(NSDictionary *)toDictionary {
+  NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
+  [dict setValue:[self ValueResult] forKey:@"ValueResult"];
+  [dict setValue:[self FigureResult] forKey:@"FigureResult"];
+  [dict setValue:[NSNumber numberWithBool:[self IsEmpty]] forKey:@"IsEmpty"];
+  if([self TableResult] != nil){
+    [dict setObject:[[self TableResult] toDictionary] forKey:@"TableResult"]; //this might be a problem
+  }
+  return dict;
+}
+
+-(void)setWithDictionary:(NSDictionary*)dict {
+  for (NSString* key in dict) {
+    if([key isEqualToString:@"TableResult"]) {
+      [self setValue:[[STTable alloc] initWithDictionary:[dict valueForKey:key]] forKey:key];
+    } else {
+      [self setValue:[dict valueForKey:key] forKey:key];
+    }
+  }
+}
+
+-(NSString*)Serialize:(NSError**)outError
+{
+  return [STJSONUtility SerializeObject:self error:nil];
+}
+
++(NSString*)SerializeList:(NSArray<NSObject<STJSONAble>*>*)list error:(NSError**)outError {
+  return [STJSONUtility SerializeList:list error:nil];
+}
+
++(NSArray<STCommandResult*>*)DeserializeList:(NSString*)List error:(NSError**)outError
+{
+  NSMutableArray<STCommandResult*>* ar = [[NSMutableArray<STCommandResult*> alloc] init];
+  for(id x in [STJSONUtility DeserializeList:List forClass:[self class] error:nil]) {
+    if([x isKindOfClass:[self class]])
+    {
+      [ar addObject:x];
+    }
+  }
+  return ar;
+}
+
+-(instancetype)initWithDictionary:(NSDictionary*)dict
+{
+  self = [super init];
+  if (self) {
+    [self setWithDictionary:dict];
+  }
+  return self;
+}
+
+-(instancetype)initWithJSONString:(NSString*)JSONString error:(NSError**)outError
+{
+  self = [super init];
+  if (self) {
+    
+    NSError *error = nil;
+    NSData *JSONData = [JSONString dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *JSONDictionary = [NSJSONSerialization JSONObjectWithData:JSONData options:0 error:&error];
+    
+    if (!error && JSONDictionary) {
+      [self setWithDictionary:JSONDictionary];
+    } else {
+      if (outError) {
+        *outError = [NSError errorWithDomain:STStatTagErrorDomain
+                                        code:[error code]
+                                    userInfo:@{NSUnderlyingErrorKey: error}];
+      }
+    }
+  }
+  return self;
 }
 
 

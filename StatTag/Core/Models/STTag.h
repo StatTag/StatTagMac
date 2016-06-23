@@ -74,7 +74,7 @@
 
 //MARK: JSON
 -(NSDictionary *)toDictionary;
--(NSString*)Serialize;
+-(NSString*)Serialize:(NSError**)error;
 //-(NSString*)SerializeObject:(NSError**)error;
 -(instancetype)initWithDictionary:(NSDictionary*)dict;
 -(instancetype)initWithJSONString:(NSString*)JSONString error:(NSError**)error;

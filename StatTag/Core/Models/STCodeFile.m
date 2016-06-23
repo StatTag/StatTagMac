@@ -228,20 +228,6 @@ the cached results in another tag.
   return dict;
 }
 
--(NSString*)SerializeObject:(NSError**)error
-{  
-  NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[self toDictionary] options:0 error:error];
-  NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-  return jsonString;
-}
-
-/**
- Utility method to serialize the list of code files into a JSON array.
- */
-+(NSString*)SerializeList:(NSArray<NSObject<STJSONAble>*>*)list error:(NSError**)outError {
-  return [STJSONUtility SerializeList:list error:nil];
-}
-
 -(void)setWithDictionary:(NSDictionary*)dict {
   for (NSString* key in dict) {
     if([key isEqualToString:@"FilePath"]) {
@@ -253,6 +239,35 @@ the cached results in another tag.
       [self setValue:[dict valueForKey:key] forKey:key];
     }
   }
+}
+
+-(NSString*)Serialize:(NSError**)error
+{
+  return [STJSONUtility SerializeObject:self error:nil];
+}
+
+/**
+ Utility method to serialize the list of code files into a JSON array.
+ */
++(NSString*)SerializeList:(NSArray<NSObject<STJSONAble>*>*)list error:(NSError**)outError {
+  return [STJSONUtility SerializeList:list error:nil];
+}
+
+/**
+ Utility method to take a JSON array string and convert it back into a list of
+ CodeFile objects.  This does not resolve the list of tags that may be
+ associated with the CodeFile.
+ */
++(NSArray<STCodeFile*>*)DeserializeList:(NSString*)List error:(NSError**)outError
+{
+  NSMutableArray<STCodeFile*>* ar = [[NSMutableArray<STCodeFile*> alloc] init];
+  for(id x in [STJSONUtility DeserializeList:List forClass:[self class] error:nil]) {
+    if([x isKindOfClass:[self class]])
+    {
+      [ar addObject:x];
+    }
+  }
+  return ar;
 }
 
 -(instancetype)initWithDictionary:(NSDictionary*)dict
@@ -268,7 +283,6 @@ the cached results in another tag.
 {
   self = [super init];
   if (self) {
-    
     NSError *error = nil;
     NSData *JSONData = [JSONString dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *JSONDictionary = [NSJSONSerialization JSONObjectWithData:JSONData options:0 error:&error];
@@ -286,31 +300,8 @@ the cached results in another tag.
   return self;
 }
 
-/**
-  Utility method to take a JSON array string and convert it back into a list of
-  CodeFile objects.  This does not resolve the list of tags that may be
-  associated with the CodeFile.
- */
-+(NSArray<STCodeFile*>*)DeserializeList:(NSString*)List error:(NSError**)outError
-{
-  NSMutableArray *list = [[NSMutableArray<STCodeFile*> alloc] init];
 
-  //FIXME: this is not complete - at all
-  NSData *jsonData = [List dataUsingEncoding:NSUTF8StringEncoding];
-  NSError *error = nil;
-  NSArray *values = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
-  if ([values isKindOfClass:[NSArray class]] && error == nil) {
-    for(id d in values) {
-      if([d isKindOfClass:[NSDictionary class]]){
-      STCodeFile *file = [[[self class] alloc] initWithDictionary:d];
-        if(file != nil) {
-          [list addObject:file];
-        }
-      }
-    }
-  }
-  return list;
-}
+
 
 //MARK: other
 

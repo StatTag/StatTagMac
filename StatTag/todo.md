@@ -25,6 +25,7 @@ TO DO:
     -(NSString*)CreateTableParameters:(STTag*) tag
    ***** NOTE: this is in several places - so may have to scan for all BOOLs used in strings
     in c#, it's "false" or "true" (but the json doesn't string encode the value)
+10) What's the "parameter" object in STCodeFileAction?
    
 11) isEqualTo vs isEqual - should we do both?
 12) Think through the use of NSURL for all of these paths - apparently NSURL preprends certain file paths if we pass just a filename - should we be storing a string instead?

@@ -178,14 +178,14 @@
   
 }
 
--(NSString*)SerializeObject:(NSError**)error
-{
-  //NSJSONWritingPrettyPrinted
-  NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[self toDictionary] options:0 error:error];
-  NSLog(@"[self toDictionary] : %@", [self toDictionary] );
-  NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-  return jsonString;
-}
+//-(NSString*)SerializeObject:(NSError**)error
+//{
+//  //NSJSONWritingPrettyPrinted
+//  NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[self toDictionary] options:0 error:error];
+//  NSLog(@"[self toDictionary] : %@", [self toDictionary] );
+//  NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+//  return jsonString;
+//}
 
 -(void)setWithDictionary:(NSDictionary*)dict {
   for (NSString* key in dict) {
@@ -243,10 +243,10 @@
 /**
  Serialize the current object, excluding circular elements like CodeFile
 */
--(NSString*)Serialize
+-(NSString*)Serialize:(NSError**)error
 {
   _Name = [[self class] NormalizeName:[self Name]];
- return [self SerializeObject:nil];
+  return [STJSONUtility SerializeObject:self error:nil];
 }
 
 /**

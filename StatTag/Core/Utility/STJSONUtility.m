@@ -13,6 +13,28 @@
 
 @implementation STJSONUtility
 
+
++(NSArray<NSObject<STJSONAble>*>*)DeserializeList:(NSString*)List forClass:(id)c error:(NSError**)outError
+{
+  NSMutableArray *list = [[NSMutableArray<NSObject<STJSONAble>*> alloc] init];
+  
+  NSData *jsonData = [List dataUsingEncoding:NSUTF8StringEncoding];
+  NSError *error = nil;
+  NSArray *values = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
+  if ([values isKindOfClass:[NSArray class]] && error == nil) {
+    for(id d in values) {
+      if([d isKindOfClass:[NSDictionary class]]){
+        id file = [[[c class] alloc] initWithDictionary:d];
+        if(file != nil) {
+          [list addObject:file];
+        }
+      }
+    }
+  }
+  return list;
+}
+
+
 + (NSDate*)dateFromString:(NSString*)dateString {
 
   /*
@@ -115,6 +137,14 @@
   [dateFormatter setLocale:locale];
   NSString *dateString = [dateFormatter stringFromDate:date];
   return dateString;
+}
+
++(NSString*)SerializeObject:(NSObject<STJSONAble>*)object error:(NSError**)outError
+{
+  NSError* error;
+  NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[object toDictionary] options:0 error:&error];
+  NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+  return jsonString;
 }
 
 

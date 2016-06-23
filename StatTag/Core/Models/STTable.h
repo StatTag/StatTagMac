@@ -7,13 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "STJSONable.h"
+#import "STConstants.h"
+
 
 /**
   A table is a generic representation of a matrix, vector, list, etc. from different
   statistical packages.  It provides a consistent interface across the statistical
   package representations, but is not necessarily an optimized view of the data.
  */
-@interface STTable : NSObject {
+@interface STTable : NSObject<STJSONAble> {
   NSMutableArray<NSString*>* _RowNames;
   NSMutableArray<NSString*>* _ColumnNames;
   int _RowSize;
@@ -34,5 +37,16 @@
 
 -(BOOL)isEmpty;
 -(NSString*)ToString;
+
+
+
+//MARK: JSON
+-(NSDictionary *)toDictionary;
+-(NSString*)Serialize:(NSError**)error;
++(NSString*)SerializeList:(NSArray<STTable*>*)list error:(NSError**)error;
++(NSArray<STTable*>*)DeserializeList:(NSString*)List error:(NSError**)error;
+-(instancetype)initWithDictionary:(NSDictionary*)dict;
+-(instancetype)initWithJSONString:(NSString*)JSONString error:(NSError**)error;
+
 
 @end

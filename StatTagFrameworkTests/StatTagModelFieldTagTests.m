@@ -144,7 +144,7 @@
   tag.CachedResult = crList;
   
   NSError* error;
-  NSString* serialized = [tag Serialize];
+  NSString* serialized = [tag Serialize:nil];
   
   STFieldTag* recreatedTag = [STFieldTag Deserialize:serialized error:&error];
 

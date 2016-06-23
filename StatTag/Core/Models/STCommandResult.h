@@ -7,9 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "STJSONable.h"
 @class STTable;
 
-@interface STCommandResult : NSObject {
+@interface STCommandResult : NSObject<STJSONAble> {
   NSString* _ValueResult;
   NSString* _FigureResult;
   STTable* _TableResult;
@@ -21,5 +22,14 @@
 
 -(BOOL)IsEmpty;
 -(NSString*)ToString;
+
+
+//MARK: JSON
+-(NSDictionary *)toDictionary;
+-(NSString*)Serialize:(NSError**)error;
++(NSString*)SerializeList:(NSArray<STCommandResult*>*)list error:(NSError**)error;
++(NSArray<STCommandResult*>*)DeserializeList:(NSString*)List error:(NSError**)error;
+-(instancetype)initWithDictionary:(NSDictionary*)dict;
+-(instancetype)initWithJSONString:(NSString*)JSONString error:(NSError**)error;
 
 @end

@@ -13,7 +13,7 @@
 
 @required
 -(NSDictionary *)toDictionary;
--(NSString*)SerializeObject:(NSError**)error;
+-(NSString*)Serialize:(NSError**)error;
 -(instancetype)initWithDictionary:(NSDictionary*)dict;
 -(instancetype)initWithJSONString:(NSString*)JSONString error:(NSError**)error;
 

@@ -43,7 +43,7 @@
   NSLog(@"f: %@", f);
  
   NSError *error;
-  NSString *json = [f SerializeObject:&error];
+  NSString *json = [STJSONUtility SerializeObject:f error:&error];
   NSLog(@"JSON: %@", json);
   NSLog(@"error: %@", error);
 }
