@@ -27,44 +27,49 @@
 
 - (void)testCodeFile {
   
+  //set up our inital objects
+  NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+  NSDateComponents *components = [[NSDateComponents alloc] init];
+  [components setCalendar:calendar];
+  [components setYear:2016];
+  [components setMonth:01];
+  [components setDay:01];
+  [components setHour:1];
+  [components setMinute:2];
+  [components setSecond:3];
+  
+  NSDate *d1 = [calendar dateFromComponents:components];
+
+  [components setYear:2015];
+  [components setMonth:06];
+  [components setSecond:46];
+  NSDate *d2 = [calendar dateFromComponents:components];
+  
   STCodeFile* cf = [[STCodeFile alloc] init];
   cf.StatisticalPackage = @"ABC";
   cf.FilePath = [[NSURL alloc] initWithString:@"myfile.txt"];
-  cf.LastCached = [NSDate date];
+  cf.LastCached = d1;
 
-  NSURL* u = [[NSURL alloc] initWithString:@"myFile.txt"];
-  NSLog(@"u : %@", [u path]);
-  NSLog(@"u : %@", [[cf FilePath] path]);
-  
   STCodeFile* cf2 = [[STCodeFile alloc] init];
   cf2.StatisticalPackage = @"DEF";
   cf2.FilePath = [[NSURL alloc] initWithString:@"secondfile.txt"];
-  cf2.LastCached = [NSDate date];
+  cf2.LastCached = d2;
   
-//  NSLog(@"cf.dict : %@", [cf toDictionary]);
-//  
-//  NSString* cf_json = [cf Serialize:nil];
-//  NSLog(@"cf_json : %@", cf_json);
-  
+  //built the array and serialize it to json
   NSArray<STCodeFile*>* ar1 = [NSArray arrayWithObjects:cf, cf2, nil];
   NSString* json = [STCodeFile SerializeList:ar1 error:nil];
   
-  NSArray* ar = [STJSONUtility DeserializeList:json forClass:[cf class] error:nil];
-  NSLog(@"ar : %@", ar);
-  
-  NSLog(@"cf.StatisticalPackage : %@", [ar[0] StatisticalPackage]);
-  
+  //now from json back to objects -> array
+  NSArray* ar = [STCodeFile DeserializeList:json error:nil];
 
-  NSArray<STCodeFile*>* ar2 = [STCodeFile DeserializeList:json error:nil];
+  //validate
   XCTAssert([[ar[0] StatisticalPackage] isEqualToString:@"ABC"]);
-  NSLog(@"[[ar[0] FilePath] path] : %@ ", [[ar[0] FilePath] path]);
   XCTAssert([[[ar[0] FilePath] path] isEqualToString:@"myfile.txt"]);
-  XCTAssert([ar[0] LastCached] != nil);
-  
-  NSLog(@"ar2 : %@", ar2);
+  XCTAssert([[ar[0] LastCached] isEqualToDate:d1]);
 
-  //+(NSArray<NSObject<STJSONAble>*>*)DeserializeList:(NSString*)List forClass:(id)c error:(NSError**)outError
-  
+  XCTAssert([[ar[1] StatisticalPackage] isEqualToString:@"DEF"]);
+  XCTAssert([[[ar[1] FilePath] path] isEqualToString:@"secondfile.txt"]);
+  XCTAssert([[ar[1] LastCached] isEqualToDate:d2]);
 }
 
 

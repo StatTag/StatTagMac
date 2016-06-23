@@ -36,6 +36,10 @@
 
 
 + (NSDate*)dateFromString:(NSString*)dateString {
+  
+  if(dateString == nil) {
+    return nil;
+  }
 
   /*
    Step 1: See if we have a known fixed time format (see below on why) - using NSDateFormatter
@@ -97,7 +101,7 @@
   //First - let's see if we have one of those fixed time formats (without a date)
   //  **** See above note on why ****
   //---------------------------
-  NSArray *dateFormats = @[@"hh:mm a", @"hh:mm", @"hh:mm:ss a", @"hh:mm:ss"];
+  NSArray *dateFormats = @[@"hh:mm a", @"hh:mm", @"hh:mm:ss a", @"hh:mm:ss", @"YYYY-MM-dd'T'HH:mm:ssZZZ"];
   NSDateFormatter *formatter=[[NSDateFormatter alloc] init];
   for (NSString *dateFormat in dateFormats) {
     [formatter setDateFormat:dateFormat];
@@ -124,6 +128,15 @@
     }
   }
 
+  //last-ditch...milliseconds since 1970
+  NSNumber* n = [NSNumber numberWithDouble:[dateString doubleValue]];
+  if(n) {
+    NSDate* aDate = [NSDate dateWithTimeIntervalSince1970:[n doubleValue]];
+    if(aDate){
+      return aDate;
+    }
+  }
+  
   //nothing detected
   return dateValue;  
 }
@@ -131,10 +144,12 @@
 + (NSString *) convertDateToDateString :(NSDate *) date {
   NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
   [dateFormatter setTimeZone:[NSTimeZone localTimeZone]];
-  NSLocale *locale = [NSLocale currentLocale];
-  NSString *dateFormat = [NSDateFormatter dateFormatFromTemplate:@"YYYY-MM-dd'T'HH:mm:ssZZZ" options:0 locale:locale];
+  NSString *dateFormat = [NSDateFormatter dateFormatFromTemplate:@"YYYY-MM-dd'T'HH:mm:ssZZZ" options:0 locale:nil];
   [dateFormatter setDateFormat:dateFormat];
-  [dateFormatter setLocale:locale];
+  //note: we're going to avoid doing this for now - our json date will be emitted in standardized format
+  //if we set our locale, it overrides the format we specify into the format on the host machine
+  //NSLocale *locale = [NSLocale currentLocale];
+  //[dateFormatter setLocale:locale];
   NSString *dateString = [dateFormatter stringFromDate:date];
   return dateString;
 }
