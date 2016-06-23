@@ -201,7 +201,7 @@
       [self setValue:[[self class] NormalizeName:[dict valueForKey:key]] forKey:key];
     } else if([key isEqualToString:@"CodeFilePath"]) {
       //NSLog(@"STTag - attempting to recover normalized Name with value %@, normalized value: %@", [dict valueForKey:key], [STTag NormalizeName:[dict valueForKey:key]]);
-      [self setValue:[NSURL URLWithString:[dict valueForKey:key]] forKey:key];
+      [self setValue:[[NSURL alloc] initWithString:[dict valueForKey:key]] forKey:key];
     } else {
       [self setValue:[dict valueForKey:key] forKey:key];
     }

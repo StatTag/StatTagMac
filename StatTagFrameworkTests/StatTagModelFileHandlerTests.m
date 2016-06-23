@@ -27,11 +27,11 @@ NSURL *destFileUrl;
   bundle = [NSBundle bundleForClass:[self class]];
   
   NSString *sourceFilePath = [bundle pathForResource:@"TestSourceTextFile" ofType:@"txt"];
-  sourceFileUrl = [NSURL fileURLWithPath:sourceFilePath];
+  sourceFileUrl = [[NSURL alloc] initWithString:sourceFilePath];
   NSLog(@"Setup sourceFileUrl: %@", [sourceFileUrl path]);
   
   NSString *destFilePath = [bundle pathForResource:@"TestDestinationTextFile" ofType:@"txt"];
-  destFileUrl = [NSURL fileURLWithPath:destFilePath];
+  destFileUrl = [[NSURL alloc] initWithString:destFilePath];
   NSLog(@"Setup destFileUrl: %@", [destFileUrl path]);
   [self resetDestinationFile];
   

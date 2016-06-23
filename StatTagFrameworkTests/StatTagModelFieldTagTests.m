@@ -59,7 +59,7 @@
   
   STTag* tag = [STTag tagWithName:@"Test" andCodeFile:nil andType:[STConstantsTagType Table]];
   STFieldTag* fieldTag = [[STFieldTag alloc] init];
-  fieldTag.CodeFilePath = [NSURL fileURLWithPath:@"Test.do"];
+  fieldTag.CodeFilePath = [[NSURL alloc] initWithString:@"Test.do"];
   fieldTag.TableCellIndex = @10;
   
   STFieldTag *newFieldTag = [[STFieldTag alloc] initWithTag:tag andFieldTag:fieldTag];
@@ -67,7 +67,7 @@
   XCTAssert([[tag Name] isEqualToString:[newFieldTag Name]]);
   XCTAssert([[tag Type] isEqualToString:[newFieldTag Type]]);
   XCTAssertEqual(10, [[newFieldTag TableCellIndex] integerValue]);
-  XCTAssert([[[NSURL fileURLWithPath:@"Test.do"]path] isEqualToString: [[newFieldTag CodeFilePath] path]]);
+  XCTAssert([[[[NSURL alloc] initWithString:@"Test.do"]path] isEqualToString: [[newFieldTag CodeFilePath] path]]);
 }
 
 - (void)testConstructor_NullTagWithFieldTag {
@@ -75,7 +75,7 @@
   STFieldTag* fieldTag = [[STFieldTag alloc] init];
   fieldTag.Name = @"Test";
   fieldTag.Type = [STConstantsTagType Table];
-  fieldTag.CodeFilePath = [NSURL fileURLWithPath:@"Test.do"];
+  fieldTag.CodeFilePath = [[NSURL alloc] initWithString:@"Test.do"];
   fieldTag.TableCellIndex = @10;
 
   STFieldTag *newFieldTag = [[STFieldTag alloc] initWithTag:nil andFieldTag:fieldTag];
@@ -131,7 +131,7 @@
 
 - (void)testSerialize_Deserialize {
   
-  STCodeFile* codeFile = [STCodeFile codeFileWithFilePath:[NSURL fileURLWithPath:@"Test.do"]];
+  STCodeFile* codeFile = [STCodeFile codeFileWithFilePath:[[NSURL alloc] initWithString:@"Test.do"]];
   
   STCommandResult* cr = [[STCommandResult alloc] init];
   cr.ValueResult = @"Test 1";

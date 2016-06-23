@@ -43,7 +43,7 @@
 -(void)setWithDictionary:(NSDictionary*)dict {
   for (NSString* key in dict) {
 //    if([key isEqualToString:@"FilePath"]) {
-//      [self setValue:[NSURL fileURLWithPath:[dict valueForKey:key]] forKey:key];
+//      [self setValue:[[NSURL alloc] initWithString:[dict valueForKey:key]] forKey:key];
 //    } else if([key isEqualToString:@"LastCached"]) {
 //      [self setValue:[STJSONUtility dateFromString:[dict valueForKey:key]] forKey:key];
 //    } else {

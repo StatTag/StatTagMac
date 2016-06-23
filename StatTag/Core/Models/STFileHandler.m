@@ -21,8 +21,12 @@
 
 
 - (NSArray*) ReadAllLines:(NSURL*)filePath error:(NSError**)error {
+  
+  //it's possible we've got a URL w/o a file scheme (since we're setting so much with string vs. URL) - so we're going to see and try to set a file URL (which sets scheme)
+  NSURL* urlWithScheme = [NSURL fileURLWithPath:[filePath path]];
+  
   BOOL isDir;
-  if (![[NSFileManager defaultManager] fileExistsAtPath:[filePath path] isDirectory:&isDir]) {
+  if (![[NSFileManager defaultManager] fileExistsAtPath:[urlWithScheme path] isDirectory:&isDir]) {
     NSDictionary *userInfo = @{
              NSLocalizedDescriptionKey: NSLocalizedString(@"Could not read file.", nil),
              NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"There was an issue reading the file.", nil),
@@ -30,8 +34,8 @@
              };
     *error = [NSError errorWithDomain:STStatTagErrorDomain code:NSURLErrorFileDoesNotExist userInfo:userInfo];
   }
-
-  NSString *fileString = [NSString stringWithContentsOfURL:filePath encoding:NSUTF8StringEncoding error:error];
+  
+  NSString *fileString = [NSString stringWithContentsOfURL:urlWithScheme encoding:NSUTF8StringEncoding error:error];
   NSArray *stringArray = [fileString componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
   return stringArray;
 }
@@ -57,20 +61,12 @@
  https://msdn.microsoft.com/en-us/library/system.io.file.copy%28v=vs.110%29.aspx?f=255&MSPPError=-2147217396
  */
 - (void) Copy:(NSURL*)sourceFile toDestinationFile: (NSURL*)destinationFile error:(NSError**)error {
-  
-//  BOOL isDir;
-//  BOOL destExists = [[NSFileManager defaultManager] fileExistsAtPath:[destinationFile path] isDirectory:&isDir];
-//  if(destExists && !isDir) {
-//    
-//    
-//    BOOL success = [[NSFileManager defaultManager] replaceItemAtURL:destinationFile withItemAtURL:sourceFile backupItemName:nil options:0 resultingItemURL:nil error:error];
-////    NSLog(@"%@ found file and attempted to copy: %hhd", NSStringFromSelector(_cmd), success);
-//  } else {
-//    BOOL success = [[NSFileManager defaultManager] copyItemAtURL:sourceFile toURL:destinationFile error:error];
-//    NSLog(@"%@ success = %hhd", NSStringFromSelector(_cmd), success);
-//  }
 
   //http://mikeabdullah.net/atomically-copying-a-file.html
+  
+  //it's possible we've got a URL w/o a file scheme (since we're setting so much with string vs. URL) - so we're going to see and try to set a file URL (which sets scheme)
+  sourceFile = [NSURL fileURLWithPath:[sourceFile path]];
+  destinationFile = [NSURL fileURLWithPath:[destinationFile path]];
   
   NSFileManager *manager = [NSFileManager defaultManager];
   

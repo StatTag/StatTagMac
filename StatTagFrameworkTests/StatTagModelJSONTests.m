@@ -29,15 +29,16 @@
   
   STCodeFile* cf = [[STCodeFile alloc] init];
   cf.StatisticalPackage = @"ABC";
-  cf.FilePath = [NSURL fileURLWithPath:@"myfile.txt"];
+  cf.FilePath = [[NSURL alloc] initWithString:@"myfile.txt"];
   cf.LastCached = [NSDate date];
 
   NSURL* u = [[NSURL alloc] initWithString:@"myFile.txt"];
   NSLog(@"u : %@", [u path]);
+  NSLog(@"u : %@", [[cf FilePath] path]);
   
   STCodeFile* cf2 = [[STCodeFile alloc] init];
   cf2.StatisticalPackage = @"DEF";
-  cf2.FilePath = [NSURL fileURLWithPath:@"secondfile.txt"];
+  cf2.FilePath = [[NSURL alloc] initWithString:@"secondfile.txt"];
   cf2.LastCached = [NSDate date];
   
 //  NSLog(@"cf.dict : %@", [cf toDictionary]);
@@ -56,6 +57,7 @@
 
   NSArray<STCodeFile*>* ar2 = [STCodeFile DeserializeList:json error:nil];
   XCTAssert([[ar[0] StatisticalPackage] isEqualToString:@"ABC"]);
+  NSLog(@"[[ar[0] FilePath] path] : %@ ", [[ar[0] FilePath] path]);
   XCTAssert([[[ar[0] FilePath] path] isEqualToString:@"myfile.txt"]);
   XCTAssert([ar[0] LastCached] != nil);
   

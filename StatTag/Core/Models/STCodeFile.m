@@ -210,7 +210,7 @@ the cached results in another tag.
 */
 -(void)SaveBackup:(NSError**)error {
 
-  NSURL *backupFile = [NSURL URLWithString:[NSString stringWithFormat:@"%@.%@", [_FilePath path], [STConstantsFileExtensions Backup]]];
+  NSURL *backupFile = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@.%@", [_FilePath path], [STConstantsFileExtensions Backup]]];
 
   if (![_FileHandler Exists:backupFile error:error])
   {
@@ -231,7 +231,7 @@ the cached results in another tag.
 -(void)setWithDictionary:(NSDictionary*)dict {
   for (NSString* key in dict) {
     if([key isEqualToString:@"FilePath"]) {
-      [self setValue:[NSURL fileURLWithPath:[dict valueForKey:key]] forKey:key];
+      [self setValue:[[NSURL alloc] initWithString:[dict valueForKey:key]] forKey:key];
     } else if([key isEqualToString:@"LastCached"]) {
       [self setValue:[STJSONUtility dateFromString:[dict valueForKey:key]] forKey:key];
       //NSLog(@"LastCached : %@", [self LastCached]);

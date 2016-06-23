@@ -44,7 +44,7 @@ NSMutableArray<STCodeFile*>* DistinctTags;
   //------------------
   // test 1 --------
   cf = [[STCodeFile alloc] init];
-  cf.FilePath = [NSURL URLWithString:@"Test1"];
+  cf.FilePath = [[NSURL alloc] initWithString:@"Test1"];
   cf.Tags = [[NSMutableArray<STTag*> alloc] init];
   
   tag = [[STTag alloc] init];
@@ -59,7 +59,7 @@ NSMutableArray<STCodeFile*>* DistinctTags;
 
   // test 2 --------
   cf = [[STCodeFile alloc] init];
-  cf.FilePath = [NSURL URLWithString:@"Test2"];
+  cf.FilePath = [[NSURL alloc] initWithString:@"Test2"];
   cf.Tags = [[NSMutableArray<STTag*> alloc] init];
   
   tag = [[STTag alloc] init];
@@ -79,7 +79,7 @@ NSMutableArray<STCodeFile*>* DistinctTags;
   //------------------
   // test 1 --------
   cf = [[STCodeFile alloc] init];
-  cf.FilePath = [NSURL URLWithString:@"Test1"];
+  cf.FilePath = [[NSURL alloc] initWithString:@"Test1"];
   cf.Tags = [[NSMutableArray<STTag*> alloc] init];
   
   tag = [[STTag alloc] init];
@@ -98,7 +98,7 @@ NSMutableArray<STCodeFile*>* DistinctTags;
 
   // test 1 --------
   cf = [[STCodeFile alloc] init];
-  cf.FilePath = [NSURL URLWithString:@"Test2"];
+  cf.FilePath = [[NSURL alloc] initWithString:@"Test2"];
   cf.Tags = [[NSMutableArray<STTag*> alloc] init];
   
   tag = [[STTag alloc] init];
@@ -187,7 +187,7 @@ NSMutableArray<STCodeFile*>* DistinctTags;
   tag = [[STTag alloc] init];
   tag.Name = @"Test1";
   STCodeFile* cf = [[STCodeFile alloc] init];
-  cf.FilePath = [NSURL URLWithString:@"NewCodeFile.r"];
+  cf.FilePath = [[NSURL alloc] initWithString:@"NewCodeFile.r"];
   tag.CodeFile = cf;
   tag.CodeFile = [DistinctTags firstObject];
   results = [STTagUtil CheckForDuplicateLabels:tag files:DistinctTags];
@@ -203,7 +203,7 @@ NSMutableArray<STCodeFile*>* DistinctTags;
   tag = [[STTag alloc] init];
   tag.Name = @"test1";  //NOTE: case insensitive "test" (not "T"est)
   cf = [[STCodeFile alloc] init];
-  cf.FilePath = [NSURL URLWithString:@"NewCodeFile.r"];
+  cf.FilePath = [[NSURL alloc] initWithString:@"NewCodeFile.r"];
   results = [STTagUtil CheckForDuplicateLabels:tag files:DistinctTags];
 
   XCTAssert([@"Test1" isEqualToString:[[[[results allKeys] firstObject] FilePath] path]]);
@@ -233,7 +233,7 @@ NSMutableArray<STCodeFile*>* DistinctTags;
   tag = [[STTag alloc] init];
   tag.Name = @"Test1";
   STCodeFile *f = [[STCodeFile alloc] init];
-  f.FilePath = [NSURL fileURLWithPath:@"NewCodeFile.r"];
+  f.FilePath = [[NSURL alloc] initWithString:@"NewCodeFile.r"];
   tag.CodeFile = f;
 
   results = [STTagUtil CheckForDuplicateLabels:tag files:DuplicateTags];
@@ -294,12 +294,12 @@ NSMutableArray<STCodeFile*>* DistinctTags;
   // of the code files, and one that isn't.
   NSMutableDictionary<STCodeFile*, NSArray<NSNumber*>*>* results = [[NSMutableDictionary<STCodeFile*, NSArray<NSNumber*>*> alloc] init];
 
-  [results setObject:[NSArray<NSNumber*> arrayWithObjects:@0, @0, nil] forKey:[STCodeFile codeFileWithFilePath:[NSURL fileURLWithPath:@"Test1.do"]]];
-  [results setObject:[NSArray<NSNumber*> arrayWithObjects:@0, @0, nil] forKey:[STCodeFile codeFileWithFilePath:[NSURL fileURLWithPath:@"Test2.do"]]];
+  [results setObject:[NSArray<NSNumber*> arrayWithObjects:@0, @0, nil] forKey:[STCodeFile codeFileWithFilePath:[[NSURL alloc] initWithString:@"Test1.do"]]];
+  [results setObject:[NSArray<NSNumber*> arrayWithObjects:@0, @0, nil] forKey:[STCodeFile codeFileWithFilePath:[[NSURL alloc] initWithString:@"Test2.do"]]];
 
   STTag* tagInFile = [STTag tagWithName:@"Test" andCodeFile:[[results allKeys] firstObject]];
   STTag* tagNotInFile = [STTag tagWithName:@"Test" andCodeFile:nil];
-  STTag* tagInOtherFile = [STTag tagWithName:@"Test" andCodeFile:[STCodeFile codeFileWithFilePath:[NSURL fileURLWithPath:@"Test3.do"]]];
+  STTag* tagInOtherFile = [STTag tagWithName:@"Test" andCodeFile:[STCodeFile codeFileWithFilePath:[[NSURL alloc] initWithString:@"Test3.do"]]];
   
   // Check our null conditions first
   XCTAssertFalse([STTagUtil IsDuplicateLabelInSameFile:nil result:results]);

@@ -37,7 +37,7 @@
 - (void)testJSONEncoding {
   STCodeFile *f = [[STCodeFile alloc] init];
   f.StatisticalPackage = @"R";
-  f.FilePath = [NSURL fileURLWithPath:@"/Applications/SomePath/somefile.txt"];
+  f.FilePath = [[NSURL alloc] initWithString:@"/Applications/SomePath/somefile.txt"];
   f.LastCached = [NSDate date];
   
   NSLog(@"f: %@", f);
@@ -55,7 +55,7 @@
   for(int i = 0; i < 5; i++) {
     STCodeFile *f = [[STCodeFile alloc] init];
     f.StatisticalPackage = [NSString stringWithFormat:@"R %d", i];
-    f.FilePath = [NSURL fileURLWithPath:[NSString stringWithFormat:@"/Applications/SomePath/somefile___%d.txt", i]];
+    f.FilePath = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"/Applications/SomePath/somefile___%d.txt", i]];
     [files addObject:f];
   }
   
@@ -90,7 +90,7 @@
 
 - (void)testBasicObjectForKey {
   STCodeFile *f = [[STCodeFile alloc] init];
-  f.FilePath = [NSURL fileURLWithPath:@"afile"];
+  f.FilePath = [[NSURL alloc] initWithString:@"afile"];
   
   NSMutableDictionary<STCodeFile*, NSNumber*>* d = [[NSMutableDictionary<STCodeFile*, NSNumber*> alloc] init];
   [d setObject:@1 forKey:f];
