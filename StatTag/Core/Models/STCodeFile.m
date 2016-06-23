@@ -220,19 +220,16 @@ the cached results in another tag.
 
 //MARK: JSON
 //NOTE: go back later and figure out if/how the bulk of this can be centralized in some sort of generic or category (if possible)
-
 -(NSDictionary *)toDictionary {
-  return [NSDictionary dictionaryWithObjectsAndKeys:
-          self.StatisticalPackage, @"StatisticalPackage",
-          [self.FilePath path], @"FilePath",
-          [STJSONUtility convertDateToDateString:self.LastCached], @"LastCached", //format?
-          nil
-          ];
+  NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
+  [dict setValue:[self StatisticalPackage] forKey:@"StatisticalPackage"];
+  [dict setValue:[self.FilePath path] forKey:@"FilePath"];
+  [dict setValue:[STJSONUtility convertDateToDateString:self.LastCached] forKey:@"LastCached"]; //format?
+  return dict;
 }
 
 -(NSString*)SerializeObject:(NSError**)error
 {  
-  //NSJSONWritingPrettyPrinted
   NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[self toDictionary] options:0 error:error];
   NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
   return jsonString;
@@ -241,8 +238,8 @@ the cached results in another tag.
 /**
  Utility method to serialize the list of code files into a JSON array.
  */
-+(NSString*)SerializeList:(NSArray<NSObject<STJSONAble>*>*)files error:(NSError**)outError {
-  return [STJSONUtility SerializeList:files error:nil];
++(NSString*)SerializeList:(NSArray<NSObject<STJSONAble>*>*)list error:(NSError**)outError {
+  return [STJSONUtility SerializeList:list error:nil];
 }
 
 -(void)setWithDictionary:(NSDictionary*)dict {
@@ -305,7 +302,7 @@ the cached results in another tag.
   if ([values isKindOfClass:[NSArray class]] && error == nil) {
     for(id d in values) {
       if([d isKindOfClass:[NSDictionary class]]){
-      STCodeFile *file = [[STCodeFile alloc] initWithDictionary:d];
+      STCodeFile *file = [[[self class] alloc] initWithDictionary:d];
         if(file != nil) {
           [list addObject:file];
         }

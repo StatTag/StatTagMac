@@ -105,6 +105,7 @@
 -(NSDictionary *)toDictionary {
   NSMutableDictionary* dict = [[NSMutableDictionary alloc] initWithDictionary:[super toDictionary]];
   [dict setObject:_TableCellIndex forKey:@"TableCellIndex"];
+  [dict setObject:[[self CodeFilePath] path] forKey:@"CodeFilePath"];
   return dict;
 }
 

@@ -74,11 +74,12 @@
 
 //MARK: JSON
 -(NSDictionary *)toDictionary;
--(NSString*)SerializeObject:(NSError**)error;
+-(NSString*)Serialize;
+//-(NSString*)SerializeObject:(NSError**)error;
 -(instancetype)initWithDictionary:(NSDictionary*)dict;
 -(instancetype)initWithJSONString:(NSString*)JSONString error:(NSError**)error;
 -(void)setWithDictionary:(NSDictionary*)dict;
--(NSString*)Serialize;
+
 /**
  Create a new Tag object given a JSON string
  */

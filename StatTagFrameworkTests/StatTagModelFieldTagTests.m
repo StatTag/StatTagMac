@@ -144,12 +144,56 @@
   tag.CachedResult = crList;
   
   NSError* error;
-  NSString* serialized = [tag SerializeObject:&error];
+  NSString* serialized = [tag Serialize];
   
   STFieldTag* recreatedTag = [STFieldTag Deserialize:serialized error:&error];
 
+  //NSLog(@"serialized : %@", serialized);
+  //NSLog(@"recreatedTag : %@", recreatedTag);
+
+  NSLog(@"tag : %@", tag);
+  NSLog(@"tag Name : %@", [tag Name]);
+  NSLog(@"tag FormattedResult : %@", [tag FormattedResult]);
+  NSLog(@"tag RunFrequency : %@", [tag RunFrequency]);
+  NSLog(@"tag CodeFilePath path : %@", [[tag CodeFilePath] path]);
+  NSLog(@"tag dictionary: %@", [tag toDictionary]);
+  NSLog(@"tag id: %@", [tag Id]);
+  
+  //Id should be --Test.do
+
+  NSLog(@"recreatedTag : %@", recreatedTag);
+  NSLog(@"recreatedTag Name : %@", [recreatedTag Name]);
+  NSLog(@"recreatedTag FormattedResult : %@", [recreatedTag FormattedResult]);
+  NSLog(@"recreatedTag RunFrequency : %@", [recreatedTag RunFrequency]);
+  NSLog(@"recreatedTag CodeFilePath path : %@", [[recreatedTag CodeFilePath] path]);
+
+  
+  // Assert.AreEqual(tag.FigureFormat, recreatedTag.FigureFormat);
+  // how can we test equality? or are they both supposed to be nil?
+  // in obj-c, any [nil isEqual: nil] comparison will fail
+  // http://stackoverflow.com/questions/5914845/sending-isequal-to-nil-always-returns-no
+  XCTAssert([[tag FigureFormat] isEqual:[recreatedTag FigureFormat]]);//nil so they won't match
+  XCTAssert([[tag FormattedResult] isEqual:[recreatedTag FormattedResult]]);
+  XCTAssertEqual([[tag LineEnd] integerValue], [[recreatedTag LineEnd] integerValue]);
+  XCTAssertEqual([[tag LineStart] integerValue], [[recreatedTag LineStart] integerValue]);
+  
+  //how are these matching if tag.Name is (nil) and the rormalized recreatedTag.Name is ""?
+  XCTAssert([[tag Name] isEqualToString:[recreatedTag Name]]);
+  XCTAssert([[tag RunFrequency] isEqualToString:[recreatedTag RunFrequency]]);
+  XCTAssert([[tag Type] isEqual:[recreatedTag Type]]);
+  
+  // how can we test equality? or are they both supposed to be nil?
+  XCTAssert([[tag ValueFormat] isEqual:[recreatedTag ValueFormat]]);
+  XCTAssert([[tag TableFormat] isEqual:[recreatedTag TableFormat]]);
+  XCTAssert([[tag FigureFormat] isEqual:[recreatedTag FigureFormat]]); //duplicate test
+
+  XCTAssertEqual([[tag TableCellIndex] integerValue], [[recreatedTag TableCellIndex] integerValue]);
+  // The recreated tag doesn't truly recreate the code file object.  We attempt to restore it the best we can with the file path.
+
+  XCTAssert([[[tag CodeFilePath] path] isEqual:[[[recreatedTag CodeFile] FilePath] path]]);
+  XCTAssert([[[tag CodeFilePath] path] isEqual:[[recreatedTag CodeFilePath] path]]);
+  
   /*
-  Assert.AreEqual(tag.FigureFormat, recreatedTag.FigureFormat);
   Assert.AreEqual(tag.FormattedResult, recreatedTag.FormattedResult);
   Assert.AreEqual(tag.LineEnd, recreatedTag.LineEnd);
   Assert.AreEqual(tag.LineStart, recreatedTag.LineStart);

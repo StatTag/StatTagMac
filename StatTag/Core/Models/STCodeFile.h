@@ -19,7 +19,7 @@
  in a statistical package (e.g. Stata, R, SAS), and will be used within
  a Word document to derive values that are placed into the document text.
 */
-@interface STCodeFile : NSObject <STJSONAble, NSCopying> {
+@interface STCodeFile : NSObject <NSCopying, STJSONAble> {
 //  NSMutableArray<NSString *> *ContentCache;
   NSString* _StatisticalPackage;
   NSURL* _FilePath;
@@ -80,7 +80,7 @@
 /**
  Utility method to serialize the list of code files into a JSON array.
  */
-+(NSString*)SerializeList:(NSArray<STCodeFile*>*) files error:(NSError**)error;
++(NSString*)SerializeList:(NSArray<STCodeFile*>*)list error:(NSError**)error;
 /**
  Utility method to take a JSON array string and convert it back into a list of
  CodeFile objects.  This does not resolve the list of tags that may be
