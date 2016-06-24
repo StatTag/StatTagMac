@@ -42,7 +42,6 @@
 
 
 //MARK: JSON
-//NOTE: go back later and figure out if/how the bulk of this can be centralized in some sort of generic or category (if possible)
 -(NSDictionary *)toDictionary {
   NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
   [dict setValue:[self ValueResult] forKey:@"ValueResult"];
@@ -73,7 +72,7 @@
   return [STJSONUtility SerializeList:list error:nil];
 }
 
-+(NSArray<STCommandResult*>*)DeserializeList:(NSString*)List error:(NSError**)outError
++(NSArray<STCommandResult*>*)DeserializeList:(id)List error:(NSError**)outError
 {
   NSMutableArray<STCommandResult*>* ar = [[NSMutableArray<STCommandResult*> alloc] init];
   for(id x in [STJSONUtility DeserializeList:List forClass:[self class] error:nil]) {

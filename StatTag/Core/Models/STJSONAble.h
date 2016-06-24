@@ -19,7 +19,7 @@
 
 @optional
 +(NSString*)SerializeList:(NSArray<NSObject*>*) files error:(NSError**)error;
-+(NSArray<NSObject*>*)DeserializeList:(NSString*)List error:(NSError**)error;
++(NSArray<NSObject*>*)DeserializeList:(id)List error:(NSError**)error;
 
 @end
   

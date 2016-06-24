@@ -18,6 +18,8 @@
 + (NSString*)SerializeList:(NSArray<NSObject<STJSONAble>*>*)files error:(NSError**)outError;
 
 
-+(NSArray<NSObject<STJSONAble>*>*)DeserializeList:(NSString*)List forClass:(id)c error:(NSError**)outError;
++(NSArray<NSObject<STJSONAble>*>*)DeserializeList:(id)List forClass:(id)c error:(NSError**)outError;
+//+(NSArray<NSObject<STJSONAble>*>*)DeserializeList:(NSString*)List forClass:(id)c error:(NSError**)outError;
+//+(NSArray<NSObject<STJSONAble>*>*)DeserializeListFromDictionaryArray:(NSArray<NSDictionary*>*)List forClass:(id)c error:(NSError**)outError;
 
 @end

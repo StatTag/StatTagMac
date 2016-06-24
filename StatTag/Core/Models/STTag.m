@@ -121,18 +121,9 @@
 
 //MARK: JSON methods
 
-//NOTE: go back later and figure out if/how the bulk of this can be centralized in some sort of generic or category (if possible)
-
 -(NSDictionary *)toDictionary {
   
-  //FIXME: figure out what's going on here... put the list serialization inside of the commandresult(list) class
-  NSMutableArray<NSString*>* cr = [[NSMutableArray<NSString*> alloc] init];
-  for(STCommandResult* r in _CachedResult) {
-    NSLog(@"r: %@", r);
-    [cr addObject:[r ToString]];
-  }
-  NSLog(@"cr: %@", cr);
-
+  NSError* error;
   
   NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
   [dict setValue:_Type forKey:@"Type"];
@@ -148,46 +139,21 @@
     [dict setObject:_TableFormat forKey:@"TableFormat"];
   }
   if(_CachedResult != nil) {
-    [dict setObject:_CachedResult forKey:@"CachedResult"];
+    [dict setObject:[[self class]SerializeList:_CachedResult error:&error] forKey:@"CachedResult"];
   }
   [dict setValue:_LineStart forKey:@"LineStart"];
   [dict setValue:_LineEnd forKey:@"LineEnd"];
   [dict setValue:[self Id] forKey:@"Id"];
   [dict setValue:[self FormattedResult] forKey:@"FormattedResult"];
   
-//  NSDictionary* dict = [NSDictionary dictionaryWithObjectsAndKeys:
-//          //_CodeFile, @"CodeFile",
-//          _Type, @"Type",
-//          [STTag NormalizeName:_Name], @"Name",
-//          _RunFrequency, @"RunFrequency",
-//          _ValueFormat, @"ValueFormat",
-//          _FigureFormat, @"FigureFormat",
-//          _TableFormat, @"TableFormat",
-//          _CachedResult, @"CachedResult",
-//          _LineStart, @"LineStart",
-//          _LineEnd, @"LineEnd",
-//          [self Id], @"Id",
-//          [self FormattedResult], @"FormattedResult",
-//          nil
-//          ];
-  
-  NSLog(@"RunFrequency: %@", _RunFrequency);
-  NSLog(@"dict: %@", dict);
-  
   return dict;
   
 }
 
-//-(NSString*)SerializeObject:(NSError**)error
-//{
-//  //NSJSONWritingPrettyPrinted
-//  NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[self toDictionary] options:0 error:error];
-//  NSLog(@"[self toDictionary] : %@", [self toDictionary] );
-//  NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-//  return jsonString;
-//}
-
 -(void)setWithDictionary:(NSDictionary*)dict {
+  
+  NSError* error;
+  
   for (NSString* key in dict) {
     if([key isEqualToString:@"CodeFile"]) {
       //NSLog(@"STTag - attempting to recover CodeFile with value %@", [dict valueForKey:key]);
@@ -202,10 +168,55 @@
     } else if([key isEqualToString:@"CodeFilePath"]) {
       //NSLog(@"STTag - attempting to recover normalized Name with value %@, normalized value: %@", [dict valueForKey:key], [STTag NormalizeName:[dict valueForKey:key]]);
       [self setValue:[[NSURL alloc] initWithString:[dict valueForKey:key]] forKey:key];
+    } else if([key isEqualToString:@"CachedResult"]) {
+      [self setValue:[[self class] Deserialize:[dict valueForKey:key] error:&error] forKey:key];
     } else {
       [self setValue:[dict valueForKey:key] forKey:key];
     }
   }
+  
+  self.Name = [[self class] NormalizeName:[self Name]];
+
+}
+
+/**
+ Serialize the current object, excluding circular elements like CodeFile
+ */
+-(NSString*)Serialize:(NSError**)error
+{
+  _Name = [[self class] NormalizeName:[self Name]];
+  return [STJSONUtility SerializeObject:self error:nil];
+}
+
+/**
+ Create a new Tag object given a JSON string
+ */
++(instancetype)Deserialize:(NSString*)json error:(NSError**)outError
+{
+  //moved to dictionary setup for consistency - that method is called from all deserializers
+  //leaving this here so it's clear why we deviate from the c#
+  //NSError* error;
+  //STTag* tag = [[[self class] alloc] initWithJSONString:json error:&error];
+  //tag.Name = [[self class] NormalizeName:[tag Name]];
+  //return tag;
+  NSError* error;
+  return [[[self class] alloc] initWithJSONString:json error:&error];
+}
+
++(NSString*)SerializeList:(NSArray<NSObject<STJSONAble>*>*)list error:(NSError**)outError {
+  return [STJSONUtility SerializeList:list error:nil];
+}
+
++(NSArray<STTag*>*)DeserializeList:(id)List error:(NSError**)outError
+{
+  NSMutableArray<STTag*>* ar = [[NSMutableArray<STTag*> alloc] init];
+  for(id x in [STJSONUtility DeserializeList:List forClass:[self class] error:nil]) {
+    if([x isKindOfClass:[self class]])
+    {
+      [ar addObject:x];
+    }
+  }
+  return ar;
 }
 
 -(instancetype)initWithDictionary:(NSDictionary*)dict
@@ -240,25 +251,7 @@
 }
 
 
-/**
- Serialize the current object, excluding circular elements like CodeFile
-*/
--(NSString*)Serialize:(NSError**)error
-{
-  _Name = [[self class] NormalizeName:[self Name]];
-  return [STJSONUtility SerializeObject:self error:nil];
-}
 
-/**
- Create a new Tag object given a JSON string
-*/
-+(instancetype)Deserialize:(NSString*)json error:(NSError**)outError
-{
-  NSError* error;
-  STTag* tag = [[[self class] alloc] initWithJSONString:json error:&error];
-  tag.Name = [[self class] NormalizeName:[tag Name]];
-  return tag;
-}
 
 
 

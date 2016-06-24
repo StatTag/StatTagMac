@@ -258,7 +258,8 @@ the cached results in another tag.
  CodeFile objects.  This does not resolve the list of tags that may be
  associated with the CodeFile.
  */
-+(NSArray<STCodeFile*>*)DeserializeList:(NSString*)List error:(NSError**)outError
+//+(NSArray<STCodeFile*>*)DeserializeList:(NSString*)List error:(NSError**)outError
++(NSArray<STCodeFile*>*)DeserializeList:(id)List error:(NSError**)outError
 {
   NSMutableArray<STCodeFile*>* ar = [[NSMutableArray<STCodeFile*> alloc] init];
   for(id x in [STJSONUtility DeserializeList:List forClass:[self class] error:nil]) {

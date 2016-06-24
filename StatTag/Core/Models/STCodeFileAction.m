@@ -42,13 +42,13 @@
 
 -(void)setWithDictionary:(NSDictionary*)dict {
   for (NSString* key in dict) {
-//    if([key isEqualToString:@"FilePath"]) {
-//      [self setValue:[[NSURL alloc] initWithString:[dict valueForKey:key]] forKey:key];
-//    } else if([key isEqualToString:@"LastCached"]) {
-//      [self setValue:[STJSONUtility dateFromString:[dict valueForKey:key]] forKey:key];
-//    } else {
+    if([key isEqualToString:@"Parameter"]) {
+      //explicitly calling this out because it's currently unclear how we should handle reconstructing this one
+      //ex: is this a model object? is this a primitive type?
       [self setValue:[dict valueForKey:key] forKey:key];
-//    }
+    } else {
+      [self setValue:[dict valueForKey:key] forKey:key];
+    }
   }
 }
 
@@ -61,7 +61,7 @@
   return [STJSONUtility SerializeList:list error:nil];
 }
 
-+(NSArray<STCodeFileAction*>*)DeserializeList:(NSString*)List error:(NSError**)outError
++(NSArray<STCodeFileAction*>*)DeserializeList:(id)List error:(NSError**)outError
 {
   NSMutableArray<STCodeFileAction*>* ar = [[NSMutableArray<STCodeFileAction*> alloc] init];
   for(id x in [STJSONUtility DeserializeList:List forClass:[self class] error:nil]) {

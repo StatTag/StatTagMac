@@ -13,27 +13,7 @@
 
 @implementation STJSONUtility
 
-
-+(NSArray<NSObject<STJSONAble>*>*)DeserializeList:(NSString*)List forClass:(id)c error:(NSError**)outError
-{
-  NSMutableArray *list = [[NSMutableArray<NSObject<STJSONAble>*> alloc] init];
-  
-  NSData *jsonData = [List dataUsingEncoding:NSUTF8StringEncoding];
-  NSError *error = nil;
-  NSArray *values = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
-  if ([values isKindOfClass:[NSArray class]] && error == nil) {
-    for(id d in values) {
-      if([d isKindOfClass:[NSDictionary class]]){
-        id file = [[[c class] alloc] initWithDictionary:d];
-        if(file != nil) {
-          [list addObject:file];
-        }
-      }
-    }
-  }
-  return list;
-}
-
+//MARK: date handling
 
 + (NSDate*)dateFromString:(NSString*)dateString {
   
@@ -128,7 +108,7 @@
     }
   }
 
-  //last-ditch...milliseconds since 1970
+  //last-ditch...milliseconds since 1970 - since that's more of a universal json thing
   NSNumber* n = [NSNumber numberWithDouble:[dateString doubleValue]];
   if(n) {
     NSDate* aDate = [NSDate dateWithTimeIntervalSince1970:[n doubleValue]];
@@ -154,6 +134,8 @@
   return dateString;
 }
 
+//MARK: object serialization helpers
+
 +(NSString*)SerializeObject:(NSObject<STJSONAble>*)object error:(NSError**)outError
 {
   NSError* error;
@@ -162,6 +144,7 @@
   return jsonString;
 }
 
+//MARK: list serialization helpers
 
 /**
  Utility method to serialize the list of code files into a JSON array.
@@ -201,6 +184,59 @@
   return nil;
 }
 
+
+
+//+(NSArray<NSObject<STJSONAble>*>*)DeserializeList:(NSString*)List forClass:(id)c error:(NSError**)outError
++(NSArray<NSObject<STJSONAble>*>*)DeserializeList:(id)List forClass:(id)c error:(NSError**)outError
+{
+  NSError *error = nil;
+  NSMutableArray *list = [[NSMutableArray<NSObject<STJSONAble>*> alloc] init];
+  NSMutableArray *values = [[NSMutableArray alloc] init];
+  
+  if([List isKindOfClass:[NSString class]] ) {
+    //we might have a single json string
+    NSData *jsonData = [List dataUsingEncoding:NSUTF8StringEncoding];
+    values = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
+  } else if ([List isKindOfClass:[NSArray class]]) {
+    for(id d in List) {
+      if([d isKindOfClass:[NSDictionary class]]){
+        //we might have an array of dictionaries
+        [values addObject:d];
+      }
+      if([d isKindOfClass:[NSString class]]){
+        //we might have an array of json strings
+        NSData *jsonData = [List dataUsingEncoding:NSUTF8StringEncoding];
+        NSMutableArray *objs = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
+        [values addObjectsFromArray:objs];
+      }
+    }
+  }
+  
+  if ([values isKindOfClass:[NSArray class]] && error == nil) {
+    for(id d in values) {
+      if([d isKindOfClass:[NSDictionary class]]){
+        id file = [[[c class] alloc] initWithDictionary:d];
+        if(file != nil) {
+          [list addObject:file];
+        }
+      }
+    }
+  }
+
+  return list;
+}
+
++(NSArray<NSObject<STJSONAble>*>*)DeserializeListFromDictionaryArray:(NSArray<NSDictionary*>*)List forClass:(id)c error:(NSError**)outError
+{
+  NSMutableArray *list = [[NSMutableArray<NSObject<STJSONAble>*> alloc] init];
+  for(NSDictionary* d in List) {
+    id file = [[[c class] alloc] initWithDictionary:d];
+    if(file != nil) {
+      [list addObject:file];
+    }
+  }
+  return list;
+}
 
 
 

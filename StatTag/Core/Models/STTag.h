@@ -84,6 +84,7 @@
  Create a new Tag object given a JSON string
  */
 +(instancetype)Deserialize:(NSString*)json error:(NSError**)outError;
++(NSArray<STTag*>*)DeserializeList:(id)List error:(NSError**)outError;
 
 
 //MARK: descriptions

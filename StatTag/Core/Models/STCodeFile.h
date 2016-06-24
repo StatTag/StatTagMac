@@ -87,7 +87,8 @@
  CodeFile objects.  This does not resolve the list of tags that may be
  associated with the CodeFile.
  */
-+(NSArray<STCodeFile*>*)DeserializeList:(NSString*)List error:(NSError**)error;
+//+(NSArray<STCodeFile*>*)DeserializeList:(NSString*)List error:(NSError**)error;
++(NSArray<STCodeFile*>*)DeserializeList:(id)List error:(NSError**)error;
 
 
 //MARK: other

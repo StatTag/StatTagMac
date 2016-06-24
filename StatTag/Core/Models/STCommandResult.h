@@ -28,7 +28,7 @@
 -(NSDictionary *)toDictionary;
 -(NSString*)Serialize:(NSError**)error;
 +(NSString*)SerializeList:(NSArray<STCommandResult*>*)list error:(NSError**)error;
-+(NSArray<STCommandResult*>*)DeserializeList:(NSString*)List error:(NSError**)error;
++(NSArray<STCommandResult*>*)DeserializeList:(id)List error:(NSError**)error;
 -(instancetype)initWithDictionary:(NSDictionary*)dict;
 -(instancetype)initWithJSONString:(NSString*)JSONString error:(NSError**)error;
 
