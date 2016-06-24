@@ -126,24 +126,31 @@
   NSError* error;
   
   NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
+  //note: codefile is flagged as "jsonignore"
   [dict setValue:_Type forKey:@"Type"];
   [dict setValue:[STTag NormalizeName:_Name] forKey:@"Name"];
   [dict setValue:_RunFrequency forKey:@"RunFrequency"];
   if(_ValueFormat != nil) {
-    [dict setObject:_ValueFormat forKey:@"ValueFormat"];
+    [dict setObject:[_ValueFormat toDictionary] forKey:@"ValueFormat"];
   }
   if(_FigureFormat != nil) {
-    [dict setObject:_FigureFormat forKey:@"FigureFormat"];
+    [dict setObject:[_FigureFormat toDictionary] forKey:@"FigureFormat"];
   }
   if(_TableFormat != nil) {
-    [dict setObject:_TableFormat forKey:@"TableFormat"];
+    [dict setObject:[_TableFormat toDictionary] forKey:@"TableFormat"];
   }
   if(_CachedResult != nil) {
-    [dict setObject:[[self class]SerializeList:_CachedResult error:&error] forKey:@"CachedResult"];
+    //go back and look at this - shouldn't be serializelist
+    NSMutableArray<NSDictionary*>* a = [[NSMutableArray<NSDictionary*> alloc] init];
+    for (STCommandResult* c in _CachedResult) {
+      [a addObject:[c toDictionary]];
+    }
+    [dict setObject:a forKey:@"CachedResult"];
+    //[dict setObject:[[self class]SerializeList:_CachedResult error:&error] forKey:@"CachedResult"];
   }
   [dict setValue:_LineStart forKey:@"LineStart"];
   [dict setValue:_LineEnd forKey:@"LineEnd"];
-  [dict setValue:[self Id] forKey:@"Id"];
+  [dict setValue:[self Id] forKey:@"Id"]; //this is a read only item
   [dict setValue:[self FormattedResult] forKey:@"FormattedResult"];
   
   return dict;
@@ -155,7 +162,9 @@
   NSError* error;
   
   for (NSString* key in dict) {
-    if([key isEqualToString:@"CodeFile"]) {
+    if([key isEqualToString:@"Id"]) {
+      //skip the read-only properties
+    } else if([key isEqualToString:@"CodeFile"]) {
       //NSLog(@"STTag - attempting to recover CodeFile with value %@", [dict valueForKey:key]);
       id aValue = [dict valueForKey:key];
       NSDictionary *objDict = aValue;
@@ -165,11 +174,9 @@
     } else if([key isEqualToString:@"Name"]) {
       //NSLog(@"STTag - attempting to recover normalized Name with value %@, normalized value: %@", [dict valueForKey:key], [STTag NormalizeName:[dict valueForKey:key]]);
       [self setValue:[[self class] NormalizeName:[dict valueForKey:key]] forKey:key];
-    } else if([key isEqualToString:@"CodeFilePath"]) {
-      //NSLog(@"STTag - attempting to recover normalized Name with value %@, normalized value: %@", [dict valueForKey:key], [STTag NormalizeName:[dict valueForKey:key]]);
-      [self setValue:[[NSURL alloc] initWithString:[dict valueForKey:key]] forKey:key];
     } else if([key isEqualToString:@"CachedResult"]) {
-      [self setValue:[[self class] Deserialize:[dict valueForKey:key] error:&error] forKey:key];
+      //[self setValue:[[self class] Deserialize:[dict valueForKey:key] error:&error] forKey:key];
+      [self setValue:[STCommandResult DeserializeList:[dict valueForKey:key] error:&error] forKey:key];
     } else {
       [self setValue:[dict valueForKey:key] forKey:key];
     }

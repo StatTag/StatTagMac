@@ -46,7 +46,7 @@
   NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
   [dict setValue:[self ValueResult] forKey:@"ValueResult"];
   [dict setValue:[self FigureResult] forKey:@"FigureResult"];
-  [dict setValue:[NSNumber numberWithBool:[self IsEmpty]] forKey:@"IsEmpty"];
+  [dict setValue:@([[NSNumber numberWithBool:[self IsEmpty]] boolValue]) forKey:@"IsEmpty"];
   if([self TableResult] != nil){
     [dict setObject:[[self TableResult] toDictionary] forKey:@"TableResult"]; //this might be a problem
   }
@@ -55,7 +55,9 @@
 
 -(void)setWithDictionary:(NSDictionary*)dict {
   for (NSString* key in dict) {
-    if([key isEqualToString:@"TableResult"]) {
+    if([key isEqualToString:@"IsEmpty"]) {
+      //skip
+    } else if([key isEqualToString:@"TableResult"]) {
       [self setValue:[[STTable alloc] initWithDictionary:[dict valueForKey:key]] forKey:key];
     } else {
       [self setValue:[dict valueForKey:key] forKey:key];

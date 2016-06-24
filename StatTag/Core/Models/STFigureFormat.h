@@ -7,7 +7,19 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "STJSONable.h"
 
-@interface STFigureFormat : NSObject <NSCopying>
+
+@interface STFigureFormat : NSObject <NSCopying, STJSONAble>
+
+
+//MARK: JSON
+-(NSDictionary *)toDictionary;
+-(NSString*)Serialize:(NSError**)error;
++(NSString*)SerializeList:(NSArray<STFigureFormat*>*)list error:(NSError**)error;
++(NSArray<STFigureFormat*>*)DeserializeList:(NSString*)List error:(NSError**)error;
+-(instancetype)initWithDictionary:(NSDictionary*)dict;
+-(instancetype)initWithJSONString:(NSString*)JSONString error:(NSError**)error;
+
 
 @end

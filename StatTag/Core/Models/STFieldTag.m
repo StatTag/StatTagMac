@@ -98,79 +98,6 @@
 }
 
 
-//MARK: JSON methods
-
-//NOTE: go back later and figure out if/how the bulk of this can be centralized in some sort of generic or category (if possible)
-
--(NSDictionary *)toDictionary {
-  NSMutableDictionary* dict = [[NSMutableDictionary alloc] initWithDictionary:[super toDictionary]];
-  [dict setObject:_TableCellIndex forKey:@"TableCellIndex"];
-  [dict setObject:[[self CodeFilePath] path] forKey:@"CodeFilePath"];
-  return dict;
-}
-
-//-(void)setWithDictionary:(NSDictionary*)dict {
-//  for (NSString* key in dict) {
-//    if([key isEqualToString:@"CodeFile"]) {
-//      NSLog(@"STTag - attempting to recover CodeFile with value %@", [dict valueForKey:key]);
-//      id aValue = [dict valueForKey:key];
-//      NSDictionary *objDict = aValue;
-//      if(objDict != nil) {
-//        [self setValue:[[STCodeFile alloc] initWithDictionary:objDict] forKey:key];
-//      }
-//    } else if([key isEqualToString:@"Name"]) {
-//      NSLog(@"STTag - attempting to recover normalized Name with value %@, normalized value: %@", [dict valueForKey:key], [STTag NormalizeName:[dict valueForKey:key]]);
-//      [self setValue:[STTag NormalizeName:[dict valueForKey:key]] forKey:key];
-//    } else {
-//      [self setValue:[dict valueForKey:key] forKey:key];
-//    }
-//  }
-//}
-//
-//-(instancetype)initWithDictionary:(NSDictionary*)dict
-//{
-//  self = [super init];
-//  if (self) {
-//    [self setWithDictionary:dict];
-//  }
-//  return self;
-//}
-//
-//-(instancetype)initWithJSONString:(NSString*)JSONString error:(NSError**)outError
-//{
-//  self = [super init];
-//  if (self) {
-//    
-//    NSError *error = nil;
-//    NSData *JSONData = [JSONString dataUsingEncoding:NSUTF8StringEncoding];
-//    NSDictionary *JSONDictionary = [NSJSONSerialization JSONObjectWithData:JSONData options:0 error:&error];
-//    
-//    if (!error && JSONDictionary) {
-//      [super setWithDictionary:JSONDictionary];
-//    } else {
-//      if (outError) {
-//        *outError = [NSError errorWithDomain:STStatTagErrorDomain
-//                                        code:[error code]
-//                                    userInfo:@{NSUnderlyingErrorKey: error}];
-//      }
-//    }
-//    
-//  }
-//
-//  return self;
-//}
-
-/**
- Create a new Tag object given a JSON string
- */
--(instancetype)initWithJSONString:(NSString*)JSONString andfiles:(NSArray<STCodeFile*>*)files error:(NSError**)outError {
-  self = [[STFieldTag alloc] initWithJSONString:JSONString error:nil];
-  if(self){
-    [STFieldTag LinkToCodeFile:self CodeFile:files];
-  }
-  return self;
-}
-
 /**
  Provide a link to a FieldTag from a list of CodeFile objects
  */
@@ -191,18 +118,6 @@
   }
 }
 
-/**
- Create a new Tag object given a JSON string
- */
-+(instancetype)Deserialize:(NSString*)json withFiles:(NSArray<STCodeFile*>*)files error:(NSError**)outError
-{
-  NSError* error;
-  STFieldTag* tag = (STFieldTag*)[super Deserialize:json error:&error];
-  //tag.Name = [[self class] NormalizeName:[tag Name]]; //should be in the parent
-  [[self class] LinkToCodeFile:tag CodeFile:files];
-  return tag;
-}
-
 
 /**
  Utility function called when a FieldTag is created from an existing tag and
@@ -221,6 +136,74 @@
     }
   }
 }
+
+
+
+//MARK: JSON methods
+
+//NOTE: go back later and figure out if/how the bulk of this can be centralized in some sort of generic or category (if possible)
+
+-(NSDictionary *)toDictionary {
+  NSMutableDictionary* dict = [[NSMutableDictionary alloc] initWithDictionary:[super toDictionary]];
+  [dict setObject:_TableCellIndex forKey:@"TableCellIndex"];
+  [dict setObject:[[self CodeFilePath] path] forKey:@"CodeFilePath"];
+  return dict;
+}
+
+
+/**
+ Create a new Tag object given a JSON string
+ */
+-(instancetype)initWithJSONString:(NSString*)JSONString andfiles:(NSArray<STCodeFile*>*)files error:(NSError**)outError {
+  self = [[STFieldTag alloc] initWithJSONString:JSONString error:nil];
+  if(self){
+    [STFieldTag LinkToCodeFile:self CodeFile:files];
+  }
+  return self;
+}
+
+-(void)setWithDictionary:(NSDictionary*)dict {
+  [super setWithDictionary:dict];
+//  for (NSString* key in dict) {
+//    if([key isEqualToString:@"FilePath"]) {
+//      [dict setObject:_TableCellIndex forKey:@"TableCellIndex"];
+//    } else if([key isEqualToString:@"LastCached"]) {
+//      [dict setObject:[[self CodeFilePath] path] forKey:@"CodeFilePath"];
+//    }
+//  }
+  
+  for (NSString* key in dict) {
+//    if([key isEqualToString:@"CodeFile"]) {
+//      //NSLog(@"STTag - attempting to recover CodeFile with value %@", [dict valueForKey:key]);
+//      id aValue = [dict valueForKey:key];
+//      NSDictionary *objDict = aValue;
+//      if(objDict != nil) {
+//        [self setValue:[[STCodeFile alloc] initWithDictionary:objDict] forKey:key];
+//      }
+//    } else
+    if([key isEqualToString:@"CodeFilePath"]) {
+      [self setValue:[[NSURL alloc] initWithString:[dict valueForKey:key]] forKey:key];
+    //} else if([key isEqualToString:@"TableCellIndex"]) {
+    //  [self setValue:[dict valueForKey:key] forKey:key];
+    }
+  }
+
+  
+}
+
+
+/**
+ Create a new Tag object given a JSON string
+ */
++(instancetype)Deserialize:(NSString*)json withFiles:(NSArray<STCodeFile*>*)files error:(NSError**)outError
+{
+  NSError* error;
+  STFieldTag* tag = (STFieldTag*)[super Deserialize:json error:&error];
+  //tag.Name = [[self class] NormalizeName:[tag Name]]; //should be in the parent
+  [[self class] LinkToCodeFile:tag CodeFile:files];
+  return tag;
+}
+
 
 
 @end

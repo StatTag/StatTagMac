@@ -7,10 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "STJSONable.h"
 
 @protocol STIValueFormatter;
 
-@interface STValueFormat : NSObject <NSCopying> {
+@interface STValueFormat : NSObject <NSCopying, STJSONAble> {
   NSString* _FormatType;
   int _DecimalPlaces;
   BOOL _UseThousands;
@@ -44,6 +45,17 @@
  @param count: The number of times to repeat the value
  */
 +(NSString*)Repeat:(NSString*)value count:(int)count;
+
+
+
+//MARK: JSON
+-(NSDictionary *)toDictionary;
+-(NSString*)Serialize:(NSError**)error;
++(NSString*)SerializeList:(NSArray<STValueFormat*>*)list error:(NSError**)error;
++(NSArray<STValueFormat*>*)DeserializeList:(NSString*)List error:(NSError**)error;
+-(instancetype)initWithDictionary:(NSDictionary*)dict;
+-(instancetype)initWithJSONString:(NSString*)JSONString error:(NSError**)error;
+
 
 
 @end

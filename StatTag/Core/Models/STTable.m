@@ -49,13 +49,13 @@
   return (_Data == nil || [_Data count] == 0 || _RowSize == 0 || _ColumnSize == 0);
 }
 
-//-(NSString*)ToString {
-//  //FIXME: the original code makes use of ToString in places, but it's not clear how the default implementation works
-//  return @"";
-//}
-//-(NSString*)description {
-//  return [self ToString];
-//}
+-(NSString*)ToString {
+  //FIXME: the original code makes use of ToString in places, but it's not clear how the default implementation works (STTableFormat)
+  return @"";
+}
+-(NSString*)description {
+  return [self ToString];
+}
 
 
 

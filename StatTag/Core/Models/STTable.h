@@ -36,7 +36,7 @@
 -(id)init:(NSArray <NSString *>*)rowNames columnNames:(NSArray <NSString *>*)columnNames rowSize:(int)rowSize columnSize:(int)columnSize data:(NSArray <NSNumber *>*)data;
 
 -(BOOL)isEmpty;
--(NSString*)ToString;
+-(NSString*)ToString; //used by STTableFormat
 
 
 
