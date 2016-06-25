@@ -130,7 +130,7 @@
   [dict setValue:_Type forKey:@"Type"];
   [dict setValue:[STTag NormalizeName:_Name] forKey:@"Name"];
   [dict setValue:_RunFrequency forKey:@"RunFrequency"];
-  if(_ValueFormat != nil) {
+  if(_ValueFormat != nil ) { //&& [_ValueFormat respondsToSelector:@selector(toDictionary)]
     [dict setObject:[_ValueFormat toDictionary] forKey:@"ValueFormat"];
   }
   if(_FigureFormat != nil) {
@@ -177,6 +177,12 @@
     } else if([key isEqualToString:@"CachedResult"]) {
       //[self setValue:[[self class] Deserialize:[dict valueForKey:key] error:&error] forKey:key];
       [self setValue:[STCommandResult DeserializeList:[dict valueForKey:key] error:&error] forKey:key];
+    } else if([key isEqualToString:@"FigureFormat"]) {
+      [self setValue:[[STFigureFormat alloc] initWithDictionary:[dict valueForKey:key]] forKey:key];
+    } else if([key isEqualToString:@"ValueFormat"]) {
+      [self setValue:[[STValueFormat alloc] initWithDictionary:[dict valueForKey:key]] forKey:key];
+    } else if([key isEqualToString:@"TableFormat"]) {
+      [self setValue:[[STTableFormat alloc] initWithDictionary:[dict valueForKey:key]] forKey:key];
     } else {
       [self setValue:[dict valueForKey:key] forKey:key];
     }

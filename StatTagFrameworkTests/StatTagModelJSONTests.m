@@ -167,6 +167,7 @@
   //-----------------
   //Tag
   //-----------------
+  // #1
   tg1 = [[STTag alloc] init];
   tg1.Type = @"1_type";
   tg1.Name = @"1_name";
@@ -188,6 +189,7 @@
   tg2.CachedResult = [NSMutableArray arrayWithObjects:cr1,cr2, nil];
   tg2.LineStart = @20;
   tg2.LineEnd = @25;
+
 
   
 }
@@ -339,11 +341,82 @@
   //NSLog(@"json : %@", json);
   
   //now from json back to objects -> array
-  NSArray* ar2 = [STTag DeserializeList:json error:nil];
-
-  //STOPPED HERE
+  NSArray<STTag*>* ar2 = [STTag DeserializeList:json error:nil];
+  NSString* json2 = [STTag SerializeList:ar2 error:nil];
   
-  XCTAssert(false);
+  XCTAssert([json isEqualToString:json2]);
+  
+  //------------------
+  // FIRST TAG
+  //------------------
+  //basic properties
+  XCTAssert([[ar2[0] Type] isEqualToString: [tg1 Type]]);
+  XCTAssert([[ar2[0] Name] isEqualToString: [tg1 Name]]);
+  XCTAssert([[ar2[0] RunFrequency] isEqualToString: [tg1 RunFrequency]]);
+  XCTAssertEqual([[ar2[0] LineEnd] integerValue], [[tg1 LineEnd] integerValue]);
+  XCTAssertEqual([[ar2[0] LineStart] integerValue], [[tg1 LineStart] integerValue]);
+  
+  //cached result (CommandResult)
+  XCTAssert([[[ar2[0] CachedResult][0] ValueResult] isEqualToString:[cr1 ValueResult]]);
+  XCTAssert([[[ar2[0] CachedResult][0] FigureResult] isEqualToString:[cr1 FigureResult]]);
+  XCTAssert([[[[ar2[0] CachedResult][0] TableResult] RowNames] isEqualToArray:t1.RowNames]);
+  XCTAssert([[[[ar2[0] CachedResult][0] TableResult] ColumnNames] isEqualToArray:t1.ColumnNames]);
+  XCTAssert([[[[ar2[0] CachedResult][0] TableResult] Data] isEqualToArray:t1.Data]);
+  XCTAssertEqual(t1.RowSize, [[[ar2[0] CachedResult][0] TableResult] RowSize]);
+  XCTAssertEqual(t1.ColumnSize, [[[ar2[0] CachedResult][0] TableResult] ColumnSize]);
+  
+  //valueformat
+  XCTAssert([[[ar2[0] ValueFormat] FormatType] isEqualToString: [vf1 FormatType]]);
+  XCTAssert([[ar2[0] ValueFormat] DecimalPlaces] == vf1.DecimalPlaces);
+  XCTAssert([[ar2[0] ValueFormat] UseThousands] == vf1.UseThousands);
+  XCTAssert([[[ar2[0] ValueFormat] DateFormat] isEqualToString: [vf1 DateFormat]]);
+  XCTAssert([[[ar2[0] ValueFormat] TimeFormat] isEqualToString: [vf1 TimeFormat]]);
+  XCTAssert([[ar2[0] ValueFormat] AllowInvalidTypes] == vf1.AllowInvalidTypes);
+  
+  //figureformat
+  //nothing to compare
+  
+  //tableformat
+  XCTAssert([[ar2[0] TableFormat] IncludeRowNames] == tf1.IncludeRowNames);
+  XCTAssert([[ar2[0] TableFormat] IncludeColumnNames] == tf1.IncludeColumnNames);
+  
+  
+  //------------------
+  // SECOND TAG
+  //------------------
+  //basic properties
+  XCTAssert([[ar2[1] Type] isEqualToString: [tg2 Type]]);
+  XCTAssert([[ar2[1] Name] isEqualToString: [tg2 Name]]);
+  XCTAssert([[ar2[1] RunFrequency] isEqualToString: [tg2 RunFrequency]]);
+  XCTAssertEqual([[ar2[1] LineEnd] integerValue], [[tg2 LineEnd] integerValue]);
+  XCTAssertEqual([[ar2[1] LineStart] integerValue], [[tg2 LineStart] integerValue]);
+  
+  //cached result (CommandResult)
+  XCTAssert([[[ar2[1] CachedResult][0] ValueResult] isEqualToString:[cr1 ValueResult]]);
+  XCTAssert([[[ar2[1] CachedResult][0] FigureResult] isEqualToString:[cr1 FigureResult]]);
+  XCTAssert([[[[ar2[1] CachedResult][0] TableResult] RowNames] isEqualToArray:t1.RowNames]);
+  XCTAssert([[[[ar2[1] CachedResult][0] TableResult] ColumnNames] isEqualToArray:t1.ColumnNames]);
+  XCTAssert([[[[ar2[1] CachedResult][0] TableResult] Data] isEqualToArray:t1.Data]);
+  XCTAssertEqual(t2.RowSize, [[[ar2[1] CachedResult][0] TableResult] RowSize]);
+  XCTAssertEqual(t2.ColumnSize, [[[ar2[1] CachedResult][0] TableResult] ColumnSize]);
+  
+  //valueformat
+  XCTAssert([[[ar2[1] ValueFormat] FormatType] isEqualToString: [vf2 FormatType]]);
+  XCTAssert([[ar2[1] ValueFormat] DecimalPlaces] == vf2.DecimalPlaces);
+  XCTAssert([[ar2[1] ValueFormat] UseThousands] == vf2.UseThousands);
+  XCTAssert([[[ar2[1] ValueFormat] DateFormat] isEqualToString: [vf2 DateFormat]]);
+  XCTAssert([[[ar2[1] ValueFormat] TimeFormat] isEqualToString: [vf2 TimeFormat]]);
+  XCTAssert([[ar2[1] ValueFormat] AllowInvalidTypes] == vf2.AllowInvalidTypes);
+  
+  //figureformat
+  //nothing to compare
+  
+  //tableformat
+  XCTAssert([[ar2[1] TableFormat] IncludeRowNames] == tf2.IncludeRowNames);
+  XCTAssert([[ar2[1] TableFormat] IncludeColumnNames] == tf2.IncludeColumnNames);
+
+
+  
 }
 
 
