@@ -522,7 +522,7 @@ the cached results in another tag.
     if([distinct objectForKey:searchLabel] != nil)
     {
       // If the duplicates collection hasn't been initialized, we will do that now.
-      if([duplicates objectForKey:[distinct objectForKey:searchLabel]] != nil)
+      if([duplicates objectForKey:[distinct objectForKey:searchLabel]] == nil)
       {
         [duplicates setObject:[[NSMutableArray<STTag*> alloc] init] forKey:[distinct objectForKey:searchLabel]];
         //duplicates.Add(distinct[searchLabel], new List<Tag>());
@@ -531,6 +531,7 @@ the cached results in another tag.
       //apparently the array reference is a pointer so we can just add things to it... should check this.
       NSMutableArray<STTag*>* someTags = [duplicates objectForKey:[distinct objectForKey:searchLabel]];
       [someTags addObject:tag];
+      [duplicates setObject:someTags forKey:[distinct objectForKey:searchLabel]];
       //duplicates[distinct[searchLabel]].Add(tag);
     }
     else

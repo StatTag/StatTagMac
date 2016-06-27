@@ -116,15 +116,14 @@
   tag5.Name = @"Test";
   
   codeFile.Tags = [NSMutableArray<STTag*> arrayWithObjects:tag1,tag2,tag3,tag4,tag5, nil];
-  NSLog(@"[codeFile Tags] : %@", [codeFile Tags]);
+  //NSLog(@"[codeFile Tags] : %@", [codeFile Tags]);
   
   NSDictionary<STTag*, NSArray<STTag*>*>* result = [codeFile FindDuplicateTags];
-  NSLog(@"result : %@", result);
+  //NSLog(@"result : %@", result);
 
   XCTAssertEqual(2, [result count]);
   XCTAssertEqual(2, [[result objectForKey:([codeFile Tags][0])] count]);
   XCTAssertEqual(1, [[result objectForKey:([codeFile Tags][1])] count]);
-  
 }
 
 
