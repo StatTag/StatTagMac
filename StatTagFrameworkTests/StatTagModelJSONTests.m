@@ -205,18 +205,19 @@
   NSString* json = [STCodeFile SerializeList:ar1 error:nil];
   
   //now from json back to objects -> array
-  NSArray* ar = [STCodeFile DeserializeList:json error:nil];
+  NSArray* ar2 = [STCodeFile DeserializeList:json error:nil];
+  NSString* json2 = [STCodeFile SerializeList:ar2 error:nil];
+  XCTAssert([json isEqualToString:json2]);
 
   //validate
-  XCTAssert([[ar[0] StatisticalPackage] isEqualToString:@"ABC"]);
-  XCTAssert([[[ar[0] FilePath] path] isEqualToString:@"myfile.txt"]);
-  XCTAssert([[ar[0] LastCached] isEqualToDate:d1]);
+  XCTAssert([[ar2[0] StatisticalPackage] isEqualToString:@"ABC"]);
+  XCTAssert([[[ar2[0] FilePath] path] isEqualToString:@"myfile.txt"]);
+  XCTAssert([[ar2[0] LastCached] isEqualToDate:d1]);
 
-  XCTAssert([[ar[1] StatisticalPackage] isEqualToString:@"DEF"]);
-  XCTAssert([[[ar[1] FilePath] path] isEqualToString:@"secondfile.txt"]);
-  XCTAssert([[ar[1] LastCached] isEqualToDate:d2]);
+  XCTAssert([[ar2[1] StatisticalPackage] isEqualToString:@"DEF"]);
+  XCTAssert([[[ar2[1] FilePath] path] isEqualToString:@"secondfile.txt"]);
+  XCTAssert([[ar2[1] LastCached] isEqualToDate:d2]);
 }
-
 
 
 - (void)testCodeFileAction {
@@ -226,6 +227,8 @@
   
   //now from json back to objects -> array
   NSArray* ar2 = [STCodeFileAction DeserializeList:json error:nil];
+  NSString* json2 = [STCodeFileAction SerializeList:ar2 error:nil];
+  XCTAssert([json isEqualToString:json2]);
   
   //validate
   XCTAssert([[ar2[0] Label] isEqualToString:@"a1 label"]);
@@ -243,10 +246,12 @@
   //build the array and serialize it to json
   NSArray<STCommandResult*>* ar1 = [NSArray arrayWithObjects:cr1, cr2, nil];
   NSString* json = [STCommandResult SerializeList:ar1 error:nil];
-  NSLog(@"json : %@", json);
+  //NSLog(@"json : %@", json);
   
   //now from json back to objects -> array
   NSArray* ar2 = [STCommandResult DeserializeList:json error:nil];
+  NSString* json2 = [STCommandResult SerializeList:ar2 error:nil];
+  XCTAssert([json isEqualToString:json2]);
 
   //validate
   XCTAssert([[ar2[0] ValueResult] isEqualToString:[cr1 ValueResult]]);
@@ -267,8 +272,6 @@
   XCTAssertEqual(t2.ColumnSize, [[ar2[1] TableResult] ColumnSize]);
 
   
-  
-  NSLog(@"json : %@", json);
 }
 
 - (void)testExecutionStep {
@@ -284,17 +287,29 @@
   es1.Type = 1;
   es1.Code = [NSMutableArray arrayWithArray:@[@"1_code_1", @"1_code_2"]];
   es1.Result = [NSMutableArray arrayWithArray:@[@"1_result_1", @"1_result_2"]];
-  //es1.Tag = ...
+  es1.Tag = tg1;
 
   STExecutionStep* es2 = [[STExecutionStep alloc] init];
   es2.Type = 2;
   es2.Code = [NSMutableArray arrayWithArray:@[@"2_code_1", @"2_code_2"]];
   es2.Result = [NSMutableArray arrayWithArray:@[@"2_result_1", @"2_result_2"]];
-  //es.Tag = ...
+  es2.Tag = tg2;
 
   
-  XCTAssert(false);
+  NSArray<STExecutionStep*>* ar1 = [NSArray arrayWithObjects:t1, t2, nil];
+  NSString* json = [STExecutionStep SerializeList:ar1 error:nil];
+
+  NSArray* ar2 = [STTable DeserializeList:json error:nil];
+  NSString* json2 = [STTable SerializeList:ar2 error:nil];
+  XCTAssert([json isEqualToString:json2]);
+
   
+//  int x = [ar2[0] Type];
+//  NSLog(@"x = %@", x);
+//  XCTAssertEqual([ar2[0] Type], [ar1[0] Type]);
+//  XCTAssert([[ar2[0] Code] isEqualToArray:[ar1[1] Code]]);
+//  XCTAssert([[ar2[0] Result] isEqualToArray:[ar1[1] Result]]);
+
   
 }
 
@@ -317,6 +332,8 @@
 
   //now from json back to objects -> array
   NSArray* ar2 = [STTable DeserializeList:json error:nil];
+  NSString* json2 = [STTable SerializeList:ar2 error:nil];
+  XCTAssert([json isEqualToString:json2]);
 
   //validate
   XCTAssert([[ar2[0] RowNames] isEqualToArray:t1.RowNames]);
@@ -343,7 +360,6 @@
   //now from json back to objects -> array
   NSArray<STTag*>* ar2 = [STTag DeserializeList:json error:nil];
   NSString* json2 = [STTag SerializeList:ar2 error:nil];
-  
   XCTAssert([json isEqualToString:json2]);
   
   //------------------
@@ -416,7 +432,6 @@
   XCTAssert([[ar2[1] TableFormat] IncludeColumnNames] == tf2.IncludeColumnNames);
 
 
-  
 }
 
 
@@ -431,12 +446,15 @@
   
   //now from json back to objects -> array
   NSArray* ar2 = [STTableFormat DeserializeList:json error:nil];
+  NSString* json2 = [STTableFormat SerializeList:ar2 error:nil];
+  XCTAssert([json isEqualToString:json2]);
   
   //validate
   XCTAssert([ar2[0] IncludeRowNames] == tf1.IncludeRowNames);
   XCTAssert([ar2[0] IncludeColumnNames] == tf1.IncludeColumnNames);
   XCTAssert([ar2[1] IncludeRowNames] == tf2.IncludeRowNames);
   XCTAssert([ar2[1] IncludeColumnNames] == tf2.IncludeColumnNames);
+
 
 }
 
@@ -447,11 +465,13 @@
   NSArray<STValueFormat*>* ar1 = [NSArray arrayWithObjects:vf1, vf2, nil];
   NSString* json = [STValueFormat SerializeList:ar1 error:nil];
   
-  NSLog(@"json : %@", json);
+  //NSLog(@"json : %@", json);
   
   //now from json back to objects -> array
   NSArray* ar2 = [STValueFormat DeserializeList:json error:nil];
-
+  NSString* json2 = [STValueFormat SerializeList:ar2 error:nil];
+  XCTAssert([json isEqualToString:json2]);
+  
   XCTAssert([[ar2[0] FormatType] isEqualToString: [vf1 FormatType]]);
   XCTAssert([ar2[0] DecimalPlaces] == vf1.DecimalPlaces);
   XCTAssert([ar2[0] UseThousands] == vf1.UseThousands);
@@ -466,7 +486,7 @@
   XCTAssert([[ar2[1] TimeFormat] isEqualToString: [vf2 TimeFormat]]);
   XCTAssert([ar2[1] AllowInvalidTypes] == vf2.AllowInvalidTypes);
 
-  
+
 }
 
 @end
