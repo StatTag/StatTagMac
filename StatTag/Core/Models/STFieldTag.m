@@ -189,8 +189,10 @@
       [self setValue:[[NSURL alloc] initWithString:[dict valueForKey:key]] forKey:key];
     //} else if([key isEqualToString:@"TableCellIndex"]) {
     //  [self setValue:[dict valueForKey:key] forKey:key];
-    } else {
-      [self setValue:[dict valueForKey:key] forKey:key];
+    } else if([key isEqualToString:@"TableCellIndex"]) {
+        [self setValue:[dict valueForKey:key] forKey:key];
+    //    } else {
+//      [self setValue:[dict valueForKey:key] forKey:key];
     }
   }
 

@@ -12,13 +12,13 @@
 @class STTag;
 
 @interface STExecutionStep : NSObject<STJSONAble> {
-  int _StepType;
+  int _Type;
   NSMutableArray<NSString*>* _Code;
   NSMutableArray<NSString*>* _Result;
   STTag* _Tag;
 }
 
-@property int StepType;
+@property int Type;
 @property (strong, nonatomic) NSMutableArray<NSString*>* Code;
 @property (strong, nonatomic) NSMutableArray<NSString*>* Result;
 @property (strong, nonatomic) STTag *Tag;

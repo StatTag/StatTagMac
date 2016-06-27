@@ -203,13 +203,13 @@
   //Execution Step
   //-----------------
   es1 = [[STExecutionStep alloc] init];
-  es1.StepType = 1;
+  es1.Type = 1;
   es1.Code = [NSMutableArray arrayWithArray:@[@"1_code_1", @"1_code_2"]];
   es1.Result = [NSMutableArray arrayWithArray:@[@"1_result_1", @"1_result_2"]];
   es1.Tag = tg1;
   
   es2 = [[STExecutionStep alloc] init];
-  es2.StepType = 2;
+  es2.Type = 2;
   es2.Code = [NSMutableArray arrayWithArray:@[@"2_code_1", @"2_code_2"]];
   es2.Result = [NSMutableArray arrayWithArray:@[@"2_result_1", @"2_result_2"]];
   es2.Tag = tg2;
@@ -323,7 +323,7 @@
   NSString* json2 = [STExecutionStep SerializeList:ar2 error:nil];
   XCTAssert([json isEqualToString:json2]);
 
-  XCTAssertEqual([ar2[0] StepType], [ar1[0] StepType]);
+  XCTAssertEqual([ar2[0] Type], [ar1[0] Type]);
   XCTAssert([[ar2[0] Code] isEqualToArray:[ar1[0] Code]]);
   XCTAssert([[ar2[0] Result] isEqualToArray:[ar1[0] Result]]);
 
@@ -342,7 +342,7 @@
   NSString* json2 = [STFieldTag SerializeList:ar2 error:nil];
   XCTAssert([json isEqualToString:json2]);
 
-  //NSLog(@"json2 : %@", json2);
+  NSLog(@"json2 : %@", json2);
   
 }
 

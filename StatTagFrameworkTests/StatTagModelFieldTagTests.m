@@ -147,73 +147,120 @@
   NSString* serialized = [tag Serialize:nil];
   
   STFieldTag* recreatedTag = [STFieldTag Deserialize:serialized error:&error];
-
-  //NSLog(@"serialized : %@", serialized);
-  //NSLog(@"recreatedTag : %@", recreatedTag);
-
-  NSLog(@"tag : %@", tag);
-  NSLog(@"tag Name : %@", [tag Name]);
-  NSLog(@"tag FormattedResult : %@", [tag FormattedResult]);
-  NSLog(@"tag RunFrequency : %@", [tag RunFrequency]);
-  NSLog(@"tag CodeFilePath path : %@", [[tag CodeFilePath] path]);
-  NSLog(@"tag dictionary: %@", [tag toDictionary]);
-  NSLog(@"tag id: %@", [tag Id]);
-  
-  //Id should be --Test.do
-
-  NSLog(@"recreatedTag : %@", recreatedTag);
-  NSLog(@"recreatedTag Name : %@", [recreatedTag Name]);
-  NSLog(@"recreatedTag FormattedResult : %@", [recreatedTag FormattedResult]);
-  NSLog(@"recreatedTag RunFrequency : %@", [recreatedTag RunFrequency]);
-  NSLog(@"recreatedTag CodeFilePath path : %@", [[recreatedTag CodeFilePath] path]);
-
   
   // Assert.AreEqual(tag.FigureFormat, recreatedTag.FigureFormat);
   // how can we test equality? or are they both supposed to be nil?
   // in obj-c, any [nil isEqual: nil] comparison will fail
   // http://stackoverflow.com/questions/5914845/sending-isequal-to-nil-always-returns-no
-  XCTAssert([[tag FigureFormat] isEqual:[recreatedTag FigureFormat]]);//nil so they won't match
-  XCTAssert([[tag FormattedResult] isEqual:[recreatedTag FormattedResult]]);
+
+  //both are nil
+  //XCTAssert([[tag FigureFormat] isEqual:[recreatedTag FigureFormat]]);//nil so they won't match
+  XCTAssertNil([tag FigureFormat]);
+  XCTAssertNil([recreatedTag FigureFormat]);
+
+  XCTAssert([[tag FormattedResult] isEqualToString:[recreatedTag FormattedResult]]);
+  //XCTAssertNil([tag FormattedResult]);
+  //XCTAssertNil([recreatedTag FormattedResult]);
+
   XCTAssertEqual([[tag LineEnd] integerValue], [[recreatedTag LineEnd] integerValue]);
   XCTAssertEqual([[tag LineStart] integerValue], [[recreatedTag LineStart] integerValue]);
   
   //how are these matching if tag.Name is (nil) and the rormalized recreatedTag.Name is ""?
+  //NOTE: spoke w/ Luke - normalize occurs before we serialize/desserialize, so the value will be "" for both
   XCTAssert([[tag Name] isEqualToString:[recreatedTag Name]]);
-  XCTAssert([[tag RunFrequency] isEqualToString:[recreatedTag RunFrequency]]);
+
+  //both are nil
+  //XCTAssert([[tag RunFrequency] isEqualToString:[recreatedTag RunFrequency]]);
+  XCTAssertNil([tag RunFrequency]);
+  XCTAssertNil([recreatedTag RunFrequency]);
+
   XCTAssert([[tag Type] isEqual:[recreatedTag Type]]);
   
   // how can we test equality? or are they both supposed to be nil?
-  XCTAssert([[tag ValueFormat] isEqual:[recreatedTag ValueFormat]]);
-  XCTAssert([[tag TableFormat] isEqual:[recreatedTag TableFormat]]);
-  XCTAssert([[tag FigureFormat] isEqual:[recreatedTag FigureFormat]]); //duplicate test
+  //both are nil
+  //NSLog(@"[tag ValueFormat] : %@", [tag ValueFormat]);
+  //NSLog(@"[recreatedTag ValueFormat] : %@", [recreatedTag ValueFormat]);
+  //XCTAssert([[tag ValueFormat] isEqual:[recreatedTag ValueFormat]]);
+  XCTAssertNil([tag ValueFormat]);
+  XCTAssertNil([recreatedTag ValueFormat]);
+  
+  //both are nil
+  //NSLog(@"[tag TableFormat] : %@", [tag TableFormat]);
+  //NSLog(@"[recreatedTag TableFormat] : %@", [recreatedTag TableFormat]);
+  //XCTAssert([[tag TableFormat] isEqual:[recreatedTag TableFormat]]);
+  XCTAssertNil([tag TableFormat]);
+  XCTAssertNil([recreatedTag TableFormat]);
+
+  //both are nil
+  //NSLog(@"[tag FigureFormat] : %@", [tag FigureFormat]);
+  //NSLog(@"[recreatedTag FigureFormat] : %@", [recreatedTag FigureFormat]);
+  //XCTAssert([[tag FigureFormat] isEqual:[recreatedTag FigureFormat]]); //duplicate test
+  XCTAssertNil([tag FigureFormat]);
+  XCTAssertNil([recreatedTag FigureFormat]);
 
   XCTAssertEqual([[tag TableCellIndex] integerValue], [[recreatedTag TableCellIndex] integerValue]);
   // The recreated tag doesn't truly recreate the code file object.  We attempt to restore it the best we can with the file path.
 
   XCTAssert([[[tag CodeFilePath] path] isEqual:[[[recreatedTag CodeFile] FilePath] path]]);
   XCTAssert([[[tag CodeFilePath] path] isEqual:[[recreatedTag CodeFilePath] path]]);
-  
-  /*
-  Assert.AreEqual(tag.FormattedResult, recreatedTag.FormattedResult);
-  Assert.AreEqual(tag.LineEnd, recreatedTag.LineEnd);
-  Assert.AreEqual(tag.LineStart, recreatedTag.LineStart);
-  Assert.AreEqual(tag.Name, recreatedTag.Name);
-  Assert.AreEqual(tag.RunFrequency, recreatedTag.RunFrequency);
-  Assert.AreEqual(tag.Type, recreatedTag.Type);
-  Assert.AreEqual(tag.ValueFormat, recreatedTag.ValueFormat);
-  Assert.AreEqual(tag.FigureFormat, recreatedTag.FigureFormat);
-  Assert.AreEqual(tag.TableFormat, recreatedTag.TableFormat);
-  Assert.AreEqual(tag.TableCellIndex, recreatedTag.TableCellIndex);
-  // The recreated tag doesn't truly recreate the code file object.  We attempt to restore it the best we can with the file path.
-  Assert.AreEqual(tag.CodeFilePath, recreatedTag.CodeFile.FilePath);
-  Assert.AreEqual(tag.CodeFilePath, recreatedTag.CodeFilePath);
-  */
 }
 
 - (void)testLinkToCodeFile_Found {
+  
+  STCodeFile* cf = [STCodeFile codeFileWithFilePath:[[NSURL alloc] initWithString:@"Test.do"]];
+  NSMutableArray<STCommandResult*>* ar_cr = [[NSMutableArray<STCommandResult*> alloc] init];
+  STCommandResult* cr = [[STCommandResult alloc] init];
+  cr.ValueResult = @"Test 1";
+  STFieldTag* tag = [STFieldTag tagWithName:nil andCodeFile:cf andType:[STConstantsTagType Table]];
+  tag.CachedResult = ar_cr;
+  tag.TableCellIndex = @10;
+
+  NSURL* url = [[NSURL alloc] initWithString:@"Test.do"];
+  STCodeFile* cf_1 = [STCodeFile codeFileWithFilePath:url];
+  url = [[NSURL alloc] initWithString:@"Test2.do"];
+  STCodeFile* cf_2 = [STCodeFile codeFileWithFilePath:url];
+  NSMutableArray<STCodeFile*>* files = [NSMutableArray<STCodeFile*> arrayWithObjects:cf_1, cf_2, nil];
+  
+  [STFieldTag LinkToCodeFile:tag CodeFile:files];
+  XCTAssertEqual(files[0], [tag CodeFile]);
+
+  url = [[NSURL alloc] initWithString:[[[files[0] FilePath] path] uppercaseString]];
+  files[0].FilePath = url;
+  [STFieldTag LinkToCodeFile:tag CodeFile:files];
+  XCTAssertEqual(files[0], [tag CodeFile]);
+  //EWW - for the above... we should be careful about OSX case sensitivity with paths
 }
 
 - (void)testLinkToCodeFile_NotFound {
+  NSMutableArray<STCommandResult*>* ar_cr = [[NSMutableArray<STCommandResult*> alloc] init];
+  STCommandResult* cr = [[STCommandResult alloc] init];
+  cr.ValueResult = @"Test 1";
+  STFieldTag* tag = [STFieldTag tagWithName:nil andCodeFile:nil andType:[STConstantsTagType Table]];
+  tag.CachedResult = ar_cr;
+  tag.TableCellIndex = @10;
+
+  NSURL* url = [[NSURL alloc] initWithString:@"Test.do"];
+  STCodeFile* cf_1 = [STCodeFile codeFileWithFilePath:url];
+  url = [[NSURL alloc] initWithString:@"Test2.do"];
+  STCodeFile* cf_2 = [STCodeFile codeFileWithFilePath:url];
+  NSMutableArray<STCodeFile*>* files = [NSMutableArray<STCodeFile*> arrayWithObjects:cf_1, cf_2, nil];
+
+  
+  // Check against a null list.
+  [STFieldTag LinkToCodeFile:tag CodeFile:nil];
+  XCTAssertNil([tag CodeFile]);
+  
+  // Check against the real list.
+  [STFieldTag LinkToCodeFile:tag CodeFile:files];
+  XCTAssertNil([tag CodeFile]);
+  
+  // Should match with case differences
+  STCodeFile* cf = [STCodeFile codeFileWithFilePath:[[NSURL alloc] initWithString:@"Test3.do"]];
+  tag.CodeFile = cf;
+  [STFieldTag LinkToCodeFile:tag CodeFile:files];
+  XCTAssertNotEqual(files[0], [tag CodeFile]);
+  XCTAssertNotEqual(files[1], [tag CodeFile]);
+  
 }
 
 

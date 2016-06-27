@@ -207,7 +207,7 @@
       }
       else
       {
-        step.StepType = [STConstantsExecutionStepType Tag];
+        step.Type = [STConstantsExecutionStepType Tag];
         step.Tag = tag;
         [[step Code]addObject:line];
       }
