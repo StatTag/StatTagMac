@@ -55,6 +55,7 @@ within the table.</remarks>
  Create a new Tag object given a JSON string
 */
 +(instancetype)Deserialize:(NSString*)json withFiles:(NSArray<STCodeFile*>*)files error:(NSError**)outError;
++(NSArray<STFieldTag*>*)DeserializeList:(id)List error:(NSError**)outError;
 
 /**
  Utility function called when a FieldTag is created from an existing tag and

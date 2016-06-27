@@ -12,7 +12,7 @@
 
 @implementation STExecutionStep
 
-@synthesize Type = _Type;
+@synthesize StepType = _StepType;
 @synthesize Code = _Code;
 @synthesize Result = _Result;
 @synthesize Tag = _Tag;
@@ -27,17 +27,10 @@
 
 
 
-//int _Type;
-//NSMutableArray<NSString*>* _Code;
-//NSMutableArray<NSString*>* _Result;
-//STTag* _Tag;
-
-
-
 //MARK: JSON
 -(NSDictionary *)toDictionary {
   NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
-  [dict setValue:[NSNumber numberWithInteger:[self Type]] forKey:@"Type"];
+  [dict setValue:[NSNumber numberWithInteger:[self StepType]] forKey:@"StepType"];
   [dict setValue:[self Code] forKey:@"Code"];
   [dict setValue:[self Result] forKey:@"Result"];
   if([self Tag] != nil) {

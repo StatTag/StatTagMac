@@ -145,8 +145,12 @@
 
 -(NSDictionary *)toDictionary {
   NSMutableDictionary* dict = [[NSMutableDictionary alloc] initWithDictionary:[super toDictionary]];
-  [dict setObject:_TableCellIndex forKey:@"TableCellIndex"];
-  [dict setObject:[[self CodeFilePath] path] forKey:@"CodeFilePath"];
+  if([self TableCellIndex] != nil){
+    [dict setObject:[self TableCellIndex] forKey:@"TableCellIndex"];
+  }
+  if([self CodeFilePath] != nil){
+    [dict setObject:[[self CodeFilePath] path] forKey:@"CodeFilePath"];
+  }
   return dict;
 }
 
@@ -185,6 +189,8 @@
       [self setValue:[[NSURL alloc] initWithString:[dict valueForKey:key]] forKey:key];
     //} else if([key isEqualToString:@"TableCellIndex"]) {
     //  [self setValue:[dict valueForKey:key] forKey:key];
+    } else {
+      [self setValue:[dict valueForKey:key] forKey:key];
     }
   }
 
@@ -204,6 +210,17 @@
   return tag;
 }
 
++(NSArray<STFieldTag*>*)DeserializeList:(id)List error:(NSError**)outError
+{
+  NSMutableArray<STFieldTag*>* ar = [[NSMutableArray<STFieldTag*> alloc] init];
+  for(id x in [STJSONUtility DeserializeList:List forClass:[self class] error:nil]) {
+    if([x isKindOfClass:[self class]])
+    {
+      [ar addObject:x];
+    }
+  }
+  return ar;
+}
 
 
 @end

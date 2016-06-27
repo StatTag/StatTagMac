@@ -31,7 +31,7 @@
 
 @synthesize Id = _Id;
 - (NSString*) Id {
-  return [NSString stringWithFormat:@"%@--%@", _Name, (_CodeFile == nil ? @"" : [[_CodeFile FilePath] path])];
+  return [NSString stringWithFormat:@"%@--%@", (_Name == nil ? @"" : _Name), (_CodeFile == nil ? @"" : [[_CodeFile FilePath] path])];
 }
 
 @synthesize FormattedResult = _FormattedResult;
@@ -164,6 +164,8 @@
   for (NSString* key in dict) {
     if([key isEqualToString:@"Id"]) {
       //skip the read-only properties
+    } else if([key isEqualToString:@"CodeFilePath"] || [key isEqualToString:@"TableCellIndex"] ) {
+      //skip the properties from fieldtag
     } else if([key isEqualToString:@"CodeFile"]) {
       //NSLog(@"STTag - attempting to recover CodeFile with value %@", [dict valueForKey:key]);
       id aValue = [dict valueForKey:key];

@@ -35,6 +35,14 @@
   
   STTableFormat* tf1;
   STTableFormat* tf2;
+  
+  STExecutionStep* es1;
+  STExecutionStep* es2;
+  
+  STFieldTag *ft1;
+  STFieldTag *ft2;
+  STFieldTag *ft3;
+  
 }
 
 @end
@@ -191,6 +199,37 @@
   tg2.LineEnd = @25;
 
 
+  //-----------------
+  //Execution Step
+  //-----------------
+  es1 = [[STExecutionStep alloc] init];
+  es1.StepType = 1;
+  es1.Code = [NSMutableArray arrayWithArray:@[@"1_code_1", @"1_code_2"]];
+  es1.Result = [NSMutableArray arrayWithArray:@[@"1_result_1", @"1_result_2"]];
+  es1.Tag = tg1;
+  
+  es2 = [[STExecutionStep alloc] init];
+  es2.StepType = 2;
+  es2.Code = [NSMutableArray arrayWithArray:@[@"2_code_1", @"2_code_2"]];
+  es2.Result = [NSMutableArray arrayWithArray:@[@"2_result_1", @"2_result_2"]];
+  es2.Tag = tg2;
+
+  
+  //-----------------
+  //Field Tag
+  //-----------------
+  ft1 = [[STFieldTag alloc] init];
+  ft1.TableCellIndex = @1;
+  ft1.CodeFilePath = [[NSURL alloc] initWithString:@"myfile.txt"];
+
+  ft2 = [[STFieldTag alloc] init];
+  ft2.TableCellIndex = @2;
+  ft2.CodeFilePath = [[NSURL alloc] initWithString:@"mysecondfile.txt"];
+
+  ft3 = [[STFieldTag alloc] init];
+  //ft3.TableCellIndex = @2;
+  //ft3.CodeFilePath = [[NSURL alloc] initWithString:@"mysecondfile.txt"];
+
   
 }
 
@@ -275,46 +314,36 @@
 }
 
 - (void)testExecutionStep {
-  /*
-   public int Type { get; set; }
-   public List<string> Code { get; set; }
-   public List<string> Result { get; set; }
-   public Tag Tag { get; set; }
-   
-   */
   
-  STExecutionStep* es1 = [[STExecutionStep alloc] init];
-  es1.Type = 1;
-  es1.Code = [NSMutableArray arrayWithArray:@[@"1_code_1", @"1_code_2"]];
-  es1.Result = [NSMutableArray arrayWithArray:@[@"1_result_1", @"1_result_2"]];
-  es1.Tag = tg1;
-
-  STExecutionStep* es2 = [[STExecutionStep alloc] init];
-  es2.Type = 2;
-  es2.Code = [NSMutableArray arrayWithArray:@[@"2_code_1", @"2_code_2"]];
-  es2.Result = [NSMutableArray arrayWithArray:@[@"2_result_1", @"2_result_2"]];
-  es2.Tag = tg2;
-
-  
-  NSArray<STExecutionStep*>* ar1 = [NSArray arrayWithObjects:t1, t2, nil];
+  NSArray<STExecutionStep*>* ar1 = [NSArray arrayWithObjects:es1, es2, nil];
   NSString* json = [STExecutionStep SerializeList:ar1 error:nil];
+  NSLog(@"json : %@", json);
 
-  NSArray* ar2 = [STTable DeserializeList:json error:nil];
-  NSString* json2 = [STTable SerializeList:ar2 error:nil];
+  NSArray<STExecutionStep*>* ar2 = [STExecutionStep DeserializeList:json error:nil];
+  NSString* json2 = [STExecutionStep SerializeList:ar2 error:nil];
   XCTAssert([json isEqualToString:json2]);
 
-  
-//  int x = [ar2[0] Type];
-//  NSLog(@"x = %@", x);
-//  XCTAssertEqual([ar2[0] Type], [ar1[0] Type]);
-//  XCTAssert([[ar2[0] Code] isEqualToArray:[ar1[1] Code]]);
-//  XCTAssert([[ar2[0] Result] isEqualToArray:[ar1[1] Result]]);
+  XCTAssertEqual([ar2[0] StepType], [ar1[0] StepType]);
+  XCTAssert([[ar2[0] Code] isEqualToArray:[ar1[0] Code]]);
+  XCTAssert([[ar2[0] Result] isEqualToArray:[ar1[0] Result]]);
 
+  //should test the entire set of tags, too...
   
 }
 
 - (void)testFieldTag {
-  XCTAssert(false);
+
+
+  NSArray<STFieldTag*>* ar1 = [NSArray arrayWithObjects:ft1, ft2, ft3, nil];
+  NSString* json = [STFieldTag SerializeList:ar1 error:nil];
+  //NSLog(@"json : %@", json);
+  
+  NSArray<STFieldTag*>* ar2 = [STFieldTag DeserializeList:json error:nil];
+  NSString* json2 = [STFieldTag SerializeList:ar2 error:nil];
+  XCTAssert([json isEqualToString:json2]);
+
+  //NSLog(@"json2 : %@", json2);
+  
 }
 
 - (void)testFigureFormat {
