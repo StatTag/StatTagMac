@@ -24,23 +24,134 @@
 }
 
 - (void)testCopyCtor_Normal {
-  XCTAssertFalse(true);
+  STTag* tag1 = [[STTag alloc] init];
+  tag1.Name = @"Test";
+  tag1.Type = [STConstantsTagType Value];
+  tag1.LineStart = @1;
+  tag1.LineEnd = @2;
+
+  STTag* tag2 = [[STTag alloc] initWithTag:tag1];
+  XCTAssert([tag1 isEqual:tag2]);
 }
 
 - (void)testCopyCtor_Null {
-  XCTAssertFalse(true);
+  STTag* tag = [[STTag alloc] init];
+  XCTAssertNil([tag CodeFile]);
+  XCTAssertNil([tag CachedResult]);
+  XCTAssertNil([tag FigureFormat]);
+  XCTAssertNil([tag LineEnd]);
+  XCTAssertNil([tag LineStart]);
+  XCTAssertNil([tag Name]);
+  XCTAssertNil([tag RunFrequency]);
+  XCTAssertNil([tag TableFormat]);
+  XCTAssertNil([tag Type]);
+  XCTAssertNil([tag ValueFormat]);
 }
 
 - (void)testEquals_Match {
-  XCTAssertFalse(true);
+
+  STCodeFile* file1 = [[STCodeFile alloc] init];
+  NSURL* url = [[NSURL alloc] initWithString:@"File1.txt"];
+  file1.FilePath = url;
+
+  STTag* tag1 = [[STTag alloc] init];
+  tag1.Name = @"Test";
+  tag1.Type = [STConstantsTagType Value];
+  tag1.LineStart = @1;
+  tag1.LineEnd = @2;
+  tag1.CodeFile = file1;
+  
+  STTag* tag2 = [[STTag alloc] init];
+  tag2.Name = @"Test";
+  tag2.Type = [STConstantsTagType Value];
+  tag2.LineStart = @3;
+  tag2.LineEnd = @4;
+  tag2.CodeFile = file1;
+
+  XCTAssert([tag1 isEqual:tag2]);
+  XCTAssert([tag2 isEqual:tag1]);
+  
+  // Even if the file object changes, if the file is the same (based on the path) the
+  // tags should remain as equal
+  STCodeFile* file2 = [[STCodeFile alloc] init];
+  NSURL* url2 = [[NSURL alloc] initWithString:@"File1.txt"];
+  file2.FilePath = url2;
+
+  tag2.CodeFile = file2;
+  XCTAssert([tag1 isEqual:tag2]);
+  XCTAssert([tag2 isEqual:tag1]);
+
 }
 
 - (void)testEquals_NoMatch {
-  XCTAssertFalse(true);
+
+  STCodeFile* file1 = [[STCodeFile alloc] init];
+  NSURL* url = [[NSURL alloc] initWithString:@"File1.txt"];
+  file1.FilePath = url;
+
+  STCodeFile* file2 = [[STCodeFile alloc] init];
+  NSURL* url2 = [[NSURL alloc] initWithString:@"File2.txt"];
+  file2.FilePath = url2;
+
+  STTag* tag1 = [[STTag alloc] init];
+  tag1.Name = @"Test";
+  tag1.Type = [STConstantsTagType Value];
+  tag1.LineStart = @1;
+  tag1.LineEnd = @2;
+  tag1.CodeFile = file1;
+  
+  STTag* tag2 = [[STTag alloc] init];
+  tag2.Name = @"Test2";
+  tag2.Type = [STConstantsTagType Value];
+  tag2.LineStart = @1;
+  tag2.LineEnd = @2;
+  tag2.CodeFile = file1;
+
+  STTag* tag3 = [[STTag alloc] init];
+  tag3.Name = @"Test";
+  tag3.Type = [STConstantsTagType Value];
+  tag3.LineStart = @3;
+  tag3.LineEnd = @4;
+  tag3.CodeFile = file2;
+
+  XCTAssertFalse([tag1 isEqual:tag2]);
+  XCTAssertFalse([tag2 isEqual:tag1]);
+  XCTAssertFalse([tag1 isEqual:tag3]);
+  XCTAssertFalse([tag3 isEqual:tag1]);
+  XCTAssertFalse([tag2 isEqual:tag3]);
+  XCTAssertFalse([tag3 isEqual:tag2]);
 }
 
 - (void)testEqualsWithPosition {
-  XCTAssertFalse(true);
+
+
+  STCodeFile* file1 = [[STCodeFile alloc] init];
+  NSURL* url = [[NSURL alloc] initWithString:@"File1.txt"];
+  file1.FilePath = url;
+
+  STTag* tag1 = [[STTag alloc] init];
+  tag1.Name = @"Test";
+  tag1.Type = [STConstantsTagType Value];
+  tag1.LineStart = @1;
+  tag1.LineEnd = @2;
+  tag1.CodeFile = file1;
+  
+  STTag* tag2 = [[STTag alloc] init];
+  tag2.Name = @"Test";
+  tag2.Type = [STConstantsTagType Value];
+  tag2.LineStart = @3;
+  tag2.LineEnd = @4;
+  tag2.CodeFile = file1;
+  
+  XCTAssertFalse([tag1 EqualsWithPosition:tag2]);
+  XCTAssertFalse([tag2 EqualsWithPosition:tag1]);
+  
+  tag2.LineStart = tag1.LineStart;
+  tag2.LineEnd = tag1.LineEnd;
+
+  XCTAssertTrue([tag1 EqualsWithPosition:tag2]);
+  XCTAssertTrue([tag2 EqualsWithPosition:tag1]);
+
 }
 
 - (void)testFormattedResult_Empty {
