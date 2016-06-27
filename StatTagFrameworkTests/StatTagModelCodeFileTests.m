@@ -31,9 +31,10 @@
 
 
 
+
+
+
 //MARK: JSON testing - not in original C#
-
-
 - (void)testJSONEncoding {
   STCodeFile *f = [[STCodeFile alloc] init];
   f.StatisticalPackage = @"R";
@@ -87,7 +88,6 @@
 
 
 //MARK: Object copy/dictionary
-
 - (void)testBasicObjectForKey {
   STCodeFile *f = [[STCodeFile alloc] init];
   f.FilePath = [[NSURL alloc] initWithString:@"afile"];

@@ -79,7 +79,7 @@ NSString *const STStatTagErrorDomain = @"StatTagErrorDomain";
 @end
 
 @implementation STConstantsReservedCharacters
-+(NSString*)TagTableCellDelimiter { return @"'";}
++(NSString*)TagTableCellDelimiter { return @"|";}
   @end
   
 @implementation STConstantsFieldDetails

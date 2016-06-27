@@ -131,4 +131,11 @@
  */
 - (NSArray<NSNumber*>*)GetTableDisplayDimensions;
 
+/**
+ Provide a string representation of the range of lines that this Tag spans in
+ its code file.  If there is only one line, just that line number is returned.
+ */
+-(NSString*)FormatLineNumberRange;
+
+
 @end

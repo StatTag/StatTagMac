@@ -48,7 +48,7 @@
   NSString* formattedValue = [lastValue ToString];
   
   NSCharacterSet *ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
-  if ([[_Type stringByTrimmingCharactersInSet: ws] length] == 0 && _ValueFormat != nil ) {
+  if ([[_Type stringByTrimmingCharactersInSet: ws] length] > 0 && _ValueFormat != nil ) {
     formattedValue = [_ValueFormat Format:[lastValue ToString] valueFormatter:[STFactories GetValueFormatter:_CodeFile]];
   }
   
@@ -321,7 +321,8 @@
     return _Type;
   }
 
-  return [super description];
+  return NSStringFromClass([self class]);
+  //return [super description];
 }
 
 -(BOOL) Equals:(STTag*)other usePosition:(BOOL)usePosition
@@ -341,6 +342,8 @@
   if ([[label stringByTrimmingCharactersInSet: ws] length] == 0) {
     return @"";
   }
+
+  //            return label.Replace(Constants.ReservedCharacters.TagTableCellDelimiter, ' ').Trim();
 
   return [[label stringByReplacingOccurrencesOfString:[STConstantsReservedCharacters TagTableCellDelimiter] withString:@" "] stringByTrimmingCharactersInSet: ws];
   
