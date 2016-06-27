@@ -21,11 +21,18 @@
   return (
       [[_ValueResult stringByTrimmingCharactersInSet: ws] length] == 0
       && [[_FigureResult stringByTrimmingCharactersInSet: ws] length] == 0
-      && _TableResult == nil
-      && [_TableResult isEmpty]
+      && (_TableResult == nil || [_TableResult isEmpty])
   );
+  
+  /*
+   return (string.IsNullOrWhiteSpace(ValueResult)
+   && string.IsNullOrWhiteSpace(FigureResult)
+   && (TableResult == null || TableResult.IsEmpty()));
+
+   */
+  
 }
--(NSString*)ToString {  
+-(NSString*)ToString {
   NSCharacterSet *ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
   if ([[_ValueResult stringByTrimmingCharactersInSet: ws] length] > 0) {
     return _ValueResult;
