@@ -73,7 +73,7 @@
 		382C8D4D1D101CE000FE6878 /* TestSourceTextFile.txt in Resources */ = {isa = PBXBuildFile; fileRef = 382C8D4C1D101CE000FE6878 /* TestSourceTextFile.txt */; };
 		385906EE1D1C6E280088A0D7 /* StatTagModelJSONTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 385906ED1D1C6E280088A0D7 /* StatTagModelJSONTests.m */; };
 		387A0E1B1D2193D000F1FE9C /* StatTagModelCommandResultTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 387A0E1A1D2193D000F1FE9C /* StatTagModelCommandResultTests.m */; };
-		387A0E1D1D21BEFD00F1FE9C /* StatTagModelTagTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 387A0E1C1D21BEFD00F1FE9C /* StatTagModelTagTests.m */; };
+		387A0E1D1D21BEFD00F1FE9C /* StatTagModelAnnotationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 387A0E1C1D21BEFD00F1FE9C /* StatTagModelAnnotationTests.m */; };
 		3884513C1D19DCB3004C2B40 /* STValueParameterParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 3884513A1D19DCB3004C2B40 /* STValueParameterParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3884513D1D19DCB3004C2B40 /* STValueParameterParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3884513B1D19DCB3004C2B40 /* STValueParameterParser.m */; };
 		38C9B2001D109B40003B571E /* STExecutionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C9B1FE1D109B40003B571E /* STExecutionStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -95,7 +95,7 @@
 		38C9B21F1D10B97D003B571E /* StatTagParserBaseParserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C9B21E1D10B97D003B571E /* StatTagParserBaseParserTests.m */; };
 		38D0C1E31D1AD7F8001CC013 /* StatTagUtilityGeneralUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D0C1E21D1AD7F8001CC013 /* StatTagUtilityGeneralUtilTests.m */; };
 		38D0C1E51D1AD935001CC013 /* StatTagUtilityTagUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D0C1E41D1AD935001CC013 /* StatTagUtilityTagUtilTests.m */; };
-		38D0C1EE1D1B26A6001CC013 /* StatTagModelFieldTagTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D0C1ED1D1B26A6001CC013 /* StatTagModelFieldTagTests.m */; };
+		38D0C1EE1D1B26A6001CC013 /* StatTagModelFieldAnnotationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D0C1ED1D1B26A6001CC013 /* StatTagModelFieldAnnotationTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -179,7 +179,7 @@
 		382C8D4C1D101CE000FE6878 /* TestSourceTextFile.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TestSourceTextFile.txt; sourceTree = "<group>"; };
 		385906ED1D1C6E280088A0D7 /* StatTagModelJSONTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagModelJSONTests.m; sourceTree = "<group>"; };
 		387A0E1A1D2193D000F1FE9C /* StatTagModelCommandResultTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagModelCommandResultTests.m; sourceTree = "<group>"; };
-		387A0E1C1D21BEFD00F1FE9C /* StatTagModelTagTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagModelTagTests.m; sourceTree = "<group>"; };
+		387A0E1C1D21BEFD00F1FE9C /* StatTagModelAnnotationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagModelAnnotationTests.m; sourceTree = "<group>"; };
 		3884513A1D19DCB3004C2B40 /* STValueParameterParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STValueParameterParser.h; sourceTree = "<group>"; };
 		3884513B1D19DCB3004C2B40 /* STValueParameterParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STValueParameterParser.m; sourceTree = "<group>"; };
 		38C9B1FE1D109B40003B571E /* STExecutionStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STExecutionStep.h; sourceTree = "<group>"; };
@@ -201,7 +201,7 @@
 		38C9B21E1D10B97D003B571E /* StatTagParserBaseParserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagParserBaseParserTests.m; sourceTree = "<group>"; };
 		38D0C1E21D1AD7F8001CC013 /* StatTagUtilityGeneralUtilTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagUtilityGeneralUtilTests.m; sourceTree = "<group>"; };
 		38D0C1E41D1AD935001CC013 /* StatTagUtilityTagUtilTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagUtilityTagUtilTests.m; sourceTree = "<group>"; };
-		38D0C1ED1D1B26A6001CC013 /* StatTagModelFieldTagTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagModelFieldTagTests.m; sourceTree = "<group>"; };
+		38D0C1ED1D1B26A6001CC013 /* StatTagModelFieldAnnotationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagModelFieldAnnotationTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -427,11 +427,11 @@
 		38D0C1EA1D1B24EE001CC013 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				387A0E1C1D21BEFD00F1FE9C /* StatTagModelTagTests.m */,
+				387A0E1C1D21BEFD00F1FE9C /* StatTagModelAnnotationTests.m */,
 				382C286D1D16C77400697D6F /* StatTagModelCodeFileTests.m */,
 				387A0E1A1D2193D000F1FE9C /* StatTagModelCommandResultTests.m */,
 				380A67A91D107A820045B72B /* StatTagModelConstantsTests.m */,
-				38D0C1ED1D1B26A6001CC013 /* StatTagModelFieldTagTests.m */,
+				38D0C1ED1D1B26A6001CC013 /* StatTagModelFieldAnnotationTests.m */,
 				382C8D431D101C2700FE6878 /* StatTagModelFileHandlerTests.m */,
 				385906ED1D1C6E280088A0D7 /* StatTagModelJSONTests.m */,
 				380A679C1D1061490045B72B /* StatTagModelTableFormatTests.m */,
@@ -652,12 +652,12 @@
 				382C28511D13247800697D6F /* StatTagObjCPortingTests.m in Sources */,
 				38C9B2131D10A4D4003B571E /* StatTagValueFormatterStataTests.m in Sources */,
 				387A0E1B1D2193D000F1FE9C /* StatTagModelCommandResultTests.m in Sources */,
-				387A0E1D1D21BEFD00F1FE9C /* StatTagModelTagTests.m in Sources */,
+				387A0E1D1D21BEFD00F1FE9C /* StatTagModelAnnotationTests.m in Sources */,
 				38C9B2111D10A3B9003B571E /* StatTagValueFormatterBaseValueFormatterTests.m in Sources */,
 				38D0C1E51D1AD935001CC013 /* StatTagUtilityTagUtilTests.m in Sources */,
 				380A67AA1D107A820045B72B /* StatTagModelConstantsTests.m in Sources */,
 				380A679D1D1061490045B72B /* StatTagModelTableFormatTests.m in Sources */,
-				38D0C1EE1D1B26A6001CC013 /* StatTagModelFieldTagTests.m in Sources */,
+				38D0C1EE1D1B26A6001CC013 /* StatTagModelFieldAnnotationTests.m in Sources */,
 				38D0C1E31D1AD7F8001CC013 /* StatTagUtilityGeneralUtilTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

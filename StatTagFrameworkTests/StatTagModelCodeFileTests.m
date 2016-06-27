@@ -7,7 +7,8 @@
 //
 
 #import <XCTest/XCTest.h>
-#import "STCodeFile.h"
+//#import "STCodeFile.h"
+#import "StatTag.h"
 
 @interface StatTagModelCodeFileTests : XCTestCase
 
@@ -17,21 +18,114 @@
 
 - (void)setUp {
   [super setUp];
-  // Put setup code here. This method is called before the invocation of each test method in the class.
 }
 
 - (void)tearDown {
-  // Put teardown code here. This method is called after the invocation of each test method in the class.
   [super tearDown];
 }
 
 
 //MARK: c# test methods
+-(void)testDefault_ToString {
+}
 
+-(void)testLoadTagsFromContent_Empty {
+}
 
+-(void)testLoadTagsFromContent_UnknownType {
+}
 
+-(void)testLoadTagsFromContent_Normal {
+}
 
+-(void)testLoadTagsFromContent_RestoreCache {
+}
 
+-(void)testSaveBackup_AlreadyExists {
+}
+
+-(void)testSaveBackup_New {
+}
+
+-(void)testGuessStatisticalPackage_Empty {
+}
+
+-(void)testGuessStatisticalPackage_Valid {
+}
+
+-(void)testGuessStatisticalPackage_Unknown {
+}
+
+-(void)testContentCache_Load {
+}
+
+-(void)testAddTag_FlippedIndex {
+}
+
+-(void)testAddTag_Null {
+}
+
+-(void)testAddTag_New {
+}
+
+-(void)testAddTag_NoChange {
+}
+
+-(void)testAddTag_Update {
+}
+
+-(void)testAddTag_ExactLineMatch_NotFound {
+}
+
+-(void)testAddTag_ExactLineMatch {
+}
+
+-(void)testSave {
+}
+
+-(void)testRemoveTag_Exists {
+}
+
+-(void)testRemoveTag_DoesNotExist {
+}
+
+-(void)testUpdateContent {
+}
+
+-(void)testFindDuplicateTags_EmptyTags {
+}
+
+-(void)testFindDuplicateTags_NoDuplicates {
+}
+
+-(void)testFindDuplicateTags_Duplicates {
+
+  STCodeFile* codeFile = [[STCodeFile alloc] init];
+  NSURL* url = [[NSURL alloc] initWithString:@"Test.do"];
+  codeFile.FilePath = url;
+
+  STTag* tag1 = [[STTag alloc] init];
+  tag1.Name = @"Test";
+  STTag* tag2 = [[STTag alloc] init];
+  tag2.Name = @"Test2";
+  STTag* tag3 = [[STTag alloc] init];
+  tag3.Name = @"test";
+  STTag* tag4 = [[STTag alloc] init];
+  tag4.Name = @"test2";
+  STTag* tag5 = [[STTag alloc] init];
+  tag5.Name = @"Test";
+  
+  codeFile.Tags = [NSMutableArray<STTag*> arrayWithObjects:tag1,tag2,tag3,tag4,tag5, nil];
+  NSLog(@"[codeFile Tags] : %@", [codeFile Tags]);
+  
+  NSDictionary<STTag*, NSArray<STTag*>*>* result = [codeFile FindDuplicateTags];
+  NSLog(@"result : %@", result);
+
+  XCTAssertEqual(2, [result count]);
+  XCTAssertEqual(2, [[result objectForKey:([codeFile Tags][0])] count]);
+  XCTAssertEqual(1, [[result objectForKey:([codeFile Tags][1])] count]);
+  
+}
 
 
 //MARK: JSON testing - not in original C#
