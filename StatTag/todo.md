@@ -29,7 +29,9 @@ TO DO:
    
 11) isEqualTo vs isEqual - should we do both?
 12) Think through the use of NSURL for all of these paths - apparently NSURL preprends certain file paths if we pass just a filename - should we be storing a string instead?
-
+13) Move regex helper functionality out of the StataBaseParser class
+    +(BOOL)regexIsMatch:(NSRegularExpression*)regex inString:(NSString*)string {
+    (etc.)
 
 FIXED:
 ==================

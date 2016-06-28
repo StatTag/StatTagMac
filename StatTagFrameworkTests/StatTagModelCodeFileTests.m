@@ -9,6 +9,48 @@
 #import <XCTest/XCTest.h>
 //#import "STCodeFile.h"
 #import "StatTag.h"
+//#import <OCMock/OCMock.h>
+
+//MARK: "mock" IFileHandler
+/*
+ Tried to use various mocking frameworks like OCMock, OCMockito, etc., but our 32bit requirement is an issue here.
+ 
+ So - instead... we're just faking a mock object with a "convenience" class using blocks.
+ 
+ ala: https://www.objc.io/issues/15-testing/mocking-stubbing/
+ */
+
+@interface MockIFileHandler : NSObject<STIFileHandler> {
+  NSArray<NSString*>* _lines;
+}
+@property (readwrite, nonatomic, copy) NSArray<NSString*>* lines;
+- (NSArray*) ReadAllLines:(NSURL*)filePath error:(NSError**)error;
+- (BOOL) Exists:(NSURL*)filePath error:(NSError**)error;
+- (void) Copy:(NSURL*)sourceFile toDestinationFile: (NSURL*)destinationFile error:(NSError**)error;
+- (void) WriteAllLines:(NSURL*)filePath withContent: (NSArray*)content error:(NSError**)error;
+- (void) WriteAllText:(NSURL*)filePath withContent: (NSString*)content error:(NSError**)error;
+@end
+
+@implementation MockIFileHandler
+
+@synthesize lines = _lines;
+- (NSArray*) ReadAllLines:(NSURL*)filePath error:(NSError**)error {
+  return [self lines];
+}
+- (BOOL) Exists:(NSURL*)filePath error:(NSError**)error {
+  return true;
+}
+- (void) Copy:(NSURL*)sourceFile toDestinationFile: (NSURL*)destinationFile error:(NSError**)error {
+}
+- (void) WriteAllLines:(NSURL*)filePath withContent: (NSArray*)content error:(NSError**)error {
+  self.lines = content;
+}
+- (void) WriteAllText:(NSURL*)filePath withContent: (NSString*)content error:(NSError**)error {
+  self.lines = [NSArray arrayWithObject:content];
+}
+@end
+
+//MARK: Test cases
 
 @interface StatTagModelCodeFileTests : XCTestCase
 
@@ -91,7 +133,43 @@
 
 -(void)testUpdateContent {
   
+//  id mock = OCMProtocolMock(@protocol(STIFileHandler));
+//  NSURL* url = [[NSURL alloc] initWithString:@""];
+//  OCMStub([mock WriteAllText:url withContent:@"" error:nil]);//.andReturn(anObject);
+//  NSArray<NSString*>* lines = [NSArray arrayWithObjects:
+//         @"**>>>ST:Value(Label=\"Test\", Type=\"Default\")",
+//         @"first line",
+//         @"second line",
+//         @"**<<<",
+//         nil];
+//  OCMStub([mock ReadAllLines:url error:nil]).andReturn(lines);
+//  
+//  STCodeFile* codeFile = [[STCodeFile alloc] init:mock];
+//  codeFile.StatisticalPackage = [STConstantsStatisticalPackages Stata];
+//  [codeFile UpdateContent:@"test content" error:nil];
+//  //mock.verify?
+//  //http://stackoverflow.com/questions/25573992/ocmverify-and-undefined-symbols-for-architecture-i386-armv7-armv7s
+//  //http://erik.doernenburg.com/2008/07/testing-cocoa-controllers-with-ocmock/
+//  //https://www.bignerdranch.com/blog/making-mockery-mock-objects/
+//  //OCMVerify([mockEngine notify]);
+//  
+//  XCTAssertEqual(1, [[codeFile Tags] count]);
   
+  MockIFileHandler* mock = [[MockIFileHandler alloc] init];
+  NSArray<NSString*>* lines = [NSArray arrayWithObjects:
+         @"**>>>ST:Value(Label=\"Test\", Type=\"Default\")",
+         @"first line",
+         @"second line",
+         @"**<<<",
+         nil];
+  mock.lines = lines;
+  STCodeFile* codeFile = [[STCodeFile alloc] init:mock];
+  codeFile.StatisticalPackage = [STConstantsStatisticalPackages Stata];
+  [codeFile UpdateContent:@"test content" error:nil];
+  NSLog(@"[mock lines] : %@", [mock lines]);
+  NSLog(@"[codeFile Tags] : %@", [codeFile Tags]);
+  XCTAssertEqual(1, [[codeFile Tags] count]);
+
   /*
    var mock = new Mock<IFileHandler>();
    mock.Setup(file => file.WriteAllText(It.IsAny<string>(), It.IsAny<string>())).Verifiable();

@@ -74,6 +74,8 @@
 		385906EE1D1C6E280088A0D7 /* StatTagModelJSONTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 385906ED1D1C6E280088A0D7 /* StatTagModelJSONTests.m */; };
 		387A0E1B1D2193D000F1FE9C /* StatTagModelCommandResultTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 387A0E1A1D2193D000F1FE9C /* StatTagModelCommandResultTests.m */; };
 		387A0E1D1D21BEFD00F1FE9C /* StatTagModelAnnotationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 387A0E1C1D21BEFD00F1FE9C /* StatTagModelAnnotationTests.m */; };
+		387A0E251D22BC5F00F1FE9C /* STBaseParserStata.h in Headers */ = {isa = PBXBuildFile; fileRef = 387A0E231D22BC5F00F1FE9C /* STBaseParserStata.h */; };
+		387A0E261D22BC5F00F1FE9C /* STBaseParserStata.m in Sources */ = {isa = PBXBuildFile; fileRef = 387A0E241D22BC5F00F1FE9C /* STBaseParserStata.m */; };
 		3884513C1D19DCB3004C2B40 /* STValueParameterParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 3884513A1D19DCB3004C2B40 /* STValueParameterParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3884513D1D19DCB3004C2B40 /* STValueParameterParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3884513B1D19DCB3004C2B40 /* STValueParameterParser.m */; };
 		38C9B2001D109B40003B571E /* STExecutionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C9B1FE1D109B40003B571E /* STExecutionStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -180,6 +182,8 @@
 		385906ED1D1C6E280088A0D7 /* StatTagModelJSONTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagModelJSONTests.m; sourceTree = "<group>"; };
 		387A0E1A1D2193D000F1FE9C /* StatTagModelCommandResultTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagModelCommandResultTests.m; sourceTree = "<group>"; };
 		387A0E1C1D21BEFD00F1FE9C /* StatTagModelAnnotationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagModelAnnotationTests.m; sourceTree = "<group>"; };
+		387A0E231D22BC5F00F1FE9C /* STBaseParserStata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STBaseParserStata.h; sourceTree = "<group>"; };
+		387A0E241D22BC5F00F1FE9C /* STBaseParserStata.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STBaseParserStata.m; sourceTree = "<group>"; };
 		3884513A1D19DCB3004C2B40 /* STValueParameterParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STValueParameterParser.h; sourceTree = "<group>"; };
 		3884513B1D19DCB3004C2B40 /* STValueParameterParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STValueParameterParser.m; sourceTree = "<group>"; };
 		38C9B1FE1D109B40003B571E /* STExecutionStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STExecutionStep.h; sourceTree = "<group>"; };
@@ -348,6 +352,8 @@
 				382C284D1D1202D400697D6F /* STBaseParameterParser.m */,
 				38C9B21A1D10AA55003B571E /* STBaseParser.h */,
 				38C9B21B1D10AA55003B571E /* STBaseParser.m */,
+				387A0E231D22BC5F00F1FE9C /* STBaseParserStata.h */,
+				387A0E241D22BC5F00F1FE9C /* STBaseParserStata.m */,
 				382C28D31D19D8E900697D6F /* STFigureParameterParser.h */,
 				382C28D41D19D8E900697D6F /* STFigureParameterParser.m */,
 				38C9B2141D10A89D003B571E /* STIParser.h */,
@@ -477,6 +483,7 @@
 				380A67A41D106FBB0045B72B /* STCommandResult.h in Headers */,
 				382C8D3B1D0F9E1D00FE6878 /* STFileHandler.h in Headers */,
 				382C28D11D19C5DC00697D6F /* STGeneralUtil.h in Headers */,
+				387A0E251D22BC5F00F1FE9C /* STBaseParserStata.h in Headers */,
 				382C8D371D0F68B200FE6878 /* STCodeFile.h in Headers */,
 				382C28AC1D195C2500697D6F /* STFieldTag.h in Headers */,
 				382C285B1D133BCD00697D6F /* STValueFormat.h in Headers */,
@@ -631,6 +638,7 @@
 				38C9B20F1D10A2B2003B571E /* STStataBaseValueFormatter.m in Sources */,
 				3884513D1D19DCB3004C2B40 /* STValueParameterParser.m in Sources */,
 				382C28DA1D19DAD500697D6F /* STTableParameterParser.m in Sources */,
+				387A0E261D22BC5F00F1FE9C /* STBaseParserStata.m in Sources */,
 				382C28CD1D19ADA000697D6F /* STTagUtil.m in Sources */,
 				382C8D3C1D0F9E1D00FE6878 /* STFileHandler.m in Sources */,
 				382C28D61D19D8E900697D6F /* STFigureParameterParser.m in Sources */,
@@ -769,6 +777,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = StatTag/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -789,6 +801,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = StatTag/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -803,8 +819,13 @@
 		382C8D4A1D101C2700FE6878 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = StatTagFrameworkTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = stattag.org.StatTagFrameworkTests;
@@ -815,8 +836,13 @@
 		382C8D4B1D101C2700FE6878 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = StatTagFrameworkTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = stattag.org.StatTagFrameworkTests;
