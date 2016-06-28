@@ -90,12 +90,69 @@
 }
 
 -(void)testUpdateContent {
+  
+  
+  /*
+   var mock = new Mock<IFileHandler>();
+   mock.Setup(file => file.WriteAllText(It.IsAny<string>(), It.IsAny<string>())).Verifiable();
+   mock.Setup(file => file.ReadAllLines(It.IsAny<string>())).Returns(new[]
+   {
+   "**>>>ST:Value(Label=\"Test\", Type=\"Default\")",
+   "first line",
+   "second line",
+   "**<<<"
+   });
+   
+   var codeFile = new CodeFile(mock.Object);
+   codeFile.StatisticalPackage = Constants.StatisticalPackages.Stata;
+   codeFile.UpdateContent("test content");
+   mock.Verify();
+   Assert.AreEqual(1, codeFile.Tags.Count);
+   */
 }
 
 -(void)testFindDuplicateTags_EmptyTags {
+  
+  // This is when we have code files with null or otherwise empty collections of tags, to ensure we are
+  // handling this boundary scenarios appropriately.
+  
+  STCodeFile* codeFile = [[STCodeFile alloc] init];
+  NSURL* url = [[NSURL alloc] initWithString:@"Test.do"];
+  codeFile.FilePath = url;
+  codeFile.Tags = nil;
+  NSDictionary<STTag*, NSArray<STTag*>*>* result = [codeFile FindDuplicateTags];
+  XCTAssertEqual(0, [result count]);
+
+  codeFile = [[STCodeFile alloc] init];
+  url = [[NSURL alloc] initWithString:@"Test.do"];
+  codeFile.FilePath = url;
+  result = [codeFile FindDuplicateTags];
+  XCTAssertEqual(0, [result count]);
+
+  codeFile = [[STCodeFile alloc] init];
+  url = [[NSURL alloc] initWithString:@"Test.do"];
+  codeFile.FilePath = url;
+  codeFile.Tags = [[NSMutableArray<STTag*> alloc] init];
+  result = [codeFile FindDuplicateTags];
+  XCTAssertEqual(0, [result count]);
 }
 
 -(void)testFindDuplicateTags_NoDuplicates {
+  
+  STCodeFile* codeFile = [[STCodeFile alloc] init];
+  NSURL* url = [[NSURL alloc] initWithString:@"Test.do"];
+  codeFile.FilePath = url;
+  
+  STTag* tag1 = [[STTag alloc] init];
+  tag1.Name = @"Test";
+  STTag* tag2 = [[STTag alloc] init];
+  tag2.Name = @"Test2";
+
+  codeFile.Tags = [NSMutableArray<STTag*> arrayWithObjects:tag1,tag2, nil];
+
+  NSDictionary<STTag*, NSArray<STTag*>*>* result = [codeFile FindDuplicateTags];
+  XCTAssertEqual(0, [result count]);
+
 }
 
 -(void)testFindDuplicateTags_Duplicates {
