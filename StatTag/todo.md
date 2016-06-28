@@ -42,6 +42,35 @@ FIXED:
 FIXED: - now checking integerValue instead of just > (value)
 
 
+NOTES: OCMock
+===================
+
+OCMock - this is a 64bit library.
+If you update it, you'll need to do what I did - get it to be 32-bit compatible.
+
+To be able to compile OCMock for 32bit, you'll need to adjust one area of code so it's compatible.
+
+File: /OCMock/Core Mocks/Recorder/OCMVerifier.h
+Add the instance variable declaration
+
+@interface OCMVerifier : OCMRecorder {
+OCMLocation *_location;
+}
+
+
+File: /OCMock/Core Mocks/Recorder/OCMVerifier.m
+Synthesize the property:
+
+@synthesize location = _location;
+
+Then - to incorporate it into your tests, do the following (from here: http://stackoverflow.com/questions/14760435/adding-ocmock-causes-test-to-launch-main-app-instead-of-running-tests)
+
+  1) Go to your project file
+  2) Go to your test target
+  3) Click on "Build Phases"
+  4) Add a build phase for Copy Files"'
+  5) Set Destination to "Prodcts Directory"
+  6) Add OCMock.framework (32 bit version) to the list of files"
 
 
 

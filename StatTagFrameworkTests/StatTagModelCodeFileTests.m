@@ -9,46 +9,9 @@
 #import <XCTest/XCTest.h>
 //#import "STCodeFile.h"
 #import "StatTag.h"
+#import "MockIFileHandler.h"
 //#import <OCMock/OCMock.h>
 
-//MARK: "mock" IFileHandler
-/*
- Tried to use various mocking frameworks like OCMock, OCMockito, etc., but our 32bit requirement is an issue here.
- 
- So - instead... we're just faking a mock object with a "convenience" class using blocks.
- 
- ala: https://www.objc.io/issues/15-testing/mocking-stubbing/
- */
-
-@interface MockIFileHandler : NSObject<STIFileHandler> {
-  NSArray<NSString*>* _lines;
-}
-@property (readwrite, nonatomic, copy) NSArray<NSString*>* lines;
-- (NSArray*) ReadAllLines:(NSURL*)filePath error:(NSError**)error;
-- (BOOL) Exists:(NSURL*)filePath error:(NSError**)error;
-- (void) Copy:(NSURL*)sourceFile toDestinationFile: (NSURL*)destinationFile error:(NSError**)error;
-- (void) WriteAllLines:(NSURL*)filePath withContent: (NSArray*)content error:(NSError**)error;
-- (void) WriteAllText:(NSURL*)filePath withContent: (NSString*)content error:(NSError**)error;
-@end
-
-@implementation MockIFileHandler
-
-@synthesize lines = _lines;
-- (NSArray*) ReadAllLines:(NSURL*)filePath error:(NSError**)error {
-  return [self lines];
-}
-- (BOOL) Exists:(NSURL*)filePath error:(NSError**)error {
-  return true;
-}
-- (void) Copy:(NSURL*)sourceFile toDestinationFile: (NSURL*)destinationFile error:(NSError**)error {
-}
-- (void) WriteAllLines:(NSURL*)filePath withContent: (NSArray*)content error:(NSError**)error {
-  self.lines = content;
-}
-- (void) WriteAllText:(NSURL*)filePath withContent: (NSString*)content error:(NSError**)error {
-  self.lines = [NSArray arrayWithObject:content];
-}
-@end
 
 //MARK: Test cases
 

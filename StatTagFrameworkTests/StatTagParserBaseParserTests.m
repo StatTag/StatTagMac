@@ -7,7 +7,77 @@
 //
 
 #import <XCTest/XCTest.h>
-#import "STBaseParser.h"
+#import "StatTag.h"
+#import <OCMock/OCMock.h>
+
+
+
+//MARK: test stub class
+
+@interface StubParser : STBaseParser
+
+@end
+
+@implementation StubParser
+-(NSString*)CommentCharacter
+{
+		return @"*";
+}
+
+-(NSTextCheckingResult*)DetectStartTag:(NSString*)line
+{
+  return [self DetectTag:[self StartTagRegEx] line:line];
+}
+
+-(NSTextCheckingResult*)DetectEndTag:(NSString*)line
+{
+  return [self DetectTag:[self EndTagRegEx] line:line];
+}
+
+-(BOOL)IsImageExport:(NSString*)command
+{
+  [NSException raise:@"Not yet implemented" format:@"method not yet implemented"];
+  return false;
+}
+
+-(BOOL)IsValueDisplay:(NSString*)command
+{
+  [NSException raise:@"Not yet implemented" format:@"method not yet implemented"];
+  return false;
+}
+
+-(NSString*)GetImageSaveLocation:(NSString*)command
+{
+  [NSException raise:@"Not yet implemented" format:@"method not yet implemented"];
+  return nil;
+}
+
+-(NSString*) GetValueName:(NSString*)command
+{
+  [NSException raise:@"Not yet implemented" format:@"method not yet implemented"];
+  return nil;
+}
+
+-(BOOL)IsTableResult:(NSString*)command
+{
+  [NSException raise:@"Not yet implemented" format:@"method not yet implemented"];
+  return false;
+}
+
+-(NSString*) GetTableName:(NSString*)command
+{
+  [NSException raise:@"Not yet implemented" format:@"method not yet implemented"];
+  return nil;
+}
+
+-(NSArray<NSString*>*) PreProcessContent:(NSArray<NSString*>*)originalContent
+{
+  return originalContent;
+}
+@end
+
+
+//MARK: test methods
 
 @interface StatTagParserBaseParserTests : XCTestCase
 
@@ -15,16 +85,115 @@
 
 @implementation StatTagParserBaseParserTests
 
+
 - (void)setUp {
-    [super setUp];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
+  [super setUp];
 }
 
 - (void)tearDown {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
-    [super tearDown];
+  [super tearDown];
 }
 
+
+-(void)testParse_Null_Empty{
+  StubParser* parser = [[StubParser alloc] init];
+  NSArray<STTag*>* result = [parser Parse:nil];
+
+  XCTAssertNotNil(result);
+  XCTAssertEqual(0, [result count]);
+
+  id mock = OCMClassMock([STCodeFile class]);
+  OCMStub([mock LoadFileContent]).andReturn([[NSArray<NSString*> alloc] init]);
+
+  result = [parser Parse:mock];
+  XCTAssertNotNil(result);
+  XCTAssertEqual(0, [result count]);
+}
+
+
+-(void)testParse_Simple{
+  
+  StubParser* parser = [[StubParser alloc] init];
+  NSArray<NSString*>* lines = [[NSArray<NSString*> alloc]
+              initWithObjects:
+                @"**>>>ST:Test",
+                @"declare value",
+                @"**<<<AM:Test",
+                nil];
+
+  id mock = OCMClassMock([STCodeFile class]);
+  OCMStub([mock LoadFileContent]).andReturn([[NSArray<NSString*> alloc] initWithArray:lines]);
+
+  NSArray<STTag*>* result = [parser Parse:mock];
+
+  XCTAssertEqual(1, [result count]);
+  XCTAssertEqual(@0, [result[0] LineStart]);
+  XCTAssertEqual(@2, [result[0] LineEnd]);
+
+}
+
+-(void)testParse_StartNoEnd{
+ 
+  StubParser* parser = [[StubParser alloc] init];
+  NSArray<NSString*>* lines = [[NSArray<NSString*> alloc]
+                               initWithObjects:
+                               @"**>>>ST:Test",
+                               @"declare value",
+                               nil];
+  
+  id mock = OCMClassMock([STCodeFile class]);
+  OCMStub([mock LoadFileContent]).andReturn([[NSArray<NSString*> alloc] initWithArray:lines]);
+  
+  NSArray<STTag*>* result = [parser Parse:mock];
+  XCTAssertEqual(0, [result count]);
+}
+
+-(void)testParse_TwoStartsOneEnd{
+  
+  StubParser* parser = [[StubParser alloc] init];
+  NSArray<NSString*>* lines = [[NSArray<NSString*> alloc]
+                               initWithObjects:
+                               @"**>>>ST:Test",
+                               @"declare value",
+                               @"**>>>ST:Test",
+                               @"declare value",
+                               @"**<<<AM:Test",
+                               nil];
+  
+  id mock = OCMClassMock([STCodeFile class]);
+  OCMStub([mock LoadFileContent]).andReturn([[NSArray<NSString*> alloc] initWithArray:lines]);
+  
+  NSArray<STTag*>* result = [parser Parse:mock];
+  XCTAssertEqual(1, [result count]);
+  XCTAssertEqual(@2, [result[0] LineStart]);
+  XCTAssertEqual(@4, [result[0] LineEnd]);
+}
+
+-(void)testParse_OnDemandFilter{
+  
+}
+
+-(void)testParse_TagList{
+  
+}
+
+-(void)testDetectStartTag_Null_Empty{
+  
+}
+
+-(void)testDetectStartTag_Simple{
+  
+}
+
+-(void)testGetExecutionSteps_OnDemandFilter{
+  
+}
+
+-(void)testGetExecutionSteps_TagList{
+  
+}
+
+//MARK: scratch pad
 - (void)testNSTyupes {
 //  NSInteger x;
 //  NSLog(@"x: %ld", (long)x);
@@ -90,3 +259,53 @@
 
 
 @end
+
+
+
+
+
+
+
+
+
+
+//#import <objc/message.h>
+
+//@interface ProxySTCodeFile : NSObject {
+//  NSMutableArray<NSString*>* (^_loadFileContent)(void);
+//}
+//@property (nonatomic, copy) NSMutableArray<NSString*>* (^loadFileContent)(void);
+//-(NSMutableArray<NSString *>*) LoadFileContent;
+//@end
+//
+//@implementation ProxySTCodeFile
+//@synthesize loadFileContent = _loadFileContent;
+//-(NSMutableArray<NSString *>*) LoadFileContent {
+//  if(_loadFileContent != nil) {
+//    [[self loadFileContent] invoke];
+//  }
+//  return nil;
+//}
+//@end
+
+/*
+ 
+ STCodeFile* mock = [[STCodeFile alloc] init];
+ 
+ ProxySTCodeFile* proxy = [[ProxySTCodeFile alloc] init];
+ NSMutableArray<NSString*>*(^loadFileContent)(void) = ^(void) {
+ NSMutableArray<NSString*>* ar = [[NSMutableArray<NSString*> alloc] init];
+ return ar;
+ };
+ proxy.loadFileContent = loadFileContent;
+ 
+ SEL selector = @selector(LoadFileContent);
+ IMP newImp = [ProxySTCodeFile instanceMethodForSelector:@selector(LoadFileContent)];
+ Method method = class_getClassMethod([STCodeFile class], selector);
+ const char * encoding = method_getTypeEncoding(method);
+ class_replaceMethod([STCodeFile class], selector, newImp, encoding);
+ 
+ result = [parser Parse:mock];//parser.Parse(mock.Object);
+ 
+ 
+ */

@@ -32,28 +32,32 @@
 }
 
 //http://stackoverflow.com/questions/9276246/how-to-write-regular-expressions-in-objective-c-nsregularexpression
--(NSArray*)DetectTag:(NSRegularExpression*)tagRegex line:(NSString*)line {
+-(NSTextCheckingResult*)DetectTag:(NSRegularExpression*)tagRegex line:(NSString*)line {
   if(line == nil) {
     line = [[NSString alloc] init];
   }
   NSRange searchRange = NSMakeRange(0, [line length]);
-  NSArray* matches = [tagRegex matchesInString:line options:0 range: searchRange];
-  return matches;
+  //NSArray<NSTextCheckingResult*>* matches = [tagRegex matchesInString:line options:0 range: searchRange];
+  NSTextCheckingResult* match = [tagRegex firstMatchInString:line options:0 range:searchRange];
+  return match;
 }
 
 
 -(void)SetupRegEx {
   //FIXME: go back and look at regex - Luke is setting options on the regex here so we should go back and have this return some sort of regex object (if possible) with options set instead of just the string
   // RegexOptions.Singleline
+  // NOTE: be aware that the original C# escapes braces with braces.
+  //  EX: {{2,}} is meant to be {2,}
+  // We have changed the original Regex to match Foundation-style escaping and removed the extraneous braces that would otherwise cause problems. 
   NSError *error;
   if(_StartTagRegEx == nil){
-    _StartTagRegEx = [NSRegularExpression regularExpressionWithPattern:[NSString stringWithFormat:@"\\s*[\\%@]{{2,}}\\s*%@\\s*%@(.*)", [self CommentCharacter], [STConstantsTagTags StartTag], [STConstantsTagTags TagPrefix]] options:0 error:&error] ;
+    _StartTagRegEx = [NSRegularExpression regularExpressionWithPattern:[NSString stringWithFormat:@"\\s*[\\%@]{2,}\\s*%@\\s*%@(.*)", [self CommentCharacter], [STConstantsTagTags StartTag], [STConstantsTagTags TagPrefix]] options:0 error:&error] ;
     if(error != nil){
       NSLog(@"%@ - StartTagRegEx: %@", NSStringFromSelector(_cmd), error);
     }
   }
   if(_EndTagRegEx == nil){
-    _EndTagRegEx = [NSRegularExpression regularExpressionWithPattern:[NSString stringWithFormat:@"\\s*[\\%@]{{2,}}\\s*%@", [self CommentCharacter], [STConstantsTagTags EndTag]] options:0 error:&error] ;
+    _EndTagRegEx = [NSRegularExpression regularExpressionWithPattern:[NSString stringWithFormat:@"\\s*[\\%@]{2,}\\s*%@", [self CommentCharacter], [STConstantsTagTags EndTag]] options:0 error:&error] ;
     if(error != nil){
       NSLog(@"%@ - EndTagRegEx: %@", NSStringFromSelector(_cmd), error);
     }
@@ -241,7 +245,7 @@
   return executionSteps;
 }
 
--(void)ProcessTag:(NSString*)tagText Tag:(STTag*)tag error:(NSError**)error {
+-(void)ProcessTag:(NSString*)tagText Tag:(STTag*)tag error:(NSError**)outError {
   if([tagText hasPrefix:[STConstantsTagType Value]]) {
     tag.Type = [STConstantsTagType Value];
     [STValueParameterParser Parse:tagText tag:tag];
@@ -254,13 +258,17 @@
     [STTableParameterParser Parse:tagText tag:tag];
     [STValueParameterParser Parse:tagText tag:tag];
   } else {
+    //FIXME: go back and fix the whole issue with passing errors in and pointer references, etc.
     //populate error
-    NSDictionary *userInfo = @{
-                               NSLocalizedDescriptionKey: NSLocalizedString(@"Unsupported tag type", nil),
-                               NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Unsupported tag type", nil),
-                               NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Unsupported tag type", nil)
-                               };
-    *error = [NSError errorWithDomain:STStatTagErrorDomain code:NSURLErrorFileDoesNotExist userInfo:userInfo];
+//    NSError *error;
+//    NSDictionary *userInfo = @{
+//                               NSLocalizedDescriptionKey: NSLocalizedString(@"Unsupported tag type", nil),
+//                               NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Unsupported tag type", nil),
+//                               NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Unsupported tag type", nil)
+//                               };
+//    //*error = [NSError errorWithDomain:STStatTagErrorDomain code:NSURLErrorFileDoesNotExist userInfo:userInfo];
+//    error = [NSError errorWithDomain:STStatTagErrorDomain code:NSURLErrorFileDoesNotExist userInfo:userInfo];
+    NSLog(@"Invalid tag '%@' found in ProcessTag (%@)", tagText, [self class]);
   }
 
 }

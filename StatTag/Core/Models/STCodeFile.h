@@ -42,7 +42,7 @@
 /**
  @brief Return the contents of the CodeFile
  */
--(NSMutableArray*) LoadFileContent;
+-(NSMutableArray<NSString *>*) LoadFileContent;
 /**
  @brief Return the contents of the CodeFile
  */

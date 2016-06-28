@@ -117,7 +117,7 @@ NSObject<STIFileHandler>* _FileHandler;
 /**
  @brief Return the contents of the CodeFile
 */
-- (NSMutableArray*) LoadFileContent {
+- (NSMutableArray<NSString*>*) LoadFileContent {
   [self RefreshContent];
   return ContentCache;
 }

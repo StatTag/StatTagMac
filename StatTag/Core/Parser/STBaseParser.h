@@ -52,4 +52,9 @@
  */
 -(NSArray<NSString*>*)PreProcessContent:(NSArray<NSString*>*) originalContent;
 
+
+//MARK: private methods
+//had to make these public so we could use them in subclasses - these should probably be moved to a class extension
+-(NSTextCheckingResult*)DetectTag:(NSRegularExpression*)tagRegex line:(NSString*)line;
+
 @end

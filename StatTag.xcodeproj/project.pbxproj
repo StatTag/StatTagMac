@@ -76,6 +76,10 @@
 		387A0E1D1D21BEFD00F1FE9C /* StatTagModelAnnotationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 387A0E1C1D21BEFD00F1FE9C /* StatTagModelAnnotationTests.m */; };
 		387A0E251D22BC5F00F1FE9C /* STBaseParserStata.h in Headers */ = {isa = PBXBuildFile; fileRef = 387A0E231D22BC5F00F1FE9C /* STBaseParserStata.h */; };
 		387A0E261D22BC5F00F1FE9C /* STBaseParserStata.m in Sources */ = {isa = PBXBuildFile; fileRef = 387A0E241D22BC5F00F1FE9C /* STBaseParserStata.m */; };
+		387A0E281D22E65500F1FE9C /* StatTagParserBaseParserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 387A0E271D22E65500F1FE9C /* StatTagParserBaseParserTests.m */; };
+		387A0E2C1D22FA4200F1FE9C /* MockIFileHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 387A0E2B1D22FA4200F1FE9C /* MockIFileHandler.m */; };
+		387A0E301D230DAF00F1FE9C /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 387A0E2F1D230DAF00F1FE9C /* OCMock.framework */; };
+		387A0E351D23111C00F1FE9C /* OCMock.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 387A0E2F1D230DAF00F1FE9C /* OCMock.framework */; };
 		3884513C1D19DCB3004C2B40 /* STValueParameterParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 3884513A1D19DCB3004C2B40 /* STValueParameterParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3884513D1D19DCB3004C2B40 /* STValueParameterParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3884513B1D19DCB3004C2B40 /* STValueParameterParser.m */; };
 		38C9B2001D109B40003B571E /* STExecutionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C9B1FE1D109B40003B571E /* STExecutionStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -94,7 +98,6 @@
 		38C9B2191D10A8CF003B571E /* STTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C9B2171D10A8CF003B571E /* STTag.m */; };
 		38C9B21C1D10AA55003B571E /* STBaseParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C9B21A1D10AA55003B571E /* STBaseParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38C9B21D1D10AA55003B571E /* STBaseParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C9B21B1D10AA55003B571E /* STBaseParser.m */; };
-		38C9B21F1D10B97D003B571E /* StatTagParserBaseParserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C9B21E1D10B97D003B571E /* StatTagParserBaseParserTests.m */; };
 		38D0C1E31D1AD7F8001CC013 /* StatTagUtilityGeneralUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D0C1E21D1AD7F8001CC013 /* StatTagUtilityGeneralUtilTests.m */; };
 		38D0C1E51D1AD935001CC013 /* StatTagUtilityTagUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D0C1E41D1AD935001CC013 /* StatTagUtilityTagUtilTests.m */; };
 		38D0C1EE1D1B26A6001CC013 /* StatTagModelFieldAnnotationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D0C1ED1D1B26A6001CC013 /* StatTagModelFieldAnnotationTests.m */; };
@@ -109,6 +112,19 @@
 			remoteInfo = StatTag;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		387A0E341D23110100F1FE9C /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 16;
+			files = (
+				387A0E351D23111C00F1FE9C /* OCMock.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		380A67961D102FFA0045B72B /* TestDestinationTextFile.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TestDestinationTextFile.txt; sourceTree = "<group>"; };
@@ -184,6 +200,10 @@
 		387A0E1C1D21BEFD00F1FE9C /* StatTagModelAnnotationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagModelAnnotationTests.m; sourceTree = "<group>"; };
 		387A0E231D22BC5F00F1FE9C /* STBaseParserStata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STBaseParserStata.h; sourceTree = "<group>"; };
 		387A0E241D22BC5F00F1FE9C /* STBaseParserStata.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STBaseParserStata.m; sourceTree = "<group>"; };
+		387A0E271D22E65500F1FE9C /* StatTagParserBaseParserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagParserBaseParserTests.m; sourceTree = "<group>"; };
+		387A0E2A1D22FA4200F1FE9C /* MockIFileHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MockIFileHandler.h; sourceTree = "<group>"; };
+		387A0E2B1D22FA4200F1FE9C /* MockIFileHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MockIFileHandler.m; sourceTree = "<group>"; };
+		387A0E2F1D230DAF00F1FE9C /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OCMock.framework; sourceTree = "<group>"; };
 		3884513A1D19DCB3004C2B40 /* STValueParameterParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STValueParameterParser.h; sourceTree = "<group>"; };
 		3884513B1D19DCB3004C2B40 /* STValueParameterParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STValueParameterParser.m; sourceTree = "<group>"; };
 		38C9B1FE1D109B40003B571E /* STExecutionStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STExecutionStep.h; sourceTree = "<group>"; };
@@ -202,7 +222,6 @@
 		38C9B2171D10A8CF003B571E /* STTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STTag.m; sourceTree = "<group>"; };
 		38C9B21A1D10AA55003B571E /* STBaseParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STBaseParser.h; sourceTree = "<group>"; };
 		38C9B21B1D10AA55003B571E /* STBaseParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STBaseParser.m; sourceTree = "<group>"; };
-		38C9B21E1D10B97D003B571E /* StatTagParserBaseParserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagParserBaseParserTests.m; sourceTree = "<group>"; };
 		38D0C1E21D1AD7F8001CC013 /* StatTagUtilityGeneralUtilTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagUtilityGeneralUtilTests.m; sourceTree = "<group>"; };
 		38D0C1E41D1AD935001CC013 /* StatTagUtilityTagUtilTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagUtilityTagUtilTests.m; sourceTree = "<group>"; };
 		38D0C1ED1D1B26A6001CC013 /* StatTagModelFieldAnnotationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagModelFieldAnnotationTests.m; sourceTree = "<group>"; };
@@ -221,6 +240,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				387A0E301D230DAF00F1FE9C /* OCMock.framework in Frameworks */,
 				382C8D461D101C2700FE6878 /* StatTag.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -238,6 +258,7 @@
 		382C8D191D0F672F00FE6878 = {
 			isa = PBXGroup;
 			children = (
+				387A0E2F1D230DAF00F1FE9C /* OCMock.framework */,
 				382C28701D180CB900697D6F /* SystemConfiguration.framework */,
 				382C8D251D0F672F00FE6878 /* StatTag */,
 				382C8D421D101C2700FE6878 /* StatTagFrameworkTests */,
@@ -393,6 +414,7 @@
 		382C8D421D101C2700FE6878 /* StatTagFrameworkTests */ = {
 			isa = PBXGroup;
 			children = (
+				387A0E291D22FA2700F1FE9C /* MockClasses */,
 				382C8D451D101C2700FE6878 /* Info.plist */,
 				38D0C1EB1D1B24F5001CC013 /* Obj_C_Tests */,
 				38D0C1EA1D1B24EE001CC013 /* Models */,
@@ -402,6 +424,15 @@
 				38D0C1EC1D1B2503001CC013 /* Resources */,
 			);
 			path = StatTagFrameworkTests;
+			sourceTree = "<group>";
+		};
+		387A0E291D22FA2700F1FE9C /* MockClasses */ = {
+			isa = PBXGroup;
+			children = (
+				387A0E2A1D22FA4200F1FE9C /* MockIFileHandler.h */,
+				387A0E2B1D22FA4200F1FE9C /* MockIFileHandler.m */,
+			);
+			name = MockClasses;
 			sourceTree = "<group>";
 		};
 		38D0C1E71D1B24A3001CC013 /* ValueFormatter */ = {
@@ -425,7 +456,7 @@
 		38D0C1E91D1B24DD001CC013 /* Parser */ = {
 			isa = PBXGroup;
 			children = (
-				38C9B21E1D10B97D003B571E /* StatTagParserBaseParserTests.m */,
+				387A0E271D22E65500F1FE9C /* StatTagParserBaseParserTests.m */,
 			);
 			name = Parser;
 			sourceTree = "<group>";
@@ -542,6 +573,7 @@
 				382C8D3D1D101C2700FE6878 /* Sources */,
 				382C8D3E1D101C2700FE6878 /* Frameworks */,
 				382C8D3F1D101C2700FE6878 /* Resources */,
+				387A0E341D23110100F1FE9C /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -652,9 +684,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				382C28541D1324EB00697D6F /* ObjCPortingScratchPad.m in Sources */,
-				38C9B21F1D10B97D003B571E /* StatTagParserBaseParserTests.m in Sources */,
 				385906EE1D1C6E280088A0D7 /* StatTagModelJSONTests.m in Sources */,
 				382C286E1D16C77400697D6F /* StatTagModelCodeFileTests.m in Sources */,
+				387A0E2C1D22FA4200F1FE9C /* MockIFileHandler.m in Sources */,
+				387A0E281D22E65500F1FE9C /* StatTagParserBaseParserTests.m in Sources */,
 				382C285E1D135DE200697D6F /* StatTagModelValueFormatTests.m in Sources */,
 				382C8D441D101C2700FE6878 /* StatTagModelFileHandlerTests.m in Sources */,
 				382C28511D13247800697D6F /* StatTagObjCPortingTests.m in Sources */,
