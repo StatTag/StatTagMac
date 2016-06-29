@@ -346,9 +346,84 @@
 
 -(void)testGetExecutionSteps_OnDemandFilter{
   
+  StubParser* parser = [[StubParser alloc] init];
+  NSArray<STExecutionStep*>* result;
+  NSArray<NSString*>* lines = [[NSArray<NSString*> alloc]
+                               initWithObjects:
+                               @"declare value",
+                               @"**>>>ST:Value(Frequency=\"On Demand\")",
+                               @"declare value",
+                               @"**<<<",
+                               @"**>>>ST:Value",
+                               @"declare value2",
+                               @"**<<<",
+                               nil];
+  
+  id mock = OCMClassMock([STCodeFile class]);
+  OCMStub([mock LoadFileContent]).andReturn([[NSArray<NSString*> alloc] initWithArray:lines]);
+  result = [parser GetExecutionSteps:mock filterMode:[STConstantsParserFilterMode ExcludeOnDemand]];
+  
+  XCTAssertEqual(2, [result count]);
+  
+  XCTAssertEqual([STConstantsExecutionStepType CodeBlock], [result[0] Type] );
+  XCTAssertNil([result[0] Tag]);
+
+  XCTAssertEqual([STConstantsExecutionStepType Tag], [result[1] Type] );
+  XCTAssertNotNil([result[1] Tag]);
+  
+  result = [parser GetExecutionSteps:mock];
+
+  XCTAssertEqual(3, [result count]);
+
+  XCTAssertEqual([STConstantsExecutionStepType CodeBlock], [result[0] Type] );
+  XCTAssertNil([result[0] Tag]);
+
+  XCTAssertEqual([STConstantsExecutionStepType Tag], [result[1] Type] );
+  XCTAssertNotNil([result[1] Tag]);
+
+  XCTAssertEqual([STConstantsExecutionStepType Tag], [result[2] Type] );
+  XCTAssertNotNil([result[2] Tag]);
+
 }
 
 -(void)testGetExecutionSteps_TagList{
+ 
+  
+  StubParser* parser = [[StubParser alloc] init];
+  NSArray<STExecutionStep*>* result;
+  NSArray<NSString*>* lines = [[NSArray<NSString*> alloc]
+                               initWithObjects:
+                               @"declare value",
+                               @"**>>>ST:Value(Label=\"Test1\", Frequency=\"On Demand\")",
+                               @"declare value",
+                               @"**<<<",
+                               @"**>>>ST:Value(Label=\"Test2\")",
+                               @"declare value2",
+                               @"**<<<",
+                               nil];
+  
+  id mock = OCMClassMock([STCodeFile class]);
+  OCMStub([mock LoadFileContent]).andReturn([[NSArray<NSString*> alloc] initWithArray:lines]);
+  id x;
+  OCMStub([mock isEqual:x]).andReturn(true);
+  result = [parser GetExecutionSteps:mock filterMode:[STConstantsParserFilterMode TagList]];
+
+  XCTAssertEqual(3, [result count]);
+
+  NSArray<STTag*>* taglist = [NSArray arrayWithObjects:
+                              [STTag tagWithName:@"Test1" andCodeFile:mock andType:[STConstantsTagType Value]]
+                              , nil];
+  result = [parser GetExecutionSteps:mock filterMode:[STConstantsParserFilterMode TagList] tagsToRun:taglist];
+
+  XCTAssertEqual(2, [result count]);
+
+  XCTAssertEqual([STConstantsExecutionStepType CodeBlock], [result[0] Type] );
+  XCTAssertNil([result[0] Tag]);
+
+  XCTAssertEqual([STConstantsExecutionStepType Tag], [result[1] Type] );
+  XCTAssertNotNil([result[1] Tag]);
+
+  XCTAssert([ @"Test1" isEqualToString:[[result[1] Tag] Name]]);
   
 }
 
