@@ -230,6 +230,12 @@
               @"Third line",
               nil];
   XCTAssertEqual(2, [[parser PreProcessContent:testList] count]);
+  /*
+   Result:
+   "First line",
+   "Second line  Third line"
+   */
+  //NSLog(@"[parser PreProcessContent:testList] : %@", [parser PreProcessContent:testList]);
 
   testList = [NSArray<NSString*> arrayWithObjects:
               @"First line ///",

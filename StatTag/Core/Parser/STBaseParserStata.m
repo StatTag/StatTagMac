@@ -26,32 +26,56 @@
   return @"di(?:splay)?";
 }
 +(NSRegularExpression*)ValueKeywordRegex {
-  return [NSRegularExpression
+  NSError* error;
+  NSRegularExpression* regex = [NSRegularExpression
           regularExpressionWithPattern:[NSString stringWithFormat:@"^\\s*%@\\b", [[self class] ValueCommand]]
           options:0
-          error:nil];
+          error:&error];
+  if(error){
+    NSLog(@"Stata - ValueKeywordRegex : %@", [error localizedDescription]);
+    NSLog(@"Stata - [[self class] ValueCommand] : %@", [[self class] ValueCommand]);
+  }
+  return regex;
 }
 +(NSRegularExpression*)ValueRegex {
-  return [NSRegularExpression
+  NSError* error;
+  NSRegularExpression* regex =  [NSRegularExpression
           regularExpressionWithPattern:[NSString stringWithFormat:@"^\\s*%@((\\s*\\()|(\\s+))(.*)(?(2)\\))", [[self class] ValueCommand]]
           options:0
-          error:nil];
+          error:&error];
+  if(error){
+    NSLog(@"Stata - ValueKeywordRegex : %@", [error localizedDescription]);
+    NSLog(@"Stata - [[self class] ValueCommand] : %@", [[self class] ValueCommand]);
+  }
+  return regex;
 }
 //MARK: Graph regex
 +(NSString*)GraphCommand {
   return @"gr(?:aph)? export";
 }
 +(NSRegularExpression*)GraphKeywordRegex {
-  return [NSRegularExpression
+  NSError* error;
+  NSRegularExpression* regex =   [NSRegularExpression
           regularExpressionWithPattern:[NSString stringWithFormat:@"^\\s*%@\\b", [[[self class] GraphCommand] stringByReplacingOccurrencesOfString:@" " withString:@"\\s+" ]]
                                                           options:0
-                                                            error:nil];
+                                                            error:&error];
+  if(error){
+    NSLog(@"Stata - ValueKeywordRegex : %@", [error localizedDescription]);
+    NSLog(@"Stata - [[self class] ValueCommand] : %@", [[self class] ValueCommand]);
+  }
+  return regex;
 }
 +(NSRegularExpression*)GraphRegex {
-  return [NSRegularExpression
+  NSError* error;
+  NSRegularExpression* regex =   [NSRegularExpression
           regularExpressionWithPattern:[NSString stringWithFormat:@"^\\s*%@\\s+\\\"?([^\\\",]*)[\\\",]?", [[[self class] GraphCommand] stringByReplacingOccurrencesOfString:@" " withString:@"\\s+" ]]
           options:0
-          error:nil];
+          error:&error];
+  if(error){
+    NSLog(@"Stata - ValueKeywordRegex : %@", [error localizedDescription]);
+    NSLog(@"Stata - [[self class] ValueCommand] : %@", [[self class] ValueCommand]);
+  }
+  return regex;
 }
 
 //MARK: Table regex
@@ -75,7 +99,7 @@
 +(NSRegularExpression*)LogKeywordRegex {
   return [NSRegularExpression
           regularExpressionWithPattern:@"^\\s*((?:cmd)?log)\\s*using\\b"
-          options:NSRegularExpressionAnchorsMatchLines //should match c# RegexOptions.Multiline
+          options:0//NSRegularExpressionAnchorsMatchLines //should match c# RegexOptions.Multiline
           error:nil];
   // static Regex LogKeywordRegex = new Regex("^\\s*((?:cmd)?log)\\s*using\\b", RegexOptions.Multiline);
 }
@@ -85,11 +109,11 @@
   return [NSArray<NSRegularExpression*> arrayWithObjects:
           [NSRegularExpression
            regularExpressionWithPattern:@"[/]{3,}.*\\s*"
-           options:NSRegularExpressionAnchorsMatchLines //should match c# RegexOptions.Multiline
+           options:0//NSRegularExpressionAnchorsMatchLines //should match c# RegexOptions.Multiline
            error:nil],
           [NSRegularExpression
            regularExpressionWithPattern:@"/\\*.*\\*/\\s?"
-           options:0 //default options should be single line?
+           options:NSRegularExpressionDotMatchesLineSeparators //default options should be single line?
            error:nil]
           , nil];
   
@@ -116,7 +140,8 @@ This is used to test/extract a macro display value.
 //FIXME: Move this somewhere else - this is general regex functionality
 +(BOOL)regexIsMatch:(NSRegularExpression*)regex inString:(NSString*)string {
   NSRange textRange = NSMakeRange(0, string.length);
-  NSRange matchRange = [regex rangeOfFirstMatchInString:string options:NSMatchingReportProgress range:textRange];
+  //NSMatchingReportProgress
+  NSRange matchRange = [regex rangeOfFirstMatchInString:string options:0 range:textRange];
   
   if (matchRange.location != NSNotFound)
     return true;

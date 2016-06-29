@@ -37,6 +37,10 @@ TO DO:
     m.index (starting point)
     m.length (length)
     m.value (match result) {from range}
+15) Issue: no support for if/then/else conditional regex
+private static readonly Regex ValueRegex = new Regex(string.Format("^\\s*{0}((\\s*\\()|(\\s+))(.*)(?(2)\\))", ValueCommand));
+
+
 
 FIXED:
 ==================
