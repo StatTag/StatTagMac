@@ -25,8 +25,8 @@
   }
   
   [STBaseParameterParser Parse:tagText Tag:tag];
-
-  [tag ValueFormat].FormatType = [STValueParameterParser GetParameter:[STConstantsValueParameters Type] valueMatch:tagText text:[STConstantsValueFormatType Default]];
+  
+  [tag ValueFormat].FormatType = [STValueParameterParser GetStringParameter:[STConstantsValueParameters Type] text:tagText defaultValue:[STConstantsValueFormatType Default]];
 
   NSNumber *intValue = [STValueParameterParser GetIntParameter:[STConstantsValueParameters Decimals] text:tagText defaultValue:0];
   [tag ValueFormat].DecimalPlaces = [intValue integerValue]; // Since we specify a default, we assume it won't ever be null

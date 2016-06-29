@@ -80,6 +80,7 @@
 		387A0E2C1D22FA4200F1FE9C /* MockIFileHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 387A0E2B1D22FA4200F1FE9C /* MockIFileHandler.m */; };
 		387A0E301D230DAF00F1FE9C /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 387A0E2F1D230DAF00F1FE9C /* OCMock.framework */; };
 		387A0E351D23111C00F1FE9C /* OCMock.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 387A0E2F1D230DAF00F1FE9C /* OCMock.framework */; };
+		387A0E371D24156900F1FE9C /* StatTagParserValueParserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 387A0E361D24156900F1FE9C /* StatTagParserValueParserTests.m */; };
 		3884513C1D19DCB3004C2B40 /* STValueParameterParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 3884513A1D19DCB3004C2B40 /* STValueParameterParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3884513D1D19DCB3004C2B40 /* STValueParameterParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3884513B1D19DCB3004C2B40 /* STValueParameterParser.m */; };
 		38C9B2001D109B40003B571E /* STExecutionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C9B1FE1D109B40003B571E /* STExecutionStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -204,6 +205,7 @@
 		387A0E2A1D22FA4200F1FE9C /* MockIFileHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MockIFileHandler.h; sourceTree = "<group>"; };
 		387A0E2B1D22FA4200F1FE9C /* MockIFileHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MockIFileHandler.m; sourceTree = "<group>"; };
 		387A0E2F1D230DAF00F1FE9C /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OCMock.framework; sourceTree = "<group>"; };
+		387A0E361D24156900F1FE9C /* StatTagParserValueParserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagParserValueParserTests.m; sourceTree = "<group>"; };
 		3884513A1D19DCB3004C2B40 /* STValueParameterParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STValueParameterParser.h; sourceTree = "<group>"; };
 		3884513B1D19DCB3004C2B40 /* STValueParameterParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STValueParameterParser.m; sourceTree = "<group>"; };
 		38C9B1FE1D109B40003B571E /* STExecutionStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STExecutionStep.h; sourceTree = "<group>"; };
@@ -457,6 +459,7 @@
 			isa = PBXGroup;
 			children = (
 				387A0E271D22E65500F1FE9C /* StatTagParserBaseParserTests.m */,
+				387A0E361D24156900F1FE9C /* StatTagParserValueParserTests.m */,
 			);
 			name = Parser;
 			sourceTree = "<group>";
@@ -693,6 +696,7 @@
 				382C28511D13247800697D6F /* StatTagObjCPortingTests.m in Sources */,
 				38C9B2131D10A4D4003B571E /* StatTagValueFormatterStataTests.m in Sources */,
 				387A0E1B1D2193D000F1FE9C /* StatTagModelCommandResultTests.m in Sources */,
+				387A0E371D24156900F1FE9C /* StatTagParserValueParserTests.m in Sources */,
 				387A0E1D1D21BEFD00F1FE9C /* StatTagModelAnnotationTests.m in Sources */,
 				38C9B2111D10A3B9003B571E /* StatTagValueFormatterBaseValueFormatterTests.m in Sources */,
 				38D0C1E51D1AD935001CC013 /* StatTagUtilityTagUtilTests.m in Sources */,

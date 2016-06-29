@@ -129,7 +129,7 @@ static STBaseParameterParser* sharedInstance = nil;
 
 +(NSNumber*) GetIntParameter:(NSString*)name text:(NSString*)text defaultValue:(NSNumber*)defaultValue
 {
-  NSString* stringValue = [STBaseParameterParser GetParameter:name valueMatch:[STBaseParameterParser IntValueMatch] text:nil defaultValue:NO];
+  NSString* stringValue = [STBaseParameterParser GetParameter:name valueMatch:[STBaseParameterParser IntValueMatch] text:text defaultValue:nil quoted:false];
   
   NSCharacterSet *ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
   if ([[stringValue stringByTrimmingCharactersInSet: ws] length] == 0) {

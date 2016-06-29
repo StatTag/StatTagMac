@@ -49,11 +49,11 @@
     return @"";
   }
 
-  if(_FormatType == [STConstantsValueFormatType Numeric]) {
+  if([_FormatType isEqualToString: [STConstantsValueFormatType Numeric]]) {
     value = [self FormatNumeric:value];
-  } else if (_FormatType == [STConstantsValueFormatType Percentage]) {
+  } else if ([_FormatType isEqualToString: [STConstantsValueFormatType Percentage]]) {
     value = [self FormatPercentage:value];
-  } else if (_FormatType == [STConstantsValueFormatType DateTime]) {
+  } else if ([_FormatType isEqualToString: [STConstantsValueFormatType DateTime]]) {
     value = [self FormatDateTime:value];
   }
   
