@@ -10,12 +10,14 @@
 #import "STTag.h"
 
 @interface STBaseParameterParser : NSObject {
+  NSMutableDictionary<NSString*,NSRegularExpression*>* _RegexCache;
 }
 
 +(NSString *)StringValueMatch;
 +(NSString *)IntValueMatch;
 +(NSString *)BoolValueMatch;
 
+@property NSMutableDictionary<NSString*,NSRegularExpression*>* RegexCache;
 
 //+(NSMutableDictionary<NSString*,NSRegularExpression*>*)RegexCache;
 //+(void)setRegexCache:(NSMutableDictionary<NSString*,NSRegularExpression*>*)cache;

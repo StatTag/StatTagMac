@@ -171,6 +171,29 @@
 
 -(void)testParse_OnDemandFilter{
   
+  StubParser* parser = [[StubParser alloc] init];
+  NSArray<NSString*>* lines = [[NSArray<NSString*> alloc]
+                               initWithObjects:
+                               @"declare value",
+                               @"**>>>ST:Value(Frequency=\"On Demand\")",
+                               @"declare value",
+                               @"**<<<",
+                               @"**>>>ST:Value",
+                               @"declare value2",
+                               @"**<<<",
+                               nil];
+  
+  id mock = OCMClassMock([STCodeFile class]);
+  OCMStub([mock LoadFileContent]).andReturn([[NSArray<NSString*> alloc] initWithArray:lines]);
+  
+  NSArray<STTag*>* result = [parser Parse:mock filterMode:[STConstantsParserFilterMode ExcludeOnDemand]];
+  XCTAssertEqual(1, [result count]);
+  XCTAssert([[STConstantsRunFrequency Always] isEqualToString:[result[0] RunFrequency]]);
+
+  result = [parser Parse:mock];
+  XCTAssertEqual(2, [result count]);
+  XCTAssert([[STConstantsRunFrequency OnDemand] isEqualToString:[result[0] RunFrequency]]);
+  XCTAssert([[STConstantsRunFrequency Always] isEqualToString:[result[1] RunFrequency]]);
 }
 
 -(void)testParse_TagList{

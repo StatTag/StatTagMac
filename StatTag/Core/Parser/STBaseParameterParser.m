@@ -26,17 +26,28 @@
 //+ (NSMutableDictionary<NSString*,NSRegularExpression*>*)RegexCache { return RegexCache; }
 //+ (void)setRegexCache:(NSMutableDictionary<NSString*,NSRegularExpression*>*)cache { RegexCache = cache; }
 
-NSMutableDictionary<NSString*,NSRegularExpression*>* RegexCache;
+@synthesize RegexCache = _RegexCache;
+
+static STBaseParameterParser* sharedInstance = nil;
 
 + (instancetype)sharedInstance
 {
-  static dispatch_once_t once;
-  static id sharedInstance;
-  dispatch_once(&once, ^{
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
     sharedInstance = [[self alloc] init];
-    RegexCache = [[NSMutableDictionary<NSString*,NSRegularExpression*> alloc] init];
   });
+  
+//  dispatch_once(&once, ^{
+//    sharedInstance = [[self alloc] init];
+//  });
   return sharedInstance;
+}
+
+- (id)init {
+  if (self = [super init]) {
+    _RegexCache = [[NSMutableDictionary<NSString*,NSRegularExpression*> alloc] init];
+  }
+  return self;
 }
 
 +(void)Parse:(NSString*)tagText Tag:(STTag*)tag
@@ -51,15 +62,17 @@ NSMutableDictionary<NSString*,NSRegularExpression*>* RegexCache;
   parameters, as that will uniquely create the regex string.
  */
 +(NSRegularExpression*) BuildRegex:(NSString*)name valueMatch:(NSString*)valueMatch  isQuoted:(BOOL)isQuoted {
+  //STBaseParameterParser* sharedInstance = [STBaseParameterParser sharedInstance];
   NSString *key = [NSString stringWithFormat:@"%@-%@-%hhd", name, valueMatch, isQuoted];
-  if([RegexCache objectForKey:key] != nil) {
+  if([[[self sharedInstance] RegexCache] objectForKey:key] == nil) {
 
     NSString* regexPattern = [NSString stringWithFormat:@"\\%@.*%@\\s*=\\s*%@(%@)%@.*\\%@",
                                 [STConstantsTagTags ParamStart],
                                 name,
                                 (isQuoted ? @"\\\"" : @""),
                                 valueMatch,
-                                name,
+                                //name,
+                                (isQuoted ? @"\\\"" : @""),
                                 [STConstantsTagTags ParamEnd]
                               ];
     /*
@@ -72,16 +85,26 @@ NSMutableDictionary<NSString*,NSRegularExpression*>* RegexCache;
      (4) -> valueMatch
      */
     NSRegularExpression* regex = [NSRegularExpression regularExpressionWithPattern:regexPattern options:0 error:nil];
-    [RegexCache setObject:regex forKey:key];
+    [[[self sharedInstance] RegexCache] setObject:regex forKey:key];
   }
-  return [RegexCache objectForKey:key];
+  return [[[self sharedInstance] RegexCache] objectForKey:key];
 }
 
-+(NSString*)GetParameter:(NSString*) name valueMatch:(NSString*)valueMatch text:(NSString*)text defaultValue:(NSString*)defaultValue quoted:(BOOL)quoted {
-  if (defaultValue == nil){
-    defaultValue = @"";
++(NSString*)GetParameter:(NSString*)name valueMatch:(NSString*)valueMatch text:(NSString*)text defaultValue:(NSString*)defaultValue quoted:(BOOL)quoted {
+
+  if(text != nil) {
+    NSRegularExpression* regex = [[self class] BuildRegex:name valueMatch:valueMatch isQuoted:quoted];
+    NSTextCheckingResult* match = [regex firstMatchInString:text options:0 range:NSMakeRange(0, text.length)];
+    if (match)
+    {
+      NSRange matchRange = [match rangeAtIndex:1];
+      NSString *matchString = [text substringWithRange:matchRange];
+      return matchString;
+    }
   }
-  return nil;
+  
+  return defaultValue;
+  
 }
 
 +(NSString*)GetParameter:(NSString*) name valueMatch:(NSString*)valueMatch text:(NSString*)text defaultValue:(NSString*)defaultValue {
