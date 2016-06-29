@@ -363,6 +363,7 @@
   OCMStub([mock LoadFileContent]).andReturn([[NSArray<NSString*> alloc] initWithArray:lines]);
   result = [parser GetExecutionSteps:mock filterMode:[STConstantsParserFilterMode ExcludeOnDemand]];
   
+  //need to go and look at the "excludeondemand" portion o fthe getexecutionsteps method
   XCTAssertEqual(2, [result count]);
   
   XCTAssertEqual([STConstantsExecutionStepType CodeBlock], [result[0] Type] );

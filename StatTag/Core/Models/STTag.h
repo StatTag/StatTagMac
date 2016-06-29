@@ -41,6 +41,9 @@
 @property (strong, nonatomic) STCodeFile *CodeFile;
 @property (copy, nonatomic) NSString *Type;
 @property (copy, nonatomic) NSString *Name;
+/**
+ String
+ */
 @property (copy, nonatomic) NSString *RunFrequency;
 @property (copy, nonatomic) STValueFormat *ValueFormat;
 @property (copy, nonatomic) STFigureFormat *FigureFormat;

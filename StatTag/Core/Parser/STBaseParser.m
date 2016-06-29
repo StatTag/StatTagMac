@@ -135,7 +135,7 @@
   if(filterMode == [STConstantsParserFilterMode ExcludeOnDemand]) {
     //    return tags.Where(x => x.RunFrequency == Constants.RunFrequency.Always).ToArray();
     NSPredicate *tagPredicate = [NSPredicate predicateWithBlock:^BOOL(STTag *aTag, NSDictionary *bindings) {
-      return [aTag RunFrequency] == [STConstantsRunFrequency Always];
+      return [[aTag RunFrequency] isEqualToString: [STConstantsRunFrequency Always]];
     }];
     return [tags filteredArrayUsingPredicate:tagPredicate];
   } else if (filterMode == [STConstantsParserFilterMode TagList] && tagsToRun != nil){
@@ -196,9 +196,8 @@
       NSString *matchText = [line substringWithRange:group1];
       [self ProcessTag:matchText Tag:tag error:nil];
       
-      
       if (filterMode == [STConstantsParserFilterMode ExcludeOnDemand]
-          && [tag RunFrequency] == [STConstantsRunFrequency OnDemand])
+          && [[tag RunFrequency] isEqualToString: [STConstantsRunFrequency OnDemand]])
       {
         isSkipping = true;
       }
