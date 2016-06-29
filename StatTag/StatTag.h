@@ -51,6 +51,7 @@ FOUNDATION_EXPORT const unsigned char StatTagVersionString[];
 //--Parser
 #import <StatTag/STBaseParameterParser.h>
 #import <StatTag/STBaseParser.h>
+#import <StatTag/STBaseParserStata.h>
 #import <StatTag/STFigureParameterParser.h>
 #import <StatTag/STIParser.h>
 #import <StatTag/STTableParameterParser.h>

@@ -15,4 +15,11 @@
 
 +(BOOL)regexIsMatch:(NSRegularExpression*)regex inString:(NSString*)string;
 
+//MARK: Stata-specific
+-(BOOL) IsMacroDisplayValue:(NSString*)command;
+-(BOOL) IsStartingLog:(NSString*)command;
+-(NSArray<NSString*>*) GetLogType:(NSString*)command;
+-(BOOL) IsCalculatedDisplayValue:(NSString*)command;
+-(NSString*) GetMacroValueName:(NSString*)command;
+
 @end

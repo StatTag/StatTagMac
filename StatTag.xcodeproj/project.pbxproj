@@ -74,7 +74,7 @@
 		385906EE1D1C6E280088A0D7 /* StatTagModelJSONTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 385906ED1D1C6E280088A0D7 /* StatTagModelJSONTests.m */; };
 		387A0E1B1D2193D000F1FE9C /* StatTagModelCommandResultTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 387A0E1A1D2193D000F1FE9C /* StatTagModelCommandResultTests.m */; };
 		387A0E1D1D21BEFD00F1FE9C /* StatTagModelAnnotationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 387A0E1C1D21BEFD00F1FE9C /* StatTagModelAnnotationTests.m */; };
-		387A0E251D22BC5F00F1FE9C /* STBaseParserStata.h in Headers */ = {isa = PBXBuildFile; fileRef = 387A0E231D22BC5F00F1FE9C /* STBaseParserStata.h */; };
+		387A0E251D22BC5F00F1FE9C /* STBaseParserStata.h in Headers */ = {isa = PBXBuildFile; fileRef = 387A0E231D22BC5F00F1FE9C /* STBaseParserStata.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		387A0E261D22BC5F00F1FE9C /* STBaseParserStata.m in Sources */ = {isa = PBXBuildFile; fileRef = 387A0E241D22BC5F00F1FE9C /* STBaseParserStata.m */; };
 		387A0E281D22E65500F1FE9C /* StatTagParserBaseParserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 387A0E271D22E65500F1FE9C /* StatTagParserBaseParserTests.m */; };
 		387A0E2C1D22FA4200F1FE9C /* MockIFileHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 387A0E2B1D22FA4200F1FE9C /* MockIFileHandler.m */; };
@@ -82,6 +82,8 @@
 		387A0E351D23111C00F1FE9C /* OCMock.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 387A0E2F1D230DAF00F1FE9C /* OCMock.framework */; };
 		387A0E371D24156900F1FE9C /* StatTagParserValueParserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 387A0E361D24156900F1FE9C /* StatTagParserValueParserTests.m */; };
 		387A0E391D242C4400F1FE9C /* StatTagParserTableParserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 387A0E381D242C4400F1FE9C /* StatTagParserTableParserTests.m */; };
+		387A0E3B1D242F6F00F1FE9C /* StatTagParserBaseParameterParserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 387A0E3A1D242F6F00F1FE9C /* StatTagParserBaseParameterParserTests.m */; };
+		387A0E3D1D24376F00F1FE9C /* StatTagParserBaseParserStataTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 387A0E3C1D24376F00F1FE9C /* StatTagParserBaseParserStataTests.m */; };
 		3884513C1D19DCB3004C2B40 /* STValueParameterParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 3884513A1D19DCB3004C2B40 /* STValueParameterParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3884513D1D19DCB3004C2B40 /* STValueParameterParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3884513B1D19DCB3004C2B40 /* STValueParameterParser.m */; };
 		38C9B2001D109B40003B571E /* STExecutionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C9B1FE1D109B40003B571E /* STExecutionStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -208,6 +210,8 @@
 		387A0E2F1D230DAF00F1FE9C /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OCMock.framework; sourceTree = "<group>"; };
 		387A0E361D24156900F1FE9C /* StatTagParserValueParserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagParserValueParserTests.m; sourceTree = "<group>"; };
 		387A0E381D242C4400F1FE9C /* StatTagParserTableParserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagParserTableParserTests.m; sourceTree = "<group>"; };
+		387A0E3A1D242F6F00F1FE9C /* StatTagParserBaseParameterParserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagParserBaseParameterParserTests.m; sourceTree = "<group>"; };
+		387A0E3C1D24376F00F1FE9C /* StatTagParserBaseParserStataTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagParserBaseParserStataTests.m; sourceTree = "<group>"; };
 		3884513A1D19DCB3004C2B40 /* STValueParameterParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STValueParameterParser.h; sourceTree = "<group>"; };
 		3884513B1D19DCB3004C2B40 /* STValueParameterParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STValueParameterParser.m; sourceTree = "<group>"; };
 		38C9B1FE1D109B40003B571E /* STExecutionStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STExecutionStep.h; sourceTree = "<group>"; };
@@ -460,9 +464,11 @@
 		38D0C1E91D1B24DD001CC013 /* Parser */ = {
 			isa = PBXGroup;
 			children = (
+				387A0E3A1D242F6F00F1FE9C /* StatTagParserBaseParameterParserTests.m */,
+				387A0E3C1D24376F00F1FE9C /* StatTagParserBaseParserStataTests.m */,
 				387A0E271D22E65500F1FE9C /* StatTagParserBaseParserTests.m */,
-				387A0E361D24156900F1FE9C /* StatTagParserValueParserTests.m */,
 				387A0E381D242C4400F1FE9C /* StatTagParserTableParserTests.m */,
+				387A0E361D24156900F1FE9C /* StatTagParserValueParserTests.m */,
 			);
 			name = Parser;
 			sourceTree = "<group>";
@@ -700,11 +706,13 @@
 				382C28511D13247800697D6F /* StatTagObjCPortingTests.m in Sources */,
 				38C9B2131D10A4D4003B571E /* StatTagValueFormatterStataTests.m in Sources */,
 				387A0E1B1D2193D000F1FE9C /* StatTagModelCommandResultTests.m in Sources */,
+				387A0E3B1D242F6F00F1FE9C /* StatTagParserBaseParameterParserTests.m in Sources */,
 				387A0E371D24156900F1FE9C /* StatTagParserValueParserTests.m in Sources */,
 				387A0E1D1D21BEFD00F1FE9C /* StatTagModelAnnotationTests.m in Sources */,
 				38C9B2111D10A3B9003B571E /* StatTagValueFormatterBaseValueFormatterTests.m in Sources */,
 				38D0C1E51D1AD935001CC013 /* StatTagUtilityTagUtilTests.m in Sources */,
 				380A67AA1D107A820045B72B /* StatTagModelConstantsTests.m in Sources */,
+				387A0E3D1D24376F00F1FE9C /* StatTagParserBaseParserStataTests.m in Sources */,
 				380A679D1D1061490045B72B /* StatTagModelTableFormatTests.m in Sources */,
 				38D0C1EE1D1B26A6001CC013 /* StatTagModelFieldAnnotationTests.m in Sources */,
 				38D0C1E31D1AD7F8001CC013 /* StatTagUtilityGeneralUtilTests.m in Sources */,
