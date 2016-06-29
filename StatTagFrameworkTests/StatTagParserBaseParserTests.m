@@ -197,15 +197,151 @@
 }
 
 -(void)testParse_TagList{
+ 
+  StubParser* parser = [[StubParser alloc] init];
+  NSArray<NSString*>* lines = [[NSArray<NSString*> alloc]
+                               initWithObjects:
+                               @"declare value",
+                               @"**>>>ST:Value(Label=\"Test1\", Frequency=\"On Demand\")",
+                               @"declare value",
+                               @"**<<<",
+                               @"**>>>ST:Value(Label=\"Test2\")",
+                               @"declare value2",
+                               @"**<<<",
+                               nil];
   
+  id mock = OCMClassMock([STCodeFile class]);
+  OCMStub([mock LoadFileContent]).andReturn([[NSArray<NSString*> alloc] initWithArray:lines]);
+  OCMStub([mock FilePath]).andReturn(@"Test.do");
+  id x;
+  OCMStub([mock isEqual:x]).andReturn(true);
+  
+
+  NSArray<STTag*>* result = [parser Parse:mock filterMode:[STConstantsParserFilterMode TagList]];
+  XCTAssertEqual(2, [result count]);
+
+  NSArray<STTag*>* taglist = [NSArray arrayWithObjects:
+                              [STTag tagWithName:@"Test2" andCodeFile:mock andType:[STConstantsTagType Value]]
+                               , nil];
+  
+  result = [parser Parse:mock filterMode:[STConstantsParserFilterMode TagList] tagsToRun:taglist];
+  XCTAssertEqual(1, [result count]);
+  XCTAssert([@"Test2" isEqualToString:[result[0] Name]]);
 }
 
 -(void)testDetectStartTag_Null_Empty{
   
+  StubParser* parser = [[StubParser alloc] init];
+
+  //original c# methods
+  //Assert.IsFalse(parser.DetectStartTag(null).Success);
+  //Assert.IsFalse(parser.DetectStartTag(string.Empty).Success);
+  // it appears that it's saying "please test the regex result" (success)
+  // which, in our case, would be "did we get a non-nil NSTextCheckingResult?
+  XCTAssertNil([parser DetectStartTag:nil]);
+  XCTAssertNil([parser DetectStartTag:@""]);
 }
 
 -(void)testDetectStartTag_Simple{
+  StubParser* parser = [[StubParser alloc] init];
+  NSTextCheckingResult* match = [parser DetectStartTag:@"**>>>ST:Test"];
+  XCTAssertNotNil(match);
+  //NSLog(@"match range : %@", NSStringFromRange([match range]));
+  //NSLog(@"match substring : %@", [@"**>>>ST:Test" substringWithRange:[match range]]);
+}
+
+-(void)testGetExecutionSteps {
   
+  StubParser* parser = [[StubParser alloc] init];
+  NSArray<STExecutionStep*>* result;
+  NSArray<NSString*>* lines = [[NSArray<NSString*> alloc]
+                               initWithObjects:
+                               @"declare value1",
+                               @"**>>>ST:Value",
+                               @"declare value2",
+                               @"**<<<",
+                               @"declare value3",
+                               nil];
+  
+  id mock = OCMClassMock([STCodeFile class]);
+  OCMStub([mock LoadFileContent]).andReturn([[NSArray<NSString*> alloc] initWithArray:lines]);
+  result = [parser GetExecutionSteps:mock filterMode:[STConstantsParserFilterMode ExcludeOnDemand]];
+  XCTAssertEqual(3, [result count]);
+  XCTAssertEqual([STConstantsExecutionStepType CodeBlock], [result[0] Type] );
+  XCTAssertNil([result[0] Tag]);
+  XCTAssertEqual([STConstantsExecutionStepType Tag], [result[1] Type] );
+  XCTAssertNotNil([result[1] Tag]);
+  XCTAssertEqual([STConstantsExecutionStepType CodeBlock], [result[2] Type] );
+  XCTAssertNil([result[2] Tag]);
+  
+  //***** -> redeclare mock so we nil it out - otherwise we have issues connecting methods to the same object in subsequent tests
+  mock = OCMClassMock([STCodeFile class]);
+  // Tag at the beginning
+  lines = [[NSArray<NSString*> alloc]
+           initWithObjects:
+           @"**>>>ST:Value",
+           @"declare value2",
+           @"**<<<",
+           @"declare value3",
+           nil];
+  OCMStub([mock LoadFileContent]).andReturn([[NSArray<NSString*> alloc] initWithArray:lines]);
+  result = [parser GetExecutionSteps:mock filterMode:[STConstantsParserFilterMode ExcludeOnDemand]];
+
+  XCTAssertEqual(2, [result count]);
+  XCTAssertEqual([STConstantsExecutionStepType Tag], [result[0] Type] );
+  XCTAssertNotNil([result[0] Tag]);
+
+  XCTAssertEqual([STConstantsExecutionStepType CodeBlock], [result[1] Type] );
+  XCTAssertNil([result[1] Tag]);
+
+  //***** -> redeclare mock so we nil it out - otherwise we have issues connecting methods to the same object in subsequent tests
+  mock = OCMClassMock([STCodeFile class]);
+  // Tag at the end
+  lines = [[NSArray<NSString*> alloc]
+           initWithObjects:
+           @"declare value2",
+           @"**>>>ST:Value",
+           @"declare value3",
+           @"**<<<",
+           nil];
+  OCMStub([mock LoadFileContent]).andReturn([[NSArray<NSString*> alloc] initWithArray:lines]);
+  result = [parser GetExecutionSteps:mock filterMode:[STConstantsParserFilterMode ExcludeOnDemand]];
+
+  XCTAssertEqual(2, [result count]);
+  XCTAssertEqual([STConstantsExecutionStepType CodeBlock], [result[0] Type] );
+  XCTAssertNil([result[0] Tag]);
+  
+  XCTAssertEqual([STConstantsExecutionStepType Tag], [result[1] Type] );
+  XCTAssertNotNil([result[1] Tag]);
+  
+  //***** -> redeclare mock so we nil it out - otherwise we have issues connecting methods to the same object in subsequent tests
+  mock = OCMClassMock([STCodeFile class]);
+  // Back to back tags
+  lines = [[NSArray<NSString*> alloc]
+           initWithObjects:
+           @"**>>>ST:Value",
+           @"declare value1",
+           @"**<<<",
+           @"**>>>ST:Value",
+           @"declare value2",
+           @"**<<<",
+           @"**>>>ST:Value",
+           @"declare value3",
+           @"**<<<",
+           nil];
+  OCMStub([mock LoadFileContent]).andReturn([[NSArray<NSString*> alloc] initWithArray:lines]);
+  result = [parser GetExecutionSteps:mock filterMode:[STConstantsParserFilterMode ExcludeOnDemand]];
+
+  XCTAssertEqual(3, [result count]);
+  
+  XCTAssertEqual([STConstantsExecutionStepType Tag], [result[0] Type] );
+  XCTAssertNotNil([result[0] Tag]);
+  
+  XCTAssertEqual([STConstantsExecutionStepType Tag], [result[1] Type] );
+  XCTAssertNotNil([result[1] Tag]);
+  
+  XCTAssertEqual([STConstantsExecutionStepType Tag], [result[2] Type] );
+  XCTAssertNotNil([result[2] Tag]);
 }
 
 -(void)testGetExecutionSteps_OnDemandFilter{

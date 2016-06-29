@@ -32,6 +32,11 @@ TO DO:
 13) Move regex helper functionality out of the StataBaseParser class
     +(BOOL)regexIsMatch:(NSRegularExpression*)regex inString:(NSString*)string {
     (etc.)
+14) see if we need to make our own faux wrapping class for approximation of the c# regex. Problem is we may not have the original string everywhere, so passing this back up _may_ be useful
+    m.success (did it work) nil/non-nill
+    m.index (starting point)
+    m.length (length)
+    m.value (match result) {from range}
 
 FIXED:
 ==================
