@@ -76,9 +76,9 @@
 
 -(NSString*)CreateNumericParameters:(STValueFormat*) format
 {
-  return [NSString stringWithFormat:@"%@=%d, %@=%hhd",
+  return [NSString stringWithFormat:@"%@=%d, %@=%@",
           [STConstantsValueParameters Decimals], [format DecimalPlaces],
-          [STConstantsValueParameters UseThousands], [format UseThousands]
+          [STConstantsValueParameters UseThousands], [format UseThousands] ? @"True" : @"False"
           ];
 }
 
@@ -89,7 +89,7 @@
 {
   NSMutableString* builder = [[NSMutableString alloc] initWithFormat:@"%@=\"%@\", ", [STConstantsValueParameters Type], type];
   if(invalidTypes != [STConstantsValueParameterDefaults AllowInvalidTypes]) {
-    [builder appendString:[NSString stringWithFormat:@"%@=%hhd, ", [STConstantsValueParameters AllowInvalidTypes], invalidTypes]];
+    [builder appendString:[NSString stringWithFormat:@"%@=%@, ", [STConstantsValueParameters AllowInvalidTypes], invalidTypes ? @"True" : @"False"]];
   }
   return builder;
 }

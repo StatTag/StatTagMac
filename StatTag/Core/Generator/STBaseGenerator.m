@@ -40,7 +40,7 @@
           [STConstantsTagType Value],
           [STConstantsTagTags ParamStart],
           [valueGenerator CreateParameters:tag],
-          [STConstantsTagTags ParamStart]
+          [STConstantsTagTags ParamEnd]
        ];
     }
     else if ([[tag Type] isEqualToString:[STConstantsTagType Figure]])
@@ -50,7 +50,7 @@
        [STConstantsTagType Figure],
        [STConstantsTagTags ParamStart],
        [figureGenerator CreateParameters:tag],
-       [STConstantsTagTags ParamStart]
+       [STConstantsTagTags ParamEnd]
        ];
     }
     else if ([tag IsTableTag])
@@ -59,8 +59,9 @@
       [openBase appendFormat:@"%@%@%@%@",
        [STConstantsTagType Table],
        [STConstantsTagTags ParamStart],
-       [tableGenerator CreateParameters:tag],
-       [STConstantsTagTags ParamStart]
+       //[tableGenerator CreateParameters:tag],
+       [self CombineValueAndTableParameters:tag],
+       [STConstantsTagTags ParamEnd]
        ];
     }
     else

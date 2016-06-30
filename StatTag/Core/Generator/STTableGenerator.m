@@ -30,11 +30,11 @@
   NSMutableString* builder = [[NSMutableString alloc] init];
   if([tag TableFormat] != nil) {
     
-    [builder appendString:[NSString stringWithFormat:@"%@=%hhd, %@=%hhd",
+    [builder appendString:[NSString stringWithFormat:@"%@=%@, %@=%@",
                            [STConstantsTableParameters ColumnNames],
-                           [[tag TableFormat] IncludeColumnNames],
+                           [[tag TableFormat] IncludeColumnNames] ? @"True" : @"False",
                            [STConstantsTableParameters RowNames],
-                           [[tag TableFormat] IncludeRowNames]
+                           [[tag TableFormat] IncludeRowNames] ? @"True" : @"False"
                            ]];
   }
     return [self CleanResult:builder];
