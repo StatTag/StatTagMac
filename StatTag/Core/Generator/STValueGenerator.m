@@ -63,11 +63,11 @@
   NSMutableArray<NSString*>* elements = [[NSMutableArray<NSString*> alloc] init];
 
   NSCharacterSet *ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
-  if ([[[format DateFormat] stringByTrimmingCharactersInSet: ws] length] == 0) {
+  if ([[[format DateFormat] stringByTrimmingCharactersInSet: ws] length] > 0) {
     [elements addObject:[NSString stringWithFormat:@"%@=\"%@\"", [STConstantsValueParameters DateFormat], [format DateFormat]]];
   }
   
-  if ([[[format TimeFormat] stringByTrimmingCharactersInSet: ws] length] == 0) {
+  if ([[[format TimeFormat] stringByTrimmingCharactersInSet: ws] length] > 0) {
     [elements addObject:[NSString stringWithFormat:@"%@=\"%@\"", [STConstantsValueParameters TimeFormat], [format TimeFormat]]];
   }
   

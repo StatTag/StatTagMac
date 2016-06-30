@@ -20,11 +20,11 @@
 }
 @end
 
-@interface StatTageGeneratorBaseGeneratorTests : XCTestCase
+@interface StatTagGeneratorBaseGeneratorTests : XCTestCase
 
 @end
 
-@implementation StatTageGeneratorBaseGeneratorTests
+@implementation StatTagGeneratorBaseGeneratorTests
 
 - (void)setUp {
   [super setUp];

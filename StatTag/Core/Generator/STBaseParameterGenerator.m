@@ -16,7 +16,7 @@
 -(NSString*) GetLabelParameter:(STTag*)tag
 {
   NSCharacterSet *ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
-  if ([tag Name] != nil && [[[tag Name] stringByTrimmingCharactersInSet: ws] length] == 0)
+  if ([tag Name] != nil && [[[tag Name] stringByTrimmingCharactersInSet: ws] length] > 0)
   {
     return [NSString stringWithFormat:@"%@=\"%@\", ", [STConstantsTagParameters Label], [tag Name]];
   }
@@ -26,7 +26,7 @@
 -(NSString*) GetRunFrequencyParameter:(STTag*)tag
 {
   NSCharacterSet *ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
-  if ([tag Name] != nil && [[[tag RunFrequency] stringByTrimmingCharactersInSet: ws] length] == 0)
+  if ([tag RunFrequency] != nil && [[[tag RunFrequency] stringByTrimmingCharactersInSet: ws] length] > 0)
   {
     return [NSString stringWithFormat:@"%@=\"%@\", ", [STConstantsTagParameters Frequency], [tag RunFrequency]];
   }
