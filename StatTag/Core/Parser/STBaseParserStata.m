@@ -39,8 +39,14 @@
 }
 +(NSRegularExpression*)ValueRegex {
   NSError* error;
+  
+  //original c# value regex template (won't work in obj-c as we don't have the ? if/then/else conditional
+  //NSString* valueRegexTemplate = @"^\\s*%@((\\s*\\()|(\\s+))(.*)(?(2)\\))";
+
+  NSString* valueRegexTemplate = @"^\\s*%@\\s*(((?:\\()(.*)(?:\\)\\s*$)+)|((\\()?(.*)))";
+  
   NSRegularExpression* regex =  [NSRegularExpression
-          regularExpressionWithPattern:[NSString stringWithFormat:@"^\\s*%@((\\s*\\()|(\\s+))(.*)(?(2)\\))", [[self class] ValueCommand]]
+          regularExpressionWithPattern:[NSString stringWithFormat:valueRegexTemplate, [[self class] ValueCommand]]
           options:0
           error:&error];
   if(error){
@@ -99,7 +105,7 @@
 +(NSRegularExpression*)LogKeywordRegex {
   return [NSRegularExpression
           regularExpressionWithPattern:@"^\\s*((?:cmd)?log)\\s*using\\b"
-          options:0//NSRegularExpressionAnchorsMatchLines //should match c# RegexOptions.Multiline
+          options:NSRegularExpressionAnchorsMatchLines //should match c# RegexOptions.Multiline
           error:nil];
   // static Regex LogKeywordRegex = new Regex("^\\s*((?:cmd)?log)\\s*using\\b", RegexOptions.Multiline);
 }
@@ -221,7 +227,28 @@ This is used to test/extract a macro display value.
  */
 -(NSString*) GetValueName:(NSString*)command
 {
-  return [self MatchRegexReturnGroup:command regex:[[self class] ValueRegex] groupNum:4];
+  //NOTE: different for the objective-c version because we don't support conditional if-then-else regex
+  // we have do do this by using a different regex and looping through matches because we don't know which group to use. "The last valid one" is what we're going to use
+  
+  NSTextCheckingResult* last_match = [[[[self class] ValueRegex] matchesInString:command options:0 range:NSMakeRange(0, command.length)] lastObject];
+
+  NSString* matchString = @""; // default return is empty string in c#
+
+  if(last_match == nil){
+    return matchString;
+  }
+  
+  if ([last_match numberOfRanges] > 0) {
+    for (int j = 0; j < last_match.numberOfRanges; j++) {
+      NSRange range = [last_match rangeAtIndex:j];
+      if(range.location != NSNotFound) {
+        NSCharacterSet *ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+        matchString = [[command substringWithRange:range] stringByTrimmingCharactersInSet:ws];
+        //NSLog(@"position: %d, match.range : %@, current_range: %@, command: %@, matchString: %@",j,  NSStringFromRange(last_match.range), NSStringFromRange(range), command, matchString);
+      }
+    }
+  }
+  return matchString;
 }
 
 /**

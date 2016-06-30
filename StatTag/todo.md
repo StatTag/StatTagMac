@@ -40,6 +40,8 @@ TO DO:
 15) Issue: no support for if/then/else conditional regex
 private static readonly Regex ValueRegex = new Regex(string.Format("^\\s*{0}((\\s*\\()|(\\s+))(.*)(?(2)\\))", ValueCommand));
 
+http://www.rexegg.com/regex-conditionals.html
+http://stackoverflow.com/questions/8072756/does-java-support-if-then-else-regexp-constructsperl-constructs
 
 
 FIXED:
@@ -85,7 +87,10 @@ Then - to incorporate it into your tests, do the following (from here: http://st
 
 
 
-
+NOTES:
+==============
+NSRegularExpressionAnchorsMatchLines on using $
+http://stackoverflow.com/questions/16665870/nsregularexpression-find-pattern-with-optional-part
 
 
 

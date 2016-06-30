@@ -99,6 +99,7 @@
 
 -(void) ValidateFoundLogs:(NSArray<NSString*>*)expected received:(NSArray<NSString*>*)received
 {
+  //NSLog(@"ValidateFoundLogs - expected: %@, received: %@", expected, received);
   XCTAssertEqual([expected count], [received count]);
   for(NSString* log in expected) {
       XCTAssertTrue([received containsObject:log]);
@@ -147,10 +148,13 @@
 -(void)testGetValueName
 {
   STBaseParserStata* parser = [[STBaseParserStata alloc] init];
+  //NSLog(@"TEST VALUE: [parser GetValueName: \"display (5*2)\"] :  %@", [parser GetValueName: @"display (5*2)"]);
   
   XCTAssert([ @"test" isEqualToString: [parser GetValueName: @"display test"]]);
   XCTAssert([ @"`x2'" isEqualToString: [parser GetValueName: @"display  `x2'"]]);
   XCTAssert([ @"test" isEqualToString: [parser GetValueName: @" display   test  "]]);
+  
+  //NSLog(@"TEST VALUE: [parser GetValueName: \"adisplay test\"] :  %@", [parser GetValueName: @"adisplay test"]);
   XCTAssert([ @"" isEqualToString: [parser GetValueName: @"adisplay test"]]);
   XCTAssert([ @"test" isEqualToString: [parser GetValueName: @"display (test)"]]);
   XCTAssert([ @"test" isEqualToString: [parser GetValueName: @"display(test)"]]);
@@ -158,8 +162,13 @@
   XCTAssert([ @"r(n)" isEqualToString: [parser GetValueName: @"display r(n)\r\n\r\n*Some comments following"]]);
   XCTAssert([ @"2" isEqualToString: [parser GetValueName: @"display 2 \r\n \r\n*Some comments following"]]);
   XCTAssert([ @"5*2" isEqualToString: [parser GetValueName: @"display (5*2)"]]); // Handle calculations as display parameters
-  XCTAssert([ @"5*2+(7*8)" isEqualToString: [parser GetValueName: @"display(5*2+(7*8]])"]]); // Handle calculations with nested parentheses
+  XCTAssert([ @"5*2+(7*8)" isEqualToString: [parser GetValueName: @"display(5*2+(7*8))"]]); // Handle calculations with nested parentheses
+  
+  //NOTE: this test should fail. In the original C# the regex approach is different
+  // we can't do exactly the same thing (at the moment) with the obj-c version, so we're going to fail this test case. Leaving it as a failure so it's clear where/how/why we deviate
   XCTAssert([ @"(5*2" isEqualToString: [parser GetValueName: @"display (5*2"]]); // Mismatched parentheses.  We want to grab it, even though it'll be an error in Stata
+  //NSLog(@"TEST VALUE: [parser GetValueName: \"display (5*2\"] :  %@", [parser GetValueName: @"display (5*2"]);
+
   XCTAssert([ @"7   *    8   +   ( 5 * 7 )" isEqualToString: [parser GetValueName: @"  display   (  7   *    8   +   ( 5 * 7 )  )   "]]);
   // Stata does not appear to support multiple commands on one line, even in a do file, so this shouldn't work.  We are just asserting that we don't
   // support this functionality.
