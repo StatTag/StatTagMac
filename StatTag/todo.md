@@ -43,6 +43,17 @@ private static readonly Regex ValueRegex = new Regex(string.Format("^\\s*{0}((\\
 http://www.rexegg.com/regex-conditionals.html
 http://stackoverflow.com/questions/8072756/does-java-support-if-then-else-regexp-constructsperl-constructs
 
+    Change the GetValueName implementation later - 
+
+    Pseudocode:
+    - do basic regex
+    - get group
+    - trim all whitespace
+    - if starts with “(“ and ends with “)”
+      - remove single prefix “(“ and single suffix “)”
+
+     Evaluate: https://github.com/bendytree/Objective-C-RegEx-Categories
+
 
 FIXED:
 ==================

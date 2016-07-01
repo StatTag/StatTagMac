@@ -10,7 +10,7 @@
 //#import "STCodeFile.h"
 #import "StatTag.h"
 #import "MockIFileHandler.h"
-//#import <OCMock/OCMock.h>
+#import <OCMock/OCMock.h>
 
 
 //MARK: Test cases
@@ -32,6 +32,22 @@
 
 //MARK: c# test methods
 -(void)testDefault_ToString {
+
+  STCodeFile* file = [[STCodeFile alloc] init];
+  XCTAssert([@"" isEqualToString:[file ToString]]);
+
+  NSURL* url = [[NSURL alloc] initWithString:@"C:\\Test.txt"];
+  NSLog(@"url : %@", url);
+  
+  file.FilePath = [[NSURL alloc] initWithString:@"C:\\Test.txt"];
+  file.StatisticalPackage = [STConstantsStatisticalPackages Stata];
+  
+  NSLog(@"[file ToString] : %@", [file ToString]);
+  XCTAssert([@"C:\\Test.txt" isEqualToString:[file ToString]]);
+
+  file.FilePath = [[NSURL alloc] initWithString:@"C:\\Test2.txt"];
+  NSLog(@"[file ToString] : %@", [file ToString]);
+  XCTAssert([@"C:\\Test2.txt" isEqualToString:[file ToString]]);
 }
 
 -(void)testLoadTagsFromContent_Empty {
