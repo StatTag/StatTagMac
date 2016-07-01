@@ -256,9 +256,6 @@
 
 -(void)testAddTag_FlippedIndex {
   
-  //http://stackoverflow.com/questions/22384572/why-when-i-am-testing-that-a-method-throws-an-exception-and-the-method-throw-an
-  
-  
   MockIFileHandler* mock = [[MockIFileHandler alloc] init];
   NSArray<NSString*>* lines = [NSArray<NSString*> arrayWithObjects:
                                @"first line",
@@ -277,6 +274,20 @@
 }
 
 -(void)testAddTag_Null {
+  MockIFileHandler* mock = [[MockIFileHandler alloc] init];
+  NSArray<NSString*>* lines = [NSArray<NSString*> arrayWithObjects:
+                               @"first line",
+                               nil];
+  mock.lines = lines;
+  
+  STCodeFile* codeFile = [[STCodeFile alloc] init:mock];
+  codeFile.StatisticalPackage = [STConstantsStatisticalPackages Stata];
+
+  XCTAssertNil([codeFile AddTag:nil]);
+  XCTAssertNil([codeFile AddTag:[[STTag alloc] init]]);
+  STTag* tag = [[STTag alloc] init];
+  tag.LineStart = @1;
+  XCTAssertNil([codeFile AddTag:tag]);
 }
 
 -(void)testAddTag_New {
