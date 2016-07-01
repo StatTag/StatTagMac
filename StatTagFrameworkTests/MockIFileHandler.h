@@ -20,8 +20,18 @@
 
 @interface MockIFileHandler : NSObject<STIFileHandler> {
   NSArray<NSString*>* _lines;
+  BOOL _exists;
+  
+  int _Copy_wasCalled;
+  int _WriteAllLines_wasCalled;
+  int _WriteAllText_wasCalled;
 }
 @property (readwrite, nonatomic, copy) NSArray<NSString*>* lines;
+@property (readwrite, nonatomic) BOOL exists;
+@property (readwrite, nonatomic) int Copy_wasCalled;
+@property (readwrite, nonatomic) int WriteAllLines_wasCalled;
+@property (readwrite, nonatomic) int WriteAllText_wasCalled;
+
 - (NSArray*) ReadAllLines:(NSURL*)filePath error:(NSError**)error;
 - (BOOL) Exists:(NSURL*)filePath error:(NSError**)error;
 - (void) Copy:(NSURL*)sourceFile toDestinationFile: (NSURL*)destinationFile error:(NSError**)error;

@@ -176,18 +176,51 @@
 }
 
 -(void)testSaveBackup_AlreadyExists {
+  
+  MockIFileHandler* mock = [[MockIFileHandler alloc] init];
+  mock.exists = true;
+  STCodeFile* codeFile = [[STCodeFile alloc] init:mock];
+  [codeFile SaveBackup:nil];
+  
+  XCTAssertEqual([mock Copy_wasCalled], 0);
+  //mock.Verify(file => file.Copy(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+
 }
 
 -(void)testSaveBackup_New {
+  MockIFileHandler* mock = [[MockIFileHandler alloc] init];
+  mock.exists = false;
+  STCodeFile* codeFile = [[STCodeFile alloc] init:mock];
+  [codeFile SaveBackup:nil];
+  
+  XCTAssertEqual([mock Copy_wasCalled], 1);
 }
 
 -(void)testGuessStatisticalPackage_Empty {
+  XCTAssert([@"" isEqualToString:[STCodeFile GuessStatisticalPackage:@""]]);
+  XCTAssert([@"" isEqualToString:[STCodeFile GuessStatisticalPackage:@"  "]]);
+  XCTAssert([@"" isEqualToString:[STCodeFile GuessStatisticalPackage:nil]]);
 }
 
 -(void)testGuessStatisticalPackage_Valid {
+
+  XCTAssert([[STConstantsStatisticalPackages Stata] isEqualToString:[STCodeFile GuessStatisticalPackage:@"C:\\test.do"]]);
+  XCTAssert([[STConstantsStatisticalPackages Stata] isEqualToString:[STCodeFile GuessStatisticalPackage:@"  C:\\test.do  "]]);
+  
+  XCTAssert([[STConstantsStatisticalPackages R] isEqualToString:[STCodeFile GuessStatisticalPackage:@"C:\\test.r"]]);
+  XCTAssert([[STConstantsStatisticalPackages R] isEqualToString:[STCodeFile GuessStatisticalPackage:@"  C:\\test.r  "]]);
+
+  XCTAssert([[STConstantsStatisticalPackages SAS] isEqualToString:[STCodeFile GuessStatisticalPackage:@"C:\\test.sas"]]);
+  XCTAssert([[STConstantsStatisticalPackages SAS] isEqualToString:[STCodeFile GuessStatisticalPackage:@"  C:\\test.sas  "]]);
+
 }
 
 -(void)testGuessStatisticalPackage_Unknown {
+  XCTAssert([@"" isEqualToString:[STCodeFile GuessStatisticalPackage:@"C:\\"]]);
+  XCTAssert([@"" isEqualToString:[STCodeFile GuessStatisticalPackage:@"C:\\test.txt"]]);
+  XCTAssert([@"" isEqualToString:[STCodeFile GuessStatisticalPackage:@"C:\\test.dor"]]);
+  XCTAssert([@"" isEqualToString:[STCodeFile GuessStatisticalPackage:@"C:\\test.r t"]]);
+
 }
 
 -(void)testContentCache_Load {
