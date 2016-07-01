@@ -15,6 +15,7 @@
 @synthesize Copy_wasCalled = _Copy_wasCalled;
 @synthesize WriteAllLines_wasCalled = _WriteAllLines_wasCalled;
 @synthesize WriteAllText_wasCalled = _WriteAllText_wasCalled;
+@synthesize ReadAllLines_wasCalled = _ReadAllLines_wasCalled;
 
 -(instancetype)init {
   self = [super init];
@@ -23,11 +24,13 @@
     _Copy_wasCalled = 0;
     _WriteAllLines_wasCalled = 0;
     _WriteAllText_wasCalled = 0;
+    _ReadAllLines_wasCalled = 0;
   }
   return self;
 }
 
 - (NSArray*) ReadAllLines:(NSURL*)filePath error:(NSError**)error {
+  _ReadAllLines_wasCalled = _ReadAllLines_wasCalled + 1;
   return [self lines];
 }
 - (BOOL) Exists:(NSURL*)filePath error:(NSError**)error {

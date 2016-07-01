@@ -44,15 +44,17 @@ NSMutableArray<NSString *> *ContentCache;
   return url;
 }
 
-@synthesize Content = _Content;
+//@synthesize Content = _Content;
 - (void) setContent:(NSMutableArray *)c {
-  _Content = c;
+  //_Content = c;
+  ContentCache = c;
 }
 - (NSMutableArray*) Content {
   if(ContentCache == nil) {
     ContentCache = [self LoadFileContent];
   }
-  return _Content;
+  return ContentCache;
+  //return _Content;
 }
 
 

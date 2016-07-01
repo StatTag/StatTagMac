@@ -224,9 +224,56 @@
 }
 
 -(void)testContentCache_Load {
+  
+  MockIFileHandler* mock = [[MockIFileHandler alloc] init];
+  NSArray<NSString*>* lines = [NSArray<NSString*> arrayWithObjects:
+                               @"**>>>ST:Value(Type=\"Default\")",
+                               @"some code here",
+                               @"**<<<",
+                               nil];
+  mock.lines = lines;
+  
+  STCodeFile* codeFile = [[STCodeFile alloc] init:mock];
+  codeFile.StatisticalPackage = [STConstantsStatisticalPackages Stata];
+
+  NSArray<NSString*>* content = [codeFile Content];
+  XCTAssertEqual(3, [content count]);
+  XCTAssertEqual([mock ReadAllLines_wasCalled], 1);
+
+  // When called a second time, we should not increment the number of times the file
+  // is reloaded.
+  content = [codeFile Content];
+  XCTAssertEqual(3, [content count]);
+  XCTAssertEqual([mock ReadAllLines_wasCalled], 1);
+  
+  // Forcing the cache to null will cause a reload
+  codeFile.Content = nil;
+  content = [codeFile Content];
+  XCTAssertNotNil(content);
+  XCTAssertEqual(3, [content count]);
+  XCTAssertEqual([mock ReadAllLines_wasCalled], 2);
 }
 
 -(void)testAddTag_FlippedIndex {
+  
+  //http://stackoverflow.com/questions/22384572/why-when-i-am-testing-that-a-method-throws-an-exception-and-the-method-throw-an
+  
+  
+  MockIFileHandler* mock = [[MockIFileHandler alloc] init];
+  NSArray<NSString*>* lines = [NSArray<NSString*> arrayWithObjects:
+                               @"first line",
+                               nil];
+  mock.lines = lines;
+  
+  STCodeFile* codeFile = [[STCodeFile alloc] init:mock];
+  codeFile.StatisticalPackage = [STConstantsStatisticalPackages Stata];
+
+  STTag* tag = [[STTag alloc] init];
+  tag.LineStart = @2;
+  tag.LineEnd = @1;
+
+  //this should fail because we're putting a linestart that's higher than lineend
+  XCTAssertThrows([codeFile AddTag:tag]);
 }
 
 -(void)testAddTag_Null {
