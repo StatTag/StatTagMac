@@ -30,6 +30,37 @@
 }
 
 
+//Extra obj-c methods for NURL <-> NSString
+-(void)testNSURLToFilePath {
+  NSURL* url;
+  STCodeFile* cf = [[STCodeFile alloc] init];
+  
+  url = [[NSURL alloc] initWithString:@"file1.txt"];
+  cf.FilePathURL = url;
+  XCTAssert([@"file1.txt" isEqualToString:[[cf FilePathURL] path]]);
+  XCTAssert([@"file1.txt" isEqualToString:[cf FilePath]]);
+
+  url = [[NSURL alloc] initWithString:@"C:\\temp\\file1.txt"];
+  cf.FilePathURL = url;
+  XCTAssertNil([cf FilePath]);
+  XCTAssertNil([cf FilePathURL]);
+}
+
+-(void)testFilePathToNSURL {
+//  NSURL* url;
+  STCodeFile* cf = [[STCodeFile alloc] init];
+  
+  cf.FilePath = @"file1.txt";
+  XCTAssert([@"file1.txt" isEqualToString:[[cf FilePathURL] path]]);
+  XCTAssert([@"file1.txt" isEqualToString:[cf FilePath]]);
+
+  cf.FilePath = @"C:\\temp\\file1.txt";
+  XCTAssert([[cf FilePath] isEqualToString:@"C:\\temp\\file1.txt"]);
+  XCTAssertNil([cf FilePathURL]);
+  
+}
+
+
 //MARK: c# test methods
 -(void)testDefault_ToString {
 
@@ -51,15 +82,97 @@
 }
 
 -(void)testLoadTagsFromContent_Empty {
+
+  //  id mock = OCMClassMock([STCodeFile class]);
+
+  id x;
+  id mock = OCMProtocolMock(@protocol(STIFileHandler));
+  OCMStub([mock ReadAllLines:x error:nil]).andReturn([[NSArray<NSString*> alloc] init]);
+
+  STCodeFile* codeFile = [[STCodeFile alloc] init:mock];
+  [codeFile LoadTagsFromContent];
+  XCTAssertEqual(0, [[codeFile Tags] count]);
 }
 
 -(void)testLoadTagsFromContent_UnknownType {
+  
+  // Couldn't seem to get the protocol-based mocks to work, so using the hard class mock
+  //
+  //  id x;
+  //  id mock = OCMProtocolMock(@protocol(STIFileHandler));
+  //  NSArray<NSString*>* lines = [NSArray<NSString*> arrayWithObjects:
+  //  @"**>>>ST:Test(Type=\"Default\")",
+  //  @"some code here",
+  //  @"**<<<",
+  //  OCMStub([mock ReadAllLines:x error:nil]).andReturn(lines);
+  //
+  //  NSLog(@"mock.ReadAllLines: %@", [mock ReadAllLines:x error:nil]);
+
+  MockIFileHandler* mock = [[MockIFileHandler alloc] init];
+  NSArray<NSString*>* lines = [NSArray<NSString*> arrayWithObjects:
+                               @"**>>>ST:Test(Type=\"Default\")",
+                               @"some code here",
+                               @"**<<<",
+                               nil];
+  mock.lines = lines;
+
+  STCodeFile* codeFile = [[STCodeFile alloc] init:mock];
+  codeFile.StatisticalPackage = [STConstantsStatisticalPackages Stata];
+  [codeFile LoadTagsFromContent];
+  XCTAssertEqual(0, [[codeFile Tags] count]);
 }
 
 -(void)testLoadTagsFromContent_Normal {
+  
+
+  MockIFileHandler* mock = [[MockIFileHandler alloc] init];
+  NSArray<NSString*>* lines = [NSArray<NSString*> arrayWithObjects:
+                               @"**>>>ST:Value(Type=\"Default\")",
+                               @"some code here",
+                               @"**<<<",
+                               nil];
+  mock.lines = lines;
+
+  
+  STCodeFile* codeFile = [[STCodeFile alloc] init:mock];
+  codeFile.StatisticalPackage = [STConstantsStatisticalPackages Stata];
+  [codeFile LoadTagsFromContent];
+  XCTAssertEqual(1, [[codeFile Tags] count]);
+  XCTAssert([[STConstantsTagType Value] isEqualToString:[[codeFile Tags][0] Type]]);
+  XCTAssertEqual(codeFile, [[codeFile Tags][0] CodeFile]);
 }
 
 -(void)testLoadTagsFromContent_RestoreCache {
+  
+  
+  MockIFileHandler* mock = [[MockIFileHandler alloc] init];
+  NSArray<NSString*>* lines = [NSArray<NSString*> arrayWithObjects:
+                               @"**>>>ST:Value(Type=\"Default\")",
+                               @"some code here",
+                               @"**<<<",
+                               nil];
+  mock.lines = lines;
+
+  STCodeFile* codeFile = [[STCodeFile alloc] init:mock];
+  codeFile.StatisticalPackage = [STConstantsStatisticalPackages Stata];
+  [codeFile LoadTagsFromContent];
+
+  STCommandResult* cr = [[STCommandResult alloc] init];
+  cr.ValueResult = @"Test result 1";
+  codeFile.Tags[0].CachedResult = [NSMutableArray<STCommandResult*> arrayWithObject:cr];
+
+  // Now restore and preserve the cahced value result
+  [codeFile LoadTagsFromContent];
+  XCTAssertEqual(1, [[codeFile Tags] count]);
+  XCTAssert([[STConstantsTagType Value] isEqualToString:[[codeFile Tags][0] Type]]);
+  STCommandResult* cachedResult = codeFile.Tags[0].CachedResult[0];
+  XCTAssert([@"Test result 1" isEqualToString:[cachedResult ValueResult]]);
+
+  // Restore again but do not preserve the cahced value result
+  [codeFile LoadTagsFromContent:false];
+  XCTAssertEqual(1, [[codeFile Tags] count]);
+  XCTAssert([[STConstantsTagType Value] isEqualToString:[[codeFile Tags][0] Type]]);
+  XCTAssertNil(codeFile.Tags[0].CachedResult);
 }
 
 -(void)testSaveBackup_AlreadyExists {

@@ -29,7 +29,19 @@ NSMutableArray<NSString *> *ContentCache;
   self.FilePath = [u path];
 }
 -(NSURL*)FilePathURL {
-  return [[NSURL alloc] initWithString:[self FilePath]];
+  NSURL* url;
+  if ([self FilePath] == nil) {
+    return url;
+  }
+  @try {
+    url = [[NSURL alloc] initWithString:[self FilePath]];
+  }
+  @catch (NSException * e) {
+    NSLog(@"Exception creating URL (%@): %@", NSStringFromClass([self class]), [self FilePath]);
+  }
+  @finally {
+  }
+  return url;
 }
 
 @synthesize Content = _Content;
@@ -147,7 +159,7 @@ NSObject<STIFileHandler>* _FileHandler;
 -(void)LoadTagsFromContent:(BOOL)preserveCache {
   NSArray<STTag*>* savedTags;
   if(preserveCache){
-    savedTags = [[NSArray<STTag*> alloc] initWithArray:savedTags];
+    savedTags = [[NSArray<STTag*> alloc] initWithArray:_Tags];
   }
   
   // Any time we try to load, reset the list of tags that may exist
@@ -165,10 +177,10 @@ NSObject<STIFileHandler>* _FileHandler;
   
   NSCharacterSet *ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
   NSPredicate *tagPredicate = [NSPredicate predicateWithBlock:^BOOL(STTag *aTag, NSDictionary *bindings) {
-    return [[[aTag Type] stringByTrimmingCharactersInSet: ws] length] == 0;
+    return [[[aTag Type] stringByTrimmingCharactersInSet: ws] length] != 0;
   }];
   _Tags = [NSMutableArray<STTag*> arrayWithArray:[[parser Parse:self] filteredArrayUsingPredicate:tagPredicate]];
-  for(STTag *tag in _Tags) {
+  for(STTag* tag in _Tags) {
     tag.CodeFile = self;
   }
 

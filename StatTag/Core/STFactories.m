@@ -10,6 +10,10 @@
 #import "STConstants.h"
 #import "STCodefile.h"
 #import "STBaseValueFormatter.h"
+#import "STBaseParserStata.h"
+#import "STBaseGenerator.h"
+#import "STStataBaseGenerator.h"
+#import "STStataBaseValueFormatter.h"
 
 @implementation STFactories
 
@@ -19,7 +23,8 @@
     if([[file StatisticalPackage] isEqualToString: [STConstantsStatisticalPackages Stata] ]) {
       //FIXME: NOT IMPLEMENTED
       //        return new StatTag.Core.Parser.Stata();
-      [NSException raise:@"Not yet implemented" format:@"method not yet implemented"];
+      //[NSException raise:@"Not yet implemented" format:@"method not yet implemented"];
+      return [[STBaseParserStata alloc] init];
     }
   }
   return nil;
@@ -30,9 +35,10 @@
   if (file != nil)
   {
     if([[file StatisticalPackage] isEqualToString: [STConstantsStatisticalPackages Stata] ]) {
-      [NSException raise:@"Not yet implemented" format:@"method not yet implemented"];
+      ///NSException raise:@"Not yet implemented" format:@"method not yet implemented"];
       //FIXME: NOT IMPLEMENTED
       //        return new StatTag.Core.Generator.Stata();
+       return [[STStataBaseGenerator alloc] init];
     }
   }
   return nil;
@@ -42,9 +48,10 @@
   if (file != nil)
   {
     if([[file StatisticalPackage] isEqualToString: [STConstantsStatisticalPackages Stata] ]) {
-      [NSException raise:@"Not yet implemented" format:@"method not yet implemented"];
+      //[NSException raise:@"Not yet implemented" format:@"method not yet implemented"];
       //FIXME: NOT IMPLEMENTED
       //        return new StatTag.Core.ValueFormatter.Stata();
+      return [[STStataBaseValueFormatter alloc] init];
     }
   }
   return [[STBaseValueFormatter alloc] init];
