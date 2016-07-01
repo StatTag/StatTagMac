@@ -17,17 +17,30 @@
 @synthesize TableCellIndex = _TableCellIndex;
 
 //@synthesize CodeFilePath = _CodeFilePath;
-- (NSURL*) CodeFilePath {
+- (NSString*) CodeFilePath {
   if(_CodeFile != nil) {
     return [_CodeFile FilePath];
   }
   return nil;
 }
-- (void) setCodeFilePath:(NSURL *)c {
+- (void) setCodeFilePath:(NSString *)c {
   if (_CodeFile == nil)
   {
     _CodeFile = [[STCodeFile alloc] init];
     _CodeFile.FilePath = c;
+  }
+}
+- (NSURL*) CodeFilePathURL {
+  if(_CodeFile != nil) {
+    return [_CodeFile FilePathURL];
+  }
+  return nil;
+}
+- (void) setCodeFilePathURL:(NSURL *)c {
+  if (_CodeFile == nil)
+  {
+    _CodeFile = [[STCodeFile alloc] init];
+    _CodeFile.FilePathURL = c;
   }
 }
 
@@ -149,7 +162,7 @@
     [dict setObject:[self TableCellIndex] forKey:@"TableCellIndex"];
   }
   if([self CodeFilePath] != nil){
-    [dict setObject:[[self CodeFilePath] path] forKey:@"CodeFilePath"];
+    [dict setObject:[self CodeFilePath] forKey:@"CodeFilePath"];
   }
   return dict;
 }
@@ -186,9 +199,8 @@
 //      }
 //    } else
     if([key isEqualToString:@"CodeFilePath"]) {
-      [self setValue:[[NSURL alloc] initWithString:[dict valueForKey:key]] forKey:key];
-    //} else if([key isEqualToString:@"TableCellIndex"]) {
-    //  [self setValue:[dict valueForKey:key] forKey:key];
+      [self setValue:[dict valueForKey:key] forKey:key];
+      //[self setValue:[[NSURL alloc] initWithString:[dict valueForKey:key]] forKey:key];
     } else if([key isEqualToString:@"TableCellIndex"]) {
         [self setValue:[dict valueForKey:key] forKey:key];
     //    } else {

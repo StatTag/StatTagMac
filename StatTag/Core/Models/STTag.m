@@ -31,7 +31,7 @@
 
 @synthesize Id = _Id;
 - (NSString*) Id {
-  return [NSString stringWithFormat:@"%@--%@", (_Name == nil ? @"" : _Name), (_CodeFile == nil ? @"" : [[_CodeFile FilePath] path])];
+  return [NSString stringWithFormat:@"%@--%@", (_Name == nil ? @"" : _Name), (_CodeFile == nil ? @"" : [_CodeFile FilePath])];
 }
 
 @synthesize FormattedResult = _FormattedResult;
@@ -272,7 +272,7 @@
 
 //MARK: equality
 - (NSUInteger)hash {
-  return ((_Name != nil && _CodeFile != nil) ? [[NSString stringWithFormat:@"%@--%@", _Name, [[_CodeFile FilePath] path]] hash] : 0);
+  return ((_Name != nil && _CodeFile != nil) ? [[NSString stringWithFormat:@"%@--%@", _Name, [_CodeFile FilePath]] hash] : 0);
 }
 
 - (BOOL)isEqual:(id)object

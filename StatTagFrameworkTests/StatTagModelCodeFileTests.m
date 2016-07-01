@@ -39,13 +39,13 @@
   NSURL* url = [[NSURL alloc] initWithString:@"C:\\Test.txt"];
   NSLog(@"url : %@", url);
   
-  file.FilePath = [[NSURL alloc] initWithString:@"C:\\Test.txt"];
+  file.FilePath = @"C:\\Test.txt";
   file.StatisticalPackage = [STConstantsStatisticalPackages Stata];
   
   NSLog(@"[file ToString] : %@", [file ToString]);
   XCTAssert([@"C:\\Test.txt" isEqualToString:[file ToString]]);
 
-  file.FilePath = [[NSURL alloc] initWithString:@"C:\\Test2.txt"];
+  file.FilePath = @"C:\\Test2.txt";
   NSLog(@"[file ToString] : %@", [file ToString]);
   XCTAssert([@"C:\\Test2.txt" isEqualToString:[file ToString]]);
 }
@@ -174,20 +174,20 @@
   // handling this boundary scenarios appropriately.
   
   STCodeFile* codeFile = [[STCodeFile alloc] init];
-  NSURL* url = [[NSURL alloc] initWithString:@"Test.do"];
+  NSString* url = @"Test.do";
   codeFile.FilePath = url;
   codeFile.Tags = nil;
   NSDictionary<STTag*, NSArray<STTag*>*>* result = [codeFile FindDuplicateTags];
   XCTAssertEqual(0, [result count]);
 
   codeFile = [[STCodeFile alloc] init];
-  url = [[NSURL alloc] initWithString:@"Test.do"];
+  url = @"Test.do";
   codeFile.FilePath = url;
   result = [codeFile FindDuplicateTags];
   XCTAssertEqual(0, [result count]);
 
   codeFile = [[STCodeFile alloc] init];
-  url = [[NSURL alloc] initWithString:@"Test.do"];
+  url = @"Test.do";
   codeFile.FilePath = url;
   codeFile.Tags = [[NSMutableArray<STTag*> alloc] init];
   result = [codeFile FindDuplicateTags];
@@ -197,7 +197,7 @@
 -(void)testFindDuplicateTags_NoDuplicates {
   
   STCodeFile* codeFile = [[STCodeFile alloc] init];
-  NSURL* url = [[NSURL alloc] initWithString:@"Test.do"];
+  NSString* url = @"Test.do";
   codeFile.FilePath = url;
   
   STTag* tag1 = [[STTag alloc] init];
@@ -215,7 +215,7 @@
 -(void)testFindDuplicateTags_Duplicates {
 
   STCodeFile* codeFile = [[STCodeFile alloc] init];
-  NSURL* url = [[NSURL alloc] initWithString:@"Test.do"];
+  NSString* url = @"Test.do";
   codeFile.FilePath = url;
 
   STTag* tag1 = [[STTag alloc] init];
@@ -245,7 +245,7 @@
 - (void)testJSONEncoding {
   STCodeFile *f = [[STCodeFile alloc] init];
   f.StatisticalPackage = @"R";
-  f.FilePath = [[NSURL alloc] initWithString:@"/Applications/SomePath/somefile.txt"];
+  f.FilePath = @"/Applications/SomePath/somefile.txt";
   f.LastCached = [NSDate date];
   
   NSLog(@"f: %@", f);
@@ -263,7 +263,7 @@
   for(int i = 0; i < 5; i++) {
     STCodeFile *f = [[STCodeFile alloc] init];
     f.StatisticalPackage = [NSString stringWithFormat:@"R %d", i];
-    f.FilePath = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"/Applications/SomePath/somefile___%d.txt", i]];
+    f.FilePath = [NSString stringWithFormat:@"/Applications/SomePath/somefile___%d.txt", i];
     [files addObject:f];
   }
   
@@ -297,11 +297,12 @@
 //MARK: Object copy/dictionary
 - (void)testBasicObjectForKey {
   STCodeFile *f = [[STCodeFile alloc] init];
-  f.FilePath = [[NSURL alloc] initWithString:@"afile"];
+  f.FilePath = @"afile";
   
   NSMutableDictionary<STCodeFile*, NSNumber*>* d = [[NSMutableDictionary<STCodeFile*, NSNumber*> alloc] init];
   [d setObject:@1 forKey:f];
-  NSLog(@"f(FilePath): %@", [[f FilePath] path]);
+  NSLog(@"f(FilePath): %@", [f FilePath]);
+  NSLog(@"f(FilePath): %@", [[f FilePathURL] path]);
   NSLog(@"d: %@", d);
   NSLog(@"d(value): %@", [d objectForKey:f]);
 }

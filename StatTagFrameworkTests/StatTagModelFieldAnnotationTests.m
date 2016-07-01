@@ -59,7 +59,7 @@
   
   STTag* tag = [STTag tagWithName:@"Test" andCodeFile:nil andType:[STConstantsTagType Table]];
   STFieldTag* fieldTag = [[STFieldTag alloc] init];
-  fieldTag.CodeFilePath = [[NSURL alloc] initWithString:@"Test.do"];
+  fieldTag.CodeFilePath = @"Test.do";
   fieldTag.TableCellIndex = @10;
   
   STFieldTag *newFieldTag = [[STFieldTag alloc] initWithTag:tag andFieldTag:fieldTag];
@@ -67,7 +67,7 @@
   XCTAssert([[tag Name] isEqualToString:[newFieldTag Name]]);
   XCTAssert([[tag Type] isEqualToString:[newFieldTag Type]]);
   XCTAssertEqual(10, [[newFieldTag TableCellIndex] integerValue]);
-  XCTAssert([[[[NSURL alloc] initWithString:@"Test.do"]path] isEqualToString: [[newFieldTag CodeFilePath] path]]);
+  XCTAssert([@"Test.do" isEqualToString: [newFieldTag CodeFilePath] ]);
 }
 
 - (void)testConstructor_NullTagWithFieldTag {
@@ -75,7 +75,7 @@
   STFieldTag* fieldTag = [[STFieldTag alloc] init];
   fieldTag.Name = @"Test";
   fieldTag.Type = [STConstantsTagType Table];
-  fieldTag.CodeFilePath = [[NSURL alloc] initWithString:@"Test.do"];
+  fieldTag.CodeFilePath = @"Test.do";
   fieldTag.TableCellIndex = @10;
 
   STFieldTag *newFieldTag = [[STFieldTag alloc] initWithTag:nil andFieldTag:fieldTag];
@@ -83,7 +83,7 @@
   XCTAssert([[fieldTag Name] isEqualToString:[newFieldTag Name]]);
   XCTAssert([[fieldTag Type] isEqualToString:[newFieldTag Type]]);
   XCTAssertEqual([[fieldTag TableCellIndex] integerValue], [[newFieldTag TableCellIndex] integerValue]);
-  XCTAssert([[[fieldTag CodeFilePath] path] isEqualToString: [[newFieldTag CodeFilePath] path]]);
+  XCTAssert([[fieldTag CodeFilePath] isEqualToString: [newFieldTag CodeFilePath] ]);
 
 }
 
@@ -131,7 +131,7 @@
 
 - (void)testSerialize_Deserialize {
   
-  STCodeFile* codeFile = [STCodeFile codeFileWithFilePath:[[NSURL alloc] initWithString:@"Test.do"]];
+  STCodeFile* codeFile = [STCodeFile codeFileWithFilePath:@"Test.do"];
   
   STCommandResult* cr = [[STCommandResult alloc] init];
   cr.ValueResult = @"Test 1";
@@ -201,13 +201,13 @@
   XCTAssertEqual([[tag TableCellIndex] integerValue], [[recreatedTag TableCellIndex] integerValue]);
   // The recreated tag doesn't truly recreate the code file object.  We attempt to restore it the best we can with the file path.
 
-  XCTAssert([[[tag CodeFilePath] path] isEqual:[[[recreatedTag CodeFile] FilePath] path]]);
-  XCTAssert([[[tag CodeFilePath] path] isEqual:[[recreatedTag CodeFilePath] path]]);
+  XCTAssert([[tag CodeFilePath]  isEqual:[[recreatedTag CodeFile] FilePath] ]);
+  XCTAssert([[tag CodeFilePath]  isEqual:[recreatedTag CodeFilePath] ]);
 }
 
 - (void)testLinkToCodeFile_Found {
   
-  STCodeFile* cf = [STCodeFile codeFileWithFilePath:[[NSURL alloc] initWithString:@"Test.do"]];
+  STCodeFile* cf = [STCodeFile codeFileWithFilePath:@"Test.do"];
   NSMutableArray<STCommandResult*>* ar_cr = [[NSMutableArray<STCommandResult*> alloc] init];
   STCommandResult* cr = [[STCommandResult alloc] init];
   cr.ValueResult = @"Test 1";
@@ -215,16 +215,16 @@
   tag.CachedResult = ar_cr;
   tag.TableCellIndex = @10;
 
-  NSURL* url = [[NSURL alloc] initWithString:@"Test.do"];
+  NSString* url = @"Test.do";
   STCodeFile* cf_1 = [STCodeFile codeFileWithFilePath:url];
-  url = [[NSURL alloc] initWithString:@"Test2.do"];
+  url = @"Test2.do";
   STCodeFile* cf_2 = [STCodeFile codeFileWithFilePath:url];
   NSMutableArray<STCodeFile*>* files = [NSMutableArray<STCodeFile*> arrayWithObjects:cf_1, cf_2, nil];
   
   [STFieldTag LinkToCodeFile:tag CodeFile:files];
   XCTAssertEqual(files[0], [tag CodeFile]);
 
-  url = [[NSURL alloc] initWithString:[[[files[0] FilePath] path] uppercaseString]];
+  url = [[files[0] FilePath] uppercaseString];
   files[0].FilePath = url;
   [STFieldTag LinkToCodeFile:tag CodeFile:files];
   XCTAssertEqual(files[0], [tag CodeFile]);
@@ -239,9 +239,9 @@
   tag.CachedResult = ar_cr;
   tag.TableCellIndex = @10;
 
-  NSURL* url = [[NSURL alloc] initWithString:@"Test.do"];
+  NSString* url = @"Test.do";
   STCodeFile* cf_1 = [STCodeFile codeFileWithFilePath:url];
-  url = [[NSURL alloc] initWithString:@"Test2.do"];
+  url = @"Test2.do";
   STCodeFile* cf_2 = [STCodeFile codeFileWithFilePath:url];
   NSMutableArray<STCodeFile*>* files = [NSMutableArray<STCodeFile*> arrayWithObjects:cf_1, cf_2, nil];
 
@@ -255,7 +255,7 @@
   XCTAssertNil([tag CodeFile]);
   
   // Should match with case differences
-  STCodeFile* cf = [STCodeFile codeFileWithFilePath:[[NSURL alloc] initWithString:@"Test3.do"]];
+  STCodeFile* cf = [STCodeFile codeFileWithFilePath:@"Test3.do"];
   tag.CodeFile = cf;
   [STFieldTag LinkToCodeFile:tag CodeFile:files];
   XCTAssertNotEqual(files[0], [tag CodeFile]);

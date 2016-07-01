@@ -22,14 +22,16 @@ within the table.</remarks>
  */
 @interface STFieldTag : STTag {
   NSNumber* _TableCellIndex; //nil-able int value
-  NSURL* _CodeFilePath;
+  NSString* _CodeFilePath;
+  NSURL* _CodeFilePathURL;
 }
 
 @property (nonatomic, copy) NSNumber* TableCellIndex;
 /**
  Shortcut to the file path of the CodeFile.  This is used for serialization.
  */
-@property (nonatomic, copy) NSURL* CodeFilePath;
+@property (nonatomic, copy) NSURL* CodeFilePathURL;
+@property (nonatomic, copy) NSString* CodeFilePath;
 
 //MARK: initializers
 -(instancetype)initWithTag:(STTag*)tag;

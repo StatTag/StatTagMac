@@ -24,6 +24,13 @@
 @synthesize Tags = _Tags;
 NSMutableArray<NSString *> *ContentCache;
 
+//URL form accessor for FilePath
+-(void)setFilePathURL:(NSURL*) u {
+  self.FilePath = [u path];
+}
+-(NSURL*)FilePathURL {
+  return [[NSURL alloc] initWithString:[self FilePath]];
+}
 
 @synthesize Content = _Content;
 - (void) setContent:(NSMutableArray *)c {
@@ -59,10 +66,10 @@ NSObject<STIFileHandler>* _FileHandler;
   }
   return self;
 }
-+(instancetype)codeFileWithFilePath:(NSURL*)filePath{
++(instancetype)codeFileWithFilePath:(NSString*)filePath{
   return [STCodeFile codeFileWithFilePath:filePath andTags:nil];
 }
-+(instancetype)codeFileWithFilePath:(NSURL*)filePath andTags:(NSArray<STTag*>*)tags {
++(instancetype)codeFileWithFilePath:(NSString*)filePath andTags:(NSArray<STTag*>*)tags {
   STCodeFile* f = [[STCodeFile alloc] init];
   f.FilePath = filePath;
   f.Tags = [NSMutableArray<STTag*> arrayWithArray:tags];
@@ -90,7 +97,7 @@ NSObject<STIFileHandler>* _FileHandler;
 //MARK:methods
 
 -(NSString*)ToString {
-  return _FilePath ? [_FilePath path] : @"";
+  return _FilePath ? _FilePath : @"";
 }
 -(NSString*)description {
   return [self ToString];
@@ -110,7 +117,7 @@ NSObject<STIFileHandler>* _FileHandler;
   if(other == nil) {
     return false;
   }
-  return ([[[other FilePath] path] caseInsensitiveCompare:[_FilePath path]] == NSOrderedSame);
+  return ([[other FilePath] caseInsensitiveCompare:_FilePath] == NSOrderedSame);
 }
 
 
@@ -127,7 +134,7 @@ NSObject<STIFileHandler>* _FileHandler;
 */
 - (void) RefreshContent {
   NSError *error;
-  ContentCache = [NSMutableArray arrayWithArray:[_FileHandler ReadAllLines:_FilePath error:&error]];
+  ContentCache = [NSMutableArray arrayWithArray:[_FileHandler ReadAllLines:[self FilePathURL] error:&error]];
 }
 
 /**
@@ -201,7 +208,7 @@ the cached results in another tag.
 */
 -(void)Save:(NSError**)error
 {
-  [_FileHandler WriteAllLines:_FilePath withContent:_Content error:error];
+  [_FileHandler WriteAllLines:[self FilePathURL] withContent:_Content error:error];
 }
 
 /**
@@ -210,11 +217,11 @@ the cached results in another tag.
 */
 -(void)SaveBackup:(NSError**)error {
 
-  NSURL *backupFile = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@.%@", [_FilePath path], [STConstantsFileExtensions Backup]]];
+  NSURL *backupFile = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@.%@", [[self FilePathURL] path], [STConstantsFileExtensions Backup]]];
 
   if (![_FileHandler Exists:backupFile error:error])
   {
-    [_FileHandler Copy:_FilePath toDestinationFile:backupFile error:error];
+    [_FileHandler Copy:[self FilePathURL] toDestinationFile:backupFile error:error];
   }
 }
 
@@ -223,7 +230,7 @@ the cached results in another tag.
 -(NSDictionary *)toDictionary {
   NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
   [dict setValue:[self StatisticalPackage] forKey:@"StatisticalPackage"];
-  [dict setValue:[self.FilePath path] forKey:@"FilePath"];
+  [dict setValue:[self FilePath] forKey:@"FilePath"];
   [dict setValue:[STJSONUtility convertDateToDateString:self.LastCached] forKey:@"LastCached"]; //format?
   return dict;
 }
@@ -231,7 +238,8 @@ the cached results in another tag.
 -(void)setWithDictionary:(NSDictionary*)dict {
   for (NSString* key in dict) {
     if([key isEqualToString:@"FilePath"]) {
-      [self setValue:[[NSURL alloc] initWithString:[dict valueForKey:key]] forKey:key];
+      //[self setValue:[[NSURL alloc] initWithString:[dict valueForKey:key]] forKey:key];
+      [self setValue:[dict valueForKey:key] forKey:key];
     } else if([key isEqualToString:@"LastCached"]) {
       [self setValue:[STJSONUtility dateFromString:[dict valueForKey:key]] forKey:key];
       //NSLog(@"LastCached : %@", [self LastCached]);
@@ -548,7 +556,7 @@ the cached results in another tag.
  */
 -(void)UpdateContent:(NSString*)text error:(NSError*)outError {
   NSError* error;
-  [_FileHandler WriteAllText:_FilePath withContent:text error:&error];
+  [_FileHandler WriteAllText:[self FilePathURL] withContent:text error:&error];
   [self LoadTagsFromContent];
 }
 
