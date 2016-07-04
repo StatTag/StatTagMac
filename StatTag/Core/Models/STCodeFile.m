@@ -442,7 +442,6 @@ the cached results in another tag.
 
   STTag* updatedTag = [[STTag alloc]initWithTag:newTag];
   
-  
   NSMutableArray<NSString*>* content = [self Content];  // Force cache to load so we can reference it later w/o accessor overhead
   #pragma unused(content) //touching this just forces things to work - ignore the variable not being used
 
@@ -450,20 +449,20 @@ the cached results in another tag.
     //var refreshedOldTag = (matchWithPosition ? Tags.FirstOrDefault(tag => oldTag.EqualsWithPosition(tag)) : Tags.FirstOrDefault(tag => oldTag.Equals(tag)));
 
     //this is all wrong
+    //STTag* refreshedOldTag = _Tags.FirstOrDefault(tag => oldTag.Equals(tag, matchWithPosition));
     NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(STTag *aTag, NSDictionary *bindings) {
-      return [aTag isEqual:oldTag];
+      //return [aTag isEqual:oldTag];
+      return [aTag Equals:oldTag usePosition:matchWithPosition];
     }];
     STTag *refreshedOldTag = [[_Tags filteredArrayUsingPredicate:predicate] firstObject];
-
     
-    //STTag* refreshedOldTag = _Tags.FirstOrDefault(tag => oldTag.Equals(tag, matchWithPosition));
     if (refreshedOldTag == nil)
     {
       //FIXME: we shouldn't be doing things this way - fix
       [NSException raise:@"Unable to find the existing tag to update." format:@"Unable to find the existing tag to update."];
     }
     
-    if ([refreshedOldTag LineStart] > [refreshedOldTag LineEnd])
+    if ([[refreshedOldTag LineStart] integerValue] > [[refreshedOldTag LineEnd] integerValue])
     {
       //FIXME: we shouldn't be doing things this way - fix
       [NSException raise:@"Invalid LineStart and LineEnd" format:@"The new tag start index is after the end index, which is not allowed."];
@@ -472,24 +471,24 @@ the cached results in another tag.
     // Remove the starting tag and then adjust indices as appropriate
     [ContentCache removeObjectAtIndex:[[refreshedOldTag LineStart] integerValue] ];
 
-    if ([updatedTag LineStart] > [refreshedOldTag LineStart])
+    if ([[updatedTag LineStart] integerValue] > [[refreshedOldTag LineStart] integerValue])
     {
       updatedTag.LineStart = [NSNumber numberWithInteger:[[updatedTag LineStart] integerValue] -1 ];
       updatedTag.LineEnd = [NSNumber numberWithInteger:[[updatedTag LineEnd] integerValue] -1 ]; // We know line end >= line start
     }
-    else if ([updatedTag LineEnd] > [refreshedOldTag LineStart])
+    else if ([[updatedTag LineEnd] integerValue] > [[refreshedOldTag LineStart] integerValue])
     {
       updatedTag.LineEnd = [NSNumber numberWithInteger:[[updatedTag LineEnd] integerValue] -1 ]; // We know line end >= line start
     }
 
     refreshedOldTag.LineEnd = [NSNumber numberWithInteger:[[refreshedOldTag LineEnd] integerValue] -1 ]; // Don't forget to adjust the old tag index
     [ContentCache removeObjectAtIndex:[[refreshedOldTag LineEnd] integerValue] ];
-    if ([updatedTag LineStart] > [refreshedOldTag LineEnd])
+    if ([[updatedTag LineStart] integerValue] > [[refreshedOldTag LineEnd] integerValue])
     {
       updatedTag.LineStart = [NSNumber numberWithInteger:[[updatedTag LineStart] integerValue] -1 ];
       updatedTag.LineEnd = [NSNumber numberWithInteger:[[updatedTag LineEnd] integerValue] -1 ];
     }
-    else if ([updatedTag LineEnd] >= [refreshedOldTag LineEnd])
+    else if ([[updatedTag LineEnd] integerValue] >= [[refreshedOldTag LineEnd] integerValue])
     {
       updatedTag.LineEnd = [NSNumber numberWithInteger:[[updatedTag LineEnd] integerValue] -1 ];
     }
