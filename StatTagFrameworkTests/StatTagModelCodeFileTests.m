@@ -651,6 +651,8 @@
   mock.lines = lines;
   STCodeFile* codeFile = [[STCodeFile alloc] init:mock];
   codeFile.StatisticalPackage = [STConstantsStatisticalPackages Stata];
+  NSLog(@"tags: %@", [codeFile Tags] );
+  NSLog(@"tag count: %d", [[codeFile Tags] count]);
   [codeFile UpdateContent:@"test content" error:nil];
   XCTAssert([mock WriteAllText_wasCalled] > 0);
   XCTAssertEqual(1, [[codeFile Tags] count]);

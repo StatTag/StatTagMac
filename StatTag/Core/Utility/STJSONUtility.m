@@ -109,8 +109,10 @@
   }
 
   //last-ditch...milliseconds since 1970 - since that's more of a universal json thing
-  NSNumber* n = [NSNumber numberWithDouble:[dateString doubleValue]];
-  if(n) {
+  NSNumberFormatter* nf = [[NSNumberFormatter alloc] init];
+  BOOL isNumeric = [nf numberFromString:dateString] != nil;
+  if(isNumeric) {
+    NSNumber* n = [NSNumber numberWithDouble:[dateString doubleValue]];
     NSDate* aDate = [NSDate dateWithTimeIntervalSince1970:[n doubleValue]];
     if(aDate){
       return aDate;

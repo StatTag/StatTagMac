@@ -40,11 +40,11 @@
   _Copy_wasCalled = _Copy_wasCalled + 1;
 }
 - (void) WriteAllLines:(NSURL*)filePath withContent: (NSArray*)content error:(NSError**)error {
-  self.lines = content;
+  //self.lines = content;
   _WriteAllLines_wasCalled = _WriteAllLines_wasCalled + 1;
 }
 - (void) WriteAllText:(NSURL*)filePath withContent: (NSString*)content error:(NSError**)error {
-  self.lines = [NSArray arrayWithObject:content];
+  //self.lines = [NSArray arrayWithObject:content];
   _WriteAllText_wasCalled = _WriteAllText_wasCalled + 1;
 }
 @end
