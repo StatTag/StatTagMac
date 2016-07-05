@@ -332,7 +332,8 @@
 
 
 - (BOOL) EqualsWithPosition:(STTag*)tag {
-  return [self isEqual:tag] && [_LineStart isEqual:[tag LineStart]] && [_LineEnd isEqual:[tag LineEnd]];
+  return [self isEqual:tag] && [_LineStart integerValue] == [[tag LineStart] integerValue] && [_LineEnd integerValue] == [[tag LineEnd] integerValue];
+  //return [self isEqual:tag] && [_LineStart isEqual:[tag LineStart]] && [_LineEnd isEqual:[tag LineEnd]];
 }
 
 + (NSString*)NormalizeName:(NSString*)label {

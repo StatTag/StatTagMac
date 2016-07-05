@@ -28,6 +28,8 @@
   NSMutableArray<STTag*>*_Tags;
   
   NSMutableArray<NSString*>* _Content;
+  
+  NSMutableArray<NSString *> *ContentCache;
 }
 
 //NSMutableArray<NSString *> *onlyStrings

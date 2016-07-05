@@ -22,7 +22,7 @@
 @synthesize FilePath = _FilePath;
 @synthesize LastCached = _LastCached;
 @synthesize Tags = _Tags;
-NSMutableArray<NSString *> *ContentCache;
+
 
 //URL form accessor for FilePath
 -(void)setFilePathURL:(NSURL*) u {
@@ -434,7 +434,7 @@ the cached results in another tag.
     return nil;
   }
 
-  if ([newTag LineStart] > [newTag LineEnd])
+  if ([[newTag LineStart] intValue] > [[newTag LineEnd] intValue])
   {
     //FIXME: we shouldn't be doing things this way - fix
     [NSException raise:@"Invalid LineStart and LineEnd" format:@"The new tag start index is after the end index, which is not allowed."];
@@ -494,11 +494,27 @@ the cached results in another tag.
     }
 
     //FIXME: this should be replaced with better nsindexset search and removal
+    /* NOTE: leaving this in here for reference so we don't repeat the same mistake I did initially.
+     
+     We CANNOT use object equality to find tags here. The initial predicate match is fine, but the later "remove objects in array" uses an equality comparison, which basically undoes our specialized "match with positiion" logic below.
+     
+     Instead, we're going to do what I should have done initially - and what Luke did in the original c# - which is find and remove by _index_.
+     
     predicate = [NSPredicate predicateWithBlock:^BOOL(STTag *aTag, NSDictionary *bindings) {
       return [aTag Equals:refreshedOldTag usePosition:matchWithPosition];
     }];
     NSArray<STTag*>* foundTags = [_Tags filteredArrayUsingPredicate:predicate];
     [_Tags removeObjectsInArray:foundTags];
+     */
+    
+    NSMutableIndexSet* tagIndexes = [[NSMutableIndexSet alloc] init];
+    [_Tags enumerateObjectsUsingBlock:^(STTag* aTag, NSUInteger idx, BOOL *stop) {
+      if([aTag Equals:refreshedOldTag usePosition:matchWithPosition]){
+        [tagIndexes addIndex:idx];
+      }
+    }];
+    [_Tags removeObjectsAtIndexes:tagIndexes];
+
   }
 
   NSObject<STIGenerator>* generator = [STFactories GetGenerator:self];

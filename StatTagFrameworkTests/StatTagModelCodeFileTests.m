@@ -26,6 +26,12 @@
 }
 
 - (void)tearDown {
+  
+//  STCodeFile sh
+//  
+//  STCodeFile* aCodeFile = [[STCodeFile alloc] init];
+//  [aCodeFile Content] = nil;
+  
   [super tearDown];
 }
 
@@ -237,6 +243,7 @@
   codeFile.StatisticalPackage = [STConstantsStatisticalPackages Stata];
 
   NSArray<NSString*>* content = [codeFile Content];
+
   XCTAssertEqual(3, [content count]);
   XCTAssertEqual([mock ReadAllLines_wasCalled], 1);
 
@@ -542,6 +549,8 @@
   [codeFile LoadTagsFromContent];
 
   XCTAssertEqual(2, [[codeFile Tags] count]);
+
+  //NSLog(@"tags : %@", [codeFile Tags]);
   
   // Match the second one - this should bypass the first one which matches on name but not on line number.
   STTag* oldTag = [codeFile Tags][1];
@@ -557,7 +566,7 @@
   #pragma unused (updatedTag)
 
   XCTAssertEqual(2, [[codeFile Tags] count]);
-  XCTAssertEqual(8, [[codeFile Tags] count]);
+  XCTAssertEqual(8, [[codeFile Content] count]);
   
   // Make sure it didn't modify the first tag - only the second one should be a match.
   
@@ -643,7 +652,7 @@
   STCodeFile* codeFile = [[STCodeFile alloc] init:mock];
   codeFile.StatisticalPackage = [STConstantsStatisticalPackages Stata];
   [codeFile UpdateContent:@"test content" error:nil];
-  XCTAssert([mock WriteAllLines_wasCalled] > 0);
+  XCTAssert([mock WriteAllText_wasCalled] > 0);
   XCTAssertEqual(1, [[codeFile Tags] count]);
 }
 
