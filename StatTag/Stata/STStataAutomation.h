@@ -13,8 +13,8 @@
 
 @interface STStataAutomation : NSObject {
   STStataApplication* Application;
-  STBaseParserStata* parser;
-  NSArray<NSString*>* OpenLogs;
+  STBaseParserStata* Parser;
+  NSMutableArray<NSString*>* OpenLogs;
   
   const int StataHidden;
   const int MinimizeStata;
@@ -59,5 +59,7 @@ extern NSString *const UnregisterParameter;
 
 -(void)Show;
 -(void)Hide;
+
+-(BOOL)Initialize;
 
 @end
