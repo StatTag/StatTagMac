@@ -22,18 +22,22 @@
 @interface STCodeFile : NSObject <NSCopying, STJSONAble> {
 //  NSMutableArray<NSString *> *ContentCache;
   NSString* _StatisticalPackage;
-  NSURL* _FilePath;
+  NSString* _FilePath;
+  NSURL* _FilePathURL;
   NSDate* _LastCached;
   NSMutableArray<STTag*>*_Tags;
   
   NSMutableArray<NSString*>* _Content;
+  
+  NSMutableArray<NSString *> *ContentCache;
 }
 
 //NSMutableArray<NSString *> *onlyStrings
 
 //@property NSMutableArray<NSString *> *ContentCache;
 @property (copy, nonatomic) NSString *StatisticalPackage;
-@property (copy, nonatomic) NSURL *FilePath;
+@property (copy, nonatomic) NSString *FilePath;
+@property (copy, nonatomic) NSURL *FilePathURL;
 @property (copy, nonatomic) NSDate *LastCached;
 @property (strong, nonatomic) NSMutableArray<STTag *> *Tags;
 
@@ -58,8 +62,8 @@
 
 -(instancetype)init:(NSObject<STIFileHandler>*)handler;
 -(instancetype)init;
-+(instancetype)codeFileWithFilePath:(NSURL*)filePath;
-+(instancetype)codeFileWithFilePath:(NSURL*)filePath andTags:(NSArray<STTag*>*)tags;
++(instancetype)codeFileWithFilePath:(NSString*)filePath;
++(instancetype)codeFileWithFilePath:(NSString*)filePath andTags:(NSArray<STTag*>*)tags;
 
 
 - (NSUInteger)hash;

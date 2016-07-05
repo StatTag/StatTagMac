@@ -29,17 +29,12 @@
 @synthesize RegexCache = _RegexCache;
 
 static STBaseParameterParser* sharedInstance = nil;
-
 + (instancetype)sharedInstance
 {
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
     sharedInstance = [[self alloc] init];
   });
-  
-//  dispatch_once(&once, ^{
-//    sharedInstance = [[self alloc] init];
-//  });
   return sharedInstance;
 }
 

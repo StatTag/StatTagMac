@@ -81,12 +81,12 @@
   //-----------------
   cf = [[STCodeFile alloc] init];
   cf.StatisticalPackage = @"ABC";
-  cf.FilePath = [[NSURL alloc] initWithString:@"myfile.txt"];
+  cf.FilePath = @"myfile.txt";
   cf.LastCached = d1;
   
   cf2 = [[STCodeFile alloc] init];
   cf2.StatisticalPackage = @"DEF";
-  cf2.FilePath = [[NSURL alloc] initWithString:@"secondfile.txt"];
+  cf2.FilePath = @"secondfile.txt";
   cf2.LastCached = d2;
  
   
@@ -220,11 +220,11 @@
   //-----------------
   ft1 = [[STFieldTag alloc] init];
   ft1.TableCellIndex = @1;
-  ft1.CodeFilePath = [[NSURL alloc] initWithString:@"myfile.txt"];
+  ft1.CodeFilePath = @"myfile.txt";
 
   ft2 = [[STFieldTag alloc] init];
   ft2.TableCellIndex = @2;
-  ft2.CodeFilePath = [[NSURL alloc] initWithString:@"mysecondfile.txt"];
+  ft2.CodeFilePath = @"mysecondfile.txt";
 
   ft3 = [[STFieldTag alloc] init];
   //ft3.TableCellIndex = @2;
@@ -250,11 +250,11 @@
 
   //validate
   XCTAssert([[ar2[0] StatisticalPackage] isEqualToString:@"ABC"]);
-  XCTAssert([[[ar2[0] FilePath] path] isEqualToString:@"myfile.txt"]);
+  XCTAssert([[ar2[0] FilePath] isEqualToString:@"myfile.txt"]);
   XCTAssert([[ar2[0] LastCached] isEqualToDate:d1]);
 
   XCTAssert([[ar2[1] StatisticalPackage] isEqualToString:@"DEF"]);
-  XCTAssert([[[ar2[1] FilePath] path] isEqualToString:@"secondfile.txt"]);
+  XCTAssert([[ar2[1] FilePath] isEqualToString:@"secondfile.txt"]);
   XCTAssert([[ar2[1] LastCached] isEqualToDate:d2]);
 }
 
@@ -336,7 +336,7 @@
 
   NSArray<STFieldTag*>* ar1 = [NSArray arrayWithObjects:ft1, ft2, ft3, nil];
   NSString* json = [STFieldTag SerializeList:ar1 error:nil];
-  //NSLog(@"json : %@", json);
+  NSLog(@"json : %@", json);
   
   NSArray<STFieldTag*>* ar2 = [STFieldTag DeserializeList:json error:nil];
   NSString* json2 = [STFieldTag SerializeList:ar2 error:nil];

@@ -51,7 +51,7 @@
 - (void)testEquals_Match {
 
   STCodeFile* file1 = [[STCodeFile alloc] init];
-  NSURL* url = [[NSURL alloc] initWithString:@"File1.txt"];
+  NSString* url = @"File1.txt";
   file1.FilePath = url;
 
   STTag* tag1 = [[STTag alloc] init];
@@ -74,7 +74,7 @@
   // Even if the file object changes, if the file is the same (based on the path) the
   // tags should remain as equal
   STCodeFile* file2 = [[STCodeFile alloc] init];
-  NSURL* url2 = [[NSURL alloc] initWithString:@"File1.txt"];
+  NSString* url2 = @"File1.txt";
   file2.FilePath = url2;
 
   tag2.CodeFile = file2;
@@ -86,11 +86,11 @@
 - (void)testEquals_NoMatch {
 
   STCodeFile* file1 = [[STCodeFile alloc] init];
-  NSURL* url = [[NSURL alloc] initWithString:@"File1.txt"];
+  NSString* url = @"File1.txt";
   file1.FilePath = url;
 
   STCodeFile* file2 = [[STCodeFile alloc] init];
-  NSURL* url2 = [[NSURL alloc] initWithString:@"File2.txt"];
+  NSString* url2 = @"File2.txt";
   file2.FilePath = url2;
 
   STTag* tag1 = [[STTag alloc] init];
@@ -126,7 +126,7 @@
 
 
   STCodeFile* file1 = [[STCodeFile alloc] init];
-  NSURL* url = [[NSURL alloc] initWithString:@"File1.txt"];
+  NSString* url = @"File1.txt";
   file1.FilePath = url;
 
   STTag* tag1 = [[STTag alloc] init];

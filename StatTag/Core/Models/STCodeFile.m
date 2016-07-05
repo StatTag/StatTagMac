@@ -22,18 +22,39 @@
 @synthesize FilePath = _FilePath;
 @synthesize LastCached = _LastCached;
 @synthesize Tags = _Tags;
-NSMutableArray<NSString *> *ContentCache;
 
 
-@synthesize Content = _Content;
+//URL form accessor for FilePath
+-(void)setFilePathURL:(NSURL*) u {
+  self.FilePath = [u path];
+}
+-(NSURL*)FilePathURL {
+  NSURL* url;
+  if ([self FilePath] == nil) {
+    return url;
+  }
+  @try {
+    url = [[NSURL alloc] initWithString:[self FilePath]];
+  }
+  @catch (NSException * e) {
+    NSLog(@"Exception creating URL (%@): %@", NSStringFromClass([self class]), [self FilePath]);
+  }
+  @finally {
+  }
+  return url;
+}
+
+//@synthesize Content = _Content;
 - (void) setContent:(NSMutableArray *)c {
-  _Content = c;
+  //_Content = c;
+  ContentCache = c;
 }
 - (NSMutableArray*) Content {
   if(ContentCache == nil) {
     ContentCache = [self LoadFileContent];
   }
-  return _Content;
+  return ContentCache;
+  //return _Content;
 }
 
 
@@ -59,10 +80,10 @@ NSObject<STIFileHandler>* _FileHandler;
   }
   return self;
 }
-+(instancetype)codeFileWithFilePath:(NSURL*)filePath{
++(instancetype)codeFileWithFilePath:(NSString*)filePath{
   return [STCodeFile codeFileWithFilePath:filePath andTags:nil];
 }
-+(instancetype)codeFileWithFilePath:(NSURL*)filePath andTags:(NSArray<STTag*>*)tags {
++(instancetype)codeFileWithFilePath:(NSString*)filePath andTags:(NSArray<STTag*>*)tags {
   STCodeFile* f = [[STCodeFile alloc] init];
   f.FilePath = filePath;
   f.Tags = [NSMutableArray<STTag*> arrayWithArray:tags];
@@ -90,7 +111,7 @@ NSObject<STIFileHandler>* _FileHandler;
 //MARK:methods
 
 -(NSString*)ToString {
-  return _FilePath ? [_FilePath path] : @"";
+  return _FilePath ? _FilePath : @"";
 }
 -(NSString*)description {
   return [self ToString];
@@ -110,7 +131,7 @@ NSObject<STIFileHandler>* _FileHandler;
   if(other == nil) {
     return false;
   }
-  return ([[[other FilePath] path] caseInsensitiveCompare:[_FilePath path]] == NSOrderedSame);
+  return ([[other FilePath] caseInsensitiveCompare:_FilePath] == NSOrderedSame);
 }
 
 
@@ -127,7 +148,7 @@ NSObject<STIFileHandler>* _FileHandler;
 */
 - (void) RefreshContent {
   NSError *error;
-  ContentCache = [NSMutableArray arrayWithArray:[_FileHandler ReadAllLines:_FilePath error:&error]];
+  ContentCache = [NSMutableArray arrayWithArray:[_FileHandler ReadAllLines:[self FilePathURL] error:&error]];
 }
 
 /**
@@ -140,7 +161,7 @@ NSObject<STIFileHandler>* _FileHandler;
 -(void)LoadTagsFromContent:(BOOL)preserveCache {
   NSArray<STTag*>* savedTags;
   if(preserveCache){
-    savedTags = [[NSArray<STTag*> alloc] initWithArray:savedTags];
+    savedTags = [[NSArray<STTag*> alloc] initWithArray:_Tags];
   }
   
   // Any time we try to load, reset the list of tags that may exist
@@ -158,10 +179,10 @@ NSObject<STIFileHandler>* _FileHandler;
   
   NSCharacterSet *ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
   NSPredicate *tagPredicate = [NSPredicate predicateWithBlock:^BOOL(STTag *aTag, NSDictionary *bindings) {
-    return [[[aTag Type] stringByTrimmingCharactersInSet: ws] length] == 0;
+    return [[[aTag Type] stringByTrimmingCharactersInSet: ws] length] != 0;
   }];
   _Tags = [NSMutableArray<STTag*> arrayWithArray:[[parser Parse:self] filteredArrayUsingPredicate:tagPredicate]];
-  for(STTag *tag in _Tags) {
+  for(STTag* tag in _Tags) {
     tag.CodeFile = self;
   }
 
@@ -201,7 +222,7 @@ the cached results in another tag.
 */
 -(void)Save:(NSError**)error
 {
-  [_FileHandler WriteAllLines:_FilePath withContent:_Content error:error];
+  [_FileHandler WriteAllLines:[self FilePathURL] withContent:_Content error:error];
 }
 
 /**
@@ -210,11 +231,11 @@ the cached results in another tag.
 */
 -(void)SaveBackup:(NSError**)error {
 
-  NSURL *backupFile = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@.%@", [_FilePath path], [STConstantsFileExtensions Backup]]];
+  NSURL *backupFile = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@.%@", [[self FilePathURL] path], [STConstantsFileExtensions Backup]]];
 
   if (![_FileHandler Exists:backupFile error:error])
   {
-    [_FileHandler Copy:_FilePath toDestinationFile:backupFile error:error];
+    [_FileHandler Copy:[self FilePathURL] toDestinationFile:backupFile error:error];
   }
 }
 
@@ -223,7 +244,7 @@ the cached results in another tag.
 -(NSDictionary *)toDictionary {
   NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
   [dict setValue:[self StatisticalPackage] forKey:@"StatisticalPackage"];
-  [dict setValue:[self.FilePath path] forKey:@"FilePath"];
+  [dict setValue:[self FilePath] forKey:@"FilePath"];
   [dict setValue:[STJSONUtility convertDateToDateString:self.LastCached] forKey:@"LastCached"]; //format?
   return dict;
 }
@@ -231,7 +252,8 @@ the cached results in another tag.
 -(void)setWithDictionary:(NSDictionary*)dict {
   for (NSString* key in dict) {
     if([key isEqualToString:@"FilePath"]) {
-      [self setValue:[[NSURL alloc] initWithString:[dict valueForKey:key]] forKey:key];
+      //[self setValue:[[NSURL alloc] initWithString:[dict valueForKey:key]] forKey:key];
+      [self setValue:[dict valueForKey:key] forKey:key];
     } else if([key isEqualToString:@"LastCached"]) {
       [self setValue:[STJSONUtility dateFromString:[dict valueForKey:key]] forKey:key];
       //NSLog(@"LastCached : %@", [self LastCached]);
@@ -412,14 +434,13 @@ the cached results in another tag.
     return nil;
   }
 
-  if ([newTag LineStart] > [newTag LineEnd])
+  if ([[newTag LineStart] intValue] > [[newTag LineEnd] intValue])
   {
     //FIXME: we shouldn't be doing things this way - fix
     [NSException raise:@"Invalid LineStart and LineEnd" format:@"The new tag start index is after the end index, which is not allowed."];
   }
 
   STTag* updatedTag = [[STTag alloc]initWithTag:newTag];
-  
   
   NSMutableArray<NSString*>* content = [self Content];  // Force cache to load so we can reference it later w/o accessor overhead
   #pragma unused(content) //touching this just forces things to work - ignore the variable not being used
@@ -428,20 +449,20 @@ the cached results in another tag.
     //var refreshedOldTag = (matchWithPosition ? Tags.FirstOrDefault(tag => oldTag.EqualsWithPosition(tag)) : Tags.FirstOrDefault(tag => oldTag.Equals(tag)));
 
     //this is all wrong
+    //STTag* refreshedOldTag = _Tags.FirstOrDefault(tag => oldTag.Equals(tag, matchWithPosition));
     NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(STTag *aTag, NSDictionary *bindings) {
-      return [aTag isEqual:oldTag];
+      //return [aTag isEqual:oldTag];
+      return [aTag Equals:oldTag usePosition:matchWithPosition];
     }];
     STTag *refreshedOldTag = [[_Tags filteredArrayUsingPredicate:predicate] firstObject];
-
     
-    //STTag* refreshedOldTag = _Tags.FirstOrDefault(tag => oldTag.Equals(tag, matchWithPosition));
     if (refreshedOldTag == nil)
     {
       //FIXME: we shouldn't be doing things this way - fix
       [NSException raise:@"Unable to find the existing tag to update." format:@"Unable to find the existing tag to update."];
     }
     
-    if ([refreshedOldTag LineStart] > [refreshedOldTag LineEnd])
+    if ([[refreshedOldTag LineStart] integerValue] > [[refreshedOldTag LineEnd] integerValue])
     {
       //FIXME: we shouldn't be doing things this way - fix
       [NSException raise:@"Invalid LineStart and LineEnd" format:@"The new tag start index is after the end index, which is not allowed."];
@@ -450,34 +471,50 @@ the cached results in another tag.
     // Remove the starting tag and then adjust indices as appropriate
     [ContentCache removeObjectAtIndex:[[refreshedOldTag LineStart] integerValue] ];
 
-    if ([updatedTag LineStart] > [refreshedOldTag LineStart])
+    if ([[updatedTag LineStart] integerValue] > [[refreshedOldTag LineStart] integerValue])
     {
       updatedTag.LineStart = [NSNumber numberWithInteger:[[updatedTag LineStart] integerValue] -1 ];
       updatedTag.LineEnd = [NSNumber numberWithInteger:[[updatedTag LineEnd] integerValue] -1 ]; // We know line end >= line start
     }
-    else if ([updatedTag LineEnd] > [refreshedOldTag LineStart])
+    else if ([[updatedTag LineEnd] integerValue] > [[refreshedOldTag LineStart] integerValue])
     {
       updatedTag.LineEnd = [NSNumber numberWithInteger:[[updatedTag LineEnd] integerValue] -1 ]; // We know line end >= line start
     }
 
     refreshedOldTag.LineEnd = [NSNumber numberWithInteger:[[refreshedOldTag LineEnd] integerValue] -1 ]; // Don't forget to adjust the old tag index
     [ContentCache removeObjectAtIndex:[[refreshedOldTag LineEnd] integerValue] ];
-    if ([updatedTag LineStart] > [refreshedOldTag LineEnd])
+    if ([[updatedTag LineStart] integerValue] > [[refreshedOldTag LineEnd] integerValue])
     {
       updatedTag.LineStart = [NSNumber numberWithInteger:[[updatedTag LineStart] integerValue] -1 ];
       updatedTag.LineEnd = [NSNumber numberWithInteger:[[updatedTag LineEnd] integerValue] -1 ];
     }
-    else if ([updatedTag LineEnd] >= [refreshedOldTag LineEnd])
+    else if ([[updatedTag LineEnd] integerValue] >= [[refreshedOldTag LineEnd] integerValue])
     {
       updatedTag.LineEnd = [NSNumber numberWithInteger:[[updatedTag LineEnd] integerValue] -1 ];
     }
 
     //FIXME: this should be replaced with better nsindexset search and removal
+    /* NOTE: leaving this in here for reference so we don't repeat the same mistake I did initially.
+     
+     We CANNOT use object equality to find tags here. The initial predicate match is fine, but the later "remove objects in array" uses an equality comparison, which basically undoes our specialized "match with positiion" logic below.
+     
+     Instead, we're going to do what I should have done initially - and what Luke did in the original c# - which is find and remove by _index_.
+     
     predicate = [NSPredicate predicateWithBlock:^BOOL(STTag *aTag, NSDictionary *bindings) {
       return [aTag Equals:refreshedOldTag usePosition:matchWithPosition];
     }];
     NSArray<STTag*>* foundTags = [_Tags filteredArrayUsingPredicate:predicate];
     [_Tags removeObjectsInArray:foundTags];
+     */
+    
+    NSMutableIndexSet* tagIndexes = [[NSMutableIndexSet alloc] init];
+    [_Tags enumerateObjectsUsingBlock:^(STTag* aTag, NSUInteger idx, BOOL *stop) {
+      if([aTag Equals:refreshedOldTag usePosition:matchWithPosition]){
+        [tagIndexes addIndex:idx];
+      }
+    }];
+    [_Tags removeObjectsAtIndexes:tagIndexes];
+
   }
 
   NSObject<STIGenerator>* generator = [STFactories GetGenerator:self];
@@ -548,7 +585,7 @@ the cached results in another tag.
  */
 -(void)UpdateContent:(NSString*)text error:(NSError*)outError {
   NSError* error;
-  [_FileHandler WriteAllText:_FilePath withContent:text error:&error];
+  [_FileHandler WriteAllText:[self FilePathURL] withContent:text error:&error];
   [self LoadTagsFromContent];
 }
 

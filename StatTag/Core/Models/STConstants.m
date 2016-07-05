@@ -48,7 +48,7 @@ NSString *const STStatTagErrorDomain = @"StatTagErrorDomain";
 
 @implementation STConstantsFileFilters
 +(NSString*)StataLabel { return @"Stata Do Files";}
-+(NSString*)StataFilter { return @"*.do*.ado";}
++(NSString*)StataFilter { return @"*.do;*.ado";}
 +(NSString*)RLabel { return @"R";}
 +(NSString*)RFilter { return @"*.r";}
 +(NSString*)SASLabel { return @"SAS";}

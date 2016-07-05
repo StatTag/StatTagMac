@@ -56,6 +56,8 @@
     else if ([tag IsTableTag])
     {
       STTableGenerator* tableGenerator = [[STTableGenerator alloc] init];
+      #pragma unused(tableGenerator) //just following the c#
+
       [openBase appendFormat:@"%@%@%@%@",
        [STConstantsTagType Table],
        [STConstantsTagTags ParamStart],

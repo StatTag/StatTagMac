@@ -31,7 +31,7 @@
 
 @synthesize Id = _Id;
 - (NSString*) Id {
-  return [NSString stringWithFormat:@"%@--%@", (_Name == nil ? @"" : _Name), (_CodeFile == nil ? @"" : [[_CodeFile FilePath] path])];
+  return [NSString stringWithFormat:@"%@--%@", (_Name == nil ? @"" : _Name), (_CodeFile == nil ? @"" : [_CodeFile FilePath])];
 }
 
 @synthesize FormattedResult = _FormattedResult;
@@ -123,7 +123,7 @@
 
 -(NSDictionary *)toDictionary {
   
-  NSError* error;
+  //NSError* error;
   
   NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
   //note: codefile is flagged as "jsonignore"
@@ -272,7 +272,7 @@
 
 //MARK: equality
 - (NSUInteger)hash {
-  return ((_Name != nil && _CodeFile != nil) ? [[NSString stringWithFormat:@"%@--%@", _Name, [[_CodeFile FilePath] path]] hash] : 0);
+  return ((_Name != nil && _CodeFile != nil) ? [[NSString stringWithFormat:@"%@--%@", _Name, [_CodeFile FilePath]] hash] : 0);
 }
 
 - (BOOL)isEqual:(id)object
@@ -332,7 +332,8 @@
 
 
 - (BOOL) EqualsWithPosition:(STTag*)tag {
-  return [self isEqual:tag] && [_LineStart isEqual:[tag LineStart]] && [_LineEnd isEqual:[tag LineEnd]];
+  return [self isEqual:tag] && [_LineStart integerValue] == [[tag LineStart] integerValue] && [_LineEnd integerValue] == [[tag LineEnd] integerValue];
+  //return [self isEqual:tag] && [_LineStart isEqual:[tag LineStart]] && [_LineEnd isEqual:[tag LineEnd]];
 }
 
 + (NSString*)NormalizeName:(NSString*)label {
