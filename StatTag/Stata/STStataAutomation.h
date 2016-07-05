@@ -10,6 +10,8 @@
 #import "STStataCommands.h"
 @class STStataApplication;
 @class STBaseParserStata;
+@class STCommandResult;
+@class STTable;
 
 @interface STStataAutomation : NSObject {
   STStataApplication* Application;
@@ -61,5 +63,55 @@ extern NSString *const UnregisterParameter;
 -(void)Hide;
 
 -(BOOL)Initialize;
+
+
+
+-(BOOL)Initialize;
+
+
+/**
+ Determine if a command is one that would return a result of some sort.
+ @param command : The command to evaluate
+ */
+-(BOOL)IsReturnable:(NSString*)command;
+
+-(NSArray<STCommandResult*>*)CombineAndRunCommands:(NSArray<NSString*>*) commands;
+
+/**
+ Run a collection of commands and provide all applicable results.
+ */
+-(NSArray<STCommandResult*>*)RunCommands:(NSArray<NSString*>*)commands;
+
+/**
+ Determine the string result for a command that returns a single value.  This includes
+ macros and scalars.
+ */
+-(NSString*)GetDisplayResult:(NSString*) command;
+
+/**
+ Combines the different components of a matrix command into a single structure.
+ */
+-(STTable*)GetTableResult:(NSString*) command;
+
+
+/**
+ Identify missing values from the Stata API and explicitly set them to a null result.
+ 
+ @remark Stata represents missing values as very large integers.  If we don't account for
+ those results, we will display large integers as a result.  To clean up the results, we
+ will detect missing values and set them to null.
+ */
+-(NSArray<NSNumber*>*)ProcessForMissingValues:(NSArray<NSNumber*>*)data;
+
+/**
+ Run a Stata command and provide the result of the command (if one should be returned).
+ @param command: The command to run, taken from a Stata do file
+ @returns The result of the command, or null if the command does not provide a result.
+ */
+-(STCommandResult*)RunCommand:(NSString*) command;
+
++(BOOL)UnregisterAutomationAPI:(NSString*) path;
++(BOOL)RegisterAutomationAPI:(NSString*) path;
+
 
 @end

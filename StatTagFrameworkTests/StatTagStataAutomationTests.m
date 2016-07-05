@@ -23,6 +23,10 @@
   [super tearDown];
 }
 
+- (void)testAppRunCommand {
+  
+}
+
 - (void)testAppShow {
   STStataAutomation* app = [[STStataAutomation alloc] init];
   [app Show];
