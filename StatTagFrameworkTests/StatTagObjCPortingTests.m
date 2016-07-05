@@ -118,6 +118,7 @@
   tag1.RunFrequency = @"run_frequency";
   
   STTag *tag2 = [[STTag alloc] initWithTag:tag1];
+  #pragma unused(tag2)
 }
 
 

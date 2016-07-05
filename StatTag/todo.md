@@ -55,6 +55,10 @@ http://stackoverflow.com/questions/8072756/does-java-support-if-then-else-regexp
      Evaluate: https://github.com/bendytree/Objective-C-RegEx-Categories
 
 
+16) read up more on scripting bridge
+
+    https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/ScriptingBridgeConcepts/UsingScriptingBridge/UsingScriptingBridge.html
+
 FIXED:
 ==================
 

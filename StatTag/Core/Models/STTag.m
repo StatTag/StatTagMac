@@ -123,7 +123,7 @@
 
 -(NSDictionary *)toDictionary {
   
-  NSError* error;
+  //NSError* error;
   
   NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
   //note: codefile is flagged as "jsonignore"

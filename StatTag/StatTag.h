@@ -18,6 +18,13 @@ FOUNDATION_EXPORT const unsigned char StatTagVersionString[];
 
 //NOTE: make sure you tag this as "public" in the framework target membership
 
+
+//--Stata
+#import <StatTag/STStata.h>
+#import <StatTag/STStataAutomation.h>
+#import <StatTag/STStataCommands.h>
+
+
 //--Generators
 #import <StatTag/STBaseGenerator.h>
 #import <StatTag/STBaseParameterGenerator.h>
