@@ -325,7 +325,6 @@ the DocumentManager instance that contains it.
   
   // If there is no action specified for this field, we will exit.  This should happen when we have fields that
   // are still linked in a document.
-  
   if([actions objectForKey:[tag CodeFilePath]] == nil) {
     NSLog(@"No action is needed for tag in file %@", [tag CodeFilePath]);
     return;
@@ -365,67 +364,59 @@ the DocumentManager instance that contains it.
   
 }
 
+/**
+ Given a field and its tag, update it to link to a new code file
+ @param field: The document Field that contains the tag
+ @param tag: The tag that will be updated
+ @param configuration: A collection of the actions to apply (of type Dictionary<string, CodeFileAction>)
+ */
+-(void) UpdateUnlinkedTagsByTag:(STMSWord2011Field*)field tag:(STFieldTag*)tag configuration:(id)configuration {
+ 
+  NSDictionary<NSString*, STCodeFileAction*>* actions = (NSDictionary<NSString*, STCodeFileAction*>*)configuration;
+  if(actions == nil && [actions isKindOfClass:[NSDictionary class]]) {
+    NSLog(@"The list of actions to perform is null or of the wrong type");
+    return;
+  }
+  
+  // If there is no action specified for this field, we will exit.  This should happen when we have fields that
+  // are still linked in a document.
+  if([actions objectForKey:[tag Id]] == nil) {
+    NSLog(@"No action is needed for tag in file %@", [tag Id]);
+    return;
+  }
 
-/// <summary>
-/// Given a field and its tag, update it to link to a new code file
-/// </summary>
-/// <param name="field">The document Field that contains the tag</param>
-/// <param name="tag">The tag that will be updated</param>
-/// <param name="configuration">A collection of the actions to apply (of type Dictionary&lt;string, CodeFileAction&gt;)</param>
-//public void UpdateUnlinkedTagsByTag(Field field, FieldTag tag, object configuration)
-//{
-//  var actions = configuration as Dictionary<string, CodeFileAction>;
-//  if (actions == null)
-//  {
-//    Log("The list of actions to perform is null or of the wrong type");
-//    return;
-//  }
-//  
-//  // If there is no action specified for this field, we will exit.  This should happen when we have fields that
-//  // are still linked in a document.
-//  if (!actions.ContainsKey(tag.Id))
-//  {
-//    Log(string.Format("No action is needed for tag {0}", tag.Id));
-//    return;
-//  }
-//  
-//  // Make sure that the action is actually defined.  If no action was specified by the user, we can't continue
-//  // with doing anything.
-//  var action = actions[tag.Id];
-//  if (action == null)
-//  {
-//    Log("No action was specified - exiting");
-//    return;
-//  }
-//  
-//  // Apply the appropriate action to this field, based on what the user specified.
-//  var codeFile = action.Parameter as CodeFile;
-//  switch (action.Action)
-//  {
-//    case Constants.CodeFileActionTask.ChangeFile:
-//      Log(string.Format("Changing tag {0} from {1} to {2}",
-//                        tag.Name, tag.CodeFilePath, codeFile.FilePath));
-//      tag.CodeFile = codeFile;
-//      DocumentManager.AddCodeFile(tag.CodeFilePath);
-//      UpdateTagFieldData(field, tag);
-//      break;
-//    case Constants.CodeFileActionTask.RemoveTags:
-//      Log(string.Format("Removing {0}", tag.Name));
-//      field.Select();
-//      var application = Globals.ThisAddIn.Application;
-//      application.Selection.Text = Constants.Placeholders.RemovedField;
-//      application.Selection.Range.HighlightColorIndex = WdColorIndex.wdYellow;
-//      break;
-//    case Constants.CodeFileActionTask.ReAddFile:
-//      Log(string.Format("Linking code file {0}", tag.CodeFilePath));
-//      DocumentManager.AddCodeFile(tag.CodeFilePath);
-//      break;
-//    default:
-//      Log(string.Format("The action task of {0} is not known and will be skipped", action.Action));
-//      break;
-//  }
-//}
+  // Make sure that the action is actually defined.  If no action was specified by the user, we can't continue
+  // with doing anything.
+  STCodeFileAction* action = [actions objectForKey:[tag Id]];
+  if(action == nil) {
+    NSLog(@"No action was specified - exiting");
+    return;
+  }
 
-
+  // Apply the appropriate action to this field, based on what the user specified.
+  STCodeFile* codeFile = (STCodeFile*)[action Parameter];
+  if(codeFile != nil && [codeFile isKindOfClass:[STCodeFile class]]) {
+    if([action Action] == [STConstantsCodeFileActionTask ChangeFile]) {
+      NSLog(@"Changing tag %@ from %@ to %@", [tag Name], [tag CodeFilePath], [codeFile FilePath]);
+      tag.CodeFile = codeFile;
+      [_DocumentManager AddCodeFile:[tag CodeFilePath]];
+      [self UpdateTagFieldData:field tag:tag];
+    } else if ([action Action] == [STConstantsCodeFileActionTask RemoveTags]) {
+      NSLog(@"Removing %@", [tag Name]);
+      [field select];
+      STMSWord2011Application* application = [[[STGlobals sharedInstance] ThisAddIn] Application];
+      [[application selection] textObject].content = [STConstantsPlaceholders RemovedField];
+      [[application selection] textObject].highlightColorIndex = STMSWord2011E110Yellow;
+      // original c# - should be the same enum
+      // application.Selection.Range.HighlightColorIndex = WdColorIndex.wdYellow;
+    } else if ([action Action] == [STConstantsCodeFileActionTask ReAddFile]) {
+      NSLog(@"Linking code file %@", [tag CodeFilePath]);
+      [_DocumentManager AddCodeFile:[tag CodeFilePath]];
+    } else {
+      NSLog(@"The action task of %d is not known and will be skipped", [action Action]);
+    }
+  }
+  
+}
 
 @end

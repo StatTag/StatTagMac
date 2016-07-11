@@ -37,5 +37,6 @@
 -(void)ProcessStatTagFields:(void (^)(STMSWord2011Field*, STFieldTag*, id))aFunction configuration:(id)configuration;
 -(void)UpdateTagFieldData:(STMSWord2011Field*)field tag:(STFieldTag*)tag;
 -(void) UpdateUnlinkedTagsByCodeFile:(STMSWord2011Field*)field tag:(STFieldTag*)tag configuration:(id)configuration;
+-(void) UpdateUnlinkedTagsByTag:(STMSWord2011Field*)field tag:(STFieldTag*)tag configuration:(id)configuration;
 
 @end
