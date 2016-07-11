@@ -19,6 +19,25 @@ FOUNDATION_EXPORT const unsigned char StatTagVersionString[];
 //NOTE: make sure you tag this as "public" in the framework target membership
 
 
+//======================================
+// StatTag
+//======================================
+
+//--Classes
+#import <StatTag/STThisAddIn.h>
+#import <StatTag/STGlobals.h>
+
+//--Models
+#import <StatTag/STMSWord2011.h>
+#import <StatTag/STDocumentManager.h>
+#import <StatTag/STStatsManager.h>
+#import <StatTag/STTagManager.h>
+
+
+//======================================
+// CORE
+//======================================
+
 //--Stata
 #import <StatTag/STStata.h>
 #import <StatTag/STStataAutomation.h>

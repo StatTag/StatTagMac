@@ -8,7 +8,7 @@
 
 #import <XCTest/XCTest.h>
 #import "ObjCPortingScratchPad.h"
-#import "STTag.h"
+#import "StatTag.h"
 
 @interface StatTagObjCPortingTests : XCTestCase
 
@@ -119,6 +119,25 @@
   
   STTag *tag2 = [[STTag alloc] initWithTag:tag1];
   #pragma unused(tag2)
+}
+
+
+-(void)testObjectCast {
+  
+  id configuration = @"my string";
+  NSDictionary<NSString*, STCodeFileAction*>* actions = (NSDictionary<NSString*, STCodeFileAction*> *)configuration;
+
+  if(actions == nil) {
+    NSLog(@"actions is NIL");
+  } else {
+    NSLog(@"actions is valid (which is bad...)");
+  }
+  
+  if([actions isKindOfClass:[NSDictionary class]]) {
+    NSLog(@"actions is a dictionary - which is worse...");
+  }
+  NSLog(@"actions is a... : %@", NSStringFromClass([actions class]));
+  
 }
 
 

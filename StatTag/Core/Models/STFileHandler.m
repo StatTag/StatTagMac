@@ -51,7 +51,9 @@
                                NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"There was an issue reading the file.", nil),
                                NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Is this a valid script file?", nil)
                                };
-    *error = [NSError errorWithDomain:STStatTagErrorDomain code:NSURLErrorFileDoesNotExist userInfo:userInfo];
+    if(error != nil){
+      *error = [NSError errorWithDomain:STStatTagErrorDomain code:NSURLErrorFileDoesNotExist userInfo:userInfo];
+    }
   }
   return exists;
 }

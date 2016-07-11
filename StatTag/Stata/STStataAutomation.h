@@ -27,7 +27,7 @@
 
 @property NSString* AppBundleIdentifier;
 
-+ (instancetype)sharedInstance;
+//+ (instancetype)sharedInstance;
 
 extern NSString *const LocalMacroPrefix;
 /**
@@ -57,17 +57,11 @@ extern NSString *const UnregisterParameter;
 +(BOOL)IsAppRunning;
 +(BOOL)IsAppInstalled;
 +(NSURL*)AppPath;
-+(NSString*)InstalledAppBundleIdentifier;
 
 -(void)Show;
 -(void)Hide;
 
 -(BOOL)Initialize;
-
-
-
--(BOOL)Initialize;
-
 
 /**
  Determine if a command is one that would return a result of some sort.

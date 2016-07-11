@@ -17,7 +17,7 @@
 
 + (NSDate*)dateFromString:(NSString*)dateString {
   
-  if(dateString == nil) {
+  if(dateString == nil || [dateString isKindOfClass:[NSNull class]]) {
     return nil;
   }
 
