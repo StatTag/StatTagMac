@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 @class STTag;
 @class STDocumentManager;
+@class STCodeFile;
+@class STTag;
 
 /**
  Used exclusively by ExecuteStatPackage as its return value type.
@@ -42,5 +44,9 @@
 @property (strong, nonatomic) STDocumentManager* Manager;
 
 -(instancetype)init:(STDocumentManager*)manager;
+
+-(STStatsManagerExecuteResult*) ExecuteStatPackage:(STCodeFile*)file filterMode:(int)filterMode tagsToRun:(NSArray<STTag*>*)tagsToRun;
+-(STStatsManagerExecuteResult*) ExecuteStatPackage:(STCodeFile*)file filterMode:(int)filterMode;
+-(STStatsManagerExecuteResult*) ExecuteStatPackage:(STCodeFile*)file;
 
 @end

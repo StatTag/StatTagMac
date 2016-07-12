@@ -34,7 +34,7 @@
     return url;
   }
   @try {
-    url = [[NSURL alloc] initWithString:[self FilePath]];
+    url = [[NSURL alloc] initWithString:[[self FilePath] stringByAddingPercentEncodingWithAllowedCharacters: [NSCharacterSet URLHostAllowedCharacterSet]]];
   }
   @catch (NSException * e) {
     NSLog(@"Exception creating URL (%@): %@", NSStringFromClass([self class]), [self FilePath]);
@@ -231,7 +231,7 @@ the cached results in another tag.
 */
 -(void)SaveBackup:(NSError**)error {
 
-  NSURL *backupFile = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@.%@", [[self FilePathURL] path], [STConstantsFileExtensions Backup]]];
+  NSURL *backupFile = [[NSURL alloc] initWithString:[[NSString stringWithFormat:@"%@.%@", [[self FilePathURL] path], [STConstantsFileExtensions Backup]]  stringByAddingPercentEncodingWithAllowedCharacters: [NSCharacterSet URLHostAllowedCharacterSet]] ];
 
   if (![_FileHandler Exists:backupFile error:error])
   {

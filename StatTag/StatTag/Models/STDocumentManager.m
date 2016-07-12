@@ -103,9 +103,21 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
 
 
 //MARK: Wrappers around TagManager calls
+
+-(NSDictionary<NSString*, NSArray<STTag*>*>*)FindAllUnlinkedTags {
+  return [_TagManager FindAllUnlinkedTags];
+}
+
+-(NSArray<STTag*>*)GetTags {
+  return [_TagManager GetTags];
+}
+
 -(STTag*)FindTag:(NSString*)tagID {
   return [[self TagManager] FindTagByID:tagID];
 }
+
+
+//MARK: add / update
 
 
 /**

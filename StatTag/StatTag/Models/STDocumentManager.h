@@ -23,7 +23,10 @@
 @property (strong, nonatomic) STStatsManager* StatsManager;
 
 
+-(NSArray<STTag*>*)GetTags;
+-(NSDictionary<NSString*, NSArray<STTag*>*>*)FindAllUnlinkedTags;
 -(STTag*)FindTag:(NSString*)tagID;
+
 
 -(void)LoadCodeFileListFromDocument:(STMSWord2011Document*)document;
 

@@ -271,10 +271,12 @@ const int ShowStata = 3;
   if([Parser IsValueDisplay:command]) {
     STCommandResult* result = [[STCommandResult alloc] init];
     result.ValueResult = [self GetDisplayResult:command];
+    return result;
   }
   if([Parser IsTableResult:command]) {
     STCommandResult* result = [[STCommandResult alloc] init];
     result.TableResult = [self GetTableResult:command];
+    return result;
   }
   
   int returnCode = [Application DoCommandAsync:command];
@@ -291,6 +293,7 @@ const int ShowStata = 3;
   if([Parser IsImageExport:command]) {
     STCommandResult* result = [[STCommandResult alloc] init];
     result.FigureResult = [Parser GetImageSaveLocation:command];
+    return result;
   }
   return nil;
 }

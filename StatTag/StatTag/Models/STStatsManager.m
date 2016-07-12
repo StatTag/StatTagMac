@@ -101,6 +101,12 @@ const int RefreshStepInterval = 5;
       NSArray<STCommandResult*>* results = [automation RunCommands:[step Code]];
       STTag* tag = [[self Manager] FindTag:[[step Tag] Id]];
 
+      
+      NSLog(@"results count : %lu", (unsigned long)[results count]);
+      for(STCommandResult* r in results) {
+        NSLog(@"results result : %@", [r ToString]);
+      }
+
 
       if(tag != nil) {
         NSArray<STCommandResult*>* resultList = [NSArray<STCommandResult*> arrayWithArray:results];
@@ -111,9 +117,20 @@ const int RefreshStepInterval = 5;
         // original c#
         //bool resultsChanged = (tag.CachedResult != null && !resultList.SequenceEqual(tag.CachedResult));
         
+        NSLog(@"OLD count : %lu", (unsigned long)[[tag CachedResult] count]);
+        for(STCommandResult* r in [tag CachedResult]) {
+          NSLog(@"OLD result : %@", [r ToString]);
+        }
+        NSLog(@"new count : %lu", (unsigned long)[resultList count]);
+        for(STCommandResult* r in resultList) {
+          NSLog(@"new result : %@", [r ToString]);
+        }
+        
+        
         tag.CachedResult = [NSMutableArray<STCommandResult*> arrayWithArray:results];
         
         // If the results did change, we need to sweep the document and update all of the results
+//FIXME: !!DEBUG!! testing - put this line back!
         if(resultsChanged) {
           
           // For all table tags, update the formatted cells collection
@@ -154,12 +171,16 @@ const int RefreshStepInterval = 5;
   }
   
   
-  return nil;
+  return result;
   
   
 }
 -(STStatsManagerExecuteResult*) ExecuteStatPackage:(STCodeFile*)file {
   return [self ExecuteStatPackage:file filterMode:[STConstantsParserFilterMode ExcludeOnDemand] tagsToRun:nil];
 }
+-(STStatsManagerExecuteResult*) ExecuteStatPackage:(STCodeFile*)file filterMode:(int)filterMode {
+  return [self ExecuteStatPackage:file filterMode:filterMode tagsToRun:nil];
+}
+
 
 @end
