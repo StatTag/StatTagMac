@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <AppleScriptObjC/AppleScriptObjC.h>
 
 //! Project version number for StatTag.
 FOUNDATION_EXPORT double StatTagVersionNumber;
@@ -23,15 +24,26 @@ FOUNDATION_EXPORT const unsigned char StatTagVersionString[];
 // StatTag
 //======================================
 
+//--Categories
+#import <StatTag/NSMutableArray+Stack.h>
+#import <StatTag/WordHelpers.h>
+//#import <StatTag/SBObject+StatTagExtensions.h>
+#import <StatTag/WordFind.h>
+#import <StatTag/WordFindProtocol.h>
+
+
 //--Classes
-#import <StatTag/STThisAddIn.h>
 #import <StatTag/STGlobals.h>
+#import <StatTag/STThisAddIn.h>
 
 //--Models
-#import <StatTag/STMSWord2011.h>
 #import <StatTag/STDocumentManager.h>
+#import <StatTag/STDuplicateTagResults.h>
+#import <StatTag/STFieldCreator.h>
+#import <StatTag/STMSWord2011.h>
 #import <StatTag/STStatsManager.h>
 #import <StatTag/STTagManager.h>
+
 
 
 //======================================

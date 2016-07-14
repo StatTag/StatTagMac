@@ -82,6 +82,8 @@
 		385FDD381D33D02800AE0FE2 /* STGlobals.m in Sources */ = {isa = PBXBuildFile; fileRef = 385FDD361D33D02800AE0FE2 /* STGlobals.m */; };
 		385FDD3E1D33FA1800AE0FE2 /* StatTagWord2011AutomationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 385FDD3D1D33FA1800AE0FE2 /* StatTagWord2011AutomationTests.m */; };
 		385FDD401D34293400AE0FE2 /* STDuplicateTagResults.h in Headers */ = {isa = PBXBuildFile; fileRef = 385FDD3F1D3424CA00AE0FE2 /* STDuplicateTagResults.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		385FDD431D35681400AE0FE2 /* STFieldCreator.h in Headers */ = {isa = PBXBuildFile; fileRef = 385FDD411D35681400AE0FE2 /* STFieldCreator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		385FDD441D35681400AE0FE2 /* STFieldCreator.m in Sources */ = {isa = PBXBuildFile; fileRef = 385FDD421D35681400AE0FE2 /* STFieldCreator.m */; };
 		38788F941D30100F00299789 /* STStatsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 38788F921D30100F00299789 /* STStatsManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38788F951D30100F00299789 /* STStatsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 38788F931D30100F00299789 /* STStatsManager.m */; };
 		387A0E1B1D2193D000F1FE9C /* StatTagModelCommandResultTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 387A0E1A1D2193D000F1FE9C /* StatTagModelCommandResultTests.m */; };
@@ -102,6 +104,17 @@
 		387A0E461D25C9BA00F1FE9C /* StatTagGeneratorValueGeneratorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 387A0E451D25C9B900F1FE9C /* StatTagGeneratorValueGeneratorTests.m */; };
 		3884513C1D19DCB3004C2B40 /* STValueParameterParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 3884513A1D19DCB3004C2B40 /* STValueParameterParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3884513D1D19DCB3004C2B40 /* STValueParameterParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3884513B1D19DCB3004C2B40 /* STValueParameterParser.m */; };
+		38C91F361D366AD70048A95E /* NSMutableArray+Stack.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C91F341D366AD70048A95E /* NSMutableArray+Stack.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		38C91F371D366AD70048A95E /* NSMutableArray+Stack.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C91F351D366AD70048A95E /* NSMutableArray+Stack.m */; };
+		38C91F3F1D36D1970048A95E /* WordHelpers.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C91F3D1D36D1970048A95E /* WordHelpers.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		38C91F401D36D1970048A95E /* WordHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C91F3E1D36D1970048A95E /* WordHelpers.m */; };
+		38C91F431D36FA620048A95E /* WordFindScript.applescript in Resources */ = {isa = PBXBuildFile; fileRef = 38C91F421D36FA620048A95E /* WordFindScript.applescript */; };
+		38C91F441D36FA660048A95E /* WordFind.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C91F411D36FA200048A95E /* WordFind.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		38C91F461D36FC8A0048A95E /* AppleScriptObjC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38C91F451D36FC8A0048A95E /* AppleScriptObjC.framework */; };
+		38C91F481D37A5EE0048A95E /* WordFindProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C91F471D37A5EE0048A95E /* WordFindProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		38C91F4D1D37AE400048A95E /* WordFind.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C91F4C1D37AE400048A95E /* WordFind.m */; };
+		38C91F711D37B5470048A95E /* ASOC.applescript in Sources */ = {isa = PBXBuildFile; fileRef = 38C91F701D37B5470048A95E /* ASOC.applescript */; };
+		38C91F731D37B55C0048A95E /* ASOC.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C91F721D37B55C0048A95E /* ASOC.h */; };
 		38C9B2001D109B40003B571E /* STExecutionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C9B1FE1D109B40003B571E /* STExecutionStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38C9B2011D109B40003B571E /* STExecutionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C9B1FF1D109B40003B571E /* STExecutionStep.m */; };
 		38C9B2041D109D0A003B571E /* STFigureFormat.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C9B2021D109D0A003B571E /* STFigureFormat.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -235,6 +248,8 @@
 		385FDD361D33D02800AE0FE2 /* STGlobals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STGlobals.m; sourceTree = "<group>"; };
 		385FDD3D1D33FA1800AE0FE2 /* StatTagWord2011AutomationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagWord2011AutomationTests.m; sourceTree = "<group>"; };
 		385FDD3F1D3424CA00AE0FE2 /* STDuplicateTagResults.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = STDuplicateTagResults.h; sourceTree = "<group>"; };
+		385FDD411D35681400AE0FE2 /* STFieldCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STFieldCreator.h; sourceTree = "<group>"; };
+		385FDD421D35681400AE0FE2 /* STFieldCreator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STFieldCreator.m; sourceTree = "<group>"; };
 		38788F921D30100F00299789 /* STStatsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STStatsManager.h; sourceTree = "<group>"; };
 		38788F931D30100F00299789 /* STStatsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STStatsManager.m; sourceTree = "<group>"; };
 		387A0E1A1D2193D000F1FE9C /* StatTagModelCommandResultTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagModelCommandResultTests.m; sourceTree = "<group>"; };
@@ -255,6 +270,20 @@
 		387A0E451D25C9B900F1FE9C /* StatTagGeneratorValueGeneratorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagGeneratorValueGeneratorTests.m; sourceTree = "<group>"; };
 		3884513A1D19DCB3004C2B40 /* STValueParameterParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STValueParameterParser.h; sourceTree = "<group>"; };
 		3884513B1D19DCB3004C2B40 /* STValueParameterParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STValueParameterParser.m; sourceTree = "<group>"; };
+		38C91F341D366AD70048A95E /* NSMutableArray+Stack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+Stack.h"; sourceTree = "<group>"; };
+		38C91F351D366AD70048A95E /* NSMutableArray+Stack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+Stack.m"; sourceTree = "<group>"; };
+		38C91F381D36A9860048A95E /* SBObject+StatTagExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SBObject+StatTagExtensions.h"; sourceTree = "<group>"; };
+		38C91F391D36A9870048A95E /* SBObject+StatTagExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SBObject+StatTagExtensions.m"; sourceTree = "<group>"; };
+		38C91F3D1D36D1970048A95E /* WordHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WordHelpers.h; sourceTree = "<group>"; };
+		38C91F3E1D36D1970048A95E /* WordHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WordHelpers.m; sourceTree = "<group>"; };
+		38C91F411D36FA200048A95E /* WordFind.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WordFind.h; sourceTree = "<group>"; };
+		38C91F421D36FA620048A95E /* WordFindScript.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; path = WordFindScript.applescript; sourceTree = "<group>"; };
+		38C91F451D36FC8A0048A95E /* AppleScriptObjC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppleScriptObjC.framework; path = System/Library/Frameworks/AppleScriptObjC.framework; sourceTree = SDKROOT; };
+		38C91F471D37A5EE0048A95E /* WordFindProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WordFindProtocol.h; sourceTree = "<group>"; };
+		38C91F4A1D37AC710048A95E /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		38C91F4C1D37AE400048A95E /* WordFind.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WordFind.m; sourceTree = "<group>"; };
+		38C91F701D37B5470048A95E /* ASOC.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; path = ASOC.applescript; sourceTree = "<group>"; };
+		38C91F721D37B55C0048A95E /* ASOC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASOC.h; sourceTree = "<group>"; };
 		38C9B1FE1D109B40003B571E /* STExecutionStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STExecutionStep.h; sourceTree = "<group>"; };
 		38C9B1FF1D109B40003B571E /* STExecutionStep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STExecutionStep.m; sourceTree = "<group>"; };
 		38C9B2021D109D0A003B571E /* STFigureFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STFigureFormat.h; sourceTree = "<group>"; };
@@ -289,6 +318,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				38C91F461D36FC8A0048A95E /* AppleScriptObjC.framework in Frameworks */,
 				382C28711D180CB900697D6F /* SystemConfiguration.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -315,6 +345,8 @@
 		382C8D191D0F672F00FE6878 = {
 			isa = PBXGroup;
 			children = (
+				38C91F4A1D37AC710048A95E /* Cocoa.framework */,
+				38C91F451D36FC8A0048A95E /* AppleScriptObjC.framework */,
 				387A0E2F1D230DAF00F1FE9C /* OCMock.framework */,
 				382C28701D180CB900697D6F /* SystemConfiguration.framework */,
 				382C8D251D0F672F00FE6878 /* StatTag */,
@@ -486,10 +518,10 @@
 		385FDD301D33CEB700AE0FE2 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				385FDD311D33CEEE00AE0FE2 /* STThisAddIn.h */,
-				385FDD321D33CEEE00AE0FE2 /* STThisAddIn.m */,
 				385FDD351D33D02800AE0FE2 /* STGlobals.h */,
 				385FDD361D33D02800AE0FE2 /* STGlobals.m */,
+				385FDD311D33CEEE00AE0FE2 /* STThisAddIn.h */,
+				385FDD321D33CEEE00AE0FE2 /* STThisAddIn.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -535,6 +567,7 @@
 		38788F901D300FA800299789 /* StatTag */ = {
 			isa = PBXGroup;
 			children = (
+				38C91F2F1D366A4D0048A95E /* Categories */,
 				385FDD301D33CEB700AE0FE2 /* Classes */,
 				38788F911D300FC400299789 /* Models */,
 			);
@@ -544,14 +577,16 @@
 		38788F911D300FC400299789 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				385FDD2E1D33C88300AE0FE2 /* STMSWord2011.h */,
 				385FDD2A1D32F70100AE0FE2 /* STDocumentManager.h */,
 				385FDD2B1D32F70100AE0FE2 /* STDocumentManager.m */,
+				385FDD3F1D3424CA00AE0FE2 /* STDuplicateTagResults.h */,
+				385FDD411D35681400AE0FE2 /* STFieldCreator.h */,
+				385FDD421D35681400AE0FE2 /* STFieldCreator.m */,
+				385FDD2E1D33C88300AE0FE2 /* STMSWord2011.h */,
 				38788F921D30100F00299789 /* STStatsManager.h */,
 				38788F931D30100F00299789 /* STStatsManager.m */,
 				385FDD261D32F6DD00AE0FE2 /* STTagManager.h */,
 				385FDD271D32F6DD00AE0FE2 /* STTagManager.m */,
-				385FDD3F1D3424CA00AE0FE2 /* STDuplicateTagResults.h */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -575,6 +610,25 @@
 				387A0E451D25C9B900F1FE9C /* StatTagGeneratorValueGeneratorTests.m */,
 			);
 			name = Generator;
+			sourceTree = "<group>";
+		};
+		38C91F2F1D366A4D0048A95E /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				38C91F341D366AD70048A95E /* NSMutableArray+Stack.h */,
+				38C91F351D366AD70048A95E /* NSMutableArray+Stack.m */,
+				38C91F381D36A9860048A95E /* SBObject+StatTagExtensions.h */,
+				38C91F391D36A9870048A95E /* SBObject+StatTagExtensions.m */,
+				38C91F3D1D36D1970048A95E /* WordHelpers.h */,
+				38C91F3E1D36D1970048A95E /* WordHelpers.m */,
+				38C91F411D36FA200048A95E /* WordFind.h */,
+				38C91F721D37B55C0048A95E /* ASOC.h */,
+				38C91F4C1D37AE400048A95E /* WordFind.m */,
+				38C91F421D36FA620048A95E /* WordFindScript.applescript */,
+				38C91F701D37B5470048A95E /* ASOC.applescript */,
+				38C91F471D37A5EE0048A95E /* WordFindProtocol.h */,
+			);
+			path = Categories;
 			sourceTree = "<group>";
 		};
 		38D0C1E71D1B24A3001CC013 /* ValueFormatter */ = {
@@ -668,6 +722,7 @@
 				3884513C1D19DCB3004C2B40 /* STValueParameterParser.h in Headers */,
 				38C9B2001D109B40003B571E /* STExecutionStep.h in Headers */,
 				382C289F1D182CA400697D6F /* STJSONAble.h in Headers */,
+				38C91F3F1D36D1970048A95E /* WordHelpers.h in Headers */,
 				382C28D51D19D8E900697D6F /* STFigureParameterParser.h in Headers */,
 				38C9B20B1D109FA8003B571E /* STIValueFormatter.h in Headers */,
 				385FDD371D33D02800AE0FE2 /* STGlobals.h in Headers */,
@@ -682,6 +737,7 @@
 				38C9B21C1D10AA55003B571E /* STBaseParser.h in Headers */,
 				385FDD281D32F6DD00AE0FE2 /* STTagManager.h in Headers */,
 				380A679A1D1061110045B72B /* STTable.h in Headers */,
+				385FDD431D35681400AE0FE2 /* STFieldCreator.h in Headers */,
 				38EDF0321D2C2E6900ACD77B /* STCocoaUtil.h in Headers */,
 				380A67A01D106E090045B72B /* STCodeFileAction.h in Headers */,
 				382C28C01D199F9A00697D6F /* STStataBaseGenerator.h in Headers */,
@@ -692,12 +748,15 @@
 				382C28C71D19A23100697D6F /* STValueGenerator.h in Headers */,
 				382C28CC1D19ADA000697D6F /* STTagUtil.h in Headers */,
 				382C28D81D19DACC00697D6F /* STTableParameterParser.h in Headers */,
+				38C91F441D36FA660048A95E /* WordFind.h in Headers */,
+				38C91F731D37B55C0048A95E /* ASOC.h in Headers */,
 				382C28B01D1992E900697D6F /* STUpdatePair.h in Headers */,
 				38EDF0271D2BFFD800ACD77B /* STStata.h in Headers */,
 				38EDF02A1D2C002A00ACD77B /* STStataAutomation.h in Headers */,
 				382C28B81D199ACC00697D6F /* STBaseParameterGenerator.h in Headers */,
 				382C28641D14552100697D6F /* STIResultCommandList.h in Headers */,
 				385FDD2F1D33C88300AE0FE2 /* STMSWord2011.h in Headers */,
+				38C91F481D37A5EE0048A95E /* WordFindProtocol.h in Headers */,
 				38C9B2151D10A89D003B571E /* STIParser.h in Headers */,
 				381FD33F1D19F00700DB4B12 /* STConstants.h in Headers */,
 				38EDF02E1D2C005700ACD77B /* STStataCommands.h in Headers */,
@@ -711,6 +770,7 @@
 				382C286A1D1488F200697D6F /* STIGenerator.h in Headers */,
 				385FDD2C1D32F70100AE0FE2 /* STDocumentManager.h in Headers */,
 				38788F941D30100F00299789 /* STStatsManager.h in Headers */,
+				38C91F361D366AD70048A95E /* NSMutableArray+Stack.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -794,6 +854,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				38C91F431D36FA620048A95E /* WordFindScript.applescript in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -819,9 +880,11 @@
 				382C28A51D18322900697D6F /* STJSONUtility.m in Sources */,
 				38EDF02B1D2C002A00ACD77B /* STStataAutomation.m in Sources */,
 				385FDD381D33D02800AE0FE2 /* STGlobals.m in Sources */,
+				385FDD441D35681400AE0FE2 /* STFieldCreator.m in Sources */,
 				380A67A71D1077490045B72B /* STConstants.m in Sources */,
 				382C284F1D1202D400697D6F /* STBaseParameterParser.m in Sources */,
 				382C28B91D199ACC00697D6F /* STBaseParameterGenerator.m in Sources */,
+				38C91F371D366AD70048A95E /* NSMutableArray+Stack.m in Sources */,
 				380A67A11D106E090045B72B /* STCodeFileAction.m in Sources */,
 				38C9B2011D109B40003B571E /* STExecutionStep.m in Sources */,
 				38C9B2051D109D0A003B571E /* STFigureFormat.m in Sources */,
@@ -832,6 +895,7 @@
 				38C9B2091D109F6B003B571E /* STBaseValueFormatter.m in Sources */,
 				38EDF0331D2C2E6900ACD77B /* STCocoaUtil.m in Sources */,
 				382C28B51D1994DE00697D6F /* STBaseGenerator.m in Sources */,
+				38C91F4D1D37AE400048A95E /* WordFind.m in Sources */,
 				382C28C11D199F9A00697D6F /* STStataBaseGenerator.m in Sources */,
 				382C28C51D19A00D00697D6F /* STTableGenerator.m in Sources */,
 				38788F951D30100F00299789 /* STStatsManager.m in Sources */,
@@ -845,9 +909,11 @@
 				38C9B20F1D10A2B2003B571E /* STStataBaseValueFormatter.m in Sources */,
 				3884513D1D19DCB3004C2B40 /* STValueParameterParser.m in Sources */,
 				382C28DA1D19DAD500697D6F /* STTableParameterParser.m in Sources */,
+				38C91F711D37B5470048A95E /* ASOC.applescript in Sources */,
 				385FDD2D1D32F70100AE0FE2 /* STDocumentManager.m in Sources */,
 				387A0E261D22BC5F00F1FE9C /* STBaseParserStata.m in Sources */,
 				382C28CD1D19ADA000697D6F /* STTagUtil.m in Sources */,
+				38C91F401D36D1970048A95E /* WordHelpers.m in Sources */,
 				382C8D3C1D0F9E1D00FE6878 /* STFileHandler.m in Sources */,
 				382C28D61D19D8E900697D6F /* STFigureParameterParser.m in Sources */,
 				382C28681D14880900697D6F /* STFactories.m in Sources */,
@@ -1007,6 +1073,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = stattag.org.StatTag;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1031,6 +1098,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = stattag.org.StatTag;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1049,6 +1117,7 @@
 				);
 				INFOPLIST_FILE = StatTagFrameworkTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = stattag.org.StatTagFrameworkTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -1066,6 +1135,7 @@
 				);
 				INFOPLIST_FILE = StatTagFrameworkTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = stattag.org.StatTagFrameworkTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

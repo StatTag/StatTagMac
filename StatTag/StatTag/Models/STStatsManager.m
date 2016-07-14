@@ -130,7 +130,6 @@ const int RefreshStepInterval = 5;
         tag.CachedResult = [NSMutableArray<STCommandResult*> arrayWithArray:results];
         
         // If the results did change, we need to sweep the document and update all of the results
-//FIXME: !!DEBUG!! testing - put this line back!
         if(resultsChanged) {
           
           // For all table tags, update the formatted cells collection
