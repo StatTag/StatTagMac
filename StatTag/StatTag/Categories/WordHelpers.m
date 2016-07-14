@@ -9,11 +9,30 @@
 #import "WordHelpers.h"
 #import "STMSWord2011.h"
 #import <StatTag/StatTag.h>
-#import "WordFind.h"
-
 #import "ASOC.h"
+#import "WordASOC.h"
 
 @implementation WordHelpers
+
+//because we use the WordHelpers to load applescripts from the bundle, we don't want to keep loading them every time. So we're going to use a sharedInstance and just fire off the "load my applescripts" call in the init
+static WordHelpers* sharedInstance = nil;
++ (instancetype)sharedInstance
+{
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    sharedInstance = [[self alloc] init];
+  });
+  return sharedInstance;
+}
+
+- (id)init {
+  if (self = [super init]) {
+    NSBundle *frameworkBundle = [NSBundle bundleForClass:[self class]];
+    [frameworkBundle loadAppleScriptObjectiveCScripts];
+    NSLog(@"just set our bundle shared instance");
+  }
+  return self;
+}
 
 +(STMSWord2011TextRange*)DuplicateRange:(STMSWord2011TextRange*)range {
   STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
@@ -26,52 +45,14 @@
 }
 
 +(BOOL)FindText:(NSString*)text inRange:(STMSWord2011TextRange*)range{
+  //message our sharedInstance so we load applescripts (once)
+  [[self class] sharedInstance];
+  WordASOC *stuff = [[NSClassFromString(@"WordASOC") alloc] init];
+  if(text != nil) {
+    return [[stuff findText:text atRangeStart:[NSNumber numberWithInt:[range startOfContent]] andRangeEnd:[NSNumber numberWithInt:[range endOfContent]]] boolValue];
+  }
   return false;
 }
 
-+(void)TestAppleScript {
-  
-  NSBundle *frameworkBundle = [NSBundle bundleForClass:[self class]];
-//  NSString *resourcePath = [frameworkBundle pathForResource:@"an_image" ofType:@"jpeg"];
-//  [[NSBundle mainBundle] loadAppleScriptObjectiveCScripts];
-  [frameworkBundle loadAppleScriptObjectiveCScripts];
-
-//  Class myClass = NSClassFromString(@"ASOC");
-//  id<ASOC> myInstance = [[myClass alloc] init];
-//  [myInstance thinkdifferent];
-//  NSLog(@"Result: %@", [myInstance square:@3]);
-
-  
-  ASOC *stuff = [[NSClassFromString(@"ASOC") alloc] init];
-  NSNumber *result = [stuff square: @3];
-  [stuff thinkdifferent];
-  NSLog(@"Result: %@", result);
-  
-//  NSNumber* found = [stuff findText:@"testing" atRangeStart:@1 andRangeEnd:@3];
-  
-//  [stuff findText:@"testing" atRangeStart:@1 andRangeEnd:@3];
-  
-  NSLog(@"doSomething : %@", [stuff doSomethingTo:@"hello" andTo:@"goodbye"]);
-  
-  
-  NSLog(@"findText : %hhd", [[stuff findText:@"asdfx" atRangeStart:@0 andRangeEnd:@100] boolValue]);
-  
-//  WordFind *find = [[WordFind alloc] init];
-//  NSNumber *result = [find square: @3];
-//  NSLog(@"Result: %@", result);
-  
-//  WordFind *find = [[NSClassFromString(@"WordFind") alloc] init];
-//  NSLog(@"find : %@", find);
-//  NSNumber *result = [find square: @3];
-//  NSLog(@"Result: %@", result);
-//  
-//  
-//  Class myClass = NSClassFromString(@"WordFindScript");
-//  id<WordFindProtocol> myInstance = [[myClass alloc] init];
-//  NSNumber *result2 = [myInstance square: @3];
-//  NSLog(@"Result2: %@", result2);
-  
-  
-}
 
 @end

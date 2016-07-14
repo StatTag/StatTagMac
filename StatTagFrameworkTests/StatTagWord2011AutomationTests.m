@@ -15,12 +15,6 @@
 #import <XCTest/XCTest.h>
 #import "StatTag.h"
 
-//#import <Cocoa/Cocoa.h>
-//#import <AppleScriptObjC/AppleScriptObjC.h>
-
-//#import <StatTag/STMSWord2011TextRange+StatTagExtensions.h>
-
-
 @interface StatTagWord2011AutomationTests : XCTestCase {
   STMSWord2011Application* app;
   STMSWord2011Document* doc;
@@ -43,27 +37,8 @@
 }
 
 -(void)testAppleScriptBridge {
-
-  //this works
-//  STTag *tag = [[NSClassFromString(@"STTag") alloc] init];
-//  tag.Name = @"my name";
-//  NSLog(@"tag : %@", tag);
-//  [[NSBundle mainBundle] loadAppleScriptObjectiveCScripts];
-//  
-//  WordFind *find = [[NSClassFromString(@"WordFind") alloc] init];
-//  NSLog(@"find : %@", find);
-//  NSNumber *result = [find square: @3];
-//  NSLog(@"Result: %@", result);
-//  
-//  
-//  Class myClass = NSClassFromString(@"WordFind");
-//  id<WordFindProtocol> myInstance = [[myClass alloc] init];
-//  NSNumber *result2 = [myInstance square: @3];
-//  NSLog(@"Result2: %@", result2);
-  
-  
-  [WordHelpers TestAppleScript];
-  
+  //[WordHelpers TestAppleScript];
+  NSLog(@"find : %hhd", [WordHelpers FindText:@"asdfx" inRange:[doc createRangeStart:[[doc textObject] startOfContent] end:([[doc textObject] endOfContent])]]);
 }
 
 -(void)testWordAPI_ExecuteFind {
@@ -73,6 +48,7 @@
   //http://stackoverflow.com/questions/25984559/objective-c-scripting-bridge-and-apple-remote-desktop
   //http://burnignorance.com/iphone-development-tips/call-apple-script-function-handler-from-cocoa-application/
   //http://stackoverflow.com/questions/16529800/pass-variable-or-string-from-os-x-cocoa-app-to-applescript
+  //ftp://ftp.mactech.com/pri/article-submissions/07-ArticleGalleysToReview/!Archived%20Files/old%20versions%20of%20VBA%20guide/23.04%20VBA-Chapter%203.pdf
   //https://discussions.apple.com/thread/2642843?tstart=0
   //https://en.wikibooks.org/wiki/AppleScript_Programming/Sample_Programs/MS_Word_2008
   //http://stackoverflow.com/questions/14040096/office-mac-2011-how-to-create-a-new-word-document-and-save-it-with-applescript
@@ -151,13 +127,13 @@
   
 //  STMSWord2011TextRange* aRange = [doc createRangeStart:[[doc textObject] startOfContent] end:([[doc textObject] startOfContent] + [theText length])];
 
-  STMSWord2011TextRange* aRange = [doc createRangeStart:[[doc textObject] startOfContent] end:([[doc textObject] endOfContent])];
 
+  STMSWord2011TextRange* aRange = [doc createRangeStart:0 end:0];
   
-  NSLog(@"aRange -> start: %ld, end : %ld, content : %@", (long)[aRange startOfContent], (long)[aRange endOfContent], [aRange content]);
+//  NSLog(@"aRange -> start: %ld, end : %ld, content : %@", (long)[aRange startOfContent], (long)[aRange endOfContent], [aRange content]);
   
   STFieldCreator* creator = [[STFieldCreator alloc] init];
-  NSArray<STMSWord2011Field*>* fields = [creator InsertField:aRange theString:@"<test field>"];
+  NSArray<STMSWord2011Field*>* fields = [creator InsertField:aRange theString:theText];
   NSLog(@"fields count : %lu, values : %@", (unsigned long)[fields count], fields);
   
 //  [app createNewFieldTextRange:aRange fieldType:STMSWord2011E183FieldEmpty fieldText:@"sample field" preserveFormatting:false];
@@ -201,12 +177,12 @@
 
 - (void)testExample {
 
-  STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
+  //STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
   NSLog(@"app : %@", app);
 
   NSLog(@"app -> isRunning : %hhd", [app isRunning]);
   
-  STMSWord2011Document* doc = [app activeDocument];
+  //STMSWord2011Document* doc = [app activeDocument];
   NSLog(@"doc : %@", doc);
   
   NSLog(@"doc -> fullname : %@", [doc fullName]);

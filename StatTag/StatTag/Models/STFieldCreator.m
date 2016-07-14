@@ -257,10 +257,11 @@ Adds a new empty Word.Field to the specified Word.Range.
 
 
 -(STMSWord2011TextRange*)FindNextOpen:(STMSWord2011TextRange*)range text:(NSString*)text {
-  STMSWord2011Find* find = [self CreateFind:range text:text];
+  //STMSWord2011Find* find = [self CreateFind:range text:text];
+  BOOL found = [WordHelpers FindText:text inRange:range];
   STMSWord2011TextRange* result = [WordHelpers DuplicateRange:range];
 
-  if(![find found]) {
+  if(!found) {
     // Make sure that the next closing field will be found first.
     [result collapseRangeDirection:STMSWord2011E132CollapseEnd];
     //    result.Collapse(Word.WdCollapseDirection.wdCollapseEnd);
@@ -277,48 +278,51 @@ Adds a new empty Word.Field to the specified Word.Range.
   // http://stackoverflow.com/questions/3293053/how-to-perform-equivalent-of-applescript-copy-command-from-scripting-bridge
   // return [[self CreateFind:range text:text] found] ? [range copy] : nil;
   //  return this.CreateFind(range, text).Found ? range.Duplicate : null;
-  if([[self CreateFind:range text:text] found] == true) {
+  //if([[self CreateFind:range text:text] found] == true) {
+  if([self CreateFind:range text:text] == true) {
     return [WordHelpers DuplicateRange:range];
   }
   return nil;
 }
 
--(STMSWord2011Find*)CreateFind:(STMSWord2011TextRange*)range text:(NSString*)text {
-  STMSWord2011Find* result = [range findObject];
-  
-  NSLog(@"result : %@", result);
-  
-  NSLog(@"STMSWord2011E265FindStop : %d", STMSWord2011E265FindStop);
-  NSLog(@"STMSWord2011E273ReplaceNone : %d", STMSWord2011E273ReplaceNone);
+//-(STMSWord2011Find*)CreateFind:(STMSWord2011TextRange*)range text:(NSString*)text {
+-(BOOL)CreateFind:(STMSWord2011TextRange*)range text:(NSString*)text {
   /*
-   It appears executeFindFindText is broken...
+   ** Really read this ***
+   
+   NOTE: we changed the return type - and the behavior in this method - details:
+   
+   original c# 
+   //  result.Execute(FindText: text, Forward: true, Wrap: Word.WdFindWrap.wdFindStop);
+   it then returns this Find object so it can be used by other items
+   
+   But in the Mac version, it appears executeFindFindText is broken...
    http://www.textndata.com/forums/word-applescript-reference-121585.html
    http://stackoverflow.com/questions/24746273/applescripting-an-msword-find-operation
    
+   1) it explodes, so you'd need to wrap it with try/catch
+   2) the enumeration return isn't what's expected from the documentation - which is fine - but it returns..
+      "STMSWord2011EFRtTextRange" (int) or
+      "STMSWord2011EFRtInsertionPoint" (int)
+     which don't help us
+   3) the "found" property is completely empty - and that's what we actually need here...
+
+   we would ideally have done someting like this...
+   -----
+     STMSWord2011EFRt resultWorked = [result executeFindFindText:text matchCase:true matchWholeWord:false matchWildcards:false matchSoundsLike:false matchAllWordForms:false matchForward:true wrapFind:STMSWord2011E265FindStop findFormat:false replaceWith:@"" replace:STMSWord2011E273ReplaceNone];
+     NSLog(@"CreateFind : returned %u for range: %@ and text: '%@'", resultWorked, range, text);
+
+   So that's a bummer.
+   
+   If we look at the c#, though, it appears the "find" is only being used to feed back the bool "found", so we're going to work around this by interfacing with AppleScript directly (see "WordASOC") and wrapping a cheap clone of "find" ourselves - ONLY feeding back the bool from the find result (since "found" is apparently still broken there, too... so instead of...
+   
+   STMSWord2011Find* result = [range findObject];
+   
+   we're going to do our own custom helper that just returns a BOOL
    */
-  /*
-   - (STMSWord2011EFRt) executeFindFindText:(NSString *)findText matchCase:(BOOL)matchCase matchWholeWord:(BOOL)matchWholeWord matchWildcards:(BOOL)matchWildcards matchSoundsLike:(BOOL)matchSoundsLike matchAllWordForms:(BOOL)matchAllWordForms matchForward:(BOOL)matchForward wrapFind:(STMSWord2011E265)wrapFind findFormat:(BOOL)findFormat replaceWith:(NSString *)replaceWith replace:(STMSWord2011E273)replace;  // Runs the specified find operation. Returns true if the find operation is successful.
-   */
-  
-  [result executeFindFindText:@"FirstText"
-                     matchCase:YES
-                matchWholeWord:YES
-                matchWildcards:YES
-               matchSoundsLike:NO
-             matchAllWordForms:NO
-                  matchForward:YES
-                      wrapFind:STMSWord2011E265FindContinue
-                    findFormat:NO
-                   replaceWith:@"SecondText"
-                       replace:STMSWord2011E273ReplaceAll];
-  
-//  STMSWord2011EFRt resultWorked = [result executeFindFindText:text matchCase:true matchWholeWord:false matchWildcards:false matchSoundsLike:false matchAllWordForms:false matchForward:true wrapFind:STMSWord2011E265FindStop findFormat:false replaceWith:@"" replace:STMSWord2011E273ReplaceNone];
-//  NSLog(@"CreateFind : returned %u for range: %@ and text: '%@'", resultWorked, range, text);
-  
-//  BOOL resultWorked = [result executeFindFindText:text matchCase:false matchWholeWord:false matchWildcards:false matchSoundsLike:false matchAllWordForms:false matchForward:true wrapFind:STMSWord2011E265FindStop findFormat:false replaceWith:@"" replace:STMSWord2011E273ReplaceNone];
-//  NSLog(@"CreateFind : returned %hhd for range: %@ and text: '%@'", resultWorked, range, text);
-  //  Word.Find result = range.Find;
-  //  result.Execute(FindText: text, Forward: true, Wrap: Word.WdFindWrap.wdFindStop);
+
+  BOOL result = [WordHelpers FindText:text inRange:range];
+
   return result;
 }
 

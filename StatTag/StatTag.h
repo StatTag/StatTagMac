@@ -28,8 +28,8 @@ FOUNDATION_EXPORT const unsigned char StatTagVersionString[];
 #import <StatTag/NSMutableArray+Stack.h>
 #import <StatTag/WordHelpers.h>
 //#import <StatTag/SBObject+StatTagExtensions.h>
-#import <StatTag/WordFind.h>
-#import <StatTag/WordFindProtocol.h>
+#import <StatTag/WordASOC.h>
+//#import <StatTag/WordFindProtocol.h>
 
 
 //--Classes

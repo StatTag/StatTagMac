@@ -12,8 +12,11 @@
 
 @interface WordHelpers : NSObject
 
++ (instancetype)sharedInstance;
+
 +(STMSWord2011TextRange*)DuplicateRange:(STMSWord2011TextRange*)range;
 +(STMSWord2011TextRange*)DuplicateRange:(STMSWord2011TextRange*)range forDoc:(STMSWord2011Document*)doc;
 +(void)TestAppleScript;
++(BOOL)FindText:(NSString*)text inRange:(STMSWord2011TextRange*)range;
 
 @end
