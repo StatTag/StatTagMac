@@ -16,11 +16,13 @@
 #import "STGlobals.h"
 #import "STThisAddIn.h"
 #import "STCodeFile.h"
+#import "STFieldCreator.h"
 
 @implementation STDocumentManager
 
 @synthesize TagManager = _TagManager;
 @synthesize StatsManager = _StatsManager;
+@synthesize FieldManager = _FieldManager;
 
 NSString* const ConfigurationAttribute = @"StatTag Configuration";
 
@@ -30,6 +32,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
     DocumentCodeFiles = [[NSMutableDictionary<NSString*, NSMutableArray<STCodeFile*>*> alloc] init];
     _TagManager = [[STTagManager alloc] init:self];
     _StatsManager = [[STStatsManager alloc] init:self];
+    _FieldManager = [[STFieldCreator alloc] init];
   }
   return self;
 }
@@ -101,6 +104,29 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
 }
 
 
+/**
+ Insert an image (given a definition from an tag) into the current Word document at the current cursor location.
+ */
+-(void) InsertImage:(STTag*) tag {
+  [NSException raise:@"InsertImage not implemented" format:@"InsertImage not implemented"];
+}
+
+
+
+
+
+
+/**
+ Insert a table tag into the current selection.
+
+ @remark: This assumes that the tag is known to be a table result.</remarks>
+*/
+-(void) InsertTable:(STMSWord2011SelectionObject*)selection tag:(STTag*) tag {
+  [NSException raise:@"InsertTable not implemented" format:@"InsertTable not implemented"];
+}
+
+
+
 
 //MARK: Wrappers around TagManager calls
 
@@ -118,6 +144,141 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
 
 
 //MARK: add / update
+
+/**
+ Given an tag, insert the result into the document at the current cursor position.
+ 
+ @remark This method assumes the tag result is already refreshed.  It does not attempt to refresh or recalculate it.
+ */
+-(void) InsertField:(id)tag {
+  NSLog(@"InsertField for Tag");
+  if([tag isKindOfClass:[STFieldTag class]]) {
+    [self InsertFieldWithFieldTag:tag];
+  } else if ([tag isKindOfClass:[STTag class]]) {
+    [self InsertFieldWithFieldTag:[[STFieldTag alloc] initWithTag:tag]];
+  }
+}
+
+
+/**
+ Given an tag, insert the result into the document at the current cursor position.
+
+ @remark This method assumes the tag result is already refreshed.  It does not attempt to refresh or recalculate it.
+ */
+-(void) InsertFieldWithFieldTag:(STFieldTag*)tag {
+  NSLog(@"InsertField - Started");
+
+  if(tag == nil) {
+    NSLog(@"The tag is null");
+    return;
+  }
+  
+  if([[tag Type] isEqualToString:[STConstantsTagType Figure]]) {
+    NSLog(@"Detected a Figure tag");
+    [self InsertImage:tag];
+    return;
+  }
+  
+  STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
+  STMSWord2011Document* doc = [app activeDocument];
+
+  @try {
+    STMSWord2011SelectionObject* selection = [app selection];
+    if(selection == nil) {
+      NSLog(@"There is no active selection");
+      return;
+    }
+
+    // If the tag is a table, and the cell index is not set, it means we are inserting the entire
+    // table into the document.  Otherwise, we are able to just insert a single table cell.
+    if([tag IsTableTag] && [tag TableCellIndex] != nil) {
+      // if (tag.IsTableTag() && !tag.TableCellIndex.HasValue)
+      NSLog(@"Inserting a new table tag");
+      [self InsertTable:selection tag:tag];
+    } else {
+      NSLog(@"Inserting a single tag field");
+      //FIXME: unclear if we should use textObject or formattedText
+      STMSWord2011TextRange* range = [selection textObject];
+      [self CreateTagField:range tagIdentifier:[tag Name] displayValue:[tag FormattedResult] tag:tag];
+      //Marshal.ReleaseComObject(range);
+    }
+    //Marshal.ReleaseComObject(selection);
+  }
+  @catch (NSException *exception) {
+    NSLog(@"%@", exception.reason);
+  }
+  @finally {
+    //Marshal.ReleaseComObject(document);
+  }
+
+  NSLog(@"InsertField - Finished");
+
+}
+
+
+/**
+Insert an StatTag field at the currently specified document range.
+
+@param range: The range to insert the field at
+@param tagIdentifier: The visible identifier of the tag (does not need to be globablly unique)
+@param displayValue: The value that should display when the field is shown.
+@param tag: The tag to be inserted
+ */
+-(void)CreateTagField:(STMSWord2011TextRange*)range tagIdentifier:(NSString*)tagIdentifier displayValue:(NSString*)displayValue tag:(STTag*)tag {
+  NSLog(@"CreateTagField - Started");
+
+//  [app createNewFieldTextRange:range fieldType:type fieldText:text preserveFormatting:preserveFormatting];
+//  return [[range fields] lastObject];
+  
+  //C# - XML - can't use it as we don't have support for InsertXML
+  //  range.InsertXML(OpenXmlGenerator.GenerateField(tagIdentifier, displayValue, tag));
+  
+  //C# prior to XML - which we can't use
+  //var fields = FieldManager.InsertField(range, string.Format("{3}MacroButton {0} {1}{3}ADDIN {2}{4}{4}",
+  //    Constants.FieldDetails.MacroButtonName, displayValue, tagIdentifier, FieldCreator.FieldOpen, FieldCreator.FieldClose));
+  //Log(string.Format("Inserted field with identifier {0} and display value {1}", tagIdentifier, displayValue));
+
+  NSArray<STMSWord2011Field*>* fields = [_FieldManager InsertField:range theString:
+                                         
+                                         [NSString stringWithFormat:@"%@MacroButton %@ %@%@ADDIN %@%@%@",
+                                          
+                                          [STFieldCreator FieldOpen],
+                                          [STConstantsFieldDetails MacroButtonName],
+                                          displayValue,
+                                          [STFieldCreator FieldOpen],
+                                          tagIdentifier,
+                                          [STFieldCreator FieldClose],
+                                          [STFieldCreator FieldClose]
+                                          
+                                          //0    Constants.FieldDetails.MacroButtonName,
+                                          //1    displayValue,
+                                          //2    tagIdentifier,
+                                          //3    FieldCreator.FieldOpen,
+                                          //4    FieldCreator.FieldClose
+                                          
+                                          ]
+                                         ];
+  
+//  NSArray<STMSWord2011Field*>* fields = [_FieldManager InsertField:range theString:@"<MacroButton test test>"];
+
+//    NSArray<STMSWord2011Field*>* fields = [_FieldManager InsertField:range theString:@"< = 5 + < PAGE > >"];
+
+  
+//  NSLog(@"fields : %@", fields);
+//  
+//  NSLog(@"Inserted field with identifier %@ and display value %@", tagIdentifier, displayValue);
+  
+  STMSWord2011Field* dataField = [fields firstObject];
+  //@property (copy) NSString *fieldText;  // Returns or sets data in an ADDIN field. The data is not visible in the field code or result. It is only accessible by returning the value of the data property. If the field isn't an ADDIN field, this property will cause an error.
+  dataField.fieldText = [tag Serialize:nil];
+  
+  //var dataField = fields.First();
+  //dataField.Data = tag.Serialize();
+  
+  NSLog(@"CreateTagField - Finished");
+}
+
+
 
 
 /**

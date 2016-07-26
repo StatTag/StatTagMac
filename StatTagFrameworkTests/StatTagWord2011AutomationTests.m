@@ -175,6 +175,22 @@
   
 }
 
+- (void)testStringFunction {
+  NSLog(@"'%@' length : %d", @"", [self getLengthForString:@""]);
+  
+  NSString* text = @"abc";
+  NSLog(@"'%@' length : %d", text, [self getLengthForString:text]);
+
+  text = @"";
+  NSLog(@"'%@' length : %d", text, [self getLengthForString:text]);
+
+  
+}
+
+- (int)getLengthForString:(NSString*)text {
+  return [text length];
+}
+
 - (void)testExample {
 
   //STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
@@ -232,5 +248,25 @@
   
 }
 
+
+-(void)testWordAPI_InsertTagField {
+  //InsertFieldWithFieldTag
+  
+  //go read this about field codes
+  //https://groups.google.com/forum/#!msg/microsoft.public.mac.office.word/jzksDl1ebCw/YGddKCkIJdYJ
+  
+  STDocumentManager* manager = [[STDocumentManager alloc] init];
+  
+  STCommandResult* result = [[STCommandResult alloc] init];
+  result.ValueResult = @"10.0";
+  
+  STTag* tag = [[STTag alloc] init];
+  tag.Type = [STConstantsTagType Value];
+  tag.Name = @"my test tag";
+  tag.CachedResult = [[NSMutableArray<STCommandResult*> alloc] initWithObjects:result, nil];
+  
+  [manager InsertField:tag];
+  
+}
 
 @end

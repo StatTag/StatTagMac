@@ -40,18 +40,76 @@ static WordHelpers* sharedInstance = nil;
   return [[self class] DuplicateRange: range forDoc:doc];
 }
 
++(void)setRange:(STMSWord2011TextRange**)range Start:(int)start end:(int)end {
+  STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
+  STMSWord2011Document* doc = [app activeDocument];
+  //return [doc createRangeStart:start end:end];
+  *range = [doc createRangeStart:start end:end];
+}
+
+//+(void)replaceRange:(STMSWord2011TextRange**)range Start:(int)start end:(int)end {
+//  STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
+//  STMSWord2011Document* doc = [app activeDocument];
+//  *range = [doc createRangeStart:start end:end];
+//}
+
+
 +(STMSWord2011TextRange*)DuplicateRange:(STMSWord2011TextRange*)range forDoc:(STMSWord2011Document*)doc {
   return [doc createRangeStart:[range startOfContent] end:[range endOfContent]];
 }
 
 +(BOOL)FindText:(NSString*)text inRange:(STMSWord2011TextRange*)range{
-  //message our sharedInstance so we load applescripts (once)
-  [[self class] sharedInstance];
-  WordASOC *stuff = [[NSClassFromString(@"WordASOC") alloc] init];
-  if(text != nil) {
-    return [[stuff findText:text atRangeStart:[NSNumber numberWithInt:[range startOfContent]] andRangeEnd:[NSNumber numberWithInt:[range endOfContent]]] boolValue];
+  BOOL found = false;
+  
+  /*
+    OK, so why is this commented out?
+   
+   "find" in Word is just totally broken. Even more than noted earlier.
+   
+   If you have a string ">" as defined by a range
+   And you are searching for string ">"
+   ...you will get back FALSE
+   
+   So for now we're just using Obj-C string literal matching (case insensitive)
+   
+   */
+//  //message our sharedInstance so we load applescripts (once)
+//  [[self class] sharedInstance];
+//  WordASOC *stuff = [[NSClassFromString(@"WordASOC") alloc] init];
+//  if(text != nil) {
+//    found = [[stuff findText:text atRangeStart:[NSNumber numberWithInt:[range startOfContent]] andRangeEnd:[NSNumber numberWithInt:[range endOfContent]]] boolValue];
+//    return found;
+//  }
+//  return found;
+  
+  if([[range content] rangeOfString:text options: NSCaseInsensitiveSearch].location != NSNotFound ) {
+    found = true;
   }
-  return false;
+  
+  return found;
+  
+}
+
+
++(void)updateContent:(NSString*)text inRange:(STMSWord2011TextRange**)range {
+  
+  //  //- (STMSWord2011TextRange *) moveRangeBy:(STMSWord2011E129)by count:(NSInteger)count;  // Collapses the specified range to its start or end position and then moves the collapsed object by the specified number of units. This method returns the new range object or missing value if an error occurred.
+  //  // -> STMSWord2011E129ACharacterItem -> characters
+  if(text == nil) {
+    text = @"";
+  }
+  
+//  NSLog(@"WordHelpers - updateContent -> at range (%ld,%ld) for text : '%@'", (long)[*range startOfContent], (long)[*range endOfContent], text);
+  
+  [*range setContent: text];
+  
+  [WordHelpers setRange:range Start:[*range startOfContent] end:([*range startOfContent] + [text length])];
+  
+  //*range = [WordHelpers setRange:range Start:[*range startOfContent] end:([*range startOfContent] + [text length])];
+  
+  
+//  NSLog(@"WordHelpers - (DONE) updateContent -> at range (%ld,%ld) for text : '%@'", (long)[*range startOfContent], (long)[*range endOfContent], text);
+
 }
 
 

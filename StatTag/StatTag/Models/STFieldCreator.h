@@ -10,12 +10,15 @@
 #import "STMSWord2011.h"
 
 @interface STFieldCreator : NSObject {
-  NSString* _FieldOpen;
-  NSString* _FieldClose;
+//  NSString* _FieldOpen;
+//  NSString* _FieldClose;
 }
 
-@property (readonly, nonatomic) NSString* FieldOpen;
-@property (readonly, nonatomic) NSString* FieldClose;
+//@property (readonly, nonatomic) NSString* FieldOpen;
+//@property (readonly, nonatomic) NSString* FieldClose;
+
++(NSString*)FieldOpen;
++(NSString*)FieldClose;
 
 
 //extern NSString *const FieldOpen;
