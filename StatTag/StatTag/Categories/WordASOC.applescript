@@ -70,4 +70,85 @@ script WordASOC
   end createOrUpdateDocumentVariableWithName:andValue:
 
 
+  --keeping this here as an example
+--  on UpdateInlineShapes:doc
+--    set docName to "" as text
+--    tell application "Microsoft Word"
+--      set docName to |name| of doc --as text
+--    end tell
+--    log "doc name : " & docName
+--  end UpdateInlineShapes
+
+
+  on UpdateLinkFormat:link
+    
+    set logMessage to "initial log message" as text
+    set loopCount to 0
+--    log logMessage
+    tell application "Microsoft Word"
+--      repeat with thisShape in (get inline shapes of active document)
+--        --if auto update of link format of thisShape is false then
+--          update link format of thisShape
+--          set logMessage to "updated?" as text
+--        --end if
+--      end repeat
+        set loopCount to loopCount + 1
+        --set logMessage = "looping (pre) : " & loopCount
+        repeat with aShape in (get inline shapes of active document)
+          --set logMessage to " field : " & hyperlink address of hyperlink of aField
+--          set isUpdatable to auto update of link format of aShape as boolean
+          set logMessage to " field : " & source path of link format of aShape
+          
+--          set logMessage to "looping (pre) : " & loopCount & " auto update is " & isUpdatable
+          if auto update of link format of aShape is true then
+            set logMessage to logMessage & "\r\n" & "looping (updated) (AUTO-UPDATE = TRUE) : " & loopCount
+          --else if auto update of link format of aShape is in {missing value, true} then
+          else
+            set logMessage to logMessage & "\r\n" & "looping (updated) (AUTO-UPDATE = FALSE-ISH) : " & loopCount
+            set myName to "" & source path of link format of aShape
+            set logMessage to logMessage & "\r\n" & " myName : " & myName
+            
+            if source path of link format of aShape is missing value then
+              set logMessage to logMessage & "\r\n" & "(MISSING link format source name) "
+            else
+              update link format of aShape
+              set logMessage to logMessage & "\r\n" & "got link format source name : " & myName
+            end if
+--          else if auto update of link format of aShape is true then
+--            update link format of aShape
+--            set logMessage to "looping (updated) (AUTO-UPDATE = TRUE) : " & loopCount
+          end if
+        end repeat
+
+    end tell
+    
+    log logMessage
+
+--    set logMessage to "initial log message" as text
+--    log logMessage
+--    tell application "Microsoft Word"
+--      update link
+--      set logMessage to "updated?" as text
+--    end tell
+--    log logMessage
+  end UpdateLinkFormat
+
+
+  on insertImageAtPath:filePath
+    --https://discussions.apple.com/thread/3047908?tstart=0
+    --http://www.grasmash.com/article/applescript-add-images-microsoft-word-table
+    --https://discussions.apple.com/thread/5255148?tstart=0 //replace picture
+    --http://www.mactech.com/articles/mactech/Vol.23/23.01/2301applescript/index.html
+    --https://groups.google.com/forum/#!topic/microsoft.public.mac.office.word/yrbnSHFPtsI
+    set filePath to filePath as text
+    log "filePath : " & filePath
+    tell application "Microsoft Word"
+        set rangeStart to (selection start of selection)
+        set rangeEnd to (selection end of selection)
+        set myRange to create range active document start rangeStart end rangeEnd
+        
+        make new inline picture at myRange with properties {file name:filePath, link to file: true, save with document:true}
+    end tell
+  end insertImageAtPath
+
 end script

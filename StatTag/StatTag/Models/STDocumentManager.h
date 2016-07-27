@@ -36,7 +36,9 @@
 -(STTag*)FindTag:(NSString*)tagID;
 
 
+-(void)SaveCodeFileListToDocument:(STMSWord2011Document*)document;
 -(void)LoadCodeFileListFromDocument:(STMSWord2011Document*)document;
+-(void)UpdateInlineShapes:(STMSWord2011Document*)document; // this should be private - only making public for testing
 
 -(void)AddCodeFile:(NSString*)fileName;
 -(void)AddCodeFile:(NSString*)fileName document:(STMSWord2011Document*)document;

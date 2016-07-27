@@ -269,6 +269,27 @@
   
 }
 
+-(void)testSaveCodeFileListToDocument {
+  STDocumentManager* manager = [[STDocumentManager alloc] init];
+  
+  [manager AddCodeFile:@"/Users/ewhitley/Documents/work_other/NU/Word Plugin/_code/WindowsVersion/Word_Files_Working_Copies/simple-macro-test.do"];
+
+//  for(STCodeFile* cf in [manager GetCodeFileList]) {
+//    NSLog(@"codeFile content: %@", [cf Content]);
+//  }
+  
+  NSLog(@" ");
+  NSLog(@"SAVING variable list");
+  NSLog(@"=====================");
+  [manager SaveCodeFileListToDocument:doc];
+  
+  NSLog(@" ");
+  NSLog(@"LOADING variable list");
+  NSLog(@"=====================");
+  [manager LoadCodeFileListFromDocument:doc];
+  
+}
+
 -(void)testDocumentVariablesWithASOC {
 
   SBElementArray<STMSWord2011Variable*>* variables = [doc variables];
@@ -352,6 +373,75 @@
   
   //        [variables addObject:var];
 
+  
+}
+
+-(void)testUpdateInlineShapesWithASOC {
+  STDocumentManager* manager = [[STDocumentManager alloc] init];
+  //[WordHelpers UpdateInlineShapes:doc];
+  [manager UpdateInlineShapes:doc];
+  
+}
+
+-(void)testInsertInlineShapeWithASOC {
+  
+//  NSString* path = @"/Users/ewhitley/Desktop/word.png";
+  NSString* path = @"/Users/ewhitley/Desktop/word.pdf";
+//  NSString* path = @"Users:ewhitley:Desktop:word.png";
+
+//  NSURL* theFileURL = [NSURL fileURLWithPath:path];
+//  NSString* hfsPath = (NSString*)CFBridgingRelease(CFURLCopyFileSystemPath((CFURLRef)theFileURL, kCFURLHFSPathStyle));
+
+  
+//  STMSWord2011InlinePicture* shape = [[[app classForScriptingClass:@"inline picture"] alloc] initWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+//           hfsPath, @"file name",
+//           [NSNumber numberWithBool:YES], @"link to file",
+//           [NSNumber numberWithBool:YES], @"save with document",
+//          nil]];
+//  [[[app selection] inlineShapes] addObject:shape];
+
+  [WordHelpers insertImageAtPath:path];
+  
+  
+  NSLog(@"did we add the shape?");
+  NSLog(@"count : %d", [[doc inlineShapes] count]);
+  
+  for(STMSWord2011InlineShape* s in [doc inlineShapes]) {
+    NSLog(@"path : %@", [[s linkFormat] sourceFullName]);
+  }
+
+  
+//  http://answers.microsoft.com/en-us/mac/forum/macoffice2011-macword/applescript-place-an-image-behind-text/d73562c1-ca8c-4c18-9005-dfcb0182e858
+  
+//  filename -> some path
+//  object linkToFile = true;
+//  object saveWithDocument = true;
+//  application.Selection.InlineShapes.AddPicture(fileName, linkToFile, saveWithDocument);
+
+  
+  
+}
+
+
+-(void)testTagFigureInsertWithASOC {
+//          public void InsertImage(Tag tag)
+  
+  STDocumentManager* manager = [[STDocumentManager alloc] init];
+  
+  
+  STCommandResult* result = [[STCommandResult alloc] init];
+  result.FigureResult = @"/Users/ewhitley/Desktop/word.png";
+
+  STTag* tag = [[STTag alloc] init];
+  tag.Name = @"test tag";
+  tag.Type = [STConstantsTagType Figure];
+  tag.CachedResult = [[NSMutableArray<STCommandResult*> alloc] init];
+
+  [[tag CachedResult] addObject:result];
+
+  NSLog(@"[[tag CachedResult] count] : %d", [[tag CachedResult] count]);
+  
+  [manager InsertImage:tag];
   
 }
 

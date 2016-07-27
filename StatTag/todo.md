@@ -1,3 +1,11 @@
+BROKEN:
+==================
+1) -(void)UpdateInlineShapes:(STMSWord2011Document*)document
+   we can't seem to update inline shapes - at all
+  http://stackoverflow.com/questions/38621644/word-applescript-update-link-format-working-with-inline-shapes
+
+
+
 TO DO:
 ==================
 1) Fix date parsing - still odd issues with times w/o dates pulling incorrect timezone
@@ -67,6 +75,23 @@ To generate a scripting bridge header:
 
 sdef [path to app] | sdp -fh --basename [your class prefix]
 sdef /Applications/R.app | sdp -fh --basename STR
+
+16b) 
+  applescript variable example - https://github.com/henriquebastos/autoword/blob/master/autoword.applescript
+  dictionary literal constructor - http://stackoverflow.com/questions/12535855/should-i-prefer-to-use-literal-syntax-or-constructors-for-creating-dictionaries
+  how to pass word variable between AS and VBA - https://forum.keyboardmaestro.com/t/how-to-pass-km-variable-into-a-word-mac-2011-macro-as-a-variable/2582/4
+  how to pass word variable between AS and VBA - http://answers.microsoft.com/en-us/mac/forum/macoffice2011-macword/can-i-pass-parameters-to-a-word-2011-macro-from/bfd3fe1d-317e-4d96-85f3-1758638e2653?auth=1
+
+16c) go back and review the way we're handling bridging to Word document variables.  Try to see if we can fix the way we're creating variables. Had issues following the example:  http://robnapier.net/scripting-bridge
+
+    MailOutgoingMessage *mailMessage =
+      [[[[mail classForScriptingClass:@"outgoing message"] alloc]
+        initWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+          @"Test outgoing", @"subject",
+          @"Test body\n\n", @"content",
+          nil]] autorelease];
+    [[mail outgoingMessages] addObject:mailMessage];
+
 
 17) DocumentManager -> AddCodeFile - we're not setting this in the origin array - this is a copy. Ask Luke about this'
 

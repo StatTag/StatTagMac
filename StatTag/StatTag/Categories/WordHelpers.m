@@ -122,5 +122,48 @@ static WordHelpers* sharedInstance = nil;
 
 }
 
++(void)UpdateLinkFormat:(STMSWord2011LinkFormat*)linkFormat {
+  [[self class] sharedInstance];
+  WordASOC *asoc = [[NSClassFromString(@"WordASOC") alloc] init];
+  //if(linkFormat != nil) {
+    [asoc UpdateLinkFormat:linkFormat];
+  //}
+}
+
++(void)insertImageAtPath:(NSString*)filePath {
+  //FIXME: we need some better error handling, etc. for all of this
+  [[self class] sharedInstance];
+  WordASOC *asoc = [[NSClassFromString(@"WordASOC") alloc] init];
+  if(filePath != nil) {
+    //do more file path checking...
+    //applescript wants file paths separators as ":" instead of "/"
+    NSURL* theFileURL = [NSURL fileURLWithPath:filePath];
+
+    NSLog(@"reading file path %@", filePath);
+    
+    BOOL isDir;
+    BOOL exists = [[NSFileManager defaultManager] fileExistsAtPath:filePath isDirectory:&isDir];
+    BOOL readable = [[NSFileManager defaultManager] isReadableFileAtPath:filePath];
+    if (!exists || isDir || !readable) {
+      //this should kick back an error
+      // 1) We can't specify a directory
+      // 2) File should exist
+      // 3) File should be readable
+      NSLog(@"Couldn't insert image at path. isDir : %hhd, exists : %hhd, readable : %hhd", isDir, exists, readable);
+    } else {
+      //great example - http://stackoverflow.com/questions/12044450/case-insensitive-checking-of-suffix-of-nsstring
+      NSString *loweredExtension = [[theFileURL pathExtension] lowercaseString];
+      NSSet *validImageExtensions = [NSSet setWithArray:[NSImage imageFileTypes]];
+      if ([validImageExtensions containsObject:loweredExtension]) {
+        NSString* hfsPath = (NSString*)CFBridgingRelease(CFURLCopyFileSystemPath((CFURLRef)theFileURL, kCFURLHFSPathStyle));
+        [asoc insertImageAtPath:hfsPath];
+      } else {
+        //format not supported - throw error
+        NSLog(@"Couldn't insert image at path. NSImage does not support extension : %@", loweredExtension);
+      }
+    }
+    
+  }
+}
 
 @end

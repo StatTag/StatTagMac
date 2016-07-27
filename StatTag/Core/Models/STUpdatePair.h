@@ -10,15 +10,15 @@
 
 //FIXME: It's really unclear what we're going to use this to do
 
-@interface STUpdatePair : NSObject {
+@interface STUpdatePair<T> : NSObject {
   id _Old;
   id _New;
 }
 
-@property (copy, nonatomic) id Old;
-@property (copy, nonatomic) id New;
+@property (copy, nonatomic) T Old;
+@property (copy, nonatomic) T New;
 
 -(instancetype)init;
--(instancetype)init:(id)oldItem newItem:(id)newItem;
+-(instancetype)init:(T)oldItem newItem:(T)newItem;
 
 @end

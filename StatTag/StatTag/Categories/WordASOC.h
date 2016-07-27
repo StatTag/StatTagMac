@@ -14,7 +14,8 @@
 //-(NSNumber *)square:(NSNumber *)aNumber;
 //
 //@end
-
+@class STMSWord2011Document;
+@class STMSWord2011LinkFormat;
 
 @interface WordASOC : NSObject
 
@@ -24,6 +25,9 @@
 -(NSNumber*)findText:(NSString*)searchText atRangeStart:(NSNumber*)rangeStart andRangeEnd:(NSNumber*)rangeEnd;
 
 -(void)createOrUpdateDocumentVariableWithName:(NSString*)variableName andValue:(NSString*)variableValue;
+
+-(void)UpdateLinkFormat:(STMSWord2011LinkFormat*)linkFormat;
+-(void)insertImageAtPath:(NSString*)filePath;
 
 
 @end

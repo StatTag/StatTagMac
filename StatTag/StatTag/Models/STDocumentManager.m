@@ -154,12 +154,27 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
  Insert an image (given a definition from an tag) into the current Word document at the current cursor location.
  */
 -(void) InsertImage:(STTag*) tag {
-  [NSException raise:@"InsertImage not implemented" format:@"InsertImage not implemented"];
+  //[NSException raise:@"InsertImage not implemented" format:@"InsertImage not implemented"];
+  
+  NSLog(@"InsertImage - Started");
+  if (tag == nil)
+  {
+    NSLog(@"The tag is null, no action will be taken");
+    return;
+  }
+
+  if ([tag CachedResult] == nil || [[tag CachedResult] count] == 0)
+  {
+    NSLog(@"The tag has no cached results - unable to insert image");
+    return;
+  }
+
+  NSString* fileName = [[[tag CachedResult] firstObject] FigureResult];
+  [WordHelpers insertImageAtPath:fileName];
+  
+  NSLog(@"InsertImage - Finished");
+  
 }
-
-
-
-
 
 
 /**
@@ -171,8 +186,178 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   [NSException raise:@"InsertTable not implemented" format:@"InsertTable not implemented"];
 }
 
+/**
+ Determine if an updated tag pair resulted in a table having different dimensions.  This purely
+ looks at structure of the table with headers - it does not (currently) factor in data changes.
+*/
+-(BOOL) IsTableTagChangingDimensions:(STUpdatePair<STTag*>*) tagUpdatePair {
+// TODO: Move to utility class and write tests
+
+  if (tagUpdatePair == nil || [tagUpdatePair New] == nil || [tagUpdatePair Old] == nil)
+  {
+    return false;
+  }
+  
+  if (![[tagUpdatePair Old] IsTableTag] || ![[tagUpdatePair New]IsTableTag])
+  {
+    return false;
+  }
+  
+  // Are we changing the display of headers?
+  if (tagUpdatePair.Old.TableFormat.IncludeColumnNames != tagUpdatePair.New.TableFormat.IncludeColumnNames
+      || tagUpdatePair.Old.TableFormat.IncludeRowNames != tagUpdatePair.New.TableFormat.IncludeRowNames)
+  {
+    NSLog(@"Table dimensions have changed based on header settings");
+    return true;
+  }
+  
+  return false;
+}
 
 
+/**
+ For a given Word document, remove all of the field tags for a single table.  This
+ is in preparation to then re-insert the table in response to a dimension change.
+*/
+-(BOOL)RefreshTableTagFields:(STTag*)tag document:(STMSWord2011Document*)document {
+  //[NSException raise:@"RefreshTableTagFields not implemented" format:@"RefreshTableTagFields not implemented"];
+
+
+  NSLog(@"RefreshTableTagFields - Started");
+  SBElementArray<STMSWord2011Field*>* fields = [document fields];
+  int fieldsCount = [fields count];
+  bool tableRefreshed = false;
+  
+  STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
+  
+  // Fields is a 1-based index
+  NSLog(@"Preparing to process %d} fields", fieldsCount);
+  for (int index = fieldsCount; index >= 1; index--)
+  {
+    STMSWord2011Field* field = fields[index];
+    if (field == nil)
+    {
+      NSLog(@"Null field detected at index %d", index);
+      continue;
+    }
+    
+    if (![_TagManager IsStatTagField:field])
+    {
+      //Marshal.ReleaseComObject(field);
+      continue;
+    }
+    
+    NSLog(@"Processing StatTag field");
+    STFieldTag* fieldTag = [_TagManager GetFieldTag:field];
+    if (fieldTag == nil)
+    {
+      NSLog(@"The field tag is null or could not be found");
+      //Marshal.ReleaseComObject(field);
+      continue;
+    }
+    
+    if ([tag isEqual:fieldTag])
+    {
+      BOOL isFirstCell = ([fieldTag TableCellIndex] != nil &&
+                          [[fieldTag TableCellIndex] integerValue] == 0);
+      int firstFieldLocation = -1;
+      if (isFirstCell)
+      {
+        [field select];
+        STMSWord2011SelectionObject* selection = [app selection];
+        
+        firstFieldLocation = [selection selectionStart]; //selection.Range.Start;
+        //Marshal.ReleaseComObject(selection);
+        
+        NSLog(@"First table cell found at position %d", firstFieldLocation);
+      }
+      
+      //field.Delete();
+      [field delete]; //does this work?
+      
+      if (isFirstCell)
+      {
+        [app selection].selectionStart = firstFieldLocation;
+        [app selection].selectionEnd = firstFieldLocation;
+        
+        NSLog(@"Set position, attempting to insert table");
+        [self InsertField:tag];
+        tableRefreshed = true;
+      }
+    }
+    
+    //Marshal.ReleaseComObject(field);
+  }
+  
+  NSLog(@"RefreshTableTagFields - Finished, Returning %d", tableRefreshed);
+  return tableRefreshed;
+
+}
+
+
+/**
+ Processes all inline shapes within the document, which will include our inserted figures.
+ If the shape can be updated, we will process the update.
+*/
+-(void)UpdateInlineShapes:(STMSWord2011Document*)document {
+  //[NSException raise:@"UpdateInlineShapes not implemented" format:@"UpdateInlineShapes not implemented"];
+  
+  SBElementArray<STMSWord2011InlineShape*>* shapes = [document inlineShapes];
+  if (shapes == nil)
+  {
+    return;
+  }
+  
+  int shapesCount = [shapes count];
+  for (int shapeIndex = 0; shapeIndex <= shapesCount; shapeIndex++)
+  {
+    STMSWord2011InlineShape* shape = shapes[shapeIndex];
+    if (shape != nil)
+    {
+      STMSWord2011LinkFormat* linkFormat = [shape linkFormat];
+      if (linkFormat != nil)
+      {
+        NSLog(@"linkFormat : autoUpdate : %hhd for path : %@", [linkFormat autoUpdate], [linkFormat sourceFullName]);
+        //[WordHelpers UpdateLinkFormat:linkFormat];
+        //FIXME: this method doesn't DO ANYTHING.
+        // see thread - http://stackoverflow.com/questions/38621644/word-applescript-update-link-format-working-with-inline-shapes
+        
+        //linkFormat.Update(); //so this doesn't exist in any useful way
+        // the app specifies an enum, so we can't supply the object
+        //Marshal.ReleaseComObject(linkFormat);
+      }
+      
+      //Marshal.ReleaseComObject(shape);
+    }
+  }
+
+  
+}
+
+
+/**
+ Update all of the field values in the current document.
+
+  @remark This does not invoke a statistical package to recalculate values, it assumes
+  that has already been done.  Instead it just updates the displayed text of a field
+  with whatever is set as the current cached value.
+
+ @param tagUpdatePair: An optional tag to update.  If specified, the contents of the tag (including its underlying data) will be refreshed.
+ The reaason this is an Tag and not a FieldTag is that the function is only called after a change to the main tag reference.
+ If not specified, all tag fields will be updated
+
+ @param matchOnPosition: If set to true, an tag will only be matched if its line numbers (in the code file) are a match.  This is used when updating after disambiguating two tags with the same name, but isn't needed otherwise.
+ */
+//public void UpdateFields(UpdatePair<Tag> tagUpdatePair = null, bool matchOnPosition = false)
+-(void)UpdateFields:(STUpdatePair<STTag*>*)tagUpdatePair matchOnPosition:(BOOL)matchOnPosition {
+  
+}
+-(void)UpdateFields:(STUpdatePair<STTag*>*)tagUpdatePair {
+  [self UpdateFields:tagUpdatePair matchOnPosition:false];
+}
+-(void)UpdateFields {
+  [self UpdateFields:nil];
+}
 
 //MARK: Wrappers around TagManager calls
 

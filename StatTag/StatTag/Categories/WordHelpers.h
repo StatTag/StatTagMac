@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 @class STMSWord2011TextRange;
 @class STMSWord2011Document;
+@class STMSWord2011LinkFormat;
 
 @interface WordHelpers : NSObject
 
@@ -30,5 +31,8 @@
 +(void)setRange:(STMSWord2011TextRange**)range Start:(int)start end:(int)end;
 
 +(void)createOrUpdateDocumentVariableWithName:(NSString*)variableName andValue:(NSString*)variableValue;
+
++(void)UpdateLinkFormat:(STMSWord2011LinkFormat*)linkFormat;
++(void)insertImageAtPath:(NSString*)filePath;
 
 @end

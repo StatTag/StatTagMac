@@ -141,4 +141,22 @@
 }
 
 
+-(void)testUpdatePair {
+  
+  NSString* old = @"old";
+  NSString* new = @"new";
+  
+  STUpdatePair<NSString*>* pair = [[STUpdatePair alloc] init];
+  pair.Old = old;
+  pair.New = new;
+
+  NSLog(@"old = %@", [pair Old]);
+  NSLog(@"new = %@", [pair New]);
+
+  pair = [[STUpdatePair alloc] init:@"old 2" newItem:@"new 2"];
+  NSLog(@"old = %@", [pair Old]);
+  NSLog(@"new = %@", [pair New]);
+  
+}
+
 @end
