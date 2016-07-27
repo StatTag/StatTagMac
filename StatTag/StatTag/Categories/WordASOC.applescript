@@ -45,19 +45,29 @@ script WordASOC
       
   end findText:atRangeStart:andRangeEnd:
   
-  on createDocumentVariableWithName:variableName andValue:variableValue
+  on createOrUpdateDocumentVariableWithName:variableName andValue:variableValue
     
     set variableName to variableName as text
     set variableValue to variableValue as text
 
+    set logMessage to "" as text
+
     tell application "Microsoft Word"
-      --tell active document
-        --make new variable with properties {name:"KMVar2", variable value:"Set by AppleScript"}
-        make new variable at active document with properties {name:variableName, variable value:variableValue}
-        --make new variable with properties {name:variableName, variable value:variableValue}
-      --end tell
+        set myVar to (get variable variableName of active document)
+        set myVarName to name of myVar
+        
+        if myVarName is equal to missing value then
+          make new variable at active document with properties {name:variableName, variable value:variableValue}
+          set logMessage to "APPLESCRIPT : creating variable : " & variableName
+        else
+          set (value of variable variableName) to variableValue
+          set logMessage to "APPLESCRIPT : found variable : " & variableName
+        end if
     end tell
-  end createDocumentVariableWithName:andValue:
+    
+    --log logMessage
+    
+  end createOrUpdateDocumentVariableWithName:andValue:
 
 
 end script

@@ -29,6 +29,6 @@
 //+(STMSWord2011TextRange*)setRangeStart:(int)start end:(int)end;
 +(void)setRange:(STMSWord2011TextRange**)range Start:(int)start end:(int)end;
 
-+(void)createDocumentVariableWithName:(NSString*)variableName andValue:(NSString*)variableValue;
++(void)createOrUpdateDocumentVariableWithName:(NSString*)variableName andValue:(NSString*)variableValue;
 
 @end

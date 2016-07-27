@@ -281,8 +281,8 @@
   }
   
   NSString* ConfigurationAttribute = @"StatTag Configuration";
-  [WordHelpers createDocumentVariableWithName:ConfigurationAttribute andValue:@"test value"];
-  NSLog(@"just created variable");
+  [WordHelpers createOrUpdateDocumentVariableWithName:ConfigurationAttribute andValue:@"test value"];
+  NSLog(@"CREATED variable");
 
   NSLog(@" ");
   NSLog(@"updated collection...");
@@ -292,15 +292,31 @@
   }
 
   STMSWord2011Variable* variable = [variables objectWithName:ConfigurationAttribute];
-  NSLog(@"Found FIXED variable name : '%@' with value : '%@'", [variable name], [variable variableValue]);
+  NSLog(@"FOUND variable name : '%@' with value : '%@'", [variable name], [variable variableValue]);
   [variables removeObject:variable]; //can we do this?
+  NSLog(@"deleted variable...");
 
   NSLog(@" ");
-  NSLog(@"deleted collection...");
+  NSLog(@"AFTER deleted collection...");
   NSLog(@"=====");
   for(STMSWord2011Variable* v in variables) {
     NSLog(@"UPDATED collection var name : '%@' with value : '%@'", [v name], [v variableValue]);
   }
+
+  NSLog(@" ");
+  NSLog(@"about to recreate existing variable");
+  [WordHelpers createOrUpdateDocumentVariableWithName:ConfigurationAttribute andValue:@"recreated test value"];
+  NSLog(@"just recreate variable");
+  NSLog(@"RECREATED variable name : '%@' with value : '%@'", [variable name], [variable variableValue]);
+
+  
+  NSLog(@" ");
+  NSLog(@"about to update existing variable");
+  [WordHelpers createOrUpdateDocumentVariableWithName:ConfigurationAttribute andValue:@"updated test value"];
+  NSLog(@"just updated variable");
+  NSLog(@"UPDATED variable name : '%@' with value : '%@'", [variable name], [variable variableValue]);
+
+  
   
 }
 

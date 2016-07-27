@@ -91,12 +91,12 @@ static WordHelpers* sharedInstance = nil;
 }
 
 
-+(void)createDocumentVariableWithName:(NSString*)variableName andValue:(NSString*)variableValue {
++(void)createOrUpdateDocumentVariableWithName:(NSString*)variableName andValue:(NSString*)variableValue {
   //message our sharedInstance so we load applescripts (once)
   [[self class] sharedInstance];
   WordASOC *asoc = [[NSClassFromString(@"WordASOC") alloc] init];
   if(variableName != nil) {
-    [asoc createDocumentVariableWithName:variableName andValue:variableValue];
+    [asoc createOrUpdateDocumentVariableWithName:variableName andValue:variableValue];
   }
 }
 

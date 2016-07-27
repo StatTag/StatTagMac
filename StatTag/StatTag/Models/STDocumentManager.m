@@ -78,7 +78,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
       if (hasCodeFiles)
       {
         NSLog(@"%@", [NSString stringWithFormat:@"Document variable does not exist.  Adding attribute value of %@", attribute]);
-        [WordHelpers createDocumentVariableWithName:ConfigurationAttribute andValue:attribute];
+        [WordHelpers createOrUpdateDocumentVariableWithName:ConfigurationAttribute andValue:attribute];
       }
       else
       {
