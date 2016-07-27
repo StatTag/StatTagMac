@@ -60,6 +60,52 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   return false;
 }
 
+/**
+ Save the referenced code files to the current Word document.
+ @param document: The Word document of interest
+*/
+-(void) SaveCodeFileListToDocument:(STMSWord2011Document*) document {
+  
+  NSLog(@"SaveCodeFileListToDocument - Started");
+  SBElementArray<STMSWord2011Variable*>* variables = [document variables];
+  STMSWord2011Variable* variable = [variables objectWithName:ConfigurationAttribute];
+
+  @try {
+    NSMutableArray<STCodeFile*>* files = [self GetCodeFileList:document];
+    BOOL hasCodeFiles = (files != nil && [files count] > 0);
+    NSString* attribute = [STCodeFile SerializeList:files error:nil];
+    if(![self DocumentVariableExists:variable]) {
+      if (hasCodeFiles)
+      {
+        NSLog(@"%@", [NSString stringWithFormat:@"Document variable does not exist.  Adding attribute value of %@", attribute]);
+        [WordHelpers createDocumentVariableWithName:ConfigurationAttribute andValue:attribute];
+      }
+      else
+      {
+        NSLog(@"There are no code files to add.");
+      }
+    } else {
+      if (hasCodeFiles)
+      {
+        NSLog(@"%@", [NSString stringWithFormat:@"Document variable already exists.  Updating attribute value to %@", attribute]);
+        variable.variableValue = attribute;
+      }
+      else {
+        NSLog(@"There are no code files - removing existing variable");
+        [variables removeObject:variable]; //can we do this?
+      }
+    }
+  }
+  @catch (NSException *exception) {
+    NSLog(@"%@", exception.reason);
+  }
+  @finally {
+    
+  }
+  NSLog(@"SaveCodeFileListToDocument - Finished");
+}
+
+
 
 /**
   Load the list of associated Code Files from a Word document.

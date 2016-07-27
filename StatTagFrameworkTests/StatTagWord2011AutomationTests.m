@@ -269,4 +269,74 @@
   
 }
 
+-(void)testDocumentVariablesWithASOC {
+
+  SBElementArray<STMSWord2011Variable*>* variables = [doc variables];
+
+  NSLog(@" ");
+  NSLog(@"original collection...");
+  NSLog(@"=====");
+  for(STMSWord2011Variable* v in variables) {
+    NSLog(@"collection var name : '%@' with value : '%@'", [v name], [v variableValue]);
+  }
+  
+  NSString* ConfigurationAttribute = @"StatTag Configuration";
+  [WordHelpers createDocumentVariableWithName:ConfigurationAttribute andValue:@"test value"];
+  NSLog(@"just created variable");
+
+  NSLog(@" ");
+  NSLog(@"updated collection...");
+  NSLog(@"=====");
+  for(STMSWord2011Variable* v in variables) {
+    NSLog(@"collection var name : '%@' with value : '%@'", [v name], [v variableValue]);
+  }
+
+  STMSWord2011Variable* variable = [variables objectWithName:ConfigurationAttribute];
+  NSLog(@"Found FIXED variable name : '%@' with value : '%@'", [variable name], [variable variableValue]);
+  [variables removeObject:variable]; //can we do this?
+
+  NSLog(@" ");
+  NSLog(@"deleted collection...");
+  NSLog(@"=====");
+  for(STMSWord2011Variable* v in variables) {
+    NSLog(@"UPDATED collection var name : '%@' with value : '%@'", [v name], [v variableValue]);
+  }
+  
+}
+
+-(void)testDocumentVariables {
+  NSString* ConfigurationAttribute = @"StatTag Configuration";
+  SBElementArray<STMSWord2011Variable*>* variables = [doc variables];
+  for(STMSWord2011Variable* v in variables) {
+    NSLog(@"collection var name : '%@' with value : '%@'", [v name], [v variableValue]);
+  }
+  
+  STMSWord2011Variable* variable = [variables objectWithName:ConfigurationAttribute];
+  NSLog(@"Found FIXED variable name : '%@' with value : '%@'", [variable name], [variable variableValue]);
+
+//  variable = nil;
+  
+  if(variable == nil || [variable name] == nil) {
+
+    NSLog(@"variable is nil - creating a new variable");
+    STMSWord2011Variable *var = [[[app classForScriptingClass:@"variable"] alloc] initWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:@"name", ConfigurationAttribute, @"value", @"test value", nil]];
+    [[doc variables] addObject:var];
+  } else {
+    NSLog(@"variable NOT nil - keep what we have");
+  }
+  
+  
+//  STMSWord2011Variable *var2 = [[doc variables] lastObject];
+  
+//  STMSWord2011Variable* var = [[STMSWord2011Variable alloc] initWithProperties:@{
+//                                                @"name" : @"test",
+//                                                @"variableValue" : @"value"}];
+
+//  NSLog(@"temp var name : '%@' with value : '%@'", [var2 name], [var2 variableValue]);
+  
+  //        [variables addObject:var];
+
+  
+}
+
 @end

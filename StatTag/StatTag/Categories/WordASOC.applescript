@@ -44,5 +44,20 @@ script WordASOC
       return foundIt
       
   end findText:atRangeStart:andRangeEnd:
+  
+  on createDocumentVariableWithName:variableName andValue:variableValue
+    
+    set variableName to variableName as text
+    set variableValue to variableValue as text
+
+    tell application "Microsoft Word"
+      --tell active document
+        --make new variable with properties {name:"KMVar2", variable value:"Set by AppleScript"}
+        make new variable at active document with properties {name:variableName, variable value:variableValue}
+        --make new variable with properties {name:variableName, variable value:variableValue}
+      --end tell
+    end tell
+  end createDocumentVariableWithName:andValue:
+
 
 end script

@@ -16,6 +16,7 @@
 @class STTag;
 @class STFieldTag;
 @class STMSWord2011SelectionObject;
+@class STMSWord2011Variable;
 
 @interface STDocumentManager : NSObject {
   NSMutableDictionary<NSString*, NSMutableArray<STCodeFile*>*>* DocumentCodeFiles;

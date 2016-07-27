@@ -23,4 +23,7 @@
 
 -(NSNumber*)findText:(NSString*)searchText atRangeStart:(NSNumber*)rangeStart andRangeEnd:(NSNumber*)rangeEnd;
 
+-(void)createDocumentVariableWithName:(NSString*)variableName andValue:(NSString*)variableValue;
+
+
 @end

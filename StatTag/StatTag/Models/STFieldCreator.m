@@ -6,6 +6,22 @@
 //  Copyright © 2016 StatTag. All rights reserved.
 //
 
+/*
+ 
+ NOTE: this is placeholder code.
+ 
+ The original c# could do things in Word that the Mac version simply can't
+ 
+ * Find is broken
+ * Ranges don't "self adjust" as other ranges are changed
+ * The "delete" method doesn't exist
+ 
+ That's just to start
+ 
+ The entire approach isn't particularly good. It desperatley needs to be refactored.
+
+ */
+ 
 #import "STFieldCreator.h"
 #import "StatTag.h"
 
@@ -37,11 +53,6 @@
 
 -(void)offsetAllRanges:(NSMutableArray<STMSWord2011TextRange*>*)ranges EndsBy:(int)removeEnd {
 
-//  NSLog(@"ORIGINAL ranges count : %d, offsetting by %d", [ranges count], removeEnd);
-//  for(STMSWord2011TextRange* f in ranges) {
-//    NSLog(@"ORIGINAL ranges -> ( %ld, %ld) content : %@", (long)[f startOfContent], (long)[f endOfContent], [f content]);
-//  }
-
   for (int index = 0; index < [ranges count] ; index++) {
     STMSWord2011TextRange* range = [ranges objectAtIndex:index];
     if(([range endOfContent] - removeEnd) > 0 && [range startOfContent] != [range endOfContent]) {
@@ -53,23 +64,6 @@
       //NSLog(@"OFFSETTING range -> ( %ld, %ld) content : %@", (long)[range startOfContent], (long)[range endOfContent], [range content]);
     }
   }
-  
-//  for(STMSWord2011TextRange* range __strong in ranges) {
-//    if([[range content] length] > 0) {
-//      NSLog(@"OFFSETTING range -> ( %ld, %ld) content : %@", (long)[range startOfContent], (long)[range endOfContent], [range content]);
-//      NSLog(@"trying to set end to %d", [range endOfContent] - removeEnd);
-//      [WordHelpers setRange:&range Start:[range startOfContent] end:([range endOfContent] - removeEnd)];
-//      //[WordHelpers setRangeStart:[range startOfContent] end:([range endOfContent] - removeEnd)];
-//      //[WordHelpers updateContent:@"testing" inRange:&range];
-//
-//      NSLog(@"OFFSETTING range -> ( %ld, %ld) content : %@", (long)[range startOfContent], (long)[range endOfContent], [range content]);
-//    }
-//  }
-  
-//  for(STMSWord2011TextRange* f in ranges) {
-//    NSLog(@"UPDATED ranges -> ( %ld, %ld) content : %@", (long)[f startOfContent], (long)[f endOfContent], [f content]);
-//  }
-
   
 }
 
@@ -96,7 +90,7 @@
 -(NSArray<STMSWord2011Field*>*)InsertField:(STMSWord2011TextRange*)range theString:(NSString*)theString fieldOpen:(NSString*)fieldOpen fieldClose:(NSString*)fieldClose
 {
   
-  NSLog(@"InsertField -> range -> start: %ld, end : %ld, content : %@", (long)[range startOfContent], (long)[range endOfContent], [range content]);
+  //NSLog(@"InsertField -> range -> start: %ld, end : %ld, content : %@", (long)[range startOfContent], (long)[range endOfContent], [range content]);
 
   
   

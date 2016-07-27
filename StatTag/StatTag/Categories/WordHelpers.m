@@ -91,6 +91,16 @@ static WordHelpers* sharedInstance = nil;
 }
 
 
++(void)createDocumentVariableWithName:(NSString*)variableName andValue:(NSString*)variableValue {
+  //message our sharedInstance so we load applescripts (once)
+  [[self class] sharedInstance];
+  WordASOC *asoc = [[NSClassFromString(@"WordASOC") alloc] init];
+  if(variableName != nil) {
+    [asoc createDocumentVariableWithName:variableName andValue:variableValue];
+  }
+}
+
+
 +(void)updateContent:(NSString*)text inRange:(STMSWord2011TextRange**)range {
   
   //  //- (STMSWord2011TextRange *) moveRangeBy:(STMSWord2011E129)by count:(NSInteger)count;  // Collapses the specified range to its start or end position and then moves the collapsed object by the specified number of units. This method returns the new range object or missing value if an error occurred.
