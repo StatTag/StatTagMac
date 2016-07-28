@@ -140,15 +140,21 @@ the DocumentManager instance that contains it.
 */
 -(STFieldTag*)DeserializeFieldTag:(STMSWord2011Field*) field {
   NSArray<STCodeFile*>* files = [_DocumentManager GetCodeFileList];
-  STMSWord2011TextRange* code = [field fieldCode];
-  STMSWord2011Field* nestedField = [code fields][1];
-  //FIXME: very, very unsure of this.. original c# used "Data" and we're using fieldText - which seems to be the closest approximation...
-  //  var fieldTag = FieldTag.Deserialize(nestedField.Data.ToString(CultureInfo.InvariantCulture),
-  //                                      files);
-  STFieldTag* fieldTag = [STFieldTag Deserialize:[nestedField fieldText] withFiles:files error:nil];
-  //  Marshal.ReleaseComObject(nestedField);
-  //  Marshal.ReleaseComObject(code);
-  return fieldTag;
+  
+  //FIXME: we should fix his to be a hard crash - debugging...
+  
+//  if([field fieldCode] != nil) {
+    STMSWord2011TextRange* code = [field fieldCode];
+    STMSWord2011Field* nestedField = [[code fields] firstObject];//[code fields][1];
+    //FIXME: very, very unsure of this.. original c# used "Data" and we're using fieldText - which seems to be the closest approximation...
+    //  var fieldTag = FieldTag.Deserialize(nestedField.Data.ToString(CultureInfo.InvariantCulture),
+    //                                      files);
+    STFieldTag* fieldTag = [STFieldTag Deserialize:[nestedField fieldText] withFiles:files error:nil];
+    //  Marshal.ReleaseComObject(nestedField);
+    //  Marshal.ReleaseComObject(code);
+    return fieldTag;
+//  }
+//  return nil;
 }
 
 
@@ -158,12 +164,20 @@ the DocumentManager instance that contains it.
  @param field: The Word field object to investigate
 */
 -(STFieldTag*)GetFieldTag:(STMSWord2011Field*) field {
-  STFieldTag* fieldTag = [self DeserializeFieldTag:field];
-  STTag* tag = [self FindTagByTag:fieldTag];
-  // The result of FindTag is going to be a document-level tag, not a
-  // cell specific one that exists as a field.  We need to re-set the cell index
-  // from the tag we found, to ensure it's available for later use.
-  return [[STFieldTag alloc] initWithTag:tag andFieldTag:fieldTag];
+  
+  //FIXME: added some checks we should remove here - hard crash is preferred for now
+  
+//  if(field != nil && [field fieldText] != nil && [[field fieldText] length] > 0) {
+    STFieldTag* fieldTag = [self DeserializeFieldTag:field];
+    STTag* tag = [self FindTagByTag:fieldTag];
+    // The result of FindTag is going to be a document-level tag, not a
+    // cell specific one that exists as a field.  We need to re-set the cell index
+    // from the tag we found, to ensure it's available for later use.
+    return [[STFieldTag alloc] initWithTag:tag andFieldTag:fieldTag];
+    
+//  }
+
+//  return nil;
 }
 
 -(STDuplicateTagResults*)FindAllDuplicateTags {

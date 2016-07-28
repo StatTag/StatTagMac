@@ -7,6 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+
+#import "STUpdatePair.h" //we have to pull this in for our generics to work
+
 @class STStatsManager;
 @class STTagManager;
 @class STCodeFile;
@@ -53,4 +56,7 @@
 
 -(void) InsertField:(id)tag;
 
+-(void)UpdateFields:(STUpdatePair<STTag*>*)tagUpdatePair matchOnPosition:(BOOL)matchOnPosition;
+-(void)UpdateFields:(STUpdatePair<STTag*>*)tagUpdatePair;
+-(void)UpdateFields;
 @end

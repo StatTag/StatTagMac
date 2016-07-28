@@ -232,7 +232,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   
   // Fields is a 1-based index
   NSLog(@"Preparing to process %d} fields", fieldsCount);
-  for (int index = fieldsCount; index >= 1; index--)
+  for (int index = fieldsCount - 1; index >= 0; index--)
   {
     STMSWord2011Field* field = fields[index];
     if (field == nil)
@@ -241,12 +241,14 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
       continue;
     }
     
+    
     if (![_TagManager IsStatTagField:field])
     {
       //Marshal.ReleaseComObject(field);
       continue;
     }
-    
+
+
     NSLog(@"Processing StatTag field");
     STFieldTag* fieldTag = [_TagManager GetFieldTag:field];
     if (fieldTag == nil)
@@ -289,6 +291,8 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
     //Marshal.ReleaseComObject(field);
   }
   
+  [WordHelpers toggleAllFieldCodes];
+  
   NSLog(@"RefreshTableTagFields - Finished, Returning %d", tableRefreshed);
   return tableRefreshed;
 
@@ -318,12 +322,16 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
       if (linkFormat != nil)
       {
         NSLog(@"linkFormat : autoUpdate : %hhd for path : %@", [linkFormat autoUpdate], [linkFormat sourceFullName]);
-        //[WordHelpers UpdateLinkFormat:linkFormat];
-        //FIXME: this method doesn't DO ANYTHING.
-        // see thread - http://stackoverflow.com/questions/38621644/word-applescript-update-link-format-working-with-inline-shapes
         
-        //linkFormat.Update(); //so this doesn't exist in any useful way
-        // the app specifies an enum, so we can't supply the object
+        if([WordHelpers imageExistsAtPath:[linkFormat sourceFullName]]) {
+          linkFormat.sourceFullName = [linkFormat sourceFullName];
+          linkFormat.sourceFullName = [linkFormat sourceFullName];
+          NSLog(@"updating shape[%d] with file path : '%@'", shapeIndex, [linkFormat sourceFullName]);
+        } else {
+          NSLog(@"UpdateInlineShapes tried to update a file and can't find image at requested path - '%@'", [linkFormat sourceFullName]);
+        }
+        // see thread - http://stackoverflow.com/questions/38621644/word-applescript-update-link-format-working-with-inline-shapes
+        //linkFormat.Update(); //so this doesn't exist in any useful way - so we have to "update" by setting the full source path - _twice_.  First time just breaks things. Second time - it sticks.
         //Marshal.ReleaseComObject(linkFormat);
       }
       
@@ -350,6 +358,113 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
  */
 //public void UpdateFields(UpdatePair<Tag> tagUpdatePair = null, bool matchOnPosition = false)
 -(void)UpdateFields:(STUpdatePair<STTag*>*)tagUpdatePair matchOnPosition:(BOOL)matchOnPosition {
+  
+  NSLog(@"UpdateFields - Started");
+  
+  STMSWord2011Application* application = [[[STGlobals sharedInstance] ThisAddIn] Application];
+
+  STMSWord2011Document* document = [application activeDocument];
+  
+  //FIXME: we need to do something different...
+  //Cursor.Current = Cursors.WaitCursor;
+  //application.ScreenUpdating = false;
+  
+  //[WordHelpers disableScreenUpdates];
+  
+  @try
+  {
+    BOOL tableDimensionChange = [self IsTableTagChangingDimensions:tagUpdatePair];
+    if (tableDimensionChange)
+    {
+      NSLog(@"Attempting to refresh table with tag name: %@", tagUpdatePair.New.Name);
+      if ([self RefreshTableTagFields:[tagUpdatePair New] document:document])
+      {
+        NSLog(@"Completed refreshing table - leaving UpdateFields");
+        return;
+      }
+    }
+    
+    //currently not working...
+    [self UpdateInlineShapes:document];
+    
+    SBElementArray<STMSWord2011Field*>* fields = [document fields];
+    int fieldsCount = [fields count];
+    // Fields is a 1-based index
+    NSLog(@"Preparing to process %d fields", fieldsCount);
+    
+    //FIXME: it's 1-based in Windows - but on the Mac? We should check...
+    for (int index = 0; index < fieldsCount; index++)
+    {
+      STMSWord2011Field* field = fields[index];
+      if (field == nil)
+      {
+        NSLog(@"Null field detected at index %d", index);
+        continue;
+      }
+      
+      if (![_TagManager IsStatTagField:field])
+      {
+        //Marshal.ReleaseComObject(field);
+        continue;
+      }
+      
+      NSLog(@"Processing StatTag field");
+      NSLog(@"RefreshTableTagFields -> found field : %@ and json : %@", [[field fieldCode] content], [field fieldText]);
+
+      
+      STFieldTag* tag = [_TagManager GetFieldTag:field];
+      if (tag == nil)
+      {
+        NSLog(@"The field tag is null or could not be found");
+        //Marshal.ReleaseComObject(field);
+        continue;
+      }
+      
+      // If we are asked to update an tag, we are only going to update that
+      // tag specifically.  Otherwise, we will process all tag fields.
+      if (tagUpdatePair != nil)
+      {
+        // Determine if this is a match, factoring in if we should be doing a more exact match on the tag.
+        if ((!matchOnPosition && ![tag isEqual: tagUpdatePair.Old])
+            || (matchOnPosition && ![tag EqualsWithPosition:tagUpdatePair.Old]))
+        {
+          //FIXME: note that the original conditions in the c# were slightly different...
+          /*
+           if ((!matchOnPosition && !tag.Equals(tagUpdatePair.Old))
+           || matchOnPosition && !tag.EqualsWithPosition(tagUpdatePair.Old))
+           */
+          continue;
+        }
+        
+        NSLog(@"Processing only a specific tag with label: %@", tagUpdatePair.New.Name);
+        tag = [[STFieldTag alloc] initWithTag:[tagUpdatePair New] andFieldTag:tag];
+        [_TagManager UpdateTagFieldData:field tag:tag];
+      }
+      
+      NSLog(@"Inserting field for tag: %@", tag.Name);
+      [field select];
+      [self InsertField:tag];
+      
+      //Marshal.ReleaseComObject(field);
+    }
+    //Marshal.ReleaseComObject(fields);
+  }
+  @catch (NSException *exception) {
+    NSLog(@"UpdateFields exception : %@", exception.reason);
+  }
+  @finally
+  {
+    //Marshal.ReleaseComObject(document);
+    
+    //Cursor.Current = Cursors.Default;
+    //application.ScreenUpdating = true;
+    //[WordHelpers enableScreenUpdates];
+  }
+  
+  [WordHelpers toggleAllFieldCodes];
+  
+  NSLog(@"UpdateFields - Finished");
+  
   
 }
 -(void)UpdateFields:(STUpdatePair<STTag*>*)tagUpdatePair {
@@ -502,6 +617,8 @@ Insert an StatTag field at the currently specified document range.
   STMSWord2011Field* dataField = [fields firstObject];
   //@property (copy) NSString *fieldText;  // Returns or sets data in an ADDIN field. The data is not visible in the field code or result. It is only accessible by returning the value of the data property. If the field isn't an ADDIN field, this property will cause an error.
   dataField.fieldText = [tag Serialize:nil];
+  
+  
   
   //var dataField = fields.First();
   //dataField.Data = tag.Serialize();

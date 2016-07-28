@@ -8,6 +8,7 @@ BROKEN:
 
 TO DO:
 ==================
+-1) In VBA - before calling out to refresh all fields - disable screen updating.  Screen updating toggle does NOT work for Word via AppleScript
 1) Fix date parsing - still odd issues with times w/o dates pulling incorrect timezone
 2) Change all inner members to _variable notation and fix property mappings
 3) Fix all error handlers - currently returning nils

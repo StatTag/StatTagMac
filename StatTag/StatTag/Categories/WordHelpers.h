@@ -33,6 +33,11 @@
 +(void)createOrUpdateDocumentVariableWithName:(NSString*)variableName andValue:(NSString*)variableValue;
 
 +(void)UpdateLinkFormat:(STMSWord2011LinkFormat*)linkFormat;
++(BOOL)imageExistsAtPath:(NSString*)filePath;
 +(void)insertImageAtPath:(NSString*)filePath;
++(void)UpdateAllImageLinks;
+//+(void)disableScreenUpdates;
+//+(void)enableScreenUpdates;
++(void)toggleAllFieldCodes;
 
 @end

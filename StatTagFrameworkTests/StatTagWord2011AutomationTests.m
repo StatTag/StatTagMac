@@ -249,6 +249,62 @@
 }
 
 
+-(void)testWordAPI_UpdateTagFieldsFromCodeFile {
+  //InsertFieldWithFieldTag
+  
+  //go read this about field codes
+  //https://groups.google.com/forum/#!msg/microsoft.public.mac.office.word/jzksDl1ebCw/YGddKCkIJdYJ
+  
+  STDocumentManager* manager = [[STDocumentManager alloc] init];
+  [manager AddCodeFile:@"/Users/ewhitley/Documents/work_other/NU/Word Plugin/_code/WindowsVersion/Word_Files_Working_Copies/simple-macro-test.do"];
+  
+  [manager GetTags];
+  
+  STStatsManager* stats = [[STStatsManager alloc] init:manager];
+  for(STCodeFile* cf in [manager GetCodeFileList]) {
+    STStatsManagerExecuteResult* result = [stats ExecuteStatPackage:cf filterMode:[STConstantsParserFilterMode IncludeAll]];
+  }
+
+  [manager UpdateFields];
+  
+}
+
+-(void)testWordAPI_InsertTagFieldsFromCodeFile {
+  
+  STDocumentManager* manager = [[STDocumentManager alloc] init];
+
+  [manager AddCodeFile:@"/Users/ewhitley/Documents/work_other/NU/Word Plugin/_code/WindowsVersion/Word_Files_Working_Copies/simple-macro-test.do"];
+  
+  [manager GetTags];
+  
+  for(STTag* tag in [manager GetTags]) {
+    NSLog(@"original codeFile tag -> name: %@, type: %@", [tag Name], [tag Type]);
+    NSLog(@"original codeFile tag -> formatted result: %@", [tag FormattedResult]);
+    [manager InsertField:tag];
+  }
+
+//  for(STMSWord2011Field* f in [doc fields]) {
+//    NSLog(@" ");
+//    NSLog(@"field : %@", [[f fieldCode] content]);
+//    NSLog(@"field text : %@", [f fieldText]);
+//  }
+  
+//  STStatsManager* stats = [[STStatsManager alloc] init:manager];
+//  for(STCodeFile* cf in [manager GetCodeFileList]) {
+//    STStatsManagerExecuteResult* result = [stats ExecuteStatPackage:cf filterMode:[STConstantsParserFilterMode IncludeAll]];
+//  }
+//  [manager UpdateFields];
+
+
+  for(STMSWord2011Field* field in [doc fields]) {
+    //[field toggleShowCodes];
+    field.showCodes = ![field showCodes];
+    field.showCodes = ![field showCodes];
+  }
+
+  
+}
+
 -(void)testWordAPI_InsertTagField {
   //InsertFieldWithFieldTag
   
@@ -267,7 +323,12 @@
   
   [manager InsertField:tag];
   
+  
+  
+  
 }
+
+
 
 -(void)testSaveCodeFileListToDocument {
   STDocumentManager* manager = [[STDocumentManager alloc] init];
@@ -380,7 +441,7 @@
   STDocumentManager* manager = [[STDocumentManager alloc] init];
   //[WordHelpers UpdateInlineShapes:doc];
   [manager UpdateInlineShapes:doc];
-  
+  //[WordHelpers UpdateAllImageLinks];
 }
 
 -(void)testInsertInlineShapeWithASOC {

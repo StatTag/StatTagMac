@@ -8,8 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-//FIXME: It's really unclear what we're going to use this to do
-
 @interface STUpdatePair<T> : NSObject {
   id _Old;
   id _New;

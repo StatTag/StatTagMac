@@ -28,6 +28,8 @@
 
 -(void)UpdateLinkFormat:(STMSWord2011LinkFormat*)linkFormat;
 -(void)insertImageAtPath:(NSString*)filePath;
-
+-(void)UpdateAllImageLinks;
+//-(void)disableScreenUpdates;
+//-(void)enableScreenUpdates;
 
 @end

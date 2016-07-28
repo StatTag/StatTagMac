@@ -133,6 +133,21 @@ script WordASOC
 --    log logMessage
   end UpdateLinkFormat
 
+  on UpdateAllImageLinks()
+    tell application "Microsoft Word"
+      repeat with aShape in (get inline shapes of active document)
+        if auto update of link format of aShape is false then
+          update link format of aShape
+        else
+          if source full name of link format of aShape is not missing value then
+            set source full name of link format of aShape to source full name of link format of aShape
+            set source full name of link format of aShape to source full name of link format of aShape
+          end if
+        end if
+      end repeat
+    end tell
+  end UpdateAllImageLinks
+
 
   on insertImageAtPath:filePath
     --https://discussions.apple.com/thread/3047908?tstart=0
@@ -150,5 +165,26 @@ script WordASOC
         make new inline picture at myRange with properties {file name:filePath, link to file: true, save with document:true}
     end tell
   end insertImageAtPath
+
+
+  --works in Excel
+  -- http://lists.apple.com/archives/applescript-users/2011/Apr/msg00129.html
+  --broken in Word
+  -- http://answers.microsoft.com/en-us/mac/forum/macoffice2011-macword/screen-updating-applescript/230edaf6-49fe-4b8c-981f-7697a335f11b
+--  on disableScreenUpdates()
+--    tell application "Microsoft Word"
+--      tell active document
+--        --set screen updating to false
+--      end tell
+--    end tell
+--  end disableScreenUpdates
+--
+--  on enableScreenUpdates()
+--    tell application "Microsoft Word"
+--      tell active document
+--        --set screen updating to true
+--      end tell
+--    end tell
+--  end enableScreenUpdates
 
 end script
