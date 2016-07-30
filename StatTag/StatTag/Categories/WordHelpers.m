@@ -225,4 +225,70 @@ static WordHelpers* sharedInstance = nil;
   
 }
 
+//http://stackoverflow.com/questions/37239287/cocoa-scripting-returning-the-cloned-objects-from-a-duplicate-command/37251569#37251569
+//http://stackoverflow.com/questions/1247013/how-to-extract-applescript-data-from-a-nsappleeventdescriptor-in-cocoa-and-parse
+//http://stackoverflow.com/questions/6804541/getting-applescript-return-value-in-obj-c
+
++(STMSWord2011Table*)createTableAtRange:(STMSWord2011TextRange*)range withRows:(int)rows andCols:(int)cols {
+  
+  [[self class] sharedInstance];
+  WordASOC *asoc = [[NSClassFromString(@"WordASOC") alloc] init];
+  BOOL created_table = [[asoc createTableAtRangeStart:[NSNumber numberWithInteger:[range startOfContent]] andRangeEnd:[NSNumber numberWithInteger:[range endOfContent]] withRows:[NSNumber numberWithInteger:rows] andCols:[NSNumber numberWithInteger:cols]] boolValue];
+
+  if(created_table) {
+    STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
+    STMSWord2011Document* doc = [app activeDocument];
+    STMSWord2011Table* table = [[doc tables] lastObject];
+    return table;
+  }
+
+  return nil;
+
+  /*
+   tried alternatives to doing this in AppleScript
+   
+   1) SB to call into "initWithProperties" and add to tables - didn'tw ork
+   2) random "be lazy" and try to message over the type to SB directly, hoping it would infer types - nope
+   3) tried to see if we could be really really lazy and just throw NSData at the object... nope.
+   
+   So - going to AppleScript it is...
+   
+   */
+
+  //nope
+  //  NSAppleEventDescriptor* result = [asoc createTableAtRange:range withRows:[NSNumber numberWithInteger:rows] andCols:[NSNumber numberWithInteger:cols]];
+  //  NSData *data = [result data];
+  //  STMSWord2011Table* myTable;
+  //  [data getBytes:&myTable length:[data length]];
+  //  NSLog(@"table class kind : %@", NSStringFromClass([table class]));
+  
+  
+  
+  //try as I might... adding objects... just can't get it to work.
+  // the object never seems to be added...
+  
+//  STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
+//  STMSWord2011Document* doc = [app activeDocument];
+//  
+//  STMSWord2011Table *table = [[[app classForScriptingClass:@"table"] alloc]
+//                              initWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
+//                                                  range, @"text object",
+//                                                  [NSNumber numberWithInteger:rows], @"number of rows",
+//                                                  [NSNumber numberWithInteger:cols], @"number of columns",
+//                                                  nil]];
+//  if(table) {
+//    [[doc tables] addObject:table];
+////    NSLog(@"test string something %d", [[[table rows] get] count]);
+////    NSLog(@"table has rows : %d, columns : %d", [[table rows] count], [[table columns] count]);
+//    //STMSWord2011Table *thisTable = [[[doc tables] lastObject] get];
+//    
+//    //return thisTable;
+//    return table;
+//  }
+//  
+//  return nil;
+  
+}
+
+
 @end

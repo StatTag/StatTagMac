@@ -177,14 +177,6 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
 }
 
 
-/**
- Insert a table tag into the current selection.
-
- @remark: This assumes that the tag is known to be a table result.</remarks>
-*/
--(void) InsertTable:(STMSWord2011SelectionObject*)selection tag:(STTag*) tag {
-  [NSException raise:@"InsertTable not implemented" format:@"InsertTable not implemented"];
-}
 
 /**
  Determine if an updated tag pair resulted in a table having different dimensions.  This purely
@@ -474,6 +466,204 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   [self UpdateFields:nil];
 }
 
+/**
+ Helper function to retrieve Cells from a Selection.  This guards against exceptions
+ and just returns null when thrown (indicating no Cells found).
+ */
+-(SBElementArray<STMSWord2011Cell*>*)GetCells:(STMSWord2011SelectionObject*)selection {
+  @try {
+    return [selection cells];
+  }
+  @catch (NSException *exception) {
+    NSLog(@"GetCells %@", exception.reason);
+  }
+  return nil;
+}
+
+/**
+  Utility method that assumes the cursor is in a single cell of an existing table.  It then finds the maximum number
+  of cells that it can fill in that fit within the dimensions of that table, and that use the available data for
+  the resulting table.
+ */
+-(SBElementArray<STMSWord2011Cell*>*)SelectExistingTableRange:(STMSWord2011Cell*)selectedCell table:(STMSWord2011Table*)table dimensions:(NSArray<NSNumber*>*)dimensions {
+
+  SBElementArray<STMSWord2011Column*>* columns = [table columns];
+  SBElementArray<STMSWord2011Row*>* rows = [table rows];
+
+  int endColumn = MIN([columns count], [selectedCell columnIndex] + [[dimensions objectAtIndex:[STConstantsDimensionIndex Columns]] integerValue] - 1);
+  int endRow = MIN([rows count], [selectedCell rowIndex] + [[dimensions objectAtIndex:[STConstantsDimensionIndex Rows]] integerValue] - 1);
+  
+  NSLog(@"Selecting in existing to row %d, column %d", endRow, endColumn);
+  NSLog(@"Selected table has %d rows and %d columns", [rows count], [columns count]);
+  NSLog(@"Table to insert has dimensions %d by %d", [dimensions[0] integerValue], [dimensions[1] integerValue]);
+
+  STMSWord2011Cell* endCell = [table getCellFromTableRow:endRow column:endColumn];
+  
+  STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
+  STMSWord2011Document* document = [app activeDocument];
+  
+  [[document createRangeStart:[[selectedCell textObject] startOfContent] end:[[endCell textObject] endOfContent]] select];
+  
+  SBElementArray<STMSWord2011Cell*>* cells = [self GetCells:[app selection]];
+  
+  return cells;
+}
+
+
+
+/**
+ Insert a table tag into the current selection.
+
+ @remark This assumes that the tag is known to be a table result.
+ */
+-(void)InsertTable:(STMSWord2011SelectionObject*)selection tag:(STTag*)tag {
+
+  NSLog(@"InsertTable - Started");
+  
+  if (tag == nil)
+  {
+    NSLog(@"Unable to insert the table because the tag is nil");
+    return;
+  }
+  
+  if (![tag HasTableData])
+  {
+    STMSWord2011TextRange* selectionRange = [selection textObject];
+    [self CreateTagField:selectionRange tagIdentifier:[tag Id] displayValue:[STConstantsPlaceholders EmptyField] tag:tag];
+    NSLog(@"Unable to insert the table because there are no cached results for the tag");
+    return;
+  }
+  
+  SBElementArray<STMSWord2011Cell*>* cells = [self GetCells:selection];
+  [tag UpdateFormattedTableData];
+
+  STTable* table = [[[tag CachedResult] firstObject] TableResult];
+  NSArray<NSNumber*>* dimensions = [tag GetTableDisplayDimensions];
+  
+  int cellsCount = cells == nil ? 0 : [cells count];  // Because of the issue we mention below, pull the cell count right away
+  
+  // Insert a new table if there is none selected.
+//  if (cellsCount == 0)
+//  {
+//    NSLog(@"No cells selected, creating a new table");
+// 
+//    CreateWordTableForTableResult(selection, table, tag.TableFormat);
+//    // The table will be the size we need.  Update these tracking variables with the cells and
+//    // total size so that we can begin inserting data.
+//    cells = GetCells(selection);
+//    cellsCount = table.FormattedCells.Length;
+//  }
+//  // Our heuristic is that a single cell selected with the selection being the same position most
+//  // likely means the user has their cursor in a table.  We are going to assume they want us to
+//  // fill in that table.
+//  else if (cellsCount == 1 && selection.Start == selection.End)
+//  {
+//    NSLog(@"Cursor is in a single table cell, selecting table");
+//    cells = SelectExistingTableRange(cells.OfType<Cell>().First(), selection.Tables[1], dimensions);
+//    cellsCount = cells.Count;
+//  }
+//  
+//  if (table.FormattedCells == nil || table.FormattedCells.Length == 0)
+//  {
+//    UIUtility.WarningMessageBox("There are no table results to insert.", Logger);
+//    return;
+//  }
+//  
+//  if (cells == nil)
+//  {
+//    NSLog(@"Unable to insert the table because the cells collection came back as nil.");
+//    return;
+//  }
+//  
+//  // Wait, why aren't I using a for (int index = 0...) loop instead of this foreach?
+//  // There is some weird issue with the Cells collection that was crashing when I used
+//  // a for loop and index.  After a few iterations it was chopping out a few of the
+//  // cells, which caused a crash.  No idea why, and moved to this approach in the interest
+//  // of time.  Long-term it'd be nice to figure out what was causing the crash.
+//  int index = 0;
+//  foreach (var cell in cells.OfType<Cell>())
+//  {
+//    if (index >= table.FormattedCells.Length)
+//    {
+//      NSLog(@"Index {0} is beyond result cell length of {1}", index, table.FormattedCells.Length);
+//      break;
+//    }
+//    
+//    var range = cell.Range;
+//    
+//    // Make a copy of the tag and set the cell index.  This will let us discriminate which cell an tag
+//    // value is related with, since we have multiple fields (and therefore multiple copies of the tag) in the
+//    // document.  Note that we are wiping out the cached value to just have the individual cell value present.
+//    var innerTag = new FieldTag(tag, index)
+//    {
+//      CachedResult =
+//      new List<CommandResult>() {new CommandResult() {ValueResult = table.FormattedCells[index]}}
+//    };
+//    CreateTagField(range,
+//                   string.Format("{0}{1}{2}", tag.Name, Constants.ReservedCharacters.TagTableCellDelimiter, index),
+//                   innerTag.FormattedResult, innerTag);
+//    index++;
+//    Marshal.ReleaseComObject(range);
+//  }
+//  
+//  WarnOnMismatchedCellCount(cellsCount, table.FormattedCells.Length);
+//  
+//  Marshal.ReleaseComObject(cells);
+//  
+//  // Once the table has been inserted, re-select it (inserting fields messes with the previous selection) and
+//  // insert a new line after it.  This gives us spacing after a table so inserting multiple tables doesn't have
+//  // them all glued together.
+//  selection.Tables[1].Select();
+//  var tableSelection = Globals.ThisAddIn.Application.Selection;
+//  InsertNewLineAndMoveDown(tableSelection);
+//  Marshal.ReleaseComObject(tableSelection);
+//  
+//  NSLog(@"InsertTable - Finished");
+}
+
+
+
+
+
+
+
+/**
+  Create a new table in the Word document at the current selection point.  This assumes we have a
+  statistical result containing a table that needs to be inserted.
+ */
+-(void)CreateWordTableForTableResult:(STMSWord2011SelectionObject*)selection table:(STTable*)table format:(STTableFormat*)format {
+ 
+  NSLog(@"CreateWordTableForTableResult - Started");
+
+  STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
+  STMSWord2011Document* doc = [app activeDocument];
+
+  @try {
+    int rowCount = (format.IncludeColumnNames) ? (table.RowSize + 1) : (table.RowSize);
+    int columnCount = (format.IncludeRowNames) ? (table.ColumnSize + 1) : (table.ColumnSize);
+
+    NSLog(@"Table dimensions r=%d, c=%d", rowCount, columnCount);
+
+    
+    STMSWord2011Table* wordTable = [WordHelpers createTableAtRange:[[app selection] textObject] withRows:rowCount andCols:columnCount];
+
+    [wordTable select];
+    STMSWord2011BorderOptions* borders = [wordTable borderOptions];
+    borders.insideLineStyle = STMSWord2011E167LineStyleSingle;
+    borders.outsideLineStyle = STMSWord2011E167LineStyleSingle;
+  }
+  @catch (NSException *exception) {
+    NSLog(@"%@", exception.reason);
+  }
+  @finally {
+  }
+  
+  NSLog(@"CreateWordTableForTableResult - Finished");
+
+}
+
+
+
 //MARK: Wrappers around TagManager calls
 
 -(NSDictionary<NSString*, NSArray<STTag*>*>*)FindAllUnlinkedTags {
@@ -487,6 +677,10 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
 -(STTag*)FindTag:(NSString*)tagID {
   return [[self TagManager] FindTagByID:tagID];
 }
+
+
+
+
 
 
 //MARK: add / update

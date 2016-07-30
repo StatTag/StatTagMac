@@ -9,11 +9,13 @@
 #import "STThisAddIn.h"
 #import "STMSWord2011.h"
 #import "STCocoaUtil.h"
+#import "STLogManager.h"
 
 @implementation STThisAddIn
 
 @synthesize AppBundleIdentifier = _AppBundleIdentifier;
 @synthesize Application = _Application;
+@synthesize LogManager = _LogManager;
 
 +(NSArray<NSString*>*) ProcessNames {
   return [NSArray arrayWithObjects:
@@ -36,6 +38,7 @@
     _AppBundleIdentifier = [[self class] determineInstalledAppBundleIdentifier];
     if([[self class] IsAppInstalled]){
       _Application = [SBApplication applicationWithBundleIdentifier:_AppBundleIdentifier];
+      _LogManager = [[STLogManager alloc] init];
     }
   }
   return self;

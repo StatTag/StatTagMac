@@ -187,4 +187,21 @@ script WordASOC
 --    end tell
 --  end enableScreenUpdates
 
+
+  on createTableAtRangeStart:theRangeStart andRangeEnd:theRangeEnd withRows:numRows andCols:numCols
+    set theRangeStart to theRangeStart as integer
+    set theRangeEnd to theRangeEnd as integer
+    set numRows to numRows as integer
+    set numCols to numCols as integer
+    tell application "Microsoft Word"
+      set theDoc to active document
+      set theRange to create range active document start theRangeStart end theRangeEnd
+      set theTable to make new table at theDoc with properties {text object: theRange, number of rows:numRows, number of columns:numCols}
+      return true --theTable
+    end tell
+    return false
+  end createTableAtRangeStart:andRangeEnd:withRows:andCols:
+
+
+
 end script

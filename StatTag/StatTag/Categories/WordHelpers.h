@@ -10,6 +10,7 @@
 @class STMSWord2011TextRange;
 @class STMSWord2011Document;
 @class STMSWord2011LinkFormat;
+@class STMSWord2011Table;
 
 @interface WordHelpers : NSObject
 
@@ -39,5 +40,7 @@
 //+(void)disableScreenUpdates;
 //+(void)enableScreenUpdates;
 +(void)toggleAllFieldCodes;
+
++(STMSWord2011Table*)createTableAtRange:(STMSWord2011TextRange*)range withRows:(int)rows andCols:(int)cols;
 
 @end

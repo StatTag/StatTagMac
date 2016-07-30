@@ -506,4 +506,32 @@
   
 }
 
+
+-(void)testInsertTable {
+  STMSWord2011TextRange* selection = [[app selection] textObject];
+  STMSWord2011Table* table = [WordHelpers createTableAtRange:selection withRows:4 andCols:3];
+  NSLog(@"table rows : %d, cols : %d", [[table rows] count], [[table columns] count]);
+}
+
+
+-(void)testLogManager {
+  STLogManager* log = [[[STGlobals sharedInstance] ThisAddIn] LogManager];
+
+//  STLogManager* log = [[STLogManager alloc] init];
+  log.Enabled = true;
+  log.LogFilePath = @"~/Desktop/test/test.log";
+  
+  [log WriteMessage:@"adding line for log file..."];
+  
+  NSException *e = [NSException
+                    exceptionWithName:@"StataException"
+                    reason:@"Something horrible happened (not really - this is a test)"
+                    userInfo:nil];
+  [log WriteException:e];
+  
+  
+
+  
+}
+
 @end

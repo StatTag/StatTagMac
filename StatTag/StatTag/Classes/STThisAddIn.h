@@ -9,13 +9,16 @@
 #import <Foundation/Foundation.h>
 @class STMSWord2011Application;
 @class STMSWord2011Document;
+@class STLogManager;
 
 @interface STThisAddIn : NSObject {
   STMSWord2011Application* _Application;
+  STLogManager* _LogManager;
   NSString* _AppBundleIdentifier;
 }
 
 @property NSString* AppBundleIdentifier;
+@property STLogManager* LogManager;
 @property STMSWord2011Application* Application;
 
 /**

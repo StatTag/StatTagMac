@@ -40,9 +40,11 @@ FOUNDATION_EXPORT const unsigned char StatTagVersionString[];
 #import <StatTag/STDocumentManager.h>
 #import <StatTag/STDuplicateTagResults.h>
 #import <StatTag/STFieldCreator.h>
+#import <StatTag/STProperties.h>
 #import <StatTag/STMSWord2011.h>
 #import <StatTag/STStatsManager.h>
 #import <StatTag/STTagManager.h>
+#import <StatTag/STLogManager.h>
 
 
 

@@ -31,5 +31,6 @@
 -(void)UpdateAllImageLinks;
 //-(void)disableScreenUpdates;
 //-(void)enableScreenUpdates;
+-(NSNumber*)createTableAtRangeStart:(NSNumber*)rangeStart andRangeEnd:(NSNumber*)rangeEnd withRows:(NSNumber*)rows andCols:(NSNumber*)cols;
 
 @end
