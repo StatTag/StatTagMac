@@ -203,5 +203,16 @@ script WordASOC
   end createTableAtRangeStart:andRangeEnd:withRows:andCols:
 
 
+  on insertParagraphAtRangeStart:theRangeStart andRangeEnd:theRangeEnd
+    set theRangeStart to theRangeStart as integer
+    set theRangeEnd to theRangeEnd as integer
+    tell application "Microsoft Word"
+      set theRange to create range active document start theRangeStart end theRangeEnd
+      insert paragraph at theRange
+      return true
+    end tell
+    return false
+  end insertParagraphAndNewLineAtRangeStart:andRangeEnd:
+  
 
 end script

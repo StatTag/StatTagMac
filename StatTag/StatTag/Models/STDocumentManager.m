@@ -17,6 +17,7 @@
 #import "STThisAddIn.h"
 #import "STCodeFile.h"
 #import "STFieldCreator.h"
+#import "STUIUtility.h"
 
 @implementation STDocumentManager
 
@@ -622,10 +623,18 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
 }
 
 
+/**
+ Helper method to insert a new line in the document at the current selection, and then move the cursor down.  This gives us a way to insert extra space after a table is inserted.
 
-
-
-
+ @param selection: The selection to insert the new line after.
+ */
+-(void)InsertNewLineAndMoveDown:(STMSWord2011SelectionObject*) selection
+{
+  [[selection textObject] collapseRangeDirection:STMSWord2011E132CollapseEnd];
+  STMSWord2011TextRange* range = [selection textObject];
+  [WordHelpers insertParagraphAtRange:range];
+  [[selection textObject] moveRangeBy:STMSWord2011E129ALineItem count:1];
+}
 
 /**
   Create a new table in the Word document at the current selection point.  This assumes we have a
@@ -663,23 +672,21 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
 }
 
 
-
-//MARK: Wrappers around TagManager calls
-
--(NSDictionary<NSString*, NSArray<STTag*>*>*)FindAllUnlinkedTags {
-  return [_TagManager FindAllUnlinkedTags];
+/**
+ Provide a warning to the user if the number of data cells available doesn't match
+ the number of table cells they selected in the document.
+*/
+-(void)WarnOnMismatchedCellCount:(int)selectedCellCount dataLength:(int)dataLength
+{
+  if (selectedCellCount > dataLength)
+  {
+    [STUIUtility WarningMessageBox:[NSString stringWithFormat:@"The number of cells you have selected (%d) is larger than the number of cells in your results (%d).\r\n\r\nOnly the first %d cells have been filled in with results.", selectedCellCount, dataLength, dataLength] logger:_Logger];
+  }
+  else if (selectedCellCount < dataLength)
+  {
+    [STUIUtility WarningMessageBox:[NSString stringWithFormat:@"The number of cells you have selected (%d) is smaller than the number of cells in your results (%d).\r\n\r\nOnly the first %d cells have been used.", selectedCellCount, dataLength, selectedCellCount] logger:_Logger];
+  }
 }
-
--(NSArray<STTag*>*)GetTags {
-  return [_TagManager GetTags];
-}
-
--(STTag*)FindTag:(NSString*)tagID {
-  return [[self TagManager] FindTagByID:tagID];
-}
-
-
-
 
 
 
@@ -698,7 +705,6 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
     [self InsertFieldWithFieldTag:[[STFieldTag alloc] initWithTag:tag]];
   }
 }
-
 
 /**
  Given an tag, insert the result into the document at the current cursor position.
@@ -767,9 +773,6 @@ Insert an StatTag field at the currently specified document range.
 -(void)CreateTagField:(STMSWord2011TextRange*)range tagIdentifier:(NSString*)tagIdentifier displayValue:(NSString*)displayValue tag:(STTag*)tag {
   NSLog(@"CreateTagField - Started");
 
-//  [app createNewFieldTextRange:range fieldType:type fieldText:text preserveFormatting:preserveFormatting];
-//  return [[range fields] lastObject];
-  
   //C# - XML - can't use it as we don't have support for InsertXML
   //  range.InsertXML(OpenXmlGenerator.GenerateField(tagIdentifier, displayValue, tag));
   
@@ -800,27 +803,68 @@ Insert an StatTag field at the currently specified document range.
                                          ];
   
 //  NSArray<STMSWord2011Field*>* fields = [_FieldManager InsertField:range theString:@"<MacroButton test test>"];
-
 //    NSArray<STMSWord2011Field*>* fields = [_FieldManager InsertField:range theString:@"< = 5 + < PAGE > >"];
-
-  
-//  NSLog(@"fields : %@", fields);
-//  
-//  NSLog(@"Inserted field with identifier %@ and display value %@", tagIdentifier, displayValue);
   
   STMSWord2011Field* dataField = [fields firstObject];
   //@property (copy) NSString *fieldText;  // Returns or sets data in an ADDIN field. The data is not visible in the field code or result. It is only accessible by returning the value of the data property. If the field isn't an ADDIN field, this property will cause an error.
   dataField.fieldText = [tag Serialize:nil];
   
-  
-  
-  //var dataField = fields.First();
-  //dataField.Data = tag.Serialize();
-  
   NSLog(@"CreateTagField - Finished");
 }
 
 
+
+
+
+
+//MARK: Wrappers around TagManager calls
+
+-(NSDictionary<NSString*, NSArray<STTag*>*>*)FindAllUnlinkedTags {
+  return [_TagManager FindAllUnlinkedTags];
+}
+
+-(NSArray<STTag*>*)GetTags {
+  return [_TagManager GetTags];
+}
+
+-(STTag*)FindTag:(NSString*)tagID {
+  return [[self TagManager] FindTagByID:tagID];
+}
+
+
+//MARK: Code File Manipulation
+
+
+/**
+	If code files become unlinked in the document, this method is used to resolve those tags/fields
+	already in the document that refer to the unlinked code file.  It applies a set of actions to ALL of
+	the tags in the document for a code file.
+ 
+	@remark: See <see cref="UpdateUnlinkedTagsByTag">UpdateUnlinkedTagsByTag</see>
+	if you want to perform actions on individual tags.
+ */
+-(void)UpdateUnlinkedTagsByCodeFile:(NSDictionary<NSString*, STCodeFileAction*>*)actions
+{
+  TagManager.ProcessStatTagFields(TagManager.UpdateUnlinkedTagsByCodeFile, actions);
+}
+
+/**
+	When reviewing all of the tags/fields in a document for those that have unlinked code files, duplicate
+	names, etc., this method is used to resolve the errors in those tags/fields.  It applies individual actions
+	to each tag in the document.
+ 
+	@remarks: Some of the actions may in fact affect multiple tags.  For example, re-linking the code file
+	to the document for a single tag has the effect of re-linking it for all related tags.
+ 
+	@remark: See <see cref="UpdateUnlinkedTagsByCodeFile">UpdateUnlinkedTagsByCodeFile</see>
+	if you want to process all tags in a code file with a single action.
+ */
+-(void)UpdateUnlinkedTagsByTag:(NSDictionary<NSString*, STCodeFileAction*>*)actions
+{
+  //[[self TagManager] ProcessStatTagFields:<#^(STMSWord2011Field *, STFieldTag *, id)aFunction#> configuration:<#(id)#>
+  [[self TagManager] ProcessStatTagFields:[[self TagManager] UpdateLinkedTagsByTag] configuration:actions];
+  //TagManager.ProcessStatTagFields(TagManager.UpdateUnlinkedTagsByTag, actions);
+}
 
 
 /**
@@ -855,11 +899,37 @@ Insert an StatTag field at the currently specified document range.
 }
 
 
+-(void) UpdateRenamedTags:(NSArray<STUpdatePair<STTag*>*>*) updates
+{
+  NSMutableArray<STCodeFile*>* affectedCodeFiles = [[NSMutableArray<STCodeFile*> alloc] init];
+  for (STUpdatePair* update in updates)
+  {
+    // We assume that updates never affect the code file - we don't give users a way to specify
+    // in the UI to change a code file - so we just take the old code file reference to use.
+    STCodeFile* codeFile = [[update Old] CodeFile];
+    
+    if(![affectedCodeFiles containsObject:[[update Old] CodeFile]])
+    {
+      [affectedCodeFiles addObject:[[update Old] CodeFile]];
+    }
+    [self UpdateFields:update matchOnPosition:true];
+    
+    // Add the tag to the code file - replacing the old one.  Note that we require the
+    // exact line match, so we don't accidentally replace the wrong duplicate named tag.
+    [codeFile AddTag:[update New] oldTag:[update Old] matchWithPosition:true];
+  }
+  
+  for (STCodeFile* codeFile in affectedCodeFiles)
+  {
+    [codeFile Save:nil];
+  }
+}
+
 
 /**
-  Helper accessor to get the list of code files associated with a document.  If the code file list
-  hasn't been established yet for the document, it will be created and returned.
-*/
+ Helper accessor to get the list of code files associated with a document.  If the code file list
+ hasn't been established yet for the document, it will be created and returned.
+ */
 -(NSMutableArray<STCodeFile*>*)GetCodeFileList {
   return [self GetCodeFileList:nil];
 }
@@ -873,7 +943,7 @@ Insert an StatTag field at the currently specified document range.
     NSLog(@"Attempted to access code files for a null document.  Returning empty collection.");
     return [[NSMutableArray<STCodeFile*> alloc] init];
   }
-
+  
   NSString* fullName = [document fullName];
   if([DocumentCodeFiles objectForKey:fullName] == nil) {
     [DocumentCodeFiles setValue:[[NSMutableArray<STCodeFile*> alloc] init] forKey:fullName];
@@ -884,7 +954,7 @@ Insert an StatTag field at the currently specified document range.
 
 /**
  Helper setter to update a document's list of associated code files.
-*/
+ */
 -(void)SetCodeFileList:(NSArray<STCodeFile*>*)files {
   [self SetCodeFileList:files document:nil];
 }
@@ -900,6 +970,7 @@ Insert an StatTag field at the currently specified document range.
   }
   [DocumentCodeFiles setValue:[[NSMutableArray<STCodeFile*> alloc] initWithArray: files ] forKey:[document fullName]];
 }
+
 
 
 @end

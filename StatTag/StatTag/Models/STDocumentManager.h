@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+#import "STBaseManager.h"
 #import "STUpdatePair.h" //we have to pull this in for our generics to work
 
 @class STStatsManager;
@@ -21,7 +22,7 @@
 @class STMSWord2011SelectionObject;
 @class STMSWord2011Variable;
 
-@interface STDocumentManager : NSObject {
+@interface STDocumentManager : STBaseManager {
   NSMutableDictionary<NSString*, NSMutableArray<STCodeFile*>*>* DocumentCodeFiles;
   STTagManager* _TagManager;
   STStatsManager* _StatsManager;
@@ -53,6 +54,8 @@
 
 -(void) InsertImage:(STTag*) tag;
 -(void) InsertTable:(STMSWord2011SelectionObject*)selection tag:(STTag*) tag;
+
+-(void)InsertNewLineAndMoveDown:(STMSWord2011SelectionObject*) selection;
 
 -(void) InsertField:(id)tag;
 

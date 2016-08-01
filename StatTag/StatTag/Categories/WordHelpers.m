@@ -296,4 +296,11 @@ static WordHelpers* sharedInstance = nil;
 //  return nil;
 //}
 
++(BOOL)insertParagraphAtRange:(STMSWord2011TextRange*)range {
+  [[self class] sharedInstance];
+  WordASOC *asoc = [[NSClassFromString(@"WordASOC") alloc] init];
+  BOOL inserted_paragraph = [[asoc insertParagraphAtRangeStart:[NSNumber numberWithInteger:[range startOfContent]] andRangeEnd:[NSNumber numberWithInteger:[range endOfContent]]] boolValue];
+  return inserted_paragraph;
+}
+
 @end

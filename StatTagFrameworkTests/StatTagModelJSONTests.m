@@ -360,7 +360,7 @@
   //NSLog(@"json : %@", json);
 
   //now from json back to objects -> array
-  NSArray* ar2 = [STTable DeserializeList:json error:nil];
+  NSArray<STTable*>* ar2 = [STTable DeserializeList:json error:nil];
   NSString* json2 = [STTable SerializeList:ar2 error:nil];
   XCTAssert([json isEqualToString:json2]);
 

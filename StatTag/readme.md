@@ -52,7 +52,7 @@ Interacting with Word and External Statistical Applications
 
 StatTag utilizes the [AppleScript Scripting Bridge](https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/ScriptingBridgeConcepts/Introduction/Introduction.html) and [AppleScript-Objective-C] (https://developer.apple.com/library/mac/releasenotes/ScriptingAutomation/RN-AppleScriptObjC/) (AppleScriptObjC aka ASOC) to message applications such as Microsoft Word and Stata. 
 
-Applications can define AppleScript-accessible interfaces that can expose application functionality like "create document," "get current text selection," or any other number of useful behaviors. These can be considered to be very much like application programming interfaces (APIs), but are typically much lighter-weight and intended more for automation scripts. In our case, we're using them to directly interact with content to help tie bits of distributed data together across applications - like updating a field code in Word with updated statistical results from Stata.
+Applications can define AppleScript-accessible interfaces that can expose application functionality like "create document," "get current text selection," or any other number of useful behaviors. These can be considered to be very much like application programming interfaces (APIs), but are typically much lighter-weight and intended more for automation scripts. In our case, we're using them to directly interact with content to help tie bits of distributed data together across applications - like updating a field code in Word with statistical results from Stata.
 
 We mentioned there are two similar, but different, complementary technologies - the Scripting Bridge and ASOC: 
 

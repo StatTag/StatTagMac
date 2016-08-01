@@ -7,7 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+@class STLogManager;
 
 @interface STUIUtility : NSObject
+
++(void)WarningMessageBox:(NSString*)text logger:(STLogManager*)logger;
 
 @end

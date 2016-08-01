@@ -105,6 +105,12 @@
 		3884513C1D19DCB3004C2B40 /* STValueParameterParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 3884513A1D19DCB3004C2B40 /* STValueParameterParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3884513D1D19DCB3004C2B40 /* STValueParameterParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3884513B1D19DCB3004C2B40 /* STValueParameterParser.m */; };
 		38A7CE911D4E2E4400B06AFF /* readme.md in Sources */ = {isa = PBXBuildFile; fileRef = 38A7CE901D4E2E4400B06AFF /* readme.md */; };
+		38A7CE941D4FDE2100B06AFF /* STBaseManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 38A7CE921D4FDE2100B06AFF /* STBaseManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		38A7CE951D4FDE2100B06AFF /* STBaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A7CE931D4FDE2100B06AFF /* STBaseManager.m */; };
+		38A7CE981D4FDFB600B06AFF /* STGridDataItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 38A7CE961D4FDFB600B06AFF /* STGridDataItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		38A7CE991D4FDFB600B06AFF /* STGridDataItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A7CE971D4FDFB600B06AFF /* STGridDataItem.m */; };
+		38A7CE9C1D4FE29400B06AFF /* STPropertiesManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 38A7CE9A1D4FE29400B06AFF /* STPropertiesManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		38A7CE9D1D4FE29400B06AFF /* STPropertiesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A7CE9B1D4FE29400B06AFF /* STPropertiesManager.m */; };
 		38B9D3311D4BF99B00C62C30 /* STUIUtility.h in Headers */ = {isa = PBXBuildFile; fileRef = 38B9D32F1D4BF99B00C62C30 /* STUIUtility.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38B9D3321D4BF99B00C62C30 /* STUIUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 38B9D3301D4BF99B00C62C30 /* STUIUtility.m */; };
 		38B9D3351D4BFA4200C62C30 /* STLogManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 38B9D3331D4BFA4200C62C30 /* STLogManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -276,6 +282,12 @@
 		3884513A1D19DCB3004C2B40 /* STValueParameterParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STValueParameterParser.h; sourceTree = "<group>"; };
 		3884513B1D19DCB3004C2B40 /* STValueParameterParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STValueParameterParser.m; sourceTree = "<group>"; };
 		38A7CE901D4E2E4400B06AFF /* readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = readme.md; sourceTree = "<group>"; };
+		38A7CE921D4FDE2100B06AFF /* STBaseManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STBaseManager.h; sourceTree = "<group>"; };
+		38A7CE931D4FDE2100B06AFF /* STBaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STBaseManager.m; sourceTree = "<group>"; };
+		38A7CE961D4FDFB600B06AFF /* STGridDataItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STGridDataItem.h; sourceTree = "<group>"; };
+		38A7CE971D4FDFB600B06AFF /* STGridDataItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STGridDataItem.m; sourceTree = "<group>"; };
+		38A7CE9A1D4FE29400B06AFF /* STPropertiesManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STPropertiesManager.h; sourceTree = "<group>"; };
+		38A7CE9B1D4FE29400B06AFF /* STPropertiesManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STPropertiesManager.m; sourceTree = "<group>"; };
 		38B9D32F1D4BF99B00C62C30 /* STUIUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STUIUtility.h; sourceTree = "<group>"; };
 		38B9D3301D4BF99B00C62C30 /* STUIUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STUIUtility.m; sourceTree = "<group>"; };
 		38B9D3331D4BFA4200C62C30 /* STLogManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STLogManager.h; path = ../../Core/Models/STLogManager.h; sourceTree = "<group>"; };
@@ -590,16 +602,22 @@
 		38788F911D300FC400299789 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				38A7CE921D4FDE2100B06AFF /* STBaseManager.h */,
+				38A7CE931D4FDE2100B06AFF /* STBaseManager.m */,
 				385FDD2A1D32F70100AE0FE2 /* STDocumentManager.h */,
 				385FDD2B1D32F70100AE0FE2 /* STDocumentManager.m */,
 				385FDD3F1D3424CA00AE0FE2 /* STDuplicateTagResults.h */,
 				385FDD411D35681400AE0FE2 /* STFieldCreator.h */,
 				385FDD421D35681400AE0FE2 /* STFieldCreator.m */,
+				38A7CE961D4FDFB600B06AFF /* STGridDataItem.h */,
+				38A7CE971D4FDFB600B06AFF /* STGridDataItem.m */,
 				38B9D3331D4BFA4200C62C30 /* STLogManager.h */,
 				38B9D3341D4BFA4200C62C30 /* STLogManager.m */,
 				385FDD2E1D33C88300AE0FE2 /* STMSWord2011.h */,
 				38B9D3371D4BFE0F00C62C30 /* STProperties.h */,
 				38B9D3381D4BFE0F00C62C30 /* STProperties.m */,
+				38A7CE9A1D4FE29400B06AFF /* STPropertiesManager.h */,
+				38A7CE9B1D4FE29400B06AFF /* STPropertiesManager.m */,
 				38788F921D30100F00299789 /* STStatsManager.h */,
 				38788F931D30100F00299789 /* STStatsManager.m */,
 				385FDD261D32F6DD00AE0FE2 /* STTagManager.h */,
@@ -758,8 +776,10 @@
 				380A67A01D106E090045B72B /* STCodeFileAction.h in Headers */,
 				382C28C01D199F9A00697D6F /* STStataBaseGenerator.h in Headers */,
 				382C28C41D19A00D00697D6F /* STTableGenerator.h in Headers */,
+				38A7CE981D4FDFB600B06AFF /* STGridDataItem.h in Headers */,
 				382C8D271D0F672F00FE6878 /* StatTag.h in Headers */,
 				382C28601D14539C00697D6F /* STIFileHandler.h in Headers */,
+				38A7CE9C1D4FE29400B06AFF /* STPropertiesManager.h in Headers */,
 				382C28621D1454D900697D6F /* STIResultCommandFormatter.h in Headers */,
 				382C28C71D19A23100697D6F /* STValueGenerator.h in Headers */,
 				382C28CC1D19ADA000697D6F /* STTagUtil.h in Headers */,
@@ -768,6 +788,7 @@
 				382C28B01D1992E900697D6F /* STUpdatePair.h in Headers */,
 				38EDF0271D2BFFD800ACD77B /* STStata.h in Headers */,
 				38C91F771D37FAFC0048A95E /* WordASOC.h in Headers */,
+				38A7CE941D4FDE2100B06AFF /* STBaseManager.h in Headers */,
 				38EDF02A1D2C002A00ACD77B /* STStataAutomation.h in Headers */,
 				382C28B81D199ACC00697D6F /* STBaseParameterGenerator.h in Headers */,
 				382C28641D14552100697D6F /* STIResultCommandList.h in Headers */,
@@ -894,6 +915,7 @@
 				380A67A51D106FBB0045B72B /* STCommandResult.m in Sources */,
 				382C285C1D133BCD00697D6F /* STValueFormat.m in Sources */,
 				380A679B1D1061110045B72B /* STTable.m in Sources */,
+				38A7CE951D4FDE2100B06AFF /* STBaseManager.m in Sources */,
 				382C28A51D18322900697D6F /* STJSONUtility.m in Sources */,
 				38EDF02B1D2C002A00ACD77B /* STStataAutomation.m in Sources */,
 				385FDD381D33D02800AE0FE2 /* STGlobals.m in Sources */,
@@ -912,6 +934,7 @@
 				38C9B2191D10A8CF003B571E /* STTag.m in Sources */,
 				38C9B2091D109F6B003B571E /* STBaseValueFormatter.m in Sources */,
 				38EDF0331D2C2E6900ACD77B /* STCocoaUtil.m in Sources */,
+				38A7CE991D4FDFB600B06AFF /* STGridDataItem.m in Sources */,
 				38A7CE911D4E2E4400B06AFF /* readme.md in Sources */,
 				382C28B51D1994DE00697D6F /* STBaseGenerator.m in Sources */,
 				382C28C11D199F9A00697D6F /* STStataBaseGenerator.m in Sources */,
@@ -927,6 +950,7 @@
 				385FDD341D33CEEE00AE0FE2 /* STThisAddIn.m in Sources */,
 				38C9B20F1D10A2B2003B571E /* STStataBaseValueFormatter.m in Sources */,
 				38B9D33A1D4BFE0F00C62C30 /* STProperties.m in Sources */,
+				38A7CE9D1D4FE29400B06AFF /* STPropertiesManager.m in Sources */,
 				3884513D1D19DCB3004C2B40 /* STValueParameterParser.m in Sources */,
 				382C28DA1D19DAD500697D6F /* STTableParameterParser.m in Sources */,
 				38C91F711D37B5470048A95E /* ASOC.applescript in Sources */,
@@ -1094,7 +1118,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = stattag.org.StatTag;
+				PRODUCT_BUNDLE_IDENTIFIER = org.stattag.StatTag;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -1119,7 +1143,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = stattag.org.StatTag;
+				PRODUCT_BUNDLE_IDENTIFIER = org.stattag.StatTag;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};

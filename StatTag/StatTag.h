@@ -37,15 +37,20 @@ FOUNDATION_EXPORT const unsigned char StatTagVersionString[];
 #import <StatTag/STThisAddIn.h>
 
 //--Models
+#import <StatTag/STBaseManager.h>
 #import <StatTag/STDocumentManager.h>
 #import <StatTag/STDuplicateTagResults.h>
 #import <StatTag/STFieldCreator.h>
+#import <StatTag/STGridDataItem.h>
 #import <StatTag/STProperties.h>
+#import <StatTag/STPropertiesManager.h>
 #import <StatTag/STMSWord2011.h>
 #import <StatTag/STStatsManager.h>
 #import <StatTag/STTagManager.h>
 #import <StatTag/STLogManager.h>
 
+
+#import <StatTag/STUIUtility.h>
 
 
 //======================================

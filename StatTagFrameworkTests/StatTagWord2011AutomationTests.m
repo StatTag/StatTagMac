@@ -546,4 +546,24 @@
   
 }
 
+-(void)testPreferences {
+  STPropertiesManager* manager = [[STPropertiesManager alloc] init];
+  
+//  manager.Properties.StataLocation = @"My Stata Location";
+//  manager.Properties.EnableLogging = NO;
+  
+//  [manager Save];
+  [manager Load];
+}
+
+-(void)testInsertingParagraph {
+  //-(void)InsertNewLineAndMoveDown:(STMSWord2011SelectionObject*) selection
+  STDocumentManager* manager = [[STDocumentManager alloc] init];
+  [manager InsertNewLineAndMoveDown:[app selection]];
+}
+
+-(void)testAlertPanel {
+  [STUIUtility WarningMessageBox:@"something went wrong" logger:nil];
+}
+
 @end
