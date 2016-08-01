@@ -534,4 +534,16 @@
   
 }
 
+
+-(void)testAppVersionInfo {
+  
+  
+  NSString* version = [STCocoaUtil bundleVersionInfo];
+  NSLog(@"version : %@", version);
+
+  NSString* bundleID = [[[STGlobals sharedInstance] ThisAddIn] AppBundleIdentifier];
+  NSLog(@"bundle info: %@", [STCocoaUtil getApplicationDetailsForBundleID:bundleID]);
+  
+}
+
 @end

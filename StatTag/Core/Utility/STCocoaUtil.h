@@ -13,7 +13,11 @@
 +(NSURL*)appURLForBundleId:(NSString*)bundleID;
 +(BOOL)appIsPresentForBundleID:(NSString*)bundleID;
 
++(NSString*)systemInformation;
 +(NSString*)macOSVersion;
 +(NSString*)machineModel;
+
++(NSString*)getApplicationDetailsForBundleID:(NSString*)app;
++(NSString*)bundleVersionInfo;
 
 @end

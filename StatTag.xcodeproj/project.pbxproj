@@ -104,7 +104,8 @@
 		387A0E461D25C9BA00F1FE9C /* StatTagGeneratorValueGeneratorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 387A0E451D25C9B900F1FE9C /* StatTagGeneratorValueGeneratorTests.m */; };
 		3884513C1D19DCB3004C2B40 /* STValueParameterParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 3884513A1D19DCB3004C2B40 /* STValueParameterParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3884513D1D19DCB3004C2B40 /* STValueParameterParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3884513B1D19DCB3004C2B40 /* STValueParameterParser.m */; };
-		38B9D3311D4BF99B00C62C30 /* STUIUtility.h in Headers */ = {isa = PBXBuildFile; fileRef = 38B9D32F1D4BF99B00C62C30 /* STUIUtility.h */; };
+		38A7CE911D4E2E4400B06AFF /* readme.md in Sources */ = {isa = PBXBuildFile; fileRef = 38A7CE901D4E2E4400B06AFF /* readme.md */; };
+		38B9D3311D4BF99B00C62C30 /* STUIUtility.h in Headers */ = {isa = PBXBuildFile; fileRef = 38B9D32F1D4BF99B00C62C30 /* STUIUtility.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38B9D3321D4BF99B00C62C30 /* STUIUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 38B9D3301D4BF99B00C62C30 /* STUIUtility.m */; };
 		38B9D3351D4BFA4200C62C30 /* STLogManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 38B9D3331D4BFA4200C62C30 /* STLogManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38B9D3361D4BFA4200C62C30 /* STLogManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 38B9D3341D4BFA4200C62C30 /* STLogManager.m */; };
@@ -143,7 +144,7 @@
 		38EDF02B1D2C002A00ACD77B /* STStataAutomation.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EDF0291D2C002A00ACD77B /* STStataAutomation.m */; };
 		38EDF02E1D2C005700ACD77B /* STStataCommands.h in Headers */ = {isa = PBXBuildFile; fileRef = 38EDF02C1D2C005700ACD77B /* STStataCommands.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38EDF02F1D2C005700ACD77B /* STStataCommands.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EDF02D1D2C005700ACD77B /* STStataCommands.m */; };
-		38EDF0321D2C2E6900ACD77B /* STCocoaUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 38EDF0301D2C2E6900ACD77B /* STCocoaUtil.h */; };
+		38EDF0321D2C2E6900ACD77B /* STCocoaUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 38EDF0301D2C2E6900ACD77B /* STCocoaUtil.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38EDF0331D2C2E6900ACD77B /* STCocoaUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EDF0311D2C2E6900ACD77B /* STCocoaUtil.m */; };
 		38EDF0351D2C2FC200ACD77B /* StatTagStataAutomationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EDF0341D2C2FC200ACD77B /* StatTagStataAutomationTests.m */; };
 /* End PBXBuildFile section */
@@ -274,6 +275,7 @@
 		387A0E451D25C9B900F1FE9C /* StatTagGeneratorValueGeneratorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagGeneratorValueGeneratorTests.m; sourceTree = "<group>"; };
 		3884513A1D19DCB3004C2B40 /* STValueParameterParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STValueParameterParser.h; sourceTree = "<group>"; };
 		3884513B1D19DCB3004C2B40 /* STValueParameterParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STValueParameterParser.m; sourceTree = "<group>"; };
+		38A7CE901D4E2E4400B06AFF /* readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = readme.md; sourceTree = "<group>"; };
 		38B9D32F1D4BF99B00C62C30 /* STUIUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STUIUtility.h; sourceTree = "<group>"; };
 		38B9D3301D4BF99B00C62C30 /* STUIUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STUIUtility.m; sourceTree = "<group>"; };
 		38B9D3331D4BFA4200C62C30 /* STLogManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STLogManager.h; path = ../../Core/Models/STLogManager.h; sourceTree = "<group>"; };
@@ -382,6 +384,7 @@
 				382C8D261D0F672F00FE6878 /* StatTag.h */,
 				382C8D281D0F672F00FE6878 /* Info.plist */,
 				382C286B1D16C52500697D6F /* todo.md */,
+				38A7CE901D4E2E4400B06AFF /* readme.md */,
 			);
 			path = StatTag;
 			sourceTree = "<group>";
@@ -909,6 +912,7 @@
 				38C9B2191D10A8CF003B571E /* STTag.m in Sources */,
 				38C9B2091D109F6B003B571E /* STBaseValueFormatter.m in Sources */,
 				38EDF0331D2C2E6900ACD77B /* STCocoaUtil.m in Sources */,
+				38A7CE911D4E2E4400B06AFF /* readme.md in Sources */,
 				382C28B51D1994DE00697D6F /* STBaseGenerator.m in Sources */,
 				382C28C11D199F9A00697D6F /* STStataBaseGenerator.m in Sources */,
 				382C28C51D19A00D00697D6F /* STTableGenerator.m in Sources */,

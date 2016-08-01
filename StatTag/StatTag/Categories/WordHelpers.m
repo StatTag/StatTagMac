@@ -291,4 +291,9 @@ static WordHelpers* sharedInstance = nil;
 }
 
 
+//+(NSString*)getWordVersionFromApp:(STMSWord2011BaseApplication*)app {
+//  //retur [app ]
+//  return nil;
+//}
+
 @end

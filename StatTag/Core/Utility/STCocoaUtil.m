@@ -12,6 +12,9 @@
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/sysctl.h>
+//#import <AppleScriptObjC/AppleScriptObjC.h>
+#import <AppKit/AppKit.h>
+#import <ScriptingBridge/ScriptingBridge.h>
 
 @implementation STCocoaUtil
 
@@ -80,10 +83,54 @@
   return osVersion;
 }
 
++(NSString*)systemInformation {
+  return [NSString stringWithFormat:@"System: %@, Device Profile: %@", [[self class] macOSVersion], [[self class] machineModel]];
+}
+
 //if we need further info, go look at these - _fantastic_ examples
 //http://stackoverflow.com/questions/1702870/how-to-collect-system-info-in-osx-using-objective-c
 //http://www.cocoawithlove.com/blog/2016/03/08/swift-wrapper-for-sysctl.html
 
+
++(NSString*)bundleVersionInfo {
+  //http://stackoverflow.com/questions/3015796/how-to-programmatically-display-version-build-number-of-target-in-ios-app
+  
+  NSBundle* bundle = [NSBundle bundleForClass:[self class]];
+  
+  NSString * bundleName = [bundle objectForInfoDictionaryKey:@"CFBundleName"];
+  NSString * appVersionString = [bundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+  NSString * appBuildString = [bundle objectForInfoDictionaryKey:@"CFBundleVersion"];
+  
+  NSString * versionBuildString = [NSString stringWithFormat:@"Version (%@): %@ (%@)", bundleName, appVersionString, appBuildString];
+  
+  return versionBuildString;
+  
+}
+
++(NSString*)getApplicationDetailsForBundleID:(NSString*)bundleID {
+  //http://stackoverflow.com/questions/26829104/how-to-retrieve-an-applications-version-string
+  
+    NSWorkspace *ws = [NSWorkspace sharedWorkspace];
+    NSArray *apps = [ws runningApplications];
+    for (NSRunningApplication *app in apps)
+    {
+      //[app displayIdentifier];
+      if([[app bundleIdentifier] isEqualToString:bundleID]) {      
+        pid_t pid = [app processIdentifier ];
+        NSBundle *bundle = [NSBundle bundleWithURL:[app bundleURL]];
+        NSDictionary *info = [bundle infoDictionary];
+        
+        NSString* name = info[@"CFBundleName"];
+        NSString* identifier = info[@"CFBundleIdentifier"];
+        NSString* version = info[@"CFBundleVersion"];
+        NSString* shortVersion = info[@"CFBundleShortVersionString"];
+        NSString* appInfo = [NSString stringWithFormat:@"PID: %ld, Name: %@, Identifier: %@, Version: %@ (%@)", (long)pid, name, identifier, version, shortVersion];
+        return appInfo;
+      }
+    }
+  
+  return nil;
+}
 
 
 @end
