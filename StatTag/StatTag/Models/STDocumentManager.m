@@ -19,6 +19,8 @@
 #import "STFieldCreator.h"
 #import "STUIUtility.h"
 
+
+
 @implementation STDocumentManager
 
 @synthesize TagManager = _TagManager;
@@ -37,6 +39,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   }
   return self;
 }
+
 
 
 /**
@@ -544,82 +547,141 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   int cellsCount = cells == nil ? 0 : [cells count];  // Because of the issue we mention below, pull the cell count right away
   
   // Insert a new table if there is none selected.
-//  if (cellsCount == 0)
-//  {
-//    NSLog(@"No cells selected, creating a new table");
-// 
-//    CreateWordTableForTableResult(selection, table, tag.TableFormat);
-//    // The table will be the size we need.  Update these tracking variables with the cells and
-//    // total size so that we can begin inserting data.
-//    cells = GetCells(selection);
-//    cellsCount = table.FormattedCells.Length;
-//  }
-//  // Our heuristic is that a single cell selected with the selection being the same position most
-//  // likely means the user has their cursor in a table.  We are going to assume they want us to
-//  // fill in that table.
-//  else if (cellsCount == 1 && selection.Start == selection.End)
-//  {
-//    NSLog(@"Cursor is in a single table cell, selecting table");
-//    cells = SelectExistingTableRange(cells.OfType<Cell>().First(), selection.Tables[1], dimensions);
-//    cellsCount = cells.Count;
-//  }
-//  
-//  if (table.FormattedCells == nil || table.FormattedCells.Length == 0)
-//  {
-//    UIUtility.WarningMessageBox("There are no table results to insert.", Logger);
-//    return;
-//  }
-//  
-//  if (cells == nil)
-//  {
-//    NSLog(@"Unable to insert the table because the cells collection came back as nil.");
-//    return;
-//  }
-//  
-//  // Wait, why aren't I using a for (int index = 0...) loop instead of this foreach?
-//  // There is some weird issue with the Cells collection that was crashing when I used
-//  // a for loop and index.  After a few iterations it was chopping out a few of the
-//  // cells, which caused a crash.  No idea why, and moved to this approach in the interest
-//  // of time.  Long-term it'd be nice to figure out what was causing the crash.
-//  int index = 0;
-//  foreach (var cell in cells.OfType<Cell>())
-//  {
-//    if (index >= table.FormattedCells.Length)
+  if (cellsCount == 0)
+  {
+    NSLog(@"No cells selected, creating a new table");
+ 
+    [self CreateWordTableForTableResult:selection table:table format:[tag TableFormat]];
+    // The table will be the size we need.  Update these tracking variables with the cells and
+    // total size so that we can begin inserting data.
+    cells = [self GetCells:selection];
+    cellsCount = [[table FormattedCells] count];
+  }
+  // Our heuristic is that a single cell selected with the selection being the same position most
+  // likely means the user has their cursor in a table.  We are going to assume they want us to
+  // fill in that table.
+  else if (cellsCount == 1 && [[selection textObject] startOfContent] == [[selection textObject] endOfContent])
+  {
+    NSLog(@"Cursor is in a single table cell, selecting table");
+    cells = [self SelectExistingTableRange:[cells firstObject] table:[[selection tables] firstObject] dimensions:dimensions];
+    //cells = SelectExistingTableRange(cells.OfType<Cell>().First(), selection.Tables[1], dimensions);
+    cellsCount = [cells count];
+  }
+  
+  if (table.FormattedCells == nil || [[table FormattedCells] count] == 0)
+  {
+    [STUIUtility WarningMessageBox:@"There are no table results to insert." logger:_Logger];
+    return;
+  }
+  
+  if (cells == nil)
+  {
+    NSLog(@"Unable to insert the table because the cells collection came back as nil.");
+    return;
+  }
+
+  /*
+   This is way more gnarly than the Windows version.
+   
+   In the Mac version, if we adjust ANY of the cell data inside of the cell list, the cell list is sort of... invalidated.  We modified the range info, etc. so the meaning of "the cell" is lost.  The reference to the object will be there, but the object loses the row/column position info as well as the key bit - the text range.
+   
+   So we have to do this differently... we have to build a reference to our origin table, then store and re-use the row/column (think: x,y) positions - then we can run through that (x,y) list and rebuild the cell (referencing the origin table)
+   
+   To do that, we're going to abuse NSPoint
+   
+   1) We have a cell collection
+   2) cells in the collection have positions within their parent table - we store those points (x,y) in an array (our point array)
+   3) cells (in the Mac version) do NOT have pointers to their parent table - BUT they do have a text range with a start/end position
+   4) we get our first cell in our cell list
+   5) we iterate through the list of the tables in the document
+   6) we take our “key” cell (1,1) and ask the table to return its (1,1) cell
+   7) since the cell is a copy in the Mac version, we can’t just do a pointer / equivalency check (not the same object) - BUT we can compare the text range start / end - “same cell”
+   8) once we have the “same” cell, we know it’s the same table
+   9) we store that table reference
+   10) then - we iterate through our point array and then say “get cell from table”
+   
+   */
+  
+  NSMutableArray<NSValue*>* cellPoints = [[NSMutableArray<NSValue*> alloc] init];
+  for (STMSWord2011Cell* cell in cells) {
+    NSPoint point;
+    point.x = [cell rowIndex];
+    point.y = [cell columnIndex];
+    [cellPoints addObject:[NSValue valueWithPoint:point]];
+    NSLog(@"cell (%d,%d)", [cell rowIndex], [cell columnIndex]);
+  }
+  
+  STMSWord2011Cell* findCell = [cells firstObject];
+  STMSWord2011Table* cellTable;
+  STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
+  STMSWord2011Document* doc = [app activeDocument];
+
+  for(STMSWord2011Table* aTable in [doc tables]) {
+    //- (STMSWord2011Cell *) getCellFromTableRow:(NSInteger)row column:(NSInteger)column;  // Returns a cell object that represents a cell in a table.
+    STMSWord2011Cell* tableCell = [aTable getCellFromTableRow:[findCell rowIndex] column:[findCell columnIndex]];
+    if([[findCell textObject] startOfContent] == [[tableCell textObject] startOfContent]
+       && [[findCell textObject] endOfContent] == [[tableCell textObject] endOfContent]) {
+      cellTable = aTable;
+      break;
+    }
+  }
+  
+  NSLog(@"cell Points : %@", cellPoints);
+//  NSLog(@"cell table : %@", [[cells firstObject] ]);
+  //- (STMSWord2011Cell *) getCellFromTableRow:(NSInteger)row column:(NSInteger)column;  // Returns a cell object that represents a cell in a table.
+
+
+  // Wait, why aren't I using a for (int index = 0...) loop instead of this foreach?
+  // There is some weird issue with the Cells collection that was crashing when I used
+  // a for loop and index.  After a few iterations it was chopping out a few of the
+  // cells, which caused a crash.  No idea why, and moved to this approach in the interest
+  // of time.  Long-term it'd be nice to figure out what was causing the crash.
+  int index = 0;
+  //for (STMSWord2011Cell* cell in cells)
+  //for (int index = cellsCount - 1; index >= 0; index--)
+  for (NSValue* value in cellPoints)
+  {
+    
+    NSPoint cellPoint = [value pointValue];
+    STMSWord2011Cell* cell = [cellTable getCellFromTableRow:cellPoint.x column:cellPoint.y];
+    //STMSWord2011Cell* cell = [cells objectAtIndex:index];
+    
+//    if (index >= [[table FormattedCells] count])
 //    {
-//      NSLog(@"Index {0} is beyond result cell length of {1}", index, table.FormattedCells.Length);
+//      NSLog(@"Index %d is beyond result cell length of %d", index, [[table FormattedCells] count]);
 //      break;
 //    }
-//    
-//    var range = cell.Range;
-//    
-//    // Make a copy of the tag and set the cell index.  This will let us discriminate which cell an tag
-//    // value is related with, since we have multiple fields (and therefore multiple copies of the tag) in the
-//    // document.  Note that we are wiping out the cached value to just have the individual cell value present.
-//    var innerTag = new FieldTag(tag, index)
-//    {
-//      CachedResult =
-//      new List<CommandResult>() {new CommandResult() {ValueResult = table.FormattedCells[index]}}
-//    };
-//    CreateTagField(range,
-//                   string.Format("{0}{1}{2}", tag.Name, Constants.ReservedCharacters.TagTableCellDelimiter, index),
-//                   innerTag.FormattedResult, innerTag);
-//    index++;
-//    Marshal.ReleaseComObject(range);
-//  }
-//  
-//  WarnOnMismatchedCellCount(cellsCount, table.FormattedCells.Length);
-//  
-//  Marshal.ReleaseComObject(cells);
-//  
-//  // Once the table has been inserted, re-select it (inserting fields messes with the previous selection) and
-//  // insert a new line after it.  This gives us spacing after a table so inserting multiple tables doesn't have
-//  // them all glued together.
-//  selection.Tables[1].Select();
-//  var tableSelection = Globals.ThisAddIn.Application.Selection;
-//  InsertNewLineAndMoveDown(tableSelection);
-//  Marshal.ReleaseComObject(tableSelection);
-//  
-//  NSLog(@"InsertTable - Finished");
+    
+    STMSWord2011TextRange* range = [cell textObject];
+    
+    // Make a copy of the tag and set the cell index.  This will let us discriminate which cell an tag
+    // value is related with, since we have multiple fields (and therefore multiple copies of the tag) in the
+    // document.  Note that we are wiping out the cached value to just have the individual cell value present.
+    STCommandResult* commandResult = [[STCommandResult alloc] init];
+    commandResult.ValueResult = [[table FormattedCells] objectAtIndex:index];
+    NSMutableArray<STCommandResult*>* cachedResult = [[NSMutableArray<STCommandResult*> alloc] init];
+    [cachedResult addObject:commandResult];
+    STFieldTag* innerTag = [[STFieldTag alloc] initWithTag:tag andTableCellIndex:[NSNumber numberWithInteger:index]];
+    innerTag.CachedResult = cachedResult;
+    
+    [self CreateTagField:range tagIdentifier:[NSString stringWithFormat:@"%@%@%d", [tag Name], [STConstantsReservedCharacters TagTableCellDelimiter], index] displayValue:[innerTag FormattedResult] tag:innerTag];
+    index++;
+    //Marshal.ReleaseComObject(range);
+  }
+  
+  [self WarnOnMismatchedCellCount:cellsCount dataLength:[[table FormattedCells] count] ];
+  
+  //Marshal.ReleaseComObject(cells);
+  
+  // Once the table has been inserted, re-select it (inserting fields messes with the previous selection) and
+  // insert a new line after it.  This gives us spacing after a table so inserting multiple tables doesn't have
+  // them all glued together.
+  [[[selection tables] firstObject] select];
+  STMSWord2011SelectionObject* tableSelection = [[[[STGlobals sharedInstance] ThisAddIn] Application] selection];
+  [self InsertNewLineAndMoveDown:tableSelection];
+  //Marshal.ReleaseComObject(tableSelection);
+  
+  NSLog(@"InsertTable - Finished");
 }
 
 
@@ -737,7 +799,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
 
     // If the tag is a table, and the cell index is not set, it means we are inserting the entire
     // table into the document.  Otherwise, we are able to just insert a single table cell.
-    if([tag IsTableTag] && [tag TableCellIndex] != nil) {
+    if([tag IsTableTag] && [tag TableCellIndex] == nil) {
       // if (tag.IsTableTag() && !tag.TableCellIndex.HasValue)
       NSLog(@"Inserting a new table tag");
       [self InsertTable:selection tag:tag];
@@ -813,8 +875,216 @@ Insert an StatTag field at the currently specified document range.
 }
 
 
+/**
+ Manage the process of editing an tag via a dialog, and processing any changes within the document.
+
+@remark: This does not call the statistical software to update values.  It assumes that the tag contains the most up-to-date cached value and that it may be used for display if needed.
+*/
+-(BOOL)EditTag:(STTag*)tag
+{
+  NSLog(@"EditTag - Started");
+  
+  @try
+  {
+    
+//    var dialog = new EditTag(false, this);
+//    
+//    IntPtr hwnd = Process.GetCurrentProcess().MainWindowHandle;
+//    Log(string.Format("Established main window handle of {0}", hwnd.ToString()));
+//    
+//    dialog.Tag = new Tag(tag);
+//    var wrapper = new WindowWrapper(hwnd);
+//    NSLog(@"WindowWrapper established as: %@", wrapper.ToString()));
+//    if (DialogResult.OK == dialog.ShowDialog(wrapper))
+//    {
+//      // If the value format has changed, refresh the values in the document with the
+//      // new formatting of the results.
+//      // TODO: Sometimes date/time format are null in one and blank strings in the other.  This is causing extra update cycles that aren't needed.
+//      if (dialog.Tag.ValueFormat != tag.ValueFormat)
+//      {
+//        Log("Updating fields after tag value format changed");
+//        if (dialog.Tag.TableFormat != tag.TableFormat)
+//        {
+//          Log("Updating formatted table data");
+//          dialog.Tag.UpdateFormattedTableData();
+//        }
+//        UpdateFields(new UpdatePair<Tag>(tag, dialog.Tag));
+//      }
+//      else if (dialog.Tag.TableFormat != tag.TableFormat)
+//      {
+//        Log("Updating fields after tag table format changed");
+//        dialog.Tag.UpdateFormattedTableData();
+//        UpdateFields(new UpdatePair<Tag>(tag, dialog.Tag));
+//      }
+//      
+//      SaveEditedTag(dialog, tag);
+//      Log("EditTag - Finished (action)");
+//      return true;
+//    }
+  }
+  @catch (NSException* exc)
+  {
+    NSLog(@"An exception was caught while trying to edit an tag");
+    [self LogException:exc];
+  }
+  
+  NSLog(@"EditTag - Finished (no action)");
+  return false;
+}
+
+/// <summary>
+/// After an tag has been edited in a dialog, handle all reference updates and saving
+/// that tag in its source file.
+/// </summary>
+/// <param name="dialog"></param>
+/// <param name="existingTag"></param>
+//public void SaveEditedTag(EditTag dialog, Tag existingTag = null)
+//{
+//  if (dialog.Tag != null && dialog.Tag.CodeFile != null)
+//  {
+//    // Update the code file with whatever was in the editor window.  While the code doesn't
+//    // always change, we will go ahead with the update each time instead of checking.  Note
+//    // that after this update is done, the indices for the tag objects passed in can
+//    // no longer be trusted until we update them.
+//    var codeFile = dialog.Tag.CodeFile;
+//    codeFile.UpdateContent(dialog.CodeText);
+//    
+//    // Now that the code file has been updated, we need to add the tag.  This may
+//    // be a new tag, or an updated one.
+//    codeFile.AddTag(dialog.Tag, existingTag);
+//    codeFile.Save();
+//  }
+//}
 
 
+/**
+  Save all changes to all code files referenced by the current document.
+*/
+-(void)SaveAllCodeFiles:(STMSWord2011Document*) document
+{
+  // Update the code files with their tags
+  for (STCodeFile* file in [self GetCodeFileList:document])
+  {
+    [file Save:nil];
+  }
+}
+
+-(void)EditTagField:(STMSWord2011Field*)field
+{
+  if ([_TagManager IsStatTagField:field])
+  {
+    STFieldTag* fieldTag = [_TagManager GetFieldTag:field];
+    STTag* tag = [_TagManager FindTag:fieldTag];
+    [self EditTag:tag];
+  }
+}
+
+
+/**
+ This is a specialized utility function to be called whenever the user clicks "Save and Insert" from the Edit Tag dialog.
+*/
+//-(void)CheckForInsertSavedTag:(STEditTag*)dialog
+//{
+//  // If the user clicked the "Save and Insert", we will perform the insertion now.
+//  if (dialog.InsertInDocument)
+//  {
+//    Logger.WriteMessage("Inserting into document after defining tag");
+//    
+//    var tag = FindTag(dialog.Tag.Id);
+//    if (tag == null)
+//    {
+//      Logger.WriteMessage(string.Format("Unable to find tag {0}, so skipping the insert", dialog.Tag.Id));
+//      return;
+//    }
+//    
+//    InsertTagsInDocument(new List<Tag>(new[] { tag }));
+//  }
+//}
+
+
+/**
+  Performs the insertion of tags into a document as fields.
+*/
+-(void)InsertTagsInDocument:(NSArray<STTag*>*)tags
+{
+//  Cursor.Current = Cursors.WaitCursor;
+//  Globals.ThisAddIn.Application.ScreenUpdating = false;
+  @try
+  {
+    NSMutableArray<STTag*>* updatedTags = [[NSMutableArray<STTag*> alloc] init];
+    NSMutableArray<STCodeFile*>* refreshedFiles = [[NSMutableArray<STCodeFile*> alloc] init];
+    for (STTag* tag in tags)
+    {
+      //if (!refreshedFiles.Contains(tag.CodeFile))
+      if(![refreshedFiles containsObject:[tag CodeFile]])
+      {
+        STStatsManagerExecuteResult* result = [_StatsManager ExecuteStatPackage:[tag CodeFile] filterMode:[STConstantsParserFilterMode TagList] tagsToRun:tags];
+        if (!result.Success)
+        {
+          break;
+        }
+        
+        [updatedTags addObjectsFromArray:[result UpdatedTags]];
+        [refreshedFiles addObject:[tag CodeFile]];
+      }
+      
+      [self InsertField:tag];
+    }
+    
+    // Now that all of the fields have been inserted, sweep through and update any existing
+    // tags that changed.  We do this after the fields are inserted to better manage
+    // the cursor position in the document.
+    // FIXME: really test this... it's really not clear if this is working.
+    NSArray<STTag*> *theTags = [updatedTags valueForKey:@"Name"];
+    NSOrderedSet<STTag*> *orderedSet = [NSOrderedSet<STTag*> orderedSetWithArray:theTags];
+    NSSet *uniqueTags = [orderedSet set];
+    updatedTags = [[NSMutableArray<STTag*> alloc] initWithArray:[uniqueTags allObjects]];
+    for (STTag* updatedTag in updatedTags)
+    {
+      [self UpdateFields:[[STUpdatePair alloc] init:updatedTag newItem:updatedTag]];
+    }
+  }
+  @catch (NSException* exc)
+  {
+    [STUIUtility ReportException:exc userMessage:@"There was an unexpected error when trying to insert the tag output into the Word sdocument." logger:_Logger];
+  }
+  @finally
+  {
+//    Globals.ThisAddIn.Application.ScreenUpdating = true;
+//    Cursor.Current = Cursors.Default;
+  }
+}
+
+
+/**
+ Conduct an assessment of the active document to see if there are any inserted tags that do not have an associated code file in the document.
+
+ @param document: The Word document to analyze.
+ @param onlyShowDialogIfResultsFound: If true, the results dialog will only display if there is something to report
+ */
+-(void)PerformDocumentCheck:(STMSWord2011Document*)document onlyShowDialogIfResultsFound:(BOOL)onlyShowDialogIfResultsFound
+{
+  NSDictionary<NSString*, NSArray<STTag*>*>* unlinkedResults = [_TagManager FindAllUnlinkedTags];
+  STDuplicateTagResults* duplicateResults = [_TagManager FindAllDuplicateTags];
+  if (onlyShowDialogIfResultsFound
+      && (unlinkedResults == nil || [unlinkedResults count] == 0)
+      && (duplicateResults == nil || [duplicateResults count] == 0))
+  {
+    return;
+  }
+  
+  [NSException raise:@"CheckDocument not implemented" format:@"CheckDocument not implemented"];
+//  var dialog = new CheckDocument(unlinkedResults, duplicateResults, GetCodeFileList(document));
+//  if (DialogResult.OK == dialog.ShowDialog())
+//  {
+//    UpdateUnlinkedTagsByTag(dialog.UnlinkedTagUpdates);
+//    UpdateRenamedTags(dialog.DuplicateTagUpdates);
+//  }
+}
+
+-(void)PerformDocumentCheck:(STMSWord2011Document*)document {
+  [self PerformDocumentCheck:document onlyShowDialogIfResultsFound:false];
+}
 
 
 //MARK: Wrappers around TagManager calls
@@ -845,7 +1115,8 @@ Insert an StatTag field at the currently specified document range.
  */
 -(void)UpdateUnlinkedTagsByCodeFile:(NSDictionary<NSString*, STCodeFileAction*>*)actions
 {
-  TagManager.ProcessStatTagFields(TagManager.UpdateUnlinkedTagsByCodeFile, actions);
+  [[self TagManager] ProcessStatTagFields:@"UpdateUnlinkedTagsByCodeFile" configuration:actions];
+  //TagManager.ProcessStatTagFields(TagManager.UpdateUnlinkedTagsByCodeFile, actions);
 }
 
 /**
@@ -862,7 +1133,7 @@ Insert an StatTag field at the currently specified document range.
 -(void)UpdateUnlinkedTagsByTag:(NSDictionary<NSString*, STCodeFileAction*>*)actions
 {
   //[[self TagManager] ProcessStatTagFields:<#^(STMSWord2011Field *, STFieldTag *, id)aFunction#> configuration:<#(id)#>
-  [[self TagManager] ProcessStatTagFields:[[self TagManager] UpdateLinkedTagsByTag] configuration:actions];
+  [[self TagManager] ProcessStatTagFields:@"UpdateUnLinkedTagsByTag" configuration:actions];
   //TagManager.ProcessStatTagFields(TagManager.UpdateUnlinkedTagsByTag, actions);
 }
 

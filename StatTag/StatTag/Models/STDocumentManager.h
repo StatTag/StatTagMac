@@ -14,6 +14,7 @@
 @class STStatsManager;
 @class STTagManager;
 @class STCodeFile;
+@class STCodeFileAction;
 @class STTag;
 @class STMSWord2011Document;
 @class STFieldCreator;
@@ -43,6 +44,32 @@
 -(void)SaveCodeFileListToDocument:(STMSWord2011Document*)document;
 -(void)LoadCodeFileListFromDocument:(STMSWord2011Document*)document;
 -(void)UpdateInlineShapes:(STMSWord2011Document*)document; // this should be private - only making public for testing
+
+
+/**
+	If code files become unlinked in the document, this method is used to resolve those tags/fields
+	already in the document that refer to the unlinked code file.  It applies a set of actions to ALL of
+	the tags in the document for a code file.
+ 
+	@remark: See <see cref="UpdateUnlinkedTagsByTag">UpdateUnlinkedTagsByTag</see>
+	if you want to perform actions on individual tags.
+ */
+-(void)UpdateUnlinkedTagsByCodeFile:(NSDictionary<NSString*, STCodeFileAction*>*)actions;
+
+/**
+	When reviewing all of the tags/fields in a document for those that have unlinked code files, duplicate
+	names, etc., this method is used to resolve the errors in those tags/fields.  It applies individual actions
+	to each tag in the document.
+ 
+	@remarks: Some of the actions may in fact affect multiple tags.  For example, re-linking the code file
+	to the document for a single tag has the effect of re-linking it for all related tags.
+ 
+	@remark: See <see cref="UpdateUnlinkedTagsByCodeFile">UpdateUnlinkedTagsByCodeFile</see>
+	if you want to process all tags in a code file with a single action.
+ */
+-(void)UpdateUnlinkedTagsByTag:(NSDictionary<NSString*, STCodeFileAction*>*)actions;
+
+
 
 -(void)AddCodeFile:(NSString*)fileName;
 -(void)AddCodeFile:(NSString*)fileName document:(STMSWord2011Document*)document;

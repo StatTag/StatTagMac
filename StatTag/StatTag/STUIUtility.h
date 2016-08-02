@@ -12,5 +12,6 @@
 @interface STUIUtility : NSObject
 
 +(void)WarningMessageBox:(NSString*)text logger:(STLogManager*)logger;
++(void)ReportException:(NSException*)exc userMessage:(NSString*)userMessage logger:(STLogManager*)logger;
 
 @end

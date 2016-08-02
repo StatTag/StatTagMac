@@ -18,6 +18,9 @@
 #import "STThisAddIn.h"
 #import "STCodeFileAction.h"
 
+
+#import <objc/message.h>
+
 /**
  
 The TagManager is responsible for finding, editing, and otherwise managing specific tags.
@@ -264,7 +267,8 @@ the DocumentManager instance that contains it.
  @param function: The function to apply to each relevant field
  @param configuration: A set of configuration information specific to the function
  */
--(void)ProcessStatTagFields:(void (^)(STMSWord2011Field*, STFieldTag*, id))aFunction configuration:(id)configuration {
+-(void)ProcessStatTagFields:(NSString*)aFunction configuration:(id)configuration {
+//-(void)ProcessStatTagFields:(void (^)(STMSWord2011Field*, STFieldTag*, id))aFunction configuration:(id)configuration {
   //public void ProcessStatTagFields(Action<Field, FieldTag, object> function, object configuration)
   NSLog(@"ProcessStatTagFields - Started");
  
@@ -295,7 +299,39 @@ the DocumentManager instance that contains it.
       continue;
     }
 
-    aFunction(field, tag, configuration);
+    //http://stackoverflow.com/questions/313400/nsinvocation-for-dummies
+    //http://www.enigmaticape.com/blog/objc-invoking-a-selector-with-multiple-parameters
+    //http://cocoasamurai.blogspot.com/2010/01/understanding-objective-c-runtime.html
+    
+    //option 1 - verbose
+//    NSMethodSignature* method = [self methodSignatureForSelector: aFunction];
+//    NSInvocation* invocation = [NSInvocation invocationWithMethodSignature: method];
+//    [invocation setSelector:aFunction];
+//    [invocation setTarget:self];
+//    [invocation setArgument: &field  atIndex: 2];
+//    [invocation setArgument: &tag  atIndex: 3];
+//    [invocation setArgument: &configuration  atIndex: 4];
+//    [invocation invoke];
+    //we have no return value
+
+    //option 2 - succinct, but we hae trouble with our arguments list
+//    IMP methodImpl = [STTagManager instanceMethodForSelector:aFunction];
+    SEL selector = NSSelectorFromString(aFunction);
+    IMP method = [self methodForSelector: selector];    
+    ((void (*) (id, SEL, STMSWord2011Field*, STFieldTag*, id))method)(self,selector,field,tag,configuration);
+//    id result = methodImpl( self,
+//                     aFunction,
+//                     field,
+//                     tag,
+//                     configuration );
+    
+    //can't do this since we have more than 2 parameters
+    //    [self performSelector:aFunction
+    //               withObject:@"Cake"
+    //               withObject:@"More Cake"
+    //               //waitUntilDone:YES
+    //     ];
+    //aFunction(field, tag, configuration);
     //Marshal.ReleaseComObject(field);
   }
   

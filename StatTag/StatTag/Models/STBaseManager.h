@@ -16,4 +16,7 @@
 
 @property (strong, nonatomic) STLogManager* Logger;
 
+-(void)Log:(NSString*)text;
+-(void)LogException:(NSException*) exc;
+
 @end

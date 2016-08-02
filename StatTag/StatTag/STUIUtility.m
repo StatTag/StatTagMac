@@ -50,4 +50,17 @@
 }
 
 
++(void)ReportException:(NSException*)exc userMessage:(NSString*)userMessage logger:(STLogManager*)logger
+{
+  if (logger != nil)
+  {
+    [logger WriteException:exc];
+  }
+  
+  NSLog(@"*** FIX ME *** Later on we should see an alert panel... when we have any sort of UI");
+  //MessageBox.Show(userMessage, GetAddInName(), MessageBoxButtons.OK, MessageBoxIcon.Error);
+}
+
+
+
 @end
