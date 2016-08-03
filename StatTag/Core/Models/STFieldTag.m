@@ -75,13 +75,16 @@
 -(instancetype)initWithTag:(STTag*)tag andFieldTag:(STFieldTag*)fieldTag{
   if(tag != nil) {
     self = [super initWithTag:tag];
+    NSLog(@"initWithTag: using STTag");
   } else {
     self = [super initWithTag:fieldTag];
+    NSLog(@"initWithTag: using STFieldTag");
   }
   if(self){
     _TableCellIndex = [fieldTag TableCellIndex];
     [self setCodeFilePath:[fieldTag CodeFilePath]]; //= [fieldTag CodeFilePath];
     [self SetCachedValue];
+    NSLog(@"initWithTag:andFieldTag: - FormattedResult : %@", [self FormattedResult]);
   }
   return self;
 }
@@ -140,6 +143,11 @@
 - (void)SetCachedValue {
   if([self IsTableTag] && _TableCellIndex != nil && _CachedResult != nil && [_CachedResult count] > 0 ) {
     STTable* table = [[_CachedResult lastObject] TableResult];
+    //FIXME - EWW: hack to deal with missing FormattedCells when we have data - we haven't yet called "UpdateFormattedTableData"
+    if([table FormattedCells] == nil && [table Data] != nil) {
+      //go get updated data if we have some
+      [self UpdateFormattedTableData];
+    }
     if (table != nil && [table FormattedCells] != nil)
     {
       _CachedResult = [[NSMutableArray<STCommandResult*> alloc] init];

@@ -52,7 +52,10 @@
 -(NSString*)ToString {
   //FIXME: the original code makes use of ToString in places, but it's not clear how the default implementation works (STTableFormat)
   //for now, it appears the original c# just returns class name as the default ToString
+  
+  //return @"Table";
   return NSStringFromClass([self class]);
+  
 }
 -(NSString*)description {
   return [self ToString];

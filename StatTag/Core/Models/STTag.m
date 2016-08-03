@@ -31,7 +31,7 @@
 
 @synthesize Id = _Id;
 - (NSString*) Id {
-  return [NSString stringWithFormat:@"%@--%@", (_Name == nil ? @"" : _Name), (_CodeFile == nil ? @"" : [_CodeFile FilePath])];
+  return [NSString stringWithFormat:@"%@--%@", (_Name == nil ? @"" : _Name), (_CodeFile == nil || [_CodeFile FilePath] == nil ? @"" : [_CodeFile FilePath])];
 }
 
 @synthesize FormattedResult = _FormattedResult;
@@ -53,7 +53,7 @@
   }
   
   // Table tags should never return the placeholder.  We assume that there could reasonably
-  // be empty cells at some point, so we will not correct those like we do for individual values.
+  // be empty cells at some point, so we will not correct those like we do for individual values.  
   return (![self IsTableTag ] && [[formattedValue stringByTrimmingCharactersInSet: ws] length] == 0) ?
   [STConstantsPlaceholders EmptyField] : formattedValue;
 }
@@ -78,9 +78,12 @@
     self.ValueFormat = [[tag ValueFormat] copy];
     self.FigureFormat = [[tag FigureFormat] copy];
     self.TableFormat = [[tag TableFormat] copy];
-    self.CachedResult = [[tag CachedResult] copy];
     self.LineStart = [[tag LineStart ] copy];
     self.LineEnd = [[tag LineEnd] copy];
+    self.CachedResult = [[tag CachedResult] copy];
+    NSLog(@"tag CachedResult = %@", [tag CachedResult]);
+    NSLog(@"self CachedResult = %@", [self CachedResult]);
+    NSLog(@"tag(self) FormattedResult : %@", [self FormattedResult]);
   }
   return self;
 }

@@ -566,4 +566,49 @@
   [STUIUtility WarningMessageBox:@"something went wrong" logger:nil];
 }
 
+-(void)testViewWordFieldJSON {
+  //STTagManager* _TagManager = [[STTagManager alloc] init];
+  
+  
+  STDocumentManager* manager = [[STDocumentManager alloc] init];
+  [manager AddCodeFile:@"/Users/ewhitley/Documents/work_other/NU/Word Plugin/_code/WindowsVersion/Word_Files_Working_Copies/simple-macro-test.do"];
+  
+  [manager GetTags];
+  
+  STStatsManager* stats = [[STStatsManager alloc] init:manager];
+  for(STCodeFile* cf in [manager GetCodeFileList]) {
+    STStatsManagerExecuteResult* result = [stats ExecuteStatPackage:cf filterMode:[STConstantsParserFilterMode IncludeAll]];
+  }
+
+  
+  //  [manager UpdateFields];
+
+  
+  SBElementArray<STMSWord2011Field*>* fields = [doc fields];
+  int fieldsCount = [fields count];
+  // Fields is a 1-based index
+  NSLog(@"Preparing to process %d fields", fieldsCount);
+  
+  int index = 0;
+  for(STMSWord2011Field* field in [doc fields]) {
+    NSLog(@"");
+    NSLog(@"field (%d)", index);
+    NSLog(@"==================");
+    NSLog(@"fieldText : %@", [field fieldText]);
+    
+    if ([[manager TagManager] IsStatTagField:field]) {
+      STFieldTag* fieldTag = [[manager TagManager] GetFieldTag:field];
+      NSLog(@"fieldTag FormattedResult : %@", [fieldTag FormattedResult]);
+    } else {
+      NSLog(@"not a StatTag field");
+    }
+    //NSLog(@"serialized : %@", [STFieldTag Serialize:tag]);
+    
+    index++;
+  }
+  
+
+  
+}
+
 @end

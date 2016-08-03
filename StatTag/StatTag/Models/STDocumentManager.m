@@ -358,7 +358,6 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   NSLog(@"UpdateFields - Started");
   
   STMSWord2011Application* application = [[[STGlobals sharedInstance] ThisAddIn] Application];
-
   STMSWord2011Document* document = [application activeDocument];
   
   //FIXME: we need to do something different...
@@ -409,6 +408,9 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
 
       
       STFieldTag* tag = [_TagManager GetFieldTag:field];
+      
+      NSLog(@"tag has FormattedResult : %@", [tag FormattedResult]);
+      
       if (tag == nil)
       {
         NSLog(@"The field tag is null or could not be found");
@@ -456,7 +458,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
     //application.ScreenUpdating = true;
     //[WordHelpers enableScreenUpdates];
   }
-  
+
   [WordHelpers toggleAllFieldCodes];
   
   NSLog(@"UpdateFields - Finished");
@@ -646,11 +648,11 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
     STMSWord2011Cell* cell = [cellTable getCellFromTableRow:cellPoint.x column:cellPoint.y];
     //STMSWord2011Cell* cell = [cells objectAtIndex:index];
     
-//    if (index >= [[table FormattedCells] count])
-//    {
-//      NSLog(@"Index %d is beyond result cell length of %d", index, [[table FormattedCells] count]);
-//      break;
-//    }
+    if (index >= [[table FormattedCells] count])
+    {
+      NSLog(@"Index %d is beyond result cell length of %d", index, [[table FormattedCells] count]);
+      break;
+    }
     
     STMSWord2011TextRange* range = [cell textObject];
     
@@ -834,7 +836,7 @@ Insert an StatTag field at the currently specified document range.
  */
 -(void)CreateTagField:(STMSWord2011TextRange*)range tagIdentifier:(NSString*)tagIdentifier displayValue:(NSString*)displayValue tag:(STTag*)tag {
   NSLog(@"CreateTagField - Started");
-
+  
   //C# - XML - can't use it as we don't have support for InsertXML
   //  range.InsertXML(OpenXmlGenerator.GenerateField(tagIdentifier, displayValue, tag));
   

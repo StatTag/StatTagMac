@@ -46,7 +46,9 @@
   return @"";
 }
 
-
+-(NSString*)description {
+  return [self ToString];
+}
 
 //MARK: JSON
 -(NSDictionary *)toDictionary {

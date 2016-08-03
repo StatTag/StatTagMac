@@ -77,15 +77,20 @@ the DocumentManager instance that contains it.
   @remark: In the original c#, the method name is "FindTag" (NOT FindTagByID). The dynamic nature of Obj-C makes using identical method names impossible.
 */
 -(STTag*)FindTagByID:(NSString*)tagID {
+  
+  NSLog(@"Executing FindTagByID:%@", tagID);
+  
   NSArray<STCodeFile*>* files = [_DocumentManager GetCodeFileList];
 
   if(files == nil) {
-    NSLog(@"Unable to find an tag because the Files collection is null");
+    NSLog(@"Unable to find a tag because the files collection is null");
     return nil;
+  } else {
+    NSLog(@"FindTagByID - found (%d) files", [files count]);
   }
   
   //return files.SelectMany(file => file.Tags).FirstOrDefault(tag => tag.Id.Equals(id));
-  //just easier to loop instead of using array predicate here - and since the size is small, performance shouldn't be a huge issue. Oh, to have functional map/reduce/filter...
+  //just easier to loop instead of using array predicate here - and since the size is small, performance shouldn't be a huge issue. We really need functional map/reduce/filter...
   for(STCodeFile* file in files) {
     for(STTag* tag in [file Tags]) {
       if([tagID isEqualToString:[tag Id]]) {
@@ -143,21 +148,21 @@ the DocumentManager instance that contains it.
 */
 -(STFieldTag*)DeserializeFieldTag:(STMSWord2011Field*) field {
   NSArray<STCodeFile*>* files = [_DocumentManager GetCodeFileList];
-  
+
   //FIXME: we should fix his to be a hard crash - debugging...
-  
-//  if([field fieldCode] != nil) {
-    STMSWord2011TextRange* code = [field fieldCode];
-    STMSWord2011Field* nestedField = [[code fields] firstObject];//[code fields][1];
-    //FIXME: very, very unsure of this.. original c# used "Data" and we're using fieldText - which seems to be the closest approximation...
-    //  var fieldTag = FieldTag.Deserialize(nestedField.Data.ToString(CultureInfo.InvariantCulture),
-    //                                      files);
-    STFieldTag* fieldTag = [STFieldTag Deserialize:[nestedField fieldText] withFiles:files error:nil];
-    //  Marshal.ReleaseComObject(nestedField);
-    //  Marshal.ReleaseComObject(code);
-    return fieldTag;
-//  }
-//  return nil;
+
+  //  if([field fieldCode] != nil) {
+  STMSWord2011TextRange* code = [field fieldCode];
+  STMSWord2011Field* nestedField = [[code fields] firstObject];//[code fields][1];
+  //FIXME: very, very unsure of this.. original c# used "Data" and we're using fieldText - which seems to be the closest approximation...
+  //  var fieldTag = FieldTag.Deserialize(nestedField.Data.ToString(CultureInfo.InvariantCulture),
+  //                                      files);
+  STFieldTag* fieldTag = [STFieldTag Deserialize:[nestedField fieldText] withFiles:files error:nil];
+  //  Marshal.ReleaseComObject(nestedField);
+  //  Marshal.ReleaseComObject(code);
+  return fieldTag;
+  //  }
+  //  return nil;
 }
 
 
@@ -173,6 +178,21 @@ the DocumentManager instance that contains it.
 //  if(field != nil && [field fieldText] != nil && [[field fieldText] length] > 0) {
     STFieldTag* fieldTag = [self DeserializeFieldTag:field];
     STTag* tag = [self FindTagByTag:fieldTag];
+  
+  NSLog(@"");
+  NSLog(@"GetFieldTag");
+  NSLog(@"================");
+  NSLog(@"fieldTag is nil : %d", fieldTag == nil);
+  NSLog(@"FormattedResult : %@", [fieldTag FormattedResult]);
+  NSLog(@"Type : %@", [fieldTag Type]);
+  NSLog(@"CachedResult : %@", [fieldTag CachedResult]);
+  
+  NSLog(@"tag is nil : %d", tag == nil);
+  NSLog(@"FormattedResult : %@", [tag FormattedResult]);
+  NSLog(@"Type : %@", [tag Type]);
+  NSLog(@"CachedResult : %@", [tag CachedResult]);
+  NSLog(@"--------------");
+  
     // The result of FindTag is going to be a document-level tag, not a
     // cell specific one that exists as a field.  We need to re-set the cell index
     // from the tag we found, to ensure it's available for later use.

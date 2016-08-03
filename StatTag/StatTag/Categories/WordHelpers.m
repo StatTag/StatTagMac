@@ -214,6 +214,9 @@ static WordHelpers* sharedInstance = nil;
 //  [asoc enableScreenUpdates];
 //}
 
+// Awful little hack... something with the way the InsertField method works returns fields
+// with special characters in the embedded fields.  A workaround is toggling the fields
+// to show and hide codes.
 +(void)toggleAllFieldCodes {
   STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
   STMSWord2011Document* doc = [app activeDocument];
