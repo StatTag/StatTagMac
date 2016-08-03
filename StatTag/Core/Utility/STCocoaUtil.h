@@ -17,6 +17,7 @@
 +(NSString*)macOSVersion;
 +(NSString*)machineModel;
 
++(NSString*)currentBundleIdentifier;
 +(NSString*)getApplicationDetailsForBundleID:(NSString*)app;
 +(NSString*)bundleVersionInfo;
 

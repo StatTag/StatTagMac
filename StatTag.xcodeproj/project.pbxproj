@@ -117,6 +117,19 @@
 		38B9D3361D4BFA4200C62C30 /* STLogManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 38B9D3341D4BFA4200C62C30 /* STLogManager.m */; };
 		38B9D3391D4BFE0F00C62C30 /* STProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 38B9D3371D4BFE0F00C62C30 /* STProperties.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38B9D33A1D4BFE0F00C62C30 /* STProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 38B9D3381D4BFE0F00C62C30 /* STProperties.m */; };
+		38BE59701D5286AA00FF9E99 /* OfficeMacVBAPublic.c in Sources */ = {isa = PBXBuildFile; fileRef = 38BE596E1D5286AA00FF9E99 /* OfficeMacVBAPublic.c */; };
+		38BE59711D5286AA00FF9E99 /* OfficeMacVBAPublic.h in Headers */ = {isa = PBXBuildFile; fileRef = 38BE596F1D5286AA00FF9E99 /* OfficeMacVBAPublic.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		38BE59771D5288C300FF9E99 /* STSettingsController.h in Headers */ = {isa = PBXBuildFile; fileRef = 38BE59741D5288C300FF9E99 /* STSettingsController.h */; };
+		38BE59781D5288C300FF9E99 /* STSettingsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38BE59751D5288C300FF9E99 /* STSettingsController.m */; };
+		38BE59791D5288C300FF9E99 /* STSettingsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38BE59761D5288C300FF9E99 /* STSettingsController.xib */; };
+		38BE59821D529A7E00FF9E99 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 38BE59811D529A7E00FF9E99 /* AppDelegate.m */; };
+		38BE59851D529A7E00FF9E99 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 38BE59841D529A7E00FF9E99 /* main.m */; };
+		38BE59871D529A7E00FF9E99 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 38BE59861D529A7E00FF9E99 /* Assets.xcassets */; };
+		38BE598A1D529A7E00FF9E99 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38BE59881D529A7E00FF9E99 /* MainMenu.xib */; };
+		38BE59951D529A7E00FF9E99 /* StatTagTestUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38BE59941D529A7E00FF9E99 /* StatTagTestUITests.m */; };
+		38BE59A01D529A7E00FF9E99 /* StatTagTestUIUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38BE599F1D529A7E00FF9E99 /* StatTagTestUIUITests.m */; };
+		38BE59AB1D529AA100FF9E99 /* StatTag.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 382C8D231D0F672F00FE6878 /* StatTag.framework */; };
+		38BE59AC1D52AA1000FF9E99 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38C91F4A1D37AC710048A95E /* Cocoa.framework */; };
 		38C91F361D366AD70048A95E /* NSMutableArray+Stack.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C91F341D366AD70048A95E /* NSMutableArray+Stack.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38C91F371D366AD70048A95E /* NSMutableArray+Stack.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C91F351D366AD70048A95E /* NSMutableArray+Stack.m */; };
 		38C91F3F1D36D1970048A95E /* WordHelpers.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C91F3D1D36D1970048A95E /* WordHelpers.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -162,6 +175,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = 382C8D221D0F672F00FE6878;
 			remoteInfo = StatTag;
+		};
+		38BE59911D529A7E00FF9E99 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 382C8D1A1D0F672F00FE6878 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 38BE597D1D529A7E00FF9E99;
+			remoteInfo = StatTagTestUI;
+		};
+		38BE599C1D529A7E00FF9E99 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 382C8D1A1D0F672F00FE6878 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 38BE597D1D529A7E00FF9E99;
+			remoteInfo = StatTagTestUI;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -294,6 +321,24 @@
 		38B9D3341D4BFA4200C62C30 /* STLogManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STLogManager.m; path = ../../Core/Models/STLogManager.m; sourceTree = "<group>"; };
 		38B9D3371D4BFE0F00C62C30 /* STProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STProperties.h; sourceTree = "<group>"; };
 		38B9D3381D4BFE0F00C62C30 /* STProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STProperties.m; sourceTree = "<group>"; };
+		38BE596E1D5286AA00FF9E99 /* OfficeMacVBAPublic.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = OfficeMacVBAPublic.c; sourceTree = "<group>"; };
+		38BE596F1D5286AA00FF9E99 /* OfficeMacVBAPublic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfficeMacVBAPublic.h; sourceTree = "<group>"; };
+		38BE59741D5288C300FF9E99 /* STSettingsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STSettingsController.h; sourceTree = "<group>"; };
+		38BE59751D5288C300FF9E99 /* STSettingsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STSettingsController.m; sourceTree = "<group>"; };
+		38BE59761D5288C300FF9E99 /* STSettingsController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = STSettingsController.xib; sourceTree = "<group>"; };
+		38BE597E1D529A7E00FF9E99 /* StatTagTestUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StatTagTestUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		38BE59801D529A7E00FF9E99 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		38BE59811D529A7E00FF9E99 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		38BE59841D529A7E00FF9E99 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		38BE59861D529A7E00FF9E99 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		38BE59891D529A7E00FF9E99 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		38BE598B1D529A7E00FF9E99 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		38BE59901D529A7E00FF9E99 /* StatTagTestUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StatTagTestUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		38BE59941D529A7E00FF9E99 /* StatTagTestUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StatTagTestUITests.m; sourceTree = "<group>"; };
+		38BE59961D529A7E00FF9E99 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		38BE599B1D529A7E00FF9E99 /* StatTagTestUIUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StatTagTestUIUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		38BE599F1D529A7E00FF9E99 /* StatTagTestUIUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StatTagTestUIUITests.m; sourceTree = "<group>"; };
+		38BE59A11D529A7E00FF9E99 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		38C91F341D366AD70048A95E /* NSMutableArray+Stack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+Stack.h"; sourceTree = "<group>"; };
 		38C91F351D366AD70048A95E /* NSMutableArray+Stack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+Stack.m"; sourceTree = "<group>"; };
 		38C91F381D36A9860048A95E /* SBObject+StatTagExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SBObject+StatTagExtensions.h"; sourceTree = "<group>"; };
@@ -340,6 +385,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				38BE59AC1D52AA1000FF9E99 /* Cocoa.framework in Frameworks */,
 				38C91F461D36FC8A0048A95E /* AppleScriptObjC.framework in Frameworks */,
 				382C28711D180CB900697D6F /* SystemConfiguration.framework in Frameworks */,
 			);
@@ -351,6 +397,28 @@
 			files = (
 				387A0E301D230DAF00F1FE9C /* OCMock.framework in Frameworks */,
 				382C8D461D101C2700FE6878 /* StatTag.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		38BE597B1D529A7E00FF9E99 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				38BE59AB1D529AA100FF9E99 /* StatTag.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		38BE598D1D529A7E00FF9E99 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		38BE59981D529A7E00FF9E99 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -373,6 +441,9 @@
 				382C28701D180CB900697D6F /* SystemConfiguration.framework */,
 				382C8D251D0F672F00FE6878 /* StatTag */,
 				382C8D421D101C2700FE6878 /* StatTagFrameworkTests */,
+				38BE597F1D529A7E00FF9E99 /* StatTagTestUI */,
+				38BE59931D529A7E00FF9E99 /* StatTagTestUITests */,
+				38BE599E1D529A7E00FF9E99 /* StatTagTestUIUITests */,
 				382C8D241D0F672F00FE6878 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -382,6 +453,9 @@
 			children = (
 				382C8D231D0F672F00FE6878 /* StatTag.framework */,
 				382C8D411D101C2700FE6878 /* StatTagFrameworkTests.xctest */,
+				38BE597E1D529A7E00FF9E99 /* StatTagTestUI.app */,
+				38BE59901D529A7E00FF9E99 /* StatTagTestUITests.xctest */,
+				38BE599B1D529A7E00FF9E99 /* StatTagTestUIUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -590,6 +664,7 @@
 		38788F901D300FA800299789 /* StatTag */ = {
 			isa = PBXGroup;
 			children = (
+				38BE596D1D52867200FF9E99 /* OfficeMacVBAPublic */,
 				38C91F2F1D366A4D0048A95E /* Categories */,
 				385FDD301D33CEB700AE0FE2 /* Classes */,
 				38788F911D300FC400299789 /* Models */,
@@ -651,8 +726,59 @@
 			children = (
 				38B9D32F1D4BF99B00C62C30 /* STUIUtility.h */,
 				38B9D3301D4BF99B00C62C30 /* STUIUtility.m */,
+				38BE59741D5288C300FF9E99 /* STSettingsController.h */,
+				38BE59751D5288C300FF9E99 /* STSettingsController.m */,
+				38BE59761D5288C300FF9E99 /* STSettingsController.xib */,
 			);
 			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		38BE596D1D52867200FF9E99 /* OfficeMacVBAPublic */ = {
+			isa = PBXGroup;
+			children = (
+				38BE596E1D5286AA00FF9E99 /* OfficeMacVBAPublic.c */,
+				38BE596F1D5286AA00FF9E99 /* OfficeMacVBAPublic.h */,
+			);
+			path = OfficeMacVBAPublic;
+			sourceTree = "<group>";
+		};
+		38BE597F1D529A7E00FF9E99 /* StatTagTestUI */ = {
+			isa = PBXGroup;
+			children = (
+				38BE59801D529A7E00FF9E99 /* AppDelegate.h */,
+				38BE59811D529A7E00FF9E99 /* AppDelegate.m */,
+				38BE59861D529A7E00FF9E99 /* Assets.xcassets */,
+				38BE59881D529A7E00FF9E99 /* MainMenu.xib */,
+				38BE598B1D529A7E00FF9E99 /* Info.plist */,
+				38BE59831D529A7E00FF9E99 /* Supporting Files */,
+			);
+			path = StatTagTestUI;
+			sourceTree = "<group>";
+		};
+		38BE59831D529A7E00FF9E99 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				38BE59841D529A7E00FF9E99 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		38BE59931D529A7E00FF9E99 /* StatTagTestUITests */ = {
+			isa = PBXGroup;
+			children = (
+				38BE59941D529A7E00FF9E99 /* StatTagTestUITests.m */,
+				38BE59961D529A7E00FF9E99 /* Info.plist */,
+			);
+			path = StatTagTestUITests;
+			sourceTree = "<group>";
+		};
+		38BE599E1D529A7E00FF9E99 /* StatTagTestUIUITests */ = {
+			isa = PBXGroup;
+			children = (
+				38BE599F1D529A7E00FF9E99 /* StatTagTestUIUITests.m */,
+				38BE59A11D529A7E00FF9E99 /* Info.plist */,
+			);
+			path = StatTagTestUIUITests;
 			sourceTree = "<group>";
 		};
 		38C91F2F1D366A4D0048A95E /* Categories */ = {
@@ -783,6 +909,7 @@
 				38EDF0321D2C2E6900ACD77B /* STCocoaUtil.h in Headers */,
 				380A67A01D106E090045B72B /* STCodeFileAction.h in Headers */,
 				382C28C01D199F9A00697D6F /* STStataBaseGenerator.h in Headers */,
+				38BE59711D5286AA00FF9E99 /* OfficeMacVBAPublic.h in Headers */,
 				382C28C41D19A00D00697D6F /* STTableGenerator.h in Headers */,
 				38A7CE981D4FDFB600B06AFF /* STGridDataItem.h in Headers */,
 				382C8D271D0F672F00FE6878 /* StatTag.h in Headers */,
@@ -817,6 +944,7 @@
 				385FDD2C1D32F70100AE0FE2 /* STDocumentManager.h in Headers */,
 				38788F941D30100F00299789 /* STStatsManager.h in Headers */,
 				38C91F361D366AD70048A95E /* NSMutableArray+Stack.h in Headers */,
+				38BE59771D5288C300FF9E99 /* STSettingsController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -860,6 +988,59 @@
 			productReference = 382C8D411D101C2700FE6878 /* StatTagFrameworkTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		38BE597D1D529A7E00FF9E99 /* StatTagTestUI */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 38BE59A21D529A7E00FF9E99 /* Build configuration list for PBXNativeTarget "StatTagTestUI" */;
+			buildPhases = (
+				38BE597A1D529A7E00FF9E99 /* Sources */,
+				38BE597B1D529A7E00FF9E99 /* Frameworks */,
+				38BE597C1D529A7E00FF9E99 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = StatTagTestUI;
+			productName = StatTagTestUI;
+			productReference = 38BE597E1D529A7E00FF9E99 /* StatTagTestUI.app */;
+			productType = "com.apple.product-type.application";
+		};
+		38BE598F1D529A7E00FF9E99 /* StatTagTestUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 38BE59A51D529A7E00FF9E99 /* Build configuration list for PBXNativeTarget "StatTagTestUITests" */;
+			buildPhases = (
+				38BE598C1D529A7E00FF9E99 /* Sources */,
+				38BE598D1D529A7E00FF9E99 /* Frameworks */,
+				38BE598E1D529A7E00FF9E99 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				38BE59921D529A7E00FF9E99 /* PBXTargetDependency */,
+			);
+			name = StatTagTestUITests;
+			productName = StatTagTestUITests;
+			productReference = 38BE59901D529A7E00FF9E99 /* StatTagTestUITests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		38BE599A1D529A7E00FF9E99 /* StatTagTestUIUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 38BE59A81D529A7E00FF9E99 /* Build configuration list for PBXNativeTarget "StatTagTestUIUITests" */;
+			buildPhases = (
+				38BE59971D529A7E00FF9E99 /* Sources */,
+				38BE59981D529A7E00FF9E99 /* Frameworks */,
+				38BE59991D529A7E00FF9E99 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				38BE599D1D529A7E00FF9E99 /* PBXTargetDependency */,
+			);
+			name = StatTagTestUIUITests;
+			productName = StatTagTestUIUITests;
+			productReference = 38BE599B1D529A7E00FF9E99 /* StatTagTestUIUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -875,6 +1056,17 @@
 					382C8D401D101C2700FE6878 = {
 						CreatedOnToolsVersion = 7.3.1;
 					};
+					38BE597D1D529A7E00FF9E99 = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
+					38BE598F1D529A7E00FF9E99 = {
+						CreatedOnToolsVersion = 7.3.1;
+						TestTargetID = 38BE597D1D529A7E00FF9E99;
+					};
+					38BE599A1D529A7E00FF9E99 = {
+						CreatedOnToolsVersion = 7.3.1;
+						TestTargetID = 38BE597D1D529A7E00FF9E99;
+					};
 				};
 			};
 			buildConfigurationList = 382C8D1D1D0F672F00FE6878 /* Build configuration list for PBXProject "StatTag" */;
@@ -883,6 +1075,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 382C8D191D0F672F00FE6878;
 			productRefGroup = 382C8D241D0F672F00FE6878 /* Products */;
@@ -891,6 +1084,9 @@
 			targets = (
 				382C8D221D0F672F00FE6878 /* StatTag */,
 				382C8D401D101C2700FE6878 /* StatTagFrameworkTests */,
+				38BE597D1D529A7E00FF9E99 /* StatTagTestUI */,
+				38BE598F1D529A7E00FF9E99 /* StatTagTestUITests */,
+				38BE599A1D529A7E00FF9E99 /* StatTagTestUIUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -900,6 +1096,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				38BE59791D5288C300FF9E99 /* STSettingsController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -909,6 +1106,29 @@
 			files = (
 				380A67971D102FFA0045B72B /* TestDestinationTextFile.txt in Resources */,
 				382C8D4D1D101CE000FE6878 /* TestSourceTextFile.txt in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		38BE597C1D529A7E00FF9E99 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				38BE59871D529A7E00FF9E99 /* Assets.xcassets in Resources */,
+				38BE598A1D529A7E00FF9E99 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		38BE598E1D529A7E00FF9E99 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		38BE59991D529A7E00FF9E99 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -926,6 +1146,7 @@
 				38A7CE951D4FDE2100B06AFF /* STBaseManager.m in Sources */,
 				382C28A51D18322900697D6F /* STJSONUtility.m in Sources */,
 				38EDF02B1D2C002A00ACD77B /* STStataAutomation.m in Sources */,
+				38BE59781D5288C300FF9E99 /* STSettingsController.m in Sources */,
 				385FDD381D33D02800AE0FE2 /* STGlobals.m in Sources */,
 				38B9D3361D4BFA4200C62C30 /* STLogManager.m in Sources */,
 				385FDD441D35681400AE0FE2 /* STFieldCreator.m in Sources */,
@@ -969,6 +1190,7 @@
 				382C8D3C1D0F9E1D00FE6878 /* STFileHandler.m in Sources */,
 				382C28D61D19D8E900697D6F /* STFigureParameterParser.m in Sources */,
 				382C28681D14880900697D6F /* STFactories.m in Sources */,
+				38BE59701D5286AA00FF9E99 /* OfficeMacVBAPublic.c in Sources */,
 				382C28B11D1992E900697D6F /* STUpdatePair.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1007,6 +1229,31 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		38BE597A1D529A7E00FF9E99 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				38BE59851D529A7E00FF9E99 /* main.m in Sources */,
+				38BE59821D529A7E00FF9E99 /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		38BE598C1D529A7E00FF9E99 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				38BE59951D529A7E00FF9E99 /* StatTagTestUITests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		38BE59971D529A7E00FF9E99 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				38BE59A01D529A7E00FF9E99 /* StatTagTestUIUITests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -1015,7 +1262,28 @@
 			target = 382C8D221D0F672F00FE6878 /* StatTag */;
 			targetProxy = 382C8D471D101C2700FE6878 /* PBXContainerItemProxy */;
 		};
+		38BE59921D529A7E00FF9E99 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 38BE597D1D529A7E00FF9E99 /* StatTagTestUI */;
+			targetProxy = 38BE59911D529A7E00FF9E99 /* PBXContainerItemProxy */;
+		};
+		38BE599D1D529A7E00FF9E99 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 38BE597D1D529A7E00FF9E99 /* StatTagTestUI */;
+			targetProxy = 38BE599C1D529A7E00FF9E99 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		38BE59881D529A7E00FF9E99 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				38BE59891D529A7E00FF9E99 /* Base */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		382C8D291D0F672F00FE6878 /* Debug */ = {
@@ -1193,6 +1461,82 @@
 			};
 			name = Release;
 		};
+		38BE59A31D529A7E00FF9E99 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = StatTagTestUI/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_BUNDLE_IDENTIFIER = org.stattag.StatTagTestUI;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		38BE59A41D529A7E00FF9E99 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = StatTagTestUI/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_BUNDLE_IDENTIFIER = org.stattag.StatTagTestUI;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		38BE59A61D529A7E00FF9E99 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = StatTagTestUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = org.stattag.StatTagTestUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/StatTagTestUI.app/Contents/MacOS/StatTagTestUI";
+			};
+			name = Debug;
+		};
+		38BE59A71D529A7E00FF9E99 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = StatTagTestUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = org.stattag.StatTagTestUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/StatTagTestUI.app/Contents/MacOS/StatTagTestUI";
+			};
+			name = Release;
+		};
+		38BE59A91D529A7E00FF9E99 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = StatTagTestUIUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = org.stattag.StatTagTestUIUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = StatTagTestUI;
+			};
+			name = Debug;
+		};
+		38BE59AA1D529A7E00FF9E99 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = StatTagTestUIUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = org.stattag.StatTagTestUIUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = StatTagTestUI;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1222,6 +1566,30 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		38BE59A21D529A7E00FF9E99 /* Build configuration list for PBXNativeTarget "StatTagTestUI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				38BE59A31D529A7E00FF9E99 /* Debug */,
+				38BE59A41D529A7E00FF9E99 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		38BE59A51D529A7E00FF9E99 /* Build configuration list for PBXNativeTarget "StatTagTestUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				38BE59A61D529A7E00FF9E99 /* Debug */,
+				38BE59A71D529A7E00FF9E99 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		38BE59A81D529A7E00FF9E99 /* Build configuration list for PBXNativeTarget "StatTagTestUIUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				38BE59A91D529A7E00FF9E99 /* Debug */,
+				38BE59AA1D529A7E00FF9E99 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};

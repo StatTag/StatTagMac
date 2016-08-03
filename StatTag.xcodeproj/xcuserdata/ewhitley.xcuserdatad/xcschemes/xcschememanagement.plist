@@ -14,6 +14,11 @@
 			<key>orderHint</key>
 			<integer>1</integer>
 		</dict>
+		<key>StatTagTestUI.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
@@ -23,6 +28,21 @@
 			<true/>
 		</dict>
 		<key>382C8D401D101C2700FE6878</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>38BE597D1D529A7E00FF9E99</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>38BE598F1D529A7E00FF9E99</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>38BE599A1D529A7E00FF9E99</key>
 		<dict>
 			<key>primary</key>
 			<true/>

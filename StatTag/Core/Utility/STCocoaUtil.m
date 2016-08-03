@@ -92,6 +92,12 @@
 //http://www.cocoawithlove.com/blog/2016/03/08/swift-wrapper-for-sysctl.html
 
 
++(NSString*)currentBundleIdentifier {
+  NSBundle* bundle = [NSBundle bundleForClass:[self class]];
+  NSString * bundleName = [bundle objectForInfoDictionaryKey:@"CFBundleName"];
+  return bundleName;
+}
+
 +(NSString*)bundleVersionInfo {
   //http://stackoverflow.com/questions/3015796/how-to-programmatically-display-version-build-number-of-target-in-ios-app
   
@@ -104,7 +110,6 @@
   NSString * versionBuildString = [NSString stringWithFormat:@"Version (%@): %@ (%@)", bundleName, appVersionString, appBuildString];
   
   return versionBuildString;
-  
 }
 
 +(NSString*)getApplicationDetailsForBundleID:(NSString*)bundleID {

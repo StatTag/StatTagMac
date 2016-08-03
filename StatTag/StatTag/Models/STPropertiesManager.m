@@ -8,6 +8,7 @@
 
 #import "STPropertiesManager.h"
 #import "STProperties.h"
+#import "STCocoaUtil.h"
 
 @implementation STPropertiesManager
 
@@ -32,7 +33,10 @@ NSString* const LogEnabledKey = @"Logging Enabled";
 */
 -(void)Save
 {
-  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+  //  //persistentDomainForName:[STCocoaUtil currentBundleIdentifier]
+
+//  NSDictionary* def = [[NSUserDefaults standardUserDefaults] persistentDomainForName:[STCocoaUtil currentBundleIdentifier]];
+  NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
   [defaults setValue:[_Properties StataLocation] forKey:StataLocationKey];
   [defaults setValue:[_Properties LogLocation] forKey:LogLocationKey];
   [defaults setBool:[_Properties EnableLogging] forKey:LogEnabledKey];
