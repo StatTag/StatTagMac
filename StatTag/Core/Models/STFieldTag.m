@@ -225,6 +225,7 @@
  */
 +(instancetype)Deserialize:(NSString*)json withFiles:(NSArray<STCodeFile*>*)files error:(NSError**)outError
 {
+  NSLog(@"STFieldTag -> Deserialize json : %@", json);
   NSError* error;
   STFieldTag* tag = (STFieldTag*)[super Deserialize:json error:&error];
   //tag.Name = [[self class] NormalizeName:[tag Name]]; //should be in the parent

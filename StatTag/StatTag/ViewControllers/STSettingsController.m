@@ -74,10 +74,22 @@ NSString* const defaultLogFileName = @"StatTag.log";
 //  return self;
 //}
 
+-(void)setDefaultPath {
+  NSFileManager* fileManager = [NSFileManager defaultManager];
+  //NSString* homeDirectory = NSHomeDirectory();
+  NSString* documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
+
+  [[self labelFilePath] setStringValue: [documentsDirectory stringByAppendingPathComponent:defaultLogFileName]];
+}
+
 -(void)setup {
   
   [[self checkboxLogging] setState: [[self Properties] EnableLogging] ? NSOnState : NSOffState];
-  self.labelFilePath.stringValue = [[self Properties] LogLocation];
+  if([[self Properties] LogLocation] != nil && [[[self Properties] LogLocation] length] > 0 && ![[[self Properties] LogLocation] isEqualToString:@"Log Path Not Set"] && [STLogManager IsValidLogPath: [[self Properties] LogLocation]]) {
+    [[self labelFilePath] setStringValue: [[self Properties] LogLocation]];
+  } else {
+    [self setDefaultPath];
+  }
   
   [self UpdateLoggingControls];
   
@@ -138,6 +150,10 @@ NSString* const defaultLogFileName = @"StatTag.log";
 - (IBAction)saveSettings:(id)sender {
   [[self Properties] setEnableLogging:[[self checkboxLogging] state ] == NSOnState ? YES : NO ];
   [[self Properties] setLogLocation:[labelFilePath stringValue]];
+  
+  NSLog(@"[[self Properties] EnableLogging] = %hhd", [[self Properties] EnableLogging]);
+  NSLog(@"[[self Properties] LogLocation] = %@", [[self Properties] LogLocation]);
+  NSLog(@"[STLogManager IsValidLogPath: [[self Properties] LogLocation]] = %hhd", [STLogManager IsValidLogPath: [[self Properties] LogLocation]]);
   
   if ([[self Properties] EnableLogging] && ![STLogManager IsValidLogPath: [[self Properties] LogLocation]])
   {

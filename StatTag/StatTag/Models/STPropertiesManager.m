@@ -33,14 +33,22 @@ NSString* const LogEnabledKey = @"Logging Enabled";
 */
 -(void)Save
 {
-  //  //persistentDomainForName:[STCocoaUtil currentBundleIdentifier]
 
-//  NSDictionary* def = [[NSUserDefaults standardUserDefaults] persistentDomainForName:[STCocoaUtil currentBundleIdentifier]];
-  NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
-  [defaults setValue:[_Properties StataLocation] forKey:StataLocationKey];
-  [defaults setValue:[_Properties LogLocation] forKey:LogLocationKey];
-  [defaults setBool:[_Properties EnableLogging] forKey:LogEnabledKey];
-  [defaults synchronize];
+  NSMutableDictionary* prefsDict = [[NSMutableDictionary alloc] init];
+  [prefsDict setValue:[_Properties StataLocation] forKey:StataLocationKey];
+  [prefsDict setValue:[_Properties LogLocation] forKey:LogLocationKey];
+  [prefsDict setObject:[NSNumber numberWithBool:[_Properties EnableLogging]] forKey:LogEnabledKey];
+
+  [[NSUserDefaults standardUserDefaults] setPersistentDomain:prefsDict forName:[STCocoaUtil currentBundleIdentifier]];
+  [[NSUserDefaults standardUserDefaults] synchronize];
+  
+// we can't use the app-based domain because it will be the host app and not the StatTag framework's domain
+//  NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+//  [defaults setValue:[_Properties StataLocation] forKey:StataLocationKey];
+//  [defaults setValue:[_Properties LogLocation] forKey:LogLocationKey];
+//  [defaults setBool:[_Properties EnableLogging] forKey:LogEnabledKey];
+//  [defaults synchronize];
+
 }
 
 /**
@@ -48,10 +56,17 @@ NSString* const LogEnabledKey = @"Logging Enabled";
 */
 -(void)Load
 {
-  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-  _Properties.StataLocation = [defaults valueForKey:StataLocationKey];
-  _Properties.LogLocation = [defaults valueForKey:LogLocationKey];
-  _Properties.EnableLogging = [defaults boolForKey:LogEnabledKey];
+  NSLog(@"[STCocoaUtil currentBundleIdentifier] : %@", [STCocoaUtil currentBundleIdentifier]);
+  NSDictionary* prefsDict = [[NSUserDefaults standardUserDefaults] persistentDomainForName:[STCocoaUtil currentBundleIdentifier]];
+  _Properties.StataLocation = [prefsDict valueForKey:StataLocationKey];
+  _Properties.LogLocation = [prefsDict valueForKey:LogLocationKey];
+  _Properties.EnableLogging = [[prefsDict objectForKey:LogEnabledKey] boolValue];
+
+// we can't use the app-based domain because it will be the host app and not the StatTag framework's domain
+//  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+//  _Properties.StataLocation = [defaults valueForKey:StataLocationKey];
+//  _Properties.LogLocation = [defaults valueForKey:LogLocationKey];
+//  _Properties.EnableLogging = [defaults boolForKey:LogEnabledKey];
 }
 
 @end

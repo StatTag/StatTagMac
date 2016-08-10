@@ -214,5 +214,102 @@ script WordASOC
     return false
   end insertParagraphAndNewLineAtRangeStart:andRangeEnd:
   
+  on getFieldDataForFieldAtIndex:theIndex
+    set theIndex to theIndex as integer
+    tell application "Microsoft Word"
+      
+      --repeat with theDoc in documents
+      --  tell me to log path of theDoc
+      --end repeat
+      --set theDoc to the front document
+      --tell me to log "hello"
+      --tell me to log the path of theDoc
+      
+      --breaks in Word
+      --set thePath to the path of the front document
+      --tell me to log thePath
+      
+      set pathList to path of documents
+      tell me to log pathList
+      
+      --if fileName is in namesList then
+        --display dialog \"EXITING LOOP BECAUSE FOUND FILE\" & namesList
+        --exit repeat
+      --end if
+      
+      --set theDoc to active document
+      --item 3 of myList
+      --set refHeader to get header of section 1 of active document index header footer primary
+      set theField to field theIndex of active document
+      return field text of theField
+    end tell
+    return missing value
+  end getFieldDataForFieldAtIndex:
+  
+  
+  
+  on getFieldDataForFieldAtIndexUsingScript:theIndex
+    set theIndex to theIndex as integer
+    set myScript to load script ("/Users/ewhitley/Documents/work_other/NU/Word Plugin/_code/StatTag_AppleScripts/STAdditions.scpt" as POSIX file)
+    set scriptResult to myScript's getFieldDataForFieldAtIndex(theIndex)
+  end getFieldDataForFieldAtIndexUsingScript:
+
+
+  on getFieldDataFileForFieldAtIndex:theIndex
+    
+    set strVarName to "STMacFieldCodeIndex"
+    set gstrVBAMacroName to "StatTag_GetFieldDataTest" as text
+    set theIndex to theIndex as integer
+    set strVarValue to theIndex as text
+    
+    tell application "Microsoft Word"
+      
+      tell active document
+        
+        if (name of (variable strVarName) is missing value) then -- does NOT exist
+          --display dialog strVarName & " MISSING"
+          set bolVarExists to false
+          
+          else -- var DOES exist
+          
+          --display dialog strVarName & " FOUND"
+          set bolVarExists to true
+        end if -- Variable doesn't exist
+        
+      end tell -- active document
+      
+      
+      if bolVarExists then --- the Variable DOES exist, so just set the value ---
+        
+        tell active document to set oVar to variable strVarName
+        set strName to name of oVar
+        set strValue to variable value of oVar
+        log oVar
+        
+        --- UPDATE THE VBA Variable Value ---
+        set variable value of oVar to strVarValue
+        
+        
+        else --- Create New Doc Variable And Set The Variable Value To The KM Variable value ---
+        
+        make new variable at active document with properties {name:strVarName, variable value:strVarValue}
+        set strName to strVarName
+        set strValue to "<Variable Didn't exist>"
+        
+      end if
+      
+      run VB macro macro name gstrVBAMacroName
+      
+      set fileName to "StatTag.txt"
+      set targetFile to (path to temporary items as string) & fileName
+      set theFileContents to (read file targetFile)
+
+      return theFileContents
+      
+    end tell
+
+    
+  end getFieldDataFileForFieldAtIndex
+
 
 end script

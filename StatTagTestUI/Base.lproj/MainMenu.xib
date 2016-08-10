@@ -14,6 +14,7 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customObject id="Voe-Tx-rLC" customClass="AppDelegate">
             <connections>
+                <outlet property="logTextView" destination="QzC-ya-m66" id="vUH-I3-Ckq"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
             </connections>
         </customObject>
@@ -676,8 +677,8 @@
                 <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Y5Z-Fl-745">
-                        <rect key="frame" x="385" y="312" width="81" height="32"/>
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Y5Z-Fl-745">
+                        <rect key="frame" x="375" y="312" width="91" height="32"/>
                         <buttonCell key="cell" type="push" title="Settings" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="IcG-uK-AKY">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
@@ -686,7 +687,79 @@
                             <action selector="openSettings:" target="Voe-Tx-rLC" id="15Z-mp-BCj"/>
                         </connections>
                     </button>
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="me1-aI-JJE">
+                        <rect key="frame" x="349" y="279" width="117" height="32"/>
+                        <buttonCell key="cell" type="push" title="Update Tags" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="V5x-Ln-wZ0">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="openUpdateTags:" target="Voe-Tx-rLC" id="bRR-Hw-QB1"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="OfR-Nl-8vx">
+                        <rect key="frame" x="14" y="279" width="137" height="32"/>
+                        <buttonCell key="cell" type="push" title="Insert Test Tags" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="hr5-b9-HW9">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="insertTestTags:" target="Voe-Tx-rLC" id="7ur-Mc-D7U"/>
+                        </connections>
+                    </button>
+                    <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y9Y-iX-YcP">
+                        <rect key="frame" x="20" y="20" width="440" height="228"/>
+                        <clipView key="contentView" id="2NI-mr-2Xm">
+                            <rect key="frame" x="1" y="1" width="423" height="226"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <subviews>
+                                <textView importsGraphics="NO" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="QzC-ya-m66">
+                                    <rect key="frame" x="0.0" y="0.0" width="423" height="226"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <size key="minSize" width="423" height="226"/>
+                                    <size key="maxSize" width="463" height="10000000"/>
+                                    <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <size key="minSize" width="423" height="226"/>
+                                    <size key="maxSize" width="463" height="10000000"/>
+                                </textView>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </clipView>
+                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="46n-kc-9Ps">
+                            <rect key="frame" x="-100" y="-100" width="87" height="18"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                        <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="Trg-wW-UDe">
+                            <rect key="frame" x="424" y="1" width="15" height="226"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                    </scrollView>
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="kDc-lI-rti">
+                        <rect key="frame" x="151" y="279" width="102" height="32"/>
+                        <buttonCell key="cell" type="push" title="View Tags" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="mJW-oj-bpX">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="viewTagData:" target="Voe-Tx-rLC" id="00u-dg-adn"/>
+                        </connections>
+                    </button>
                 </subviews>
+                <constraints>
+                    <constraint firstItem="OfR-Nl-8vx" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" id="163-St-3u6"/>
+                    <constraint firstAttribute="trailing" secondItem="Y9Y-iX-YcP" secondAttribute="trailing" constant="20" id="4LT-lH-6Z4"/>
+                    <constraint firstItem="kDc-lI-rti" firstAttribute="top" secondItem="OfR-Nl-8vx" secondAttribute="top" id="5mr-3d-cZx"/>
+                    <constraint firstItem="kDc-lI-rti" firstAttribute="leading" secondItem="OfR-Nl-8vx" secondAttribute="trailing" constant="12" id="6xi-PW-DYD"/>
+                    <constraint firstAttribute="trailing" secondItem="Y5Z-Fl-745" secondAttribute="trailing" constant="20" id="Ldt-br-p4k"/>
+                    <constraint firstItem="Y9Y-iX-YcP" firstAttribute="top" secondItem="OfR-Nl-8vx" secondAttribute="bottom" constant="38" id="MGZ-rc-ed1"/>
+                    <constraint firstAttribute="bottom" secondItem="Y9Y-iX-YcP" secondAttribute="bottom" constant="20" id="bR2-xu-fXV"/>
+                    <constraint firstItem="OfR-Nl-8vx" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="53" id="dn2-pG-tYF"/>
+                    <constraint firstItem="Y5Z-Fl-745" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="20" id="fB5-mM-kLg"/>
+                    <constraint firstAttribute="trailing" secondItem="me1-aI-JJE" secondAttribute="trailing" constant="20" id="mJT-r0-g83"/>
+                    <constraint firstItem="Y9Y-iX-YcP" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" id="muY-T9-JPt"/>
+                    <constraint firstItem="me1-aI-JJE" firstAttribute="top" secondItem="Y5Z-Fl-745" secondAttribute="bottom" constant="12" id="z7w-eE-fOS"/>
+                </constraints>
             </view>
         </window>
     </objects>

@@ -17,7 +17,7 @@
 #import "STGlobals.h"
 #import "STThisAddIn.h"
 #import "STCodeFileAction.h"
-
+#import "WordHelpers.h"
 
 #import <objc/message.h>
 
@@ -147,17 +147,41 @@ the DocumentManager instance that contains it.
   Deserialize a field to extract the FieldTag data
 */
 -(STFieldTag*)DeserializeFieldTag:(STMSWord2011Field*) field {
+  
+  //[STGlobals activateDocument];
+
+  [STGlobals activateDocument];
+  
   NSArray<STCodeFile*>* files = [_DocumentManager GetCodeFileList];
 
+  NSLog(@"DeserializeFieldTag -> files : %@", files);
   //FIXME: we should fix his to be a hard crash - debugging...
 
   //  if([field fieldCode] != nil) {
   STMSWord2011TextRange* code = [field fieldCode];
+  NSLog(@"DeserializeFieldTag -> code : (%d,%d)", [code startOfContent], [code endOfContent]);
   STMSWord2011Field* nestedField = [[code fields] firstObject];//[code fields][1];
+  
+  [STGlobals activateDocument];
+  NSString* nestedFieldText = [NSString stringWithString:[nestedField fieldText]];//[[nestedField fieldText] copy];
+
+  [STGlobals activateDocument];
+  NSLog(@"DeserializeFieldTag -> nestedField APPLESCRIPT (about to call)");
+  NSString* testNestedFieldText = [WordHelpers getFieldDataForFieldAtIndex:[nestedField entry_index]];
+  NSLog(@"DeserializeFieldTag -> nestedField APPLESCRIPT (just called)");
+  NSLog(@"DeserializeFieldTag -> nestedField APPLESCRIPT field json: %@", testNestedFieldText);
+  
+//  [STGlobals activateDocument];
+  NSLog(@"DeserializeFieldTag -> nestedField : %@", nestedField);
+  NSLog(@"DeserializeFieldTag -> nestedField field type: %d", [nestedField fieldType]);
+  NSLog(@"DeserializeFieldTag -> nestedField field entry_index: %d", [nestedField entry_index]);
+  
+  NSLog(@"DeserializeFieldTag -> nestedField fieldText : %@", nestedFieldText);
+  //NSLog(@"DeserializeFieldTag -> ASOC field text : %@", [WordHelpers getFieldDataForFieldAtIndex:[nestedField entry_index]]);
   //FIXME: very, very unsure of this.. original c# used "Data" and we're using fieldText - which seems to be the closest approximation...
   //  var fieldTag = FieldTag.Deserialize(nestedField.Data.ToString(CultureInfo.InvariantCulture),
   //                                      files);
-  STFieldTag* fieldTag = [STFieldTag Deserialize:[nestedField fieldText] withFiles:files error:nil];
+  STFieldTag* fieldTag = [STFieldTag Deserialize:nestedFieldText withFiles:files error:nil];
   //  Marshal.ReleaseComObject(nestedField);
   //  Marshal.ReleaseComObject(code);
   return fieldTag;
@@ -175,9 +199,16 @@ the DocumentManager instance that contains it.
   
   //FIXME: added some checks we should remove here - hard crash is preferred for now
   
+  [STGlobals activateDocument];
+  
 //  if(field != nil && [field fieldText] != nil && [[field fieldText] length] > 0) {
-    STFieldTag* fieldTag = [self DeserializeFieldTag:field];
-    STTag* tag = [self FindTagByTag:fieldTag];
+//  NSString* fieldText = [NSString stringWithString:[field fieldText]];
+//  NSLog(@"GetFieldTag - preparing to deserialize json: %@", fieldText);
+  
+  STFieldTag* fieldTag = [self DeserializeFieldTag:field];
+  NSLog(@"GetFieldTag -> fieldTag : %@", [fieldTag description]);
+  STTag* tag = [self FindTagByTag:fieldTag];
+  NSLog(@"GetFieldTag -> tag : %@", [tag description]);
   
   NSLog(@"");
   NSLog(@"GetFieldTag");

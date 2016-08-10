@@ -14,6 +14,7 @@
 
 @implementation WordHelpers
 
+
 //because we use the WordHelpers to load applescripts from the bundle, we don't want to keep loading them every time. So we're going to use a sharedInstance and just fire off the "load my applescripts" call in the init
 static WordHelpers* sharedInstance = nil;
 + (instancetype)sharedInstance
@@ -304,6 +305,18 @@ static WordHelpers* sharedInstance = nil;
   WordASOC *asoc = [[NSClassFromString(@"WordASOC") alloc] init];
   BOOL inserted_paragraph = [[asoc insertParagraphAtRangeStart:[NSNumber numberWithInteger:[range startOfContent]] andRangeEnd:[NSNumber numberWithInteger:[range endOfContent]]] boolValue];
   return inserted_paragraph;
+}
+
+
++(NSString*)getFieldDataForFieldAtIndex:(int)theIndex {
+  [[self class] sharedInstance];
+  WordASOC *asoc = [[NSClassFromString(@"WordASOC") alloc] init];
+  //NSString* fieldText = [asoc getFieldDataForFieldAtIndex:[NSNumber numberWithInteger:theIndex]];
+  //NSString* fieldText = [asoc getFieldDataForFieldAtIndexUsingScript:[NSNumber numberWithInteger:theIndex]];
+
+  NSString* fieldText = [asoc getFieldDataFileForFieldAtIndex:[NSNumber numberWithInteger:theIndex]];
+  
+  return fieldText;
 }
 
 @end

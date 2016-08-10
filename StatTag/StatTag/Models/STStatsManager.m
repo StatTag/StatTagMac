@@ -131,9 +131,10 @@ const int RefreshStepInterval = 5;
         
         // If the results did change, we need to sweep the document and update all of the results
         if(resultsChanged) {
-          
+          NSLog(@"results changed");
           // For all table tags, update the formatted cells collection
           if([tag IsTableTag]) {
+            NSLog(@"is a table tag");
             //original c#
                 //tag.CachedResult.FindAll(x => x.TableResult != null).ForEach(
                   //x =>
@@ -149,6 +150,9 @@ const int RefreshStepInterval = 5;
             }
           }
           
+          NSLog(@"ExecuteStatPackage (%d) - result? %@", __LINE__, result);
+          NSLog(@"ExecuteStatPackage (%d) - [result UpdatedTags] %@", __LINE__, [result UpdatedTags]);
+          NSLog(@"ExecuteStatPackage (%d) - tag? %@", __LINE__, tag);
           [[result UpdatedTags] addObject:tag];
 
         }
@@ -157,9 +161,13 @@ const int RefreshStepInterval = 5;
 
 
   }
-  @catch (NSException * e) {
+  @catch (NSException* exception) {
     //FIXME: return an NSError?
-    NSLog(@"Exception Initialize %@: %@", NSStringFromClass([self class]), [e description]);
+    NSLog(@"%@", exception.reason);
+    NSLog(@"method: %@, line : %d", NSStringFromSelector(_cmd), __LINE__);
+    NSLog(@"%@", [NSThread callStackSymbols]);
+
+    NSLog(@"Exception Initialize %@: %@", NSStringFromClass([self class]), [exception description]);
     /*
      MessageBox.Show(exc.Message, UIUtility.GetAddInName(), MessageBoxButtons.OK, MessageBoxIcon.Error);
      */

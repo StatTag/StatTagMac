@@ -94,7 +94,7 @@
 
 +(NSString*)currentBundleIdentifier {
   NSBundle* bundle = [NSBundle bundleForClass:[self class]];
-  NSString * bundleName = [bundle objectForInfoDictionaryKey:@"CFBundleName"];
+  NSString * bundleName = [bundle bundleIdentifier];
   return bundleName;
 }
 
@@ -103,11 +103,12 @@
   
   NSBundle* bundle = [NSBundle bundleForClass:[self class]];
   
+  NSString * bundleIdentifier = [bundle bundleIdentifier];
   NSString * bundleName = [bundle objectForInfoDictionaryKey:@"CFBundleName"];
   NSString * appVersionString = [bundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
   NSString * appBuildString = [bundle objectForInfoDictionaryKey:@"CFBundleVersion"];
   
-  NSString * versionBuildString = [NSString stringWithFormat:@"Version (%@): %@ (%@)", bundleName, appVersionString, appBuildString];
+  NSString * versionBuildString = [NSString stringWithFormat:@"Version (%@): %@ (%@)", bundleIdentifier, appVersionString, appBuildString];
   
   return versionBuildString;
 }

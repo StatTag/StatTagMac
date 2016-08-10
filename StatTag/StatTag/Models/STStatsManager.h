@@ -28,7 +28,7 @@
  A list of Tags that were detected as having changed values since they
  were originally inserted into the document
 */
-@property (copy, nonatomic) NSMutableArray<STTag*>* UpdatedTags;
+@property (strong, nonatomic) NSMutableArray<STTag*>* UpdatedTags;
 
 
 @end

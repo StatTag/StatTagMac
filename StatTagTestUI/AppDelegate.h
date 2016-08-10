@@ -8,8 +8,12 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface AppDelegate : NSObject <NSApplicationDelegate>
+@interface AppDelegate : NSObject <NSApplicationDelegate> {
+  __unsafe_unretained NSTextView *logTextView;
+}
 
+
+@property (unsafe_unretained) IBOutlet NSTextView *logTextView;
 
 @end
 

@@ -51,7 +51,19 @@
   //if we have tilde paths, expand the full path
   logFilePath = [logFilePath stringByExpandingTildeInPath];
   
-  if([[NSFileManager defaultManager] fileExistsAtPath:logFilePath]){
+  NSError *error;
+  NSStringEncoding encoding;
+  NSString *fileContents = [NSString stringWithContentsOfFile:logFilePath
+                                                 usedEncoding:&encoding
+                                                        error:&error];
+
+  NSLog(@"logFilePath : %@", logFilePath);
+  NSLog(@"error : %@", [error localizedDescription]);
+  
+  if(fileContents != nil) {
+    //if([[NSFileManager defaultManager] fileExistsAtPath:logFilePath]){
+    //this returns YES for some invalid paths... ex: "my awesome file" (not a path) so we should probably review
+    // http://stackoverflow.com/questions/2455735/why-does-nsfilemanager-return-true-on-fileexistsatpath-when-there-is-no-such-fil
     return [[NSFileManager defaultManager] isWritableFileAtPath:logFilePath];
   } else {
     //also - go back and review this. This apparently also returns YES if the file already exists... so we may not need all of the checks.

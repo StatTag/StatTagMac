@@ -57,6 +57,8 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   }
   @catch (NSException *exception) {
     NSLog(@"%@", exception.reason);
+    NSLog(@"method: %@, line : %d", NSStringFromSelector(_cmd), __LINE__);
+    NSLog(@"%@", [NSThread callStackSymbols]);
   }
   @finally {
   }
@@ -102,6 +104,8 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   }
   @catch (NSException *exception) {
     NSLog(@"%@", exception.reason);
+    NSLog(@"method: %@, line : %d", NSStringFromSelector(_cmd), __LINE__);
+    NSLog(@"%@", [NSThread callStackSymbols]);
   }
   @finally {
     
@@ -144,6 +148,8 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   }
   @catch (NSException *exception) {
     NSLog(@"%@", exception.reason);
+    NSLog(@"method: %@, line : %d", NSStringFromSelector(_cmd), __LINE__);
+    NSLog(@"%@", [NSThread callStackSymbols]);
   }
   @finally {
     //Marshal.ReleaseComObject(variable);
@@ -379,8 +385,9 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
       }
     }
     
-    //currently not working...
+    NSLog(@"before UpdateInlineShapes");
     [self UpdateInlineShapes:document];
+    NSLog(@"after UpdateInlineShapes");
     
     SBElementArray<STMSWord2011Field*>* fields = [document fields];
     int fieldsCount = [fields count];
@@ -408,6 +415,8 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
 
       
       STFieldTag* tag = [_TagManager GetFieldTag:field];
+      
+      NSLog(@"after tag generation");
       
       NSLog(@"tag has FormattedResult : %@", [tag FormattedResult]);
       
@@ -448,7 +457,10 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
     //Marshal.ReleaseComObject(fields);
   }
   @catch (NSException *exception) {
-    NSLog(@"UpdateFields exception : %@", exception.reason);
+    NSLog(@"%@", exception.reason);
+    NSLog(@"method: %@, line : %d", NSStringFromSelector(_cmd), __LINE__);
+    NSLog(@"%@", [NSThread callStackSymbols]);
+    //NSLog(@"UpdateFields exception : %@", exception.reason);
   }
   @finally
   {
@@ -481,7 +493,9 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
     return [selection cells];
   }
   @catch (NSException *exception) {
-    NSLog(@"GetCells %@", exception.reason);
+    NSLog(@"%@", exception.reason);
+    NSLog(@"method: %@, line : %d", NSStringFromSelector(_cmd), __LINE__);
+    NSLog(@"%@", [NSThread callStackSymbols]);
   }
   return nil;
 }
@@ -727,6 +741,8 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   }
   @catch (NSException *exception) {
     NSLog(@"%@", exception.reason);
+    NSLog(@"method: %@, line : %d", NSStringFromSelector(_cmd), __LINE__);
+    NSLog(@"%@", [NSThread callStackSymbols]);
   }
   @finally {
   }
@@ -816,6 +832,8 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   }
   @catch (NSException *exception) {
     NSLog(@"%@", exception.reason);
+    NSLog(@"method: %@, line : %d", NSStringFromSelector(_cmd), __LINE__);
+    NSLog(@"%@", [NSThread callStackSymbols]);
   }
   @finally {
     //Marshal.ReleaseComObject(document);
@@ -836,7 +854,7 @@ Insert an StatTag field at the currently specified document range.
  */
 -(void)CreateTagField:(STMSWord2011TextRange*)range tagIdentifier:(NSString*)tagIdentifier displayValue:(NSString*)displayValue tag:(STTag*)tag {
   NSLog(@"CreateTagField - Started");
-  
+  NSLog(@"Creating tag with range : (%d,%d) and tagIdentifier: %@ and displayValue : %@ with tag : %@", [range startOfContent], [range endOfContent], tagIdentifier, displayValue, tag);
   //C# - XML - can't use it as we don't have support for InsertXML
   //  range.InsertXML(OpenXmlGenerator.GenerateField(tagIdentifier, displayValue, tag));
   
@@ -845,6 +863,7 @@ Insert an StatTag field at the currently specified document range.
   //    Constants.FieldDetails.MacroButtonName, displayValue, tagIdentifier, FieldCreator.FieldOpen, FieldCreator.FieldClose));
   //Log(string.Format("Inserted field with identifier {0} and display value {1}", tagIdentifier, displayValue));
 
+  
   NSArray<STMSWord2011Field*>* fields = [_FieldManager InsertField:range theString:
                                          
                                          [NSString stringWithFormat:@"%@MacroButton %@ %@%@ADDIN %@%@%@",
@@ -868,9 +887,10 @@ Insert an StatTag field at the currently specified document range.
   
 //  NSArray<STMSWord2011Field*>* fields = [_FieldManager InsertField:range theString:@"<MacroButton test test>"];
 //    NSArray<STMSWord2011Field*>* fields = [_FieldManager InsertField:range theString:@"< = 5 + < PAGE > >"];
-  
+  [STGlobals activateDocument];
   STMSWord2011Field* dataField = [fields firstObject];
   //@property (copy) NSString *fieldText;  // Returns or sets data in an ADDIN field. The data is not visible in the field code or result. It is only accessible by returning the value of the data property. If the field isn't an ADDIN field, this property will cause an error.
+  [STGlobals activateDocument];
   dataField.fieldText = [tag Serialize:nil];
   
   NSLog(@"CreateTagField - Finished");
@@ -924,10 +944,13 @@ Insert an StatTag field at the currently specified document range.
 //      return true;
 //    }
   }
-  @catch (NSException* exc)
+  @catch (NSException* exception)
   {
     NSLog(@"An exception was caught while trying to edit an tag");
-    [self LogException:exc];
+    NSLog(@"%@", exception.reason);
+    NSLog(@"method: %@, line : %d", NSStringFromSelector(_cmd), __LINE__);
+    NSLog(@"%@", [NSThread callStackSymbols]);
+    [self LogException:exception];
   }
   
   NSLog(@"EditTag - Finished (no action)");
@@ -1046,9 +1069,12 @@ Insert an StatTag field at the currently specified document range.
       [self UpdateFields:[[STUpdatePair alloc] init:updatedTag newItem:updatedTag]];
     }
   }
-  @catch (NSException* exc)
+  @catch (NSException* exception)
   {
-    [STUIUtility ReportException:exc userMessage:@"There was an unexpected error when trying to insert the tag output into the Word sdocument." logger:_Logger];
+    NSLog(@"%@", exception.reason);
+    NSLog(@"method: %@, line : %d", NSStringFromSelector(_cmd), __LINE__);
+    NSLog(@"%@", [NSThread callStackSymbols]);
+    [STUIUtility ReportException:exception userMessage:@"There was an unexpected error when trying to insert the tag output into the Word sdocument." logger:_Logger];
   }
   @finally
   {

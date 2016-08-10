@@ -7,7 +7,9 @@
 //
 
 #import "AppDelegate.h"
-#import "STSettingsController.h"
+#import "STWindowLauncher.h"
+#import "STUpdateOutputController.h"
+
 #import "StatTag.h"
 
 @interface AppDelegate ()
@@ -16,8 +18,8 @@
 @end
 
 @implementation AppDelegate
+@synthesize logTextView;
 
-STSettingsController* settingsController;
 
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
@@ -30,25 +32,111 @@ STSettingsController* settingsController;
 
 
 - (IBAction)openSettings:(id)sender {
-  
-  if(settingsController == nil)
-    settingsController = [[STSettingsController alloc] initWithWindowNibName:@"STSettingsController"];
+  [STWindowLauncher openSettings];
+}
 
-  STLogManager* logManager = [[STLogManager alloc] init];
-  STPropertiesManager* propertiesManager = [[STPropertiesManager alloc] init];
-  //STProperties* properties = [[STProperties alloc] init];
+
+- (IBAction)openUpdateTags:(id)sender {
+  [STWindowLauncher openUpdateOutput];
   
-  settingsController.Properties = [propertiesManager Properties];
-  settingsController.LogManager = logManager;
-  settingsController.PropertiesManager = propertiesManager;
-  [propertiesManager Load];
+  [self logCurrentWordTags];
+
+}
+
+
+
+- (IBAction)insertTestTags:(id)sender {
   
-  NSWindow* settingsWindow = [settingsController window];
-  //settingsWindow.delegate = self;
-  [NSApp runModalForWindow: settingsWindow];
-  [NSApp endSheet: settingsWindow];
-  [settingsWindow close];
+  STDocumentManager* manager;
+  STMSWord2011Application* app;
+  STMSWord2011Document* doc;
+
   
+  app = [[[STGlobals sharedInstance] ThisAddIn] Application];
+  doc = [app activeDocument];
+  manager = [[STDocumentManager alloc] init];
+  
+  [manager AddCodeFile:@"/Users/ewhitley/Documents/work_other/NU/Word Plugin/_code/WindowsVersion/Word_Files_Working_Copies/simple-macro-test.do"];
+  
+  [manager GetTags];
+  
+  for(STTag* tag in [manager GetTags]) {
+    NSLog(@"original codeFile tag -> name: %@, type: %@", [tag Name], [tag Type]);
+    NSLog(@"original codeFile tag -> formatted result: %@", [tag FormattedResult]);
+    [manager InsertField:tag];
+  }
+  
+  for(STMSWord2011Field* field in [doc fields]) {
+    //[field toggleShowCodes];
+    field.showCodes = ![field showCodes];
+    field.showCodes = ![field showCodes];
+  }
+  
+  [self logCurrentWordTags];
+  
+}
+
+
+- (IBAction)viewTagData:(id)sender {
+  [self logCurrentWordTags];
+}
+
+
+- (void)logCurrentWordTags {
+  
+  STMSWord2011Application* app;
+  STMSWord2011Document* doc;
+  
+  
+  app = [[[STGlobals sharedInstance] ThisAddIn] Application];
+  doc = [app activeDocument];
+
+  
+  STDocumentManager* manager = [[STDocumentManager alloc] init];
+  [manager AddCodeFile:@"/Users/ewhitley/Documents/work_other/NU/Word Plugin/_code/WindowsVersion/Word_Files_Working_Copies/simple-macro-test.do"];
+  
+  [manager GetTags];
+  
+//  STStatsManager* stats = [[STStatsManager alloc] init:manager];
+//  for(STCodeFile* cf in [manager GetCodeFileList]) {
+//    STStatsManagerExecuteResult* result = [stats ExecuteStatPackage:cf filterMode:[STConstantsParserFilterMode IncludeAll]];
+//  }
+  
+  
+  //  [manager UpdateFields];
+  
+  
+  SBElementArray<STMSWord2011Field*>* fields = [doc fields];
+  int fieldsCount = [fields count];
+  // Fields is a 1-based index
+  
+  NSMutableString* tagData = [[NSMutableString alloc] init];
+
+  [tagData appendString:[NSString stringWithFormat:@"\r\nPreparing to process %d fields", fieldsCount]];
+
+  
+  int index = 0;
+  for(STMSWord2011Field* field in [doc fields]) {
+    [tagData appendString:[NSString stringWithFormat:@"\r\n"]];
+    [tagData appendString:[NSString stringWithFormat:@"\r\nfield (%d)", index]];
+    [tagData appendString:[NSString stringWithFormat:@"\r\n=================="]];
+    [tagData appendString:[NSString stringWithFormat:@"\r\nfieldCode.content : %@", [[field fieldCode] content]]];
+    [tagData appendString:[NSString stringWithFormat:@"\r\nfieldText : %@", [field fieldText]]];
+    
+    if ([[manager TagManager] IsStatTagField:field]) {
+      STFieldTag* fieldTag = [[manager TagManager] GetFieldTag:field];
+      [tagData appendString:[NSString stringWithFormat:@"\r\nfieldTag FormattedResult : %@", [fieldTag FormattedResult]]];
+    } else {
+      [tagData appendString:[NSString stringWithFormat:@"\r\nNot a StatTag field"]];
+    }
+    //NSLog(@"serialized : %@", [STFieldTag Serialize:tag]);
+    
+    index++;
+  }
+  
+  [[self logTextView] setString:tagData];
+  
+
 }
 
 

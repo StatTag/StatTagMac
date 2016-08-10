@@ -79,7 +79,11 @@
   @try {
     return [[self Application] activeDocument];
   }
-  @catch (NSException *exception) {
+  @catch (NSException* exception) {
+    NSLog(@"%@", exception.reason);
+    NSLog(@"method: %@, line : %d", NSStringFromSelector(_cmd), __LINE__);
+    NSLog(@"%@", [NSThread callStackSymbols]);
+
     NSLog(@"Getting ActiveDocument threw an exception : %@", exception.reason);
   }
   @finally {

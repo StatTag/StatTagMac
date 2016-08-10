@@ -8,6 +8,7 @@
 
 #import "STGlobals.h"
 #import "STThisAddIn.h"
+#import "STMSWord2011.h"
 
 @implementation STGlobals
 
@@ -30,6 +31,14 @@ static STGlobals* sharedInstance = nil;
   return self;
 }
 
+/**
+ Dummy document activator for issues seen when deploying to Word as a framework
+ we lose key field data like fieldText if we don't ask Word to bring something up
+ */
++(void)activateDocument {
+  STMSWord2011Application* application = [[[STGlobals sharedInstance] ThisAddIn] Application];
+  STMSWord2011Document* document = [application activeDocument];
+}
 
 -(STThisAddIn*)ThisAddIn {
   return _ThisAddIn;

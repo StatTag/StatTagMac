@@ -118,8 +118,11 @@ const int ShowStata = 3;
     [Application DoCommand:DisablePagingCommand stopOnError:true addToReview:true];
     [self Show];
   }
-  @catch (NSException * e) {
-    NSLog(@"Exception Initialize %@: %@", NSStringFromClass([self class]), [e description]);
+  @catch (NSException* exception) {
+    NSLog(@"%@", exception.reason);
+    NSLog(@"method: %@, line : %d", NSStringFromSelector(_cmd), __LINE__);
+    NSLog(@"%@", [NSThread callStackSymbols]);
+    NSLog(@"Exception Initialize %@: %@", NSStringFromClass([self class]), [exception description]);
     return false;
   }
   @finally {
@@ -163,17 +166,21 @@ const int ShowStata = 3;
     }
     return commandResults;
   }
-  @catch (NSException * e) {
+  @catch (NSException* exception) {
     // If we catch an exception, the script is going to stop operating.  So we will check to see
     // if any log files are open, and close them for the user.  Otherwise the log will remain
     // open.
-    NSLog(@"Exception Initialize %@: %@", NSStringFromClass([self class]), [e description]);
+    NSLog(@"%@", exception.reason);
+    NSLog(@"method: %@, line : %d", NSStringFromSelector(_cmd), __LINE__);
+    NSLog(@"%@", [NSThread callStackSymbols]);
+
+    NSLog(@"Exception Initialize %@: %@", NSStringFromClass([self class]), [exception description]);
     for(NSString* openLog in OpenLogs) {
       [self RunCommand:[NSString stringWithFormat:@"%@ close", openLog]];
     }
     // Since we have closed all logs, clear the list we were tracking.
     [OpenLogs removeAllObjects];
-    @throw e; //... eh.... this isn't a very Cocoa thing to do
+    @throw exception; //... eh.... this isn't a very Cocoa thing to do
   }
   @finally {
   }

@@ -17,7 +17,16 @@ FOUNDATION_EXPORT const unsigned char StatTagVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <StatTag/PublicHeader.h>
 
+#import <StatTag/OfficeMacVBAPublic.h>
+
 //NOTE: make sure you tag this as "public" in the framework target membership
+
+
+//======================================
+// Public windowing
+//======================================
+
+#import <StatTag/STWindowLauncher.h>
 
 
 //======================================
@@ -51,6 +60,9 @@ FOUNDATION_EXPORT const unsigned char StatTagVersionString[];
 
 
 #import <StatTag/STUIUtility.h>
+
+
+
 
 
 //======================================
