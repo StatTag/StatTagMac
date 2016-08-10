@@ -31,10 +31,7 @@ STMSWord2011Document* doc;
   [[NSApplication sharedApplication] stopModal];
 }
 
-- (void)windowDidBecomeKey:(NSNotification*)notification
-{
-  NSLog(@"windowDidBecomeKey");
-}
+
 
 
 - (void)windowDidLoad {
@@ -55,10 +52,6 @@ STMSWord2011Document* doc;
   
 }
 
--(BOOL)canBecomeKeyWindow {
-  NSLog(@"canBecomeKeyWindow");
-  return YES;
-}
 
 -(void)getTags {
   

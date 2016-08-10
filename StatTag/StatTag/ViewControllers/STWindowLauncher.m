@@ -7,8 +7,11 @@
 //
 
 #import "STWindowLauncher.h"
+
 #import "STSettingsController.h"
 #import "STUpdateOutputController.h"
+#import "STManageCodeFilesController.h"
+
 #import "StatTag.h"
 
 
@@ -16,6 +19,7 @@
 
 STSettingsController* settingsController;
 STUpdateOutputController* updateOutputController;
+STManageCodeFilesController* manageCodeFilesController;
 
 
 
@@ -43,6 +47,21 @@ STUpdateOutputController* updateOutputController;
   return @"openSettings";
 }
 
++(void)showWindowController:(NSWindowController*)wc withTitle:(NSString*)windowTitle {
+  
+  NSWindow* theWindow = [wc window];
+  [theWindow setTitle:windowTitle];
+  //  [updateOutputController showWindow:self]; //never shows in Word
+  [NSApp activateIgnoringOtherApps:YES];
+  [theWindow setLevel:NSMainMenuWindowLevel];
+  [theWindow makeKeyAndOrderFront: self];
+  
+  [NSApp runModalForWindow: theWindow];
+  [NSApp endSheet: theWindow];
+  [theWindow close];
+  NSLog(@"STWindowLauncher - openUpdateOutput - completed");
+
+}
 
 +(NSString*)openUpdateOutput {
   NSLog(@"STWindowLauncher - openUpdateOutput - started");
@@ -50,21 +69,32 @@ STUpdateOutputController* updateOutputController;
   if(updateOutputController == nil)
     updateOutputController = [[STUpdateOutputController alloc] initWithWindowNibName:@"STUpdateOutputController"];
   
-  NSWindow* settingsWindow = [updateOutputController window];
-
-  [settingsWindow setTitle:@"Update Tags"];
-
-  [NSApp activateIgnoringOtherApps:YES];
-  [settingsWindow setLevel:NSMainMenuWindowLevel];
-  [settingsWindow makeKeyAndOrderFront: self];
+  [self showWindowController:updateOutputController withTitle:@"Update Tags"];
   
-  [NSApp runModalForWindow: settingsWindow];
-  [NSApp endSheet: settingsWindow];
-  [settingsWindow close];
-  NSLog(@"STWindowLauncher - openUpdateOutput - completed");
+//  NSWindow* settingsWindow = [updateOutputController window];
+//  [settingsWindow setTitle:@"Update Tags"];
+////  [updateOutputController showWindow:self]; //never shows in Word
+//  [NSApp activateIgnoringOtherApps:YES];
+//  [settingsWindow setLevel:NSMainMenuWindowLevel];
+//  [settingsWindow makeKeyAndOrderFront: self];
+//  
+//  [NSApp runModalForWindow: settingsWindow];
+//  [NSApp endSheet: settingsWindow];
+//  [settingsWindow close];
+//  NSLog(@"STWindowLauncher - openUpdateOutput - completed");
 
   return @"openUpdateOutput";
   
+}
+
+
++(NSString*)openManageCodeFiles {
+  //STManageCodeFilesController
+  if(manageCodeFilesController == nil)
+    manageCodeFilesController = [[STManageCodeFilesController alloc] initWithWindowNibName:@"STManageCodeFilesController"];
+  
+  [self showWindowController:manageCodeFilesController withTitle:@"Manage Code Files"];
+  return @"openManageCodeFiles";
 }
 
 @end

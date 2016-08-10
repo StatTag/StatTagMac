@@ -745,6 +745,16 @@
                             <action selector="viewTagData:" target="Voe-Tx-rLC" id="00u-dg-adn"/>
                         </connections>
                     </button>
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lBH-oT-o9s">
+                        <rect key="frame" x="219" y="312" width="156" height="32"/>
+                        <buttonCell key="cell" type="push" title="Manage Code Files" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="5q4-Tm-bjF">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="manageCodeFiles:" target="Voe-Tx-rLC" id="Fm1-Q1-OYg"/>
+                        </connections>
+                    </button>
                 </subviews>
                 <constraints>
                     <constraint firstItem="OfR-Nl-8vx" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" id="163-St-3u6"/>
@@ -753,11 +763,13 @@
                     <constraint firstItem="kDc-lI-rti" firstAttribute="leading" secondItem="OfR-Nl-8vx" secondAttribute="trailing" constant="12" id="6xi-PW-DYD"/>
                     <constraint firstAttribute="trailing" secondItem="Y5Z-Fl-745" secondAttribute="trailing" constant="20" id="Ldt-br-p4k"/>
                     <constraint firstItem="Y9Y-iX-YcP" firstAttribute="top" secondItem="OfR-Nl-8vx" secondAttribute="bottom" constant="38" id="MGZ-rc-ed1"/>
+                    <constraint firstItem="lBH-oT-o9s" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="20" id="ULX-ZP-xG5"/>
                     <constraint firstAttribute="bottom" secondItem="Y9Y-iX-YcP" secondAttribute="bottom" constant="20" id="bR2-xu-fXV"/>
                     <constraint firstItem="OfR-Nl-8vx" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="53" id="dn2-pG-tYF"/>
                     <constraint firstItem="Y5Z-Fl-745" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="20" id="fB5-mM-kLg"/>
                     <constraint firstAttribute="trailing" secondItem="me1-aI-JJE" secondAttribute="trailing" constant="20" id="mJT-r0-g83"/>
                     <constraint firstItem="Y9Y-iX-YcP" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" id="muY-T9-JPt"/>
+                    <constraint firstItem="Y5Z-Fl-745" firstAttribute="leading" secondItem="lBH-oT-o9s" secondAttribute="trailing" constant="12" id="nod-H1-u5D"/>
                     <constraint firstItem="me1-aI-JJE" firstAttribute="top" secondItem="Y5Z-Fl-745" secondAttribute="bottom" constant="12" id="z7w-eE-fOS"/>
                 </constraints>
             </view>

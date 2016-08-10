@@ -104,6 +104,9 @@
 		387A0E461D25C9BA00F1FE9C /* StatTagGeneratorValueGeneratorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 387A0E451D25C9B900F1FE9C /* StatTagGeneratorValueGeneratorTests.m */; };
 		3884513C1D19DCB3004C2B40 /* STValueParameterParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 3884513A1D19DCB3004C2B40 /* STValueParameterParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3884513D1D19DCB3004C2B40 /* STValueParameterParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3884513B1D19DCB3004C2B40 /* STValueParameterParser.m */; };
+		38A0EFE31D5BBF1F001AFA54 /* STManageCodeFilesController.h in Headers */ = {isa = PBXBuildFile; fileRef = 38A0EFE01D5BBF1F001AFA54 /* STManageCodeFilesController.h */; };
+		38A0EFE41D5BBF1F001AFA54 /* STManageCodeFilesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A0EFE11D5BBF1F001AFA54 /* STManageCodeFilesController.m */; };
+		38A0EFE51D5BBF1F001AFA54 /* STManageCodeFilesController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38A0EFE21D5BBF1F001AFA54 /* STManageCodeFilesController.xib */; };
 		38A7CE911D4E2E4400B06AFF /* readme.md in Sources */ = {isa = PBXBuildFile; fileRef = 38A7CE901D4E2E4400B06AFF /* readme.md */; };
 		38A7CE941D4FDE2100B06AFF /* STBaseManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 38A7CE921D4FDE2100B06AFF /* STBaseManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38A7CE951D4FDE2100B06AFF /* STBaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A7CE931D4FDE2100B06AFF /* STBaseManager.m */; };
@@ -317,6 +320,9 @@
 		387A0E451D25C9B900F1FE9C /* StatTagGeneratorValueGeneratorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagGeneratorValueGeneratorTests.m; sourceTree = "<group>"; };
 		3884513A1D19DCB3004C2B40 /* STValueParameterParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STValueParameterParser.h; sourceTree = "<group>"; };
 		3884513B1D19DCB3004C2B40 /* STValueParameterParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STValueParameterParser.m; sourceTree = "<group>"; };
+		38A0EFE01D5BBF1F001AFA54 /* STManageCodeFilesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STManageCodeFilesController.h; sourceTree = "<group>"; };
+		38A0EFE11D5BBF1F001AFA54 /* STManageCodeFilesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STManageCodeFilesController.m; sourceTree = "<group>"; };
+		38A0EFE21D5BBF1F001AFA54 /* STManageCodeFilesController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = STManageCodeFilesController.xib; sourceTree = "<group>"; };
 		38A7CE901D4E2E4400B06AFF /* readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = readme.md; sourceTree = "<group>"; };
 		38A7CE921D4FDE2100B06AFF /* STBaseManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STBaseManager.h; sourceTree = "<group>"; };
 		38A7CE931D4FDE2100B06AFF /* STBaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STBaseManager.m; sourceTree = "<group>"; };
@@ -750,6 +756,9 @@
 				38BE59B31D53867E00FF9E99 /* STUpdateOutputController.xib */,
 				38BE59AD1D53763E00FF9E99 /* STWindowLauncher.h */,
 				38BE59AE1D53763E00FF9E99 /* STWindowLauncher.m */,
+				38A0EFE01D5BBF1F001AFA54 /* STManageCodeFilesController.h */,
+				38A0EFE11D5BBF1F001AFA54 /* STManageCodeFilesController.m */,
+				38A0EFE21D5BBF1F001AFA54 /* STManageCodeFilesController.xib */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -922,6 +931,7 @@
 				387A0E251D22BC5F00F1FE9C /* STBaseParserStata.h in Headers */,
 				382C8D371D0F68B200FE6878 /* STCodeFile.h in Headers */,
 				382C28AC1D195C2500697D6F /* STFieldTag.h in Headers */,
+				38A0EFE31D5BBF1F001AFA54 /* STManageCodeFilesController.h in Headers */,
 				382C285B1D133BCD00697D6F /* STValueFormat.h in Headers */,
 				38C9B21C1D10AA55003B571E /* STBaseParser.h in Headers */,
 				385FDD281D32F6DD00AE0FE2 /* STTagManager.h in Headers */,
@@ -1121,6 +1131,7 @@
 			files = (
 				38BE59B81D54CA4200FF9E99 /* ScriptableTasks.sdef in Resources */,
 				38BE59B61D53867E00FF9E99 /* STUpdateOutputController.xib in Resources */,
+				38A0EFE51D5BBF1F001AFA54 /* STManageCodeFilesController.xib in Resources */,
 				38BE59791D5288C300FF9E99 /* STSettingsController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1174,6 +1185,7 @@
 				38BE59781D5288C300FF9E99 /* STSettingsController.m in Sources */,
 				385FDD381D33D02800AE0FE2 /* STGlobals.m in Sources */,
 				38B9D3361D4BFA4200C62C30 /* STLogManager.m in Sources */,
+				38A0EFE41D5BBF1F001AFA54 /* STManageCodeFilesController.m in Sources */,
 				385FDD441D35681400AE0FE2 /* STFieldCreator.m in Sources */,
 				380A67A71D1077490045B72B /* STConstants.m in Sources */,
 				382C284F1D1202D400697D6F /* STBaseParameterParser.m in Sources */,

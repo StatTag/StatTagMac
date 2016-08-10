@@ -76,6 +76,10 @@
   
 }
 
+- (IBAction)manageCodeFiles:(id)sender {
+  [STWindowLauncher openManageCodeFiles];
+}
+
 
 - (IBAction)viewTagData:(id)sender {
   [self logCurrentWordTags];

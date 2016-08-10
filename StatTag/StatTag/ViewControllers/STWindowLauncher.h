@@ -12,5 +12,6 @@
 
 +(NSString*)openSettings;
 +(NSString*)openUpdateOutput;
++(NSString*)openManageCodeFiles;
 
 @end

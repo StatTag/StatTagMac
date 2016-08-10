@@ -737,7 +737,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
     [wordTable select];
     STMSWord2011BorderOptions* borders = [wordTable borderOptions];
     borders.insideLineStyle = STMSWord2011E167LineStyleSingle;
-    borders.outsideLineStyle = STMSWord2011E167LineStyleSingle;
+    //borders.outsideLineStyle = STMSWord2011E167LineStyleSingle; //for some reason this is yellow...
   }
   @catch (NSException *exception) {
     NSLog(@"%@", exception.reason);
