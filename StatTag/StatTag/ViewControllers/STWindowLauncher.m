@@ -92,6 +92,19 @@ STManageCodeFilesController* manageCodeFilesController;
   //STManageCodeFilesController
   if(manageCodeFilesController == nil)
     manageCodeFilesController = [[STManageCodeFilesController alloc] initWithWindowNibName:@"STManageCodeFilesController"];
+
+  STMSWord2011Application* app= [[[STGlobals sharedInstance] ThisAddIn] Application];
+  STMSWord2011Document* doc = [app activeDocument];
+  STDocumentManager* dm = [[STDocumentManager alloc] init];
+  [dm LoadCodeFileListFromDocument:doc];
+
+  [dm AddCodeFile:@"/Users/ewhitley/Documents/work_other/NU/Word Plugin/_code/WindowsVersion/Word_Files_Working_Copies/simple-macro-test.do"];
+
+//  for(STCodeFile* file in [dm GetCodeFileList]) {
+//    NSLog(@"package : %@, path : %@", [file StatisticalPackage], [file FilePath]);
+//  }
+  
+  manageCodeFilesController.codeFiles = [dm GetCodeFileList];
   
   [self showWindowController:manageCodeFilesController withTitle:@"Manage Code Files"];
   return @"openManageCodeFiles";
