@@ -29,12 +29,19 @@
   STStatsManager* _StatsManager;
   
   STFieldCreator* _FieldManager;
+  
+  NSNumber* _wordFieldsTotal;
+  NSNumber* _wordFieldsUpdated;
+  NSString* _wordFieldUpdateStatus;
 }
 
 @property (strong, nonatomic) STTagManager* TagManager;
 @property (strong, nonatomic) STStatsManager* StatsManager;
 @property (strong, nonatomic) STFieldCreator* FieldManager;
 
+@property (copy, nonatomic) NSNumber* wordFieldsTotal;
+@property (copy, nonatomic) NSNumber* wordFieldsUpdated;
+@property (copy, nonatomic) NSString* wordFieldUpdateStatus;
 
 -(NSArray<STTag*>*)GetTags;
 -(NSDictionary<NSString*, NSArray<STTag*>*>*)FindAllUnlinkedTags;
@@ -89,4 +96,22 @@
 -(void)UpdateFields:(STUpdatePair<STTag*>*)tagUpdatePair matchOnPosition:(BOOL)matchOnPosition;
 -(void)UpdateFields:(STUpdatePair<STTag*>*)tagUpdatePair;
 -(void)UpdateFields;
+
+
+/**
+ Conduct an assessment of the active document to see if there are any inserted tags that do not have an associated code file in the document.
+ 
+ @param document: The Word document to analyze.
+ @param onlyShowDialogIfResultsFound: If true, the results dialog will only display if there is something to report
+ */
+-(void)PerformDocumentCheck:(STMSWord2011Document*)document onlyShowDialogIfResultsFound:(BOOL)onlyShowDialogIfResultsFound;
+/**
+ Conduct an assessment of the active document to see if there are any inserted tags that do not have an associated code file in the document.
+ 
+ @param document: The Word document to analyze.
+ @param onlyShowDialogIfResultsFound: If true, the results dialog will only display if there is something to report
+ */
+-(void)PerformDocumentCheck:(STMSWord2011Document*)document;
+
+
 @end

@@ -34,7 +34,7 @@
     return url;
   }
   @try {
-    url = [[NSURL alloc] initWithString:[[self FilePath] stringByAddingPercentEncodingWithAllowedCharacters: [NSCharacterSet URLHostAllowedCharacterSet]]];
+    url = [[NSURL alloc] initWithString:[[self FilePath] stringByAddingPercentEncodingWithAllowedCharacters: [NSCharacterSet URLHostAllowedCharacterSet]]];//append path at the end so we can deal with spaces, etc.
   }
   @catch (NSException * e) {
     NSLog(@"Exception creating URL (%@): %@", NSStringFromClass([self class]), [self FilePath]);
@@ -42,6 +42,16 @@
   @finally {
   }
   return url;
+}
+
+-(void)setStatisticalPackage:(NSString *)StatisticalPackage {
+  _StatisticalPackage = StatisticalPackage;
+}
+-(NSString*)StatisticalPackage {
+  if(_StatisticalPackage == nil) {
+    _StatisticalPackage = [STCodeFile GuessStatisticalPackage:[self FilePath]];
+  }
+  return _StatisticalPackage;
 }
 
 //@synthesize Content = _Content;
@@ -92,6 +102,7 @@ NSObject<STIFileHandler>* _FileHandler;
 -(void)initialize:(NSObject<STIFileHandler>*)handler {
   _Tags = [[NSMutableArray<STTag*> alloc] init];
   _FileHandler = handler ? handler :[[STFileHandler alloc] init];
+  NSLog(@"_FileHandler : %@", _FileHandler);
 }
 
 //MARK: copying
@@ -260,6 +271,9 @@ the cached results in another tag.
     } else {
       [self setValue:[dict valueForKey:key] forKey:key];
     }
+  }
+  if(_FileHandler == nil) {
+    _FileHandler = [[STFileHandler alloc] init];
   }
 }
 

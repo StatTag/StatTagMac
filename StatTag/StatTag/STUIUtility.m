@@ -17,8 +17,12 @@
     [logger WriteMessage:text];
   }
   
-  NSLog(@"*** FIX ME *** Later on we should see an alert panel... when we have any sort of UI");
-  
+  NSAlert *alert = [[NSAlert alloc] init];
+  [alert setMessageText:text];
+  [alert setAlertStyle:NSWarningAlertStyle];
+  [alert addButtonWithTitle:@"Ok"];
+  [alert runModal];
+
   return;
 
   /*
@@ -43,6 +47,15 @@
 //  [alert setAlertStyle:NSWarningAlertStyle];
 //  [alert beginSheetModalForWindow:[[NSApplication sharedApplication] mainWindow] modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:nil];
    */
+  
+//  NSAlert *alert = [[NSAlert alloc] init];
+//  [alert setMessageText:@"Message text."];
+//  [alert setInformativeText:@"Informative text."];
+//  [alert addButtonWithTitle:@"Cancel"];
+//  [alert addButtonWithTitle:@"Ok"];
+//  [alert runModal];
+
+  
 }
 
 -(void)alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
@@ -56,6 +69,14 @@
   {
     [logger WriteException:exc];
   }
+  
+  NSAlert *alert = [[NSAlert alloc] init];
+  [alert setMessageText:@"StatTag encountered a problem"];
+  [alert setInformativeText:userMessage];
+  [alert setAlertStyle:NSCriticalAlertStyle];
+  [alert addButtonWithTitle:@"Ok"];
+  [alert runModal];
+
   
   NSLog(@"*** FIX ME *** Later on we should see an alert panel... when we have any sort of UI");
   //MessageBox.Show(userMessage, GetAddInName(), MessageBoxButtons.OK, MessageBoxIcon.Error);

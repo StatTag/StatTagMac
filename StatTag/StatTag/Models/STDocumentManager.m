@@ -27,6 +27,10 @@
 @synthesize StatsManager = _StatsManager;
 @synthesize FieldManager = _FieldManager;
 
+@synthesize wordFieldsTotal = _wordFieldsTotal;
+@synthesize wordFieldsUpdated = _wordFieldsUpdated;
+@synthesize wordFieldUpdateStatus = _wordFieldUpdateStatus;
+
 NSString* const ConfigurationAttribute = @"StatTag Configuration";
 
 -(instancetype) init {
@@ -36,11 +40,21 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
     _TagManager = [[STTagManager alloc] init:self];
     _StatsManager = [[STStatsManager alloc] init:self];
     _FieldManager = [[STFieldCreator alloc] init];
+    
+    _wordFieldsTotal = @0;
+    _wordFieldsUpdated = @0;
+    _wordFieldUpdateStatus = @"";
   }
   return self;
 }
 
-
+-(NSNumber*)wordFieldsTotal {
+  STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
+  STMSWord2011Document* document = [app activeDocument];
+  SBElementArray<STMSWord2011Field*>* fields = [document fields];
+  int fieldsCount = [fields count];
+  return [NSNumber numberWithInteger:fieldsCount];
+}
 
 /**
   Provider a wrapper to check if a variable exists in the document.
@@ -71,6 +85,10 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
  @param document: The Word document of interest
 */
 -(void) SaveCodeFileListToDocument:(STMSWord2011Document*) document {
+  
+  if(document == nil) {
+    document = [[[STGlobals sharedInstance] ThisAddIn] SafeGetActiveDocument];
+  }
   
   NSLog(@"SaveCodeFileListToDocument - Started");
   SBElementArray<STMSWord2011Variable*>* variables = [document variables];
@@ -112,7 +130,6 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   }
   NSLog(@"SaveCodeFileListToDocument - Finished");
 }
-
 
 
 /**
@@ -372,12 +389,15 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   
   //[WordHelpers disableScreenUpdates];
   
+  [self setValue:@"Updating Fields" forKey:@"wordFieldUpdateStatus"];
+  
   @try
   {
     BOOL tableDimensionChange = [self IsTableTagChangingDimensions:tagUpdatePair];
     if (tableDimensionChange)
     {
       NSLog(@"Attempting to refresh table with tag name: %@", tagUpdatePair.New.Name);
+      [self setValue:@"Updating Table Fields" forKey:@"wordFieldUpdateStatus"];
       if ([self RefreshTableTagFields:[tagUpdatePair New] document:document])
       {
         NSLog(@"Completed refreshing table - leaving UpdateFields");
@@ -386,6 +406,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
     }
     
     NSLog(@"before UpdateInlineShapes");
+    [self setValue:@"Updating Inline Shapes" forKey:@"wordFieldUpdateStatus"];
     [self UpdateInlineShapes:document];
     NSLog(@"after UpdateInlineShapes");
     
@@ -393,10 +414,14 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
     int fieldsCount = [fields count];
     // Fields is a 1-based index
     NSLog(@"Preparing to process %d fields", fieldsCount);
+
+    [self setValue:@"Updating Fields" forKey:@"wordFieldUpdateStatus"];
+    //[self setValue:[NSNumber numberWithInteger:fieldsCount] forKey:@"wordFieldsTotal"];
     
     //FIXME: it's 1-based in Windows - but on the Mac? We should check...
     for (int index = 0; index < fieldsCount; index++)
     {
+      
       STMSWord2011Field* field = fields[index];
       if (field == nil)
       {
@@ -407,6 +432,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
       if (![_TagManager IsStatTagField:field])
       {
         //Marshal.ReleaseComObject(field);
+        [self setValue:[NSNumber numberWithInteger:index+1] forKey:@"wordFieldsUpdated"];
         continue;
       }
       
@@ -451,6 +477,8 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
       NSLog(@"Inserting field for tag: %@", tag.Name);
       [field select];
       [self InsertField:tag];
+      
+      [self setValue:[NSNumber numberWithInteger:index+1] forKey:@"wordFieldsUpdated"];
       
       //Marshal.ReleaseComObject(field);
     }

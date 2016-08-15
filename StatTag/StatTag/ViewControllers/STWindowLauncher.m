@@ -98,12 +98,15 @@ STManageCodeFilesController* manageCodeFilesController;
   STDocumentManager* dm = [[STDocumentManager alloc] init];
   [dm LoadCodeFileListFromDocument:doc];
 
-  [dm AddCodeFile:@"/Users/ewhitley/Documents/work_other/NU/Word Plugin/_code/WindowsVersion/Word_Files_Working_Copies/simple-macro-test.do"];
+  
+  
+//  [dm AddCodeFile:@"/Users/ewhitley/Documents/work_other/NU/Word Plugin/_code/WindowsVersion/Word_Files_Working_Copies/simple-macro-test.do"];
 
 //  for(STCodeFile* file in [dm GetCodeFileList]) {
 //    NSLog(@"package : %@, path : %@", [file StatisticalPackage], [file FilePath]);
 //  }
   
+  manageCodeFilesController.manager = dm;
   manageCodeFilesController.codeFiles = [dm GetCodeFileList];
   
   [self showWindowController:manageCodeFilesController withTitle:@"Manage Code Files"];

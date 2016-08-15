@@ -32,6 +32,9 @@
 DQ
 </string>
                         </buttonCell>
+                        <connections>
+                            <action selector="btnOKAndSave:" target="-2" id="dxm-HH-DR6"/>
+                        </connections>
                     </button>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="f00-Lt-eC3">
                         <rect key="frame" x="325" y="13" width="82" height="32"/>
@@ -42,6 +45,9 @@ DQ
 Gw
 </string>
                         </buttonCell>
+                        <connections>
+                            <action selector="btnCancel:" target="-2" id="j7H-di-RVd"/>
+                        </connections>
                     </button>
                     <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vGG-TJ-0yN">
                         <rect key="frame" x="20" y="90" width="440" height="135"/>
@@ -49,7 +55,7 @@ Gw
                             <rect key="frame" x="1" y="0.0" width="438" height="134"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="HdH-Hl-bns" viewBased="YES" id="Wmo-ZI-WEr">
+                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" autosaveColumns="NO" rowSizeStyle="automatic" headerView="HdH-Hl-bns" viewBased="YES" id="Wmo-ZI-WEr">
                                     <rect key="frame" x="0.0" y="0.0" width="438" height="111"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <size key="intercellSpacing" width="3" height="2"/>
@@ -153,8 +159,8 @@ Gw
                             </subviews>
                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </clipView>
-                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="hJV-f8-RzV">
-                            <rect key="frame" x="1" y="119" width="223" height="15"/>
+                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="0.5" horizontal="YES" id="hJV-f8-RzV">
+                            <rect key="frame" x="1" y="119" width="438" height="15"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                         <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="4V4-9B-FLm">
@@ -180,6 +186,9 @@ Gw
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
+                        <connections>
+                            <action selector="removeFiles:" target="-2" id="hGN-ia-hN0"/>
+                        </connections>
                     </button>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ROc-oi-Pwm">
                         <rect key="frame" x="14" y="42" width="89" height="32"/>
@@ -187,6 +196,9 @@ Gw
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
+                        <connections>
+                            <action selector="addFile:" target="-2" id="9S9-aB-H3q"/>
+                        </connections>
                     </button>
                 </subviews>
                 <constraints>

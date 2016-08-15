@@ -159,7 +159,7 @@ const int RefreshStepInterval = 5;
       }
     }
 
-
+    result.Success = true;
   }
   @catch (NSException* exception) {
     //FIXME: return an NSError?
