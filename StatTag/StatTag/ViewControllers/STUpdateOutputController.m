@@ -105,19 +105,19 @@ breakLoop = YES;
 //    STStatsManagerExecuteResult* result = [stats ExecuteStatPackage:cf filterMode:[STConstantsParserFilterMode IncludeAll]];
 //  }
 
-  STStatsManager* stats = [[STStatsManager alloc] init:manager];
-  for(STCodeFile* cf in [manager GetCodeFileList]) {
-    NSLog(@"found codefile %@", [cf FilePath]);
-    
-    STStatsManagerExecuteResult* result = [stats ExecuteStatPackage:cf
-                                                 filterMode:[STConstantsParserFilterMode TagList]
-                                                tagsToRun:[onDemandTags selectedObjects]
-                                           ];
-    NSLog(@"result : %hhd", result.Success);
-  }
+//  STStatsManager* stats = [[STStatsManager alloc] init:manager];
+//  for(STCodeFile* cf in [manager GetCodeFileList]) {
+//    NSLog(@"found codefile %@", [cf FilePath]);
+//    
+//    STStatsManagerExecuteResult* result = [stats ExecuteStatPackage:cf
+//                                                 filterMode:[STConstantsParserFilterMode TagList]
+//                                                tagsToRun:[onDemandTags selectedObjects]
+//                                           ];
+//    NSLog(@"result : %hhd", result.Success);
+//  }
 
   
-//  [self startRefreshingFields];
+  [self startRefreshingFields];
 
 //  [manager UpdateFields];
   
@@ -132,7 +132,6 @@ breakLoop = YES;
 
   NSLog(@"refreshing %d tags and %d fields", [[self documentTags] count], [[manager wordFieldsTotal] integerValue]);
   
-  return;
   
   NSRect sheetRect = NSMakeRect(0, 0, 400, 114);
   
@@ -143,10 +142,24 @@ breakLoop = YES;
   
   NSView *contentView = [[NSView alloc] initWithFrame:sheetRect];
   
-  NSProgressIndicator *progInd = [[NSProgressIndicator alloc] initWithFrame:NSMakeRect(143, 74, 239, 20)];
   
-  NSTextField *inputField = [[NSTextField alloc] initWithFrame:NSMakeRect(145, 48, 235, 22)];
+  NSProgressIndicator *progInd = [[NSProgressIndicator alloc] initWithFrame:NSMakeRect(20, 41, 32, 32)];
+  //we want the progress indicator positioned centered vertically with 20 pixel left leading
+  progInd.translatesAutoresizingMaskIntoConstraints = NO;
+  [contentView addSubview:progInd];
+  [progInd addConstraint:[NSLayoutConstraint constraintWithItem:progInd attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:0 multiplier:1 constant:32]];
+  [progInd addConstraint:[NSLayoutConstraint constraintWithItem:progInd attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:0 multiplier:1 constant:32]];
+  [contentView addConstraint:[NSLayoutConstraint constraintWithItem:progInd attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:contentView attribute:NSLayoutAttributeCenterY multiplier:1 constant:0]];
+  [contentView addConstraint:[NSLayoutConstraint constraintWithItem:progInd attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:contentView attribute:NSLayoutAttributeLeft multiplier:1 constant:20]];
+
   
+  NSTextField *inputField = [[NSTextField alloc] initWithFrame:NSMakeRect(72, 46, 235, 22)];
+  //NSTextField *inputField = [[NSTextField alloc] initWithFrame:NSMakeRect(60, 84, 245, 100)];
+  [inputField setBezeled:NO];
+  [inputField setDrawsBackground:NO];
+  [inputField setEditable:NO];
+  [inputField setSelectable:NO];
+
   
   NSButton *cancelButton = [[NSButton alloc] initWithFrame:NSMakeRect(304, 12, 82, 32)];
   cancelButton.bezelStyle = NSRoundedBezelStyle;
@@ -154,7 +167,7 @@ breakLoop = YES;
   cancelButton.action = @selector(cancelRefreshingFields:);
   cancelButton.target = self;
   
-  [contentView addSubview:progInd];
+//  [contentView addSubview:progInd];
   [contentView addSubview:inputField];
   [contentView addSubview:cancelButton];
   
@@ -169,35 +182,69 @@ breakLoop = YES;
   
   [progSheet makeKeyAndOrderFront:self];
   
-  [progInd setIndeterminate:NO];
-  [progInd setDoubleValue:0.f];
-  [progInd startAnimation:self];
+  //[progInd setIndeterminate:YES];
+  //[progInd setDoubleValue:0.f];
+  //[progInd startAnimation:self];
   
+  progInd.style = NSProgressIndicatorSpinningStyle;
+  [progInd setHidden:NO];
+  [progInd setIndeterminate:YES];
+  [progInd setUsesThreadedAnimation:YES];
+  [progInd startAnimation:nil];
   
   // Start computation using GCD...
   
+  NSLog(@"Updating %d tags", [[onDemandTags selectedObjects] count]);
+  
   dispatch_async(dispatch_get_global_queue(0, 0), ^{
-    
-//    for (int i = 0; i < maxloop; i++) {
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [inputField setStringValue:[NSString stringWithFormat:@"Updating tags in %@", @"something"]];
+    });
+
+//    
+//    STStatsManager* stats = [[STStatsManager alloc] init:manager];
+//    for(STCodeFile* cf in [manager GetCodeFileList]) {
+//      //NSLog(@"found codefile %@", [cf FilePath]);
 //      
-//      [NSThread sleepForTimeInterval:0.01];
+//      dispatch_async(dispatch_get_main_queue(), ^{
+//        [inputField setStringValue:[NSString stringWithFormat:@"Updating tags in %@", [[cf FilePathURL] lastPathComponent] ]];
+//      });
 //      
-//      if (breakLoop)
-//      {
-//        break;
-//      }
+//      STStatsManagerExecuteResult* result = [stats ExecuteStatPackage:cf
+//                                                           filterMode:[STConstantsParserFilterMode TagList]
+//                                                            tagsToRun:[onDemandTags selectedObjects]
+//                                             ];
+//
+//      
+//      
+////      dispatch_async(dispatch_get_main_queue(), ^{
+////        [progInd setDoubleValue: (double)progressCurrent/progressTarget * 100];
+////      });
+//
+//      //NSLog(@"result : %hhd", result.Success);
+//    }
+
+    for (int i = 0; i < maxloop; i++) {
+      
+      [NSThread sleepForTimeInterval:0.01];
+      
+      if (breakLoop)
+      {
+        break;
+      }
     
       // Update the progress bar which is in the sheet:
-      dispatch_async(dispatch_get_main_queue(), ^{
-        //[progInd setDoubleValue: (double)i/maxloop * 100];
-      });
-//    }
+//      dispatch_async(dispatch_get_main_queue(), ^{
+//        //[progInd setDoubleValue: (double)i/maxloop * 100];
+//      });
+    }
     
     
     // Calculation finished, remove sheet on main thread
     
     dispatch_async(dispatch_get_main_queue(), ^{
       [progInd setIndeterminate:YES];
+      [progInd stopAnimation:nil];
       
       [NSApp endSheet:progSheet];
       [progSheet orderOut:self];
