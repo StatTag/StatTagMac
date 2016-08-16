@@ -18,6 +18,9 @@
 		380A67A71D1077490045B72B /* STConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 380A67A61D1077490045B72B /* STConstants.m */; };
 		380A67AA1D107A820045B72B /* StatTagModelConstantsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 380A67A91D107A820045B72B /* StatTagModelConstantsTests.m */; };
 		381FD33F1D19F00700DB4B12 /* STConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 380A67A81D1077550045B72B /* STConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		38245DE21D635CD100CB1C87 /* STTagUpdateProgressController.h in Headers */ = {isa = PBXBuildFile; fileRef = 38245DDF1D635CD100CB1C87 /* STTagUpdateProgressController.h */; };
+		38245DE31D635CD100CB1C87 /* STTagUpdateProgressController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38245DE01D635CD100CB1C87 /* STTagUpdateProgressController.m */; };
+		38245DE41D635CD100CB1C87 /* STTagUpdateProgressController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38245DE11D635CD100CB1C87 /* STTagUpdateProgressController.xib */; };
 		382C284E1D1202D400697D6F /* STBaseParameterParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 382C284C1D1202D400697D6F /* STBaseParameterParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		382C284F1D1202D400697D6F /* STBaseParameterParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 382C284D1D1202D400697D6F /* STBaseParameterParser.m */; };
 		382C28511D13247800697D6F /* StatTagObjCPortingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 382C28501D13247700697D6F /* StatTagObjCPortingTests.m */; };
@@ -229,6 +232,9 @@
 		380A67A61D1077490045B72B /* STConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STConstants.m; sourceTree = "<group>"; };
 		380A67A81D1077550045B72B /* STConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = STConstants.h; sourceTree = "<group>"; };
 		380A67A91D107A820045B72B /* StatTagModelConstantsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagModelConstantsTests.m; sourceTree = "<group>"; };
+		38245DDF1D635CD100CB1C87 /* STTagUpdateProgressController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STTagUpdateProgressController.h; sourceTree = "<group>"; };
+		38245DE01D635CD100CB1C87 /* STTagUpdateProgressController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STTagUpdateProgressController.m; sourceTree = "<group>"; };
+		38245DE11D635CD100CB1C87 /* STTagUpdateProgressController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = STTagUpdateProgressController.xib; sourceTree = "<group>"; };
 		382C284C1D1202D400697D6F /* STBaseParameterParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STBaseParameterParser.h; sourceTree = "<group>"; };
 		382C284D1D1202D400697D6F /* STBaseParameterParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STBaseParameterParser.m; sourceTree = "<group>"; };
 		382C28501D13247700697D6F /* StatTagObjCPortingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagObjCPortingTests.m; sourceTree = "<group>"; };
@@ -759,6 +765,9 @@
 				38A0EFE01D5BBF1F001AFA54 /* STManageCodeFilesController.h */,
 				38A0EFE11D5BBF1F001AFA54 /* STManageCodeFilesController.m */,
 				38A0EFE21D5BBF1F001AFA54 /* STManageCodeFilesController.xib */,
+				38245DDF1D635CD100CB1C87 /* STTagUpdateProgressController.h */,
+				38245DE01D635CD100CB1C87 /* STTagUpdateProgressController.m */,
+				38245DE11D635CD100CB1C87 /* STTagUpdateProgressController.xib */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -916,6 +925,7 @@
 				385FDD401D34293400AE0FE2 /* STDuplicateTagResults.h in Headers */,
 				382C28B41D1994DE00697D6F /* STBaseGenerator.h in Headers */,
 				385FDD331D33CEEE00AE0FE2 /* STThisAddIn.h in Headers */,
+				38245DE21D635CD100CB1C87 /* STTagUpdateProgressController.h in Headers */,
 				3884513C1D19DCB3004C2B40 /* STValueParameterParser.h in Headers */,
 				38C9B2001D109B40003B571E /* STExecutionStep.h in Headers */,
 				38B9D3391D4BFE0F00C62C30 /* STProperties.h in Headers */,
@@ -1131,6 +1141,7 @@
 			files = (
 				38BE59B81D54CA4200FF9E99 /* ScriptableTasks.sdef in Resources */,
 				38BE59B61D53867E00FF9E99 /* STUpdateOutputController.xib in Resources */,
+				38245DE41D635CD100CB1C87 /* STTagUpdateProgressController.xib in Resources */,
 				38A0EFE51D5BBF1F001AFA54 /* STManageCodeFilesController.xib in Resources */,
 				38BE59791D5288C300FF9E99 /* STSettingsController.xib in Resources */,
 			);
@@ -1177,6 +1188,7 @@
 			files = (
 				38B9D3321D4BF99B00C62C30 /* STUIUtility.m in Sources */,
 				380A67A51D106FBB0045B72B /* STCommandResult.m in Sources */,
+				38245DE31D635CD100CB1C87 /* STTagUpdateProgressController.m in Sources */,
 				382C285C1D133BCD00697D6F /* STValueFormat.m in Sources */,
 				380A679B1D1061110045B72B /* STTable.m in Sources */,
 				38A7CE951D4FDE2100B06AFF /* STBaseManager.m in Sources */,

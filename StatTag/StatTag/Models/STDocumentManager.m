@@ -56,6 +56,12 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   return [NSNumber numberWithInteger:fieldsCount];
 }
 
+-(STMSWord2011Document*)activeDocument {
+  STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
+  STMSWord2011Document* document = [app activeDocument];
+  return document;
+}
+
 /**
   Provider a wrapper to check if a variable exists in the document.
   @remarks: Needed because Word interop doesn't provide a nice check mechanism, and uses exceptions instead.

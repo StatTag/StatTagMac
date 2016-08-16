@@ -22,6 +22,7 @@
 @class STFieldTag;
 @class STMSWord2011SelectionObject;
 @class STMSWord2011Variable;
+@class STMSWord2011Document;
 
 @interface STDocumentManager : STBaseManager {
   NSMutableDictionary<NSString*, NSMutableArray<STCodeFile*>*>* DocumentCodeFiles;
@@ -113,5 +114,7 @@
  */
 -(void)PerformDocumentCheck:(STMSWord2011Document*)document;
 
+
+-(STMSWord2011Document*)activeDocument;
 
 @end
