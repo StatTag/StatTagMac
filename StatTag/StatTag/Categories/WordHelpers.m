@@ -11,6 +11,8 @@
 #import <StatTag/StatTag.h>
 #import "ASOC.h"
 #import "WordASOC.h"
+//#import <objc/objc-runtime.h>
+//#import <ScriptingBridge/SBApplication.h>
 
 @implementation WordHelpers
 
@@ -308,15 +310,108 @@ static WordHelpers* sharedInstance = nil;
 }
 
 
-+(NSString*)getFieldDataForFieldAtIndex:(int)theIndex {
+//+(NSString*)getFieldDataForFieldAtIndex:(int)theIndex {
+//  [[self class] sharedInstance];
+//  WordASOC *asoc = [[NSClassFromString(@"WordASOC") alloc] init];
+//  //NSString* fieldText = [asoc getFieldDataForFieldAtIndex:[NSNumber numberWithInteger:theIndex]];
+//  //NSString* fieldText = [asoc getFieldDataForFieldAtIndexUsingScript:[NSNumber numberWithInteger:theIndex]];
+//
+//  NSString* fieldText = [asoc getFieldDataFileForFieldAtIndex:[NSNumber numberWithInteger:theIndex]];
+//  
+//  return fieldText;
+//}
+
++(BOOL)updateAllFields {
   [[self class] sharedInstance];
   WordASOC *asoc = [[NSClassFromString(@"WordASOC") alloc] init];
-  //NSString* fieldText = [asoc getFieldDataForFieldAtIndex:[NSNumber numberWithInteger:theIndex]];
-  //NSString* fieldText = [asoc getFieldDataForFieldAtIndexUsingScript:[NSNumber numberWithInteger:theIndex]];
+  return [[asoc updateAllFields] boolValue];
+}
 
-  NSString* fieldText = [asoc getFieldDataFileForFieldAtIndex:[NSNumber numberWithInteger:theIndex]];
++(void)select:(STMSWord2011BaseObject*)wordObject {
+//  NSLog(@"%d", [[[[STGlobals sharedInstance] ThisAddIn] applicationVersion] integerValue]);
   
-  return fieldText;
+//  if([[[[STGlobals sharedInstance] ThisAddIn] applicationVersion] integerValue] >= 15) {
+//    //- set its selectionStart and selectionEnd
+//    STMSWord2011SelectionObject* selection  = [[[[STGlobals sharedInstance] ThisAddIn] Application] selection];
+//    if(selection != nil) {
+//      
+//      
+//    }
+//  } else {
+//    [wordObject select];
+//  }
+
+  if([wordObject respondsToSelector:@selector(select)]){
+    if ([wordObject respondsToSelector:@selector(fieldCode)]) {
+      STMSWord2011Field* field = (STMSWord2011Field*)wordObject;
+      STMSWord2011TextRange* tr = [field fieldCode];
+      NSLog(@"WordHelpers - select (%ld,%ld)", [tr startOfContent], [tr endOfContent]);
+    }
+    [wordObject select];
+    
+    STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
+    NSLog(@"WordHelpers - selection (%ld,%ld)", [[app selection] selectionStart], [[app selection] selectionEnd]);
+  } else if ([wordObject respondsToSelector:@selector(fieldCode)]) {
+    //field
+    STMSWord2011Field* field = (STMSWord2011Field*)wordObject;
+    STMSWord2011TextRange* tr = [field fieldCode];
+    NSLog(@"WordHelpers - select (%ld,%ld)", [tr startOfContent], [tr endOfContent]);
+    if(tr != nil) {
+      int start = [tr startOfContent];
+      int end = [tr endOfContent] + 1;
+      if(start > 0) {
+        start = start - 1;
+      }
+      [WordHelpers selectTextAtRangeStart:start andEnd:end];
+    }
+    //[WordHelpers selectTextInRange:tr];
+  } else if ([wordObject respondsToSelector:@selector(textObject)]) {
+    //table
+    STMSWord2011Table* table = (STMSWord2011Table*)wordObject;
+    STMSWord2011TextRange* tr = [table textObject];
+    [WordHelpers selectTextInRange:tr];
+  } else if ([wordObject respondsToSelector:@selector(startOfContent)]) {
+    //text range
+    STMSWord2011TextRange* tr = (STMSWord2011TextRange*)wordObject;
+    [WordHelpers selectTextInRange:tr];
+  }
+  //we're really really really prefer to use "isKindOfClass" but when we message "class" on an SBObject
+  // we run into issues with the compiler
+  
+    //  } else {
+//    NSLog(@"%@", NSStringFromClass([STMSWord2011Field class]));
+//    if([wordObject isKindOfClass:[STMSWord2011Field class]]) {
+//      //short-hand form?
+//      //[[NSMutableArray cast:a] addObject:x];
+//      STMSWord2011Field* field = (STMSWord2011Field*)wordObject;
+//      STMSWord2011TextRange* tr = [field fieldCode];
+//      [WordHelpers selectTextInRange:tr];
+//    } else if ([wordObject isKindOfClass:[STMSWord2011TextRange class]]) {
+//      STMSWord2011TextRange* tr = (STMSWord2011TextRange*)wordObject;
+//      [WordHelpers selectTextInRange:tr];
+//    } else if ([wordObject isKindOfClass:[STMSWord2011Table class]]) {
+//      STMSWord2011Table* table = (STMSWord2011Table*)wordObject;
+//      STMSWord2011TextRange* tr = [table textObject];
+//      [WordHelpers selectTextInRange:tr];
+//    } else {
+//      NSLog(@"WordHelper(select:) unable to determine proper range handling for type : %@", NSStringFromClass([wordObject class]));
+//    }
+//  }
+}
+
++(void)selectTextAtRangeStart:(int)rangeStart andEnd:(int)rangeEnd {
+    STMSWord2011SelectionObject* selection = [[[[STGlobals sharedInstance] ThisAddIn] Application] selection];//.activeWindow.selection;
+    selection.selectionStart = rangeStart;
+    selection.selectionEnd = rangeEnd;
+}
+
++(void)selectTextInRange:(STMSWord2011TextRange*)textRange {
+  if(textRange != nil) {
+    STMSWord2011SelectionObject* selection = [[[[STGlobals sharedInstance] ThisAddIn] Application] selection];//.activeWindow.selection;
+    selection.selectionStart = [textRange startOfContent];
+    selection.selectionEnd = [textRange endOfContent];
+  }
+
 }
 
 @end

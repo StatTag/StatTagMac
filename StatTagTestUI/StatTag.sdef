@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionary SYSTEM "file://localhost/System/Library/DTDs/sdef.dtd">
+
+<dictionary title="StatTagTestUI">
+  <suite name="StatTag Suite" code="STTG" description="StatTag AppleScript methods.">
+    <command name="updateFields" code="STTGUPDT" description="Look up a string, searches for an entry">
+      <cocoa class="STAppleScript_UpdateFields"/>
+      <result type="boolean" description="Did update fields"/>
+    </command>
+    <command name="dummyUI" code="STTGDMMY" description="Launch a dummy UI">
+      <cocoa class="STAppleScript_DummyUI"/>
+      <result type="boolean" description="Did launchh UI and complete"/>
+    </command>
+  </suite>
+</dictionary>

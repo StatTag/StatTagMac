@@ -47,6 +47,10 @@ NSString* const defaultLogFileName = @"StatTag.log";
   [[self boxGeneral] setBorderType:NSLineBorder];
   [[self boxGeneral] setFillColor:[NSColor whiteColor]];
   
+  //[[self window] setLevel:NSStatusWindowLevel];
+  
+  [[self window] makeKeyAndOrderFront:self];
+  
   //[[self boxView] setWantsLayer:YES];
   //[[[self boxView] layer] setBackgroundColor:[[NSColor whiteColor] CGColor]];
 }
@@ -54,6 +58,10 @@ NSString* const defaultLogFileName = @"StatTag.log";
 - (void)windowWillClose:(NSNotification *)notification {
   [[NSApplication sharedApplication] stopModal];
   //also -> stopModalWithCode: someInteger;
+}
+
+-(BOOL)canBecomeKeyWindow {
+  return true;
 }
 
 - (void)windowDidBecomeKey:(NSNotification*)notification

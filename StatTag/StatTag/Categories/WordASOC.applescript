@@ -312,4 +312,27 @@ script WordASOC
   end getFieldDataFileForFieldAtIndex
 
 
+  on updateAllFields()
+    --tell application "StatTagTestUI" to run
+    activate application "StatTagTestUI"
+    tell application "StatTagTestUI"
+      return updateFields
+    end tell
+
+    -- no activate
+--    tell application "System Events"
+--      tell group 1 of group 2 of window "Billings" of process "Billings"
+--        perform action "AXPress" of (get first button whose its name ends with " Timer")
+--      end tell
+--    end tell
+
+    -- no activate
+--    tell application "System Events"
+--      tell process "Microsoft Entourage"
+--        tell   tell click menu item "menu item name" of menu 1 of menu bar item "Menu name" of menu bar 1
+--        tell end tell
+--    end tell
+          
+  end updateAllFields
+
 end script

@@ -27,6 +27,7 @@
 @synthesize DocumentManager = _DocumentManager;
 @synthesize StatsManager = _StatsManager;
 @synthesize PropertiesManager = _PropertiesManager;
+@synthesize applicationVersion = _applicationVersion;
 
 +(NSArray<NSString*>*) ProcessNames {
   return [NSArray arrayWithObjects:
@@ -58,6 +59,14 @@
       [[self PropertiesManager] Load];
       [[self LogManager] UpdateSettings:[[[self PropertiesManager] Properties] EnableLogging]  filePath:[[[self PropertiesManager] Properties] LogLocation]];
       _DocumentManager.Logger = [self LogManager];
+      
+      NSArray* versionParts = [[_Application applicationVersion] componentsSeparatedByString:@"."];
+      if(versionParts.count > 0) {
+        _applicationVersion = [NSNumber numberWithInt:[[versionParts firstObject] intValue]];
+      } else {
+        _applicationVersion = [NSNumber numberWithInt:0];
+      }
+      
       
       //[self ThisAddIn_Startup];
     }

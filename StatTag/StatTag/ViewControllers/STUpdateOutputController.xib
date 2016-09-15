@@ -266,6 +266,7 @@
                         </buttonCell>
                         <connections>
                             <action selector="refreshTags:" target="-2" id="w8H-hf-Mtt"/>
+                            <binding destination="xsf-9M-qza" name="enabled" keyPath="selectedObjects.@count" id="wRR-5P-BtL"/>
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jH2-oP-vby">

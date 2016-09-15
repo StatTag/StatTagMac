@@ -93,6 +93,8 @@
   //NSLog(@"InsertField -> range -> start: %ld, end : %ld, content : %@", (long)[range startOfContent], (long)[range endOfContent], [range content]);
 
   
+
+  
   
   NSCharacterSet *ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
 
@@ -298,7 +300,9 @@
   
   STMSWord2011TextRange* spaceRange = [WordHelpers DuplicateRange:fieldRange];
   [WordHelpers setRange:&spaceRange Start:[spaceRange endOfContent]+2 end:[spaceRange endOfContent]+3];
-  [spaceRange select];
+  //[spaceRange select];
+  [WordHelpers select:spaceRange];
+
   STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
   STMSWord2011SelectionObject* selection = [app selection];
   [selection typeBackspace];
@@ -308,10 +312,10 @@
   int newPos = [fieldRange endOfContent] + [[fieldRange fields] count] + 1;
   [WordHelpers setRange:&fieldRange Start:newPos end:newPos];
   
-  [fieldRange select];
-  
+  //[fieldRange select];
+  [WordHelpers select:fieldRange];
 
-  
+
   // Update the result of the outer field object.
   if(result != nil) {
     [result updateField];
@@ -383,6 +387,7 @@ Adds a new empty Word.Field to the specified Word.Range.
   
   STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
   [app createNewFieldTextRange:range fieldType:type fieldText:text preserveFormatting:preserveFormatting];
+  NSLog(@"AddFieldToRange - range(%ld, %ld)", [range startOfContent], [range endOfContent]);
   return [[range fields] lastObject];
   
   // original c#

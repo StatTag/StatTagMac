@@ -21,6 +21,7 @@
   STDocumentManager* _DocumentManager;
   STStatsManager* _StatsManager;
   STPropertiesManager* _PropertiesManager;
+  NSNumber* _applicationVersion;
 }
 
 @property NSString* AppBundleIdentifier;
@@ -29,6 +30,7 @@
 @property STDocumentManager* DocumentManager;
 @property STStatsManager* StatsManager;
 @property STPropertiesManager* PropertiesManager;
+@property NSNumber* applicationVersion;
 
 /**
  Our list of Cocoa bundle identifiers

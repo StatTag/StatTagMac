@@ -612,11 +612,15 @@
 }
 
 
+-(void)testFieldEnumeration {
+  [STWindowLauncher testGettingFields];
+}
+
 -(void)testASOCGetFieldText {
   
-  for(STMSWord2011Field* field in [doc fields]) {
-    NSLog(@"WordHelpers (%d) : %@",[field entry_index], [WordHelpers getFieldDataForFieldAtIndex:[field entry_index]]);
-  }
+//  for(STMSWord2011Field* field in [doc fields]) {
+//    NSLog(@"WordHelpers (%d) : %@",[field entry_index], [WordHelpers getFieldDataForFieldAtIndex:[field entry_index]]);
+//  }
   //NSLog(@"WordHelpers %@",[WordHelpers getFieldDataForFieldAtIndex:2]);
   //+(NSString*)getFieldDataForFieldAtIndex:(int)theIndex
   
@@ -635,6 +639,9 @@
   
 }
 
+-(void)testAppleScriptToApp {
+  [WordHelpers updateAllFields];
+}
 
 -(void)testXPC {
   

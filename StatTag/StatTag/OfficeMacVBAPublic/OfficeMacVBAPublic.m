@@ -10,6 +10,7 @@
 #import <Cocoa/Cocoa.h>
 
 #import "STWindowLauncher.h"
+#import "StatTag.h"
 
 void StatTagOpenSettings()
 {
@@ -20,4 +21,27 @@ void StatTagOpenUpdateOutput()
 {
   [STWindowLauncher openUpdateOutput];
 }
+
+void StatTagUpdateWordFields()
+{
+  STDocumentManager* manager = [[STDocumentManager alloc] init];
+  [manager UpdateFields];
+}
+
+void StatTagTestGettingFields()
+{
+  [STWindowLauncher testGettingFields];
+}
+
+void StatTagManageCodeFields()
+{
+  [STWindowLauncher openManageCodeFiles];
+}
+
+
+int TestCInterface()
+{
+  return 123;
+}
+
 

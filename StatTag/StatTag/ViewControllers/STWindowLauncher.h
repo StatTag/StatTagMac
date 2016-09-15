@@ -14,4 +14,6 @@
 +(NSString*)openUpdateOutput;
 +(NSString*)openManageCodeFiles;
 
++(NSString*)testGettingFields;
+
 @end

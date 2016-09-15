@@ -33,8 +33,11 @@
 //-(void)enableScreenUpdates;
 -(NSNumber*)createTableAtRangeStart:(NSNumber*)rangeStart andRangeEnd:(NSNumber*)rangeEnd withRows:(NSNumber*)rows andCols:(NSNumber*)cols;
 -(NSNumber*)insertParagraphAtRangeStart:(NSNumber*)rangeStart andRangeEnd:(NSNumber*)rangeEnd;
--(NSString*)getFieldDataForFieldAtIndex:(NSNumber*)theIndex;
--(NSString*)getFieldDataForFieldAtIndexUsingScript:(NSNumber*)theIndex;
--(NSString*)getFieldDataFileForFieldAtIndex:(NSNumber*)theIndex;
+//-(NSString*)getFieldDataForFieldAtIndex:(NSNumber*)theIndex;
+//-(NSString*)getFieldDataForFieldAtIndexUsingScript:(NSNumber*)theIndex;
+//-(NSString*)getFieldDataFileForFieldAtIndex:(NSNumber*)theIndex;
+
+-(NSNumber*)updateAllFields;
+
 
 @end

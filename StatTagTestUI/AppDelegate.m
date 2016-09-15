@@ -39,7 +39,7 @@
 - (IBAction)openUpdateTags:(id)sender {
   [STWindowLauncher openUpdateOutput];
   
-  [self logCurrentWordTags];
+  //[self logCurrentWordTags];
 
 }
 
@@ -124,6 +124,19 @@
     [tagData appendString:[NSString stringWithFormat:@"\r\n"]];
     [tagData appendString:[NSString stringWithFormat:@"\r\nfield (%d)", index]];
     [tagData appendString:[NSString stringWithFormat:@"\r\n=================="]];
+    [tagData appendString:[NSString stringWithFormat:@"\r\nFieldCode -> start : %ld, end : %ld, length : %ld", [[field fieldCode] startOfContent], [[field fieldCode] endOfContent], [[[field fieldCode] content] length]   ]];
+    
+//    STMSWord2011SelectionObject* selection = [[[[STGlobals sharedInstance] ThisAddIn] Application] selection];
+//    selection.selectionStart = [[field fieldCode] startOfContent];
+//    selection.selectionEnd = [[field fieldCode] startOfContent] + 1;
+//    NSString* startText = [[selection textObject] content];
+//
+//    selection.selectionStart = [[field fieldCode] endOfContent];
+//    selection.selectionEnd = [[field fieldCode] endOfContent] + 1;
+//    NSString* endText = [[selection textObject] content];
+    
+//    [tagData appendString:[NSString stringWithFormat:@"\r\nFieldCode character -> start : %@, end : %@", startText, endText]];
+
     [tagData appendString:[NSString stringWithFormat:@"\r\nfieldCode.content : %@", [[field fieldCode] content]]];
     [tagData appendString:[NSString stringWithFormat:@"\r\nfieldText : %@", [field fieldText]]];
     

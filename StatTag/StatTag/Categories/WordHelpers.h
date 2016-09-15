@@ -11,6 +11,7 @@
 @class STMSWord2011Document;
 @class STMSWord2011LinkFormat;
 @class STMSWord2011Table;
+@class STMSWord2011BaseObject;
 
 @interface WordHelpers : NSObject
 
@@ -44,8 +45,15 @@
 +(STMSWord2011Table*)createTableAtRange:(STMSWord2011TextRange*)range withRows:(int)rows andCols:(int)cols;
 +(BOOL)insertParagraphAtRange:(STMSWord2011TextRange*)range;
 
-+(NSString*)getFieldDataForFieldAtIndex:(int)theIndex;
+//+(NSString*)getFieldDataForFieldAtIndex:(int)theIndex;
 
 +(void)testService;
+
++(BOOL)updateAllFields;
+
++(void)select:(STMSWord2011BaseObject*)wordObject;
+
++(void)selectTextAtRangeStart:(int)rangeStart andEnd:(int)rangeEnd;
++(void)selectTextInRange:(STMSWord2011TextRange*)textRange;
 
 @end

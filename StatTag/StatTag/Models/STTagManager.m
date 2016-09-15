@@ -166,10 +166,10 @@ the DocumentManager instance that contains it.
   NSString* nestedFieldText = [NSString stringWithString:[nestedField fieldText]];//[[nestedField fieldText] copy];
 
   [STGlobals activateDocument];
-  NSLog(@"DeserializeFieldTag -> nestedField APPLESCRIPT (about to call)");
-  NSString* testNestedFieldText = [WordHelpers getFieldDataForFieldAtIndex:[nestedField entry_index]];
-  NSLog(@"DeserializeFieldTag -> nestedField APPLESCRIPT (just called)");
-  NSLog(@"DeserializeFieldTag -> nestedField APPLESCRIPT field json: %@", testNestedFieldText);
+//  NSLog(@"DeserializeFieldTag -> nestedField APPLESCRIPT (about to call)");
+//  NSString* testNestedFieldText = [WordHelpers getFieldDataForFieldAtIndex:[nestedField entry_index]];
+//  NSLog(@"DeserializeFieldTag -> nestedField APPLESCRIPT (just called)");
+//  NSLog(@"DeserializeFieldTag -> nestedField APPLESCRIPT field json: %@", testNestedFieldText);
   
 //  [STGlobals activateDocument];
   NSLog(@"DeserializeFieldTag -> nestedField : %@", nestedField);
@@ -449,7 +449,9 @@ the DocumentManager instance that contains it.
       [self UpdateTagFieldData:field tag:tag];
     } else if ([action Action] == [STConstantsCodeFileActionTask RemoveTags]) {
       NSLog(@"Removing %@", [tag Name]);
-      [field select];
+      //[field select];
+      [WordHelpers select:field];
+
       STMSWord2011Application* application = [[[STGlobals sharedInstance] ThisAddIn] Application];
       [[application selection] textObject].content = [STConstantsPlaceholders RemovedField];
       [[application selection] textObject].highlightColorIndex = STMSWord2011E110Yellow;
@@ -504,7 +506,9 @@ the DocumentManager instance that contains it.
       [self UpdateTagFieldData:field tag:tag];
     } else if ([action Action] == [STConstantsCodeFileActionTask RemoveTags]) {
       NSLog(@"Removing %@", [tag Name]);
-      [field select];
+      //[field select];
+      [WordHelpers select:field];
+
       STMSWord2011Application* application = [[[STGlobals sharedInstance] ThisAddIn] Application];
       [[application selection] textObject].content = [STConstantsPlaceholders RemovedField];
       [[application selection] textObject].highlightColorIndex = STMSWord2011E110Yellow;

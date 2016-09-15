@@ -290,7 +290,8 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
       int firstFieldLocation = -1;
       if (isFirstCell)
       {
-        [field select];
+        [WordHelpers select:field];
+        //[field select];
         STMSWord2011SelectionObject* selection = [app selection];
         
         firstFieldLocation = [selection selectionStart]; //selection.Range.Start;
@@ -387,7 +388,9 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   NSLog(@"UpdateFields - Started");
   
   STMSWord2011Application* application = [[[STGlobals sharedInstance] ThisAddIn] Application];
+  NSLog(@"Application (%@) : %@", [application name], application );
   STMSWord2011Document* document = [application activeDocument];
+  
   
   //FIXME: we need to do something different...
   //Cursor.Current = Cursors.WaitCursor;
@@ -448,6 +451,8 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
       
       STFieldTag* tag = [_TagManager GetFieldTag:field];
       
+
+      
       NSLog(@"after tag generation");
       
       NSLog(@"tag has FormattedResult : %@", [tag FormattedResult]);
@@ -481,7 +486,8 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
       }
       
       NSLog(@"Inserting field for tag: %@", tag.Name);
-      [field select];
+      [WordHelpers select:field];
+      //[field select];
       [self InsertField:tag];
       
       [self setValue:[NSNumber numberWithInteger:index+1] forKey:@"wordFieldsUpdated"];
@@ -556,7 +562,10 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
   STMSWord2011Document* document = [app activeDocument];
   
-  [[document createRangeStart:[[selectedCell textObject] startOfContent] end:[[endCell textObject] endOfContent]] select];
+//  [[document createRangeStart:[[selectedCell textObject] startOfContent] end:[[endCell textObject] endOfContent]] select];
+  [WordHelpers select:[document createRangeStart:[[selectedCell textObject] startOfContent] end:[[endCell textObject] endOfContent]]];
+
+
   
   SBElementArray<STMSWord2011Cell*>* cells = [self GetCells:[app selection]];
   
@@ -726,7 +735,11 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   // Once the table has been inserted, re-select it (inserting fields messes with the previous selection) and
   // insert a new line after it.  This gives us spacing after a table so inserting multiple tables doesn't have
   // them all glued together.
-  [[[selection tables] firstObject] select];
+  
+  //[[[selection tables] firstObject] select];
+  [WordHelpers select:[[selection tables] firstObject]];
+
+  
   STMSWord2011SelectionObject* tableSelection = [[[[STGlobals sharedInstance] ThisAddIn] Application] selection];
   [self InsertNewLineAndMoveDown:tableSelection];
   //Marshal.ReleaseComObject(tableSelection);
@@ -768,7 +781,10 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
     
     STMSWord2011Table* wordTable = [WordHelpers createTableAtRange:[[app selection] textObject] withRows:rowCount andCols:columnCount];
 
-    [wordTable select];
+    //[wordTable select];
+    [WordHelpers select:wordTable];
+
+    
     STMSWord2011BorderOptions* borders = [wordTable borderOptions];
     borders.insideLineStyle = STMSWord2011E167LineStyleSingle;
     //borders.outsideLineStyle = STMSWord2011E167LineStyleSingle; //for some reason this is yellow...
