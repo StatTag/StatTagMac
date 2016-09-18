@@ -328,20 +328,10 @@ static WordHelpers* sharedInstance = nil;
 }
 
 +(void)select:(STMSWord2011BaseObject*)wordObject {
-//  NSLog(@"%d", [[[[STGlobals sharedInstance] ThisAddIn] applicationVersion] integerValue]);
-  
-//  if([[[[STGlobals sharedInstance] ThisAddIn] applicationVersion] integerValue] >= 15) {
-//    //- set its selectionStart and selectionEnd
-//    STMSWord2011SelectionObject* selection  = [[[[STGlobals sharedInstance] ThisAddIn] Application] selection];
-//    if(selection != nil) {
-//      
-//      
-//    }
-//  } else {
-//    [wordObject select];
-//  }
 
+  //Word 2011 supports the "select" method - 2016 does NOT - it was removed
   if([wordObject respondsToSelector:@selector(select)]){
+    // 2011...
     if ([wordObject respondsToSelector:@selector(fieldCode)]) {
       STMSWord2011Field* field = (STMSWord2011Field*)wordObject;
       STMSWord2011TextRange* tr = [field fieldCode];
@@ -351,52 +341,52 @@ static WordHelpers* sharedInstance = nil;
     
     STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
     NSLog(@"WordHelpers - selection (%ld,%ld)", [[app selection] selectionStart], [[app selection] selectionEnd]);
-  } else if ([wordObject respondsToSelector:@selector(fieldCode)]) {
-    //field
-    STMSWord2011Field* field = (STMSWord2011Field*)wordObject;
-    STMSWord2011TextRange* tr = [field fieldCode];
-    NSLog(@"WordHelpers - select (%ld,%ld)", [tr startOfContent], [tr endOfContent]);
-    if(tr != nil) {
-      int start = [tr startOfContent];
-      int end = [tr endOfContent] + 1;
-      if(start > 0) {
-        start = start - 1;
-      }
-      [WordHelpers selectTextAtRangeStart:start andEnd:end];
-    }
-    //[WordHelpers selectTextInRange:tr];
-  } else if ([wordObject respondsToSelector:@selector(textObject)]) {
-    //table
-    STMSWord2011Table* table = (STMSWord2011Table*)wordObject;
-    STMSWord2011TextRange* tr = [table textObject];
-    [WordHelpers selectTextInRange:tr];
-  } else if ([wordObject respondsToSelector:@selector(startOfContent)]) {
-    //text range
-    STMSWord2011TextRange* tr = (STMSWord2011TextRange*)wordObject;
-    [WordHelpers selectTextInRange:tr];
   }
-  //we're really really really prefer to use "isKindOfClass" but when we message "class" on an SBObject
-  // we run into issues with the compiler
-  
-    //  } else {
-//    NSLog(@"%@", NSStringFromClass([STMSWord2011Field class]));
-//    if([wordObject isKindOfClass:[STMSWord2011Field class]]) {
-//      //short-hand form?
-//      //[[NSMutableArray cast:a] addObject:x];
-//      STMSWord2011Field* field = (STMSWord2011Field*)wordObject;
-//      STMSWord2011TextRange* tr = [field fieldCode];
-//      [WordHelpers selectTextInRange:tr];
-//    } else if ([wordObject isKindOfClass:[STMSWord2011TextRange class]]) {
-//      STMSWord2011TextRange* tr = (STMSWord2011TextRange*)wordObject;
-//      [WordHelpers selectTextInRange:tr];
-//    } else if ([wordObject isKindOfClass:[STMSWord2011Table class]]) {
-//      STMSWord2011Table* table = (STMSWord2011Table*)wordObject;
-//      STMSWord2011TextRange* tr = [table textObject];
-//      [WordHelpers selectTextInRange:tr];
-//    } else {
-//      NSLog(@"WordHelper(select:) unable to determine proper range handling for type : %@", NSStringFromClass([wordObject class]));
-//    }
-//  }
+  else {
+    // 2016...
+    //
+    // We're really really really prefer to use "isKindOfClass" but when we message "class" on an SBObject
+    //   we run into issues with the compiler at runtime - something to do with scripting bridge and proxy objects
+    //   when we refer to the type
+    //
+    // Instead, we're going to get a handle on the instance class (which we can check for type). Then we're just
+    //   going to do a string comparison against the known class (names) we want to 'select'
+    //
+    // Our class types do NOT match the emitted sdef class names - they use the raw internal Word class names
+    //   (Check the script editor)
+    //
+    // We then just (try...) to cast the type and approximate the previous (2011) selection
+    //
+    // There may be a better way to do this with Obj-C. Not clear to me if that's the case.
+    NSString* woClass = NSStringFromClass([wordObject class]);
+    //NSLog(@"className : %@", woClass);
+    
+    if([woClass isEqualToString:@"MicrosoftWordField"]) {
+      //field requires we offset the start/end character positions because they use escape sequences
+      // to indicate field start "{" and field end "}" - when you select the content, those escape characters
+      // aren't included
+      STMSWord2011Field* field = (STMSWord2011Field*)wordObject;
+      STMSWord2011TextRange* tr = [field fieldCode];
+      NSLog(@"WordHelpers - select (%ld,%ld)", [tr startOfContent], [tr endOfContent]);
+      if(tr != nil) {
+        int start = [tr startOfContent];
+        int end = [tr endOfContent] + 1;
+        if(start > 0) {
+          start = start - 1;
+        }
+        [WordHelpers selectTextAtRangeStart:start andEnd:end];
+      }
+    } else if ([woClass isEqualToString:@"MicrosoftWordTable"]) {
+      //table
+      STMSWord2011Table* table = (STMSWord2011Table*)wordObject;
+      STMSWord2011TextRange* tr = [table textObject];
+      [WordHelpers selectTextInRange:tr];
+    } else if ([woClass isEqualToString:@"MicrosoftWordTextRange"]) {
+      //text range
+      STMSWord2011TextRange* tr = (STMSWord2011TextRange*)wordObject;
+      [WordHelpers selectTextInRange:tr];
+    }
+  }
 }
 
 +(void)selectTextAtRangeStart:(int)rangeStart andEnd:(int)rangeEnd {

@@ -384,7 +384,7 @@
             startingLineNumber = "187"
             endingLineNumber = "187"
             landmarkName = "-Application_DocumentOpen:"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -400,7 +400,7 @@
             startingLineNumber = "199"
             endingLineNumber = "199"
             landmarkName = "-Application_DocumentOpen:"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -778,11 +778,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StatTag/StatTag/Categories/WordHelpers.m"
-            timestampString = "495667781.639419"
+            timestampString = "495927467.498782"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "410"
-            endingLineNumber = "410"
+            startingLineNumber = "446"
+            endingLineNumber = "446"
             landmarkName = "+selectTextInRange:"
             landmarkType = "7">
          </BreakpointContent>
@@ -810,27 +810,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StatTag/StatTag/Categories/WordHelpers.m"
-            timestampString = "495664782.600097"
+            timestampString = "495927467.498782"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "357"
-            endingLineNumber = "357"
-            landmarkName = "+select:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "StatTag/StatTag/Categories/WordHelpers.m"
-            timestampString = "495667781.639419"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "367"
-            endingLineNumber = "367"
+            startingLineNumber = "361"
+            endingLineNumber = "361"
             landmarkName = "+select:"
             landmarkType = "7">
          </BreakpointContent>
