@@ -96,7 +96,7 @@
             startingLineNumber = "600"
             endingLineNumber = "600"
             landmarkName = "-testViewWordFieldJSON"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -176,7 +176,7 @@
             startingLineNumber = "587"
             endingLineNumber = "587"
             landmarkName = "-testViewWordFieldJSON"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
