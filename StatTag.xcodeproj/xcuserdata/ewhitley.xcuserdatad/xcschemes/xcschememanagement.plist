@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>StatTag.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>3</integer>
+		</dict>
 		<key>StatTagFramework.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -33,6 +38,31 @@
 			<true/>
 		</dict>
 		<key>382C8D401D101C2700FE6878</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>3836F5491D92C89900BF0DD4</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>3836F55E1D92C89900BF0DD4</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>3836F5691D92C89A00BF0DD4</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>385EF1481D95D672005768C7</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>385EF1501D95D672005768C7</key>
 		<dict>
 			<key>primary</key>
 			<true/>

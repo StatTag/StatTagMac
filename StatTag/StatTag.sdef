@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionary SYSTEM "file://localhost/System/Library/DTDs/sdef.dtd">
+
+<dictionary title="StatTagTestUI">
+  <suite name="StatTag Suite" code="STTG" description="StatTag AppleScript methods.">
+    <command name="updateFields" code="STTGUPDT" description="Look up a string, searches for an entry">
+      <cocoa class="STAppleScript_UpdateFields"/>
+      <result type="boolean" description="Did update fields"/>
+    </command>
+    <command name="manageCodeFiles" code="STMNGCFL" description="Manage Code Files">
+      <cocoa class="STAppleScript_OpenManageCodeFiles"/>
+      <result type="boolean" description="Did launch UI and complete"/>
+    </command>
+    <command name="openSettings" code="STOPNSTG" description="Open Settings">
+      <cocoa class="STAppleScript_OpenSettings"/>
+      <result type="boolean" description="Did launch UI and complete"/>
+    </command>
+  </suite>
+</dictionary>
