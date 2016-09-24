@@ -111,6 +111,19 @@ NSString* const allowedExtensions_CodeFiles = @"do/DO";
   [_documentManager SaveCodeFileListToDocument:nil];
 }
 
+- (IBAction)openFileInFinder:(id)sender {
+  
+  //make sure you set the table's delegate and data source to file's owner
+  
+  NSInteger row = [[self fileTableView] rowForView:sender];
+  NSURL* filePathURL = [[[_codeFiles objectAtIndex:row] FilePathURL] URLByDeletingLastPathComponent];
+  //we just want the path to the object
+
+  [[NSWorkspace sharedWorkspace] openURL: filePathURL];
+}
+
+
+
 
 //- (IBAction)btnOKAndSave:(id)sender {
 //  

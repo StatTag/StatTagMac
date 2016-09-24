@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11201"/>
     </dependencies>
     <objects>
@@ -59,14 +58,22 @@
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </searchFieldCell>
+                    <connections>
+                        <binding destination="2Pn-me-eZS" name="predicate" keyPath="filterPredicate" id="RPz-6c-Heb">
+                            <dictionary key="options">
+                                <string key="NSDisplayName">predicate</string>
+                                <string key="NSPredicateFormat">self.Name contains[cd] $value</string>
+                            </dictionary>
+                        </binding>
+                    </connections>
                 </searchField>
-                <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aFA-IV-8CD">
+                <scrollView autohidesScrollers="YES" horizontalLineScroll="42" horizontalPageScroll="10" verticalLineScroll="42" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aFA-IV-8CD">
                     <rect key="frame" x="20" y="90" width="524" height="273"/>
                     <clipView key="contentView" id="nKd-p3-1yI">
-                        <rect key="frame" x="1" y="23" width="522" height="234"/>
+                        <rect key="frame" x="1" y="0.0" width="522" height="257"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" autosaveColumns="NO" rowSizeStyle="automatic" headerView="dvg-nh-qfk" viewBased="YES" id="j0b-3T-J9s">
+                            <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" autosaveColumns="NO" rowHeight="40" rowSizeStyle="automatic" headerView="dvg-nh-qfk" viewBased="YES" id="j0b-3T-J9s">
                                 <rect key="frame" x="0.0" y="0.0" width="672" height="234"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <size key="intercellSpacing" width="3" height="2"/>
@@ -230,7 +237,7 @@
                                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                         </textFieldCell>
                                                         <connections>
-                                                            <binding destination="pKw-Ar-x1e" name="value" keyPath="objectValue.CodeFile.FilePath" id="mdx-J3-LDk"/>
+                                                            <binding destination="pKw-Ar-x1e" name="value" keyPath="objectValue.CodeFile.FileName" id="aIu-MC-E9w"/>
                                                         </connections>
                                                     </textField>
                                                 </subviews>
@@ -246,7 +253,7 @@
                                             </tableCellView>
                                         </prototypeCellViews>
                                         <connections>
-                                            <binding destination="2Pn-me-eZS" name="value" keyPath="arrangedObjects.CodeFile.FilePath" id="i52-Dl-O6X"/>
+                                            <binding destination="2Pn-me-eZS" name="value" keyPath="arrangedObjects.CodeFile.FileName" id="LW4-vl-16m"/>
                                         </connections>
                                     </tableColumn>
                                 </tableColumns>
