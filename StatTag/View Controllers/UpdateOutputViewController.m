@@ -11,6 +11,7 @@
 #import "StatTag.h"
 #import "StatTagShared.h"
 #import "UpdateOutputProgressViewController.h"
+#import "TagEditorViewController.h"
 
 
 @interface UpdateOutputViewController ()
@@ -29,6 +30,7 @@
 @synthesize documentManager = _documentManager;
 
 UpdateOutputProgressViewController* tagUpdateProgressController;
+TagEditorViewController* tagEditorController;
 
 
 BOOL breakLoop = YES;
@@ -189,6 +191,30 @@ BOOL breakLoop = YES;
 //- (IBAction)cancel:(id)sender {
 //  [[self window] close];
 //}
+
+- (IBAction)editTag:(id)sender {
+
+  
+  if (tagEditorController == nil)
+  {
+    tagEditorController = [[TagEditorViewController alloc] init];
+  }
+  
+  NSInteger row = [[self tableViewOnDemand] rowForView:sender];
+  STTag* selectedTag = [[onDemandTags arrangedObjects] objectAtIndex:row];
+  if(selectedTag != nil) {
+    tagEditorController.documentManager = _documentManager;
+    tagEditorController.tag = selectedTag;
+    tagEditorController.delegate = self;
+    [self presentViewControllerAsSheet:tagEditorController];
+  }
+}
+
+- (void)dismissTagEditorController:(TagEditorViewController *)controller withReturnCode:(StatTagResponseState)returnCode {
+  //FIXME: need to handle errors from worker sheet
+  [self dismissViewController:controller];
+}
+
 
 
 @end

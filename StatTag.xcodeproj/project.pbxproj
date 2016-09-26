@@ -205,6 +205,10 @@
 		38EDF0331D2C2E6900ACD77B /* STCocoaUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EDF0311D2C2E6900ACD77B /* STCocoaUtil.m */; };
 		38EDF0351D2C2FC200ACD77B /* StatTagStataAutomationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EDF0341D2C2FC200ACD77B /* StatTagStataAutomationTests.m */; };
 		38EF1A671D99544F008EA9B0 /* readme.md in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1A661D99544F008EA9B0 /* readme.md */; };
+		38EF1A6A1D99A16B008EA9B0 /* ACEView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38EF1A691D99A16B008EA9B0 /* ACEView.framework */; };
+		38EF1A6C1D99A17E008EA9B0 /* ACEView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 38EF1A691D99A16B008EA9B0 /* ACEView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		38EF1A701D99A274008EA9B0 /* TagEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1A6E1D99A274008EA9B0 /* TagEditorViewController.m */; };
+		38EF1A711D99A274008EA9B0 /* TagEditorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38EF1A6F1D99A274008EA9B0 /* TagEditorViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -291,6 +295,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				38D8B1B31D9496C300BF878A /* StatTagFramework.framework in Embed Frameworks */,
+				38EF1A6C1D99A17E008EA9B0 /* ACEView.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -522,6 +527,10 @@
 		38EDF0311D2C2E6900ACD77B /* STCocoaUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STCocoaUtil.m; sourceTree = "<group>"; };
 		38EDF0341D2C2FC200ACD77B /* StatTagStataAutomationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagStataAutomationTests.m; sourceTree = "<group>"; };
 		38EF1A661D99544F008EA9B0 /* readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = readme.md; sourceTree = "<group>"; };
+		38EF1A691D99A16B008EA9B0 /* ACEView.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ACEView.framework; sourceTree = "<group>"; };
+		38EF1A6D1D99A274008EA9B0 /* TagEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagEditorViewController.h; sourceTree = "<group>"; };
+		38EF1A6E1D99A274008EA9B0 /* TagEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagEditorViewController.m; sourceTree = "<group>"; };
+		38EF1A6F1D99A274008EA9B0 /* TagEditorViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TagEditorViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -549,6 +558,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				38D8B1B21D9496C300BF878A /* StatTagFramework.framework in Frameworks */,
+				38EF1A6A1D99A16B008EA9B0 /* ACEView.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -601,6 +611,7 @@
 		382C8D191D0F672F00FE6878 = {
 			isa = PBXGroup;
 			children = (
+				38EF1A691D99A16B008EA9B0 /* ACEView.framework */,
 				38C91F4A1D37AC710048A95E /* Cocoa.framework */,
 				38C91F451D36FC8A0048A95E /* AppleScriptObjC.framework */,
 				387A0E2F1D230DAF00F1FE9C /* OCMock.framework */,
@@ -847,6 +858,9 @@
 				38D8B1C41D95872A00BF878A /* UpdateOutputProgressViewController.h */,
 				38D8B1C51D95872A00BF878A /* UpdateOutputProgressViewController.m */,
 				38D8B1C61D95872A00BF878A /* UpdateOutputProgressViewController.xib */,
+				38EF1A6D1D99A274008EA9B0 /* TagEditorViewController.h */,
+				38EF1A6E1D99A274008EA9B0 /* TagEditorViewController.m */,
+				38EF1A6F1D99A274008EA9B0 /* TagEditorViewController.xib */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -1471,6 +1485,7 @@
 			files = (
 				385EF1431D95D53C005768C7 /* statTagTestUIScript.scpt in Resources */,
 				3836F57D1D92C8EA00BF0DD4 /* StatTag.sdef in Resources */,
+				38EF1A711D99A274008EA9B0 /* TagEditorViewController.xib in Resources */,
 				385EF1421D95D53C005768C7 /* StatTagMacros.dotm in Resources */,
 				3836F5561D92C89900BF0DD4 /* Assets.xcassets in Resources */,
 				38D8B1C31D9586D200BF878A /* UpdateOutputViewController.xib in Resources */,
@@ -1630,6 +1645,7 @@
 				3836F5AD1D92ED9D00BF0DD4 /* STAppleScript_LoadSettings.m in Sources */,
 				3836F5511D92C89900BF0DD4 /* main.m in Sources */,
 				3836F54E1D92C89900BF0DD4 /* AppDelegate.m in Sources */,
+				38EF1A701D99A274008EA9B0 /* TagEditorViewController.m in Sources */,
 				3836F5A01D92D03D00BF0DD4 /* SettingsViewController.m in Sources */,
 				38D8B1C71D95872A00BF878A /* UpdateOutputProgressViewController.m in Sources */,
 				38EF1A671D99544F008EA9B0 /* readme.md in Sources */,
@@ -1920,6 +1936,10 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = StatTag/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
@@ -1935,6 +1955,10 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = StatTag/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
