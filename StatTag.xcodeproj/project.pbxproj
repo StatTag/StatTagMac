@@ -204,6 +204,7 @@
 		38EDF0321D2C2E6900ACD77B /* STCocoaUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 38EDF0301D2C2E6900ACD77B /* STCocoaUtil.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38EDF0331D2C2E6900ACD77B /* STCocoaUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EDF0311D2C2E6900ACD77B /* STCocoaUtil.m */; };
 		38EDF0351D2C2FC200ACD77B /* StatTagStataAutomationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EDF0341D2C2FC200ACD77B /* StatTagStataAutomationTests.m */; };
+		38EF1A671D99544F008EA9B0 /* readme.md in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1A661D99544F008EA9B0 /* readme.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -520,6 +521,7 @@
 		38EDF0301D2C2E6900ACD77B /* STCocoaUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STCocoaUtil.h; sourceTree = "<group>"; };
 		38EDF0311D2C2E6900ACD77B /* STCocoaUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STCocoaUtil.m; sourceTree = "<group>"; };
 		38EDF0341D2C2FC200ACD77B /* StatTagStataAutomationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagStataAutomationTests.m; sourceTree = "<group>"; };
+		38EF1A661D99544F008EA9B0 /* readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = readme.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -863,6 +865,7 @@
 			children = (
 				385EF1401D95D53C005768C7 /* StatTagMacros.dotm */,
 				385EF1411D95D53C005768C7 /* statTagTestUIScript.scpt */,
+				38EF1A661D99544F008EA9B0 /* readme.md */,
 			);
 			path = "Word Support";
 			sourceTree = "<group>";
@@ -1629,6 +1632,7 @@
 				3836F54E1D92C89900BF0DD4 /* AppDelegate.m in Sources */,
 				3836F5A01D92D03D00BF0DD4 /* SettingsViewController.m in Sources */,
 				38D8B1C71D95872A00BF878A /* UpdateOutputProgressViewController.m in Sources */,
+				38EF1A671D99544F008EA9B0 /* readme.md in Sources */,
 				3836F5A91D92EBCB00BF0DD4 /* MainTabViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
