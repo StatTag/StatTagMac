@@ -116,10 +116,15 @@ NSString* const allowedExtensions_CodeFiles = @"do/DO";
   //make sure you set the table's delegate and data source to file's owner
   
   NSInteger row = [[self fileTableView] rowForView:sender];
-  NSURL* filePathURL = [[[_codeFiles objectAtIndex:row] FilePathURL] URLByDeletingLastPathComponent];
-  //we just want the path to the object
 
-  [[NSWorkspace sharedWorkspace] openURL: filePathURL];
+  //if we just want the containing directory
+  //  NSURL* folderPathURL = [[[_codeFiles objectAtIndex:row] FilePathURL] URLByDeletingLastPathComponent];
+  //  [[NSWorkspace sharedWorkspace] openURL: folderPathURL];
+
+  //if we want to open the finder and select the file
+  NSURL* filePathURL = [[_codeFiles objectAtIndex:row] FilePathURL];
+  [[NSWorkspace sharedWorkspace] selectFile:[filePathURL path] inFileViewerRootedAtPath:[filePathURL path]];
+  
 }
 
 

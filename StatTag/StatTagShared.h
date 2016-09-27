@@ -49,8 +49,11 @@ typedef enum {
 
 typedef enum {
   OK = 0,
-  Error = 1
+  Error = 1,
+  Cancel = 2
 } StatTagResponseState;
 
+
+extern NSString* const kStatTagErrorDomain = @"STErrorDomain";
 
 @end

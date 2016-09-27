@@ -683,7 +683,7 @@
                     <tabViewItems>
                         <tabViewItem label="Code Files" identifier="ManageCodeFiles" image="NSMultipleDocuments" id="4uK-OD-dMb" userLabel="Code Files"/>
                         <tabViewItem label="Settings" identifier="Settings" image="NSAdvanced" id="Osu-nt-6lR"/>
-                        <tabViewItem label="Update Output" identifier="UpdateOutput" image="stattag_tag_purple" id="NW6-Bz-cyn"/>
+                        <tabViewItem label="Tags" identifier="UpdateOutput" image="stattag_tag_purple" id="NW6-Bz-cyn"/>
                     </tabViewItems>
                     <tabView key="tabView" type="noTabsNoBorder" id="bgG-rZ-LXd">
                         <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>

@@ -47,7 +47,7 @@ typedef NS_ENUM(NSUInteger, ACEMode) {
     ACEModeSCSS,
     ACEModeSH,
     ACEModeSQL,
-    ACEModeSata,
+    ACEModeStata,
     ACEModeSVG,
     ACEModeTcl,
     ACEModeText,

@@ -62,8 +62,13 @@ BOOL breakLoop = YES;
 -(void)viewWillAppear {
   //we need to reload the tags every time the view appears - it's possible code files were removed or the code file
   // was modified, etc.
-  [_documentManager LoadCodeFileListFromDocument:[[StatTagShared sharedInstance] doc]];
+  [self loadAllTags];
+}
 
+
+-(void)loadAllTags {
+  [_documentManager LoadCodeFileListFromDocument:[[StatTagShared sharedInstance] doc]];
+  
   for(STCodeFile* file in [_documentManager GetCodeFileList]) {
     [file LoadTagsFromContent];
   }
@@ -72,7 +77,6 @@ BOOL breakLoop = YES;
   _documentTags = [[NSMutableArray<STTag*> alloc] initWithArray:[_documentManager GetTags]];
   [self didChangeValueForKey:@"documentTags"];
 }
-
 
 -(void)getTags {
   
@@ -213,6 +217,12 @@ BOOL breakLoop = YES;
 - (void)dismissTagEditorController:(TagEditorViewController *)controller withReturnCode:(StatTagResponseState)returnCode {
   //FIXME: need to handle errors from worker sheet
   [self dismissViewController:controller];
+  if(returnCode == OK) {
+    //no errors - so refresh the list of tags because we changed things
+    [self loadAllTags];
+  } else {
+    //could be cancel, could be error
+  }
 }
 
 

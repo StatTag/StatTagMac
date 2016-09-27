@@ -66,6 +66,10 @@
 //delegate since this is probably opened modally
 @property (nonatomic, weak) id<TagEditorViewControllerDelegate> delegate;
 
+@property (weak) IBOutlet NSButton *buttonSave;
+@property (weak) IBOutlet NSButton *buttonCancel;
+
+
 
 @end
 

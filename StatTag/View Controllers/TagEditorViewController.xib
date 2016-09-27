@@ -8,6 +8,8 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="TagEditorViewController">
             <connections>
+                <outlet property="buttonCancel" destination="NoP-JE-Fei" id="YVQ-hZ-G9P"/>
+                <outlet property="buttonSave" destination="ADP-pv-QJY" id="4gs-IM-oIc"/>
                 <outlet property="checkboxColumnNames" destination="neA-iA-V8e" id="Nrw-M4-1rE"/>
                 <outlet property="checkboxRowNames" destination="WGe-hh-ZyA" id="8oz-ly-EhC"/>
                 <outlet property="checkboxUseThousandsSeparator" destination="VOa-Dl-Fgb" id="USZ-wi-U6W"/>
@@ -224,8 +226,8 @@
                             </view>
                         </tabViewItem>
                         <tabViewItem label="Figure" identifier="2" id="K1E-Ph-OFj">
-                            <view key="view" id="nQm-Fr-2BX">
-                                <rect key="frame" x="10" y="33" width="634" height="65"/>
+                            <view key="view" misplaced="YES" id="nQm-Fr-2BX">
+                                <rect key="frame" x="10" y="33" width="634" height="120"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="gXq-UN-2fy">
@@ -261,8 +263,8 @@
                             </view>
                         </tabViewItem>
                         <tabViewItem label="Table" identifier="" id="KTP-l5-alT">
-                            <view key="view" id="Z4q-V0-UIr">
-                                <rect key="frame" x="10" y="33" width="634" height="65"/>
+                            <view key="view" misplaced="YES" id="Z4q-V0-UIr">
+                                <rect key="frame" x="10" y="33" width="634" height="120"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <button translatesAutoresizingMaskIntoConstraints="NO" id="neA-iA-V8e">
@@ -374,6 +376,19 @@
                         <action selector="save:" target="-2" id="Pfm-Vl-O7J"/>
                     </connections>
                 </button>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="NoP-JE-Fei">
+                    <rect key="frame" x="518" y="1" width="82" height="32"/>
+                    <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Il9-AR-kOE">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                        <string key="keyEquivalent" base64-UTF8="YES">
+Gw
+</string>
+                    </buttonCell>
+                    <connections>
+                        <action selector="cancel:" target="-2" id="QgG-DO-jfC"/>
+                    </connections>
+                </button>
             </subviews>
             <constraints>
                 <constraint firstItem="gAb-Nk-S6T" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="20" id="1YR-1m-FCa"/>
@@ -391,10 +406,12 @@
                 <constraint firstAttribute="trailing" secondItem="gAb-Nk-S6T" secondAttribute="trailing" constant="20" id="KsX-JT-clf"/>
                 <constraint firstItem="8hh-4C-upj" firstAttribute="leading" secondItem="mLF-Rb-yX4" secondAttribute="trailing" constant="20" id="LEg-RJ-NlY"/>
                 <constraint firstItem="mLF-Rb-yX4" firstAttribute="top" secondItem="P7n-A0-XtF" secondAttribute="bottom" constant="8" id="Rn7-hD-F34"/>
+                <constraint firstAttribute="bottom" secondItem="NoP-JE-Fei" secondAttribute="bottom" constant="8" id="UZt-dQ-ROM"/>
                 <constraint firstItem="ybo-7g-i0v" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="20" id="VwY-KB-ezw"/>
                 <constraint firstItem="xNL-e4-IYA" firstAttribute="leading" secondItem="8hh-4C-upj" secondAttribute="leading" id="WMH-0H-Jll"/>
                 <constraint firstItem="i52-gS-FJO" firstAttribute="top" secondItem="ROJ-z5-l4k" secondAttribute="bottom" constant="8" id="bUM-86-LHl"/>
                 <constraint firstItem="quo-L4-jbU" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="20" id="clB-cy-cZC"/>
+                <constraint firstItem="ADP-pv-QJY" firstAttribute="leading" secondItem="NoP-JE-Fei" secondAttribute="trailing" constant="8" id="equ-zr-aiG"/>
                 <constraint firstItem="gAb-Nk-S6T" firstAttribute="top" secondItem="i52-gS-FJO" secondAttribute="bottom" constant="8" id="hCO-l3-B8r"/>
                 <constraint firstItem="xNL-e4-IYA" firstAttribute="baseline" secondItem="ybo-7g-i0v" secondAttribute="baseline" id="i3A-ft-MFL"/>
                 <constraint firstItem="LfE-TS-cTX" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="P7n-A0-XtF" secondAttribute="trailing" constant="20" id="jvz-sC-Cny"/>
@@ -413,5 +430,6 @@
         </customView>
         <arrayController id="4lW-4l-jLh" userLabel="Code File Array Controller"/>
         <arrayController id="t2H-fw-Wr8" userLabel="Tag Frequency Array Controller"/>
+        <arrayController id="lab-TA-uCR"/>
     </objects>
 </document>
