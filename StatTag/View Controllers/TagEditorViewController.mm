@@ -150,6 +150,8 @@ SCScintilla* scintillaHelper;
     
   //  NSLog(@"number of lines : %d", [scintillaHelper LinesOnScreen]);
     
+    [[[[scintillaHelper Lines] Lines] objectAtIndex:10] MarkerAdd:TagMarker] ;
+    
     if(_tag != nil) {
       //existing tag?
       _originalTag = [[STTag alloc] initWithTag:_tag];
@@ -166,8 +168,7 @@ SCScintilla* scintillaHelper;
         
         for (int index = startIndex; index <= endIndex; index++)
         {
-//                  SetLineMarker(scintilla1.Lines[index], true);
-          
+          [self SetLineMarker:[[[scintillaHelper Lines] Lines] objectAtIndex: index ] andMark:YES];
         }
 //                scintilla1.LineScroll(startIndex, 0);
       }
@@ -210,24 +211,15 @@ SCScintilla* scintillaHelper;
   }
 }
 
--(void)SetLineMarkerAtLineNumber:(int)lineNumber andMark:(BOOL)mark onScintillaView:(ScintillaView*)scintilla
+-(void)SetLineMarker:(SCLine*)line andMark:(BOOL)mark
 {
   if (mark)
   {
-    
-    // var handle = scintilla.DirectMessage(NativeMethods.SCI_MARKERADD, new IntPtr(Index), new IntPtr(marker));
-    //Scintilla::ScintillaCocoa* backend = [scintilla backend];
-    //line.MarkerAdd(TagMarker);
-
-    //marker = Helpers.Clamp(marker, 0, scintilla.Markers.Count - 1);
-    [ScintillaView directCall:scintilla message:SCI_MARKERADD wParam:lineNumber lParam:TagMarker];
-    
+    [line MarkerAdd:TagMarker];
   }
   else
   {
-    //line.MarkerDelete(TagMarker);
-    //marker = Helpers.Clamp(marker, -1, scintilla.Markers.Count - 1);
-    //scintilla.DirectMessage(NativeMethods.SCI_MARKERDELETE, new IntPtr(Index), new IntPtr(marker));
+    [line MarkerDelete:TagMarker];
   }
 }
 

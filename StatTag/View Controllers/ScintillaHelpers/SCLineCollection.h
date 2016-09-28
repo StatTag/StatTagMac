@@ -13,13 +13,15 @@
 
 @interface SCLineCollection : NSObject {
   SCScintilla* _scintilla;
-  long _Count;
+  //long _Count;
   NSMutableArray<SCLine*>* _lines;
 }
 
 @property (strong, nonatomic) SCScintilla* scintilla;
-@property (nonatomic) long Count;
+//@property (nonatomic) long Count;
 //@property (strong, nonatomic) NSArray<SCLine*>* lines;
+
+-(long)Count;
 
 -(id)initWithScintilla:(SCScintilla*)sc;
 -(NSArray<SCLine*>*)Lines;

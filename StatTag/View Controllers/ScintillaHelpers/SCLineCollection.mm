@@ -15,7 +15,7 @@
 
 @implementation SCLineCollection
 
-@synthesize Count = _Count;
+//@synthesize Count = _Count;
 @synthesize scintilla = _scintilla;
 //@synthesize lines = _lines;
 
@@ -44,13 +44,14 @@
   }
 }
 
--(long)getCount {
+-(long)Count {
   return [_lines count];
 }
 
 -(SCLine*)addLineAtIndex:(long)index
 {
   index = [SCHelpers Clamp:index min:0 max: [self Count] - (long)1]; //Clamp(index, 0, Count - 1);
+//  index = [SCHelpers Clamp:index min:0 max: [self Count]]; //Clamp(index, 0, Count - 1);
   SCLine* line = [[SCLine alloc] initWithScintilla:_scintilla atIndex:index];
   return line;
 }

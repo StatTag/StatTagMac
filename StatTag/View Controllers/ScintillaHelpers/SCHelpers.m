@@ -17,7 +17,7 @@
   if (value < min)
     return min;
   
-  if (value > max)
+  if (value > max && max > min)//eww changed to add && max > min
     return max;
   
   return value;

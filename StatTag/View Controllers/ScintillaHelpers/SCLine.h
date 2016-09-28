@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 @class SCScintilla;
+@class SCMarkerHandle;
 
 @interface SCLine : NSObject {
   SCScintilla* _scintilla;
@@ -22,5 +23,9 @@
 -(void) EnsureVisible;
 
 -(id)initWithScintilla:(SCScintilla*)sc atIndex:(long)index;
+
+-(SCMarkerHandle*)MarkerAdd:(NSInteger)marker;
+-(void)MarkerDelete:(NSInteger)marker;
+-(NSInteger)MarkerGet;
 
 @end
