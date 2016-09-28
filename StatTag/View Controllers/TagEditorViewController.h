@@ -9,10 +9,11 @@
 #import <Cocoa/Cocoa.h>
 #import "StatTagShared.h"
 
-@class ACEView;
+@class ScintillaView;
 @class STTag;
 @class STCodeFile;
 @class STDocumentManager;
+@class ScintillaView;
 
 @class TagEditorViewController;
 @protocol TagEditorViewControllerDelegate <NSObject>
@@ -26,7 +27,9 @@
   
   NSArrayController* _codeFileList;
   NSArrayController* _tagFrequency;
-  
+
+  ScintillaView* _sourceEditor;
+
 }
 
 @property (strong, nonatomic) STTag* tag;
@@ -61,7 +64,12 @@
 @property (weak) IBOutlet NSTextField *tableLblDescription;
 @property (weak) IBOutlet NSTextField *tableLblCommands;
 
-@property (weak) IBOutlet ACEView *sourceView;
+
+//@property (weak) IBOutlet NSBox *sourceViewBox;
+
+//@property (weak) IBOutlet ScintillaView *sourceView;
+@property (strong, nonatomic) ScintillaView *sourceEditor;
+@property (weak) IBOutlet NSView *sourceView;
 
 //delegate since this is probably opened modally
 @property (nonatomic, weak) id<TagEditorViewControllerDelegate> delegate;

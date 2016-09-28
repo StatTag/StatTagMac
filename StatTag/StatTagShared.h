@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <Cocoa/Cocoa.h>
 
 @class MainTabViewController;
 @class STMSWord2011Application;
@@ -40,6 +41,7 @@
 //view controller accessors
 @property (strong, nonatomic) MainTabViewController* mainVC; //weak?
 
++ (NSColor*)colorFromRGBRed:(CGFloat)r  green:(CGFloat)g blue:(CGFloat)b alpha:(CGFloat)a;
 
 typedef enum {
   ManageCodeFiles = 0,

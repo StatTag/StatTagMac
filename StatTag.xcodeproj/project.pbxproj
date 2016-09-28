@@ -135,6 +135,10 @@
 		38A7CE991D4FDFB600B06AFF /* STGridDataItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A7CE971D4FDFB600B06AFF /* STGridDataItem.m */; };
 		38A7CE9C1D4FE29400B06AFF /* STPropertiesManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 38A7CE9A1D4FE29400B06AFF /* STPropertiesManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38A7CE9D1D4FE29400B06AFF /* STPropertiesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A7CE9B1D4FE29400B06AFF /* STPropertiesManager.m */; };
+		38A843A31D9B051100357727 /* readme.md in Sources */ = {isa = PBXBuildFile; fileRef = 38A843A21D9B051100357727 /* readme.md */; };
+		38A877CC1D9AEEA1002F37DA /* Scintilla.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38A877CB1D9AEEA0002F37DA /* Scintilla.framework */; };
+		38A877CD1D9AEEA7002F37DA /* Scintilla.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38A877CB1D9AEEA0002F37DA /* Scintilla.framework */; };
+		38A877CE1D9AEEA7002F37DA /* Scintilla.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 38A877CB1D9AEEA0002F37DA /* Scintilla.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		38B9D3311D4BF99B00C62C30 /* STUIUtility.h in Headers */ = {isa = PBXBuildFile; fileRef = 38B9D32F1D4BF99B00C62C30 /* STUIUtility.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38B9D3321D4BF99B00C62C30 /* STUIUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 38B9D3301D4BF99B00C62C30 /* STUIUtility.m */; };
 		38B9D3351D4BFA4200C62C30 /* STLogManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 38B9D3331D4BFA4200C62C30 /* STLogManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -207,7 +211,7 @@
 		38EF1A671D99544F008EA9B0 /* readme.md in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1A661D99544F008EA9B0 /* readme.md */; };
 		38EF1A6A1D99A16B008EA9B0 /* ACEView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38EF1A691D99A16B008EA9B0 /* ACEView.framework */; };
 		38EF1A6C1D99A17E008EA9B0 /* ACEView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 38EF1A691D99A16B008EA9B0 /* ACEView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		38EF1A701D99A274008EA9B0 /* TagEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1A6E1D99A274008EA9B0 /* TagEditorViewController.m */; };
+		38EF1A701D99A274008EA9B0 /* TagEditorViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1A6E1D99A274008EA9B0 /* TagEditorViewController.mm */; };
 		38EF1A711D99A274008EA9B0 /* TagEditorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38EF1A6F1D99A274008EA9B0 /* TagEditorViewController.xib */; };
 /* End PBXBuildFile section */
 
@@ -296,6 +300,7 @@
 			files = (
 				38D8B1B31D9496C300BF878A /* StatTagFramework.framework in Embed Frameworks */,
 				38EF1A6C1D99A17E008EA9B0 /* ACEView.framework in Embed Frameworks */,
+				38A877CE1D9AEEA7002F37DA /* Scintilla.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -449,6 +454,8 @@
 		38A7CE971D4FDFB600B06AFF /* STGridDataItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STGridDataItem.m; sourceTree = "<group>"; };
 		38A7CE9A1D4FE29400B06AFF /* STPropertiesManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STPropertiesManager.h; sourceTree = "<group>"; };
 		38A7CE9B1D4FE29400B06AFF /* STPropertiesManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STPropertiesManager.m; sourceTree = "<group>"; };
+		38A843A21D9B051100357727 /* readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = readme.md; sourceTree = "<group>"; };
+		38A877CB1D9AEEA0002F37DA /* Scintilla.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Scintilla.framework; sourceTree = "<group>"; };
 		38B9D32F1D4BF99B00C62C30 /* STUIUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STUIUtility.h; sourceTree = "<group>"; };
 		38B9D3301D4BF99B00C62C30 /* STUIUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STUIUtility.m; sourceTree = "<group>"; };
 		38B9D3331D4BFA4200C62C30 /* STLogManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STLogManager.h; sourceTree = "<group>"; };
@@ -529,7 +536,7 @@
 		38EF1A661D99544F008EA9B0 /* readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = readme.md; sourceTree = "<group>"; };
 		38EF1A691D99A16B008EA9B0 /* ACEView.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ACEView.framework; sourceTree = "<group>"; };
 		38EF1A6D1D99A274008EA9B0 /* TagEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagEditorViewController.h; sourceTree = "<group>"; };
-		38EF1A6E1D99A274008EA9B0 /* TagEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagEditorViewController.m; sourceTree = "<group>"; };
+		38EF1A6E1D99A274008EA9B0 /* TagEditorViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TagEditorViewController.mm; sourceTree = "<group>"; };
 		38EF1A6F1D99A274008EA9B0 /* TagEditorViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TagEditorViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -540,6 +547,7 @@
 			files = (
 				38BE59AC1D52AA1000FF9E99 /* Cocoa.framework in Frameworks */,
 				38C91F461D36FC8A0048A95E /* AppleScriptObjC.framework in Frameworks */,
+				38A877CC1D9AEEA1002F37DA /* Scintilla.framework in Frameworks */,
 				382C28711D180CB900697D6F /* SystemConfiguration.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -559,6 +567,7 @@
 			files = (
 				38D8B1B21D9496C300BF878A /* StatTagFramework.framework in Frameworks */,
 				38EF1A6A1D99A16B008EA9B0 /* ACEView.framework in Frameworks */,
+				38A877CD1D9AEEA7002F37DA /* Scintilla.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -611,6 +620,7 @@
 		382C8D191D0F672F00FE6878 = {
 			isa = PBXGroup;
 			children = (
+				38A877CB1D9AEEA0002F37DA /* Scintilla.framework */,
 				38EF1A691D99A16B008EA9B0 /* ACEView.framework */,
 				38C91F4A1D37AC710048A95E /* Cocoa.framework */,
 				38C91F451D36FC8A0048A95E /* AppleScriptObjC.framework */,
@@ -813,6 +823,7 @@
 				385EF13F1D95D52A005768C7 /* Word Support */,
 				3836F55A1D92C89900BF0DD4 /* Info.plist */,
 				3836F54F1D92C89900BF0DD4 /* Supporting Files */,
+				38A843A21D9B051100357727 /* readme.md */,
 			);
 			path = StatTag;
 			sourceTree = "<group>";
@@ -859,7 +870,7 @@
 				38D8B1C51D95872A00BF878A /* UpdateOutputProgressViewController.m */,
 				38D8B1C61D95872A00BF878A /* UpdateOutputProgressViewController.xib */,
 				38EF1A6D1D99A274008EA9B0 /* TagEditorViewController.h */,
-				38EF1A6E1D99A274008EA9B0 /* TagEditorViewController.m */,
+				38EF1A6E1D99A274008EA9B0 /* TagEditorViewController.mm */,
 				38EF1A6F1D99A274008EA9B0 /* TagEditorViewController.xib */,
 			);
 			path = "View Controllers";
@@ -1645,10 +1656,11 @@
 				3836F5AD1D92ED9D00BF0DD4 /* STAppleScript_LoadSettings.m in Sources */,
 				3836F5511D92C89900BF0DD4 /* main.m in Sources */,
 				3836F54E1D92C89900BF0DD4 /* AppDelegate.m in Sources */,
-				38EF1A701D99A274008EA9B0 /* TagEditorViewController.m in Sources */,
+				38EF1A701D99A274008EA9B0 /* TagEditorViewController.mm in Sources */,
 				3836F5A01D92D03D00BF0DD4 /* SettingsViewController.m in Sources */,
 				38D8B1C71D95872A00BF878A /* UpdateOutputProgressViewController.m in Sources */,
 				38EF1A671D99544F008EA9B0 /* readme.md in Sources */,
+				38A843A31D9B051100357727 /* readme.md in Sources */,
 				3836F5A91D92EBCB00BF0DD4 /* MainTabViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1940,6 +1952,13 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_INPUT_FILETYPE = automatic;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					SCI_NAMESPACE,
+					SCI_LEXER,
+					"DEBUG=1",
+				);
 				INFOPLIST_FILE = StatTag/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
@@ -1958,6 +1977,12 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+				);
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_INPUT_FILETYPE = automatic;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					SCI_NAMESPACE,
+					SCI_LEXER,
 				);
 				INFOPLIST_FILE = StatTag/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";

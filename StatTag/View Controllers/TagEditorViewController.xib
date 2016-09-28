@@ -23,7 +23,7 @@
                 <outlet property="radioValueDefault" destination="U3e-H4-XK0" id="gp7-pB-kph"/>
                 <outlet property="radioValueNumeric" destination="M5A-fe-2w7" id="BUI-0w-K2t"/>
                 <outlet property="radioValuePercentage" destination="1h1-ra-VeD" id="m9S-mS-2vr"/>
-                <outlet property="sourceView" destination="gAb-Nk-S6T" id="DzL-3t-c0t"/>
+                <outlet property="sourceView" destination="6Lh-06-MJS" id="1t5-JA-11G"/>
                 <outlet property="stepperDecimalPlaces" destination="aPp-De-KGX" id="FE6-As-b5Z"/>
                 <outlet property="tableCheckboxColumnNames" destination="neA-iA-V8e" id="gK9-2h-fU6"/>
                 <outlet property="tableCheckboxRowNames" destination="WGe-hh-ZyA" id="5mq-4P-YXY"/>
@@ -119,8 +119,8 @@
                     </popUpButtonCell>
                     <connections>
                         <action selector="setFrequency:" target="-2" id="H6z-bF-TfN"/>
-                        <binding destination="t2H-fw-Wr8" name="content" keyPath="arrangedObjects" id="tMD-98-5pz"/>
                         <binding destination="t2H-fw-Wr8" name="contentValues" keyPath="arrangedObjects" previousBinding="tMD-98-5pz" id="1mx-3w-se0"/>
+                        <binding destination="t2H-fw-Wr8" name="content" keyPath="arrangedObjects" id="tMD-98-5pz"/>
                         <binding destination="-2" name="selectedObject" keyPath="self.tag.RunFrequency" previousBinding="1mx-3w-se0" id="OuP-nr-uWm"/>
                     </connections>
                 </popUpButton>
@@ -135,13 +135,6 @@
                         <action selector="setTagName:" target="-2" id="H4G-Ps-ECI"/>
                     </connections>
                 </textField>
-                <customView translatesAutoresizingMaskIntoConstraints="NO" id="gAb-Nk-S6T" customClass="ACEView">
-                    <rect key="frame" x="20" y="37" width="640" height="302"/>
-                    <constraints>
-                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="290" id="DJy-Qg-SKu"/>
-                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="500" id="O4Q-zP-mbw"/>
-                    </constraints>
-                </customView>
                 <tabView translatesAutoresizingMaskIntoConstraints="NO" id="ROJ-z5-l4k">
                     <rect key="frame" x="13" y="362" width="654" height="166"/>
                     <constraints>
@@ -389,13 +382,17 @@ Gw
                         <action selector="cancel:" target="-2" id="QgG-DO-jfC"/>
                     </connections>
                 </button>
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="6Lh-06-MJS">
+                    <rect key="frame" x="20" y="37" width="640" height="302"/>
+                </customView>
             </subviews>
             <constraints>
-                <constraint firstItem="gAb-Nk-S6T" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="20" id="1YR-1m-FCa"/>
                 <constraint firstItem="quo-L4-jbU" firstAttribute="top" secondItem="ybo-7g-i0v" secondAttribute="bottom" constant="20" id="27P-lv-P0N"/>
+                <constraint firstItem="NoP-JE-Fei" firstAttribute="top" secondItem="6Lh-06-MJS" secondAttribute="bottom" constant="8" id="2ma-e8-SLk"/>
                 <constraint firstItem="mLF-Rb-yX4" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="20" id="3RX-0I-3my"/>
                 <constraint firstItem="i52-gS-FJO" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="20" id="4cQ-4b-E1c"/>
                 <constraint firstItem="LfE-TS-cTX" firstAttribute="baseline" secondItem="P7n-A0-XtF" secondAttribute="baseline" id="4eH-o6-rti"/>
+                <constraint firstItem="6Lh-06-MJS" firstAttribute="top" secondItem="i52-gS-FJO" secondAttribute="bottom" constant="8" id="4f6-8Y-NBO"/>
                 <constraint firstAttribute="trailing" secondItem="ADP-pv-QJY" secondAttribute="trailing" constant="20" id="944-mk-gjh"/>
                 <constraint firstAttribute="bottom" secondItem="ADP-pv-QJY" secondAttribute="bottom" constant="8" id="9bV-0e-sYE"/>
                 <constraint firstItem="P7n-A0-XtF" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="20" id="9tt-Yt-0Fq"/>
@@ -403,30 +400,29 @@ Gw
                 <constraint firstAttribute="trailing" secondItem="ROJ-z5-l4k" secondAttribute="trailing" constant="20" id="BPU-Rg-SOn"/>
                 <constraint firstItem="LfE-TS-cTX" firstAttribute="leading" secondItem="8hh-4C-upj" secondAttribute="leading" id="DgR-vy-MiD"/>
                 <constraint firstItem="8hh-4C-upj" firstAttribute="baseline" secondItem="mLF-Rb-yX4" secondAttribute="baseline" id="Iec-cp-8SC"/>
-                <constraint firstAttribute="trailing" secondItem="gAb-Nk-S6T" secondAttribute="trailing" constant="20" id="KsX-JT-clf"/>
                 <constraint firstItem="8hh-4C-upj" firstAttribute="leading" secondItem="mLF-Rb-yX4" secondAttribute="trailing" constant="20" id="LEg-RJ-NlY"/>
                 <constraint firstItem="mLF-Rb-yX4" firstAttribute="top" secondItem="P7n-A0-XtF" secondAttribute="bottom" constant="8" id="Rn7-hD-F34"/>
                 <constraint firstAttribute="bottom" secondItem="NoP-JE-Fei" secondAttribute="bottom" constant="8" id="UZt-dQ-ROM"/>
                 <constraint firstItem="ybo-7g-i0v" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="20" id="VwY-KB-ezw"/>
                 <constraint firstItem="xNL-e4-IYA" firstAttribute="leading" secondItem="8hh-4C-upj" secondAttribute="leading" id="WMH-0H-Jll"/>
+                <constraint firstItem="6Lh-06-MJS" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="20" id="Zc4-zd-BSH"/>
                 <constraint firstItem="i52-gS-FJO" firstAttribute="top" secondItem="ROJ-z5-l4k" secondAttribute="bottom" constant="8" id="bUM-86-LHl"/>
                 <constraint firstItem="quo-L4-jbU" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="20" id="clB-cy-cZC"/>
                 <constraint firstItem="ADP-pv-QJY" firstAttribute="leading" secondItem="NoP-JE-Fei" secondAttribute="trailing" constant="8" id="equ-zr-aiG"/>
-                <constraint firstItem="gAb-Nk-S6T" firstAttribute="top" secondItem="i52-gS-FJO" secondAttribute="bottom" constant="8" id="hCO-l3-B8r"/>
                 <constraint firstItem="xNL-e4-IYA" firstAttribute="baseline" secondItem="ybo-7g-i0v" secondAttribute="baseline" id="i3A-ft-MFL"/>
                 <constraint firstItem="LfE-TS-cTX" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="P7n-A0-XtF" secondAttribute="trailing" constant="20" id="jvz-sC-Cny"/>
                 <constraint firstItem="ROJ-z5-l4k" firstAttribute="top" secondItem="quo-L4-jbU" secondAttribute="bottom" constant="8" id="l8G-lC-fss"/>
                 <constraint firstItem="ROJ-z5-l4k" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="20" id="lrt-Iy-30L"/>
                 <constraint firstAttribute="trailing" secondItem="i52-gS-FJO" secondAttribute="trailing" constant="20" id="ppF-fE-X8h"/>
-                <constraint firstItem="ADP-pv-QJY" firstAttribute="top" secondItem="gAb-Nk-S6T" secondAttribute="bottom" constant="8" id="sQr-5N-ffF"/>
                 <constraint firstAttribute="trailing" secondItem="8hh-4C-upj" secondAttribute="trailing" constant="20" id="tJr-Us-rLV"/>
                 <constraint firstItem="ybo-7g-i0v" firstAttribute="top" secondItem="mLF-Rb-yX4" secondAttribute="bottom" constant="8" id="tf7-Bz-FnZ"/>
                 <constraint firstAttribute="trailing" secondItem="LfE-TS-cTX" secondAttribute="trailing" constant="20" id="tkH-Lh-nXX"/>
                 <constraint firstItem="xNL-e4-IYA" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="ybo-7g-i0v" secondAttribute="trailing" constant="20" id="wue-UO-uvv"/>
                 <constraint firstAttribute="trailing" secondItem="quo-L4-jbU" secondAttribute="trailing" constant="20" id="xN2-IU-zRi"/>
                 <constraint firstAttribute="trailing" secondItem="xNL-e4-IYA" secondAttribute="trailing" constant="20" id="zXE-Of-2OR"/>
+                <constraint firstAttribute="trailing" secondItem="6Lh-06-MJS" secondAttribute="trailing" constant="20" id="zd1-RL-DOA"/>
             </constraints>
-            <point key="canvasLocation" x="231" y="488.5"/>
+            <point key="canvasLocation" x="231" y="488"/>
         </customView>
         <arrayController id="4lW-4l-jLh" userLabel="Code File Array Controller"/>
         <arrayController id="t2H-fw-Wr8" userLabel="Tag Frequency Array Controller"/>

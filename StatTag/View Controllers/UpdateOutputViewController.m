@@ -63,6 +63,7 @@ BOOL breakLoop = YES;
   //we need to reload the tags every time the view appears - it's possible code files were removed or the code file
   // was modified, etc.
   [self loadAllTags];
+
 }
 
 

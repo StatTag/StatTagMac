@@ -10,9 +10,12 @@
 @class STTag;
 @class STDocumentManager;
 
+#import "UpdateOutputProgressViewController.h" //for protocol UpdateOutputProgressDelegate
+#import "TagEditorViewController.h"
+
 IB_DESIGNABLE
 
-@interface UpdateOutputViewController : NSViewController {
+@interface UpdateOutputViewController : NSViewController <UpdateOutputProgressDelegate, TagEditorViewControllerDelegate> {
   __weak NSTextField *labelOnDemandSearchText;
   __weak NSButton *buttonOnDemandSelectAll;
   __weak NSButton *buttonOnDemandSelectNone;
@@ -38,5 +41,6 @@ IB_DESIGNABLE
 
 @property (strong, nonatomic) NSMutableArray<STTag*>* documentTags;
 
+@property (weak) IBOutlet NSButton *buttonEdit;
 
 @end

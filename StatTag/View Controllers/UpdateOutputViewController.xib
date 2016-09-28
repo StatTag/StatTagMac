@@ -6,6 +6,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="UpdateOutputViewController">
             <connections>
+                <outlet property="buttonEdit" destination="rcb-NN-5Vg" id="WOR-R7-Vpw"/>
                 <outlet property="buttonOnDemandSelectAll" destination="whd-Ta-B6s" id="1up-q1-gRT"/>
                 <outlet property="buttonOnDemandSelectNone" destination="hM9-YA-qbI" id="7vQ-z4-0Vv"/>
                 <outlet property="buttonRefresh" destination="Ayh-TV-JDO" id="CP4-s1-FGp"/>
