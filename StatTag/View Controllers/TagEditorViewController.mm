@@ -16,8 +16,11 @@
 
 #import "Scintilla/ScintillaView.h"
 #import "Scintilla/InfoBar.h"
+#import "Scintilla/Scintilla.h"
 
-#import "StatTagShared.h"
+
+#import "ScintillaNET.h"
+
 
 @interface TagEditorViewController ()
 
@@ -33,6 +36,9 @@
 
 BOOL changedCodeFile = false;
 STCodeFile* codeFile;
+const int TagMargin = 1;
+const int TagMarker = 1;
+
 
 NSColor* commentColor;
 NSColor* stringColor;
@@ -40,6 +46,9 @@ NSColor* wordColor;
 NSColor* macroKeywordColor;
 NSColor* blockKeywordColor;
 
+STTag* _originalTag;
+
+SCScintilla* scintillaHelper;
 
 -(void)awakeFromNib {
   [self addSourceViewEditor];
@@ -54,6 +63,7 @@ NSColor* blockKeywordColor;
 
 -(void)addSourceViewEditor {
   _sourceEditor = [[ScintillaView alloc] initWithFrame: [_sourceView frame]];
+  scintillaHelper = [[SCScintilla alloc] initWithScintillaView:_sourceEditor];
   
   [_sourceView addSubview: _sourceEditor];
   
@@ -132,21 +142,96 @@ NSColor* blockKeywordColor;
     [_codeFileList removeObjects:[_codeFileList arrangedObjects]];
     [_codeFileList addObjects: [_documentManager GetCodeFileList]];
     
-    
-    //existing tag?
-    if(_tag != nil) {
-      self.textBoxTagName.stringValue = [_tag Name];
-      
-    } else {
-      //probably a new tag
-      
-    }
-    
     //in either case - we're going to default to the top-most object in the code file list
     [self setCodeFile:nil];
     
+    
+  //  NSLog(@"[[scintillaHelper Lines] count] : %lu", (unsigned long)[[[scintillaHelper Lines] Lines] count] );
+    
+  //  NSLog(@"number of lines : %d", [scintillaHelper LinesOnScreen]);
+    
+    if(_tag != nil) {
+      //existing tag?
+      _originalTag = [[STTag alloc] initWithTag:_tag];
+      self.textBoxTagName.stringValue = [_tag Name];
+      _listCodeFile.enabled = NO; // We don't allow switching code files
+      
+      //      TagType = Tag.Type;
+      if([_tag LineStart] != nil && [_tag LineEnd] != nil) {
+        NSArray<NSString*>* lines = [[_sourceEditor string] componentsSeparatedByString:@"\r\n"];
+        int maxIndex = (int)[lines count] - 1;
+        int startIndex = MAX(0, [[_tag LineStart] intValue] );
+        startIndex = MIN(startIndex, maxIndex);
+        int endIndex = MIN([[_tag LineEnd] intValue], maxIndex);
+        
+        for (int index = startIndex; index <= endIndex; index++)
+        {
+//                  SetLineMarker(scintilla1.Lines[index], true);
+          
+        }
+//                scintilla1.LineScroll(startIndex, 0);
+      }
+      
+      //      switch (TagType)
+      //      {
+      //        case Constants.TagType.Value:
+      //          UpdateForTypeClick(cmdValue);
+      //          valueProperties.SetValueFormat(Tag.ValueFormat);
+      //          break;
+      //        case Constants.TagType.Figure:
+      //          UpdateForTypeClick(cmdFigure);
+      //          figureProperties.SetFigureFormat(Tag.FigureFormat);
+      //          break;
+      //        case Constants.TagType.Table:
+      //          UpdateForTypeClick(cmdTable);
+      //          tableProperties.SetTableFormat(Tag.TableFormat);
+      //          tableProperties.SetValueFormat(Tag.ValueFormat);
+      //          break;
+      //      }
+    } else {
+      //probably a new tag
+      //      OriginalTag = null;
+      //
+      //      // If there is only one file available, select it by default
+      //      if (Manager != null)
+      //      {
+      //        var files = Manager.GetCodeFileList();
+      //        if (files != null && files.Count == 1)
+      //        {
+      //          cboCodeFiles.SelectedIndex = 0;
+      //        }
+      //      }
+      //
+      //      // Default the default run frequency to "Default" (by default)
+      //      cboRunFrequency.SelectedItem = Constants.RunFrequency.Always;
+    }
+    
+    
   }
 }
+
+-(void)SetLineMarkerAtLineNumber:(int)lineNumber andMark:(BOOL)mark onScintillaView:(ScintillaView*)scintilla
+{
+  if (mark)
+  {
+    
+    // var handle = scintilla.DirectMessage(NativeMethods.SCI_MARKERADD, new IntPtr(Index), new IntPtr(marker));
+    //Scintilla::ScintillaCocoa* backend = [scintilla backend];
+    //line.MarkerAdd(TagMarker);
+
+    //marker = Helpers.Clamp(marker, 0, scintilla.Markers.Count - 1);
+    [ScintillaView directCall:scintilla message:SCI_MARKERADD wParam:lineNumber lParam:TagMarker];
+    
+  }
+  else
+  {
+    //line.MarkerDelete(TagMarker);
+    //marker = Helpers.Clamp(marker, -1, scintilla.Markers.Count - 1);
+    //scintilla.DirectMessage(NativeMethods.SCI_MARKERDELETE, new IntPtr(Index), new IntPtr(marker));
+  }
+}
+
+
 
 -(void)setupSourceViewEditor {
   
@@ -168,10 +253,31 @@ NSColor* blockKeywordColor;
   [_sourceEditor setColorProperty: SCI_STYLESETBACK parameter: STYLE_LINENUMBER fromHTML: @"#808080"];
   
   [_sourceEditor setGeneralProperty: SCI_SETMARGINTYPEN parameter: 0 value: SC_MARGIN_NUMBER];
-  [_sourceEditor setGeneralProperty: SCI_SETMARGINWIDTHN parameter: 0 value: 35];
+  [_sourceEditor setGeneralProperty: SCI_SETMARGINWIDTHN parameter: 0 value: 40];
   
   // Markers.
-  [_sourceEditor setGeneralProperty: SCI_SETMARGINWIDTHN parameter: 1 value: 16];
+  [_sourceEditor setGeneralProperty: SCI_SETMARGINWIDTHN parameter: TagMargin value: 20];
+  [_sourceEditor setGeneralProperty: SCI_SETMARGINSENSITIVEN parameter: TagMargin value: 1];
+  [_sourceEditor setGeneralProperty: SCI_SETMARGINTYPEN parameter: TagMargin value: SC_MARGIN_SYMBOL];
+  [_sourceEditor setGeneralProperty: SCI_SETMARGINMASKN parameter: TagMargin value: -1];
+  /*
+   Original .NET -> margin.Mask = Marker.MaskAll;
+
+   per https://github.com/jacobslusser/ScintillaNET/blob/dac00e526da95693f6b59b8276c5580846a4e63a/src/ScintillaNET/Marker.cs
+   
+   it appears that this is a .NET-specific convenience value that is "-1"
+   
+   /// An unsigned 32-bit mask of all <see cref="Margin" /> indexes where each bit cooresponds to a margin index.
+   public const uint MaskAll = unchecked((uint)-1);
+   */
+  [_sourceEditor setGeneralProperty: SCI_SETMARGINCURSORN parameter: TagMargin value: SC_CURSORARROW];
+  
+  
+  [_sourceEditor setColorProperty: SCI_STYLESETBACK parameter: TagMarker value: [StatTagShared colorFromRGBRed:204 green:196 blue:223 alpha:1.0]];
+  //FIXME: - need this line
+  //  marker.Symbol = MarkerSymbol.Background;
+  // no idea what it's doing exactly
+
   
   // Some special lexer properties.
   [_sourceEditor setLexerProperty: @"fold" value: @"1"];
@@ -179,23 +285,23 @@ NSColor* blockKeywordColor;
   [_sourceEditor setLexerProperty: @"fold.comment" value: @"1"];
   [_sourceEditor setLexerProperty: @"fold.preprocessor" value: @"1"];
   
-  // Folder setup.
-  [_sourceEditor setGeneralProperty: SCI_SETMARGINWIDTHN parameter: 2 value: 16];
-  [_sourceEditor setGeneralProperty: SCI_SETMARGINMASKN parameter: 2 value: SC_MASK_FOLDERS];
-  [_sourceEditor setGeneralProperty: SCI_SETMARGINSENSITIVEN parameter: 2 value: 1];
-  [_sourceEditor setGeneralProperty: SCI_MARKERDEFINE parameter: SC_MARKNUM_FOLDEROPEN value: SC_MARK_BOXMINUS];
-  [_sourceEditor setGeneralProperty: SCI_MARKERDEFINE parameter: SC_MARKNUM_FOLDER value: SC_MARK_BOXPLUS];
-  [_sourceEditor setGeneralProperty: SCI_MARKERDEFINE parameter: SC_MARKNUM_FOLDERSUB value: SC_MARK_VLINE];
-  [_sourceEditor setGeneralProperty: SCI_MARKERDEFINE parameter: SC_MARKNUM_FOLDERTAIL value: SC_MARK_LCORNER];
-  [_sourceEditor setGeneralProperty: SCI_MARKERDEFINE parameter: SC_MARKNUM_FOLDEREND value: SC_MARK_BOXPLUSCONNECTED];
-  [_sourceEditor setGeneralProperty: SCI_MARKERDEFINE parameter: SC_MARKNUM_FOLDEROPENMID value: SC_MARK_BOXMINUSCONNECTED];
-  [_sourceEditor setGeneralProperty
-   : SCI_MARKERDEFINE parameter: SC_MARKNUM_FOLDERMIDTAIL value: SC_MARK_TCORNER];
-  for (int n= 25; n < 32; ++n) // Markers 25..31 are reserved for folding.
-  {
-    [_sourceEditor setColorProperty: SCI_MARKERSETFORE parameter: n value: [NSColor whiteColor]];
-    [_sourceEditor setColorProperty: SCI_MARKERSETBACK parameter: n value: [NSColor blackColor]];
-  }
+//  // Folder setup.
+//  [_sourceEditor setGeneralProperty: SCI_SETMARGINWIDTHN parameter: 2 value: 16];
+//  [_sourceEditor setGeneralProperty: SCI_SETMARGINMASKN parameter: 2 value: SC_MASK_FOLDERS];
+//  [_sourceEditor setGeneralProperty: SCI_SETMARGINSENSITIVEN parameter: 2 value: 1];
+//  [_sourceEditor setGeneralProperty: SCI_MARKERDEFINE parameter: SC_MARKNUM_FOLDEROPEN value: SC_MARK_BOXMINUS];
+//  [_sourceEditor setGeneralProperty: SCI_MARKERDEFINE parameter: SC_MARKNUM_FOLDER value: SC_MARK_BOXPLUS];
+//  [_sourceEditor setGeneralProperty: SCI_MARKERDEFINE parameter: SC_MARKNUM_FOLDERSUB value: SC_MARK_VLINE];
+//  [_sourceEditor setGeneralProperty: SCI_MARKERDEFINE parameter: SC_MARKNUM_FOLDERTAIL value: SC_MARK_LCORNER];
+//  [_sourceEditor setGeneralProperty: SCI_MARKERDEFINE parameter: SC_MARKNUM_FOLDEREND value: SC_MARK_BOXPLUSCONNECTED];
+//  [_sourceEditor setGeneralProperty: SCI_MARKERDEFINE parameter: SC_MARKNUM_FOLDEROPENMID value: SC_MARK_BOXMINUSCONNECTED];
+//  [_sourceEditor setGeneralProperty
+//   : SCI_MARKERDEFINE parameter: SC_MARKNUM_FOLDERMIDTAIL value: SC_MARK_TCORNER];
+//  for (int n= 25; n < 32; ++n) // Markers 25..31 are reserved for folding.
+//  {
+//    [_sourceEditor setColorProperty: SCI_MARKERSETFORE parameter: n value: [NSColor whiteColor]];
+//    [_sourceEditor setColorProperty: SCI_MARKERSETBACK parameter: n value: [NSColor blackColor]];
+//  }
   
   // Init markers & indicators for highlighting of syntax errors.
   [_sourceEditor setColorProperty: SCI_INDICSETFORE parameter: 0 value: [NSColor redColor]];
@@ -357,7 +463,7 @@ NSColor* blockKeywordColor;
 - (void) textDidChange:(NSNotification *)notification {
   // Handle text changes
   changedCodeFile = true;
-  NSLog(@"%s", __PRETTY_FUNCTION__);
+  //NSLog(@"%s", __PRETTY_FUNCTION__);
 }
 
 
@@ -372,42 +478,77 @@ NSColor* blockKeywordColor;
   NSError* saveError;
   NSError* saveWarning;
 
-  if(changedCodeFile) {
-//    codeFile.Content = [NSMutableArray arrayWithArray:[[_sourceView string] componentsSeparatedByString: @"\r\n"]];
-    [codeFile Save:&saveError];
-  }
-
   if(! [[_tag Name] isEqualToString: [_textBoxTagName stringValue]]  ) {
     //the name has been changed - so update it
     //first see if we have a duplicate tag name
-
+    
     //tag names must be unique within a code file
     // it's allowed (but not ideal) for them to be duplicated between code files
-    
-    for(STTag* aTag in [codeFile Tags]) {
-      if ([[aTag Name] isEqualToString:[_textBoxTagName stringValue]] && ![aTag isEqual:_tag]){
-        //is the tag name reused (other than this tag)?
-        NSMutableDictionary *errorDetail = [NSMutableDictionary dictionary];
-        [errorDetail setValue:[NSString stringWithFormat:@"The tag name %@ is already used in code file %@", [aTag Name], [codeFile FileName]] forKey:NSLocalizedDescriptionKey];
-        saveError = [NSError errorWithDomain:@"com.stattag.StatTag" code:100 userInfo:errorDetail];
+
+    for(STCodeFile* cf in [_documentManager GetCodeFileList]) {
+      for(STTag* aTag in [cf Tags]) {
+        if ([[aTag Name] isEqualToString:[_textBoxTagName stringValue]] && ![aTag isEqual:_tag]){
+          if(cf == codeFile) {
+            //same codefile, so this is an error
+            //is the tag name reused (other than this tag)?
+            NSMutableDictionary *errorDetail = [NSMutableDictionary dictionary];
+            [errorDetail setValue:[NSString stringWithFormat:@"The Tag name %@ is already used in code file %@. You will need to specify a unique Tag name", [aTag Name], [codeFile FileName]] forKey:NSLocalizedDescriptionKey];
+            saveError = [NSError errorWithDomain:@"com.stattag.StatTag" code:100 userInfo:errorDetail];
+          } else {
+            //different codefile - we should warn
+            NSMutableDictionary *errorDetail = [NSMutableDictionary dictionary];
+            [errorDetail setValue:[NSString stringWithFormat:@"The Tag name %@ is already used in code file %@. Tag names should be unique. You may continue, but it is suggested you use a different name.", [aTag Name], [codeFile FileName]] forKey:NSLocalizedDescriptionKey];
+            saveWarning = [NSError errorWithDomain:@"com.stattag.StatTag" code:100 userInfo:errorDetail];
+          }
+        }
       }
     }
   }
 
+  
   if(saveError != nil) {
     //oops! something bad happened - tell the user
     [NSApp presentError:saveError];
     return;
-  }
-  if(saveWarning != nil) {
+  } else if(saveWarning != nil) {
     //warn the user - they can decide if they want to proceed
+    NSAlert *alert = [[NSAlert alloc] init];
+    [alert setMessageText:@"Tag name is not unique"];
+    [alert setInformativeText:[[saveWarning userInfo] valueForKey:NSLocalizedDescriptionKey ]];
+    [alert setAlertStyle:NSWarningAlertStyle];
+    [alert addButtonWithTitle:@"Cancel"];
+    [alert addButtonWithTitle:@"Use this Tag name"];
+    [alert beginSheetModalForWindow:[[self view] window] completionHandler:^(NSModalResponse returnCode) {
+      //button orders are the order in which they're created above
+      if (returnCode == NSAlertSecondButtonReturn) {
+        [self saveAndClose];
+      }
+    }];
+  } else {
+    [self saveAndClose];
   }
-
-  [_delegate dismissTagEditorController:self withReturnCode:(StatTagResponseState)OK];
   
+
 }
 
+-(void)saveAndClose {
+  
+  NSError* saveError;
 
+  if(changedCodeFile) {
+    codeFile.Content = [NSMutableArray arrayWithArray:[[_sourceEditor string] componentsSeparatedByString: @"\r\n"]];
+    [codeFile Save:&saveError];
+  }
+
+  if(saveError != nil) {
+    [NSApp presentError:saveError];
+    return;
+  }
+
+  
+  
+  [_delegate dismissTagEditorController:self withReturnCode:(StatTagResponseState)OK];
+}
 
 
 @end

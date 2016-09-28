@@ -213,6 +213,11 @@
 		38EF1A6C1D99A17E008EA9B0 /* ACEView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 38EF1A691D99A16B008EA9B0 /* ACEView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		38EF1A701D99A274008EA9B0 /* TagEditorViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1A6E1D99A274008EA9B0 /* TagEditorViewController.mm */; };
 		38EF1A711D99A274008EA9B0 /* TagEditorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38EF1A6F1D99A274008EA9B0 /* TagEditorViewController.xib */; };
+		38F803431D9C4B9A00C8F1EA /* SCHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F803421D9C4B9A00C8F1EA /* SCHelpers.m */; };
+		38F803461D9C4CEB00C8F1EA /* SCMarkerHandle.mm in Sources */ = {isa = PBXBuildFile; fileRef = 38F803451D9C4CEB00C8F1EA /* SCMarkerHandle.mm */; };
+		38F803491D9C50C000C8F1EA /* SCLine.mm in Sources */ = {isa = PBXBuildFile; fileRef = 38F803481D9C50C000C8F1EA /* SCLine.mm */; };
+		38F8034C1D9C579000C8F1EA /* SCLineCollection.mm in Sources */ = {isa = PBXBuildFile; fileRef = 38F8034B1D9C579000C8F1EA /* SCLineCollection.mm */; };
+		38F8034F1D9C5C1800C8F1EA /* SCScintilla.mm in Sources */ = {isa = PBXBuildFile; fileRef = 38F8034E1D9C5C1800C8F1EA /* SCScintilla.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -538,6 +543,17 @@
 		38EF1A6D1D99A274008EA9B0 /* TagEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagEditorViewController.h; sourceTree = "<group>"; };
 		38EF1A6E1D99A274008EA9B0 /* TagEditorViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TagEditorViewController.mm; sourceTree = "<group>"; };
 		38EF1A6F1D99A274008EA9B0 /* TagEditorViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TagEditorViewController.xib; sourceTree = "<group>"; };
+		38F8033E1D9C4B8200C8F1EA /* ScintillaNET.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScintillaNET.h; sourceTree = "<group>"; };
+		38F803411D9C4B9A00C8F1EA /* SCHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCHelpers.h; sourceTree = "<group>"; };
+		38F803421D9C4B9A00C8F1EA /* SCHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCHelpers.m; sourceTree = "<group>"; };
+		38F803441D9C4CEB00C8F1EA /* SCMarkerHandle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMarkerHandle.h; sourceTree = "<group>"; };
+		38F803451D9C4CEB00C8F1EA /* SCMarkerHandle.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SCMarkerHandle.mm; sourceTree = "<group>"; };
+		38F803471D9C50C000C8F1EA /* SCLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCLine.h; sourceTree = "<group>"; };
+		38F803481D9C50C000C8F1EA /* SCLine.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SCLine.mm; sourceTree = "<group>"; };
+		38F8034A1D9C579000C8F1EA /* SCLineCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCLineCollection.h; sourceTree = "<group>"; };
+		38F8034B1D9C579000C8F1EA /* SCLineCollection.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SCLineCollection.mm; sourceTree = "<group>"; };
+		38F8034D1D9C5C1800C8F1EA /* SCScintilla.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCScintilla.h; sourceTree = "<group>"; };
+		38F8034E1D9C5C1800C8F1EA /* SCScintilla.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SCScintilla.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -857,6 +873,7 @@
 		3836F5831D92CE7200BF0DD4 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				38F8033D1D9C4B3500C8F1EA /* ScintillaHelpers */,
 				3836F59D1D92D03D00BF0DD4 /* SettingsViewController.h */,
 				3836F59E1D92D03D00BF0DD4 /* SettingsViewController.m */,
 				3836F59F1D92D03D00BF0DD4 /* SettingsViewController.xib */,
@@ -1172,6 +1189,24 @@
 				38EDF02D1D2C005700ACD77B /* STStataCommands.m */,
 			);
 			path = Stata;
+			sourceTree = "<group>";
+		};
+		38F8033D1D9C4B3500C8F1EA /* ScintillaHelpers */ = {
+			isa = PBXGroup;
+			children = (
+				38F8033E1D9C4B8200C8F1EA /* ScintillaNET.h */,
+				38F803411D9C4B9A00C8F1EA /* SCHelpers.h */,
+				38F803421D9C4B9A00C8F1EA /* SCHelpers.m */,
+				38F803441D9C4CEB00C8F1EA /* SCMarkerHandle.h */,
+				38F803451D9C4CEB00C8F1EA /* SCMarkerHandle.mm */,
+				38F803471D9C50C000C8F1EA /* SCLine.h */,
+				38F803481D9C50C000C8F1EA /* SCLine.mm */,
+				38F8034A1D9C579000C8F1EA /* SCLineCollection.h */,
+				38F8034B1D9C579000C8F1EA /* SCLineCollection.mm */,
+				38F8034D1D9C5C1800C8F1EA /* SCScintilla.h */,
+				38F8034E1D9C5C1800C8F1EA /* SCScintilla.mm */,
+			);
+			path = ScintillaHelpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1651,6 +1686,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				38D8B1A61D94928600BF878A /* StatTagShared.m in Sources */,
+				38F8034F1D9C5C1800C8F1EA /* SCScintilla.mm in Sources */,
 				3836F5A51D92D07700BF0DD4 /* ManageCodeFilesViewController.m in Sources */,
 				38D8B1C21D9586D200BF878A /* UpdateOutputViewController.m in Sources */,
 				3836F5AD1D92ED9D00BF0DD4 /* STAppleScript_LoadSettings.m in Sources */,
@@ -1658,10 +1694,14 @@
 				3836F54E1D92C89900BF0DD4 /* AppDelegate.m in Sources */,
 				38EF1A701D99A274008EA9B0 /* TagEditorViewController.mm in Sources */,
 				3836F5A01D92D03D00BF0DD4 /* SettingsViewController.m in Sources */,
+				38F803431D9C4B9A00C8F1EA /* SCHelpers.m in Sources */,
+				38F803461D9C4CEB00C8F1EA /* SCMarkerHandle.mm in Sources */,
 				38D8B1C71D95872A00BF878A /* UpdateOutputProgressViewController.m in Sources */,
 				38EF1A671D99544F008EA9B0 /* readme.md in Sources */,
 				38A843A31D9B051100357727 /* readme.md in Sources */,
 				3836F5A91D92EBCB00BF0DD4 /* MainTabViewController.m in Sources */,
+				38F803491D9C50C000C8F1EA /* SCLine.mm in Sources */,
+				38F8034C1D9C579000C8F1EA /* SCLineCollection.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

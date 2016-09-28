@@ -30,6 +30,7 @@
 
   ScintillaView* _sourceEditor;
 
+  
 }
 
 @property (strong, nonatomic) STTag* tag;

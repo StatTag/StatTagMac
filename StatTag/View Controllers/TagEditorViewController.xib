@@ -85,7 +85,7 @@
                     </textFieldCell>
                 </textField>
                 <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="LfE-TS-cTX">
-                    <rect key="frame" x="204" y="611" width="459" height="26"/>
+                    <rect key="frame" x="204" y="611" width="76" height="26"/>
                     <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="krf-P7-Cob" id="As9-ri-yFR">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="menu"/>
@@ -105,7 +105,7 @@
                     </connections>
                 </popUpButton>
                 <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8hh-4C-upj">
-                    <rect key="frame" x="204" y="586" width="459" height="26"/>
+                    <rect key="frame" x="204" y="586" width="76" height="26"/>
                     <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="lrx-Dc-y2Z" id="vdB-ov-gKI">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="menu"/>
@@ -414,9 +414,9 @@ Gw
                 <constraint firstItem="ROJ-z5-l4k" firstAttribute="top" secondItem="quo-L4-jbU" secondAttribute="bottom" constant="8" id="l8G-lC-fss"/>
                 <constraint firstItem="ROJ-z5-l4k" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="20" id="lrt-Iy-30L"/>
                 <constraint firstAttribute="trailing" secondItem="i52-gS-FJO" secondAttribute="trailing" constant="20" id="ppF-fE-X8h"/>
-                <constraint firstAttribute="trailing" secondItem="8hh-4C-upj" secondAttribute="trailing" constant="20" id="tJr-Us-rLV"/>
+                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="8hh-4C-upj" secondAttribute="trailing" constant="20" id="tJr-Us-rLV"/>
                 <constraint firstItem="ybo-7g-i0v" firstAttribute="top" secondItem="mLF-Rb-yX4" secondAttribute="bottom" constant="8" id="tf7-Bz-FnZ"/>
-                <constraint firstAttribute="trailing" secondItem="LfE-TS-cTX" secondAttribute="trailing" constant="20" id="tkH-Lh-nXX"/>
+                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="LfE-TS-cTX" secondAttribute="trailing" constant="20" id="tkH-Lh-nXX"/>
                 <constraint firstItem="xNL-e4-IYA" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="ybo-7g-i0v" secondAttribute="trailing" constant="20" id="wue-UO-uvv"/>
                 <constraint firstAttribute="trailing" secondItem="quo-L4-jbU" secondAttribute="trailing" constant="20" id="xN2-IU-zRi"/>
                 <constraint firstAttribute="trailing" secondItem="xNL-e4-IYA" secondAttribute="trailing" constant="20" id="zXE-Of-2OR"/>
