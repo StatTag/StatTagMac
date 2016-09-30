@@ -9,6 +9,7 @@
 #import "TagEditorViewController.h"
 #import "StatTag.h"
 #import "StatTagShared.h"
+#import "UIUtility.h"
 //#import "ACEView/ACEView.h"
 //#import "ACEView/ACEModeNames.h"
 //#import "ACEView/ACEThemeNames.h"
@@ -34,6 +35,9 @@
 @synthesize tagFrequency = _tagFrequency;
 @synthesize sourceEditor = _sourceEditor;
 
+@synthesize instructionTitleText = _instructionTitleText;
+@synthesize allowedCommandsText = _allowedCommandsText;
+
 BOOL changedCodeFile = false;
 STCodeFile* codeFile;
 const int TagMargin = 1;
@@ -47,8 +51,12 @@ NSColor* macroKeywordColor;
 NSColor* blockKeywordColor;
 
 STTag* _originalTag;
+NSString* TagType;
 
 SCScintilla* scintillaHelper;
+
+//NSString* instructionTitleText;
+//NSString* allowedCommandsText;
 
 -(void)awakeFromNib {
   [self addSourceViewEditor];
@@ -59,6 +67,8 @@ SCScintilla* scintillaHelper;
   macroKeywordColor = [StatTagShared colorFromRGBRed:0.0f green:0.0f blue:127.0f alpha:1.0f];    //0x00, 0x00, 0x7F
   blockKeywordColor = [StatTagShared colorFromRGBRed:0.0f green:0.0f blue:127.0f alpha:1.0f];    //0x00, 0x00, 0x7F
   
+  _instructionTitleText = @"";
+  _allowedCommandsText = @"";
 }
 
 -(void)addSourceViewEditor {
@@ -150,50 +160,47 @@ SCScintilla* scintillaHelper;
     
   //  NSLog(@"number of lines : %d", [scintillaHelper LinesOnScreen]);
     
-    [[[[scintillaHelper Lines] Lines] objectAtIndex:10] MarkerAdd:TagMarker] ;
-    
     if(_tag != nil) {
       //existing tag?
       _originalTag = [[STTag alloc] initWithTag:_tag];
       self.textBoxTagName.stringValue = [_tag Name];
       _listCodeFile.enabled = NO; // We don't allow switching code files
-      
-      //      TagType = Tag.Type;
+      TagType = [_tag Type];
       if([_tag LineStart] != nil && [_tag LineEnd] != nil) {
         NSArray<NSString*>* lines = [[_sourceEditor string] componentsSeparatedByString:@"\r\n"];
         int maxIndex = (int)[lines count] - 1;
         int startIndex = MAX(0, [[_tag LineStart] intValue] );
         startIndex = MIN(startIndex, maxIndex);
         int endIndex = MIN([[_tag LineEnd] intValue], maxIndex);
-        
+        NSLog(@"[[_tag LineStart] intValue] : %d", [[_tag LineStart] intValue]);
+        NSLog(@"[[_tag LineEnd] intValue] : %d", [[_tag LineEnd] intValue]);
         for (int index = startIndex; index <= endIndex; index++)
         {
+          NSLog(@"trying to add line at index: %d", index);
           [self SetLineMarker:[[[scintillaHelper Lines] Lines] objectAtIndex: index ] andMark:YES];
         }
-//                scintilla1.LineScroll(startIndex, 0);
+        [scintillaHelper LineScroll:startIndex columns:0];
       }
       
-      //      switch (TagType)
-      //      {
-      //        case Constants.TagType.Value:
-      //          UpdateForTypeClick(cmdValue);
-      //          valueProperties.SetValueFormat(Tag.ValueFormat);
-      //          break;
-      //        case Constants.TagType.Figure:
-      //          UpdateForTypeClick(cmdFigure);
-      //          figureProperties.SetFigureFormat(Tag.FigureFormat);
-      //          break;
-      //        case Constants.TagType.Table:
-      //          UpdateForTypeClick(cmdTable);
-      //          tableProperties.SetTableFormat(Tag.TableFormat);
-      //          tableProperties.SetValueFormat(Tag.ValueFormat);
-      //          break;
-      //      }
+      if([TagType isEqualToString: [STConstantsTagType Value]] ){
+        [self UpdateForType:TagType];
+        //          valueProperties.SetValueFormat(Tag.ValueFormat);
+      } else if([TagType isEqualToString: [STConstantsTagType Figure]] ){
+        [self UpdateForType:TagType];
+        //          figureProperties.SetFigureFormat(Tag.FigureFormat);
+      } else if([TagType isEqualToString: [STConstantsTagType Table]] ){
+        [self UpdateForType:TagType];
+        //          tableProperties.SetTableFormat(Tag.TableFormat);
+        //          tableProperties.SetValueFormat(Tag.ValueFormat);
+      }
     } else {
       //probably a new tag
-      //      OriginalTag = null;
-      //
-      //      // If there is only one file available, select it by default
+      _originalTag = nil;
+
+      //EWW - not doing this - we're going to just let cocoa bindings handle it
+      // that _is_ different - we're selecting the code file and not saying "hey, choose a code file"
+      
+      // If there is only one file available, select it by default
       //      if (Manager != null)
       //      {
       //        var files = Manager.GetCodeFileList();
@@ -202,9 +209,6 @@ SCScintilla* scintillaHelper;
       //          cboCodeFiles.SelectedIndex = 0;
       //        }
       //      }
-      //
-      //      // Default the default run frequency to "Default" (by default)
-      //      cboRunFrequency.SelectedItem = Constants.RunFrequency.Always;
     }
     
     
@@ -223,6 +227,49 @@ SCScintilla* scintillaHelper;
   }
 }
 
+- (void)tabView:(NSTabView *)tabView didSelectTabViewItem:(NSTabViewItem *)tabViewItem
+{
+  if([tabViewItem.identifier isEqualToString:[STConstantsTagType Value]])
+  {
+    //Value
+    TagType = [STConstantsTagType Value];
+  } else if([tabViewItem.identifier isEqualToString:[STConstantsTagType Figure]])
+  {
+    //Figure
+    TagType = [STConstantsTagType Figure];
+  } else if([tabViewItem.identifier isEqualToString:[STConstantsTagType Table]])
+  {
+    //Table
+    TagType = [STConstantsTagType Table];
+  }
+  
+  [self SetInstructionText];
+}
+
+-(void)UpdateForType:(NSString*)tabIdentifier
+{
+  [[self tagTypeTabView] selectTabViewItemWithIdentifier:tabIdentifier];
+  [self SetInstructionText];
+}
+
+
+-(void) SetInstructionText
+{
+    
+  STCodeFile* selectedCodeFile = (STCodeFile*)[[[self listCodeFile] selectedItem] representedObject];
+  NSString* statPackage = (selectedCodeFile == nil) ? @"tag" : [selectedCodeFile StatisticalPackage];
+  
+  [self willChangeValueForKey:@"instructionTitleText"];
+  _instructionTitleText = [NSString stringWithFormat:@"The following %@ commands may be used for %@ output:", statPackage, TagType];
+  [self didChangeValueForKey:@"instructionTitleText"];
+
+  NSObject<STIResultCommandList>* commandList = [UIUtility GetResultCommandList:selectedCodeFile resultType:TagType];
+  
+  [self willChangeValueForKey:@"allowedCommandsText"];
+  _allowedCommandsText = (commandList == nil) ? @"(None specified)" : [[commandList GetCommands] componentsJoinedByString:@"\r\n"];
+  [self didChangeValueForKey:@"allowedCommandsText"];
+  
+}
 
 
 -(void)setupSourceViewEditor {
@@ -434,15 +481,20 @@ SCScintilla* scintillaHelper;
     //[_sourceView setMode:ACEModeHTML];
   }
   
+  [scintillaHelper EmptyUndoBuffer];
+  
 }
 
 - (IBAction)setCodeFile:(id)sender {
   if([[[self listCodeFile] selectedItem] representedObject] != nil) {
     STCodeFile* aCodeFile = (STCodeFile*)[[[self listCodeFile] selectedItem] representedObject];
-    codeFile = aCodeFile;
-    [self loadSourceViewFromCodeFile:codeFile];
-    changedCodeFile = false; //we just reset the code file so set this back
+    [self LoadCodeFile:aCodeFile];
   }
+}
+
+-(void)LoadCodeFile:(STCodeFile*)codeFile {
+  [self loadSourceViewFromCodeFile:codeFile];
+  changedCodeFile = false; //we just reset the code file so set this back
 }
 
 - (IBAction)setFrequency:(id)sender {
@@ -456,8 +508,24 @@ SCScintilla* scintillaHelper;
   // Handle text changes
   changedCodeFile = true;
   //NSLog(@"%s", __PRETTY_FUNCTION__);
+  
+  
+  
 }
 
+
+-(void)controlTextDidChange:(NSNotification *)obj {
+  //in the XIB, make sure your text field points to file's owner as the delegate
+  if ([obj object] == _textBoxTagName) {
+    // Ignore reserved characters
+    // we can get away with this because the strings are really tiny - but this seems like overkill
+    [_textBoxTagName setStringValue: [[_textBoxTagName stringValue] stringByReplacingOccurrencesOfString:[STConstantsReservedCharacters TagTableCellDelimiter] withString:@""]];
+  }
+
+  //this might be smarter  - right now we actually wind up moving key positions, which is bad
+  //http://stackoverflow.com/questions/12161654/restrict-nstextfield-to-only-allow-numbers
+
+}
 
 - (IBAction)cancel:(id)sender {
   [_delegate dismissTagEditorController:self withReturnCode:(StatTagResponseState)Cancel];
@@ -524,6 +592,42 @@ SCScintilla* scintillaHelper;
 }
 
 -(void)saveAndClose {
+  
+  
+//  private void EditTag_FormClosing(object sender, FormClosingEventArgs e)
+//  {
+//    if (this.DialogResult == DialogResult.OK)
+//    {
+//      if (!TagUtil.ShouldCheckForDuplicateLabel(OriginalTag, Tag))
+//      {
+//        return;
+//      }
+//      
+//      var files = Manager.GetCodeFileList();
+//      var result = TagUtil.CheckForDuplicateLabels(Tag, files);
+//      if (result != null && result.Count > 0)
+//      {
+//        if (TagUtil.IsDuplicateLabelInSameFile(Tag, result))
+//        {
+//          UIUtility.WarningMessageBox(
+//                                      string.Format("The tag name you have entered ('{0}') already appears in this file.\r\nPlease give this tag a unique name before proceeding.", Tag.Name),
+//                                      Manager.Logger);
+//          this.DialogResult = DialogResult.None;
+//          e.Cancel = true;
+//        }
+//        else if (DialogResult.Yes != MessageBox.Show(
+//                                                     string.Format(
+//                                                                   "The tag name you have entered ('{0}') appears in {1} other {2}.  Are you sure you want to use the same label?",
+//                                                                   Tag.Name, result.Count, "file".Pluralize(result.Count)),
+//                                                     UIUtility.GetAddInName(), MessageBoxButtons.YesNo))
+//        {
+//          this.DialogResult = DialogResult.None;
+//          e.Cancel = true;
+//        }
+//      }
+//    }
+//  }
+
   
   NSError* saveError;
 

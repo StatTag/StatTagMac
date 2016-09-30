@@ -74,6 +74,9 @@ FOUNDATION_EXPORT const unsigned char StatTagVersionString[];
 #import <StatTagFramework/STStataAutomation.h>
 #import <StatTagFramework/STStataCommands.h>
 
+//--SAS
+#import <StatTagFramework/STSASAutomation.h>
+#import <StatTagFramework/STSASCommands.h>
 
 //--Generators
 #import <StatTagFramework/STBaseGenerator.h>

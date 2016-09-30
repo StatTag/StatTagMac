@@ -27,6 +27,23 @@
 }
 
 
+/// Clears any undo or redo history.
+/// @remark This will also cause SetSavePoint to be called but will not raise the SavePointReached event
+-(void)EmptyUndoBuffer
+{
+  [ScintillaView directCall:[self scintillaView] message:SCI_EMPTYUNDOBUFFER wParam:0 lParam:0];
+}
+
+
+/// @summary Scrolls the display the number of lines and columns specified.
+/// @parameter lines : The number of lines to scroll.
+/// @parameter name : The number of columns to scroll.
+/// @remark Negative values scroll in the opposite direction. A column is the width in pixels of a space character in the Default style.
+-(void)LineScroll:(int)lines columns:(int)columns
+{
+  [ScintillaView directCall:[self scintillaView] message:SCI_LINESCROLL wParam:columns lParam:lines];
+}
+
 -(int) LinesOnScreen
 {
   int result = (int)[ScintillaView directCall:[self scintillaView] message:SCI_LINESONSCREEN wParam:0 lParam:0];

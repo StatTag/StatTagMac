@@ -1,31 +1,33 @@
 //
-//  STStataCommands.m
+//  STSASCommands.m
 //  StatTag
 //
-//  Created by Eric Whitley on 7/5/16.
+//  Created by Eric Whitley on 9/29/16.
 //  Copyright © 2016 StatTag. All rights reserved.
 //
 
-#import "STStataCommands.h"
+#import "STSASCommands.h"
 
-@implementation STStataCommands
+@implementation STSASCommands
 -(NSObject<STIResultCommandList>*)ValueResultCommands {
-  return [[STStataCommandsValueCommands alloc] init];
+  return [[STSASCommandsValueCommands alloc] init];
 }
 -(NSObject<STIResultCommandList>*)FigureResultCommands {
-  return [[STStataCommandsFigureCommands alloc] init];
+  return [[STSASCommandsFigureCommands alloc] init];
 }
 -(NSObject<STIResultCommandList>*)TableResultCommands {
-  return [[STStataCommandsTableCommands alloc] init];
+  return [[STSASCommandsTableCommands alloc] init];
 }
+
 @end
 
-//MARK: "nested" classes for Stata Commands
+//MARK: "nested" classes for SAS Commands
 
-@implementation STStataCommandsValueCommands
+@implementation STSASCommandsValueCommands
 -(NSString*)Display {
-  return @"display";
+  return @"%put";
 }
+
 -(NSArray<NSString*>*)GetCommands {
   return [NSArray arrayWithObjects:
           [self Display]
@@ -33,9 +35,9 @@
 }
 @end
 
-@implementation STStataCommandsFigureCommands
+@implementation STSASCommandsFigureCommands
 -(NSString*)GraphExport {
- return @"graph export";
+  return @"ODS PDF";
 }
 -(NSArray<NSString*>*)GetCommands {
   return [NSArray arrayWithObjects:
@@ -45,9 +47,9 @@
 @end
 
 
-@implementation STStataCommandsTableCommands
+@implementation STSASCommandsTableCommands
 -(NSString*)MatrixList {
- return @"matrix list";
+  return @"ODS CSV";
 }
 -(NSArray<NSString*>*)GetCommands {
   return [NSArray arrayWithObjects:

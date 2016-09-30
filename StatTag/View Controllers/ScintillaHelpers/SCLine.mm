@@ -24,7 +24,8 @@
   self = [super init];
   if(self) {
     _scintilla = sc;
-    _Index = index;
+    //FIXME: not sure why, but everything seems to be offset by 1 if we leave Index 0-based
+    _Index = index + 1; //this seems like an extraordinarily bad idea
   }
   return self;
 }
@@ -43,8 +44,8 @@
 /// @remark This method does not check if the line already contains the marker
 -(SCMarkerHandle*)MarkerAdd:(NSInteger)marker
 {
-  //marker = [SCHelpers Clamp:marker min:0 max:[[_scintilla Markers] count] - 1];
-  marker = [SCHelpers Clamp:marker min:0 max:[[_scintilla Markers] count]];
+  marker = [SCHelpers Clamp:marker min:0 max:[[_scintilla Markers] count] - 1];
+  //marker = [SCHelpers Clamp:marker min:0 max:[[_scintilla Markers] count]];
   long handle = [ScintillaView directCall:[_scintilla scintillaView] message:SCI_MARKERADD wParam:_Index lParam:marker];
 
   SCMarkerHandle* markerHandle = [[SCMarkerHandle alloc] init];
@@ -57,8 +58,8 @@
 /// @remark If the same marker has been added to the line more than once, this will delete one copy each time it is used
 -(void)MarkerDelete:(NSInteger)marker
 {
-  //marker = [SCHelpers Clamp:marker min:-1 max:[[_scintilla Markers] count] - 1];
-  marker = [SCHelpers Clamp:marker min:-1 max:[[_scintilla Markers] count]];
+  marker = [SCHelpers Clamp:marker min:-1 max:[[_scintilla Markers] count] - 1];
+  //marker = [SCHelpers Clamp:marker min:-1 max:[[_scintilla Markers] count]];
   [ScintillaView directCall:[_scintilla scintillaView] message:SCI_MARKERDELETE wParam:_Index lParam:marker];
 }
 

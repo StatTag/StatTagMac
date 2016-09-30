@@ -218,6 +218,13 @@
 		38F803491D9C50C000C8F1EA /* SCLine.mm in Sources */ = {isa = PBXBuildFile; fileRef = 38F803481D9C50C000C8F1EA /* SCLine.mm */; };
 		38F8034C1D9C579000C8F1EA /* SCLineCollection.mm in Sources */ = {isa = PBXBuildFile; fileRef = 38F8034B1D9C579000C8F1EA /* SCLineCollection.mm */; };
 		38F8034F1D9C5C1800C8F1EA /* SCScintilla.mm in Sources */ = {isa = PBXBuildFile; fileRef = 38F8034E1D9C5C1800C8F1EA /* SCScintilla.mm */; };
+		38F803531D9DAF7800C8F1EA /* UIUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F803521D9DAF7700C8F1EA /* UIUtility.m */; };
+		38F803581D9DB2B300C8F1EA /* STSASAutomation.h in Headers */ = {isa = PBXBuildFile; fileRef = 38F803561D9DB2B300C8F1EA /* STSASAutomation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		38F803591D9DB2B300C8F1EA /* STSASAutomation.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F803571D9DB2B300C8F1EA /* STSASAutomation.m */; };
+		38F8035C1D9DB2C800C8F1EA /* STSASCommands.h in Headers */ = {isa = PBXBuildFile; fileRef = 38F8035A1D9DB2C800C8F1EA /* STSASCommands.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		38F8035D1D9DB2C800C8F1EA /* STSASCommands.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F8035B1D9DB2C800C8F1EA /* STSASCommands.m */; };
+		38F803651D9DCB8900C8F1EA /* ValueProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F803631D9DCB8900C8F1EA /* ValueProperties.m */; };
+		38F803661D9DCB8900C8F1EA /* ValueProperties.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38F803641D9DCB8900C8F1EA /* ValueProperties.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -554,6 +561,15 @@
 		38F8034B1D9C579000C8F1EA /* SCLineCollection.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SCLineCollection.mm; sourceTree = "<group>"; };
 		38F8034D1D9C5C1800C8F1EA /* SCScintilla.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCScintilla.h; sourceTree = "<group>"; };
 		38F8034E1D9C5C1800C8F1EA /* SCScintilla.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SCScintilla.mm; sourceTree = "<group>"; };
+		38F803511D9DAF7700C8F1EA /* UIUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIUtility.h; sourceTree = "<group>"; };
+		38F803521D9DAF7700C8F1EA /* UIUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIUtility.m; sourceTree = "<group>"; };
+		38F803561D9DB2B300C8F1EA /* STSASAutomation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STSASAutomation.h; sourceTree = "<group>"; };
+		38F803571D9DB2B300C8F1EA /* STSASAutomation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STSASAutomation.m; sourceTree = "<group>"; };
+		38F8035A1D9DB2C800C8F1EA /* STSASCommands.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STSASCommands.h; sourceTree = "<group>"; };
+		38F8035B1D9DB2C800C8F1EA /* STSASCommands.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STSASCommands.m; sourceTree = "<group>"; };
+		38F803621D9DCB8900C8F1EA /* ValueProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValueProperties.h; sourceTree = "<group>"; };
+		38F803631D9DCB8900C8F1EA /* ValueProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValueProperties.m; sourceTree = "<group>"; };
+		38F803641D9DCB8900C8F1EA /* ValueProperties.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ValueProperties.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -672,6 +688,8 @@
 		382C8D251D0F672F00FE6878 /* StatTagFramework */ = {
 			isa = PBXGroup;
 			children = (
+				38F803551D9DB25300C8F1EA /* R */,
+				38F803541D9DB24C00C8F1EA /* SAS */,
 				38788F901D300FA800299789 /* StatTag */,
 				38EDF0251D2BFF8300ACD77B /* Stata */,
 				382C286F1D180C5800697D6F /* VendorLibraries */,
@@ -825,6 +843,7 @@
 		3836F54B1D92C89900BF0DD4 /* StatTag */ = {
 			isa = PBXGroup;
 			children = (
+				38F803501D9DAF5500C8F1EA /* Classes */,
 				3836F57C1D92C8EA00BF0DD4 /* StatTag.sdef */,
 				3836F54C1D92C89900BF0DD4 /* AppDelegate.h */,
 				3836F54D1D92C89900BF0DD4 /* AppDelegate.m */,
@@ -873,6 +892,7 @@
 		3836F5831D92CE7200BF0DD4 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				38F803611D9DCB5800C8F1EA /* Controls */,
 				38F8033D1D9C4B3500C8F1EA /* ScintillaHelpers */,
 				3836F59D1D92D03D00BF0DD4 /* SettingsViewController.h */,
 				3836F59E1D92D03D00BF0DD4 /* SettingsViewController.m */,
@@ -1209,6 +1229,43 @@
 			path = ScintillaHelpers;
 			sourceTree = "<group>";
 		};
+		38F803501D9DAF5500C8F1EA /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				38F803511D9DAF7700C8F1EA /* UIUtility.h */,
+				38F803521D9DAF7700C8F1EA /* UIUtility.m */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		38F803541D9DB24C00C8F1EA /* SAS */ = {
+			isa = PBXGroup;
+			children = (
+				38F803561D9DB2B300C8F1EA /* STSASAutomation.h */,
+				38F803571D9DB2B300C8F1EA /* STSASAutomation.m */,
+				38F8035A1D9DB2C800C8F1EA /* STSASCommands.h */,
+				38F8035B1D9DB2C800C8F1EA /* STSASCommands.m */,
+			);
+			path = SAS;
+			sourceTree = "<group>";
+		};
+		38F803551D9DB25300C8F1EA /* R */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = R;
+			sourceTree = "<group>";
+		};
+		38F803611D9DCB5800C8F1EA /* Controls */ = {
+			isa = PBXGroup;
+			children = (
+				38F803621D9DCB8900C8F1EA /* ValueProperties.h */,
+				38F803631D9DCB8900C8F1EA /* ValueProperties.m */,
+				38F803641D9DCB8900C8F1EA /* ValueProperties.xib */,
+			);
+			path = Controls;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -1246,6 +1303,7 @@
 				380A67A01D106E090045B72B /* STCodeFileAction.h in Headers */,
 				382C28C01D199F9A00697D6F /* STStataBaseGenerator.h in Headers */,
 				38BE59711D5286AA00FF9E99 /* OfficeMacVBAPublic.h in Headers */,
+				38F803581D9DB2B300C8F1EA /* STSASAutomation.h in Headers */,
 				382C28C41D19A00D00697D6F /* STTableGenerator.h in Headers */,
 				38A7CE981D4FDFB600B06AFF /* STGridDataItem.h in Headers */,
 				382C8D271D0F672F00FE6878 /* StatTag.h in Headers */,
@@ -1260,6 +1318,7 @@
 				38EDF0271D2BFFD800ACD77B /* STStata.h in Headers */,
 				38C91F771D37FAFC0048A95E /* WordASOC.h in Headers */,
 				38A7CE941D4FDE2100B06AFF /* STBaseManager.h in Headers */,
+				38F8035C1D9DB2C800C8F1EA /* STSASCommands.h in Headers */,
 				38EDF02A1D2C002A00ACD77B /* STStataAutomation.h in Headers */,
 				382C28B81D199ACC00697D6F /* STBaseParameterGenerator.h in Headers */,
 				382C28641D14552100697D6F /* STIResultCommandList.h in Headers */,
@@ -1537,6 +1596,7 @@
 				38D8B1C31D9586D200BF878A /* UpdateOutputViewController.xib in Resources */,
 				3836F5591D92C89900BF0DD4 /* Main.storyboard in Resources */,
 				38D8B1C81D95872A00BF878A /* UpdateOutputProgressViewController.xib in Resources */,
+				38F803661D9DCB8900C8F1EA /* ValueProperties.xib in Resources */,
 				3836F5A11D92D03D00BF0DD4 /* SettingsViewController.xib in Resources */,
 				3836F5A61D92D07700BF0DD4 /* ManageCodeFilesViewController.xib in Resources */,
 			);
@@ -1589,6 +1649,7 @@
 			files = (
 				38B9D3321D4BF99B00C62C30 /* STUIUtility.m in Sources */,
 				380A67A51D106FBB0045B72B /* STCommandResult.m in Sources */,
+				38F8035D1D9DB2C800C8F1EA /* STSASCommands.m in Sources */,
 				38245DE31D635CD100CB1C87 /* STTagUpdateProgressController.m in Sources */,
 				382C285C1D133BCD00697D6F /* STValueFormat.m in Sources */,
 				380A679B1D1061110045B72B /* STTable.m in Sources */,
@@ -1626,6 +1687,7 @@
 				385FDD291D32F6DD00AE0FE2 /* STTagManager.m in Sources */,
 				38C91F751D37FAEC0048A95E /* WordASOC.applescript in Sources */,
 				382C28BD1D199ED000697D6F /* STFigureGenerator.m in Sources */,
+				38F803591D9DB2B300C8F1EA /* STSASAutomation.m in Sources */,
 				382C8D381D0F68B200FE6878 /* STCodeFile.m in Sources */,
 				38EDF02F1D2C005700ACD77B /* STStataCommands.m in Sources */,
 				385FDD341D33CEEE00AE0FE2 /* STThisAddIn.m in Sources */,
@@ -1686,6 +1748,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				38D8B1A61D94928600BF878A /* StatTagShared.m in Sources */,
+				38F803651D9DCB8900C8F1EA /* ValueProperties.m in Sources */,
 				38F8034F1D9C5C1800C8F1EA /* SCScintilla.mm in Sources */,
 				3836F5A51D92D07700BF0DD4 /* ManageCodeFilesViewController.m in Sources */,
 				38D8B1C21D9586D200BF878A /* UpdateOutputViewController.m in Sources */,
@@ -1699,6 +1762,7 @@
 				38D8B1C71D95872A00BF878A /* UpdateOutputProgressViewController.m in Sources */,
 				38EF1A671D99544F008EA9B0 /* readme.md in Sources */,
 				38A843A31D9B051100357727 /* readme.md in Sources */,
+				38F803531D9DAF7800C8F1EA /* UIUtility.m in Sources */,
 				3836F5A91D92EBCB00BF0DD4 /* MainTabViewController.m in Sources */,
 				38F803491D9C50C000C8F1EA /* SCLine.mm in Sources */,
 				38F8034C1D9C579000C8F1EA /* SCLineCollection.mm in Sources */,

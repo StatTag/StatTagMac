@@ -19,6 +19,8 @@
 @property (strong, nonatomic) ScintillaView* scintillaView;
 @property (strong, nonatomic) NSMutableArray* Markers;
 
+-(void)EmptyUndoBuffer;
+-(void)LineScroll:(int)lines columns:(int)columns;
 -(int)LinesOnScreen;
 -(id)initWithScintillaView:(ScintillaView*)sc;
 

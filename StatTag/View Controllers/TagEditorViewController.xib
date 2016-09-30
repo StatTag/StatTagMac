@@ -33,6 +33,7 @@
                 <outlet property="tableStepperDecimalPlaces" destination="aPp-De-KGX" id="FI7-g5-7za"/>
                 <outlet property="tableTextboxDecimalPlaces" destination="Cxn-VI-F7L" id="1Co-tp-wXw"/>
                 <outlet property="tagFrequency" destination="t2H-fw-Wr8" id="QKu-3s-plw"/>
+                <outlet property="tagTypeTabView" destination="ROJ-z5-l4k" id="oc8-nT-ccy"/>
                 <outlet property="textBoxTagName" destination="xNL-e4-IYA" id="XuR-My-MOB"/>
                 <outlet property="textboxDecimalPlaces" destination="Cxn-VI-F7L" id="7K2-U6-tMB"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
@@ -133,6 +134,7 @@
                     </textFieldCell>
                     <connections>
                         <action selector="setTagName:" target="-2" id="H4G-Ps-ECI"/>
+                        <outlet property="delegate" destination="-2" id="0Q5-bd-oSB"/>
                     </connections>
                 </textField>
                 <tabView translatesAutoresizingMaskIntoConstraints="NO" id="ROJ-z5-l4k">
@@ -142,7 +144,7 @@
                     </constraints>
                     <font key="font" metaFont="system"/>
                     <tabViewItems>
-                        <tabViewItem label="Value" identifier="1" id="d7N-cs-QfB">
+                        <tabViewItem label="Value" identifier="Value" id="d7N-cs-QfB">
                             <view key="view" id="dBk-FZ-Kyl">
                                 <rect key="frame" x="10" y="33" width="634" height="120"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -178,6 +180,9 @@
                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
+                                        <connections>
+                                            <binding destination="-2" name="value" keyPath="self.instructionTitleText" id="wJc-iN-i4m"/>
+                                        </connections>
                                     </textField>
                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="WUG-St-dtz">
                                         <rect key="frame" x="373" y="8" width="255" height="63"/>
@@ -186,6 +191,9 @@
                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
+                                        <connections>
+                                            <binding destination="-2" name="value" keyPath="self.allowedCommandsText" id="b5b-Z6-03j"/>
+                                        </connections>
                                     </textField>
                                     <button translatesAutoresizingMaskIntoConstraints="NO" id="1h1-ra-VeD">
                                         <rect key="frame" x="16" y="33" width="357" height="18"/>
@@ -218,7 +226,7 @@
                                 </constraints>
                             </view>
                         </tabViewItem>
-                        <tabViewItem label="Figure" identifier="2" id="K1E-Ph-OFj">
+                        <tabViewItem label="Figure" identifier="Figure" id="K1E-Ph-OFj">
                             <view key="view" misplaced="YES" id="nQm-Fr-2BX">
                                 <rect key="frame" x="10" y="33" width="634" height="120"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -234,6 +242,9 @@
                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
+                                        <connections>
+                                            <binding destination="-2" name="value" keyPath="self.instructionTitleText" id="Lxt-fA-iiR"/>
+                                        </connections>
                                     </textField>
                                     <textField verticalHuggingPriority="749" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Wxu-8p-xoV">
                                         <rect key="frame" x="398" y="3" width="235" height="17"/>
@@ -242,6 +253,9 @@
                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
+                                        <connections>
+                                            <binding destination="-2" name="value" keyPath="self.allowedCommandsText" id="y2x-Cf-dgz"/>
+                                        </connections>
                                     </textField>
                                 </subviews>
                                 <constraints>
@@ -255,7 +269,7 @@
                                 </constraints>
                             </view>
                         </tabViewItem>
-                        <tabViewItem label="Table" identifier="" id="KTP-l5-alT">
+                        <tabViewItem label="Table" identifier="Table" id="KTP-l5-alT">
                             <view key="view" misplaced="YES" id="Z4q-V0-UIr">
                                 <rect key="frame" x="10" y="33" width="634" height="120"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -303,6 +317,9 @@
                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
+                                        <connections>
+                                            <binding destination="-2" name="value" keyPath="self.instructionTitleText" id="xEL-ee-5Gy"/>
+                                        </connections>
                                     </textField>
                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="efP-gl-ZZv">
                                         <rect key="frame" x="385" y="3" width="235" height="17"/>
@@ -311,6 +328,9 @@
                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
+                                        <connections>
+                                            <binding destination="-2" name="value" keyPath="self.allowedCommandsText" id="AeI-Gb-Rz7"/>
+                                        </connections>
                                     </textField>
                                     <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Cxn-VI-F7L">
                                         <rect key="frame" x="303" y="42" width="63" height="22"/>

@@ -99,7 +99,7 @@ extern NSString *const UnregisterParameter;
 
 /**
  Run a Stata command and provide the result of the command (if one should be returned).
- @param command: The command to run, taken from a Stata do file
+ @parameter command: The command to run, taken from a Stata do file
  @returns The result of the command, or null if the command does not provide a result.
  */
 -(STCommandResult*)RunCommand:(NSString*) command;

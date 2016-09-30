@@ -21,7 +21,7 @@
 @end
 
 
-@interface TagEditorViewController : NSViewController {
+@interface TagEditorViewController : NSViewController <NSTextFieldDelegate> {
   STTag* _tag;
   STDocumentManager* _documentManager;
   
@@ -30,6 +30,8 @@
 
   ScintillaView* _sourceEditor;
 
+  NSString* _instructionTitleText;
+  NSString* _allowedCommandsText;
   
 }
 
@@ -78,6 +80,11 @@
 @property (weak) IBOutlet NSButton *buttonSave;
 @property (weak) IBOutlet NSButton *buttonCancel;
 
+@property (weak) IBOutlet NSTabView *tagTypeTabView;
+
+
+@property (strong, nonatomic) NSString* instructionTitleText;
+@property (strong, nonatomic) NSString* allowedCommandsText;
 
 
 @end
