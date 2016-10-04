@@ -33,4 +33,11 @@
 }
 
 
+- (IBAction)selectValueType:(id)sender {
+  [_delegate valueTypeDidChange:self];
+}
+
+
+
+
 @end

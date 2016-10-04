@@ -1,8 +1,8 @@
 //
-//  TagEditorViewControllerRevised.h
+//  TagEditorViewController.h
 //  StatTag
 //
-//  Created by Eric Whitley on 10/4/16.
+//  Created by Eric Whitley on 9/26/16.
 //  Copyright © 2016 StatTag. All rights reserved.
 //
 
@@ -27,9 +27,9 @@
   
   NSArrayController* _codeFileList;
   NSArrayController* _tagFrequency;
-  
+
   ScintillaView* _sourceEditor;
-  
+
   NSString* _instructionTitleText;
   NSString* _allowedCommandsText;
   
@@ -87,6 +87,7 @@
 @property (strong, nonatomic) NSString* allowedCommandsText;
 
 
-//Properties Panel
-@property (weak) IBOutlet NSStackView *propertiesStackView;
+@end
+
+
 

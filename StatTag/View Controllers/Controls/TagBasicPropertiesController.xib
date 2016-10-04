@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11201"/>
+        <capability name="stacking Non-gravity area distributions on NSStackView" minToolsVersion="7.0" minSystemVersion="10.11"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="TagBasicPropertiesController">
+            <connections>
+                <outlet property="codeArrayController" destination="hfh-rW-GBb" id="Yol-ca-pbC"/>
+                <outlet property="codeFiles" destination="hfh-rW-GBb" id="sjm-Ua-SlK"/>
+                <outlet property="tagFrequency" destination="AiT-G7-lfg" id="CSJ-YB-OrS"/>
+                <outlet property="tagFrequencyArrayController" destination="AiT-G7-lfg" id="mkR-ib-NHj"/>
+                <outlet property="tagFrequencyLabel" destination="7QM-wd-fu9" id="rox-Is-u93"/>
+                <outlet property="tagFrequencyList" destination="bmR-aX-RU5" id="H82-Jg-372"/>
+                <outlet property="tagNameLabel" destination="w56-fh-8nh" id="Nbp-C4-odE"/>
+                <outlet property="tagNameTextbox" destination="SP8-w3-G3E" id="uou-Lk-5ch"/>
+                <outlet property="tagTypeArrayController" destination="vxF-N6-j5F" id="KeR-AF-K6D"/>
+                <outlet property="tagTypeLabel" destination="YJy-d5-Oof" id="SHW-Ox-axI"/>
+                <outlet property="tagTypeList" destination="8H4-dp-kVE" id="Fj4-9f-ibp"/>
+                <outlet property="tagTypeeArrayController" destination="vxF-N6-j5F" id="Ay0-E4-7zg"/>
+                <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="Hz6-mo-xeY">
+            <rect key="frame" x="0.0" y="0.0" width="480" height="140"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="abb-No-rmY">
+                    <rect key="frame" x="0.0" y="0.0" width="480" height="140"/>
+                    <subviews>
+                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="w56-fh-8nh">
+                            <rect key="frame" x="-2" y="123" width="484" height="17"/>
+                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Tag name:" id="mOk-nq-XgS">
+                                <font key="font" metaFont="system"/>
+                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                            </textFieldCell>
+                        </textField>
+                        <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="SP8-w3-G3E">
+                            <rect key="frame" x="0.0" y="98" width="480" height="22"/>
+                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="d6o-Ge-HJV">
+                                <font key="font" metaFont="system"/>
+                                <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                            </textFieldCell>
+                            <connections>
+                                <binding destination="-2" name="value" keyPath="self.tag.Name" id="6g0-cc-Ilq"/>
+                                <outlet property="delegate" destination="-2" id="jP3-Da-6P7"/>
+                            </connections>
+                        </textField>
+                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7QM-wd-fu9">
+                            <rect key="frame" x="-2" y="73" width="484" height="17"/>
+                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="When should this code run:" id="QAI-Yy-E8M">
+                                <font key="font" metaFont="system"/>
+                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                            </textFieldCell>
+                            <connections>
+                                <outlet property="delegate" destination="-2" id="DOM-GG-0C2"/>
+                            </connections>
+                        </textField>
+                        <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bmR-aX-RU5">
+                            <rect key="frame" x="-2" y="46" width="485" height="26"/>
+                            <popUpButtonCell key="cell" type="push" title="Tag Refresh Frequency" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="Fec-kf-eiF" id="J7r-r0-jTp">
+                                <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="menu"/>
+                                <menu key="menu" id="X3A-YS-ayz">
+                                    <items>
+                                        <menuItem title="Tag Refresh Frequency" state="on" id="Fec-kf-eiF"/>
+                                        <menuItem title="Item 2" id="fTo-Wq-er4"/>
+                                        <menuItem title="Item 3" id="nRi-2u-Zxk"/>
+                                    </items>
+                                </menu>
+                            </popUpButtonCell>
+                            <connections>
+                                <action selector="tagFrequencySelectionChanged:" target="-2" id="Sj0-9K-M3W"/>
+                                <binding destination="AiT-G7-lfg" name="content" keyPath="arrangedObjects" id="GMM-Xj-0ba"/>
+                                <binding destination="AiT-G7-lfg" name="contentValues" keyPath="arrangedObjects" previousBinding="GMM-Xj-0ba" id="y9f-qw-AP2"/>
+                                <binding destination="-2" name="selectedObject" keyPath="self.selectedTagFrequencyValue" previousBinding="y9f-qw-AP2" id="S27-DT-XWd"/>
+                            </connections>
+                        </popUpButton>
+                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="YJy-d5-Oof">
+                            <rect key="frame" x="-2" y="24" width="484" height="17"/>
+                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Tag result type:" id="CSA-ZA-Pui">
+                                <font key="font" metaFont="system"/>
+                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                            </textFieldCell>
+                        </textField>
+                        <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8H4-dp-kVE">
+                            <rect key="frame" x="-2" y="-3" width="485" height="26"/>
+                            <popUpButtonCell key="cell" type="push" title="Value" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="NG8-5y-5V1" id="Xsy-KR-67M">
+                                <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="menu"/>
+                                <menu key="menu" id="i4j-5a-mi0">
+                                    <items>
+                                        <menuItem title="Value" state="on" id="NG8-5y-5V1"/>
+                                        <menuItem title="Item 2" id="FzJ-4d-PAe"/>
+                                        <menuItem title="Item 3" id="ibC-Jr-jyh"/>
+                                    </items>
+                                </menu>
+                            </popUpButtonCell>
+                            <connections>
+                                <action selector="tagTypeChanged:" target="-2" id="ODF-5U-tdO"/>
+                                <binding destination="vxF-N6-j5F" name="content" keyPath="arrangedObjects" id="MUG-T3-KJy"/>
+                                <binding destination="vxF-N6-j5F" name="contentValues" keyPath="arrangedObjects" previousBinding="MUG-T3-KJy" id="oaB-eX-wBE"/>
+                                <binding destination="-2" name="selectedObject" keyPath="self.tag.Type" previousBinding="oaB-eX-wBE" id="Nvx-SI-3iW"/>
+                            </connections>
+                        </popUpButton>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="7QM-wd-fu9" firstAttribute="leading" secondItem="abb-No-rmY" secondAttribute="leading" id="BVN-pG-CHc"/>
+                        <constraint firstAttribute="trailing" secondItem="YJy-d5-Oof" secondAttribute="trailing" id="GL8-gF-8nj"/>
+                        <constraint firstItem="w56-fh-8nh" firstAttribute="leading" secondItem="abb-No-rmY" secondAttribute="leading" id="GvK-vu-WCH"/>
+                        <constraint firstItem="8H4-dp-kVE" firstAttribute="top" secondItem="YJy-d5-Oof" secondAttribute="bottom" constant="3" id="Ihl-v7-1F9"/>
+                        <constraint firstAttribute="trailing" secondItem="8H4-dp-kVE" secondAttribute="trailing" id="L3L-oP-eZ0"/>
+                        <constraint firstItem="YJy-d5-Oof" firstAttribute="leading" secondItem="abb-No-rmY" secondAttribute="leading" id="Ll5-Gs-P7s"/>
+                        <constraint firstItem="bmR-aX-RU5" firstAttribute="leading" secondItem="abb-No-rmY" secondAttribute="leading" id="PZO-2G-SqL"/>
+                        <constraint firstAttribute="trailing" secondItem="w56-fh-8nh" secondAttribute="trailing" id="Y7v-Lk-fZe"/>
+                        <constraint firstItem="SP8-w3-G3E" firstAttribute="leading" secondItem="abb-No-rmY" secondAttribute="leading" id="a3c-W0-sqS"/>
+                        <constraint firstAttribute="trailing" secondItem="bmR-aX-RU5" secondAttribute="trailing" id="cde-Rw-b5F"/>
+                        <constraint firstAttribute="trailing" secondItem="SP8-w3-G3E" secondAttribute="trailing" id="gEa-qU-AGp"/>
+                        <constraint firstItem="8H4-dp-kVE" firstAttribute="leading" secondItem="abb-No-rmY" secondAttribute="leading" id="gPW-FE-XCm"/>
+                        <constraint firstItem="bmR-aX-RU5" firstAttribute="top" secondItem="7QM-wd-fu9" secondAttribute="bottom" constant="3" id="ime-xM-cv6"/>
+                        <constraint firstAttribute="trailing" secondItem="7QM-wd-fu9" secondAttribute="trailing" id="nfn-5k-L1S"/>
+                        <constraint firstItem="7QM-wd-fu9" firstAttribute="top" secondItem="SP8-w3-G3E" secondAttribute="bottom" constant="8" id="tkw-fs-nd4"/>
+                        <constraint firstItem="SP8-w3-G3E" firstAttribute="top" secondItem="w56-fh-8nh" secondAttribute="bottom" constant="3" id="ugn-k9-l7l"/>
+                    </constraints>
+                    <visibilityPriorities>
+                        <integer value="1000"/>
+                        <integer value="1000"/>
+                        <integer value="1000"/>
+                        <integer value="1000"/>
+                        <integer value="1000"/>
+                        <integer value="1000"/>
+                    </visibilityPriorities>
+                    <customSpacing>
+                        <real value="3.4028234663852886e+38"/>
+                        <real value="3.4028234663852886e+38"/>
+                        <real value="3.4028234663852886e+38"/>
+                        <real value="3.4028234663852886e+38"/>
+                        <real value="3.4028234663852886e+38"/>
+                        <real value="3.4028234663852886e+38"/>
+                    </customSpacing>
+                </stackView>
+            </subviews>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="abb-No-rmY" secondAttribute="bottom" id="45J-dc-hlD"/>
+                <constraint firstItem="abb-No-rmY" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="80V-mE-Z6T"/>
+                <constraint firstAttribute="trailing" secondItem="abb-No-rmY" secondAttribute="trailing" id="CfZ-nC-yjU"/>
+                <constraint firstItem="abb-No-rmY" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="nKA-2Q-rve"/>
+            </constraints>
+            <point key="canvasLocation" x="132" y="180"/>
+        </customView>
+        <arrayController id="hfh-rW-GBb" userLabel="Code File List Controller"/>
+        <arrayController id="AiT-G7-lfg"/>
+        <arrayController id="vxF-N6-j5F"/>
+    </objects>
+</document>

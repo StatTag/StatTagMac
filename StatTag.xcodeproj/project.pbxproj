@@ -139,6 +139,9 @@
 		38A877CC1D9AEEA1002F37DA /* Scintilla.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38A877CB1D9AEEA0002F37DA /* Scintilla.framework */; };
 		38A877CD1D9AEEA7002F37DA /* Scintilla.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38A877CB1D9AEEA0002F37DA /* Scintilla.framework */; };
 		38A877CE1D9AEEA7002F37DA /* Scintilla.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 38A877CB1D9AEEA0002F37DA /* Scintilla.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		38AB41841DA1564C00EA464C /* TagEditorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38AB41831DA1564C00EA464C /* TagEditorViewController.xib */; };
+		38AB418D1DA1BC2900EA464C /* TagBasicPropertiesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38AB418B1DA1BC2900EA464C /* TagBasicPropertiesController.m */; };
+		38AB418E1DA1BC2900EA464C /* TagBasicPropertiesController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38AB418C1DA1BC2900EA464C /* TagBasicPropertiesController.xib */; };
 		38B9D3311D4BF99B00C62C30 /* STUIUtility.h in Headers */ = {isa = PBXBuildFile; fileRef = 38B9D32F1D4BF99B00C62C30 /* STUIUtility.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38B9D3321D4BF99B00C62C30 /* STUIUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 38B9D3301D4BF99B00C62C30 /* STUIUtility.m */; };
 		38B9D3351D4BFA4200C62C30 /* STLogManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 38B9D3331D4BFA4200C62C30 /* STLogManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -163,6 +166,9 @@
 		38BE59B51D53867E00FF9E99 /* STUpdateOutputController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38BE59B21D53867E00FF9E99 /* STUpdateOutputController.m */; };
 		38BE59B61D53867E00FF9E99 /* STUpdateOutputController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38BE59B31D53867E00FF9E99 /* STUpdateOutputController.xib */; };
 		38BE59B81D54CA4200FF9E99 /* ScriptableTasks.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 38BE59B71D54CA4200FF9E99 /* ScriptableTasks.sdef */; };
+		38C3CC761DA428E700CEA70C /* DisclosureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C3CC741DA428E700CEA70C /* DisclosureViewController.m */; };
+		38C3CC771DA428E700CEA70C /* DisclosureViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38C3CC751DA428E700CEA70C /* DisclosureViewController.xib */; };
+		38C3CC7A1DA4298E00CEA70C /* TagEditorViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 38C3CC791DA4298E00CEA70C /* TagEditorViewController.mm */; };
 		38C91F361D366AD70048A95E /* NSMutableArray+Stack.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C91F341D366AD70048A95E /* NSMutableArray+Stack.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38C91F371D366AD70048A95E /* NSMutableArray+Stack.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C91F351D366AD70048A95E /* NSMutableArray+Stack.m */; };
 		38C91F3F1D36D1970048A95E /* WordHelpers.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C91F3D1D36D1970048A95E /* WordHelpers.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -211,8 +217,8 @@
 		38EF1A671D99544F008EA9B0 /* readme.md in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1A661D99544F008EA9B0 /* readme.md */; };
 		38EF1A6A1D99A16B008EA9B0 /* ACEView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38EF1A691D99A16B008EA9B0 /* ACEView.framework */; };
 		38EF1A6C1D99A17E008EA9B0 /* ACEView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 38EF1A691D99A16B008EA9B0 /* ACEView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		38EF1A701D99A274008EA9B0 /* TagEditorViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1A6E1D99A274008EA9B0 /* TagEditorViewController.mm */; };
-		38EF1A711D99A274008EA9B0 /* TagEditorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38EF1A6F1D99A274008EA9B0 /* TagEditorViewController.xib */; };
+		38EF1A701D99A274008EA9B0 /* TagEditorViewController_old.mm in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1A6E1D99A274008EA9B0 /* TagEditorViewController_old.mm */; };
+		38EF1A711D99A274008EA9B0 /* TagEditorViewController_old.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38EF1A6F1D99A274008EA9B0 /* TagEditorViewController_old.xib */; };
 		38F803431D9C4B9A00C8F1EA /* SCHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F803421D9C4B9A00C8F1EA /* SCHelpers.m */; };
 		38F803461D9C4CEB00C8F1EA /* SCMarkerHandle.mm in Sources */ = {isa = PBXBuildFile; fileRef = 38F803451D9C4CEB00C8F1EA /* SCMarkerHandle.mm */; };
 		38F803491D9C50C000C8F1EA /* SCLine.mm in Sources */ = {isa = PBXBuildFile; fileRef = 38F803481D9C50C000C8F1EA /* SCLine.mm */; };
@@ -468,6 +474,10 @@
 		38A7CE9B1D4FE29400B06AFF /* STPropertiesManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STPropertiesManager.m; sourceTree = "<group>"; };
 		38A843A21D9B051100357727 /* readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = readme.md; sourceTree = "<group>"; };
 		38A877CB1D9AEEA0002F37DA /* Scintilla.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Scintilla.framework; sourceTree = "<group>"; };
+		38AB41831DA1564C00EA464C /* TagEditorViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TagEditorViewController.xib; sourceTree = "<group>"; };
+		38AB418A1DA1BC2900EA464C /* TagBasicPropertiesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagBasicPropertiesController.h; sourceTree = "<group>"; };
+		38AB418B1DA1BC2900EA464C /* TagBasicPropertiesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagBasicPropertiesController.m; sourceTree = "<group>"; };
+		38AB418C1DA1BC2900EA464C /* TagBasicPropertiesController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TagBasicPropertiesController.xib; sourceTree = "<group>"; };
 		38B9D32F1D4BF99B00C62C30 /* STUIUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STUIUtility.h; sourceTree = "<group>"; };
 		38B9D3301D4BF99B00C62C30 /* STUIUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STUIUtility.m; sourceTree = "<group>"; };
 		38B9D3331D4BFA4200C62C30 /* STLogManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STLogManager.h; sourceTree = "<group>"; };
@@ -498,6 +508,11 @@
 		38BE59B21D53867E00FF9E99 /* STUpdateOutputController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STUpdateOutputController.m; sourceTree = "<group>"; };
 		38BE59B31D53867E00FF9E99 /* STUpdateOutputController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = STUpdateOutputController.xib; sourceTree = "<group>"; };
 		38BE59B71D54CA4200FF9E99 /* ScriptableTasks.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ScriptableTasks.sdef; sourceTree = "<group>"; };
+		38C3CC731DA428E700CEA70C /* DisclosureViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DisclosureViewController.h; sourceTree = "<group>"; };
+		38C3CC741DA428E700CEA70C /* DisclosureViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DisclosureViewController.m; sourceTree = "<group>"; };
+		38C3CC751DA428E700CEA70C /* DisclosureViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DisclosureViewController.xib; sourceTree = "<group>"; };
+		38C3CC781DA4298E00CEA70C /* TagEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagEditorViewController.h; sourceTree = "<group>"; };
+		38C3CC791DA4298E00CEA70C /* TagEditorViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TagEditorViewController.mm; sourceTree = "<group>"; };
 		38C91F341D366AD70048A95E /* NSMutableArray+Stack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+Stack.h"; sourceTree = "<group>"; };
 		38C91F351D366AD70048A95E /* NSMutableArray+Stack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+Stack.m"; sourceTree = "<group>"; };
 		38C91F381D36A9860048A95E /* SBObject+StatTagExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SBObject+StatTagExtensions.h"; sourceTree = "<group>"; };
@@ -547,9 +562,9 @@
 		38EDF0341D2C2FC200ACD77B /* StatTagStataAutomationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagStataAutomationTests.m; sourceTree = "<group>"; };
 		38EF1A661D99544F008EA9B0 /* readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = readme.md; sourceTree = "<group>"; };
 		38EF1A691D99A16B008EA9B0 /* ACEView.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ACEView.framework; sourceTree = "<group>"; };
-		38EF1A6D1D99A274008EA9B0 /* TagEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagEditorViewController.h; sourceTree = "<group>"; };
-		38EF1A6E1D99A274008EA9B0 /* TagEditorViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TagEditorViewController.mm; sourceTree = "<group>"; };
-		38EF1A6F1D99A274008EA9B0 /* TagEditorViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TagEditorViewController.xib; sourceTree = "<group>"; };
+		38EF1A6D1D99A274008EA9B0 /* TagEditorViewController_old.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagEditorViewController_old.h; sourceTree = "<group>"; };
+		38EF1A6E1D99A274008EA9B0 /* TagEditorViewController_old.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TagEditorViewController_old.mm; sourceTree = "<group>"; };
+		38EF1A6F1D99A274008EA9B0 /* TagEditorViewController_old.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TagEditorViewController_old.xib; sourceTree = "<group>"; };
 		38F8033E1D9C4B8200C8F1EA /* ScintillaNET.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScintillaNET.h; sourceTree = "<group>"; };
 		38F803411D9C4B9A00C8F1EA /* SCHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCHelpers.h; sourceTree = "<group>"; };
 		38F803421D9C4B9A00C8F1EA /* SCHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCHelpers.m; sourceTree = "<group>"; };
@@ -892,6 +907,7 @@
 		3836F5831D92CE7200BF0DD4 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				38C3CC721DA428D100CEA70C /* DisclosureView */,
 				38F803611D9DCB5800C8F1EA /* Controls */,
 				38F8033D1D9C4B3500C8F1EA /* ScintillaHelpers */,
 				3836F59D1D92D03D00BF0DD4 /* SettingsViewController.h */,
@@ -906,9 +922,12 @@
 				38D8B1C41D95872A00BF878A /* UpdateOutputProgressViewController.h */,
 				38D8B1C51D95872A00BF878A /* UpdateOutputProgressViewController.m */,
 				38D8B1C61D95872A00BF878A /* UpdateOutputProgressViewController.xib */,
-				38EF1A6D1D99A274008EA9B0 /* TagEditorViewController.h */,
-				38EF1A6E1D99A274008EA9B0 /* TagEditorViewController.mm */,
-				38EF1A6F1D99A274008EA9B0 /* TagEditorViewController.xib */,
+				38EF1A6D1D99A274008EA9B0 /* TagEditorViewController_old.h */,
+				38EF1A6E1D99A274008EA9B0 /* TagEditorViewController_old.mm */,
+				38EF1A6F1D99A274008EA9B0 /* TagEditorViewController_old.xib */,
+				38C3CC781DA4298E00CEA70C /* TagEditorViewController.h */,
+				38C3CC791DA4298E00CEA70C /* TagEditorViewController.mm */,
+				38AB41831DA1564C00EA464C /* TagEditorViewController.xib */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -1117,6 +1136,16 @@
 			path = StatTagTestUIUITests;
 			sourceTree = "<group>";
 		};
+		38C3CC721DA428D100CEA70C /* DisclosureView */ = {
+			isa = PBXGroup;
+			children = (
+				38C3CC731DA428E700CEA70C /* DisclosureViewController.h */,
+				38C3CC741DA428E700CEA70C /* DisclosureViewController.m */,
+				38C3CC751DA428E700CEA70C /* DisclosureViewController.xib */,
+			);
+			path = DisclosureView;
+			sourceTree = "<group>";
+		};
 		38C91F2F1D366A4D0048A95E /* Categories */ = {
 			isa = PBXGroup;
 			children = (
@@ -1262,6 +1291,9 @@
 				38F803621D9DCB8900C8F1EA /* ValueProperties.h */,
 				38F803631D9DCB8900C8F1EA /* ValueProperties.m */,
 				38F803641D9DCB8900C8F1EA /* ValueProperties.xib */,
+				38AB418A1DA1BC2900EA464C /* TagBasicPropertiesController.h */,
+				38AB418B1DA1BC2900EA464C /* TagBasicPropertiesController.m */,
+				38AB418C1DA1BC2900EA464C /* TagBasicPropertiesController.xib */,
 			);
 			path = Controls;
 			sourceTree = "<group>";
@@ -1590,15 +1622,18 @@
 			files = (
 				385EF1431D95D53C005768C7 /* statTagTestUIScript.scpt in Resources */,
 				3836F57D1D92C8EA00BF0DD4 /* StatTag.sdef in Resources */,
-				38EF1A711D99A274008EA9B0 /* TagEditorViewController.xib in Resources */,
+				38EF1A711D99A274008EA9B0 /* TagEditorViewController_old.xib in Resources */,
 				385EF1421D95D53C005768C7 /* StatTagMacros.dotm in Resources */,
 				3836F5561D92C89900BF0DD4 /* Assets.xcassets in Resources */,
 				38D8B1C31D9586D200BF878A /* UpdateOutputViewController.xib in Resources */,
 				3836F5591D92C89900BF0DD4 /* Main.storyboard in Resources */,
 				38D8B1C81D95872A00BF878A /* UpdateOutputProgressViewController.xib in Resources */,
 				38F803661D9DCB8900C8F1EA /* ValueProperties.xib in Resources */,
+				38AB418E1DA1BC2900EA464C /* TagBasicPropertiesController.xib in Resources */,
 				3836F5A11D92D03D00BF0DD4 /* SettingsViewController.xib in Resources */,
 				3836F5A61D92D07700BF0DD4 /* ManageCodeFilesViewController.xib in Resources */,
+				38C3CC771DA428E700CEA70C /* DisclosureViewController.xib in Resources */,
+				38AB41841DA1564C00EA464C /* TagEditorViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1748,6 +1783,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				38D8B1A61D94928600BF878A /* StatTagShared.m in Sources */,
+				38AB418D1DA1BC2900EA464C /* TagBasicPropertiesController.m in Sources */,
 				38F803651D9DCB8900C8F1EA /* ValueProperties.m in Sources */,
 				38F8034F1D9C5C1800C8F1EA /* SCScintilla.mm in Sources */,
 				3836F5A51D92D07700BF0DD4 /* ManageCodeFilesViewController.m in Sources */,
@@ -1755,10 +1791,12 @@
 				3836F5AD1D92ED9D00BF0DD4 /* STAppleScript_LoadSettings.m in Sources */,
 				3836F5511D92C89900BF0DD4 /* main.m in Sources */,
 				3836F54E1D92C89900BF0DD4 /* AppDelegate.m in Sources */,
-				38EF1A701D99A274008EA9B0 /* TagEditorViewController.mm in Sources */,
+				38EF1A701D99A274008EA9B0 /* TagEditorViewController_old.mm in Sources */,
 				3836F5A01D92D03D00BF0DD4 /* SettingsViewController.m in Sources */,
 				38F803431D9C4B9A00C8F1EA /* SCHelpers.m in Sources */,
 				38F803461D9C4CEB00C8F1EA /* SCMarkerHandle.mm in Sources */,
+				38C3CC7A1DA4298E00CEA70C /* TagEditorViewController.mm in Sources */,
+				38C3CC761DA428E700CEA70C /* DisclosureViewController.m in Sources */,
 				38D8B1C71D95872A00BF878A /* UpdateOutputProgressViewController.m in Sources */,
 				38EF1A671D99544F008EA9B0 /* readme.md in Sources */,
 				38A843A31D9B051100357727 /* readme.md in Sources */,

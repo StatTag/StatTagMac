@@ -1196,9 +1196,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "368"
-            endingLineNumber = "368"
-            landmarkName = "-loadSourceViewFromCodeFile:"
-            landmarkType = "7">
+            endingLineNumber = "368">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1228,9 +1226,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "157"
-            endingLineNumber = "157"
-            landmarkName = "-viewDidAppear"
-            landmarkType = "7">
+            endingLineNumber = "157">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1244,9 +1240,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "159"
-            endingLineNumber = "159"
-            landmarkName = "-viewDidAppear"
-            landmarkType = "7">
+            endingLineNumber = "159">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1324,9 +1318,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "177"
-            endingLineNumber = "177"
-            landmarkName = "-viewDidAppear"
-            landmarkType = "7">
+            endingLineNumber = "177">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
