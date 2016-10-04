@@ -15,6 +15,8 @@
 @class STDocumentManager;
 @class ScintillaView;
 
+@class TagBasicPropertiesController;
+
 @class TagEditorViewController;
 @protocol TagEditorViewControllerDelegate <NSObject>
 - (void)dismissTagEditorController:(TagEditorViewController*)controller withReturnCode:(StatTagResponseState)returnCode;
@@ -26,51 +28,23 @@
   STDocumentManager* _documentManager;
   
   NSArrayController* _codeFileList;
-  NSArrayController* _tagFrequency;
   
   ScintillaView* _sourceEditor;
   
-  NSString* _instructionTitleText;
+  NSMutableAttributedString* _instructionTitleText;
   NSString* _allowedCommandsText;
   
+//  NSStackView* _propertiesStackView;
 }
 
 @property (strong, nonatomic) STTag* tag;
 @property (strong, nonatomic) STDocumentManager* documentManager;
 
+//top part - code file list
 @property (strong) IBOutlet NSArrayController *codeFileList;
-
-@property (strong) IBOutlet NSArrayController *tagFrequency;
-
-//top part
 @property (weak) IBOutlet NSPopUpButton *listCodeFile;
-@property (weak) IBOutlet NSPopUpButton *listFrequency;
-@property (weak) IBOutlet NSTextField *textBoxTagName;
 
 
-//"value"
-@property (weak) IBOutlet NSButton *radioValueDefault;
-@property (weak) IBOutlet NSButton *radioValueNumeric;
-
-@property (weak) IBOutlet NSButton *radioValueDateTime;
-@property (weak) IBOutlet NSButton *radioValuePercentage;
-@property (weak) IBOutlet NSTextField *lblValueDescription;
-@property (weak) IBOutlet NSTextField *lblValueCommands;
-
-
-//"table"
-@property (weak) IBOutlet NSButton *tableCheckboxColumnNames;
-@property (weak) IBOutlet NSButton *tableCheckboxRowNames;
-@property (weak) IBOutlet NSTextField *tableTextboxDecimalPlaces;
-@property (weak) IBOutlet NSStepper *tableStepperDecimalPlaces;
-@property (weak) IBOutlet NSButton *tableCheckboxUseThousandsSeparator;
-@property (weak) IBOutlet NSTextField *tableLblDescription;
-@property (weak) IBOutlet NSTextField *tableLblCommands;
-
-
-//@property (weak) IBOutlet NSBox *sourceViewBox;
-
-//@property (weak) IBOutlet ScintillaView *sourceView;
 @property (strong, nonatomic) ScintillaView *sourceEditor;
 @property (weak) IBOutlet NSView *sourceView;
 
@@ -80,13 +54,16 @@
 @property (weak) IBOutlet NSButton *buttonSave;
 @property (weak) IBOutlet NSButton *buttonCancel;
 
-@property (weak) IBOutlet NSTabView *tagTypeTabView;
-
-
-@property (strong, nonatomic) NSString* instructionTitleText;
+@property (strong, nonatomic) NSMutableAttributedString* instructionTitleText;
 @property (strong, nonatomic) NSString* allowedCommandsText;
 
 
 //Properties Panel
 @property (weak) IBOutlet NSStackView *propertiesStackView;
 
+
+@property (weak) IBOutlet NSTextField *labelInstructionText;
+
+@property (weak) IBOutlet TagBasicPropertiesController* tagBasicProperties;
+
+@end

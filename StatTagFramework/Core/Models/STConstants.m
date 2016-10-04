@@ -31,6 +31,9 @@ NSString *const STStatTagErrorDomain = @"StatTagErrorDomain";
 +(NSString*)Value { return @"Value";}
 +(NSString*)Figure { return @"Figure";}
 +(NSString*)Table { return @"Table";}
++(NSArray<NSString *>*)GetList {
+  return [[NSArray alloc] initWithObjects:[STConstantsTagType Value], [STConstantsTagType Figure], [STConstantsTagType Table], nil];
+}
 @end
 
 @implementation STConstantsValueFormatType
@@ -38,12 +41,18 @@ NSString *const STStatTagErrorDomain = @"StatTagErrorDomain";
 +(NSString*)Numeric { return @"Numeric";}
 +(NSString*)DateTime { return @"DateTime";}
 +(NSString*)Percentage { return @"Percentage";}
++(NSArray<NSString *>*)GetList {
+  return [[NSArray alloc] initWithObjects:[STConstantsValueFormatType Default], [STConstantsValueFormatType Numeric], [STConstantsValueFormatType DateTime], [STConstantsValueFormatType Percentage], nil];
+}
 @end
 
 @implementation STConstantsDialogLabels
 +(NSString*)Elipsis { return @"...";}
 +(NSString*)Details { return @"Detail";}
 +(NSString*)Edit { return @"Edit";}
++(NSArray<NSString *>*)GetList {
+  return [[NSArray alloc] initWithObjects:[STConstantsDialogLabels Elipsis], [STConstantsDialogLabels Details], [STConstantsDialogLabels Edit], nil];
+}
 @end
 
 @implementation STConstantsFileFilters

@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
+#import "DisclosureViewController.h"
 
 //protocol for interacting with this control
 @class ValueProperties;
@@ -16,7 +16,7 @@
 @end
 
 
-@interface ValueProperties : NSViewController
+@interface ValueProperties : DisclosureViewController
 
 
 //containing stackview

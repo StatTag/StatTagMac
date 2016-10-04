@@ -8,6 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+#import "DisclosureViewController.h"
+
 //protocol for interacting with this control
 @class TagBasicPropertiesController;
 @protocol TagBasicPropertiesControllerDelegate <NSObject>

@@ -28,6 +28,8 @@
 {
 }
 
+@synthesize sectionTitle = _sectionTitle;
+
 - (id)init
 {
     return [self initWithNibName:@"DisclosureViewController" bundle:nil];

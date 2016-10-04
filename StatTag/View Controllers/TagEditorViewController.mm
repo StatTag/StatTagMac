@@ -6,7 +6,7 @@
 //  Copyright © 2016 StatTag. All rights reserved.
 //
 
-#import "TagEditorViewController_old.h"
+#import "TagEditorViewController.h"
 #import "StatTag.h"
 #import "StatTagShared.h"
 #import "UIUtility.h"
@@ -19,6 +19,7 @@
 #import "Scintilla/InfoBar.h"
 #import "Scintilla/Scintilla.h"
 
+#import "TagBasicPropertiesController.h"
 
 #import "ScintillaNET.h"
 
@@ -32,13 +33,14 @@
 @synthesize tag = _tag;
 @synthesize documentManager = _documentManager;
 @synthesize codeFileList = _codeFileList;
-@synthesize tagFrequency = _tagFrequency;
 @synthesize sourceEditor = _sourceEditor;
 
 @synthesize instructionTitleText = _instructionTitleText;
 @synthesize allowedCommandsText = _allowedCommandsText;
 
-BOOL changedCodeFile = false;
+//@synthesize propertiesStackView = _propertiesStackView;
+
+//BOOL changedCodeFile = false;
 STCodeFile* codeFile;
 const int TagMargin = 1;
 const int TagMarker = 1;
@@ -67,8 +69,10 @@ SCScintilla* scintillaHelper;
   macroKeywordColor = [StatTagShared colorFromRGBRed:0.0f green:0.0f blue:127.0f alpha:1.0f];    //0x00, 0x00, 0x7F
   blockKeywordColor = [StatTagShared colorFromRGBRed:0.0f green:0.0f blue:127.0f alpha:1.0f];    //0x00, 0x00, 0x7F
   
-  _instructionTitleText = @"";
+  _instructionTitleText = [[NSMutableAttributedString alloc] initWithString: @""];
   _allowedCommandsText = @"";
+  
+  [self initializeStackView];
 }
 
 -(void)addSourceViewEditor {
@@ -126,12 +130,73 @@ SCScintilla* scintillaHelper;
   
 }
 
+-(void)initializeStackView {
+  
+  //from Apple's example...
+  
+  //_tagBasicProperties = [[TagBasicPropertiesController alloc] init];
+  //  _tagBasicProperties.disclosedView = [_tagBasicProperties view]; //as expected, BOOOOOOOOOM
+  
+//  _tagBasicProperties.tag = [self tag];
+//
+//  [[_tagBasicProperties tagFrequencyArrayController] addObjects: [STConstantsRunFrequency GetList]];
+//  [[_tagBasicProperties tagTypeArrayController] addObjects: [STConstantsTagType GetList]];
+  
+//  tagBasicProperties.delegate = self;
+  
+//  _propertiesStackView = [NSStackView stackViewWithViews:@[_tagBasicProperties.view]]; //comma-delimited list
+
+  [_propertiesStackView addArrangedSubview:_tagBasicProperties.view];
+  
+//  //View 1
+//  NSTextView* txt = [[NSTextView alloc] init];
+//  txt.string = @"hello";
+//  [txt.heightAnchor constraintEqualToConstant:100].active = true;
+//  [txt.widthAnchor constraintEqualToConstant:120].active = true;
+//
+//  //_propertiesStackView = [NSStackView stackViewWithViews:@[txt]]; //comma-delimited list
+//
+//  [_propertiesStackView addArrangedSubview:txt];
+  
+  // we want our views arranged from top to bottom
+  _propertiesStackView.orientation = NSUserInterfaceLayoutOrientationVertical;
+  
+  // the internal views should be aligned with their centers
+  // (although since they'll all be the same width, it won't end up mattering)
+  //
+  _propertiesStackView.alignment = NSLayoutAttributeCenterX;
+  
+  _propertiesStackView.spacing = 0; // No spacing between the disclosure views
+  
+  // have the stackView strongly hug the sides of the views it contains
+  [_propertiesStackView setHuggingPriority:NSLayoutPriorityDefaultHigh forOrientation:NSLayoutConstraintOrientationHorizontal];
+  
+  // have the stackView grow and shrink as its internal views grow, are added, or are removed
+  [_propertiesStackView setHuggingPriority:NSLayoutPriorityDefaultHigh forOrientation:NSLayoutConstraintOrientationVertical];
+  
+//  NSLog(@"stackview count = %lu", (unsigned long)[[_propertiesStackView views] count]);
+  NSLog(@"stackview count = %lu", (unsigned long)[[_propertiesStackView views] count]);
+
+//  _propertiesStackView.translatesAutoresizingMaskIntoConstraints = false;
+  //[self.view addSubview:stackView];
+  
+}
+
+-(void)configureStackView {
+  _tagBasicProperties.tag = [self tag];
+  [[_tagBasicProperties tagFrequencyArrayController] addObjects: [STConstantsRunFrequency GetList]];
+  [[_tagBasicProperties tagTypeArrayController] addObjects: [STConstantsTagType GetList]];
+}
+
 - (void)viewDidLoad {
+  
+  NSLog(@"stackview count = %lu", (unsigned long)[[_propertiesStackView views] count]);
+  
   [super viewDidLoad];
   // Do view setup here.
   if(_documentManager != nil) {
-    [_tagFrequency removeObjects:[_tagFrequency arrangedObjects]];
-    [_tagFrequency addObjects: [STConstantsRunFrequency GetList]];
+//    [_tagFrequency removeObjects:[_tagFrequency arrangedObjects]];
+//    [_tagFrequency addObjects: [STConstantsRunFrequency GetList]];
   }
   //  [_sourceView setDelegate:self];
   //  [_sourceView setTheme:ACEThemeXcode];
@@ -163,7 +228,9 @@ SCScintilla* scintillaHelper;
     if(_tag != nil) {
       //existing tag?
       _originalTag = [[STTag alloc] initWithTag:_tag];
-      self.textBoxTagName.stringValue = [_tag Name];
+      
+      //FIXME:
+//      self.textBoxTagName.stringValue = [_tag Name];
       _listCodeFile.enabled = NO; // We don't allow switching code files
       TagType = [_tag Type];
       if([_tag LineStart] != nil && [_tag LineEnd] != nil) {
@@ -211,7 +278,11 @@ SCScintilla* scintillaHelper;
       //      }
     }
     
-    
+    //[self configureStackView];
+    NSLog(@"view did appear stackview count = %lu", (unsigned long)[[_propertiesStackView views] count]);
+
+    NSLog(@"tag from properties view : %@", [_tagBasicProperties tag]);
+    [self configureStackView];
   }
 }
 
@@ -248,7 +319,8 @@ SCScintilla* scintillaHelper;
 
 -(void)UpdateForType:(NSString*)tabIdentifier
 {
-  [[self tagTypeTabView] selectTabViewItemWithIdentifier:tabIdentifier];
+//  [[self tagTypeTabView] selectTabViewItemWithIdentifier:tabIdentifier];
+  //FIXME
   [self SetInstructionText];
 }
 
@@ -259,9 +331,34 @@ SCScintilla* scintillaHelper;
   STCodeFile* selectedCodeFile = (STCodeFile*)[[[self listCodeFile] selectedItem] representedObject];
   NSString* statPackage = (selectedCodeFile == nil) ? @"tag" : [selectedCodeFile StatisticalPackage];
   
+
   [self willChangeValueForKey:@"instructionTitleText"];
-  _instructionTitleText = [NSString stringWithFormat:@"The following %@ commands may be used for %@ output:", statPackage, TagType];
+  // ----------- BOLD OUR KEYWORDS
+  //FIXME
+  //circle back... this is ugly
+  //http://stackoverflow.com/questions/12974120/nsattributedstring-change-style-to-bold-without-changing-pointsize
+  //https://jaanus.com/how-to-easily-present-strings-with-bold-text-and-links-in-cocoa/
+  
+  NSFont* labelFont = [[self labelInstructionText] font];
+
+  NSFontManager *fontManager = [NSFontManager sharedFontManager];
+  NSFont *boldedFont = [fontManager fontWithFamily:[labelFont familyName]
+                                            traits:NSBoldFontMask//|NSItalicFontMask - if you want to add more
+                                            weight:0
+                                              size:[labelFont pointSize]];
+  if(boldedFont == nil) {
+    boldedFont = labelFont;
+  }
+  NSDictionary* instructionAttention = [NSDictionary dictionaryWithObject:boldedFont forKey:NSFontAttributeName];
+  _instructionTitleText = [[NSMutableAttributedString alloc] initWithString:@"The following "];
+  [_instructionTitleText appendAttributedString:[[NSMutableAttributedString alloc] initWithString:statPackage attributes:instructionAttention]];
+  [_instructionTitleText appendAttributedString:[[NSMutableAttributedString alloc] initWithString:@" commands may be used for " ]];
+  [_instructionTitleText appendAttributedString:[[NSMutableAttributedString alloc] initWithString:TagType attributes:instructionAttention]];
+  [_instructionTitleText appendAttributedString:[[NSMutableAttributedString alloc] initWithString:@" output" ]];
+  // -----------
   [self didChangeValueForKey:@"instructionTitleText"];
+
+  
   
   NSObject<STIResultCommandList>* commandList = [UIUtility GetResultCommandList:selectedCodeFile resultType:TagType];
   
@@ -494,7 +591,7 @@ SCScintilla* scintillaHelper;
 
 -(void)LoadCodeFile:(STCodeFile*)codeFile {
   [self loadSourceViewFromCodeFile:codeFile];
-  changedCodeFile = false; //we just reset the code file so set this back
+  //changedCodeFile = false; //we just reset the code file so set this back
 }
 
 - (IBAction)setFrequency:(id)sender {
@@ -504,28 +601,25 @@ SCScintilla* scintillaHelper;
 }
 
 
-- (void) textDidChange:(NSNotification *)notification {
-  // Handle text changes
-  changedCodeFile = true;
-  //NSLog(@"%s", __PRETTY_FUNCTION__);
-  
-  
-  
-}
+//- (void) textDidChange:(NSNotification *)notification {
+//  // Handle text changes
+//  changedCodeFile = true;
+//  //NSLog(@"%s", __PRETTY_FUNCTION__);
+//}
 
 
--(void)controlTextDidChange:(NSNotification *)obj {
-  //in the XIB, make sure your text field points to file's owner as the delegate
-  if ([obj object] == _textBoxTagName) {
-    // Ignore reserved characters
-    // we can get away with this because the strings are really tiny - but this seems like overkill
-    [_textBoxTagName setStringValue: [[_textBoxTagName stringValue] stringByReplacingOccurrencesOfString:[STConstantsReservedCharacters TagTableCellDelimiter] withString:@""]];
-  }
-  
-  //this might be smarter  - right now we actually wind up moving key positions, which is bad
-  //http://stackoverflow.com/questions/12161654/restrict-nstextfield-to-only-allow-numbers
-  
-}
+//-(void)controlTextDidChange:(NSNotification *)obj {
+//  //in the XIB, make sure your text field points to file's owner as the delegate
+//  if ([obj object] == _textBoxTagName) {
+//    // Ignore reserved characters
+//    // we can get away with this because the strings are really tiny - but this seems like overkill
+//    [_textBoxTagName setStringValue: [[_textBoxTagName stringValue] stringByReplacingOccurrencesOfString:[STConstantsReservedCharacters TagTableCellDelimiter] withString:@""]];
+//  }
+//  
+//  //this might be smarter  - right now we actually wind up moving key positions, which is bad
+//  //http://stackoverflow.com/questions/12161654/restrict-nstextfield-to-only-allow-numbers
+//  
+//}
 
 - (IBAction)cancel:(id)sender {
   [_delegate dismissTagEditorController:self withReturnCode:(StatTagResponseState)Cancel];
@@ -538,6 +632,8 @@ SCScintilla* scintillaHelper;
   NSError* saveError;
   NSError* saveWarning;
   
+  //FIXME:
+  /*
   if(! [[_tag Name] isEqualToString: [_textBoxTagName stringValue]]  ) {
     //the name has been changed - so update it
     //first see if we have a duplicate tag name
@@ -547,6 +643,7 @@ SCScintilla* scintillaHelper;
     
     for(STCodeFile* cf in [_documentManager GetCodeFileList]) {
       for(STTag* aTag in [cf Tags]) {
+        //FIXME:
         if ([[aTag Name] isEqualToString:[_textBoxTagName stringValue]] && ![aTag isEqual:_tag]){
           if(cf == codeFile) {
             //same codefile, so this is an error
@@ -564,6 +661,7 @@ SCScintilla* scintillaHelper;
       }
     }
   }
+   */
   
   
   if(saveError != nil) {
@@ -631,10 +729,10 @@ SCScintilla* scintillaHelper;
   
   NSError* saveError;
   
-  if(changedCodeFile) {
+//  if(changedCodeFile) {
     codeFile.Content = [NSMutableArray arrayWithArray:[[_sourceEditor string] componentsSeparatedByString: @"\r\n"]];
     [codeFile Save:&saveError];
-  }
+//  }
   
   if(saveError != nil) {
     [NSApp presentError:saveError];

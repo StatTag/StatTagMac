@@ -19,6 +19,12 @@
     [super viewDidLoad];
 }
 
+-(id)init
+{
+  return [super initWithNibName:@"TagBasicPropertiesController" bundle:nil];
+}
+
+
 -(id) initWithCoder:(NSCoder *)coder {
   self = [super initWithCoder:coder];
   if(self) {
@@ -27,6 +33,9 @@
   return self;
 }
 
+-(void)setup {
+  
+}
 
 -(void)controlTextDidChange:(NSNotification *)obj {
   if ([obj object] == _tagNameTextbox) {

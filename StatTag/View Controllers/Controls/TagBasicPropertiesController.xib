@@ -18,7 +18,6 @@
                 <outlet property="tagTypeArrayController" destination="vxF-N6-j5F" id="KeR-AF-K6D"/>
                 <outlet property="tagTypeLabel" destination="YJy-d5-Oof" id="SHW-Ox-axI"/>
                 <outlet property="tagTypeList" destination="8H4-dp-kVE" id="Fj4-9f-ibp"/>
-                <outlet property="tagTypeeArrayController" destination="vxF-N6-j5F" id="Ay0-E4-7zg"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
             </connections>
         </customObject>
@@ -79,7 +78,7 @@
                                 <action selector="tagFrequencySelectionChanged:" target="-2" id="Sj0-9K-M3W"/>
                                 <binding destination="AiT-G7-lfg" name="content" keyPath="arrangedObjects" id="GMM-Xj-0ba"/>
                                 <binding destination="AiT-G7-lfg" name="contentValues" keyPath="arrangedObjects" previousBinding="GMM-Xj-0ba" id="y9f-qw-AP2"/>
-                                <binding destination="-2" name="selectedObject" keyPath="self.selectedTagFrequencyValue" previousBinding="y9f-qw-AP2" id="S27-DT-XWd"/>
+                                <binding destination="-2" name="selectedObject" keyPath="self.tag.RunFrequency" previousBinding="y9f-qw-AP2" id="8Wr-cy-RNH"/>
                             </connections>
                         </popUpButton>
                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="YJy-d5-Oof">

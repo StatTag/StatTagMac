@@ -32,6 +32,7 @@ extern NSString *const STStatTagErrorDomain;
 +(NSString*)Value;
 +(NSString*)Figure;
 +(NSString*)Table;
++(NSArray<NSString *>*)GetList;
 @end
 
 @interface STConstantsValueFormatType : NSObject
@@ -39,6 +40,7 @@ extern NSString *const STStatTagErrorDomain;
 +(NSString*)Numeric;
 +(NSString*)DateTime;
 +(NSString*)Percentage;
++(NSArray<NSString *>*)GetList;
 @end
 
 @interface STConstantsDialogLabels : NSObject

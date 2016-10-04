@@ -217,8 +217,6 @@
 		38EF1A671D99544F008EA9B0 /* readme.md in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1A661D99544F008EA9B0 /* readme.md */; };
 		38EF1A6A1D99A16B008EA9B0 /* ACEView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38EF1A691D99A16B008EA9B0 /* ACEView.framework */; };
 		38EF1A6C1D99A17E008EA9B0 /* ACEView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 38EF1A691D99A16B008EA9B0 /* ACEView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		38EF1A701D99A274008EA9B0 /* TagEditorViewController_old.mm in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1A6E1D99A274008EA9B0 /* TagEditorViewController_old.mm */; };
-		38EF1A711D99A274008EA9B0 /* TagEditorViewController_old.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38EF1A6F1D99A274008EA9B0 /* TagEditorViewController_old.xib */; };
 		38F803431D9C4B9A00C8F1EA /* SCHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F803421D9C4B9A00C8F1EA /* SCHelpers.m */; };
 		38F803461D9C4CEB00C8F1EA /* SCMarkerHandle.mm in Sources */ = {isa = PBXBuildFile; fileRef = 38F803451D9C4CEB00C8F1EA /* SCMarkerHandle.mm */; };
 		38F803491D9C50C000C8F1EA /* SCLine.mm in Sources */ = {isa = PBXBuildFile; fileRef = 38F803481D9C50C000C8F1EA /* SCLine.mm */; };
@@ -562,9 +560,6 @@
 		38EDF0341D2C2FC200ACD77B /* StatTagStataAutomationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagStataAutomationTests.m; sourceTree = "<group>"; };
 		38EF1A661D99544F008EA9B0 /* readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = readme.md; sourceTree = "<group>"; };
 		38EF1A691D99A16B008EA9B0 /* ACEView.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ACEView.framework; sourceTree = "<group>"; };
-		38EF1A6D1D99A274008EA9B0 /* TagEditorViewController_old.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagEditorViewController_old.h; sourceTree = "<group>"; };
-		38EF1A6E1D99A274008EA9B0 /* TagEditorViewController_old.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TagEditorViewController_old.mm; sourceTree = "<group>"; };
-		38EF1A6F1D99A274008EA9B0 /* TagEditorViewController_old.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TagEditorViewController_old.xib; sourceTree = "<group>"; };
 		38F8033E1D9C4B8200C8F1EA /* ScintillaNET.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScintillaNET.h; sourceTree = "<group>"; };
 		38F803411D9C4B9A00C8F1EA /* SCHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCHelpers.h; sourceTree = "<group>"; };
 		38F803421D9C4B9A00C8F1EA /* SCHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCHelpers.m; sourceTree = "<group>"; };
@@ -922,9 +917,6 @@
 				38D8B1C41D95872A00BF878A /* UpdateOutputProgressViewController.h */,
 				38D8B1C51D95872A00BF878A /* UpdateOutputProgressViewController.m */,
 				38D8B1C61D95872A00BF878A /* UpdateOutputProgressViewController.xib */,
-				38EF1A6D1D99A274008EA9B0 /* TagEditorViewController_old.h */,
-				38EF1A6E1D99A274008EA9B0 /* TagEditorViewController_old.mm */,
-				38EF1A6F1D99A274008EA9B0 /* TagEditorViewController_old.xib */,
 				38C3CC781DA4298E00CEA70C /* TagEditorViewController.h */,
 				38C3CC791DA4298E00CEA70C /* TagEditorViewController.mm */,
 				38AB41831DA1564C00EA464C /* TagEditorViewController.xib */,
@@ -1622,7 +1614,6 @@
 			files = (
 				385EF1431D95D53C005768C7 /* statTagTestUIScript.scpt in Resources */,
 				3836F57D1D92C8EA00BF0DD4 /* StatTag.sdef in Resources */,
-				38EF1A711D99A274008EA9B0 /* TagEditorViewController_old.xib in Resources */,
 				385EF1421D95D53C005768C7 /* StatTagMacros.dotm in Resources */,
 				3836F5561D92C89900BF0DD4 /* Assets.xcassets in Resources */,
 				38D8B1C31D9586D200BF878A /* UpdateOutputViewController.xib in Resources */,
@@ -1791,7 +1782,6 @@
 				3836F5AD1D92ED9D00BF0DD4 /* STAppleScript_LoadSettings.m in Sources */,
 				3836F5511D92C89900BF0DD4 /* main.m in Sources */,
 				3836F54E1D92C89900BF0DD4 /* AppDelegate.m in Sources */,
-				38EF1A701D99A274008EA9B0 /* TagEditorViewController_old.mm in Sources */,
 				3836F5A01D92D03D00BF0DD4 /* SettingsViewController.m in Sources */,
 				38F803431D9C4B9A00C8F1EA /* SCHelpers.m in Sources */,
 				38F803461D9C4CEB00C8F1EA /* SCMarkerHandle.mm in Sources */,

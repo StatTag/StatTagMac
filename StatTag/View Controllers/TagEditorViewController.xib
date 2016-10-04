@@ -11,8 +11,11 @@
                 <outlet property="buttonCancel" destination="NoP-JE-Fei" id="YVQ-hZ-G9P"/>
                 <outlet property="buttonSave" destination="ADP-pv-QJY" id="4gs-IM-oIc"/>
                 <outlet property="codeFileList" destination="4lW-4l-jLh" id="rr8-pY-skf"/>
+                <outlet property="labelInstructionText" destination="27e-Xe-bfn" id="clo-uc-hoO"/>
+                <outlet property="listCodeFile" destination="XiB-LI-d7f" id="b7h-oc-8PC"/>
                 <outlet property="propertiesStackView" destination="asj-x8-Tj3" id="Ien-dk-Tjf"/>
                 <outlet property="sourceView" destination="6Lh-06-MJS" id="1t5-JA-11G"/>
+                <outlet property="tagBasicProperties" destination="qi8-eH-f6G" id="qiB-si-JRX"/>
                 <outlet property="tagFrequency" destination="t2H-fw-Wr8" id="QKu-3s-plw"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
             </connections>
@@ -42,31 +45,8 @@
                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                             </textFieldCell>
                         </textField>
-                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ADP-pv-QJY">
-                            <rect key="frame" x="585" y="13" width="70" height="32"/>
-                            <buttonCell key="cell" type="push" title="Save" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="NGe-8s-ba0">
-                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                <font key="font" metaFont="system"/>
-                            </buttonCell>
-                            <connections>
-                                <action selector="save:" target="-2" id="Pfm-Vl-O7J"/>
-                            </connections>
-                        </button>
-                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="NoP-JE-Fei">
-                            <rect key="frame" x="507" y="13" width="82" height="32"/>
-                            <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Il9-AR-kOE">
-                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                <font key="font" metaFont="system"/>
-                                <string key="keyEquivalent" base64-UTF8="YES">
-Gw
-</string>
-                            </buttonCell>
-                            <connections>
-                                <action selector="cancel:" target="-2" id="QgG-DO-jfC"/>
-                            </connections>
-                        </button>
                         <customView translatesAutoresizingMaskIntoConstraints="NO" id="6Lh-06-MJS">
-                            <rect key="frame" x="3" y="127" width="663" height="269"/>
+                            <rect key="frame" x="8" y="127" width="658" height="269"/>
                             <constraints>
                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="250" id="tfG-HK-yg9"/>
                             </constraints>
@@ -122,8 +102,8 @@ Gw
                             </constraints>
                         </box>
                         <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="XiB-LI-d7f">
-                            <rect key="frame" x="72" y="419" width="592" height="26"/>
-                            <popUpButtonCell key="cell" type="push" title="Code Files" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="oPK-PE-PtC" id="BLf-q8-ujM">
+                            <rect key="frame" x="72" y="419" width="101" height="26"/>
+                            <popUpButtonCell key="cell" type="push" title="Code Files" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingMiddle" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="oPK-PE-PtC" id="BLf-q8-ujM">
                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="menu"/>
                                 <menu key="menu" id="W8K-pO-NDP">
@@ -134,59 +114,91 @@ Gw
                                     </items>
                                 </menu>
                             </popUpButtonCell>
+                            <connections>
+                                <action selector="setCodeFile:" target="-2" id="9Hh-Cf-4Ry"/>
+                                <binding destination="4lW-4l-jLh" name="content" keyPath="arrangedObjects" id="iCZ-zs-Vpy"/>
+                                <binding destination="4lW-4l-jLh" name="contentValues" keyPath="arrangedObjects.FileName" previousBinding="iCZ-zs-Vpy" id="M69-jC-U5c"/>
+                                <binding destination="-2" name="selectedObject" keyPath="self.tag.CodeFile" previousBinding="M69-jC-U5c" id="sve-va-Xkv"/>
+                            </connections>
                         </popUpButton>
                     </subviews>
                     <constraints>
-                        <constraint firstAttribute="bottom" secondItem="NoP-JE-Fei" secondAttribute="bottom" constant="20" id="41g-IJ-F6g"/>
                         <constraint firstAttribute="trailing" secondItem="i52-gS-FJO" secondAttribute="trailing" constant="20" id="4cj-HO-x4I"/>
-                        <constraint firstItem="NoP-JE-Fei" firstAttribute="top" secondItem="MwM-vN-j9x" secondAttribute="bottom" constant="8" id="8NZ-7q-cVZ"/>
                         <constraint firstItem="XiB-LI-d7f" firstAttribute="top" secondItem="7d6-L2-EtB" secondAttribute="top" constant="7" id="9FH-9g-unM"/>
-                        <constraint firstAttribute="trailing" secondItem="XiB-LI-d7f" secondAttribute="trailing" constant="8" id="Kxb-xk-Sgh"/>
+                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="XiB-LI-d7f" secondAttribute="trailing" constant="8" id="Kxb-xk-Sgh"/>
                         <constraint firstAttribute="trailing" secondItem="6Lh-06-MJS" secondAttribute="trailing" constant="3" id="bJi-Nf-ysP"/>
                         <constraint firstItem="XiB-LI-d7f" firstAttribute="leading" secondItem="mA0-B2-GeQ" secondAttribute="trailing" constant="8" id="c52-BQ-Ne2"/>
                         <constraint firstItem="i52-gS-FJO" firstAttribute="top" secondItem="mA0-B2-GeQ" secondAttribute="bottom" constant="6" id="c9K-Fg-TlM"/>
-                        <constraint firstAttribute="bottom" secondItem="ADP-pv-QJY" secondAttribute="bottom" constant="20" id="g08-sh-Mak"/>
                         <constraint firstItem="MwM-vN-j9x" firstAttribute="leading" secondItem="7d6-L2-EtB" secondAttribute="leading" constant="8" id="lVc-9A-7qR"/>
                         <constraint firstItem="mA0-B2-GeQ" firstAttribute="leading" secondItem="7d6-L2-EtB" secondAttribute="leading" constant="8" id="lWc-mz-H4C"/>
                         <constraint firstItem="i52-gS-FJO" firstAttribute="leading" secondItem="7d6-L2-EtB" secondAttribute="leading" constant="8" id="m8V-6F-JwG"/>
                         <constraint firstItem="mA0-B2-GeQ" firstAttribute="top" secondItem="7d6-L2-EtB" secondAttribute="top" constant="8" id="mdA-Xk-1BW"/>
-                        <constraint firstItem="ADP-pv-QJY" firstAttribute="leading" secondItem="NoP-JE-Fei" secondAttribute="trailing" constant="8" id="n9N-tK-sVt"/>
                         <constraint firstItem="6Lh-06-MJS" firstAttribute="top" secondItem="i52-gS-FJO" secondAttribute="bottom" constant="6" id="omI-n6-7Ia"/>
-                        <constraint firstItem="6Lh-06-MJS" firstAttribute="leading" secondItem="7d6-L2-EtB" secondAttribute="leading" constant="3" id="rYP-Av-TH2"/>
+                        <constraint firstItem="6Lh-06-MJS" firstAttribute="leading" secondItem="7d6-L2-EtB" secondAttribute="leading" constant="8" id="rYP-Av-TH2"/>
                         <constraint firstItem="MwM-vN-j9x" firstAttribute="top" secondItem="6Lh-06-MJS" secondAttribute="bottom" constant="3" id="t7t-Kj-ZXS"/>
                         <constraint firstAttribute="trailing" secondItem="MwM-vN-j9x" secondAttribute="trailing" constant="8" id="wea-Lm-fLH"/>
-                        <constraint firstAttribute="trailing" secondItem="ADP-pv-QJY" secondAttribute="trailing" constant="20" id="zQJ-Nm-PLn"/>
                     </constraints>
                 </customView>
                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="9bD-7j-Tah" userLabel="Propertiew View">
-                    <rect key="frame" x="669" y="0.0" width="300" height="450"/>
+                    <rect key="frame" x="669" y="49" width="300" height="401"/>
                     <subviews>
                         <stackView distribution="equalSpacing" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="asj-x8-Tj3" userLabel="Properties Stack View">
-                            <rect key="frame" x="0.0" y="0.0" width="300" height="450"/>
+                            <rect key="frame" x="8" y="393" width="284" height="0.0"/>
                         </stackView>
                     </subviews>
                     <constraints>
-                        <constraint firstAttribute="trailing" secondItem="asj-x8-Tj3" secondAttribute="trailing" id="0Xc-ZP-DEm"/>
-                        <constraint firstAttribute="bottom" secondItem="asj-x8-Tj3" secondAttribute="bottom" id="aPt-Qe-7hw"/>
-                        <constraint firstItem="asj-x8-Tj3" firstAttribute="leading" secondItem="9bD-7j-Tah" secondAttribute="leading" id="lSB-zV-oJb"/>
-                        <constraint firstItem="asj-x8-Tj3" firstAttribute="top" secondItem="9bD-7j-Tah" secondAttribute="top" id="ots-a3-boa"/>
+                        <constraint firstAttribute="trailing" secondItem="asj-x8-Tj3" secondAttribute="trailing" constant="8" id="0Xc-ZP-DEm"/>
+                        <constraint firstItem="asj-x8-Tj3" firstAttribute="leading" secondItem="9bD-7j-Tah" secondAttribute="leading" constant="8" id="lSB-zV-oJb"/>
+                        <constraint firstItem="asj-x8-Tj3" firstAttribute="top" secondItem="9bD-7j-Tah" secondAttribute="top" constant="8" id="ots-a3-boa"/>
                         <constraint firstAttribute="width" constant="300" id="qwF-4K-Sw2"/>
                     </constraints>
                 </customView>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ADP-pv-QJY">
+                    <rect key="frame" x="885" y="13" width="70" height="32"/>
+                    <buttonCell key="cell" type="push" title="Save" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="NGe-8s-ba0">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="save:" target="-2" id="Pfm-Vl-O7J"/>
+                    </connections>
+                </button>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="NoP-JE-Fei">
+                    <rect key="frame" x="803" y="13" width="82" height="32"/>
+                    <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Il9-AR-kOE">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                        <string key="keyEquivalent" base64-UTF8="YES">
+Gw
+</string>
+                    </buttonCell>
+                    <connections>
+                        <action selector="cancel:" target="-2" id="QgG-DO-jfC"/>
+                    </connections>
+                </button>
             </subviews>
             <constraints>
                 <constraint firstItem="7d6-L2-EtB" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="0qG-Zm-gJs"/>
+                <constraint firstAttribute="bottom" secondItem="ADP-pv-QJY" secondAttribute="bottom" constant="20" id="Kht-mP-MgG"/>
                 <constraint firstAttribute="trailing" secondItem="9bD-7j-Tah" secondAttribute="trailing" id="OBY-RZ-lNg"/>
                 <constraint firstItem="9bD-7j-Tah" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="OKO-Jn-62V"/>
-                <constraint firstAttribute="bottom" secondItem="9bD-7j-Tah" secondAttribute="bottom" id="PsX-eo-1Tr"/>
+                <constraint firstAttribute="trailing" secondItem="ADP-pv-QJY" secondAttribute="trailing" constant="20" id="QCI-oz-aZ4"/>
+                <constraint firstItem="NoP-JE-Fei" firstAttribute="top" secondItem="MwM-vN-j9x" secondAttribute="bottom" constant="8" id="Raj-Ts-LXg"/>
+                <constraint firstAttribute="bottom" secondItem="NoP-JE-Fei" secondAttribute="bottom" constant="20" id="bZX-Df-bCW"/>
+                <constraint firstAttribute="bottom" secondItem="ADP-pv-QJY" secondAttribute="bottom" constant="20" id="bjN-ZO-3ai"/>
                 <constraint firstAttribute="bottom" secondItem="7d6-L2-EtB" secondAttribute="bottom" id="eEO-pI-iou"/>
                 <constraint firstItem="9bD-7j-Tah" firstAttribute="leading" secondItem="7d6-L2-EtB" secondAttribute="trailing" id="hx2-MX-b6F"/>
+                <constraint firstItem="NoP-JE-Fei" firstAttribute="top" secondItem="9bD-7j-Tah" secondAttribute="bottom" constant="8" id="lMh-4h-RKS"/>
                 <constraint firstItem="7d6-L2-EtB" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="pJ3-6W-fhj"/>
+                <constraint firstItem="ADP-pv-QJY" firstAttribute="leading" secondItem="NoP-JE-Fei" secondAttribute="trailing" constant="12" id="phe-tX-NhG"/>
+                <constraint firstAttribute="bottom" secondItem="NoP-JE-Fei" secondAttribute="bottom" constant="20" id="u0O-e1-RFx"/>
+                <constraint firstAttribute="trailing" secondItem="ADP-pv-QJY" secondAttribute="trailing" constant="20" id="vET-2G-Rnm"/>
             </constraints>
             <point key="canvasLocation" x="292.5" y="488"/>
         </customView>
         <arrayController id="4lW-4l-jLh" userLabel="Code File Array Controller"/>
         <arrayController id="t2H-fw-Wr8" userLabel="Tag Frequency Array Controller"/>
         <arrayController id="lab-TA-uCR"/>
+        <viewController id="qi8-eH-f6G" customClass="TagBasicPropertiesController"/>
     </objects>
 </document>
