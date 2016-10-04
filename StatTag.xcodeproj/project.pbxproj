@@ -227,8 +227,8 @@
 		38F803591D9DB2B300C8F1EA /* STSASAutomation.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F803571D9DB2B300C8F1EA /* STSASAutomation.m */; };
 		38F8035C1D9DB2C800C8F1EA /* STSASCommands.h in Headers */ = {isa = PBXBuildFile; fileRef = 38F8035A1D9DB2C800C8F1EA /* STSASCommands.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38F8035D1D9DB2C800C8F1EA /* STSASCommands.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F8035B1D9DB2C800C8F1EA /* STSASCommands.m */; };
-		38F803651D9DCB8900C8F1EA /* ValueProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F803631D9DCB8900C8F1EA /* ValueProperties.m */; };
-		38F803661D9DCB8900C8F1EA /* ValueProperties.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38F803641D9DCB8900C8F1EA /* ValueProperties.xib */; };
+		38F803651D9DCB8900C8F1EA /* ValuePropertiesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F803631D9DCB8900C8F1EA /* ValuePropertiesController.m */; };
+		38F803661D9DCB8900C8F1EA /* ValuePropertiesController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38F803641D9DCB8900C8F1EA /* ValuePropertiesController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -577,9 +577,9 @@
 		38F803571D9DB2B300C8F1EA /* STSASAutomation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STSASAutomation.m; sourceTree = "<group>"; };
 		38F8035A1D9DB2C800C8F1EA /* STSASCommands.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STSASCommands.h; sourceTree = "<group>"; };
 		38F8035B1D9DB2C800C8F1EA /* STSASCommands.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STSASCommands.m; sourceTree = "<group>"; };
-		38F803621D9DCB8900C8F1EA /* ValueProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValueProperties.h; sourceTree = "<group>"; };
-		38F803631D9DCB8900C8F1EA /* ValueProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValueProperties.m; sourceTree = "<group>"; };
-		38F803641D9DCB8900C8F1EA /* ValueProperties.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ValueProperties.xib; sourceTree = "<group>"; };
+		38F803621D9DCB8900C8F1EA /* ValuePropertiesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValuePropertiesController.h; sourceTree = "<group>"; };
+		38F803631D9DCB8900C8F1EA /* ValuePropertiesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValuePropertiesController.m; sourceTree = "<group>"; };
+		38F803641D9DCB8900C8F1EA /* ValuePropertiesController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ValuePropertiesController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1280,9 +1280,9 @@
 		38F803611D9DCB5800C8F1EA /* Controls */ = {
 			isa = PBXGroup;
 			children = (
-				38F803621D9DCB8900C8F1EA /* ValueProperties.h */,
-				38F803631D9DCB8900C8F1EA /* ValueProperties.m */,
-				38F803641D9DCB8900C8F1EA /* ValueProperties.xib */,
+				38F803621D9DCB8900C8F1EA /* ValuePropertiesController.h */,
+				38F803631D9DCB8900C8F1EA /* ValuePropertiesController.m */,
+				38F803641D9DCB8900C8F1EA /* ValuePropertiesController.xib */,
 				38AB418A1DA1BC2900EA464C /* TagBasicPropertiesController.h */,
 				38AB418B1DA1BC2900EA464C /* TagBasicPropertiesController.m */,
 				38AB418C1DA1BC2900EA464C /* TagBasicPropertiesController.xib */,
@@ -1619,7 +1619,7 @@
 				38D8B1C31D9586D200BF878A /* UpdateOutputViewController.xib in Resources */,
 				3836F5591D92C89900BF0DD4 /* Main.storyboard in Resources */,
 				38D8B1C81D95872A00BF878A /* UpdateOutputProgressViewController.xib in Resources */,
-				38F803661D9DCB8900C8F1EA /* ValueProperties.xib in Resources */,
+				38F803661D9DCB8900C8F1EA /* ValuePropertiesController.xib in Resources */,
 				38AB418E1DA1BC2900EA464C /* TagBasicPropertiesController.xib in Resources */,
 				3836F5A11D92D03D00BF0DD4 /* SettingsViewController.xib in Resources */,
 				3836F5A61D92D07700BF0DD4 /* ManageCodeFilesViewController.xib in Resources */,
@@ -1775,7 +1775,7 @@
 			files = (
 				38D8B1A61D94928600BF878A /* StatTagShared.m in Sources */,
 				38AB418D1DA1BC2900EA464C /* TagBasicPropertiesController.m in Sources */,
-				38F803651D9DCB8900C8F1EA /* ValueProperties.m in Sources */,
+				38F803651D9DCB8900C8F1EA /* ValuePropertiesController.m in Sources */,
 				38F8034F1D9C5C1800C8F1EA /* SCScintilla.mm in Sources */,
 				3836F5A51D92D07700BF0DD4 /* ManageCodeFilesViewController.m in Sources */,
 				38D8B1C21D9586D200BF878A /* UpdateOutputViewController.m in Sources */,

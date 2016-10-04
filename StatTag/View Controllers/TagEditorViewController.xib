@@ -17,6 +17,7 @@
                 <outlet property="sourceView" destination="6Lh-06-MJS" id="1t5-JA-11G"/>
                 <outlet property="tagBasicProperties" destination="qi8-eH-f6G" id="qiB-si-JRX"/>
                 <outlet property="tagFrequency" destination="t2H-fw-Wr8" id="QKu-3s-plw"/>
+                <outlet property="tagValueProperties" destination="FGP-hI-6jO" id="FGq-BA-r7h"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
             </connections>
         </customObject>
@@ -27,7 +28,7 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="7d6-L2-EtB" userLabel="Code Editing View">
-                    <rect key="frame" x="0.0" y="0.0" width="669" height="450"/>
+                    <rect key="frame" x="0.0" y="0.0" width="719" height="450"/>
                     <subviews>
                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mA0-B2-GeQ">
                             <rect key="frame" x="6" y="425" width="62" height="17"/>
@@ -38,7 +39,7 @@
                             </textFieldCell>
                         </textField>
                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="i52-gS-FJO">
-                            <rect key="frame" x="6" y="402" width="645" height="17"/>
+                            <rect key="frame" x="6" y="402" width="695" height="17"/>
                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Click on the margin to define tags:" id="Xx7-3F-dgY">
                                 <font key="font" metaFont="system"/>
                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -46,19 +47,19 @@
                             </textFieldCell>
                         </textField>
                         <customView translatesAutoresizingMaskIntoConstraints="NO" id="6Lh-06-MJS">
-                            <rect key="frame" x="8" y="127" width="658" height="269"/>
+                            <rect key="frame" x="8" y="127" width="708" height="269"/>
                             <constraints>
                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="250" id="tfG-HK-yg9"/>
                             </constraints>
                         </customView>
                         <box boxType="custom" borderType="none" cornerRadius="4" title="Box" translatesAutoresizingMaskIntoConstraints="NO" id="MwM-vN-j9x">
-                            <rect key="frame" x="8" y="49" width="653" height="75"/>
+                            <rect key="frame" x="8" y="49" width="703" height="75"/>
                             <view key="contentView" id="H8l-gY-Q6n">
-                                <rect key="frame" x="0.0" y="0.0" width="653" height="75"/>
+                                <rect key="frame" x="0.0" y="0.0" width="703" height="75"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="27e-Xe-bfn">
-                                        <rect key="frame" x="1" y="3" width="319" height="69"/>
+                                        <rect key="frame" x="1" y="3" width="344" height="69"/>
                                         <textFieldCell key="cell" controlSize="mini" sendsActionOnEndEditing="YES" title="The following commands may be used for Value output:" id="MMk-83-TbL">
                                             <font key="font" metaFont="system"/>
                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -69,7 +70,7 @@
                                         </connections>
                                     </textField>
                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="2wk-93-r5B">
-                                        <rect key="frame" x="333" y="3" width="319" height="69"/>
+                                        <rect key="frame" x="358" y="3" width="344" height="69"/>
                                         <textFieldCell key="cell" controlSize="mini" sendsActionOnEndEditing="YES" title="Multiline Label" id="fec-DY-JIh">
                                             <font key="font" metaFont="system"/>
                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -80,7 +81,7 @@
                                         </connections>
                                     </textField>
                                     <box horizontalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="M9o-8I-UO5">
-                                        <rect key="frame" x="324" y="3" width="5" height="69"/>
+                                        <rect key="frame" x="349" y="3" width="5" height="69"/>
                                     </box>
                                 </subviews>
                                 <constraints>
@@ -140,17 +141,17 @@
                     </constraints>
                 </customView>
                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="9bD-7j-Tah" userLabel="Propertiew View">
-                    <rect key="frame" x="669" y="49" width="300" height="401"/>
+                    <rect key="frame" x="719" y="49" width="250" height="401"/>
                     <subviews>
                         <stackView distribution="equalSpacing" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="asj-x8-Tj3" userLabel="Properties Stack View">
-                            <rect key="frame" x="8" y="393" width="284" height="0.0"/>
+                            <rect key="frame" x="8" y="393" width="234" height="0.0"/>
                         </stackView>
                     </subviews>
                     <constraints>
-                        <constraint firstAttribute="trailing" secondItem="asj-x8-Tj3" secondAttribute="trailing" constant="8" id="0Xc-ZP-DEm"/>
-                        <constraint firstItem="asj-x8-Tj3" firstAttribute="leading" secondItem="9bD-7j-Tah" secondAttribute="leading" constant="8" id="lSB-zV-oJb"/>
-                        <constraint firstItem="asj-x8-Tj3" firstAttribute="top" secondItem="9bD-7j-Tah" secondAttribute="top" constant="8" id="ots-a3-boa"/>
-                        <constraint firstAttribute="width" constant="300" id="qwF-4K-Sw2"/>
+                        <constraint firstAttribute="trailing" secondItem="asj-x8-Tj3" secondAttribute="trailing" constant="8" id="1MQ-ir-CW4"/>
+                        <constraint firstAttribute="width" constant="250" id="qwF-4K-Sw2"/>
+                        <constraint firstItem="asj-x8-Tj3" firstAttribute="leading" secondItem="9bD-7j-Tah" secondAttribute="leading" constant="8" id="tZQ-Y4-36J"/>
+                        <constraint firstItem="asj-x8-Tj3" firstAttribute="top" secondItem="9bD-7j-Tah" secondAttribute="top" constant="8" id="ul4-SK-G3y"/>
                     </constraints>
                 </customView>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ADP-pv-QJY">
@@ -200,5 +201,6 @@ Gw
         <arrayController id="t2H-fw-Wr8" userLabel="Tag Frequency Array Controller"/>
         <arrayController id="lab-TA-uCR"/>
         <viewController id="qi8-eH-f6G" customClass="TagBasicPropertiesController"/>
+        <viewController id="FGP-hI-6jO" customClass="ValuePropertiesController"/>
     </objects>
 </document>

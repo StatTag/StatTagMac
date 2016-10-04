@@ -9,6 +9,10 @@
 #import <Cocoa/Cocoa.h>
 #import "StatTagShared.h"
 
+#import "TagBasicPropertiesController.h"
+#import "ValuePropertiesController.h"
+
+
 @class ScintillaView;
 @class STTag;
 @class STCodeFile;
@@ -22,8 +26,7 @@
 - (void)dismissTagEditorController:(TagEditorViewController*)controller withReturnCode:(StatTagResponseState)returnCode;
 @end
 
-
-@interface TagEditorViewController : NSViewController <NSTextFieldDelegate> {
+@interface TagEditorViewController : NSViewController <NSTextFieldDelegate, TagBasicPropertiesControllerDelegate, ValuePropertiesControllerDelegate> {
   STTag* _tag;
   STDocumentManager* _documentManager;
   
@@ -65,5 +68,8 @@
 @property (weak) IBOutlet NSTextField *labelInstructionText;
 
 @property (weak) IBOutlet TagBasicPropertiesController* tagBasicProperties;
+
+@property (strong) IBOutlet ValuePropertiesController *tagValueProperties;
+
 
 @end

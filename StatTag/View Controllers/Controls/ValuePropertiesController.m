@@ -6,13 +6,13 @@
 //  Copyright © 2016 StatTag. All rights reserved.
 //
 
-#import "ValueProperties.h"
+#import "ValuePropertiesController.h"
 
-@interface ValueProperties ()
+@interface ValuePropertiesController ()
 
 @end
 
-@implementation ValueProperties
+@implementation ValuePropertiesController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -21,13 +21,12 @@
 
 
 - (void)viewWillAppear {
-  
 }
 
 -(id) initWithCoder:(NSCoder *)coder {
   self = [super initWithCoder:coder];
   if(self) {
-    [[NSBundle mainBundle] loadNibNamed:@"ValueProperties" owner:self topLevelObjects:nil];
+    [[NSBundle mainBundle] loadNibNamed:@"ValuePropertiesController" owner:self topLevelObjects:nil];
   }
   return self;
 }

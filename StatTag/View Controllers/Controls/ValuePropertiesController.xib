@@ -5,7 +5,7 @@
         <capability name="stacking Non-gravity area distributions on NSStackView" minToolsVersion="7.0" minSystemVersion="10.11"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="ValueProperties">
+        <customObject id="-2" userLabel="File's Owner" customClass="ValuePropertiesController">
             <connections>
                 <outlet property="buttonDateTime" destination="jkI-gi-6JE" id="Rvo-zr-COk"/>
                 <outlet property="buttonDefault" destination="Fal-pI-77u" id="Cfm-Dh-MjW"/>
@@ -22,7 +22,7 @@
             <rect key="frame" x="0.0" y="0.0" width="216" height="130"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <stackView distribution="equalSpacing" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Wp5-eL-zK9">
+                <stackView distribution="equalSpacing" orientation="vertical" alignment="leading" spacing="4" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Wp5-eL-zK9">
                     <rect key="frame" x="0.0" y="0.0" width="216" height="130"/>
                     <subviews>
                         <button translatesAutoresizingMaskIntoConstraints="NO" id="Fal-pI-77u">

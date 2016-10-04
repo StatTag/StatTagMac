@@ -10,16 +10,11 @@
 #import "StatTag.h"
 #import "StatTagShared.h"
 #import "UIUtility.h"
-//#import "ACEView/ACEView.h"
-//#import "ACEView/ACEModeNames.h"
-//#import "ACEView/ACEThemeNames.h"
-//#import "ACEView/ACEKeyboardHandlerNames.h"
 
 #import "Scintilla/ScintillaView.h"
 #import "Scintilla/InfoBar.h"
 #import "Scintilla/Scintilla.h"
 
-#import "TagBasicPropertiesController.h"
 
 #import "ScintillaNET.h"
 
@@ -72,7 +67,17 @@ SCScintilla* scintillaHelper;
   _instructionTitleText = [[NSMutableAttributedString alloc] initWithString: @""];
   _allowedCommandsText = @"";
   
+  //build our stack view
   [self initializeStackView];
+  
+  //only need to do these once - globally
+  self.tagBasicProperties.delegate = self;
+  [[_tagBasicProperties tagFrequencyArrayController] addObjects: [STConstantsRunFrequency GetList]];
+  [[_tagBasicProperties tagTypeArrayController] addObjects: [STConstantsTagType GetList]];
+  
+  
+  self.tagValueProperties.delegate = self;
+  
 }
 
 -(void)addSourceViewEditor {
@@ -136,37 +141,18 @@ SCScintilla* scintillaHelper;
   
   //_tagBasicProperties = [[TagBasicPropertiesController alloc] init];
   //  _tagBasicProperties.disclosedView = [_tagBasicProperties view]; //as expected, BOOOOOOOOOM
-  
-//  _tagBasicProperties.tag = [self tag];
-//
-//  [[_tagBasicProperties tagFrequencyArrayController] addObjects: [STConstantsRunFrequency GetList]];
-//  [[_tagBasicProperties tagTypeArrayController] addObjects: [STConstantsTagType GetList]];
-  
-//  tagBasicProperties.delegate = self;
-  
-//  _propertiesStackView = [NSStackView stackViewWithViews:@[_tagBasicProperties.view]]; //comma-delimited list
 
   [_propertiesStackView addArrangedSubview:_tagBasicProperties.view];
-  
-//  //View 1
-//  NSTextView* txt = [[NSTextView alloc] init];
-//  txt.string = @"hello";
-//  [txt.heightAnchor constraintEqualToConstant:100].active = true;
-//  [txt.widthAnchor constraintEqualToConstant:120].active = true;
-//
-//  //_propertiesStackView = [NSStackView stackViewWithViews:@[txt]]; //comma-delimited list
-//
-//  [_propertiesStackView addArrangedSubview:txt];
+  [_propertiesStackView addArrangedSubview:_tagValueProperties.view];
   
   // we want our views arranged from top to bottom
   _propertiesStackView.orientation = NSUserInterfaceLayoutOrientationVertical;
   
   // the internal views should be aligned with their centers
   // (although since they'll all be the same width, it won't end up mattering)
-  //
   _propertiesStackView.alignment = NSLayoutAttributeCenterX;
   
-  _propertiesStackView.spacing = 0; // No spacing between the disclosure views
+  _propertiesStackView.spacing = 12; // No spacing between the disclosure views
   
   // have the stackView strongly hug the sides of the views it contains
   [_propertiesStackView setHuggingPriority:NSLayoutPriorityDefaultHigh forOrientation:NSLayoutConstraintOrientationHorizontal];
@@ -174,18 +160,15 @@ SCScintilla* scintillaHelper;
   // have the stackView grow and shrink as its internal views grow, are added, or are removed
   [_propertiesStackView setHuggingPriority:NSLayoutPriorityDefaultHigh forOrientation:NSLayoutConstraintOrientationVertical];
   
-//  NSLog(@"stackview count = %lu", (unsigned long)[[_propertiesStackView views] count]);
-  NSLog(@"stackview count = %lu", (unsigned long)[[_propertiesStackView views] count]);
-
-//  _propertiesStackView.translatesAutoresizingMaskIntoConstraints = false;
-  //[self.view addSubview:stackView];
+  //  _propertiesStackView.translatesAutoresizingMaskIntoConstraints = false;
   
 }
 
 -(void)configureStackView {
   _tagBasicProperties.tag = [self tag];
-  [[_tagBasicProperties tagFrequencyArrayController] addObjects: [STConstantsRunFrequency GetList]];
-  [[_tagBasicProperties tagTypeArrayController] addObjects: [STConstantsTagType GetList]];
+
+  
+  
 }
 
 - (void)viewDidLoad {
@@ -594,11 +577,11 @@ SCScintilla* scintillaHelper;
   //changedCodeFile = false; //we just reset the code file so set this back
 }
 
-- (IBAction)setFrequency:(id)sender {
-}
-
-- (IBAction)setTagName:(id)sender {
-}
+//- (IBAction)setFrequency:(id)sender {
+//}
+//
+//- (IBAction)setTagName:(id)sender {
+//}
 
 
 //- (void) textDidChange:(NSNotification *)notification {
@@ -607,7 +590,7 @@ SCScintilla* scintillaHelper;
 //  //NSLog(@"%s", __PRETTY_FUNCTION__);
 //}
 
-
+//note: moved to delegate - just showing how this is done with NSTextDelegate
 //-(void)controlTextDidChange:(NSNotification *)obj {
 //  //in the XIB, make sure your text field points to file's owner as the delegate
 //  if ([obj object] == _textBoxTagName) {
@@ -742,6 +725,40 @@ SCScintilla* scintillaHelper;
   
   
   [_delegate dismissTagEditorController:self withReturnCode:(StatTagResponseState)OK];
+}
+
+//MARK: tag basic properties delegate
+- (void)tagFrequencyDidChange:(TagBasicPropertiesController*)controller {
+  _tag.RunFrequency = [[[controller tagFrequencyList] selectedItem] representedObject];
+}
+
+- (void)tagNameDidChange:(TagBasicPropertiesController*)controller {
+    [[controller tagNameTextbox] setStringValue: [[[controller tagNameTextbox] stringValue] stringByReplacingOccurrencesOfString:[STConstantsReservedCharacters TagTableCellDelimiter] withString:@""]];
+    //this might be smarter  - right now we actually wind up moving key positions, which is bad
+    //http://stackoverflow.com/questions/12161654/restrict-nstextfield-to-only-allow-numbers
+}
+
+- (void)tagNameDidFinishEditing:(TagBasicPropertiesController*)controller {
+  
+}
+
+- (void)tagTypeDidChange:(TagBasicPropertiesController*)controller {
+  //NOTE: this is a placeholder - we can only get away with this right now because we have TWO views...
+  // 1st view -> basic tag info
+  // 2nd view -> value / table / figure properties
+  if([[[[controller tagTypeList] selectedItem] representedObject] isEqualToString:[STConstantsTagType Value]]) {
+    [_propertiesStackView addArrangedSubview:[[self tagValueProperties] view]];
+  } else {
+    [_propertiesStackView removeArrangedSubview:[[self tagValueProperties] view]];
+    [[[self tagValueProperties] view] removeFromSuperview];
+  }
+  
+}
+
+
+//MARK: tag value settings delegate
+- (void)valueTypeDidChange:(ValuePropertiesController*)controller {
+  
 }
 
 
