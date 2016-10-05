@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "NumericValuePropertiesController.h" //lazy... just want protocol definition
 
 @class STTag;
 
@@ -20,7 +21,8 @@
 @end
 
 
-@interface TablePropertiesController : NSViewController {
+@interface TablePropertiesController : NSViewController <NumericValuePropertiesControllerDelegate> {
+//  NSView* _tablePropertiesDetailFormatView;
 }
 
 @property (strong) STTag* tag;
@@ -33,6 +35,13 @@
 @property (weak) IBOutlet NSButton *checkboxUseThousandsSeparator;
 
 @property (nonatomic, weak) id<TablePropertiesControllerDelegate> delegate;
+
+
+@property (nonatomic, strong) IBOutlet NSView *tablePropertiesDetailFormatView;
+@property (strong) IBOutlet NumericValuePropertiesController *numericPropertiesViewController;
+@property (weak) IBOutlet NSBox *customViewSeparatorLine;
+
+
 
 
 @end

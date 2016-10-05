@@ -799,4 +799,21 @@ SCScintilla* scintillaHelper;
 }
 
 
+//MARK: table properties settings delegate
+
+- (void)showColumnNamesDidChange:(TablePropertiesController*)controller {
+  
+}
+- (void)showRowNamesDidChange:(TablePropertiesController*)controller {
+  
+}
+- (void)decimalPlacesDidChange:(TablePropertiesController*)controller {
+
+}
+
+- (void)useThousandsSeparatorDidChange:(TablePropertiesController*)controller {
+  
+}
+
+
 @end

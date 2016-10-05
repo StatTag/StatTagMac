@@ -22,7 +22,7 @@
                     <rect key="frame" x="98" y="6" width="240" height="18"/>
                     <buttonCell key="cell" type="check" title="Use Thousands Separator" bezelStyle="regularSquare" imagePosition="left" lineBreakMode="truncatingTail" state="on" inset="2" id="Rp2-ER-LlE">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                        <font key="font" metaFont="system" size="11"/>
+                        <font key="font" metaFont="smallSystem"/>
                     </buttonCell>
                     <connections>
                         <action selector="checkedThousandsSeparator:" target="-2" id="7gN-L2-zKZ"/>
@@ -39,6 +39,10 @@
                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
+                    <connections>
+                        <binding destination="-2" name="value" keyPath="self.tag.ValueFormat.DecimalPlaces" id="h25-3i-rlf"/>
+                        <outlet property="delegate" destination="-2" id="jV3-0R-UXg"/>
+                    </connections>
                 </textField>
                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="t5w-Mj-gQF">
                     <rect key="frame" x="10" y="31" width="84" height="14"/>
@@ -56,6 +60,7 @@
                     <stepperCell key="cell" continuous="YES" alignment="left" maxValue="100" id="WV0-mL-ccO"/>
                     <connections>
                         <action selector="stepperChangeDecimalPlaces:" target="-2" id="4Bt-xc-zHg"/>
+                        <binding destination="-2" name="value" keyPath="self.tag.ValueFormat.DecimalPlaces" id="chT-rQ-PRP"/>
                     </connections>
                 </stepper>
             </subviews>
@@ -74,5 +79,6 @@
             </constraints>
             <point key="canvasLocation" x="66" y="41.5"/>
         </customView>
+        <userDefaultsController representsSharedInstance="YES" id="vtC-aa-u5d"/>
     </objects>
 </document>

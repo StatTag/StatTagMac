@@ -17,7 +17,7 @@
 
 @class STTag;
 
-@interface NumericValuePropertiesController : NSViewController
+@interface NumericValuePropertiesController : NSViewController <NSTextDelegate>
 
 @property (weak) IBOutlet NSTextField *textboxDecimalPlaces;
 @property (weak) IBOutlet NSStepper *stepperDecimalPlaces;
@@ -26,6 +26,6 @@
 @property (strong) STTag* tag;
 
 @property (nonatomic, weak) id<NumericValuePropertiesControllerDelegate> delegate;
-
+@property NSInteger maxNumSize;
 
 @end
