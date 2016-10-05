@@ -36,6 +36,7 @@
                     </buttonCell>
                     <connections>
                         <action selector="checkedColumnNames:" target="-2" id="aBg-po-XD6"/>
+                        <binding destination="-2" name="value" keyPath="self.tag.TableFormat.IncludeColumnNames" id="9Pk-cB-Rm6"/>
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="hfj-Hb-ZEy">
@@ -46,6 +47,7 @@
                     </buttonCell>
                     <connections>
                         <action selector="checkedRowNames:" target="-2" id="7At-4G-d7D"/>
+                        <binding destination="-2" name="value" keyPath="self.tag.TableFormat.IncludeRowNames" id="qmP-CD-yrb"/>
                     </connections>
                 </button>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2GJ-cn-4Sb">

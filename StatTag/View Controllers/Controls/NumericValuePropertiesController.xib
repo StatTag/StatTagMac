@@ -26,6 +26,7 @@
                     </buttonCell>
                     <connections>
                         <action selector="checkedThousandsSeparator:" target="-2" id="7gN-L2-zKZ"/>
+                        <binding destination="-2" name="value" keyPath="self.useThousands" id="Ady-Uw-qDb"/>
                     </connections>
                 </button>
                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="aRf-uK-lOc">
@@ -40,7 +41,7 @@
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                     <connections>
-                        <binding destination="-2" name="value" keyPath="self.tag.ValueFormat.DecimalPlaces" id="h25-3i-rlf"/>
+                        <binding destination="-2" name="value" keyPath="self.decimalPlaces" id="eqW-FM-Ovo"/>
                         <outlet property="delegate" destination="-2" id="jV3-0R-UXg"/>
                     </connections>
                 </textField>
@@ -60,7 +61,7 @@
                     <stepperCell key="cell" continuous="YES" alignment="left" maxValue="100" id="WV0-mL-ccO"/>
                     <connections>
                         <action selector="stepperChangeDecimalPlaces:" target="-2" id="4Bt-xc-zHg"/>
-                        <binding destination="-2" name="value" keyPath="self.tag.ValueFormat.DecimalPlaces" id="chT-rQ-PRP"/>
+                        <binding destination="-2" name="value" keyPath="self.decimalPlaces" id="bcn-jt-beh"/>
                     </connections>
                 </stepper>
             </subviews>

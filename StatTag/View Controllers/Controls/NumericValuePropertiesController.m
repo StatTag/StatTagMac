@@ -54,10 +54,14 @@
     if (number < 0) {
       number = 0;
     }
-    [self willChangeValueForKey:@"self.tag.ValueFormat.DecimalPlaces"];
-    self.tag.ValueFormat.DecimalPlaces = (int)number;
-    [self didChangeValueForKey:@"self.tag.ValueFormat.DecimalPlaces"];
+//    [self willChangeValueForKey:@"self.tag.ValueFormat.DecimalPlaces"];
+//    self.format.DecimalPlaces = (int)number;
+//    [self didChangeValueForKey:@"self.tag.ValueFormat.DecimalPlaces"];
 
+    [self willChangeValueForKey:@"self.decimalPlaces"];
+    self.decimalPlaces = (int)number;
+    [self didChangeValueForKey:@"self.decimalPlaces"];
+    
     [[self delegate] decimalPlacesDidChange:self];
   }
 }

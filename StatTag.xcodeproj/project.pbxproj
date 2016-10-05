@@ -132,6 +132,7 @@
 		387A0E461D25C9BA00F1FE9C /* StatTagGeneratorValueGeneratorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 387A0E451D25C9B900F1FE9C /* StatTagGeneratorValueGeneratorTests.m */; };
 		3884513C1D19DCB3004C2B40 /* STValueParameterParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 3884513A1D19DCB3004C2B40 /* STValueParameterParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3884513D1D19DCB3004C2B40 /* STValueParameterParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3884513B1D19DCB3004C2B40 /* STValueParameterParser.m */; };
+		388ABF881DA5B1F600F08956 /* ViewUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 388ABF871DA5B1F500F08956 /* ViewUtils.m */; };
 		38A0EFE31D5BBF1F001AFA54 /* STManageCodeFilesController.h in Headers */ = {isa = PBXBuildFile; fileRef = 38A0EFE01D5BBF1F001AFA54 /* STManageCodeFilesController.h */; };
 		38A0EFE41D5BBF1F001AFA54 /* STManageCodeFilesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A0EFE11D5BBF1F001AFA54 /* STManageCodeFilesController.m */; };
 		38A0EFE51D5BBF1F001AFA54 /* STManageCodeFilesController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38A0EFE21D5BBF1F001AFA54 /* STManageCodeFilesController.xib */; };
@@ -479,6 +480,8 @@
 		387A0E451D25C9B900F1FE9C /* StatTagGeneratorValueGeneratorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagGeneratorValueGeneratorTests.m; sourceTree = "<group>"; };
 		3884513A1D19DCB3004C2B40 /* STValueParameterParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STValueParameterParser.h; sourceTree = "<group>"; };
 		3884513B1D19DCB3004C2B40 /* STValueParameterParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STValueParameterParser.m; sourceTree = "<group>"; };
+		388ABF861DA5B1F500F08956 /* ViewUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewUtils.h; sourceTree = "<group>"; };
+		388ABF871DA5B1F500F08956 /* ViewUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewUtils.m; sourceTree = "<group>"; };
 		38A0EFE01D5BBF1F001AFA54 /* STManageCodeFilesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STManageCodeFilesController.h; sourceTree = "<group>"; };
 		38A0EFE11D5BBF1F001AFA54 /* STManageCodeFilesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STManageCodeFilesController.m; sourceTree = "<group>"; };
 		38A0EFE21D5BBF1F001AFA54 /* STManageCodeFilesController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = STManageCodeFilesController.xib; sourceTree = "<group>"; };
@@ -1317,6 +1320,8 @@
 				384764B41DA5683100FCDABE /* NumericValuePropertiesController.xib */,
 				384764B71DA56B8300FCDABE /* IntegerOnlyNumberFormatter.h */,
 				384764B81DA56B8300FCDABE /* IntegerOnlyNumberFormatter.m */,
+				388ABF861DA5B1F500F08956 /* ViewUtils.h */,
+				388ABF871DA5B1F500F08956 /* ViewUtils.m */,
 			);
 			path = Controls;
 			sourceTree = "<group>";
@@ -1815,6 +1820,7 @@
 				3836F5A51D92D07700BF0DD4 /* ManageCodeFilesViewController.m in Sources */,
 				38D8B1C21D9586D200BF878A /* UpdateOutputViewController.m in Sources */,
 				3846CC3D1DA49B840066D186 /* FlippedClipView.m in Sources */,
+				388ABF881DA5B1F600F08956 /* ViewUtils.m in Sources */,
 				3836F5AD1D92ED9D00BF0DD4 /* STAppleScript_LoadSettings.m in Sources */,
 				3836F5511D92C89900BF0DD4 /* main.m in Sources */,
 				3836F54E1D92C89900BF0DD4 /* AppDelegate.m in Sources */,

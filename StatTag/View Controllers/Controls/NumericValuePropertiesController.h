@@ -15,7 +15,8 @@
 - (void)useThousandsSeparatorDidChange:(NumericValuePropertiesController*)controller;
 @end
 
-@class STTag;
+//@class STTag;
+//@class STFormat;
 
 @interface NumericValuePropertiesController : NSViewController <NSTextDelegate>
 
@@ -23,7 +24,10 @@
 @property (weak) IBOutlet NSStepper *stepperDecimalPlaces;
 @property (weak) IBOutlet NSButton *checkboxUseThousandsSeparator;
 
-@property (strong) STTag* tag;
+//@property (strong) STTag* tag;
+//@property (strong) STFormat* format;
+@property BOOL useThousands;
+@property int decimalPlaces;
 
 @property (nonatomic, weak) id<NumericValuePropertiesControllerDelegate> delegate;
 @property NSInteger maxNumSize;
