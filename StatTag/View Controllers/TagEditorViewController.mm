@@ -76,13 +76,17 @@ SCScintilla* scintillaHelper;
   [[_tagBasicProperties tagFrequencyArrayController] addObjects: [STConstantsRunFrequency GetList]];
   [[_tagBasicProperties tagTypeArrayController] addObjects: [STConstantsTagType GetList]];
 
-  self.tagBasicPropertiesDisclosure.disclosedView = self.tagBasicProperties.view;
-  self.tagBasicPropertiesDisclosure.title = @"Tag Settings";
+//  self.tagBasicPropertiesDisclosure.disclosedView = self.tagBasicProperties.view;
+//  self.tagBasicPropertiesDisclosure.title = @"Tag Settings";
 
   
   self.tagValueProperties.delegate = self;
-  self.tagValuePropertiesDisclosure.disclosedView = self.tagValueProperties.view;
-  self.tagValuePropertiesDisclosure.title = @"Value Options";
+//  self.tagValuePropertiesDisclosure.disclosedView = self.tagValueProperties.view;
+//  self.tagValuePropertiesDisclosure.title = @"Value Options";
+
+  self.tagTableProperties.delegate = self;
+//  self.tagTablePropertiesDisclosure.disclosedView = self.tagTableProperties.view;
+//  self.tagTablePropertiesDisclosure.title = @"Table Options";
   
 }
 
@@ -149,10 +153,21 @@ SCScintilla* scintillaHelper;
   //  _tagBasicProperties.disclosedView = [_tagBasicProperties view]; //as expected, BOOOOOOOOOM
 
   
-//  [_propertiesStackView addArrangedSubview:_tagBasicProperties.view];
-//  [_propertiesStackView addArrangedSubview:_tagValueProperties.view];
-  [_propertiesStackView addArrangedSubview:_tagBasicPropertiesDisclosure.view];
-  [_propertiesStackView addArrangedSubview:_tagValuePropertiesDisclosure.view];
+  [_propertiesStackView addArrangedSubview:_tagBasicProperties.view];
+  
+//  NSBox *line = [[NSBox alloc] init];
+//  [line setBoxType:NSBoxSeparator];                     /* make it a line */
+//  [line setFrame:NSMakeRect(0.0, 4.0, 300.0, 0.0)];    /* Or assign NSLayoutConstraint objects */
+//  [_propertiesStackView addArrangedSubview:line];
+  
+  [_propertiesStackView addArrangedSubview:_tagValueProperties.view];
+  [_propertiesStackView addArrangedSubview:_tagTableProperties.view];
+
+//    [_propertiesStackView addArrangedSubview:_tagTablePropertiesDisclosure.view];
+  
+  
+//  [_propertiesStackView addArrangedSubview:_tagBasicPropertiesDisclosure.view];
+//  [_propertiesStackView addArrangedSubview:_tagValuePropertiesDisclosure.view];
   
   // we want our views arranged from top to bottom
   _propertiesStackView.orientation = NSUserInterfaceLayoutOrientationVertical;
@@ -761,6 +776,23 @@ SCScintilla* scintillaHelper;
   
   //add or remove the Value property type view
   if([[[[controller tagTypeList] selectedItem] representedObject] isEqualToString:[STConstantsTagType Value]]) {
+    [_propertiesStackView addArrangedSubview:[[self tagValueProperties] view]];
+  } else {
+    if([[_propertiesStackView arrangedSubviews] containsObject:[[self tagValueProperties] view]]) {
+      [_propertiesStackView removeArrangedSubview:[[self tagValueProperties] view]];
+      [[[self tagValueProperties] view] removeFromSuperview];
+    }
+  }
+  if([[[[controller tagTypeList] selectedItem] representedObject] isEqualToString:[STConstantsTagType Table]]) {
+    [_propertiesStackView addArrangedSubview:[[self tagTableProperties] view]];
+  } else {
+    if([[_propertiesStackView arrangedSubviews] containsObject:[[self tagTableProperties] view]]) {
+      [_propertiesStackView removeArrangedSubview:[[self tagTableProperties] view]];
+      [[[self tagTableProperties] view] removeFromSuperview];
+    }
+  }
+  /*
+  if([[[[controller tagTypeList] selectedItem] representedObject] isEqualToString:[STConstantsTagType Value]]) {
     [_propertiesStackView addArrangedSubview:[[self tagValuePropertiesDisclosure] view]];
   } else {
     if([[_propertiesStackView arrangedSubviews] containsObject:[[self tagValuePropertiesDisclosure] view]]) {
@@ -768,6 +800,7 @@ SCScintilla* scintillaHelper;
       [[[self tagValuePropertiesDisclosure] view] removeFromSuperview];
     }
   }
+   */
   
 }
 

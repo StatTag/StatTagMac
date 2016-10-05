@@ -15,8 +15,11 @@
 @implementation ValuePropertiesController
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do view setup here.
+  [super viewDidLoad];
+  [[self buttonDefault] setControlSize:NSControlSizeSmall];
+  [[self buttonNumeric] setControlSize:NSControlSizeSmall];
+  [[self buttonDateTime] setControlSize:NSControlSizeSmall];
+  [[self buttonPercentage] setControlSize:NSControlSizeSmall];
 }
 
 

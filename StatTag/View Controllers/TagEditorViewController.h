@@ -11,7 +11,7 @@
 
 #import "TagBasicPropertiesController.h"
 #import "ValuePropertiesController.h"
-
+#import "TablePropertiesController.h"
 
 @class ScintillaView;
 @class STTag;
@@ -26,7 +26,7 @@
 - (void)dismissTagEditorController:(TagEditorViewController*)controller withReturnCode:(StatTagResponseState)returnCode;
 @end
 
-@interface TagEditorViewController : NSViewController <NSTextFieldDelegate, TagBasicPropertiesControllerDelegate, ValuePropertiesControllerDelegate> {
+@interface TagEditorViewController : NSViewController <NSTextFieldDelegate, TagBasicPropertiesControllerDelegate, ValuePropertiesControllerDelegate, TablePropertiesControllerDelegate> {
   STTag* _tag;
   STDocumentManager* _documentManager;
   
@@ -73,7 +73,17 @@
 @property (strong) IBOutlet ValuePropertiesController *tagValueProperties;
 @property (strong) IBOutlet DisclosureViewController *tagValuePropertiesDisclosure;
 
+@property (strong) IBOutlet TablePropertiesController *tagTableProperties;
+@property (strong) IBOutlet DisclosureViewController *tagTablePropertiesDisclosure;
 
+
+/*
+ EWW:
+ You'll note the XIB file uses a custom clipview within the scrollview when embedding a stackview - this is by design
+ Apparently you need to flip the coordinate system when doing this
+ http://prod.lists.apple.com/archives/cocoa-dev/2013/Dec/msg00263.html
+ https://github.com/mugginsoft/TSInfoBarStackView
+ */
 
 
 @end

@@ -16,7 +16,10 @@
 @implementation TagBasicPropertiesController
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
+  [super viewDidLoad];
+  [[self tagNameTextbox] setControlSize:NSSmallControlSize];
+  [[self tagFrequencyList] setControlSize:NSSmallControlSize];
+  [[self tagTypeList] setControlSize:NSSmallControlSize];
 }
 
 -(id)init

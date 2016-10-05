@@ -89,6 +89,10 @@
 		3836F5A61D92D07700BF0DD4 /* ManageCodeFilesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3836F5A41D92D07700BF0DD4 /* ManageCodeFilesViewController.xib */; };
 		3836F5A91D92EBCB00BF0DD4 /* MainTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3836F5A81D92EBCB00BF0DD4 /* MainTabViewController.m */; };
 		3836F5AD1D92ED9D00BF0DD4 /* STAppleScript_LoadSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 3836F5AC1D92ED9D00BF0DD4 /* STAppleScript_LoadSettings.m */; };
+		3846CC3A1DA49B0E0066D186 /* FlippedScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3846CC391DA49B0E0066D186 /* FlippedScrollView.m */; };
+		3846CC3D1DA49B840066D186 /* FlippedClipView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3846CC3C1DA49B840066D186 /* FlippedClipView.m */; };
+		384764B01DA52D6400FCDABE /* TablePropertiesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 384764AE1DA52D6400FCDABE /* TablePropertiesController.m */; };
+		384764B11DA52D6400FCDABE /* TablePropertiesController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 384764AF1DA52D6400FCDABE /* TablePropertiesController.xib */; };
 		385906EE1D1C6E280088A0D7 /* StatTagModelJSONTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 385906ED1D1C6E280088A0D7 /* StatTagModelJSONTests.m */; };
 		385EF1421D95D53C005768C7 /* StatTagMacros.dotm in Resources */ = {isa = PBXBuildFile; fileRef = 385EF1401D95D53C005768C7 /* StatTagMacros.dotm */; };
 		385EF1431D95D53C005768C7 /* statTagTestUIScript.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 385EF1411D95D53C005768C7 /* statTagTestUIScript.scpt */; };
@@ -424,6 +428,13 @@
 		3836F5A81D92EBCB00BF0DD4 /* MainTabViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainTabViewController.m; sourceTree = "<group>"; };
 		3836F5AB1D92ED9D00BF0DD4 /* STAppleScript_LoadSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STAppleScript_LoadSettings.h; sourceTree = "<group>"; };
 		3836F5AC1D92ED9D00BF0DD4 /* STAppleScript_LoadSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STAppleScript_LoadSettings.m; sourceTree = "<group>"; };
+		3846CC381DA49B0E0066D186 /* FlippedScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlippedScrollView.h; sourceTree = "<group>"; };
+		3846CC391DA49B0E0066D186 /* FlippedScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlippedScrollView.m; sourceTree = "<group>"; };
+		3846CC3B1DA49B840066D186 /* FlippedClipView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlippedClipView.h; sourceTree = "<group>"; };
+		3846CC3C1DA49B840066D186 /* FlippedClipView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlippedClipView.m; sourceTree = "<group>"; };
+		384764AD1DA52D6400FCDABE /* TablePropertiesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TablePropertiesController.h; sourceTree = "<group>"; };
+		384764AE1DA52D6400FCDABE /* TablePropertiesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TablePropertiesController.m; sourceTree = "<group>"; };
+		384764AF1DA52D6400FCDABE /* TablePropertiesController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TablePropertiesController.xib; sourceTree = "<group>"; };
 		385906ED1D1C6E280088A0D7 /* StatTagModelJSONTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagModelJSONTests.m; sourceTree = "<group>"; };
 		385EF1401D95D53C005768C7 /* StatTagMacros.dotm */ = {isa = PBXFileReference; lastKnownFileType = file; path = StatTagMacros.dotm; sourceTree = "<group>"; };
 		385EF1411D95D53C005768C7 /* statTagTestUIScript.scpt */ = {isa = PBXFileReference; lastKnownFileType = file; path = statTagTestUIScript.scpt; sourceTree = "<group>"; };
@@ -1286,6 +1297,13 @@
 				38AB418A1DA1BC2900EA464C /* TagBasicPropertiesController.h */,
 				38AB418B1DA1BC2900EA464C /* TagBasicPropertiesController.m */,
 				38AB418C1DA1BC2900EA464C /* TagBasicPropertiesController.xib */,
+				3846CC381DA49B0E0066D186 /* FlippedScrollView.h */,
+				3846CC391DA49B0E0066D186 /* FlippedScrollView.m */,
+				3846CC3B1DA49B840066D186 /* FlippedClipView.h */,
+				3846CC3C1DA49B840066D186 /* FlippedClipView.m */,
+				384764AD1DA52D6400FCDABE /* TablePropertiesController.h */,
+				384764AE1DA52D6400FCDABE /* TablePropertiesController.m */,
+				384764AF1DA52D6400FCDABE /* TablePropertiesController.xib */,
 			);
 			path = Controls;
 			sourceTree = "<group>";
@@ -1619,6 +1637,7 @@
 				38D8B1C31D9586D200BF878A /* UpdateOutputViewController.xib in Resources */,
 				3836F5591D92C89900BF0DD4 /* Main.storyboard in Resources */,
 				38D8B1C81D95872A00BF878A /* UpdateOutputProgressViewController.xib in Resources */,
+				384764B11DA52D6400FCDABE /* TablePropertiesController.xib in Resources */,
 				38F803661D9DCB8900C8F1EA /* ValuePropertiesController.xib in Resources */,
 				38AB418E1DA1BC2900EA464C /* TagBasicPropertiesController.xib in Resources */,
 				3836F5A11D92D03D00BF0DD4 /* SettingsViewController.xib in Resources */,
@@ -1775,10 +1794,12 @@
 			files = (
 				38D8B1A61D94928600BF878A /* StatTagShared.m in Sources */,
 				38AB418D1DA1BC2900EA464C /* TagBasicPropertiesController.m in Sources */,
+				3846CC3A1DA49B0E0066D186 /* FlippedScrollView.m in Sources */,
 				38F803651D9DCB8900C8F1EA /* ValuePropertiesController.m in Sources */,
 				38F8034F1D9C5C1800C8F1EA /* SCScintilla.mm in Sources */,
 				3836F5A51D92D07700BF0DD4 /* ManageCodeFilesViewController.m in Sources */,
 				38D8B1C21D9586D200BF878A /* UpdateOutputViewController.m in Sources */,
+				3846CC3D1DA49B840066D186 /* FlippedClipView.m in Sources */,
 				3836F5AD1D92ED9D00BF0DD4 /* STAppleScript_LoadSettings.m in Sources */,
 				3836F5511D92C89900BF0DD4 /* main.m in Sources */,
 				3836F54E1D92C89900BF0DD4 /* AppDelegate.m in Sources */,
@@ -1786,6 +1807,7 @@
 				38F803431D9C4B9A00C8F1EA /* SCHelpers.m in Sources */,
 				38F803461D9C4CEB00C8F1EA /* SCMarkerHandle.mm in Sources */,
 				38C3CC7A1DA4298E00CEA70C /* TagEditorViewController.mm in Sources */,
+				384764B01DA52D6400FCDABE /* TablePropertiesController.m in Sources */,
 				38C3CC761DA428E700CEA70C /* DisclosureViewController.m in Sources */,
 				38D8B1C71D95872A00BF878A /* UpdateOutputProgressViewController.m in Sources */,
 				38EF1A671D99544F008EA9B0 /* readme.md in Sources */,
