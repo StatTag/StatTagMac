@@ -68,8 +68,12 @@
 @property (weak) IBOutlet NSTextField *labelInstructionText;
 
 @property (weak) IBOutlet TagBasicPropertiesController* tagBasicProperties;
+@property (strong) IBOutlet DisclosureViewController *tagBasicPropertiesDisclosure;
 
 @property (strong) IBOutlet ValuePropertiesController *tagValueProperties;
+@property (strong) IBOutlet DisclosureViewController *tagValuePropertiesDisclosure;
+
+
 
 
 @end

@@ -86,7 +86,7 @@
         // header portion of this view controller containing the hide/show button
         //
         self.disclosedView.wantsLayer = YES;
-        self.disclosedView.layer.backgroundColor = [[NSColor whiteColor] CGColor];
+        //self.disclosedView.layer.backgroundColor = [[NSColor whiteColor] CGColor];
         
         [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_disclosedView]|"
                                                                           options:0
@@ -124,6 +124,7 @@
         [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
           context.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
           // Animate the closing constraint to 0, causing the bottom of the header to be flush with the bottom of the overall disclosure view.
+          context.duration = 0.1;
           self.closingConstraint.animator.constant = 0;
         } completionHandler:^{
             self.disclosureIsClosed = YES;
@@ -133,6 +134,7 @@
     {
         [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
           context.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+          context.duration = 0.1;
           // Animate the constraint to fit the disclosed view again
           self.closingConstraint.animator.constant -= self.disclosedView.frame.size.height;
         } completionHandler:^{

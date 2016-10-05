@@ -35,7 +35,7 @@
                             <rect key="frame" x="0.0" y="23" width="341" height="5"/>
                         </box>
                         <button horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7aH-L1-4BC">
-                            <rect key="frame" x="8" y="6" width="13" height="13"/>
+                            <rect key="frame" x="4" y="6" width="13" height="13"/>
                             <buttonCell key="cell" type="disclosureTriangle" bezelStyle="disclosure" imagePosition="above" alignment="left" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Q3C-Vt-h3k">
                                 <behavior key="behavior" pushIn="YES" changeBackground="YES" changeGray="YES" lightByContents="YES"/>
                                 <font key="font" metaFont="system"/>
@@ -47,7 +47,7 @@
                     </subviews>
                     <constraints>
                         <constraint firstItem="7aH-L1-4BC" firstAttribute="top" secondItem="MFO-Gp-pgU" secondAttribute="bottom" constant="6" id="ND6-4U-tA7"/>
-                        <constraint firstItem="7aH-L1-4BC" firstAttribute="leading" secondItem="jMJ-zR-Jy6" secondAttribute="leading" constant="8" id="PHs-zs-Yhs"/>
+                        <constraint firstItem="7aH-L1-4BC" firstAttribute="leading" secondItem="jMJ-zR-Jy6" secondAttribute="leading" constant="4" id="PHs-zs-Yhs"/>
                         <constraint firstAttribute="height" constant="26" id="QPN-bD-PGs"/>
                         <constraint firstItem="AHm-RH-J72" firstAttribute="leading" secondItem="jMJ-zR-Jy6" secondAttribute="leading" constant="24" id="U7n-9R-wBO"/>
                         <constraint firstItem="AHm-RH-J72" firstAttribute="top" secondItem="MFO-Gp-pgU" secondAttribute="bottom" constant="6" id="aXh-oI-TTR"/>

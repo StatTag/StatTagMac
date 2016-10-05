@@ -15,6 +15,7 @@
 #import "Scintilla/InfoBar.h"
 #import "Scintilla/Scintilla.h"
 
+#import "DisclosureViewController.h"
 
 #import "ScintillaNET.h"
 
@@ -74,9 +75,14 @@ SCScintilla* scintillaHelper;
   self.tagBasicProperties.delegate = self;
   [[_tagBasicProperties tagFrequencyArrayController] addObjects: [STConstantsRunFrequency GetList]];
   [[_tagBasicProperties tagTypeArrayController] addObjects: [STConstantsTagType GetList]];
-  
+
+  self.tagBasicPropertiesDisclosure.disclosedView = self.tagBasicProperties.view;
+  self.tagBasicPropertiesDisclosure.title = @"Tag Settings";
+
   
   self.tagValueProperties.delegate = self;
+  self.tagValuePropertiesDisclosure.disclosedView = self.tagValueProperties.view;
+  self.tagValuePropertiesDisclosure.title = @"Value Options";
   
 }
 
@@ -142,8 +148,11 @@ SCScintilla* scintillaHelper;
   //_tagBasicProperties = [[TagBasicPropertiesController alloc] init];
   //  _tagBasicProperties.disclosedView = [_tagBasicProperties view]; //as expected, BOOOOOOOOOM
 
-  [_propertiesStackView addArrangedSubview:_tagBasicProperties.view];
-  [_propertiesStackView addArrangedSubview:_tagValueProperties.view];
+  
+//  [_propertiesStackView addArrangedSubview:_tagBasicProperties.view];
+//  [_propertiesStackView addArrangedSubview:_tagValueProperties.view];
+  [_propertiesStackView addArrangedSubview:_tagBasicPropertiesDisclosure.view];
+  [_propertiesStackView addArrangedSubview:_tagValuePropertiesDisclosure.view];
   
   // we want our views arranged from top to bottom
   _propertiesStackView.orientation = NSUserInterfaceLayoutOrientationVertical;
@@ -746,11 +755,18 @@ SCScintilla* scintillaHelper;
   //NOTE: this is a placeholder - we can only get away with this right now because we have TWO views...
   // 1st view -> basic tag info
   // 2nd view -> value / table / figure properties
+  //[[self tag] setValue:[[[controller tagTypeList] selectedItem] representedObject] forKey:@"Type"];
+
+  [self SetInstructionText]; //this is not a "Cocoa way" of doing this - we should be observing for changes
+  
+  //add or remove the Value property type view
   if([[[[controller tagTypeList] selectedItem] representedObject] isEqualToString:[STConstantsTagType Value]]) {
-    [_propertiesStackView addArrangedSubview:[[self tagValueProperties] view]];
+    [_propertiesStackView addArrangedSubview:[[self tagValuePropertiesDisclosure] view]];
   } else {
-    [_propertiesStackView removeArrangedSubview:[[self tagValueProperties] view]];
-    [[[self tagValueProperties] view] removeFromSuperview];
+    if([[_propertiesStackView arrangedSubviews] containsObject:[[self tagValuePropertiesDisclosure] view]]) {
+      [_propertiesStackView removeArrangedSubview:[[self tagValuePropertiesDisclosure] view]];
+      [[[self tagValuePropertiesDisclosure] view] removeFromSuperview];
+    }
   }
   
 }
@@ -758,7 +774,7 @@ SCScintilla* scintillaHelper;
 
 //MARK: tag value settings delegate
 - (void)valueTypeDidChange:(ValuePropertiesController*)controller {
-  
+  //our radio button collection, etc. for default / percentage / date/time etc.
 }
 
 

@@ -19,14 +19,14 @@
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView id="Hz6-mo-xeY">
-            <rect key="frame" x="0.0" y="0.0" width="216" height="130"/>
+            <rect key="frame" x="0.0" y="0.0" width="234" height="130"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <stackView distribution="equalSpacing" orientation="vertical" alignment="leading" spacing="4" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Wp5-eL-zK9">
-                    <rect key="frame" x="0.0" y="0.0" width="216" height="130"/>
+                    <rect key="frame" x="0.0" y="0.0" width="234" height="130"/>
                     <subviews>
                         <button translatesAutoresizingMaskIntoConstraints="NO" id="Fal-pI-77u">
-                            <rect key="frame" x="-1" y="113" width="219" height="18"/>
+                            <rect key="frame" x="-1" y="113" width="237" height="18"/>
                             <buttonCell key="cell" type="radio" title="Default" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="IMs-kb-oep">
                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                 <font key="font" metaFont="system"/>
@@ -36,7 +36,7 @@
                             </connections>
                         </button>
                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="wJF-lO-H5E">
-                            <rect key="frame" x="18" y="72" width="200" height="34"/>
+                            <rect key="frame" x="18" y="72" width="218" height="34"/>
                             <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="(exact same output from statistical package)" id="Ubh-rA-vnp">
                                 <font key="font" metaFont="system"/>
                                 <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
@@ -44,7 +44,7 @@
                             </textFieldCell>
                         </textField>
                         <button translatesAutoresizingMaskIntoConstraints="NO" id="UYj-4M-2V2">
-                            <rect key="frame" x="-1" y="47" width="219" height="18"/>
+                            <rect key="frame" x="-1" y="47" width="237" height="18"/>
                             <buttonCell key="cell" type="radio" title="Percentage" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="EDr-Lg-xTr">
                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                 <font key="font" metaFont="system"/>
@@ -54,7 +54,7 @@
                             </connections>
                         </button>
                         <button translatesAutoresizingMaskIntoConstraints="NO" id="jkI-gi-6JE">
-                            <rect key="frame" x="-1" y="23" width="219" height="18"/>
+                            <rect key="frame" x="-1" y="23" width="237" height="18"/>
                             <buttonCell key="cell" type="radio" title="Date / Time" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="bjg-ZK-Vpp">
                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                 <font key="font" metaFont="system"/>
@@ -64,7 +64,7 @@
                             </connections>
                         </button>
                         <button translatesAutoresizingMaskIntoConstraints="NO" id="OFG-S8-67X">
-                            <rect key="frame" x="-1" y="-1" width="219" height="18"/>
+                            <rect key="frame" x="-1" y="-1" width="237" height="18"/>
                             <buttonCell key="cell" type="radio" title="Numeric" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="vH5-ET-3bR">
                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                 <font key="font" metaFont="system"/>
