@@ -106,6 +106,9 @@
                         </box>
                         <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="XiB-LI-d7f">
                             <rect key="frame" x="72" y="419" width="101" height="26"/>
+                            <constraints>
+                                <constraint firstAttribute="width" relation="lessThanOrEqual" constant="900" id="YSg-xb-7sD"/>
+                            </constraints>
                             <popUpButtonCell key="cell" type="push" title="Code Files" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingMiddle" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="oPK-PE-PtC" id="BLf-q8-ujM">
                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="menu"/>
@@ -120,8 +123,8 @@
                             <connections>
                                 <action selector="setCodeFile:" target="-2" id="9Hh-Cf-4Ry"/>
                                 <binding destination="4lW-4l-jLh" name="content" keyPath="arrangedObjects" id="iCZ-zs-Vpy"/>
-                                <binding destination="4lW-4l-jLh" name="contentValues" keyPath="arrangedObjects.FileName" previousBinding="iCZ-zs-Vpy" id="M69-jC-U5c"/>
-                                <binding destination="-2" name="selectedObject" keyPath="self.tag.CodeFile" previousBinding="M69-jC-U5c" id="sve-va-Xkv"/>
+                                <binding destination="4lW-4l-jLh" name="contentValues" keyPath="arrangedObjects.FilePath" previousBinding="iCZ-zs-Vpy" id="ONW-Vi-QLs"/>
+                                <binding destination="-2" name="selectedObject" keyPath="self.tag.CodeFile" previousBinding="ONW-Vi-QLs" id="ugx-wD-OkF"/>
                             </connections>
                         </popUpButton>
                     </subviews>
@@ -145,12 +148,13 @@
                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="9bD-7j-Tah" userLabel="Properties View">
                     <rect key="frame" x="719" y="49" width="250" height="401"/>
                     <subviews>
-                        <stackView distribution="equalSpacing" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="asj-x8-Tj3" userLabel="Properties Stack View">
+                        <stackView distribution="equalSpacing" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="asj-x8-Tj3" userLabel="Properties Stack View">
                             <rect key="frame" x="8" y="393" width="234" height="0.0"/>
                         </stackView>
                     </subviews>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="asj-x8-Tj3" secondAttribute="trailing" constant="8" id="1MQ-ir-CW4"/>
+                        <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="asj-x8-Tj3" secondAttribute="bottom" constant="8" id="T7b-bS-ufJ"/>
                         <constraint firstAttribute="width" constant="250" id="qwF-4K-Sw2"/>
                         <constraint firstItem="asj-x8-Tj3" firstAttribute="leading" secondItem="9bD-7j-Tah" secondAttribute="leading" constant="8" id="tZQ-Y4-36J"/>
                         <constraint firstItem="asj-x8-Tj3" firstAttribute="top" secondItem="9bD-7j-Tah" secondAttribute="top" constant="8" id="ul4-SK-G3y"/>

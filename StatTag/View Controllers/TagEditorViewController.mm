@@ -161,7 +161,7 @@ SCScintilla* scintillaHelper;
   // (although since they'll all be the same width, it won't end up mattering)
   _propertiesStackView.alignment = NSLayoutAttributeCenterX;
   
-  _propertiesStackView.spacing = 12; // No spacing between the disclosure views
+  _propertiesStackView.spacing = 0; // No spacing between the disclosure views
   
   // have the stackView strongly hug the sides of the views it contains
   [_propertiesStackView setHuggingPriority:NSLayoutPriorityDefaultHigh forOrientation:NSLayoutConstraintOrientationHorizontal];

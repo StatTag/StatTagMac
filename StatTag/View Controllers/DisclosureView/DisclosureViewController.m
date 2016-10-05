@@ -76,32 +76,33 @@
 
 - (void)setDisclosedView:(NSView *)disclosedView
 {
-    if (_disclosedView != disclosedView)
-    {
-        [self.disclosedView removeFromSuperview];
-        _disclosedView = disclosedView;
-        [self.view addSubview:self.disclosedView];
-        
-        // we want a white background to distinguish between the
-        // header portion of this view controller containing the hide/show button
-        //
-        self.disclosedView.wantsLayer = YES;
-        //self.disclosedView.layer.backgroundColor = [[NSColor whiteColor] CGColor];
-        
-        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_disclosedView]|"
-                                                                          options:0
-                                                                          metrics:nil
-                                                                            views:NSDictionaryOfVariableBindings(_disclosedView)]];
-        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_headerView][_disclosedView]"
-                                                                          options:0
-                                                                          metrics:nil
-                                                                            views:NSDictionaryOfVariableBindings(_headerView, _disclosedView)]];
-        
-        // add an optional constraint (but with a priority stronger than a drag), that the disclosing view
-        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_disclosedView]-(0@600)-|"
-                                                                          options:0 metrics:nil
-                                                                            views:NSDictionaryOfVariableBindings(_disclosedView)]];
-    }
+  if (_disclosedView != disclosedView)
+  {
+    [self.disclosedView removeFromSuperview];
+    _disclosedView = disclosedView;
+    [self.view addSubview:self.disclosedView];
+    
+    // we want a white background to distinguish between the
+    // header portion of this view controller containing the hide/show button
+    //
+    self.disclosedView.wantsLayer = YES;
+    self.disclosedView.layer.backgroundColor = [[NSColor whiteColor] CGColor];
+    
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_disclosedView]|"
+                                                                      options:0
+                                                                      metrics:nil
+                                                                        views:NSDictionaryOfVariableBindings(_disclosedView)]];
+
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_headerView][_disclosedView]"
+                                                                      options:0
+                                                                      metrics:nil
+                                                                        views:NSDictionaryOfVariableBindings(_headerView, _disclosedView)]];
+    
+    // add an optional constraint (but with a priority stronger than a drag), that the disclosing view
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_disclosedView]-(0@600)-|"
+                                                                      options:0 metrics:nil
+                                                                        views:NSDictionaryOfVariableBindings(_disclosedView)]];
+  }
 }
 
 // The hide/show button was clicked
