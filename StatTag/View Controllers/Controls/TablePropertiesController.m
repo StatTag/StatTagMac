@@ -9,6 +9,7 @@
 #import "TablePropertiesController.h"
 
 #import "StatTag.h"
+#import "ViewUtils.h"
 
 @interface TablePropertiesController ()
 
@@ -20,35 +21,35 @@
 
 @synthesize tablePropertiesDetailFormatView = _tablePropertiesDetailFormatView;
 
-
--(void)fillWithView:(NSView*)parentView withView:(NSView*)newView {
-  
-  if(parentView != newView) {
-  
-    NSRect f = [parentView frame];
-    f.size.width = newView.frame.size.width;
-    f.size.height = newView.frame.size.height;
-    parentView.frame = f;
-
-    newView.frame = [parentView bounds];
-    
-    [newView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    
-    [parentView addSubview:newView];
-    
-    [parentView addConstraints:
-     [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[newView]|"
-                                             options:0
-                                             metrics:nil
-                                               views:NSDictionaryOfVariableBindings(newView)]];
-    
-    [parentView addConstraints:
-     [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[newView]|"
-                                             options:0
-                                             metrics:nil
-                                               views:NSDictionaryOfVariableBindings(newView)]];
-  }
-}
+//
+//-(void)fillView:(NSView*)parentView withView:(NSView*)newView {
+//  
+//  if(parentView != newView) {
+//  
+//    NSRect f = [parentView frame];
+//    f.size.width = newView.frame.size.width;
+//    f.size.height = newView.frame.size.height;
+//    parentView.frame = f;
+//
+//    newView.frame = [parentView bounds];
+//    
+//    [newView setTranslatesAutoresizingMaskIntoConstraints:NO];
+//    
+//    [parentView addSubview:newView];
+//    
+//    [parentView addConstraints:
+//     [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[newView]|"
+//                                             options:0
+//                                             metrics:nil
+//                                               views:NSDictionaryOfVariableBindings(newView)]];
+//    
+//    [parentView addConstraints:
+//     [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[newView]|"
+//                                             options:0
+//                                             metrics:nil
+//                                               views:NSDictionaryOfVariableBindings(newView)]];
+//  }
+//}
 
 - (void)viewDidLoad {
   [super viewDidLoad];
@@ -59,12 +60,12 @@
 
 - (void)viewDidAppear {
   [super viewDidAppear];
+  //self.numericPropertiesViewController.tag = self.tag;
+  self.numericPropertiesViewController.decimalPlaces = [[[self tag] ValueFormat] DecimalPlaces];
+  self.numericPropertiesViewController.useThousands = [[[self tag] ValueFormat] UseThousands];
   self.numericPropertiesViewController.delegate = self;
-  self.numericPropertiesViewController.tag = self.tag;
   
-  self.numericPropertiesViewController.tag = self.tag;
-  self.numericPropertiesViewController.delegate = self;
-  [self fillWithView:_tablePropertiesDetailFormatView withView:[_numericPropertiesViewController view]];
+  [ViewUtils fillView:_tablePropertiesDetailFormatView withView:[_numericPropertiesViewController view]];
   
 }
 
