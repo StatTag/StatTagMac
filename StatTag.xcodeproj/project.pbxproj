@@ -93,6 +93,9 @@
 		3846CC3D1DA49B840066D186 /* FlippedClipView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3846CC3C1DA49B840066D186 /* FlippedClipView.m */; };
 		384764B01DA52D6400FCDABE /* TablePropertiesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 384764AE1DA52D6400FCDABE /* TablePropertiesController.m */; };
 		384764B11DA52D6400FCDABE /* TablePropertiesController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 384764AF1DA52D6400FCDABE /* TablePropertiesController.xib */; };
+		384764B51DA5683100FCDABE /* NumericValuePropertiesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 384764B31DA5683100FCDABE /* NumericValuePropertiesController.m */; };
+		384764B61DA5683100FCDABE /* NumericValuePropertiesController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 384764B41DA5683100FCDABE /* NumericValuePropertiesController.xib */; };
+		384764B91DA56B8300FCDABE /* IntegerOnlyNumberFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 384764B81DA56B8300FCDABE /* IntegerOnlyNumberFormatter.m */; };
 		385906EE1D1C6E280088A0D7 /* StatTagModelJSONTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 385906ED1D1C6E280088A0D7 /* StatTagModelJSONTests.m */; };
 		385EF1421D95D53C005768C7 /* StatTagMacros.dotm in Resources */ = {isa = PBXBuildFile; fileRef = 385EF1401D95D53C005768C7 /* StatTagMacros.dotm */; };
 		385EF1431D95D53C005768C7 /* statTagTestUIScript.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 385EF1411D95D53C005768C7 /* statTagTestUIScript.scpt */; };
@@ -435,6 +438,11 @@
 		384764AD1DA52D6400FCDABE /* TablePropertiesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TablePropertiesController.h; sourceTree = "<group>"; };
 		384764AE1DA52D6400FCDABE /* TablePropertiesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TablePropertiesController.m; sourceTree = "<group>"; };
 		384764AF1DA52D6400FCDABE /* TablePropertiesController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TablePropertiesController.xib; sourceTree = "<group>"; };
+		384764B21DA5683100FCDABE /* NumericValuePropertiesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NumericValuePropertiesController.h; sourceTree = "<group>"; };
+		384764B31DA5683100FCDABE /* NumericValuePropertiesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NumericValuePropertiesController.m; sourceTree = "<group>"; };
+		384764B41DA5683100FCDABE /* NumericValuePropertiesController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NumericValuePropertiesController.xib; sourceTree = "<group>"; };
+		384764B71DA56B8300FCDABE /* IntegerOnlyNumberFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntegerOnlyNumberFormatter.h; sourceTree = "<group>"; };
+		384764B81DA56B8300FCDABE /* IntegerOnlyNumberFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntegerOnlyNumberFormatter.m; sourceTree = "<group>"; };
 		385906ED1D1C6E280088A0D7 /* StatTagModelJSONTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagModelJSONTests.m; sourceTree = "<group>"; };
 		385EF1401D95D53C005768C7 /* StatTagMacros.dotm */ = {isa = PBXFileReference; lastKnownFileType = file; path = StatTagMacros.dotm; sourceTree = "<group>"; };
 		385EF1411D95D53C005768C7 /* statTagTestUIScript.scpt */ = {isa = PBXFileReference; lastKnownFileType = file; path = statTagTestUIScript.scpt; sourceTree = "<group>"; };
@@ -1304,6 +1312,11 @@
 				384764AD1DA52D6400FCDABE /* TablePropertiesController.h */,
 				384764AE1DA52D6400FCDABE /* TablePropertiesController.m */,
 				384764AF1DA52D6400FCDABE /* TablePropertiesController.xib */,
+				384764B21DA5683100FCDABE /* NumericValuePropertiesController.h */,
+				384764B31DA5683100FCDABE /* NumericValuePropertiesController.m */,
+				384764B41DA5683100FCDABE /* NumericValuePropertiesController.xib */,
+				384764B71DA56B8300FCDABE /* IntegerOnlyNumberFormatter.h */,
+				384764B81DA56B8300FCDABE /* IntegerOnlyNumberFormatter.m */,
 			);
 			path = Controls;
 			sourceTree = "<group>";
@@ -1637,6 +1650,7 @@
 				38D8B1C31D9586D200BF878A /* UpdateOutputViewController.xib in Resources */,
 				3836F5591D92C89900BF0DD4 /* Main.storyboard in Resources */,
 				38D8B1C81D95872A00BF878A /* UpdateOutputProgressViewController.xib in Resources */,
+				384764B61DA5683100FCDABE /* NumericValuePropertiesController.xib in Resources */,
 				384764B11DA52D6400FCDABE /* TablePropertiesController.xib in Resources */,
 				38F803661D9DCB8900C8F1EA /* ValuePropertiesController.xib in Resources */,
 				38AB418E1DA1BC2900EA464C /* TagBasicPropertiesController.xib in Resources */,
@@ -1796,6 +1810,7 @@
 				38AB418D1DA1BC2900EA464C /* TagBasicPropertiesController.m in Sources */,
 				3846CC3A1DA49B0E0066D186 /* FlippedScrollView.m in Sources */,
 				38F803651D9DCB8900C8F1EA /* ValuePropertiesController.m in Sources */,
+				384764B91DA56B8300FCDABE /* IntegerOnlyNumberFormatter.m in Sources */,
 				38F8034F1D9C5C1800C8F1EA /* SCScintilla.mm in Sources */,
 				3836F5A51D92D07700BF0DD4 /* ManageCodeFilesViewController.m in Sources */,
 				38D8B1C21D9586D200BF878A /* UpdateOutputViewController.m in Sources */,
@@ -1815,6 +1830,7 @@
 				38F803531D9DAF7800C8F1EA /* UIUtility.m in Sources */,
 				3836F5A91D92EBCB00BF0DD4 /* MainTabViewController.m in Sources */,
 				38F803491D9C50C000C8F1EA /* SCLine.mm in Sources */,
+				384764B51DA5683100FCDABE /* NumericValuePropertiesController.m in Sources */,
 				38F8034C1D9C579000C8F1EA /* SCLineCollection.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

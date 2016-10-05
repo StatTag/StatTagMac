@@ -23,8 +23,15 @@
 @property (strong) STTag* tag;
 
 
+@property (strong) IBOutlet NSArrayController *tagValueTypeArrayController;
+
+
 //containing stackview
 @property (weak) IBOutlet NSStackView *stackView;
+
+//dropdown
+@property (weak) IBOutlet NSPopUpButton *listTagValueType;
+
 
 //radio buttons
 @property (weak) IBOutlet NSButton *buttonDefault;
@@ -34,6 +41,9 @@
 @property (weak) IBOutlet NSButton *buttonNumeric;
 
 @property (nonatomic, weak) id<ValuePropertiesControllerDelegate> delegate;
+
+
+@property (weak) IBOutlet NSView *detailedOptionsView;
 
 
 @end

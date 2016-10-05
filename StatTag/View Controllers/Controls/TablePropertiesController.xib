@@ -69,7 +69,7 @@
                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="hv2-dc-34l">
                     <rect key="frame" x="100" y="34" width="215" height="19"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="right" placeholderString="0" drawsBackground="YES" id="J3n-GY-KTL">
-                        <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="7ho-B6-UkS">
+                        <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="7ho-B6-UkS" customClass="IntegerOnlyNumberFormatter">
                             <real key="minimum" value="0.0"/>
                             <real key="maximum" value="10"/>
                         </numberFormatter>
@@ -77,6 +77,9 @@
                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
+                    <connections>
+                        <binding destination="-2" name="value" keyPath="self.tag.ValueFormat.DecimalPlaces" id="QnC-O7-GfF"/>
+                    </connections>
                 </textField>
                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Njx-N9-T9Z">
                     <rect key="frame" x="10" y="37" width="84" height="14"/>
@@ -138,5 +141,6 @@
             </constraints>
             <point key="canvasLocation" x="61" y="85.5"/>
         </customView>
+        <userDefaultsController representsSharedInstance="YES" id="6CO-dG-Yr4"/>
     </objects>
 </document>

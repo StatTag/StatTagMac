@@ -15,11 +15,16 @@
 
 @implementation TagBasicPropertiesController
 
+-(void)awakeFromNib {
+}
+
 - (void)viewDidLoad {
   [super viewDidLoad];
   [[self tagNameTextbox] setControlSize:NSSmallControlSize];
   [[self tagFrequencyList] setControlSize:NSSmallControlSize];
   [[self tagTypeList] setControlSize:NSSmallControlSize];
+  [[self tagFrequencyArrayController] addObjects: [STConstantsRunFrequency GetList]];
+  [[self tagTypeArrayController] addObjects: [STConstantsTagType GetList]];
 }
 
 -(id)init

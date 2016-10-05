@@ -13,9 +13,9 @@
 //protocol for interacting with this control
 @class TablePropertiesController;
 @protocol TablePropertiesControllerDelegate <NSObject>
-- (void)decimalPlacesDidChange:(TablePropertiesController*)controller;
 - (void)showColumnNamesDidChange:(TablePropertiesController*)controller;
 - (void)showRowNamesDidChange:(TablePropertiesController*)controller;
+- (void)decimalPlacesDidChange:(TablePropertiesController*)controller;
 - (void)useThousandsSeparatorDidChange:(TablePropertiesController*)controller;
 @end
 

@@ -7,6 +7,7 @@
 //
 
 #import "ValuePropertiesController.h"
+#import "StatTag.h"
 
 @interface ValuePropertiesController ()
 
@@ -14,16 +15,26 @@
 
 @implementation ValuePropertiesController
 
+
+-(void)awakeFromNib {
+}
+
 - (void)viewDidLoad {
   [super viewDidLoad];
-  [[self buttonDefault] setControlSize:NSControlSizeSmall];
-  [[self buttonNumeric] setControlSize:NSControlSizeSmall];
-  [[self buttonDateTime] setControlSize:NSControlSizeSmall];
-  [[self buttonPercentage] setControlSize:NSControlSizeSmall];
+  [[self listTagValueType] setControlSize:NSControlSizeSmall];
+  [[self tagValueTypeArrayController] addObjects: [STConstantsValueFormatType GetList]];
 }
 
 
 - (void)viewWillAppear {
+  //just in case we don't have a format for some reason
+  if([[self tag] ValueFormat] == nil) {
+    STValueFormat* f = [[STValueFormat alloc] init];
+    [f setFormatType:[STConstantsValueFormatType Default]];
+    [self willChangeValueForKey:@"self.tag.ValueFormat.FormatType"];
+    self.tag.ValueFormat = f;
+    [self didChangeValueForKey:@"self.tag.ValueFormat.FormatType"];
+  }
 }
 
 -(id) initWithCoder:(NSCoder *)coder {

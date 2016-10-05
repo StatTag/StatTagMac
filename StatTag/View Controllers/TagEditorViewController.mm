@@ -73,8 +73,8 @@ SCScintilla* scintillaHelper;
   
   //only need to do these once - globally
   self.tagBasicProperties.delegate = self;
-  [[_tagBasicProperties tagFrequencyArrayController] addObjects: [STConstantsRunFrequency GetList]];
-  [[_tagBasicProperties tagTypeArrayController] addObjects: [STConstantsTagType GetList]];
+//  [[_tagBasicProperties tagFrequencyArrayController] addObjects: [STConstantsRunFrequency GetList]];
+//  [[_tagBasicProperties tagTypeArrayController] addObjects: [STConstantsTagType GetList]];
 
 //  self.tagBasicPropertiesDisclosure.disclosedView = self.tagBasicProperties.view;
 //  self.tagBasicPropertiesDisclosure.title = @"Tag Settings";
@@ -190,9 +190,8 @@ SCScintilla* scintillaHelper;
 
 -(void)configureStackView {
   _tagBasicProperties.tag = [self tag];
-
-  
-  
+  _tagValueProperties.tag = [self tag];
+  _tagTableProperties.tag = [self tag];
 }
 
 - (void)viewDidLoad {
@@ -202,19 +201,8 @@ SCScintilla* scintillaHelper;
   [super viewDidLoad];
   // Do view setup here.
   if(_documentManager != nil) {
-//    [_tagFrequency removeObjects:[_tagFrequency arrangedObjects]];
-//    [_tagFrequency addObjects: [STConstantsRunFrequency GetList]];
   }
-  //  [_sourceView setDelegate:self];
-  //  [_sourceView setTheme:ACEThemeXcode];
-  //  [_sourceView setKeyboardHandler:ACEKeyboardHandlerAce];
-  //  [_sourceView setShowPrintMargin:NO];
-  //  [_sourceView setShowInvisibles:YES];
-  //  [_sourceView setBasicAutoCompletion:YES];
-  //  [_sourceView setLiveAutocompletion:YES];
-  //  [_sourceView setSnippets:YES];
-  //  [_sourceView setEmmet: YES];
-  
+  [self configureStackView];
 }
 
 -(void)viewDidAppear {
