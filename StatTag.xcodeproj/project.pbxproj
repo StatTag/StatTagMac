@@ -89,6 +89,9 @@
 		3836F5A61D92D07700BF0DD4 /* ManageCodeFilesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3836F5A41D92D07700BF0DD4 /* ManageCodeFilesViewController.xib */; };
 		3836F5A91D92EBCB00BF0DD4 /* MainTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3836F5A81D92EBCB00BF0DD4 /* MainTabViewController.m */; };
 		3836F5AD1D92ED9D00BF0DD4 /* STAppleScript_LoadSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 3836F5AC1D92ED9D00BF0DD4 /* STAppleScript_LoadSettings.m */; };
+		383F3B981DA679AE0069C78E /* TagPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 383F3B961DA679AE0069C78E /* TagPreviewController.m */; };
+		383F3B991DA679AE0069C78E /* TagPreviewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 383F3B971DA679AE0069C78E /* TagPreviewController.xib */; };
+		383F3B9C1DA684390069C78E /* TagGridView.m in Sources */ = {isa = PBXBuildFile; fileRef = 383F3B9B1DA684390069C78E /* TagGridView.m */; };
 		3846CC3A1DA49B0E0066D186 /* FlippedScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3846CC391DA49B0E0066D186 /* FlippedScrollView.m */; };
 		3846CC3D1DA49B840066D186 /* FlippedClipView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3846CC3C1DA49B840066D186 /* FlippedClipView.m */; };
 		384764B01DA52D6400FCDABE /* TablePropertiesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 384764AE1DA52D6400FCDABE /* TablePropertiesController.m */; };
@@ -432,6 +435,11 @@
 		3836F5A81D92EBCB00BF0DD4 /* MainTabViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainTabViewController.m; sourceTree = "<group>"; };
 		3836F5AB1D92ED9D00BF0DD4 /* STAppleScript_LoadSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STAppleScript_LoadSettings.h; sourceTree = "<group>"; };
 		3836F5AC1D92ED9D00BF0DD4 /* STAppleScript_LoadSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STAppleScript_LoadSettings.m; sourceTree = "<group>"; };
+		383F3B951DA679AE0069C78E /* TagPreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagPreviewController.h; sourceTree = "<group>"; };
+		383F3B961DA679AE0069C78E /* TagPreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagPreviewController.m; sourceTree = "<group>"; };
+		383F3B971DA679AE0069C78E /* TagPreviewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TagPreviewController.xib; sourceTree = "<group>"; };
+		383F3B9A1DA684390069C78E /* TagGridView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagGridView.h; sourceTree = "<group>"; };
+		383F3B9B1DA684390069C78E /* TagGridView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagGridView.m; sourceTree = "<group>"; };
 		3846CC381DA49B0E0066D186 /* FlippedScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlippedScrollView.h; sourceTree = "<group>"; };
 		3846CC391DA49B0E0066D186 /* FlippedScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlippedScrollView.m; sourceTree = "<group>"; };
 		3846CC3B1DA49B840066D186 /* FlippedClipView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlippedClipView.h; sourceTree = "<group>"; };
@@ -1322,6 +1330,11 @@
 				384764B81DA56B8300FCDABE /* IntegerOnlyNumberFormatter.m */,
 				388ABF861DA5B1F500F08956 /* ViewUtils.h */,
 				388ABF871DA5B1F500F08956 /* ViewUtils.m */,
+				383F3B951DA679AE0069C78E /* TagPreviewController.h */,
+				383F3B961DA679AE0069C78E /* TagPreviewController.m */,
+				383F3B971DA679AE0069C78E /* TagPreviewController.xib */,
+				383F3B9A1DA684390069C78E /* TagGridView.h */,
+				383F3B9B1DA684390069C78E /* TagGridView.m */,
 			);
 			path = Controls;
 			sourceTree = "<group>";
@@ -1659,6 +1672,7 @@
 				384764B11DA52D6400FCDABE /* TablePropertiesController.xib in Resources */,
 				38F803661D9DCB8900C8F1EA /* ValuePropertiesController.xib in Resources */,
 				38AB418E1DA1BC2900EA464C /* TagBasicPropertiesController.xib in Resources */,
+				383F3B991DA679AE0069C78E /* TagPreviewController.xib in Resources */,
 				3836F5A11D92D03D00BF0DD4 /* SettingsViewController.xib in Resources */,
 				3836F5A61D92D07700BF0DD4 /* ManageCodeFilesViewController.xib in Resources */,
 				38C3CC771DA428E700CEA70C /* DisclosureViewController.xib in Resources */,
@@ -1818,6 +1832,7 @@
 				384764B91DA56B8300FCDABE /* IntegerOnlyNumberFormatter.m in Sources */,
 				38F8034F1D9C5C1800C8F1EA /* SCScintilla.mm in Sources */,
 				3836F5A51D92D07700BF0DD4 /* ManageCodeFilesViewController.m in Sources */,
+				383F3B9C1DA684390069C78E /* TagGridView.m in Sources */,
 				38D8B1C21D9586D200BF878A /* UpdateOutputViewController.m in Sources */,
 				3846CC3D1DA49B840066D186 /* FlippedClipView.m in Sources */,
 				388ABF881DA5B1F600F08956 /* ViewUtils.m in Sources */,
@@ -1834,6 +1849,7 @@
 				38EF1A671D99544F008EA9B0 /* readme.md in Sources */,
 				38A843A31D9B051100357727 /* readme.md in Sources */,
 				38F803531D9DAF7800C8F1EA /* UIUtility.m in Sources */,
+				383F3B981DA679AE0069C78E /* TagPreviewController.m in Sources */,
 				3836F5A91D92EBCB00BF0DD4 /* MainTabViewController.m in Sources */,
 				38F803491D9C50C000C8F1EA /* SCLine.mm in Sources */,
 				384764B51DA5683100FCDABE /* NumericValuePropertiesController.m in Sources */,

@@ -19,6 +19,7 @@
 
 #import "ScintillaNET.h"
 
+#import "TagPreviewController.h"
 
 @interface TagEditorViewController ()
 
@@ -87,6 +88,7 @@ SCScintilla* scintillaHelper;
   self.tagTableProperties.delegate = self;
 //  self.tagTablePropertiesDisclosure.disclosedView = self.tagTableProperties.view;
 //  self.tagTablePropertiesDisclosure.title = @"Table Options";
+  
   
 }
 
@@ -163,6 +165,14 @@ SCScintilla* scintillaHelper;
   [_propertiesStackView addArrangedSubview:_tagValueProperties.view];
   [_propertiesStackView addArrangedSubview:_tagTableProperties.view];
 
+  [_propertiesStackView addArrangedSubview:_tagPreviewController.view];
+  
+  [_tagPreviewController setShowsPreviewText:YES];
+  [_tagPreviewController setShowsPreviewImage:YES];
+  
+//  _tagValueProperties.view.hidden = true;
+//  _tagTableProperties.view.hidden = true;
+  
 //    [_propertiesStackView addArrangedSubview:_tagTablePropertiesDisclosure.view];
   
   
@@ -192,6 +202,7 @@ SCScintilla* scintillaHelper;
   _tagBasicProperties.tag = [self tag];
   _tagValueProperties.tag = [self tag];
   _tagTableProperties.tag = [self tag];
+  _tagPreviewController.tag = [self tag];
 }
 
 - (void)viewDidLoad {
@@ -765,16 +776,20 @@ SCScintilla* scintillaHelper;
   //add or remove the Value property type view
   if([[[[controller tagTypeList] selectedItem] representedObject] isEqualToString:[STConstantsTagType Value]]) {
     [_propertiesStackView addArrangedSubview:[[self tagValueProperties] view]];
+//    _tagValueProperties.view.hidden = false;
   } else {
     if([[_propertiesStackView arrangedSubviews] containsObject:[[self tagValueProperties] view]]) {
+//      _tagValueProperties.view.hidden = true;
       [_propertiesStackView removeArrangedSubview:[[self tagValueProperties] view]];
       [[[self tagValueProperties] view] removeFromSuperview];
     }
   }
   if([[[[controller tagTypeList] selectedItem] representedObject] isEqualToString:[STConstantsTagType Table]]) {
-    [_propertiesStackView addArrangedSubview:[[self tagTableProperties] view]];
+      [_propertiesStackView addArrangedSubview:[[self tagTableProperties] view]];
+//    _tagTableProperties.view.hidden = false;
   } else {
     if([[_propertiesStackView arrangedSubviews] containsObject:[[self tagTableProperties] view]]) {
+//      _tagTableProperties.view.hidden = true;
       [_propertiesStackView removeArrangedSubview:[[self tagTableProperties] view]];
       [[[self tagTableProperties] view] removeFromSuperview];
     }

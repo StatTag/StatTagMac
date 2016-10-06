@@ -32,4 +32,6 @@
 @property (nonatomic, weak) id<NumericValuePropertiesControllerDelegate> delegate;
 @property NSInteger maxNumSize;
 
+@property BOOL enableThousandsControl;
+
 @end

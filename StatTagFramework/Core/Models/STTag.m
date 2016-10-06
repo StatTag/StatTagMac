@@ -61,6 +61,13 @@
 
 -(instancetype)init{
   self = [super init];
+  
+  //different from our original c# - we want these initialized so they're available later
+  // tag type will govern whether or not we care about them
+  self.TableFormat = [[STTableFormat alloc] init];
+  self.ValueFormat = [[STValueFormat alloc] init];
+  self.FigureFormat = [[STFigureFormat alloc] init];
+  
   return self;
 }
 

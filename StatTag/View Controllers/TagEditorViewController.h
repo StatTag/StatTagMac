@@ -20,6 +20,7 @@
 @class ScintillaView;
 
 @class TagBasicPropertiesController;
+@class TagPreviewController;
 
 @class TagEditorViewController;
 @protocol TagEditorViewControllerDelegate <NSObject>
@@ -75,6 +76,11 @@
 
 @property (strong) IBOutlet TablePropertiesController *tagTableProperties;
 @property (strong) IBOutlet DisclosureViewController *tagTablePropertiesDisclosure;
+
+@property (strong) IBOutlet TagPreviewController *tagPreviewController;
+@property (strong) IBOutlet DisclosureViewController *tagPreviewDisclosureController;
+
+
 
 
 /*

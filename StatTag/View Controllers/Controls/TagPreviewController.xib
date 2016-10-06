@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11201"/>
+        <capability name="stacking Non-gravity area distributions on NSStackView" minToolsVersion="7.0" minSystemVersion="10.11"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="TagPreviewController">
+            <connections>
+                <outlet property="formatLabel" destination="eSt-gq-t6w" id="CKc-cS-Cxr"/>
+                <outlet property="previewImageView" destination="taK-UH-eYY" id="srq-q7-0Qz"/>
+                <outlet property="previewText" destination="Tem-U3-Qby" id="Z6Y-hH-9Lo"/>
+                <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="Hz6-mo-xeY">
+            <rect key="frame" x="0.0" y="0.0" width="399" height="204"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="XZe-V6-5gn">
+                    <rect key="frame" x="10" y="181" width="379" height="14"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Preview" id="06d-dc-yxW">
+                        <font key="font" metaFont="systemBold" size="11"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="zuA-aL-T93">
+                    <rect key="frame" x="0.0" y="201" width="399" height="5"/>
+                </box>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="eSt-gq-t6w">
+                    <rect key="frame" x="10" y="159" width="84" height="14"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="80" id="Gsy-Z5-q4V"/>
+                    </constraints>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Format" id="2YV-sv-jm8">
+                        <font key="font" metaFont="smallSystem"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="3" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="x6v-VD-zKp">
+                    <rect key="frame" x="100" y="6" width="287" height="167"/>
+                    <subviews>
+                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Tem-U3-Qby" userLabel="textPreview">
+                            <rect key="frame" x="-2" y="153" width="33" height="14"/>
+                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="JHI-gi-l7U">
+                                <font key="font" metaFont="smallSystem"/>
+                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                            </textFieldCell>
+                            <connections>
+                                <binding destination="-2" name="hidden" keyPath="self.showsPreviewText" id="PvK-Wp-e7v">
+                                    <dictionary key="options">
+                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                    </dictionary>
+                                </binding>
+                                <binding destination="-2" name="value" keyPath="self.previewText.stringValue" id="uuX-dK-OPP"/>
+                            </connections>
+                        </textField>
+                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="taK-UH-eYY">
+                            <rect key="frame" x="0.0" y="0.0" width="200" height="150"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="200" id="lhS-o1-Cb8"/>
+                                <constraint firstAttribute="height" constant="150" id="poA-ub-RZ0"/>
+                            </constraints>
+                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="ldD-Qz-VlF"/>
+                            <connections>
+                                <binding destination="-2" name="hidden" keyPath="self.showsPreviewImage" id="nmk-mr-TDq">
+                                    <dictionary key="options">
+                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                    </dictionary>
+                                </binding>
+                            </connections>
+                        </imageView>
+                    </subviews>
+                    <visibilityPriorities>
+                        <integer value="1000"/>
+                        <integer value="1000"/>
+                    </visibilityPriorities>
+                    <customSpacing>
+                        <real value="3.4028234663852886e+38"/>
+                        <real value="3.4028234663852886e+38"/>
+                    </customSpacing>
+                </stackView>
+            </subviews>
+            <constraints>
+                <constraint firstItem="XZe-V6-5gn" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="12" id="0uh-QO-Mff"/>
+                <constraint firstAttribute="trailing" secondItem="zuA-aL-T93" secondAttribute="trailing" id="8lc-5m-fLX"/>
+                <constraint firstItem="eSt-gq-t6w" firstAttribute="top" secondItem="XZe-V6-5gn" secondAttribute="bottom" constant="8" id="91S-K5-FI7"/>
+                <constraint firstItem="eSt-gq-t6w" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="12" id="Efy-uE-h10"/>
+                <constraint firstItem="x6v-VD-zKp" firstAttribute="leading" secondItem="eSt-gq-t6w" secondAttribute="trailing" constant="8" id="IA0-Uc-ubg"/>
+                <constraint firstItem="zuA-aL-T93" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="LDy-26-vhF"/>
+                <constraint firstAttribute="trailing" secondItem="XZe-V6-5gn" secondAttribute="trailing" constant="12" id="ZMo-K2-G6L"/>
+                <constraint firstItem="zuA-aL-T93" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="dMI-4Q-ygn"/>
+                <constraint firstAttribute="bottom" secondItem="x6v-VD-zKp" secondAttribute="bottom" priority="750" constant="6" id="m1L-xw-4ru"/>
+                <constraint firstItem="XZe-V6-5gn" firstAttribute="top" secondItem="zuA-aL-T93" secondAttribute="bottom" constant="8" id="pyv-DJ-4M5"/>
+                <constraint firstItem="x6v-VD-zKp" firstAttribute="top" secondItem="XZe-V6-5gn" secondAttribute="bottom" constant="8" id="q56-xG-3SU"/>
+                <constraint firstAttribute="trailing" secondItem="x6v-VD-zKp" secondAttribute="trailing" constant="12" id="zYA-Mo-FWr"/>
+            </constraints>
+            <point key="canvasLocation" x="105.5" y="216.5"/>
+        </customView>
+        <userDefaultsController representsSharedInstance="YES" id="r7v-Uc-vrR"/>
+    </objects>
+</document>

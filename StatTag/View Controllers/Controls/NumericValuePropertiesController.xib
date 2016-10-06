@@ -26,6 +26,11 @@
                     </buttonCell>
                     <connections>
                         <action selector="checkedThousandsSeparator:" target="-2" id="7gN-L2-zKZ"/>
+                        <binding destination="-2" name="hidden" keyPath="self.enableThousandsControl" id="Fw2-7L-laq">
+                            <dictionary key="options">
+                                <string key="NSValueTransformerName">NSNegateBoolean</string>
+                            </dictionary>
+                        </binding>
                         <binding destination="-2" name="value" keyPath="self.useThousands" id="Ady-Uw-qDb"/>
                     </connections>
                 </button>

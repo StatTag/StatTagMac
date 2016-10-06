@@ -18,6 +18,8 @@
                 <outlet property="tagBasicProperties" destination="qi8-eH-f6G" id="qiB-si-JRX"/>
                 <outlet property="tagBasicPropertiesDisclosure" destination="tD5-YR-IPS" id="t2W-Ic-gqS"/>
                 <outlet property="tagFrequency" destination="t2H-fw-Wr8" id="QKu-3s-plw"/>
+                <outlet property="tagPreviewController" destination="2DR-e2-hcN" id="C5T-gQ-eFb"/>
+                <outlet property="tagPreviewDisclosureController" destination="22w-xs-BC6" id="HDP-BB-k5H"/>
                 <outlet property="tagTableProperties" destination="7wj-9z-c4U" id="TO5-dv-lkR"/>
                 <outlet property="tagTablePropertiesDisclosure" destination="dA9-qu-Mcf" id="ti6-Tx-lXl"/>
                 <outlet property="tagValueProperties" destination="FGP-hI-6jO" id="FGq-BA-r7h"/>
@@ -237,5 +239,7 @@ Gw
         <viewController id="mmV-q5-TTj" userLabel="Value Properites Disclosure View" customClass="DisclosureViewController"/>
         <viewController id="7wj-9z-c4U" userLabel="Tag Table Properties" customClass="TablePropertiesController"/>
         <viewController id="dA9-qu-Mcf" userLabel="Table Properties Disclosure View" customClass="DisclosureViewController"/>
+        <viewController id="2DR-e2-hcN" customClass="TagPreviewController"/>
+        <viewController id="22w-xs-BC6" userLabel="Tag Preview Disclosure View Controller" customClass="DisclosureViewController"/>
     </objects>
 </document>

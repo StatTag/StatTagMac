@@ -63,7 +63,12 @@
   //self.numericPropertiesViewController.tag = self.tag;
   self.numericPropertiesViewController.decimalPlaces = [[[self tag] ValueFormat] DecimalPlaces];
   self.numericPropertiesViewController.useThousands = [[[self tag] ValueFormat] UseThousands];
+  self.numericPropertiesViewController.enableThousandsControl = NO;
   self.numericPropertiesViewController.delegate = self;
+  
+  self.numericPropertiesViewController.view.wantsLayer = YES;
+  self.numericPropertiesViewController.view.layer.backgroundColor = [[NSColor whiteColor] CGColor];
+
   
   [ViewUtils fillView:_tablePropertiesDetailFormatView withView:[_numericPropertiesViewController view]];
   
