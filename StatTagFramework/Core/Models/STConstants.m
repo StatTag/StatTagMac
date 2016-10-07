@@ -152,11 +152,17 @@ NSString *const STStatTagErrorDomain = @"StatTagErrorDomain";
 @implementation STConstantsDateFormats
 +(NSString*)MMDDYYYY { return @"MM/dd/yyyy";}
 +(NSString*)MonthDDYYYY { return @"MMMM dd, yyyy";}
++(NSArray<NSString *>*)GetList {
+  return [[NSArray alloc] initWithObjects:[STConstantsDateFormats MMDDYYYY], [STConstantsDateFormats MonthDDYYYY], nil];
+}
 @end
 
 @implementation STConstantsTimeFormats
 +(NSString*)HHMM { return @"HH:mm";}
 +(NSString*)HHMMSS { return @"HH:mm:ss";}
++(NSArray<NSString *>*)GetList {
+  return [[NSArray alloc] initWithObjects:[STConstantsTimeFormats HHMM], [STConstantsTimeFormats HHMMSS], nil];
+}
 @end
 
 @implementation STConstantsDimensionIndex

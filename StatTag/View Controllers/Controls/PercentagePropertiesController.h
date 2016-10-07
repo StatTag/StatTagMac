@@ -14,8 +14,8 @@
 //protocol for interacting with this control
 @class PercentagePropertiesController;
 @protocol PercentagePropertiesControllerDelegate <NSObject>
-- (void)decimalPlacesDidChange:(PercentagePropertiesController*)controller;
-- (void)useThousandsSeparatorDidChange:(PercentagePropertiesController*)controller;
+- (void)decimalPlacesDidChange:(NumericValuePropertiesController*)controller;
+- (void)useThousandsSeparatorDidChange:(NumericValuePropertiesController*)controller;
 @end
 
 

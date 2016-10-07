@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11201"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="DateTimePropertiesController">
+            <connections>
+                <outlet property="dateOptionsArrayController" destination="LgA-dK-Rl0" id="PLX-3r-Tdd"/>
+                <outlet property="dateOptionsList" destination="jEY-Ba-mly" id="noH-tI-FoH"/>
+                <outlet property="showDateCheckbox" destination="qtx-dF-do4" id="gJ6-jo-eh5"/>
+                <outlet property="showTimeCheckbox" destination="4PF-LL-zih" id="yTL-PQ-quW"/>
+                <outlet property="timeOptionsArrayController" destination="4sS-de-x7v" id="zAH-33-1n3"/>
+                <outlet property="timeOptionsList" destination="n9G-Un-TIC" id="kd4-fG-Cbo"/>
+                <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="Hz6-mo-xeY">
+            <rect key="frame" x="0.0" y="0.0" width="480" height="103"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="qtx-dF-do4">
+                    <rect key="frame" x="98" y="79" width="372" height="18"/>
+                    <buttonCell key="cell" type="check" title="Show Date" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="qNe-7j-Way">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="smallSystem"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="showDateCheckboxDidChange:" target="-2" id="n0I-tu-zd7"/>
+                        <binding destination="-2" name="value" keyPath="self.useDateFormat" id="wV2-ss-G8z"/>
+                    </connections>
+                </button>
+                <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jEY-Ba-mly">
+                    <rect key="frame" x="114" y="54" width="357" height="26"/>
+                    <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="0YV-Cb-A0J" id="4eI-S0-fA3">
+                        <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="smallSystem"/>
+                        <menu key="menu" id="6mf-7g-qID">
+                            <items>
+                                <menuItem title="Item 1" state="on" id="0YV-Cb-A0J"/>
+                                <menuItem title="Item 2" id="lPI-f6-leF"/>
+                                <menuItem title="Item 3" id="Me9-mo-e7h"/>
+                            </items>
+                        </menu>
+                    </popUpButtonCell>
+                    <connections>
+                        <binding destination="LgA-dK-Rl0" name="content" keyPath="arrangedObjects.title" id="UIw-ph-6Jn"/>
+                        <binding destination="LgA-dK-Rl0" name="contentValues" keyPath="arrangedObjects.content" previousBinding="UIw-ph-6Jn" id="3pO-hh-px2"/>
+                        <binding destination="-2" name="selectedObject" keyPath="self.tag.ValueFormat.DateFormat" previousBinding="3pO-hh-px2" id="KmG-sV-Iqn"/>
+                    </connections>
+                </popUpButton>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="4PF-LL-zih">
+                    <rect key="frame" x="98" y="33" width="372" height="18"/>
+                    <buttonCell key="cell" type="check" title="Show Time" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="SU5-dk-1YX">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="smallSystem"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="showTimeCheckboxDidChange:" target="-2" id="u3f-Gd-ctY"/>
+                        <binding destination="-2" name="value" keyPath="self.useTimeFormat" id="f4h-a7-xtj"/>
+                    </connections>
+                </button>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="kRh-dj-Wg7">
+                    <rect key="frame" x="10" y="81" width="84" height="14"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="80" id="qlM-pc-WO1"/>
+                    </constraints>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Date Options" id="ShZ-lX-eVe">
+                        <font key="font" metaFont="smallSystem"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fk6-t5-4a4">
+                    <rect key="frame" x="10" y="36" width="84" height="14"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="80" id="JRp-of-ckB"/>
+                    </constraints>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Time Options" id="3zC-MW-pIY">
+                        <font key="font" metaFont="smallSystem"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="n9G-Un-TIC">
+                    <rect key="frame" x="114" y="8" width="357" height="26"/>
+                    <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="BJV-w7-iLB" id="Lno-ao-FOT">
+                        <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="smallSystem"/>
+                        <menu key="menu" id="xPq-GV-FOV">
+                            <items>
+                                <menuItem title="Item 1" state="on" id="BJV-w7-iLB"/>
+                                <menuItem title="Item 2" id="tZn-f6-a05"/>
+                                <menuItem title="Item 3" id="3ub-MC-ZdB"/>
+                            </items>
+                        </menu>
+                    </popUpButtonCell>
+                    <connections>
+                        <binding destination="4sS-de-x7v" name="content" keyPath="arrangedObjects.title" id="MNE-hQ-kgL"/>
+                        <binding destination="4sS-de-x7v" name="contentValues" keyPath="arrangedObjects.content" previousBinding="MNE-hQ-kgL" id="IJP-Rl-QH4"/>
+                        <binding destination="-2" name="selectedObject" keyPath="self.tag.ValueFormat.TimeFormat" previousBinding="IJP-Rl-QH4" id="zMR-G6-OE8"/>
+                    </connections>
+                </popUpButton>
+            </subviews>
+            <constraints>
+                <constraint firstItem="jEY-Ba-mly" firstAttribute="top" secondItem="qtx-dF-do4" secondAttribute="bottom" constant="3" id="2dQ-TQ-sQr"/>
+                <constraint firstItem="qtx-dF-do4" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" constant="8" id="63W-pH-eFV"/>
+                <constraint firstItem="kRh-dj-Wg7" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="12" id="9vh-MP-cp3"/>
+                <constraint firstAttribute="trailing" secondItem="qtx-dF-do4" secondAttribute="trailing" constant="12" id="BQN-IF-j9y"/>
+                <constraint firstItem="n9G-Un-TIC" firstAttribute="leading" secondItem="4PF-LL-zih" secondAttribute="leading" constant="16" id="Jai-ON-Uja"/>
+                <constraint firstItem="4PF-LL-zih" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="100" id="P37-0w-6iO"/>
+                <constraint firstAttribute="trailing" secondItem="jEY-Ba-mly" secondAttribute="trailing" constant="12" id="Ukp-VL-uRg"/>
+                <constraint firstItem="fk6-t5-4a4" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="12" id="VaI-Uz-Acf"/>
+                <constraint firstItem="n9G-Un-TIC" firstAttribute="top" secondItem="4PF-LL-zih" secondAttribute="bottom" constant="3" id="XRN-W7-azU"/>
+                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="n9G-Un-TIC" secondAttribute="bottom" constant="6" id="d5Z-hv-u6Z"/>
+                <constraint firstItem="4PF-LL-zih" firstAttribute="top" secondItem="jEY-Ba-mly" secondAttribute="bottom" constant="8" id="fH1-Aw-KF2"/>
+                <constraint firstAttribute="trailing" secondItem="n9G-Un-TIC" secondAttribute="trailing" constant="12" id="ifI-LN-qIQ"/>
+                <constraint firstItem="qtx-dF-do4" firstAttribute="leading" secondItem="kRh-dj-Wg7" secondAttribute="trailing" constant="8" id="jyR-Nm-W9t"/>
+                <constraint firstItem="qtx-dF-do4" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="100" id="op7-kJ-1lH"/>
+                <constraint firstItem="kRh-dj-Wg7" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" constant="8" id="q4k-uz-PBx"/>
+                <constraint firstItem="jEY-Ba-mly" firstAttribute="leading" secondItem="qtx-dF-do4" secondAttribute="leading" constant="16" id="tRR-kF-S6o"/>
+                <constraint firstItem="4PF-LL-zih" firstAttribute="leading" secondItem="fk6-t5-4a4" secondAttribute="trailing" constant="8" id="vch-ld-JFl"/>
+                <constraint firstItem="fk6-t5-4a4" firstAttribute="baseline" secondItem="4PF-LL-zih" secondAttribute="baseline" id="xEE-1R-HAl"/>
+                <constraint firstAttribute="trailing" secondItem="4PF-LL-zih" secondAttribute="trailing" constant="12" id="yyt-CY-Zz3"/>
+            </constraints>
+            <point key="canvasLocation" x="130" y="69.5"/>
+        </customView>
+        <arrayController id="LgA-dK-Rl0"/>
+        <arrayController id="4sS-de-x7v"/>
+    </objects>
+</document>

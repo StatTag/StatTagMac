@@ -42,17 +42,17 @@
 }
 
 - (void)decimalPlacesDidChange:(NumericValuePropertiesController*)controller {
-  NSLog(@"decimal places changed");
-  [[[self tag] ValueFormat] setDecimalPlaces:[controller decimalPlaces]];
+//  NSLog(@"decimal places changed");
+//  [[[self tag] ValueFormat] setDecimalPlaces:[controller decimalPlaces]];
   if([[self delegate] respondsToSelector:@selector(decimalPlacesDidChange:)]) {
-    [[self delegate] decimalPlacesDidChange:self];
+    [[self delegate] decimalPlacesDidChange:controller];
   }
 }
 
 - (void)useThousandsSeparatorDidChange:(NumericValuePropertiesController*)controller {
-  [[[self tag] ValueFormat] setUseThousands:[controller useThousands]];
+//  [[[self tag] ValueFormat] setUseThousands:[controller useThousands]];
   if([[self delegate] respondsToSelector:@selector(useThousandsSeparatorDidChange:)]) {
-    [[self delegate] useThousandsSeparatorDidChange:self];
+    [[self delegate] useThousandsSeparatorDidChange:controller];
   }
 }
 

@@ -47,6 +47,7 @@ static void *TagTableFormatContext = &TagTableFormatContext;
 
 -(void)viewDidAppear {
   [self generatePreviewImage];
+  [self generatePreviewText];
   [self startObservingTagChanges];
 }
 
@@ -91,7 +92,18 @@ static void *TagTableFormatContext = &TagTableFormatContext;
                      NSKeyValueObservingOptionOld)
             context:TagFormatContext];
 
-  
+  [self addObserver:self
+         forKeyPath:@"tag.ValueFormat.DateFormat"
+            options:(NSKeyValueObservingOptionNew |
+                     NSKeyValueObservingOptionOld)
+            context:TagFormatContext];
+
+  [self addObserver:self
+         forKeyPath:@"tag.ValueFormat.TimeFormat"
+            options:(NSKeyValueObservingOptionNew |
+                     NSKeyValueObservingOptionOld)
+            context:TagFormatContext];
+
 //  NSLog(@"", [[[self tag] ValueFormat] UseThousands] );
   
 }
@@ -111,6 +123,12 @@ static void *TagTableFormatContext = &TagTableFormatContext;
                context:TagFormatContext];
   [self removeObserver:self
             forKeyPath:@"tag.ValueFormat.UseThousands"
+               context:TagFormatContext];
+  [self removeObserver:self
+            forKeyPath:@"tag.ValueFormat.DateFormat"
+               context:TagFormatContext];
+  [self removeObserver:self
+            forKeyPath:@"tag.ValueFormat.TimeFormat"
                context:TagFormatContext];
 
 
@@ -156,26 +174,51 @@ static void *TagTableFormatContext = &TagTableFormatContext;
     
     if([[[[self tag] ValueFormat] FormatType] isEqualToString:[STConstantsValueFormatType Numeric]] ) {
       //number formatter
-      NSNumberFormatter* numberFormatter = [[NSNumberFormatter alloc] init];
-      //formatter.locale = NSLocale(localeIdentifier: "en_US")  // locale determines the decimal point (. or ,); English locale has "."
-      //formatter.groupingSeparator = ""  // you will never get thousands separator as output
-      if(![[[self tag] ValueFormat] UseThousands]) {
-        [numberFormatter setGroupingSeparator:@""];
-      } else {
-        [numberFormatter setLocale:[NSLocale currentLocale]];
-      }
-      [numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
-      NSInteger numDigits = [[[self tag] ValueFormat] DecimalPlaces];
-      [numberFormatter setMinimumFractionDigits:numDigits];
-      [numberFormatter setMaximumFractionDigits:numDigits];
-      previewText = [numberFormatter stringFromNumber:@100000];
+//      NSNumberFormatter* numberFormatter = [[NSNumberFormatter alloc] init];
+//      //formatter.locale = NSLocale(localeIdentifier: "en_US")  // locale determines the decimal point (. or ,); English locale has "."
+//      //formatter.groupingSeparator = ""  // you will never get thousands separator as output
+//      if(![[[self tag] ValueFormat] UseThousands]) {
+//        [numberFormatter setGroupingSeparator:@""];
+//      } else {
+//        [numberFormatter setLocale:[NSLocale currentLocale]];
+//      }
+//      [numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
+//      NSInteger numDigits = [[[self tag] ValueFormat] DecimalPlaces];
+//      [numberFormatter setMinimumFractionDigits:numDigits];
+//      [numberFormatter setMaximumFractionDigits:numDigits];
+//      previewText = [numberFormatter stringFromNumber:@100000];
+      previewText = [[[self tag] ValueFormat] Format:@"100000"];
     }
     else if([[[[self tag] ValueFormat] FormatType] isEqualToString:[STConstantsValueFormatType DateTime]] ) {
       //date formatter
-      previewText = @"I am a date preview";
+      //FIXME: move the date formatter to a singleton
+      //March 14, 2001 19:30:50
+
+      //+ (NSDate*)dateFromString:(NSString*)dateString
+      //NSDate* previewDate = [STJSONUtility dateFromString:@"March 14, 2001 19:30:50"];
+      /*
+       NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+       [formatter setDateFormat:format];
+       //FIXME: locale...
+       [formatter setLocale:currentLoc];
+       //  NSTimeZone *timeZone = [NSTimeZone localTimeZone];
+       [formatter setTimeZone:[NSTimeZone localTimeZone]];
+       return [formatter stringFromDate:dateValue];
+       */
+//      STValueFormat* vf = [[STValueFormat alloc] init];
+//      if([[STConstantsDateFormats GetList] containsObject:[[[self tag] ValueFormat] DateFormat]] ) {
+//        vf.DateFormat = [[[self tag] ValueFormat] DateFormat];
+//      }
+//      if([[STConstantsTimeFormats GetList] containsObject:[[[self tag] ValueFormat] TimeFormat]] ) {
+//        vf.TimeFormat = [[[self tag] ValueFormat] TimeFormat];
+//      }
+
+      previewText = [[[self tag] ValueFormat] Format:@"March 14, 2001 19:30:50"];
+      //previewText = [vf Format:@"March 14, 2001 19:30:50"];
     }
     else if([[[[self tag] ValueFormat] FormatType] isEqualToString:[STConstantsValueFormatType Percentage]] ) {
       //number formatter
+      /*
       NSNumberFormatter* numberFormatter = [[NSNumberFormatter alloc] init];
       [numberFormatter setNumberStyle:NSNumberFormatterPercentStyle];
       NSInteger numDigits = [[[self tag] ValueFormat] DecimalPlaces];
@@ -183,6 +226,8 @@ static void *TagTableFormatContext = &TagTableFormatContext;
       [numberFormatter setMinimumFractionDigits:numDigits];
       [numberFormatter setMaximumFractionDigits:numDigits];
       previewText = [numberFormatter stringFromNumber:@100];
+      */
+      previewText = [[[self tag] ValueFormat] Format:@"1"];
     } else {
       previewText = @"(Exactly as Generated)";
     }

@@ -22,14 +22,14 @@
             <subviews>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="KpU-hq-ouJ" userLabel="Table Properties Label">
                     <rect key="frame" x="6" y="200" width="326" height="14"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Table Properties" id="teb-pV-IBF">
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Table Options" id="teb-pV-IBF">
                         <font key="font" metaFont="smallSystemBold"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="WV1-Ig-PLj">
-                    <rect key="frame" x="98" y="172" width="234" height="18"/>
+                    <rect key="frame" x="98" y="172" width="230" height="18"/>
                     <buttonCell key="cell" type="check" title="Column Names" bezelStyle="regularSquare" imagePosition="left" lineBreakMode="truncatingTail" state="on" inset="2" id="KU8-bt-yyz">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="smallSystem"/>
@@ -40,7 +40,7 @@
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="hfj-Hb-ZEy">
-                    <rect key="frame" x="98" y="152" width="234" height="18"/>
+                    <rect key="frame" x="98" y="152" width="230" height="18"/>
                     <buttonCell key="cell" type="check" title="Row Names" bezelStyle="regularSquare" imagePosition="left" lineBreakMode="truncatingTail" state="on" inset="2" id="K0m-ET-xmH">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="smallSystem"/>
@@ -75,7 +75,7 @@
                 <constraint firstItem="Fg3-7e-qXq" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="12" id="00y-F7-KXC"/>
                 <constraint firstItem="23m-ed-f6Q" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="5h1-2Q-Y1O"/>
                 <constraint firstItem="KpU-hq-ouJ" firstAttribute="top" secondItem="23m-ed-f6Q" secondAttribute="bottom" constant="6" id="7Hz-me-JIm"/>
-                <constraint firstAttribute="trailing" secondItem="hfj-Hb-ZEy" secondAttribute="trailing" constant="8" id="8gt-XW-ejG"/>
+                <constraint firstAttribute="trailing" secondItem="hfj-Hb-ZEy" secondAttribute="trailing" constant="12" id="8gt-XW-ejG"/>
                 <constraint firstAttribute="trailing" secondItem="23m-ed-f6Q" secondAttribute="trailing" id="IQP-mD-7zj"/>
                 <constraint firstItem="hfj-Hb-ZEy" firstAttribute="leading" secondItem="WV1-Ig-PLj" secondAttribute="leading" id="JJJ-UN-WWe"/>
                 <constraint firstAttribute="trailing" secondItem="KpU-hq-ouJ" secondAttribute="trailing" constant="8" id="N7H-o7-ni1"/>
@@ -83,7 +83,7 @@
                 <constraint firstItem="pAZ-94-tSh" firstAttribute="top" secondItem="Fg3-7e-qXq" secondAttribute="bottom" id="SxB-eb-NhF"/>
                 <constraint firstAttribute="bottom" secondItem="pAZ-94-tSh" secondAttribute="bottom" id="UOe-fd-zZe"/>
                 <constraint firstItem="23m-ed-f6Q" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="VGb-4R-Slv"/>
-                <constraint firstAttribute="trailing" secondItem="WV1-Ig-PLj" secondAttribute="trailing" constant="8" id="asm-Gs-DnU"/>
+                <constraint firstAttribute="trailing" secondItem="WV1-Ig-PLj" secondAttribute="trailing" constant="12" id="asm-Gs-DnU"/>
                 <constraint firstAttribute="trailing" secondItem="pAZ-94-tSh" secondAttribute="trailing" id="bzi-q0-lqm"/>
                 <constraint firstItem="WV1-Ig-PLj" firstAttribute="leading" secondItem="2GJ-cn-4Sb" secondAttribute="trailing" constant="8" id="hMj-vd-Y0S"/>
                 <constraint firstItem="pAZ-94-tSh" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="hhJ-cn-RFV"/>

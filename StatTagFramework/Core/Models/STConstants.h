@@ -138,11 +138,13 @@ extern NSString *const STStatTagErrorDomain;
 @interface STConstantsDateFormats : NSObject
 +(NSString*)MMDDYYYY;
 +(NSString*)MonthDDYYYY;
++(NSArray<NSString *>*)GetList;
 @end
 
 @interface STConstantsTimeFormats : NSObject
 +(NSString*)HHMM;
 +(NSString*)HHMMSS;
++(NSArray<NSString *>*)GetList;
 @end
 
 @interface STConstantsDimensionIndex : NSObject

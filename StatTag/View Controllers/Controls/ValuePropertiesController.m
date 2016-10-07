@@ -43,20 +43,27 @@
   self.numericPropertiesController.enableThousandsControl = YES;
   self.numericPropertiesController.delegate = self;
   
+  self.percentagePropertiesController.tag = [self tag]; // being a wee bit inconsistent here...
+  self.percentagePropertiesController.delegate = self;
+  
+  self.dateTimePropertiesController.tag = [self tag]; // being a wee bit inconsistent here...
+  
   [self displayChildViews];
 }
 
 -(void)displayChildViews {
   if([[[[self tag] ValueFormat] FormatType] isEqualToString:[STConstantsValueFormatType Numeric]]) {
     [[self detailedOptionsView] setHidden: NO];
+    self.numericPropertiesController.decimalPlaces = [[[self tag] ValueFormat] DecimalPlaces];
+    self.numericPropertiesController.useThousands = [[[self tag] ValueFormat] UseThousands];
     [ViewUtils fillView:_detailedOptionsView withView:[_numericPropertiesController view]];
   } else if([[[[self tag] ValueFormat] FormatType] isEqualToString:[STConstantsValueFormatType Percentage]]) {
     [[self detailedOptionsView] setHidden: NO];
     [ViewUtils fillView:_detailedOptionsView withView:[_percentagePropertiesController view]];
   } else if([[[[self tag] ValueFormat] FormatType] isEqualToString:[STConstantsValueFormatType DateTime]]) {
     //FIXME: need view conroller!
-    [_detailedOptionsView setSubviews:[NSArray array]];
-    [[self detailedOptionsView] setHidden: YES];
+    [[self detailedOptionsView] setHidden: NO];
+    [ViewUtils fillView:_detailedOptionsView withView:[_dateTimePropertiesController view]];
   } else {
     [_detailedOptionsView setSubviews:[NSArray array]];
     [[self detailedOptionsView] setHidden: YES];
@@ -73,10 +80,19 @@
 
 
 - (IBAction)selectValueType:(id)sender {
+  [[self tag] setType:[[[self listTagValueType] selectedItem] representedObject]];
   [self displayChildViews];
   [_delegate valueTypeDidChange:self];
 }
 
+
+- (void)decimalPlacesDidChange:(NumericValuePropertiesController*)controller {
+  [[[self tag] ValueFormat] setDecimalPlaces:[controller decimalPlaces]];
+}
+
+- (void)useThousandsSeparatorDidChange:(NumericValuePropertiesController*)controller {
+  [[[self tag] ValueFormat] setUseThousands:[controller useThousands]];
+}
 
 
 

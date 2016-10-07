@@ -11,6 +11,8 @@
 
 #import "NumericValuePropertiesController.h"
 #import "PercentagePropertiesController.h"
+#import "DateTimePropertiesController.h"
+
 
 //protocol for interacting with this control
 @class ValuePropertiesController;
@@ -51,6 +53,7 @@
 
 @property (strong) IBOutlet NumericValuePropertiesController *numericPropertiesController;
 @property (strong) IBOutlet PercentagePropertiesController *percentagePropertiesController;
+@property (strong) IBOutlet DateTimePropertiesController *dateTimePropertiesController;
 
 
 

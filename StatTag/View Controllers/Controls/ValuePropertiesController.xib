@@ -6,6 +6,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="ValuePropertiesController">
             <connections>
+                <outlet property="dateTimePropertiesController" destination="lrl-cz-Vne" id="rHW-tB-HsA"/>
                 <outlet property="detailedOptionsView" destination="Szm-cR-pBF" id="wpQ-1v-c64"/>
                 <outlet property="labelDefault" destination="wJF-lO-H5E" id="5fc-2P-Jju"/>
                 <outlet property="listTagValueType" destination="7gI-8O-9Oc" id="LD0-QL-s6i"/>
@@ -113,5 +114,6 @@
         <arrayController id="chg-MJ-k3w"/>
         <viewController id="Eta-YL-iRH" customClass="NumericValuePropertiesController"/>
         <viewController id="BPw-Ci-6TJ" customClass="PercentagePropertiesController"/>
+        <viewController id="lrl-cz-Vne" customClass="DateTimePropertiesController"/>
     </objects>
 </document>
