@@ -23,4 +23,6 @@
 @property BOOL showsPreviewImage;
 @property (strong, nonatomic) NSImage* previewImage;
 
+@property (strong, nonatomic) NSString* previewString;
+
 @end

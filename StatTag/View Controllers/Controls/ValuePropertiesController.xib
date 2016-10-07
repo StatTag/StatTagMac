@@ -9,6 +9,8 @@
                 <outlet property="detailedOptionsView" destination="Szm-cR-pBF" id="wpQ-1v-c64"/>
                 <outlet property="labelDefault" destination="wJF-lO-H5E" id="5fc-2P-Jju"/>
                 <outlet property="listTagValueType" destination="7gI-8O-9Oc" id="LD0-QL-s6i"/>
+                <outlet property="numericPropertiesController" destination="Eta-YL-iRH" id="xT2-xR-5Ut"/>
+                <outlet property="percentagePropertiesController" destination="BPw-Ci-6TJ" id="wbo-Iv-Yci"/>
                 <outlet property="tagValueTypeArrayController" destination="chg-MJ-k3w" id="b76-7z-PaU"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
             </connections>
@@ -25,7 +27,7 @@
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="CTz-Bk-60b">
                     <rect key="frame" x="6" y="161" width="218" height="14"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Value Options" id="Z6b-Hj-ohd">
-                        <font key="font" metaFont="systemBold" size="11"/>
+                        <font key="font" metaFont="smallSystemBold"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
@@ -109,5 +111,7 @@
             <point key="canvasLocation" x="0.0" y="91"/>
         </customView>
         <arrayController id="chg-MJ-k3w"/>
+        <viewController id="Eta-YL-iRH" customClass="NumericValuePropertiesController"/>
+        <viewController id="BPw-Ci-6TJ" customClass="PercentagePropertiesController"/>
     </objects>
 </document>

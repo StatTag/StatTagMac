@@ -38,6 +38,8 @@
   NSMutableAttributedString* _instructionTitleText;
   NSString* _allowedCommandsText;
   
+  BOOL _showTagValuePropertiesView;
+  
 //  NSStackView* _propertiesStackView;
 }
 
@@ -68,18 +70,22 @@
 
 @property (weak) IBOutlet NSTextField *labelInstructionText;
 
-@property (weak) IBOutlet TagBasicPropertiesController* tagBasicProperties;
+@property (strong) IBOutlet TagBasicPropertiesController* tagBasicProperties;
 @property (strong) IBOutlet DisclosureViewController *tagBasicPropertiesDisclosure;
+@property (weak) IBOutlet NSView *tagBasicPropertiesView;
+
 
 @property (strong) IBOutlet ValuePropertiesController *tagValueProperties;
 @property (strong) IBOutlet DisclosureViewController *tagValuePropertiesDisclosure;
+@property (weak) IBOutlet NSView *tagValuePropertiesView;
 
 @property (strong) IBOutlet TablePropertiesController *tagTableProperties;
 @property (strong) IBOutlet DisclosureViewController *tagTablePropertiesDisclosure;
+@property (weak) IBOutlet NSView *tagTablePropertiesView;
 
 @property (strong) IBOutlet TagPreviewController *tagPreviewController;
 @property (strong) IBOutlet DisclosureViewController *tagPreviewDisclosureController;
-
+@property (weak) IBOutlet NSView *tagPreviewView;
 
 
 

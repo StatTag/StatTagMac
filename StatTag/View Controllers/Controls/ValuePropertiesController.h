@@ -9,6 +9,9 @@
 #import <Cocoa/Cocoa.h>
 #import "DisclosureViewController.h"
 
+#import "NumericValuePropertiesController.h"
+#import "PercentagePropertiesController.h"
+
 //protocol for interacting with this control
 @class ValuePropertiesController;
 @protocol ValuePropertiesControllerDelegate <NSObject>
@@ -18,7 +21,7 @@
 
 @class STTag;
 
-@interface ValuePropertiesController : NSViewController
+@interface ValuePropertiesController : NSViewController <NumericValuePropertiesControllerDelegate, PercentagePropertiesControllerDelegate>
 
 @property (strong) STTag* tag;
 
@@ -44,6 +47,11 @@
 
 
 @property (weak) IBOutlet NSView *detailedOptionsView;
+
+
+@property (strong) IBOutlet NumericValuePropertiesController *numericPropertiesController;
+@property (strong) IBOutlet PercentagePropertiesController *percentagePropertiesController;
+
 
 
 @end

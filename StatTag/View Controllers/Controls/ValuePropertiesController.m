@@ -8,6 +8,7 @@
 
 #import "ValuePropertiesController.h"
 #import "StatTag.h"
+#import "ViewUtils.h"
 
 @interface ValuePropertiesController ()
 
@@ -35,6 +36,31 @@
     self.tag.ValueFormat = f;
     [self didChangeValueForKey:@"self.tag.ValueFormat.FormatType"];
   }
+  
+  
+  self.numericPropertiesController.decimalPlaces = [[[self tag] ValueFormat] DecimalPlaces];
+  self.numericPropertiesController.useThousands = [[[self tag] ValueFormat] UseThousands];
+  self.numericPropertiesController.enableThousandsControl = YES;
+  self.numericPropertiesController.delegate = self;
+  
+  [self displayChildViews];
+}
+
+-(void)displayChildViews {
+  if([[[[self tag] ValueFormat] FormatType] isEqualToString:[STConstantsValueFormatType Numeric]]) {
+    [[self detailedOptionsView] setHidden: NO];
+    [ViewUtils fillView:_detailedOptionsView withView:[_numericPropertiesController view]];
+  } else if([[[[self tag] ValueFormat] FormatType] isEqualToString:[STConstantsValueFormatType Percentage]]) {
+    [[self detailedOptionsView] setHidden: NO];
+    [ViewUtils fillView:_detailedOptionsView withView:[_percentagePropertiesController view]];
+  } else if([[[[self tag] ValueFormat] FormatType] isEqualToString:[STConstantsValueFormatType DateTime]]) {
+    //FIXME: need view conroller!
+    [_detailedOptionsView setSubviews:[NSArray array]];
+    [[self detailedOptionsView] setHidden: YES];
+  } else {
+    [_detailedOptionsView setSubviews:[NSArray array]];
+    [[self detailedOptionsView] setHidden: YES];
+  }
 }
 
 -(id) initWithCoder:(NSCoder *)coder {
@@ -47,6 +73,7 @@
 
 
 - (IBAction)selectValueType:(id)sender {
+  [self displayChildViews];
   [_delegate valueTypeDidChange:self];
 }
 

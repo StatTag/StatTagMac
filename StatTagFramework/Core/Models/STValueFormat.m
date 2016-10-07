@@ -23,6 +23,14 @@
 
 //MARK: copying
 
+-(instancetype)init {
+  self = [super init];
+  if(self) {
+//    self.FormatType = [STConstantsValueFormatType Default];
+  }
+  return self;
+}
+
 -(id)copyWithZone:(NSZone *)zone
 {
   STValueFormat *format = [[[self class] allocWithZone:zone] init];//[[STValueFormat alloc] init];
@@ -35,6 +43,16 @@
   format.AllowInvalidTypes = _AllowInvalidTypes;
 
   return format;
+}
+
+-(NSString*)FormatType {
+  if(_FormatType == nil) {
+    _FormatType = [STConstantsValueFormatType Default];
+  }
+  return _FormatType;
+}
+-(void)setFormatType:(NSString *)FormatType {
+  _FormatType = FormatType;
 }
 
 

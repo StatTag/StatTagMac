@@ -18,8 +18,27 @@
 @implementation TagPreviewController
 
 static void *TagTypeContext = &TagTypeContext;
-static void *TagTableFormatColumnNamesContext = &TagTableFormatColumnNamesContext;
-static void *TagTableFormatRowNamesContext = &TagTableFormatRowNamesContext;
+static void *TagFormatContext = &TagFormatContext;
+static void *TagTableFormatContext = &TagTableFormatContext;
+
+
+////table
+//static void *TagTableFormatColumnNamesContext = &TagTableFormatColumnNamesContext;
+//static void *TagTableFormatRowNamesContext = &TagTableFormatRowNamesContext;
+//
+////basic numeric
+//static void *tagValueFormatDecimalPlaces = &tagValueFormatDecimalPlaces;
+//static void *tagValueFormatUseThousands = &tagValueFormatUseThousands;
+//
+////overall value type
+//static void *TagNumericValueType = &TagNumericValueType;
+//
+////datetime
+//static void *TagDateTimeShowDate = &TagDateTimeShowDate;
+//static void *TagDateTimeDateFormat = &TagDateTimeDateFormat;
+//static void *TagDateTimeShowTime = &TagDateTimeShowTime;
+//static void *TagDateTimeTimeFormat = &TagDateTimeTimeFormat;
+
 
 - (void)viewDidLoad {
   [super viewDidLoad];
@@ -52,13 +71,29 @@ static void *TagTableFormatRowNamesContext = &TagTableFormatRowNamesContext;
          forKeyPath:@"tag.TableFormat.IncludeColumnNames"
             options:(NSKeyValueObservingOptionNew |
                      NSKeyValueObservingOptionOld)
-            context:TagTableFormatColumnNamesContext];
+            context:TagTableFormatContext];
+
   [self addObserver:self
          forKeyPath:@"tag.TableFormat.IncludeRowNames"
             options:(NSKeyValueObservingOptionNew |
                      NSKeyValueObservingOptionOld)
-            context:TagTableFormatRowNamesContext];
+            context:TagTableFormatContext];
 
+  [self addObserver:self
+         forKeyPath:@"tag.ValueFormat.DecimalPlaces"
+            options:(NSKeyValueObservingOptionNew |
+                     NSKeyValueObservingOptionOld)
+            context:TagFormatContext];
+
+  [self addObserver:self
+         forKeyPath:@"tag.ValueFormat.UseThousands"
+            options:(NSKeyValueObservingOptionNew |
+                     NSKeyValueObservingOptionOld)
+            context:TagFormatContext];
+
+  
+//  NSLog(@"", [[[self tag] ValueFormat] UseThousands] );
+  
 }
 
 -(void) stopObservingTagChanges {
@@ -67,10 +102,18 @@ static void *TagTableFormatRowNamesContext = &TagTableFormatRowNamesContext;
                   context:TagTypeContext];
   [self removeObserver:self
             forKeyPath:@"tag.TableFormat.IncludeColumnNames"
-               context:TagTableFormatColumnNamesContext];
+               context:TagTableFormatContext];
   [self removeObserver:self
             forKeyPath:@"tag.TableFormat.IncludeRowNames"
-               context:TagTableFormatRowNamesContext];
+               context:TagTableFormatContext];
+  [self removeObserver:self
+            forKeyPath:@"tag.ValueFormat.DecimalPlaces"
+               context:TagFormatContext];
+  [self removeObserver:self
+            forKeyPath:@"tag.ValueFormat.UseThousands"
+               context:TagFormatContext];
+
+
 }
 
 
@@ -81,12 +124,14 @@ static void *TagTableFormatRowNamesContext = &TagTableFormatRowNamesContext;
   
   //https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/KeyValueObserving/Articles/KVOBasics.html
   
-  if (context == TagTypeContext) {
-    NSLog(@"tag type changed");
+  if (context == TagTypeContext || context == TagTableFormatContext) {
+    //we don't want to regenerate images for just "text" changes, so catch this up here
+    [self generatePreviewText];
     [self generatePreviewImage];
-  } else if (context == TagTableFormatColumnNamesContext || context == TagTableFormatRowNamesContext ) {
-    NSLog(@"column or row changed");
-    [self generatePreviewImage];
+  } else if (context == TagFormatContext) {
+    [self generatePreviewText];
+    //[self generatePreviewImage]; //explicitly commenting this out so we remember to NOT do this
+    //we don't need to regenerate the table if we only changed text stuff
   } else {
     // Any unrecognized context must belong to super
     [super observeValueForKeyPath:keyPath
@@ -94,6 +139,62 @@ static void *TagTableFormatRowNamesContext = &TagTableFormatRowNamesContext;
                            change:change
                           context:context];
   }
+}
+
+-(void)generatePreviewText {
+  
+  //FIXME: NOTE this needs to be refactored to move the formatters into the singletone
+  //super expensive
+  
+  if ([[self tag] Type] == [STConstantsTagType Figure]) {
+    [self setShowsPreviewText:NO];
+  } else {
+    
+    NSString* previewText;
+
+    //use something smarter like a value formatter...
+    
+    if([[[[self tag] ValueFormat] FormatType] isEqualToString:[STConstantsValueFormatType Numeric]] ) {
+      //number formatter
+      NSNumberFormatter* numberFormatter = [[NSNumberFormatter alloc] init];
+      //formatter.locale = NSLocale(localeIdentifier: "en_US")  // locale determines the decimal point (. or ,); English locale has "."
+      //formatter.groupingSeparator = ""  // you will never get thousands separator as output
+      if(![[[self tag] ValueFormat] UseThousands]) {
+        [numberFormatter setGroupingSeparator:@""];
+      } else {
+        [numberFormatter setLocale:[NSLocale currentLocale]];
+      }
+      [numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
+      NSInteger numDigits = [[[self tag] ValueFormat] DecimalPlaces];
+      [numberFormatter setMinimumFractionDigits:numDigits];
+      [numberFormatter setMaximumFractionDigits:numDigits];
+      previewText = [numberFormatter stringFromNumber:@100000];
+    }
+    else if([[[[self tag] ValueFormat] FormatType] isEqualToString:[STConstantsValueFormatType DateTime]] ) {
+      //date formatter
+      previewText = @"I am a date preview";
+    }
+    else if([[[[self tag] ValueFormat] FormatType] isEqualToString:[STConstantsValueFormatType Percentage]] ) {
+      //number formatter
+      NSNumberFormatter* numberFormatter = [[NSNumberFormatter alloc] init];
+      [numberFormatter setNumberStyle:NSNumberFormatterPercentStyle];
+      NSInteger numDigits = [[[self tag] ValueFormat] DecimalPlaces];
+      [numberFormatter setGroupingSeparator:@""]; //what if we want thousands in percentages?
+      [numberFormatter setMinimumFractionDigits:numDigits];
+      [numberFormatter setMaximumFractionDigits:numDigits];
+      previewText = [numberFormatter stringFromNumber:@100];
+    } else {
+      previewText = @"(Exactly as Generated)";
+    }
+    
+    if(previewText == nil) {
+      [self setShowsPreviewText:NO];
+    } else {
+      [[self previewText] setStringValue:previewText];
+      [self setShowsPreviewText:YES];
+    }
+  }
+  
 }
 
 -(void)generatePreviewImage {
@@ -104,6 +205,7 @@ static void *TagTableFormatRowNamesContext = &TagTableFormatRowNamesContext;
     TagGridView* grid = [[TagGridView alloc] initWithFrame:[[self previewImageView] bounds]];
     grid.useColumnLabels = [[[self tag] TableFormat] IncludeColumnNames];
     grid.useRowLabels = [[[self tag] TableFormat] IncludeRowNames];
+    grid.gridSize = 6;
     //FIXME: move color
     grid.headerFillColor = [StatTagShared colorFromRGBRed:0 green:125 blue:255 alpha:1.0];
     preview = [[NSImage alloc] initWithData:[grid dataWithPDFInsideRect:[grid bounds]]];

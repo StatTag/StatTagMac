@@ -15,10 +15,19 @@
   
   if(parentView != newView) {
     
+//    [parentView willRemoveSubview:<#(nonnull NSView *)#>]
+  
+    //[newView removeFromSuperview];
+    
+    
     NSRect f = [parentView frame];
     f.size.width = newView.frame.size.width;
     f.size.height = newView.frame.size.height;
     parentView.frame = f;
+
+    //clear existing subviews
+    [parentView setSubviews:[NSArray array]];
+
     
     newView.frame = [parentView bounds];
     

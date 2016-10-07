@@ -17,13 +17,17 @@
                 <outlet property="sourceView" destination="6Lh-06-MJS" id="1t5-JA-11G"/>
                 <outlet property="tagBasicProperties" destination="qi8-eH-f6G" id="qiB-si-JRX"/>
                 <outlet property="tagBasicPropertiesDisclosure" destination="tD5-YR-IPS" id="t2W-Ic-gqS"/>
+                <outlet property="tagBasicPropertiesView" destination="Ynp-E8-QQE" id="gNj-xR-Xhg"/>
                 <outlet property="tagFrequency" destination="t2H-fw-Wr8" id="QKu-3s-plw"/>
                 <outlet property="tagPreviewController" destination="2DR-e2-hcN" id="C5T-gQ-eFb"/>
                 <outlet property="tagPreviewDisclosureController" destination="22w-xs-BC6" id="HDP-BB-k5H"/>
+                <outlet property="tagPreviewView" destination="9oi-ab-Odp" id="hpm-oo-YRh"/>
                 <outlet property="tagTableProperties" destination="7wj-9z-c4U" id="TO5-dv-lkR"/>
                 <outlet property="tagTablePropertiesDisclosure" destination="dA9-qu-Mcf" id="ti6-Tx-lXl"/>
+                <outlet property="tagTablePropertiesView" destination="Ap9-Rh-z6C" id="nfo-DC-Udp"/>
                 <outlet property="tagValueProperties" destination="FGP-hI-6jO" id="FGq-BA-r7h"/>
                 <outlet property="tagValuePropertiesDisclosure" destination="mmV-q5-TTj" id="3dU-7o-G6a"/>
+                <outlet property="tagValuePropertiesView" destination="LqL-kn-7dP" id="gQB-Zy-sSc"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
             </connections>
         </customObject>
@@ -106,8 +110,44 @@
                                 <rect key="frame" x="1" y="1" width="283" height="287"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
-                                    <stackView distribution="equalSpacing" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="asj-x8-Tj3" userLabel="Properties Stack View">
-                                        <rect key="frame" x="0.0" y="287" width="283" height="0.0"/>
+                                    <stackView distribution="equalSpacing" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" ambiguous="YES" misplaced="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="asj-x8-Tj3" userLabel="Properties Stack View">
+                                        <rect key="frame" x="0.0" y="87" width="283" height="200"/>
+                                        <subviews>
+                                            <customView ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ynp-E8-QQE">
+                                                <rect key="frame" x="0.0" y="150" width="283" height="50"/>
+                                            </customView>
+                                            <customView ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LqL-kn-7dP">
+                                                <rect key="frame" x="0.0" y="100" width="283" height="50"/>
+                                            </customView>
+                                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="Ap9-Rh-z6C">
+                                                <rect key="frame" x="0.0" y="50" width="283" height="50"/>
+                                            </customView>
+                                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="9oi-ab-Odp">
+                                                <rect key="frame" x="0.0" y="0.0" width="283" height="50"/>
+                                            </customView>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="9oi-ab-Odp" firstAttribute="leading" secondItem="asj-x8-Tj3" secondAttribute="leading" id="BDT-8G-xTh"/>
+                                            <constraint firstAttribute="trailing" secondItem="LqL-kn-7dP" secondAttribute="trailing" id="HJ8-pP-cuy"/>
+                                            <constraint firstItem="Ap9-Rh-z6C" firstAttribute="leading" secondItem="asj-x8-Tj3" secondAttribute="leading" id="Ix4-f3-kRU"/>
+                                            <constraint firstAttribute="trailing" secondItem="9oi-ab-Odp" secondAttribute="trailing" id="NES-Pi-Q3J"/>
+                                            <constraint firstItem="Ynp-E8-QQE" firstAttribute="leading" secondItem="asj-x8-Tj3" secondAttribute="leading" id="RaS-Fz-tcm"/>
+                                            <constraint firstAttribute="trailing" secondItem="Ap9-Rh-z6C" secondAttribute="trailing" id="Xwb-Kl-D8X"/>
+                                            <constraint firstItem="LqL-kn-7dP" firstAttribute="leading" secondItem="asj-x8-Tj3" secondAttribute="leading" id="YPy-ZB-gVb"/>
+                                            <constraint firstAttribute="trailing" secondItem="Ynp-E8-QQE" secondAttribute="trailing" id="tGV-Xi-MFd"/>
+                                        </constraints>
+                                        <visibilityPriorities>
+                                            <integer value="1000"/>
+                                            <integer value="1000"/>
+                                            <integer value="1000"/>
+                                            <integer value="1000"/>
+                                        </visibilityPriorities>
+                                        <customSpacing>
+                                            <real value="3.4028234663852886e+38"/>
+                                            <real value="3.4028234663852886e+38"/>
+                                            <real value="3.4028234663852886e+38"/>
+                                            <real value="3.4028234663852886e+38"/>
+                                        </customSpacing>
                                     </stackView>
                                 </subviews>
                                 <constraints>
@@ -121,7 +161,7 @@
                                 <rect key="frame" x="-100" y="-100" width="233" height="15"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </scroller>
-                            <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="7QE-lI-cHc">
+                            <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="0.99078341013824889" horizontal="NO" id="7QE-lI-cHc">
                                 <rect key="frame" x="284" y="1" width="15" height="287"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </scroller>

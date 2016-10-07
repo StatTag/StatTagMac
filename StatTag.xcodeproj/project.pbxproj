@@ -115,6 +115,8 @@
 		385FDD401D34293400AE0FE2 /* STDuplicateTagResults.h in Headers */ = {isa = PBXBuildFile; fileRef = 385FDD3F1D3424CA00AE0FE2 /* STDuplicateTagResults.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		385FDD431D35681400AE0FE2 /* STFieldCreator.h in Headers */ = {isa = PBXBuildFile; fileRef = 385FDD411D35681400AE0FE2 /* STFieldCreator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		385FDD441D35681400AE0FE2 /* STFieldCreator.m in Sources */ = {isa = PBXBuildFile; fileRef = 385FDD421D35681400AE0FE2 /* STFieldCreator.m */; };
+		3876323F1DA7D6FA00680898 /* PercentagePropertiesController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3876323E1DA7D6FA00680898 /* PercentagePropertiesController.xib */; };
+		387632411DA7D70500680898 /* PercentagePropertiesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 387632401DA7D70500680898 /* PercentagePropertiesController.m */; };
 		38788F941D30100F00299789 /* STStatsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 38788F921D30100F00299789 /* STStatsManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38788F951D30100F00299789 /* STStatsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 38788F931D30100F00299789 /* STStatsManager.m */; };
 		387A0E1B1D2193D000F1FE9C /* StatTagModelCommandResultTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 387A0E1A1D2193D000F1FE9C /* StatTagModelCommandResultTests.m */; };
@@ -468,6 +470,9 @@
 		385FDD3F1D3424CA00AE0FE2 /* STDuplicateTagResults.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = STDuplicateTagResults.h; sourceTree = "<group>"; };
 		385FDD411D35681400AE0FE2 /* STFieldCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STFieldCreator.h; sourceTree = "<group>"; };
 		385FDD421D35681400AE0FE2 /* STFieldCreator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STFieldCreator.m; sourceTree = "<group>"; };
+		3876323E1DA7D6FA00680898 /* PercentagePropertiesController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PercentagePropertiesController.xib; sourceTree = "<group>"; };
+		387632401DA7D70500680898 /* PercentagePropertiesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PercentagePropertiesController.m; sourceTree = "<group>"; };
+		387632421DA7D70E00680898 /* PercentagePropertiesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PercentagePropertiesController.h; sourceTree = "<group>"; };
 		38788F921D30100F00299789 /* STStatsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STStatsManager.h; sourceTree = "<group>"; };
 		38788F931D30100F00299789 /* STStatsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STStatsManager.m; sourceTree = "<group>"; };
 		387A0E1A1D2193D000F1FE9C /* StatTagModelCommandResultTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagModelCommandResultTests.m; sourceTree = "<group>"; };
@@ -608,7 +613,7 @@
 		38F8035A1D9DB2C800C8F1EA /* STSASCommands.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STSASCommands.h; sourceTree = "<group>"; };
 		38F8035B1D9DB2C800C8F1EA /* STSASCommands.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STSASCommands.m; sourceTree = "<group>"; };
 		38F803621D9DCB8900C8F1EA /* ValuePropertiesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValuePropertiesController.h; sourceTree = "<group>"; };
-		38F803631D9DCB8900C8F1EA /* ValuePropertiesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValuePropertiesController.m; sourceTree = "<group>"; };
+		38F803631D9DCB8900C8F1EA /* ValuePropertiesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ValuePropertiesController.m; sourceTree = "<group>"; };
 		38F803641D9DCB8900C8F1EA /* ValuePropertiesController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ValuePropertiesController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1310,31 +1315,34 @@
 		38F803611D9DCB5800C8F1EA /* Controls */ = {
 			isa = PBXGroup;
 			children = (
-				38F803621D9DCB8900C8F1EA /* ValuePropertiesController.h */,
-				38F803631D9DCB8900C8F1EA /* ValuePropertiesController.m */,
-				38F803641D9DCB8900C8F1EA /* ValuePropertiesController.xib */,
-				38AB418A1DA1BC2900EA464C /* TagBasicPropertiesController.h */,
-				38AB418B1DA1BC2900EA464C /* TagBasicPropertiesController.m */,
-				38AB418C1DA1BC2900EA464C /* TagBasicPropertiesController.xib */,
-				3846CC381DA49B0E0066D186 /* FlippedScrollView.h */,
-				3846CC391DA49B0E0066D186 /* FlippedScrollView.m */,
 				3846CC3B1DA49B840066D186 /* FlippedClipView.h */,
 				3846CC3C1DA49B840066D186 /* FlippedClipView.m */,
-				384764AD1DA52D6400FCDABE /* TablePropertiesController.h */,
-				384764AE1DA52D6400FCDABE /* TablePropertiesController.m */,
-				384764AF1DA52D6400FCDABE /* TablePropertiesController.xib */,
+				3846CC381DA49B0E0066D186 /* FlippedScrollView.h */,
+				3846CC391DA49B0E0066D186 /* FlippedScrollView.m */,
+				384764B71DA56B8300FCDABE /* IntegerOnlyNumberFormatter.h */,
+				384764B81DA56B8300FCDABE /* IntegerOnlyNumberFormatter.m */,
 				384764B21DA5683100FCDABE /* NumericValuePropertiesController.h */,
 				384764B31DA5683100FCDABE /* NumericValuePropertiesController.m */,
 				384764B41DA5683100FCDABE /* NumericValuePropertiesController.xib */,
-				384764B71DA56B8300FCDABE /* IntegerOnlyNumberFormatter.h */,
-				384764B81DA56B8300FCDABE /* IntegerOnlyNumberFormatter.m */,
-				388ABF861DA5B1F500F08956 /* ViewUtils.h */,
-				388ABF871DA5B1F500F08956 /* ViewUtils.m */,
+				387632421DA7D70E00680898 /* PercentagePropertiesController.h */,
+				387632401DA7D70500680898 /* PercentagePropertiesController.m */,
+				3876323E1DA7D6FA00680898 /* PercentagePropertiesController.xib */,
+				384764AD1DA52D6400FCDABE /* TablePropertiesController.h */,
+				384764AE1DA52D6400FCDABE /* TablePropertiesController.m */,
+				384764AF1DA52D6400FCDABE /* TablePropertiesController.xib */,
+				38AB418A1DA1BC2900EA464C /* TagBasicPropertiesController.h */,
+				38AB418B1DA1BC2900EA464C /* TagBasicPropertiesController.m */,
+				38AB418C1DA1BC2900EA464C /* TagBasicPropertiesController.xib */,
+				383F3B9A1DA684390069C78E /* TagGridView.h */,
+				383F3B9B1DA684390069C78E /* TagGridView.m */,
 				383F3B951DA679AE0069C78E /* TagPreviewController.h */,
 				383F3B961DA679AE0069C78E /* TagPreviewController.m */,
 				383F3B971DA679AE0069C78E /* TagPreviewController.xib */,
-				383F3B9A1DA684390069C78E /* TagGridView.h */,
-				383F3B9B1DA684390069C78E /* TagGridView.m */,
+				38F803621D9DCB8900C8F1EA /* ValuePropertiesController.h */,
+				38F803631D9DCB8900C8F1EA /* ValuePropertiesController.m */,
+				38F803641D9DCB8900C8F1EA /* ValuePropertiesController.xib */,
+				388ABF861DA5B1F500F08956 /* ViewUtils.h */,
+				388ABF871DA5B1F500F08956 /* ViewUtils.m */,
 			);
 			path = Controls;
 			sourceTree = "<group>";
@@ -1663,6 +1671,7 @@
 			files = (
 				385EF1431D95D53C005768C7 /* statTagTestUIScript.scpt in Resources */,
 				3836F57D1D92C8EA00BF0DD4 /* StatTag.sdef in Resources */,
+				3876323F1DA7D6FA00680898 /* PercentagePropertiesController.xib in Resources */,
 				385EF1421D95D53C005768C7 /* StatTagMacros.dotm in Resources */,
 				3836F5561D92C89900BF0DD4 /* Assets.xcassets in Resources */,
 				38D8B1C31D9586D200BF878A /* UpdateOutputViewController.xib in Resources */,
@@ -1843,6 +1852,7 @@
 				38F803431D9C4B9A00C8F1EA /* SCHelpers.m in Sources */,
 				38F803461D9C4CEB00C8F1EA /* SCMarkerHandle.mm in Sources */,
 				38C3CC7A1DA4298E00CEA70C /* TagEditorViewController.mm in Sources */,
+				387632411DA7D70500680898 /* PercentagePropertiesController.m in Sources */,
 				384764B01DA52D6400FCDABE /* TablePropertiesController.m in Sources */,
 				38C3CC761DA428E700CEA70C /* DisclosureViewController.m in Sources */,
 				38D8B1C71D95872A00BF878A /* UpdateOutputProgressViewController.m in Sources */,

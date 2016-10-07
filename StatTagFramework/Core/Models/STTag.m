@@ -66,6 +66,7 @@
   // tag type will govern whether or not we care about them
   self.TableFormat = [[STTableFormat alloc] init];
   self.ValueFormat = [[STValueFormat alloc] init];
+ // self.ValueFormat.FormatType = [STConstantsValueFormatType Default];
   self.FigureFormat = [[STFigureFormat alloc] init];
   
   return self;
