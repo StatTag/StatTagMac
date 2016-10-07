@@ -18,3 +18,19 @@ SCI_NAMESPACE SCI_LEXER
 
 Your .m file (where you reference Scintilla) needs to support Objective-C++, so change it to .mm
 
+
+
+/*****
+We need to monitor the following
+
+1) application launched
+2) application terminated
+
+Combine these
+-----
+3) document closed
+4) document opened
+5) document is not open / no active document
+
+
+******/

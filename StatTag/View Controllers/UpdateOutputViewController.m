@@ -137,7 +137,7 @@ BOOL breakLoop = YES;
     tagUpdateProgressController = [[UpdateOutputProgressViewController alloc] init];
   }
 
-  tagUpdateProgressController.tagsToProcess = [onDemandTags selectedObjects];
+  tagUpdateProgressController.tagsToProcess = [NSMutableArray arrayWithArray:[onDemandTags selectedObjects]];
   tagUpdateProgressController.documentManager = _documentManager;
   tagUpdateProgressController.delegate = self;
   

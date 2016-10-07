@@ -16,7 +16,11 @@
 #import "ManageCodeFilesViewController.h"
 #import "SettingsViewController.h"
 #import "UpdateOutputViewController.h"
+#import "StatTagNeedsWordViewController.h"
 
+#import "AppEventListener.h"
+
+#import "ViewUtils.h"
 
 @interface AppDelegate ()
 
@@ -54,6 +58,7 @@
   _window = [[[NSApplication sharedApplication] windows] firstObject];
   shared.mainVC = (MainTabViewController*)[[_window windowController] contentViewController];
   
+  
   //set up some of our shared stattag stuff
   shared.app= [[[STGlobals sharedInstance] ThisAddIn] Application];
   shared.doc = [[shared app] activeDocument]; //this will be problematic ongoing when we open / close documents, etc.
@@ -63,14 +68,15 @@
   shared.propertiesManager = [[STPropertiesManager alloc] init];
   
   //get our code file list on startup
-  [[shared docManager] LoadCodeFileListFromDocument:[shared doc]];
+//  [[shared docManager] LoadCodeFileListFromDocument:[shared doc]];
 
   // Set up Code File Manager
   //-----------
   //send over our managers, etc.
   ManageCodeFilesViewController* codeFilesVC = (ManageCodeFilesViewController*)[[[[shared mainVC ] tabView] tabViewItemAtIndex:(StatTagTabIndexes)ManageCodeFiles] viewController];
+  shared.codeFilesViewController = codeFilesVC;
   codeFilesVC.documentManager = [shared docManager];
-  codeFilesVC.codeFiles = [[shared docManager] GetCodeFileList]; //just for setup
+//  codeFilesVC.codeFiles = [[shared docManager] GetCodeFileList]; //just for setup
   
   // Set up Preferences Manager
   //-----------
@@ -89,6 +95,49 @@
   updateOutputVC.documentManager = [shared docManager];
   //updateOutputVC.codeFiles = [[shared docManager] GetCodeFileList]; //just for setup
 
+  
+  NSStoryboard* storyBoard = [NSStoryboard storyboardWithName:@"Main" bundle:nil];
+  if(storyBoard != nil) {
+    StatTagNeedsWordViewController* wc = [storyBoard instantiateControllerWithIdentifier:@"StatTagNeedsWordViewController"];
+    shared.needsWordController = wc;
+
+  
+  [AppEventListener startListening];
+  
+  
+  if([AppEventListener wordIsOK]) {
+    [[shared docManager] LoadCodeFileListFromDocument:[shared doc]];
+    codeFilesVC.codeFiles = [[shared docManager] GetCodeFileList]; //just for setup
+    [[_window windowController] setContentViewController:shared.mainVC ];
+  } else {
+    [[_window windowController] setContentViewController:shared.needsWordController ];
+  }
+
+  
+  //StatTagNeedsWordViewController* needsWordController
+  
+//  [[[_window windowController] contentViewController] view]
+  
+//  [[_window windowController] setContentViewController:xxxxx];
+  /*
+   let storyboard = NSStoryboard(name: "Main", bundle: nil)
+   if let homeViewController = (storyboard.instantiateControllerWithIdentifier("HomeViewController") as? NSViewController){
+   let windowController = NSWindowController(window: Constants.appDelegate!.window)
+   windowController.contentViewController = homeViewController
+   windowController.showWindow(Constants.appDelegate!.window)
+   }
+   */
+  
+  //http://stackoverflow.com/questions/5056374/nswindowcontroller-and-nsviewcontroller
+  
+    //[[_window windowController] showWindow:nil];
+    //self.masterViewController = [[MasterViewController alloc] initWithNibName:@"MasterViewController" bundle:nil];
+    //[self.window.contentView replaceSubview:self.window.contentView.view with:wc.view];
+  }
+  
+  //appDelegate = (AppDelegate*)[[NSApplication sharedApplication] delegate];
+  
+  
 }
 
 
@@ -103,6 +152,9 @@
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
   // Insert code here to tear down your application
+  
+  [AppEventListener stopListening];
+
 }
 
 

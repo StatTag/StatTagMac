@@ -187,7 +187,17 @@ static void *TagTableFormatContext = &TagTableFormatContext;
 //      [numberFormatter setMinimumFractionDigits:numDigits];
 //      [numberFormatter setMaximumFractionDigits:numDigits];
 //      previewText = [numberFormatter stringFromNumber:@100000];
-      previewText = [[[self tag] ValueFormat] Format:@"100000"];
+      
+//      if([[[self tag] CachedResult] count] > 0) {
+//        
+//      }
+      
+      NSString* result = [[[[self tag] CachedResult] lastObject] ValueResult];
+      if(result == nil) {
+        result = @"100000";
+      }
+      
+      previewText = [[[self tag] ValueFormat] Format:result];
     }
     else if([[[[self tag] ValueFormat] FormatType] isEqualToString:[STConstantsValueFormatType DateTime]] ) {
       //date formatter
@@ -227,7 +237,11 @@ static void *TagTableFormatContext = &TagTableFormatContext;
       [numberFormatter setMaximumFractionDigits:numDigits];
       previewText = [numberFormatter stringFromNumber:@100];
       */
-      previewText = [[[self tag] ValueFormat] Format:@"1"];
+      NSString* result = [[[[self tag] CachedResult] lastObject] ValueResult];
+      if(result == nil) {
+        result = @"1";
+      }
+      previewText = [[[self tag] ValueFormat] Format:result];
     } else {
       previewText = @"(Exactly as Generated)";
     }
@@ -257,7 +271,12 @@ static void *TagTableFormatContext = &TagTableFormatContext;
   } else if ([[self tag] Type] == [STConstantsTagType Figure]) {
     //FIXME: move property
 
+    //check the latest image result
     preview = [[NSImage alloc] initWithContentsOfFile:[[self tag] FormattedResult]];
+    if(preview == nil) {
+      //then try the cached result
+      preview = [[NSImage alloc] initWithContentsOfFile: [[[[self tag] CachedResult] lastObject] FigureResult]];
+    }
     if(preview == nil) {
       //if we can't access our original image (or we can't interpret the format)
       // then just use the default placeholder image

@@ -16,7 +16,7 @@
 @class ManageCodeFilesViewController;
 @class STPropertiesManager;
 @class STLogManager;
-
+@class StatTagNeedsWordViewController;
 
 @interface StatTagShared : NSObject {
   MainTabViewController* _mainVC;
@@ -36,7 +36,11 @@
 @property (strong, nonatomic) STDocumentManager* docManager;
 @property (strong, nonatomic) STPropertiesManager* propertiesManager;
 @property (strong, nonatomic) STLogManager* logManager;
+@property (strong, nonatomic) StatTagNeedsWordViewController* needsWordController;
+@property (strong, nonatomic) ManageCodeFilesViewController* codeFilesViewController;
 
+@property (strong, nonnull) NSString* wordAppStatusMessage;
+@property BOOL wordAccessible;
 
 //view controller accessors
 @property (strong, nonatomic) MainTabViewController* mainVC; //weak?

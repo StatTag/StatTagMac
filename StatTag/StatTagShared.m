@@ -33,6 +33,7 @@ static StatTagShared *sharedInstance = nil;
 {
   self = [super init];
   if (self) {
+    [self setWordAppStatusMessage:@""];
   }
   return self;
 }
