@@ -30,5 +30,6 @@
 
 @property (weak) NSWindow* window;
 
+
 @end
 

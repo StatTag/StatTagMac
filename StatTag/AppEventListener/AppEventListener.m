@@ -17,7 +17,11 @@
 #import "STMSWord2011.h"
 #import "AppDelegate.h"
 #import "StatTag.h"
+
 #import "ManageCodeFilesViewController.h"
+#import "MainTabViewController.h"
+#import "StatTagNeedsWordViewController.h"
+
 
 @implementation AppEventListener
 
@@ -44,6 +48,15 @@
                object:nil
    ];
 
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(disableAppUI)
+                                               name:@"disableAppUI"
+                                             object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(enableAppUI)
+                                               name:@"enableAppUI"
+                                             object:nil];
+
   
 //  [self listenForWord];
   //http://stackoverflow.com/questions/8812951/pumping-cocoa-message-loop-from-background-thread
@@ -52,13 +65,14 @@
 //                         withObject:nil];
   // Execution continues in -appLaunched: and -appTerminated:, below.
   
-//  dispatch_queue_t bgQueue = dispatch_queue_create("bgQueue", NULL);
-//  dispatch_async(bgQueue, ^{
-//    while (1) {
-//      [self updateWordViewController];
-//      [NSThread sleepForTimeInterval:3.0f];
-//    }
-//  });
+  dispatch_queue_t bgQueue = dispatch_queue_create("bgQueue", NULL);
+  dispatch_async(bgQueue, ^{
+    while (1) {
+      [self updateWordViewController];
+      
+      [NSThread sleepForTimeInterval:3.0f];
+    }
+  });
   
 }
 
@@ -107,32 +121,77 @@
   }
   
   //BOOL ok = [self wordIsOK];
-  [self updateWordViewController];
+  //[self updateWordViewController];
   //stop polling our document status
 
 }
 
 +(void)updateWordViewController {
 
+  if([self wordIsOK]) {
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [[NSNotificationCenter defaultCenter] postNotificationName:@"enableAppUI" object:self];
+    });
+  } else {
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [[NSNotificationCenter defaultCenter] postNotificationName:@"disableAppUI" object:self];
+    });
+  }
+
+  /*
     NSWindow* window = [[[NSApplication sharedApplication] windows] firstObject];
     StatTagShared* shared = [StatTagShared sharedInstance];
     
     if([AppEventListener wordIsOK]) {
       dispatch_async(dispatch_get_main_queue(), ^{
-        [[shared docManager] LoadCodeFileListFromDocument:[shared doc]];
-        shared.codeFilesViewController.codeFiles = [[shared docManager] GetCodeFileList]; //just for setup
-        [[window windowController] setContentViewController:shared.mainVC ];
+        if([[window windowController] contentViewController] != shared.mainVC) {
+          [[shared docManager] LoadCodeFileListFromDocument:[shared doc]];
+          shared.codeFilesViewController.codeFiles = [[shared docManager] GetCodeFileList]; //just for setup
+          [[window windowController] setContentViewController:shared.mainVC ];
+        }
       });
     } else {
       dispatch_async(dispatch_get_main_queue(), ^{
-        [[window windowController] setContentViewController:shared.needsWordController ];
+        if([[window windowController] contentViewController] != shared.needsWordController) {
+          [[window windowController] setContentViewController:shared.needsWordController ];
+        }
       });
     }
+   */
+}
 
++(void)disableAppUI {
+  NSWindow* window = [[[NSApplication sharedApplication] windows] firstObject];
+  StatTagShared* shared = [StatTagShared sharedInstance];
+  
+  if([[window windowController] contentViewController] != shared.needsWordController) {
+    [[window windowController] setContentViewController:shared.needsWordController ];
+  }
+}
+
++(void)enableAppUI {
+  NSWindow* window = [[[NSApplication sharedApplication] windows] firstObject];
+  StatTagShared* shared = [StatTagShared sharedInstance];
+  
+  if([[window windowController] contentViewController] != shared.mainVC) {
+//    MainTabViewController* t = [[NSStoryboard storyboardWithName:@"Main" bundle:nil] instantiateControllerWithIdentifier:@"MainTabViewController"];
+//    shared.mainVC = t;
+//    [[window windowController] setContentViewController:t ];
+//    [[window windowController] setContentViewController:shared.mainVC ];
+//    [[shared docManager] LoadCodeFileListFromDocument:[shared doc]];
+//    shared.codeFilesViewController.codeFiles = [[shared docManager] GetCodeFileList]; //just for setup
+    //[(AppDelegate*)[NSApp delegate] initializeWordViews];
+    //UIApplicationDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+//    AppDelegate* d = (AppDelegate*)[[NSApplication sharedApplication] delegate];
+    //[d initializeWordViews];
+
+    //AppDelegate* appDelegate = (AppDelegate*)[[NSApplication sharedApplication] delegate];
+    [[StatTagShared sharedInstance] initializeWordViews];
+  }
 }
 
 +(void)startPolling {
-  [self listenForWord];
+  //[self listenForWord];
 }
 
 +(void)listenForWord {
@@ -142,10 +201,10 @@
 //    [NSThread sleepForTimeInterval:3.0f];
 //  }
 
-  NSRunLoop *threadRunLoop = [NSRunLoop currentRunLoop];
-  while (1 && [threadRunLoop runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:3]]) {
-    [self updateWordViewController];
-  }
+//  NSRunLoop *threadRunLoop = [NSRunLoop currentRunLoop];
+//  while (1 && [threadRunLoop runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:3]]) {
+//    [self updateWordViewController];
+//  }
 }
 
 +(void)stopPolling {

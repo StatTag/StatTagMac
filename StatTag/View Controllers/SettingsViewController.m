@@ -8,7 +8,7 @@
 
 #import "SettingsViewController.h"
 #import "StatTag.h"
-
+#import "StatTagShared.h"
 
 @interface SettingsViewController ()
 
@@ -213,6 +213,7 @@ NSString* const defaultLogFileName = @"StatTag.log";
     [[self labelFilePath] setTextColor:[NSColor controlTextColor]];
   }
 }
+
 
 
 

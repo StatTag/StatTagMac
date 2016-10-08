@@ -47,6 +47,9 @@
 
 + (NSColor*)colorFromRGBRed:(CGFloat)r  green:(CGFloat)g blue:(CGFloat)b alpha:(CGFloat)a;
 
+-(void)initializeWordViews;
+
+
 typedef enum {
   ManageCodeFiles = 0,
   Settings = 1,

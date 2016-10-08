@@ -15,5 +15,6 @@
 +(void)stopListening;
 
 +(BOOL)wordIsOK;
++(void)updateWordViewController;
 
 @end

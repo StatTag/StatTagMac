@@ -49,69 +49,10 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 
-  //mainWindow was hit or miss, so we're not using it - really unclear to me why this is nil during setup
-  //  self.mainVC = (MainTabViewController*)[[[[NSApplication sharedApplication] mainWindow] windowController] contentViewController];//[[NSApp mainWindow] windowController];
-
-  StatTagShared* shared = [StatTagShared sharedInstance];
-  
-  //get our root view controller
   _window = [[[NSApplication sharedApplication] windows] firstObject];
-  shared.mainVC = (MainTabViewController*)[[_window windowController] contentViewController];
-  
-  
-  //set up some of our shared stattag stuff
-  shared.app= [[[STGlobals sharedInstance] ThisAddIn] Application];
-  shared.doc = [[shared app] activeDocument]; //this will be problematic ongoing when we open / close documents, etc.
-  shared.docManager = [[STDocumentManager alloc] init];
+  [[StatTagShared sharedInstance] initializeWordViews];
 
-  shared.logManager = [[STLogManager alloc] init];
-  shared.propertiesManager = [[STPropertiesManager alloc] init];
-  
-  //get our code file list on startup
-//  [[shared docManager] LoadCodeFileListFromDocument:[shared doc]];
-
-  // Set up Code File Manager
-  //-----------
-  //send over our managers, etc.
-  ManageCodeFilesViewController* codeFilesVC = (ManageCodeFilesViewController*)[[[[shared mainVC ] tabView] tabViewItemAtIndex:(StatTagTabIndexes)ManageCodeFiles] viewController];
-  shared.codeFilesViewController = codeFilesVC;
-  codeFilesVC.documentManager = [shared docManager];
-//  codeFilesVC.codeFiles = [[shared docManager] GetCodeFileList]; //just for setup
-  
-  // Set up Preferences Manager
-  //-----------
-  SettingsViewController* settingsVC = (SettingsViewController*)[[[[shared mainVC ] tabView] tabViewItemAtIndex:(StatTagTabIndexes)Settings] viewController];
-  settingsVC.propertiesManager = [shared propertiesManager];
-  settingsVC.logManager = [shared logManager];
-  [[settingsVC propertiesManager] Load];
-  settingsVC.properties = [[shared propertiesManager] Properties]; //just for setup
-  //  [propertiesManager Load];
-
-  
-  // Set up Code File Manager
-  //-----------
-  //send over our managers, etc.
-  UpdateOutputViewController* updateOutputVC = (UpdateOutputViewController*)[[[[shared mainVC ] tabView] tabViewItemAtIndex:(StatTagTabIndexes)UpdateOutput] viewController];
-  updateOutputVC.documentManager = [shared docManager];
-  //updateOutputVC.codeFiles = [[shared docManager] GetCodeFileList]; //just for setup
-
-  
-  NSStoryboard* storyBoard = [NSStoryboard storyboardWithName:@"Main" bundle:nil];
-  if(storyBoard != nil) {
-    StatTagNeedsWordViewController* wc = [storyBoard instantiateControllerWithIdentifier:@"StatTagNeedsWordViewController"];
-    shared.needsWordController = wc;
-
-  
   [AppEventListener startListening];
-  
-  
-  if([AppEventListener wordIsOK]) {
-    [[shared docManager] LoadCodeFileListFromDocument:[shared doc]];
-    codeFilesVC.codeFiles = [[shared docManager] GetCodeFileList]; //just for setup
-    [[_window windowController] setContentViewController:shared.mainVC ];
-  } else {
-    [[_window windowController] setContentViewController:shared.needsWordController ];
-  }
 
   
   //StatTagNeedsWordViewController* needsWordController
@@ -133,13 +74,11 @@
     //[[_window windowController] showWindow:nil];
     //self.masterViewController = [[MasterViewController alloc] initWithNibName:@"MasterViewController" bundle:nil];
     //[self.window.contentView replaceSubview:self.window.contentView.view with:wc.view];
-  }
   
   //appDelegate = (AppDelegate*)[[NSApplication sharedApplication] delegate];
   
   
 }
-
 
 - (void)applicationDidBecomeActive:(NSNotification *)notification{
   //Posted immediately after the app becomes active.
