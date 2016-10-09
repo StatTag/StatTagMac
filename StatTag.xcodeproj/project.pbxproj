@@ -122,6 +122,7 @@
 		3876324B1DA8383900680898 /* AppEventListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 3876324A1DA8383900680898 /* AppEventListener.m */; };
 		3876324F1DA83B6C00680898 /* StatTagNeedsWordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3876324D1DA83B6C00680898 /* StatTagNeedsWordViewController.m */; };
 		387632501DA83B6C00680898 /* StatTagNeedsWordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3876324E1DA83B6C00680898 /* StatTagNeedsWordViewController.xib */; };
+		387632541DA9402500680898 /* STTag+Preview.m in Sources */ = {isa = PBXBuildFile; fileRef = 387632531DA9402500680898 /* STTag+Preview.m */; };
 		38788F941D30100F00299789 /* STStatsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 38788F921D30100F00299789 /* STStatsManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38788F951D30100F00299789 /* STStatsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 38788F931D30100F00299789 /* STStatsManager.m */; };
 		387A0E1B1D2193D000F1FE9C /* StatTagModelCommandResultTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 387A0E1A1D2193D000F1FE9C /* StatTagModelCommandResultTests.m */; };
@@ -486,6 +487,8 @@
 		3876324C1DA83B6C00680898 /* StatTagNeedsWordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatTagNeedsWordViewController.h; sourceTree = "<group>"; };
 		3876324D1DA83B6C00680898 /* StatTagNeedsWordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagNeedsWordViewController.m; sourceTree = "<group>"; };
 		3876324E1DA83B6C00680898 /* StatTagNeedsWordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StatTagNeedsWordViewController.xib; sourceTree = "<group>"; };
+		387632521DA9402500680898 /* STTag+Preview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "STTag+Preview.h"; sourceTree = "<group>"; };
+		387632531DA9402500680898 /* STTag+Preview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "STTag+Preview.m"; sourceTree = "<group>"; };
 		38788F921D30100F00299789 /* STStatsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STStatsManager.h; sourceTree = "<group>"; };
 		38788F931D30100F00299789 /* STStatsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STStatsManager.m; sourceTree = "<group>"; };
 		387A0E1A1D2193D000F1FE9C /* StatTagModelCommandResultTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagModelCommandResultTests.m; sourceTree = "<group>"; };
@@ -901,6 +904,7 @@
 		3836F54B1D92C89900BF0DD4 /* StatTag */ = {
 			isa = PBXGroup;
 			children = (
+				387632511DA93FF400680898 /* Categories */,
 				387632481DA837FF00680898 /* AppEventListener */,
 				38F803501D9DAF5500C8F1EA /* Classes */,
 				3836F57C1D92C8EA00BF0DD4 /* StatTag.sdef */,
@@ -1051,6 +1055,15 @@
 				3876324A1DA8383900680898 /* AppEventListener.m */,
 			);
 			path = AppEventListener;
+			sourceTree = "<group>";
+		};
+		387632511DA93FF400680898 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				387632521DA9402500680898 /* STTag+Preview.h */,
+				387632531DA9402500680898 /* STTag+Preview.m */,
+			);
+			path = Categories;
 			sourceTree = "<group>";
 		};
 		38788F901D300FA800299789 /* StatTag */ = {
@@ -1895,6 +1908,7 @@
 				38F803531D9DAF7800C8F1EA /* UIUtility.m in Sources */,
 				383F3B981DA679AE0069C78E /* TagPreviewController.m in Sources */,
 				3836F5A91D92EBCB00BF0DD4 /* MainTabViewController.m in Sources */,
+				387632541DA9402500680898 /* STTag+Preview.m in Sources */,
 				38F803491D9C50C000C8F1EA /* SCLine.mm in Sources */,
 				384764B51DA5683100FCDABE /* NumericValuePropertiesController.m in Sources */,
 				38F8034C1D9C579000C8F1EA /* SCLineCollection.mm in Sources */,

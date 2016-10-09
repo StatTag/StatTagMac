@@ -34,6 +34,7 @@
 #import "TagPreviewController.h"
 #import "ViewUtils.h"
 
+#import "STTag+Preview.h"
 
 @interface TagEditorViewController ()
 
@@ -212,6 +213,8 @@ static void *TagTypeContext = &TagTypeContext;
 }
 
 - (void)viewDidLoad {
+  
+  //NSLog(@"preview : %@", [[self tag] textPreview]);
   
   NSLog(@"stackview count = %lu", (unsigned long)[[_propertiesStackView views] count]);
   

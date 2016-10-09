@@ -140,6 +140,7 @@
                                                              filterMode:[STConstantsParserFilterMode TagList]
                                                               tagsToRun:_tagsToProcess
                                                ];
+
         #pragma unused (result)
         
         dispatch_async(dispatch_get_main_queue(), ^{

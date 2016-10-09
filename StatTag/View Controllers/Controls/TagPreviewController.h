@@ -25,4 +25,7 @@
 
 @property (strong, nonatomic) NSString* previewString;
 
++(NSString*)generatePreviewTextFromTag:(STTag*)tag;
++(NSImage*)generatePreviewImageFromTag:(STTag*)tag forRect:(NSRect)rect;
+
 @end

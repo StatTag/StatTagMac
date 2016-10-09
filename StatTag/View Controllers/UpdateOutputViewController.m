@@ -74,9 +74,10 @@ BOOL breakLoop = YES;
     [file LoadTagsFromContent];
   }
   
-  [self willChangeValueForKey:@"documentTags"];
-  _documentTags = [[NSMutableArray<STTag*> alloc] initWithArray:[_documentManager GetTags]];
-  [self didChangeValueForKey:@"documentTags"];
+  //[self willChangeValueForKey:@"documentTags"];
+  //_documentTags = [[NSMutableArray<STTag*> alloc] initWithArray:[_documentManager GetTags]];
+  //[self didChangeValueForKey:@"documentTags"];
+  [self setDocumentTags:[[NSMutableArray<STTag*> alloc] initWithArray:[_documentManager GetTags]]];
 }
 
 -(void)getTags {
@@ -166,6 +167,15 @@ BOOL breakLoop = YES;
 - (void)dismissUpdateOutputProgressController:(UpdateOutputProgressViewController *)controller withReturnCode:(StatTagResponseState)returnCode {
   //FIXME: need to handle errors from worker sheet
   [self dismissViewController:controller];
+  if(returnCode == OK) {
+    //reload the tag list
+    //[self documentManager] save
+    //[self loadAllTags];
+    //[[self documentManager] UpdateFields]; //don't do this here - we have the separate controller
+    //[self loadAllTags];
+    [self willChangeValueForKey:@"documentTags"];
+    [self didChangeValueForKey:@"documentTags"];
+  }
 }
 
 - (IBAction)insertTagIntoDocument:(id)sender {
@@ -226,6 +236,30 @@ BOOL breakLoop = YES;
   }
 }
 
+
+
+//MARK: tableview delegates
+//-(id)tableView
+//-(id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
+//  
+//  // populate each row of our table view with data
+//  // display a different value depending on each column (as identified in XIB)
+//  
+//  if ([tableColumn.identifier isEqualToString:@"tagPreviewText"]) {
+//    
+//    // first colum (numbers)
+//    //return [self.numbers objectAtIndex:row];
+//    
+//  } else {
+//    
+//    // second column (numberCodes)
+//    //return [self.numberCodes objectAtIndex:row];
+//  }
+//}
+
+-(NSString*)tagPreviewText:(STTag*)tag {
+  return @"hello";
+}
 
 
 @end

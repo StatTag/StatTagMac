@@ -159,93 +159,99 @@ static void *TagTableFormatContext = &TagTableFormatContext;
   }
 }
 
++(NSString*)generatePreviewTextFromTag:(STTag*)tag {
+  
+  NSString* previewText;
+  
+  //use something smarter like a value formatter...
+  
+  if([[[tag ValueFormat] FormatType] isEqualToString:[STConstantsValueFormatType Numeric]] ) {
+    //number formatter
+    //      NSNumberFormatter* numberFormatter = [[NSNumberFormatter alloc] init];
+    //      //formatter.locale = NSLocale(localeIdentifier: "en_US")  // locale determines the decimal point (. or ,); English locale has "."
+    //      //formatter.groupingSeparator = ""  // you will never get thousands separator as output
+    //      if(![[[self tag] ValueFormat] UseThousands]) {
+    //        [numberFormatter setGroupingSeparator:@""];
+    //      } else {
+    //        [numberFormatter setLocale:[NSLocale currentLocale]];
+    //      }
+    //      [numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
+    //      NSInteger numDigits = [[[self tag] ValueFormat] DecimalPlaces];
+    //      [numberFormatter setMinimumFractionDigits:numDigits];
+    //      [numberFormatter setMaximumFractionDigits:numDigits];
+    //      previewText = [numberFormatter stringFromNumber:@100000];
+    
+    //      if([[[self tag] CachedResult] count] > 0) {
+    //
+    //      }
+    
+    NSString* result = [[[tag CachedResult] lastObject] ValueResult];
+    if(result == nil) {
+      result = @"100000";
+    }
+    
+    previewText = [[tag ValueFormat] Format:result];
+  }
+  else if([[[tag ValueFormat] FormatType] isEqualToString:[STConstantsValueFormatType DateTime]] ) {
+    //date formatter
+    //FIXME: move the date formatter to a singleton
+    //March 14, 2001 19:30:50
+    
+    //+ (NSDate*)dateFromString:(NSString*)dateString
+    //NSDate* previewDate = [STJSONUtility dateFromString:@"March 14, 2001 19:30:50"];
+    /*
+     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+     [formatter setDateFormat:format];
+     //FIXME: locale...
+     [formatter setLocale:currentLoc];
+     //  NSTimeZone *timeZone = [NSTimeZone localTimeZone];
+     [formatter setTimeZone:[NSTimeZone localTimeZone]];
+     return [formatter stringFromDate:dateValue];
+     */
+    //      STValueFormat* vf = [[STValueFormat alloc] init];
+    //      if([[STConstantsDateFormats GetList] containsObject:[[[self tag] ValueFormat] DateFormat]] ) {
+    //        vf.DateFormat = [[[self tag] ValueFormat] DateFormat];
+    //      }
+    //      if([[STConstantsTimeFormats GetList] containsObject:[[[self tag] ValueFormat] TimeFormat]] ) {
+    //        vf.TimeFormat = [[[self tag] ValueFormat] TimeFormat];
+    //      }
+    
+    previewText = [[tag ValueFormat] Format:@"March 14, 2001 19:30:50"];
+    //previewText = [vf Format:@"March 14, 2001 19:30:50"];
+  }
+  else if([[[tag ValueFormat] FormatType] isEqualToString:[STConstantsValueFormatType Percentage]] ) {
+    //number formatter
+    /*
+     NSNumberFormatter* numberFormatter = [[NSNumberFormatter alloc] init];
+     [numberFormatter setNumberStyle:NSNumberFormatterPercentStyle];
+     NSInteger numDigits = [[[self tag] ValueFormat] DecimalPlaces];
+     [numberFormatter setGroupingSeparator:@""]; //what if we want thousands in percentages?
+     [numberFormatter setMinimumFractionDigits:numDigits];
+     [numberFormatter setMaximumFractionDigits:numDigits];
+     previewText = [numberFormatter stringFromNumber:@100];
+     */
+    NSString* result = [[[tag CachedResult] lastObject] ValueResult];
+    if(result == nil) {
+      result = @"1";
+    }
+    previewText = [[tag ValueFormat] Format:result];
+  } else {
+    previewText = @"(Exactly as Generated)";
+  }
+  
+  return previewText;
+  
+
+}
+
 -(void)generatePreviewText {
   
   //FIXME: NOTE this needs to be refactored to move the formatters into the singletone
   //super expensive
-  
   if ([[self tag] Type] == [STConstantsTagType Figure]) {
     [self setShowsPreviewText:NO];
   } else {
-    
-    NSString* previewText;
-
-    //use something smarter like a value formatter...
-    
-    if([[[[self tag] ValueFormat] FormatType] isEqualToString:[STConstantsValueFormatType Numeric]] ) {
-      //number formatter
-//      NSNumberFormatter* numberFormatter = [[NSNumberFormatter alloc] init];
-//      //formatter.locale = NSLocale(localeIdentifier: "en_US")  // locale determines the decimal point (. or ,); English locale has "."
-//      //formatter.groupingSeparator = ""  // you will never get thousands separator as output
-//      if(![[[self tag] ValueFormat] UseThousands]) {
-//        [numberFormatter setGroupingSeparator:@""];
-//      } else {
-//        [numberFormatter setLocale:[NSLocale currentLocale]];
-//      }
-//      [numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
-//      NSInteger numDigits = [[[self tag] ValueFormat] DecimalPlaces];
-//      [numberFormatter setMinimumFractionDigits:numDigits];
-//      [numberFormatter setMaximumFractionDigits:numDigits];
-//      previewText = [numberFormatter stringFromNumber:@100000];
-      
-//      if([[[self tag] CachedResult] count] > 0) {
-//        
-//      }
-      
-      NSString* result = [[[[self tag] CachedResult] lastObject] ValueResult];
-      if(result == nil) {
-        result = @"100000";
-      }
-      
-      previewText = [[[self tag] ValueFormat] Format:result];
-    }
-    else if([[[[self tag] ValueFormat] FormatType] isEqualToString:[STConstantsValueFormatType DateTime]] ) {
-      //date formatter
-      //FIXME: move the date formatter to a singleton
-      //March 14, 2001 19:30:50
-
-      //+ (NSDate*)dateFromString:(NSString*)dateString
-      //NSDate* previewDate = [STJSONUtility dateFromString:@"March 14, 2001 19:30:50"];
-      /*
-       NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-       [formatter setDateFormat:format];
-       //FIXME: locale...
-       [formatter setLocale:currentLoc];
-       //  NSTimeZone *timeZone = [NSTimeZone localTimeZone];
-       [formatter setTimeZone:[NSTimeZone localTimeZone]];
-       return [formatter stringFromDate:dateValue];
-       */
-//      STValueFormat* vf = [[STValueFormat alloc] init];
-//      if([[STConstantsDateFormats GetList] containsObject:[[[self tag] ValueFormat] DateFormat]] ) {
-//        vf.DateFormat = [[[self tag] ValueFormat] DateFormat];
-//      }
-//      if([[STConstantsTimeFormats GetList] containsObject:[[[self tag] ValueFormat] TimeFormat]] ) {
-//        vf.TimeFormat = [[[self tag] ValueFormat] TimeFormat];
-//      }
-
-      previewText = [[[self tag] ValueFormat] Format:@"March 14, 2001 19:30:50"];
-      //previewText = [vf Format:@"March 14, 2001 19:30:50"];
-    }
-    else if([[[[self tag] ValueFormat] FormatType] isEqualToString:[STConstantsValueFormatType Percentage]] ) {
-      //number formatter
-      /*
-      NSNumberFormatter* numberFormatter = [[NSNumberFormatter alloc] init];
-      [numberFormatter setNumberStyle:NSNumberFormatterPercentStyle];
-      NSInteger numDigits = [[[self tag] ValueFormat] DecimalPlaces];
-      [numberFormatter setGroupingSeparator:@""]; //what if we want thousands in percentages?
-      [numberFormatter setMinimumFractionDigits:numDigits];
-      [numberFormatter setMaximumFractionDigits:numDigits];
-      previewText = [numberFormatter stringFromNumber:@100];
-      */
-      NSString* result = [[[[self tag] CachedResult] lastObject] ValueResult];
-      if(result == nil) {
-        result = @"1";
-      }
-      previewText = [[[self tag] ValueFormat] Format:result];
-    } else {
-      previewText = @"(Exactly as Generated)";
-    }
-    
+    NSString* previewText = [[self class] generatePreviewTextFromTag:[self tag]];
     if(previewText == nil) {
       [self setShowsPreviewText:NO];
     } else {
@@ -253,29 +259,28 @@ static void *TagTableFormatContext = &TagTableFormatContext;
       [self setShowsPreviewText:YES];
     }
   }
-  
 }
 
--(void)generatePreviewImage {
++(NSImage*)generatePreviewImageFromTag:(STTag*)tag forRect:(NSRect)rect {
   
   NSImage* preview;
   
-  if([[self tag] Type] == [STConstantsTagType Table]) {
-    TagGridView* grid = [[TagGridView alloc] initWithFrame:[[self previewImageView] bounds]];
-    grid.useColumnLabels = [[[self tag] TableFormat] IncludeColumnNames];
-    grid.useRowLabels = [[[self tag] TableFormat] IncludeRowNames];
+  if([tag Type] == [STConstantsTagType Table]) {
+    TagGridView* grid = [[TagGridView alloc] initWithFrame:rect];
+    grid.useColumnLabels = [[tag TableFormat] IncludeColumnNames];
+    grid.useRowLabels = [[tag TableFormat] IncludeRowNames];
     grid.gridSize = 6;
     //FIXME: move color
     grid.headerFillColor = [StatTagShared colorFromRGBRed:0 green:125 blue:255 alpha:1.0];
     preview = [[NSImage alloc] initWithData:[grid dataWithPDFInsideRect:[grid bounds]]];
-  } else if ([[self tag] Type] == [STConstantsTagType Figure]) {
+  } else if ([tag Type] == [STConstantsTagType Figure]) {
     //FIXME: move property
-
+    
     //check the latest image result
-    preview = [[NSImage alloc] initWithContentsOfFile:[[self tag] FormattedResult]];
+    preview = [[NSImage alloc] initWithContentsOfFile:[tag FormattedResult]];
     if(preview == nil) {
       //then try the cached result
-      preview = [[NSImage alloc] initWithContentsOfFile: [[[[self tag] CachedResult] lastObject] FigureResult]];
+      preview = [[NSImage alloc] initWithContentsOfFile: [[[tag CachedResult] lastObject] FigureResult]];
     }
     if(preview == nil) {
       //if we can't access our original image (or we can't interpret the format)
@@ -283,6 +288,39 @@ static void *TagTableFormatContext = &TagTableFormatContext;
       preview = [NSImage imageNamed:@"figure_preview"]; //move this to a property later
     }
   }
+  
+  return preview;
+  
+}
+
+-(void)generatePreviewImage {
+  
+  NSImage* preview;
+  preview = [[self class] generatePreviewImageFromTag:[self tag] forRect:[[self previewImageView] bounds]];
+  
+//  if([[self tag] Type] == [STConstantsTagType Table]) {
+//    TagGridView* grid = [[TagGridView alloc] initWithFrame:[[self previewImageView] bounds]];
+//    grid.useColumnLabels = [[[self tag] TableFormat] IncludeColumnNames];
+//    grid.useRowLabels = [[[self tag] TableFormat] IncludeRowNames];
+//    grid.gridSize = 6;
+//    //FIXME: move color
+//    grid.headerFillColor = [StatTagShared colorFromRGBRed:0 green:125 blue:255 alpha:1.0];
+//    preview = [[NSImage alloc] initWithData:[grid dataWithPDFInsideRect:[grid bounds]]];
+//  } else if ([[self tag] Type] == [STConstantsTagType Figure]) {
+//    //FIXME: move property
+//
+//    //check the latest image result
+//    preview = [[NSImage alloc] initWithContentsOfFile:[[self tag] FormattedResult]];
+//    if(preview == nil) {
+//      //then try the cached result
+//      preview = [[NSImage alloc] initWithContentsOfFile: [[[[self tag] CachedResult] lastObject] FigureResult]];
+//    }
+//    if(preview == nil) {
+//      //if we can't access our original image (or we can't interpret the format)
+//      // then just use the default placeholder image
+//      preview = [NSImage imageNamed:@"figure_preview"]; //move this to a property later
+//    }
+//  }
   
   if(preview) {
     _previewImage = preview;
