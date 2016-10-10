@@ -29,6 +29,9 @@ IB_DESIGNABLE
   
   STDocumentManager* _documentManager;
 
+  NSString* _filterAll;
+  NSString* _filterTagFrequency;
+  NSString* _filterTagType;
 }
 
 @property (weak) IBOutlet NSTextField *labelOnDemandSearchText;
@@ -46,5 +49,10 @@ IB_DESIGNABLE
 @property (weak) IBOutlet NSButton *buttonEdit;
 
 -(NSString*)tagPreviewText:(STTag*)tag;
+
+@property (strong, nonatomic) NSString* filterAll;
+@property (strong, nonatomic) NSString* filterTagFrequency;
+@property (strong, nonatomic) NSString* filterTagType;
+
 
 @end

@@ -190,6 +190,7 @@
     } else if([key isEqualToString:@"CachedResult"]) {
       //[self setValue:[[self class] Deserialize:[dict valueForKey:key] error:&error] forKey:key];
       [self setValue:[STCommandResult DeserializeList:[dict valueForKey:key] error:&error] forKey:key];
+      NSLog(@"NSError: %@", [error localizedDescription]);
     } else if([key isEqualToString:@"FigureFormat"]) {
       [self setValue:[[STFigureFormat alloc] initWithDictionary:[dict valueForKey:key]] forKey:key];
     } else if([key isEqualToString:@"ValueFormat"]) {

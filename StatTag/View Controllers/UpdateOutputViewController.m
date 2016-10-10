@@ -53,9 +53,32 @@ BOOL breakLoop = YES;
 }
 
 
+-(NSString*)filterAll {
+  return @"x";
+}
+-(void)setFilterAll:(NSString*)value {
+  
+}
+
+-(NSString*)filterTagFrequency {
+  return _filterTagFrequency;
+}
+-(void)setFilterTagFrequency:(NSString*)value {
+  
+}
+-(NSString*)filterTagType {
+  return _filterTagType;
+}
+-(void)setFilterTagType:(NSString*)value {
+  
+}
+
+
+
 - (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do view setup here.
+  [super viewDidLoad];
+  // Do view setup here.
+  
 }
 
 
@@ -63,6 +86,8 @@ BOOL breakLoop = YES;
   //we need to reload the tags every time the view appears - it's possible code files were removed or the code file
   // was modified, etc.
   [self loadAllTags];
+  [[self buttonEdit] setWantsLayer:YES];
+  [[[self buttonEdit] layer] setBackgroundColor:[[NSColor whiteColor] CGColor]];
 
 }
 
