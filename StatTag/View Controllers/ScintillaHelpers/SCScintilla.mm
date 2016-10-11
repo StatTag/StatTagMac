@@ -23,6 +23,7 @@
   self = [super init];
   if(self) {
     _scintillaView = sc;
+    _Lines = [[SCLineCollection alloc] initWithScintilla:self];
   }
   return self;
 }
@@ -66,9 +67,9 @@
   return result;
 }
 
--(SCLineCollection*)Lines {
-  SCLineCollection* lines = [[SCLineCollection alloc] initWithScintilla:self];
-  return lines;
-}
+//-(SCLineCollection*)Lines {
+//  SCLineCollection* lines = [[SCLineCollection alloc] initWithScintilla:self];
+//  return lines;
+//}
 
 @end

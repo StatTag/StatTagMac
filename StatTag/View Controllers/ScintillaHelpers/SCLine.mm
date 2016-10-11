@@ -94,5 +94,9 @@
   //return scintilla.Lines.CharLineLength(Index);
 }
 
+-(NSString*)description
+{
+  return [NSString stringWithFormat:@"Index:%ld, Height:%d, Length:%d", [self Index], [self Height], [self Length]];
+}
 
 @end

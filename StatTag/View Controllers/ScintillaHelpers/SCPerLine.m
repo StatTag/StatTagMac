@@ -28,4 +28,8 @@
   return self;
 }
 
+-(NSString*)description {
+  return [NSString stringWithFormat:@"Start: %ld, ContainsMultiByte: %ld", (long)[self Start], [self ContainsMultibyte]];
+}
+
 @end

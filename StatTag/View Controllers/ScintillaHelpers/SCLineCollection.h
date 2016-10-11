@@ -10,6 +10,8 @@
 
 @class SCScintilla;
 @class SCLine;
+@class SCPerLine;
+
 
 @interface SCLineCollection : NSObject {
   SCScintilla* _scintilla;
@@ -21,13 +23,14 @@
 //@property (nonatomic) long Count;
 //@property (strong, nonatomic) NSArray<SCLine*>* lines;
 
+@property (strong, nonatomic) NSMutableArray<SCPerLine*>* perLineData;
 
 -(id)initWithScintilla:(SCScintilla*)sc;
 
 
 
 /// Adjust the number of CHARACTERS in a line.
--(void)AdjustLineLength:(int)index delta:(int)delta;
+-(void)AdjustLineLength:(NSInteger)index delta:(NSInteger)delta;
 
 /// Converts a BYTE offset to a CHARACTER offset.
 
@@ -39,14 +42,14 @@
 
 -(NSInteger)CharToBytePosition:(NSInteger) pos;
 
--(void)DeletePerLine:(int)index;
+-(void)DeletePerLine:(NSInteger)index;
 
 /// Gets the number of CHARACTERS int a BYTE range.
 -(NSInteger)GetCharCount:(NSInteger)pos length:(NSInteger)length;
 
 
 /// Gets the number of CHARACTERS in a BYTE range.
-+(NSInteger)GetCharCount:(NSString*)text length:(NSInteger)length; //Encoding encoding);
++(NSInteger)GetCharCount:(NSString*)text length:(NSInteger)length encoding:(NSStringEncoding)encoding;
 
 /// Gets a value indicating whether all the document lines are visible (not hidden).
 /// @returns true if all the lines are visible; otherwise, false.
@@ -57,6 +60,7 @@
 -(SCLine*)addLineAtIndex:(NSInteger)index;
 
 -(NSArray<SCLine*>*)Lines;
+-(void)populateLinesFromContent:(NSString*)content;
 
 -(BOOL)LineContainsMultibyteChar:(NSInteger)index;
 

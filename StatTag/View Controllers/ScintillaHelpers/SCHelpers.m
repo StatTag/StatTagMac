@@ -12,19 +12,19 @@
 
 @implementation SCHelpers
 
-+(long)Clamp:(long)value min:(long)min max:(long) max
++(NSInteger)Clamp:(NSInteger)value min:(NSInteger)min max:(NSInteger) max
 {
   if (value < min)
     return min;
   
-  if (value > max && max > min)//eww changed to add && max > min
+  if (value > max)// && max > min)//eww changed to add && max > min
     return max;
   
   return value;
 }
 
 
-+(long)ClampMin:(long)value min:(long) min
++(NSInteger)ClampMin:(NSInteger)value min:(NSInteger) min
 {
   if (value < min)
     return min;

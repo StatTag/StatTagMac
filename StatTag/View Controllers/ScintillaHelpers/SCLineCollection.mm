@@ -35,9 +35,12 @@ NSInteger stepLength;
   if(self) {
     _scintilla = sc;
     _lines = [[NSMutableArray<SCLine*> alloc] init];
-    _perLineData = [[NSMutableArray<SCPerLine*> alloc] init];
     [self populateLinesFromContent: [[_scintilla scintillaView] string]];
     
+    
+    _perLineData = [[NSMutableArray<SCPerLine*> alloc] init];
+    [_perLineData addObject:[[SCPerLine alloc] initWithStart:0 andContainsMultibyte:Unknown]];
+    [_perLineData addObject:[[SCPerLine alloc] initWithStart:0 andContainsMultibyte:Unknown]]; // Terminal
 //    this.perLineData = new GapBuffer<PerLine>();
 //    this.perLineData.Add(new PerLine { Start = 0 });
 //    this.perLineData.Add(new PerLine { Start = 0 }); // Terminal
@@ -54,6 +57,7 @@ NSInteger stepLength;
   //}
   long numLines = [[content componentsSeparatedByString:@"\r\n"] count];
   int i;
+  _lines = [[NSMutableArray<SCLine*> alloc] init];
   for(i = 0; i < numLines; i ++ ) {
     SCLine* line = [self addLineAtIndex:i];
     [_lines addObject:line];
@@ -64,7 +68,7 @@ NSInteger stepLength;
 /// <summary>
 /// Adjust the number of CHARACTERS in a line.
 /// </summary>
--(void)AdjustLineLength:(int)index delta:(int)delta
+-(void)AdjustLineLength:(NSInteger)index delta:(NSInteger)delta
 {
   [self MoveStep: index];
   stepLength += delta;
@@ -158,7 +162,7 @@ NSInteger stepLength;
   return bytePos;
 }
 
--(void)DeletePerLine:(int)index
+-(void)DeletePerLine:(NSInteger)index
 {
 //  Debug.Assert(index != 0);
   
@@ -180,8 +184,17 @@ NSInteger stepLength;
 /// </summary>
 -(NSInteger)GetCharCount:(NSInteger)pos length:(NSInteger)length
 {
-  NSInteger ptr = [ScintillaView directCall:[_scintilla scintillaView] message:SCI_GETRANGEPOINTER wParam:pos lParam:length];
-  return [self GetCharCount:ptr length:length];
+  //NSInteger ptr = [ScintillaView directCall:[_scintilla scintillaView] message:SCI_GETRANGEPOINTER wParam:pos lParam:length];
+  char* ptr = (char*)[ScintillaView directCall:[_scintilla scintillaView] message:SCI_GETRANGEPOINTER wParam:pos lParam:length];
+//  NSString* s = [NSString stringWithCString:ptr encoding:NSUTF8StringEncoding];
+  NSString* s = [NSString stringWithUTF8String: ptr];
+  //OK - this is somehow just... off... we get the entire string back after the pos offset
+  // I think... so we're going to manually substring this ourselves... until we find out why this doesn't
+  // behave as anticipated... probably me (ok - definitely me...), but it's unclear why.
+  if([s length] > length) {
+    s = [s substringToIndex:length];
+  }
+  return [[self class] GetCharCount:s length:length encoding:NSUTF8StringEncoding];
   //GetCharCount(ptr, length, scintilla.Encoding);
   //FIXME: go back and review encoding from scintilla vs encoding from the string
 }
@@ -189,7 +202,7 @@ NSInteger stepLength;
 /// <summary>
 /// Gets the number of CHARACTERS in a BYTE range.
 /// </summary>
-+(NSInteger)GetCharCount:(NSString*)text length:(NSInteger)length //Encoding encoding)
++(NSInteger)GetCharCount:(NSString*)text length:(NSInteger)length encoding:(NSStringEncoding)encoding //Encoding encoding)
 {
   if (text == nil || length == 0)
     return 0;
@@ -340,13 +353,56 @@ NSInteger stepLength;
   [_perLineData addObject:[[SCPerLine alloc] initWithStart:0 andContainsMultibyte: Unknown]]; // Terminal
 
   //FIXME: deal with this...
-//  // Fake an insert notification
-//  var scn = new NativeMethods.SCNotification();
-//  scn.linesAdded = scintilla.DirectMessage(NativeMethods.SCI_GETLINECOUNT).ToInt32() - 1;
-//  scn.position = 0;
-//  scn.length = scintilla.DirectMessage(NativeMethods.SCI_GETLENGTH).ToInt32();
+  // Fake an insert notification
+  //  var scn = new NativeMethods.SCNotification();
+  Scintilla::SCNotification scn = {};// = [[Scintilla::SCNotification alloc] init];
+  scn.linesAdded = (int)[ScintillaView directCall:[_scintilla scintillaView] message:SCI_GETLINECOUNT wParam:0 lParam:0];
+  scn.position = 0;
+  scn.length = (int)[ScintillaView directCall:[_scintilla scintillaView] message:SCI_GETLENGTH wParam:0 lParam:0];
+  scn.text = (char*)[ScintillaView directCall:[_scintilla scintillaView] message:SCI_GETRANGEPOINTER wParam:scn.position lParam:scn.length];
 //  scn.text = scintilla.DirectMessage(NativeMethods.SCI_GETRANGEPOINTER, new IntPtr(scn.position), new IntPtr(scn.length));
 //  TrackInsertText(scn);
+  [self TrackInsertText: scn];
 }
+
+
+-(void) TrackInsertText:(Scintilla::SCNotification)scn
+{
+  NSInteger startLine = [ScintillaView directCall:[_scintilla scintillaView] message:SCI_LINEFROMPOSITION wParam:scn.position lParam:0];
+  
+  if (scn.linesAdded == 0)
+  {
+    // That was easy
+    NSInteger delta = [self GetCharCount:scn.position length:scn.length];
+    [self AdjustLineLength:startLine delta:delta];
+  }
+  else
+  {
+    NSInteger lineByteStart = 0;
+    NSInteger lineByteLength = 0;
+    
+    // Adjust existing line
+    lineByteStart = [ScintillaView directCall:[_scintilla scintillaView] message:SCI_POSITIONFROMLINE wParam:startLine lParam:0];
+    lineByteLength = [ScintillaView directCall:[_scintilla scintillaView] message:SCI_LINELENGTH wParam:startLine lParam:0];
+    [self AdjustLineLength:startLine delta:([self GetCharCount:lineByteStart length:lineByteLength] - [self CharLineLength:startLine])];
+    //AdjustLineLength(startLine, GetCharCount(lineByteStart, lineByteLength) - CharLineLength(startLine));
+    
+    for (int i = 1; i <= scn.linesAdded; i++)
+    {
+      NSInteger line = startLine + i;
+      
+      // Insert new line
+      lineByteStart += lineByteLength;
+      lineByteLength = [ScintillaView directCall:[_scintilla scintillaView] message:SCI_LINELENGTH wParam:line lParam:0];
+      [self InsertPerLine:line length:[self GetCharCount:lineByteStart length:lineByteLength]];
+    }
+  }
+}
+
+-(NSString*)description {
+  return [NSString stringWithFormat:@"perLineData: %@, Lines: %@", _perLineData, [self Lines]];
+//  return [NSString stringWithFormat:@"Start: %ld, ContainsMultiByte: %ld", (long)[self Start], [self ContainsMultibyte]];
+}
+
 
 @end

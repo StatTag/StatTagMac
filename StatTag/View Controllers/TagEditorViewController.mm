@@ -933,9 +933,14 @@ static void *TagTypeContext = &TagTypeContext;
 -(void)loadSourceViewFromCodeFile:(STCodeFile*)codeFile {
   
   [_sourceEditor setString:[[codeFile Content] componentsJoinedByString:@"\r\n" ] ];
+  //[self sourceEditor]
+  [[scintillaHelper Lines] populateLinesFromContent: [_sourceEditor string]];
+  [[scintillaHelper Lines] RebuildLineData];
   
   //yeah - I know - it's not smart to do this with hardcoded comparisons
   //  - but I'm just working through it for now
+  
+  NSLog(@"%@", [scintillaHelper Lines]);
   
   if([[codeFile StatisticalPackage] isEqualToString: [STConstantsStatisticalPackages Stata]]) {
     
@@ -1095,20 +1100,30 @@ static void *TagTypeContext = &TagTypeContext;
     switch (notification->nmhdr.code) {
       case SCN_KEY: //2005
         NSLog(@"clicked on a key");
+        break;
       case SCN_DOUBLECLICK: //2006
         NSLog(@"double-clicked on something");
+        break;
       case SCN_UPDATEUI: //2007
         NSLog(@"some sort of UI update");
+        break;
       case SCN_MODIFIED: //2008
         NSLog(@"modified");
+        break;
       case SCN_MARGINCLICK: //2010
         //margin -> margin array. 1 = our "gutter" between line #'s and the text block
         //position -> x coordiante - NOT the line #
         NSLog(@"margin clicked : margin[%d], position[%d]", notification->margin, notification->position);
+        [self marginClick:notification];
+//        NSInteger lineIndex = [scintillaHelper LineFromPosition:notification->position];
+//        NSLog(@"line : %ld", (long)lineIndex);
+        break;
       case SCN_FOCUSIN: //2028
         NSLog(@"focus in");
+        break;
       case SCN_FOCUSOUT: //2029
         NSLog(@"focus out");
+        break;
       default:
         //NSLog(@"SCNotification (unknown) : code: %d", notification->nmhdr.code);
         break;
@@ -1117,6 +1132,12 @@ static void *TagTypeContext = &TagTypeContext;
   }
   //http://scintilla-interest.narkive.com/Igf6A0zn/nsdocument-with-scintilla
   //https://groups.google.com/forum/#!topic/scintilla-interest/5kVw7Vizgns
+}
+
+-(void)marginClick:(Scintilla::SCNotification*)notification
+{
+  NSInteger lineIndex = [scintillaHelper LineFromPosition:notification->position];
+  NSLog(@"line : %ld", (long)lineIndex);
 }
 
 @end

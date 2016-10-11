@@ -24,6 +24,9 @@
 -(NSInteger)LinesOnScreen;
 -(id)initWithScintillaView:(ScintillaView*)sc;
 
--(SCLineCollection*)Lines;
+-(NSInteger)LineFromPosition:(NSInteger) position;
+
+//-(SCLineCollection*)Lines;
+@property (strong, nonatomic) SCLineCollection* Lines;
 
 @end
