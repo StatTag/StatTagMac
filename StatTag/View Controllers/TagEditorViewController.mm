@@ -1137,7 +1137,7 @@ static void *TagTypeContext = &TagTypeContext;
 -(void)marginClick:(Scintilla::SCNotification*)notification
 {
   NSInteger lineIndex = [scintillaHelper LineFromPosition:notification->position];
-  NSLog(@"line : %ld", (long)lineIndex);
+  NSLog(@"margin [%ld] was clicked on line : %ld", (long)notification->margin, (long)lineIndex);
 }
 
 @end
