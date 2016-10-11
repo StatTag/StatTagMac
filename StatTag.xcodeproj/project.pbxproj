@@ -76,7 +76,7 @@
 		382C8D441D101C2700FE6878 /* StatTagModelFileHandlerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 382C8D431D101C2700FE6878 /* StatTagModelFileHandlerTests.m */; };
 		382C8D461D101C2700FE6878 /* StatTagFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 382C8D231D0F672F00FE6878 /* StatTagFramework.framework */; };
 		382C8D4D1D101CE000FE6878 /* TestSourceTextFile.txt in Resources */ = {isa = PBXBuildFile; fileRef = 382C8D4C1D101CE000FE6878 /* TestSourceTextFile.txt */; };
-		3836F54E1D92C89900BF0DD4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3836F54D1D92C89900BF0DD4 /* AppDelegate.m */; };
+		3836F54E1D92C89900BF0DD4 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3836F54D1D92C89900BF0DD4 /* AppDelegate.mm */; };
 		3836F5511D92C89900BF0DD4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3836F5501D92C89900BF0DD4 /* main.m */; };
 		3836F5561D92C89900BF0DD4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3836F5551D92C89900BF0DD4 /* Assets.xcassets */; };
 		3836F5591D92C89900BF0DD4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3836F5571D92C89900BF0DD4 /* Main.storyboard */; };
@@ -99,6 +99,7 @@
 		384764B51DA5683100FCDABE /* NumericValuePropertiesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 384764B31DA5683100FCDABE /* NumericValuePropertiesController.m */; };
 		384764B61DA5683100FCDABE /* NumericValuePropertiesController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 384764B41DA5683100FCDABE /* NumericValuePropertiesController.xib */; };
 		384764B91DA56B8300FCDABE /* IntegerOnlyNumberFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 384764B81DA56B8300FCDABE /* IntegerOnlyNumberFormatter.m */; };
+		385221C51DAD5D0B005E804B /* SCPerLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 385221C41DAD5D0B005E804B /* SCPerLine.m */; };
 		385906EE1D1C6E280088A0D7 /* StatTagModelJSONTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 385906ED1D1C6E280088A0D7 /* StatTagModelJSONTests.m */; };
 		385EF1421D95D53C005768C7 /* StatTagMacros.dotm in Resources */ = {isa = PBXBuildFile; fileRef = 385EF1401D95D53C005768C7 /* StatTagMacros.dotm */; };
 		385EF1431D95D53C005768C7 /* statTagTestUIScript.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 385EF1411D95D53C005768C7 /* statTagTestUIScript.scpt */; };
@@ -234,8 +235,6 @@
 		38EDF0331D2C2E6900ACD77B /* STCocoaUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EDF0311D2C2E6900ACD77B /* STCocoaUtil.m */; };
 		38EDF0351D2C2FC200ACD77B /* StatTagStataAutomationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EDF0341D2C2FC200ACD77B /* StatTagStataAutomationTests.m */; };
 		38EF1A671D99544F008EA9B0 /* readme.md in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1A661D99544F008EA9B0 /* readme.md */; };
-		38EF1A6A1D99A16B008EA9B0 /* ACEView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38EF1A691D99A16B008EA9B0 /* ACEView.framework */; };
-		38EF1A6C1D99A17E008EA9B0 /* ACEView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 38EF1A691D99A16B008EA9B0 /* ACEView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		38F803431D9C4B9A00C8F1EA /* SCHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F803421D9C4B9A00C8F1EA /* SCHelpers.m */; };
 		38F803461D9C4CEB00C8F1EA /* SCMarkerHandle.mm in Sources */ = {isa = PBXBuildFile; fileRef = 38F803451D9C4CEB00C8F1EA /* SCMarkerHandle.mm */; };
 		38F803491D9C50C000C8F1EA /* SCLine.mm in Sources */ = {isa = PBXBuildFile; fileRef = 38F803481D9C50C000C8F1EA /* SCLine.mm */; };
@@ -334,7 +333,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				38D8B1B31D9496C300BF878A /* StatTagFramework.framework in Embed Frameworks */,
-				38EF1A6C1D99A17E008EA9B0 /* ACEView.framework in Embed Frameworks */,
 				38A877CE1D9AEEA7002F37DA /* Scintilla.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -421,7 +419,7 @@
 		382C8D4C1D101CE000FE6878 /* TestSourceTextFile.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TestSourceTextFile.txt; sourceTree = "<group>"; };
 		3836F54A1D92C89900BF0DD4 /* StatTag.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StatTag.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3836F54C1D92C89900BF0DD4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		3836F54D1D92C89900BF0DD4 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		3836F54D1D92C89900BF0DD4 /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
 		3836F5501D92C89900BF0DD4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		3836F5551D92C89900BF0DD4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3836F5581D92C89900BF0DD4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -460,6 +458,8 @@
 		384764B41DA5683100FCDABE /* NumericValuePropertiesController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NumericValuePropertiesController.xib; sourceTree = "<group>"; };
 		384764B71DA56B8300FCDABE /* IntegerOnlyNumberFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntegerOnlyNumberFormatter.h; sourceTree = "<group>"; };
 		384764B81DA56B8300FCDABE /* IntegerOnlyNumberFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntegerOnlyNumberFormatter.m; sourceTree = "<group>"; };
+		385221C31DAD5D0B005E804B /* SCPerLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCPerLine.h; sourceTree = "<group>"; };
+		385221C41DAD5D0B005E804B /* SCPerLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCPerLine.m; sourceTree = "<group>"; };
 		385906ED1D1C6E280088A0D7 /* StatTagModelJSONTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagModelJSONTests.m; sourceTree = "<group>"; };
 		385EF1401D95D53C005768C7 /* StatTagMacros.dotm */ = {isa = PBXFileReference; lastKnownFileType = file; path = StatTagMacros.dotm; sourceTree = "<group>"; };
 		385EF1411D95D53C005768C7 /* statTagTestUIScript.scpt */ = {isa = PBXFileReference; lastKnownFileType = file; path = statTagTestUIScript.scpt; sourceTree = "<group>"; };
@@ -659,7 +659,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				38D8B1B21D9496C300BF878A /* StatTagFramework.framework in Frameworks */,
-				38EF1A6A1D99A16B008EA9B0 /* ACEView.framework in Frameworks */,
 				38A877CD1D9AEEA7002F37DA /* Scintilla.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -909,7 +908,7 @@
 				38F803501D9DAF5500C8F1EA /* Classes */,
 				3836F57C1D92C8EA00BF0DD4 /* StatTag.sdef */,
 				3836F54C1D92C89900BF0DD4 /* AppDelegate.h */,
-				3836F54D1D92C89900BF0DD4 /* AppDelegate.m */,
+				3836F54D1D92C89900BF0DD4 /* AppDelegate.mm */,
 				38D8B1A41D94928600BF878A /* StatTagShared.h */,
 				38D8B1A51D94928600BF878A /* StatTagShared.m */,
 				3836F5551D92C89900BF0DD4 /* Assets.xcassets */,
@@ -1318,6 +1317,8 @@
 				38F803481D9C50C000C8F1EA /* SCLine.mm */,
 				38F8034A1D9C579000C8F1EA /* SCLineCollection.h */,
 				38F8034B1D9C579000C8F1EA /* SCLineCollection.mm */,
+				385221C31DAD5D0B005E804B /* SCPerLine.h */,
+				385221C41DAD5D0B005E804B /* SCPerLine.m */,
 				38F8034D1D9C5C1800C8F1EA /* SCScintilla.h */,
 				38F8034E1D9C5C1800C8F1EA /* SCScintilla.mm */,
 			);
@@ -1892,7 +1893,7 @@
 				3836F5AD1D92ED9D00BF0DD4 /* STAppleScript_LoadSettings.m in Sources */,
 				3836F5511D92C89900BF0DD4 /* main.m in Sources */,
 				3876324F1DA83B6C00680898 /* StatTagNeedsWordViewController.m in Sources */,
-				3836F54E1D92C89900BF0DD4 /* AppDelegate.m in Sources */,
+				3836F54E1D92C89900BF0DD4 /* AppDelegate.mm in Sources */,
 				3836F5A01D92D03D00BF0DD4 /* SettingsViewController.m in Sources */,
 				38F803431D9C4B9A00C8F1EA /* SCHelpers.m in Sources */,
 				38F803461D9C4CEB00C8F1EA /* SCMarkerHandle.mm in Sources */,
@@ -1908,6 +1909,7 @@
 				38F803531D9DAF7800C8F1EA /* UIUtility.m in Sources */,
 				383F3B981DA679AE0069C78E /* TagPreviewController.m in Sources */,
 				3836F5A91D92EBCB00BF0DD4 /* MainTabViewController.m in Sources */,
+				385221C51DAD5D0B005E804B /* SCPerLine.m in Sources */,
 				387632541DA9402500680898 /* STTag+Preview.m in Sources */,
 				38F803491D9C50C000C8F1EA /* SCLine.mm in Sources */,
 				384764B51DA5683100FCDABE /* NumericValuePropertiesController.m in Sources */,
@@ -2195,6 +2197,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon_circle;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -2221,6 +2224,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon_circle;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				COMBINE_HIDPI_IMAGES = YES;

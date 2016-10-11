@@ -50,6 +50,7 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 
   _window = [[[NSApplication sharedApplication] windows] firstObject];
+  [[StatTagShared sharedInstance] setWindow:_window];
   [[StatTagShared sharedInstance] initializeWordViews];
 
   [AppEventListener startListening];

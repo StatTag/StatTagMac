@@ -47,6 +47,8 @@
 
 + (NSColor*)colorFromRGBRed:(CGFloat)r  green:(CGFloat)g blue:(CGFloat)b alpha:(CGFloat)a;
 
+@property (weak, nonatomic) NSWindow* window;
+
 -(void)initializeWordViews;
 
 

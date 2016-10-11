@@ -40,6 +40,7 @@ IB_DESIGNABLE
 @property (strong, nonatomic) STPropertiesManager* propertiesManager;
 @property (strong, nonatomic) STLogManager* logManager;
 
+@property (weak) IBOutlet NSPathControl *logPathControl;
 
 
 

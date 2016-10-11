@@ -13,6 +13,14 @@
 #import "ValuePropertiesController.h"
 #import "TablePropertiesController.h"
 
+//#ifdef __cplusplus
+//  #include "Scintilla/ScintillaView.h"
+//  #include "Scintilla/InfoBar.h"
+//  #include "Scintilla/Scintilla.h"
+//#endif
+
+  
+
 @class ScintillaView;
 @class STTag;
 @class STCodeFile;
@@ -27,7 +35,14 @@
 - (void)dismissTagEditorController:(TagEditorViewController*)controller withReturnCode:(StatTagResponseState)returnCode;
 @end
 
-@interface TagEditorViewController : NSViewController <NSTextFieldDelegate, TagBasicPropertiesControllerDelegate, ValuePropertiesControllerDelegate, TablePropertiesControllerDelegate> {
+@class SCNotification;
+@protocol ScintillaNotificationProtocol
+- (void)notification: (SCNotification*)notification;
+@end
+
+
+//ScintillaNotificationProtocol
+@interface TagEditorViewController : NSViewController <NSTextFieldDelegate, TagBasicPropertiesControllerDelegate, ValuePropertiesControllerDelegate, TablePropertiesControllerDelegate, ScintillaNotificationProtocol> {
   STTag* _tag;
   STDocumentManager* _documentManager;
   

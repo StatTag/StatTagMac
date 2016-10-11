@@ -10,6 +10,7 @@
 #import "Scintilla/Scintilla.h"
 #import "Scintilla/ScintillaView.h"
 
+#import "SCHelpers.h"
 #import "SCLineCollection.h"
 
 @implementation SCScintilla
@@ -35,18 +36,33 @@
 }
 
 
+/**
+  @summary Returns the line that contains the document position specified.
+  @param position : The zero-based document character position.
+  @returns The zero-based document line index containing the character "."
+ */
+-(NSInteger)LineFromPosition:(NSInteger) position
+{
+  position = [SCHelpers Clamp:position min:0 max:[[[self scintillaView] string] length]];
+//  position = Helpers.Clamp(position, 0, TextLength);
+  
+//  return Lines.LineFromCharPosition(position);
+  return [[self Lines] LineFromCharPosition: position];
+}
+
+
 /// @summary Scrolls the display the number of lines and columns specified.
 /// @parameter lines : The number of lines to scroll.
 /// @parameter name : The number of columns to scroll.
 /// @remark Negative values scroll in the opposite direction. A column is the width in pixels of a space character in the Default style.
--(void)LineScroll:(int)lines columns:(int)columns
+-(void)LineScroll:(NSInteger)lines columns:(NSInteger)columns
 {
   [ScintillaView directCall:[self scintillaView] message:SCI_LINESCROLL wParam:columns lParam:lines];
 }
 
--(int) LinesOnScreen
+-(NSInteger) LinesOnScreen
 {
-  int result = (int)[ScintillaView directCall:[self scintillaView] message:SCI_LINESONSCREEN wParam:0 lParam:0];
+  NSInteger result = (int)[ScintillaView directCall:[self scintillaView] message:SCI_LINESONSCREEN wParam:0 lParam:0];
   return result;
 }
 

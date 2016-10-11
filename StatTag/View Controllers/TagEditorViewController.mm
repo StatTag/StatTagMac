@@ -23,9 +23,12 @@
 #import "StatTagShared.h"
 #import "UIUtility.h"
 
+//obj-c++ -> include in the header instead so we can refer to the protocol
+// well that didn't work...
 #import "Scintilla/ScintillaView.h"
 #import "Scintilla/InfoBar.h"
 #import "Scintilla/Scintilla.h"
+
 
 #import "DisclosureViewController.h"
 
@@ -314,6 +317,22 @@ static void *TagTypeContext = &TagTypeContext;
       //probably a new tag
       _originalTag = nil;
       
+      //create a new tag and set some defaults
+      self.tag = [[STTag alloc] init];
+      [[self tag] setType:[STConstantsTagType Value]];
+      //ack... I'd rather get this from the array controller, but...
+      [[self tag] setCodeFile: [[[self documentManager] GetCodeFileList] firstObject]];
+      [self setCodeFile:[[self tag] CodeFile]];
+      [[self tag] setRunFrequency:[STConstantsRunFrequency OnDemand]];
+      STValueFormat* v = [[STValueFormat alloc] init];
+      STTableFormat* t = [[STTableFormat alloc] init];
+      STFigureFormat* f = [[STFigureFormat alloc] init];
+      [v setFormatType:[STConstantsValueFormatType Default]];
+      [[self tag] setValueFormat:v];
+      [[self tag] setTableFormat:t];
+      [[self tag] setFigureFormat:f];
+      
+      
       //EWW - not doing this - we're going to just let cocoa bindings handle it
       // that _is_ different - we're selecting the code file and not saying "hey, choose a code file"
       
@@ -432,6 +451,7 @@ static void *TagTypeContext = &TagTypeContext;
 -(void)LoadCodeFile:(STCodeFile*)codeFile {
   [self loadSourceViewFromCodeFile:codeFile];
   //changedCodeFile = false; //we just reset the code file so set this back
+  [scintillaHelper EmptyUndoBuffer];
 }
 
 //- (IBAction)setFrequency:(id)sender {
@@ -768,6 +788,8 @@ static void *TagTypeContext = &TagTypeContext;
 
 -(void)addSourceViewEditor {
   _sourceEditor = [[ScintillaView alloc] initWithFrame: [_sourceView frame]];
+  [[self sourceEditor] setDelegate:self]; //ehhhhhh....
+  
   scintillaHelper = [[SCScintilla alloc] initWithScintillaView:_sourceEditor];
   
   [_sourceView addSubview: _sourceEditor];
@@ -1035,6 +1057,66 @@ static void *TagTypeContext = &TagTypeContext;
   
 }
 
+//- (void) notification: (SCNotification*)scn
+//{
+//  // Parent notification. Details are passed as SCNotification structure.
+//  NSLog(@"scintilla did something");
+//}
 
+//- (void)notification:(Scintilla::SCNotification*)notification {
+//  NSLog(@"");
+//}
+
+- (void)notification:(Scintilla::SCNotification*)notification {
+  
+  //ignore the type mismatch - I can't seem to figure out how to get the namespace to work in the header,
+  // so we're just saying "SCNotification" there - but the fully namespaced notification here
+  /*
+   scn.nmhdr.code = listType > 0 ? SCN_USERLISTSELECTION : SCN_AUTOCSELECTION;
+   scn.message = 0;
+   scn.ch = ch;
+   scn.listCompletionMethod = completionMethod;
+   scn.wParam = listType;
+   scn.listType = listType;
+   Position firstPos = ac.posStart - ac.startLen;
+   scn.position = firstPos;
+   scn.lParam = firstPos;
+   scn.text = selected.c_str();
+   */
+  //2013 -> Scintilla.h -> #define for each
+  if(notification->nmhdr.code != SCN_PAINTED) {
+    //#define SCN_CHARADDED 2001
+    
+    //#define SCN_KEY 2005
+    //#define SCN_DOUBLECLICK 2006
+    //#define SCN_UPDATEUI 2007
+    //#define SCN_MARGINCLICK 2010
+    
+    switch (notification->nmhdr.code) {
+      case SCN_KEY: //2005
+        NSLog(@"clicked on a key");
+      case SCN_DOUBLECLICK: //2006
+        NSLog(@"double-clicked on something");
+      case SCN_UPDATEUI: //2007
+        NSLog(@"some sort of UI update");
+      case SCN_MODIFIED: //2008
+        NSLog(@"modified");
+      case SCN_MARGINCLICK: //2010
+        //margin -> margin array. 1 = our "gutter" between line #'s and the text block
+        //position -> x coordiante - NOT the line #
+        NSLog(@"margin clicked : margin[%d], position[%d]", notification->margin, notification->position);
+      case SCN_FOCUSIN: //2028
+        NSLog(@"focus in");
+      case SCN_FOCUSOUT: //2029
+        NSLog(@"focus out");
+      default:
+        //NSLog(@"SCNotification (unknown) : code: %d", notification->nmhdr.code);
+        break;
+    }
+    
+  }
+  //http://scintilla-interest.narkive.com/Igf6A0zn/nsdocument-with-scintilla
+  //https://groups.google.com/forum/#!topic/scintilla-interest/5kVw7Vizgns
+}
 
 @end

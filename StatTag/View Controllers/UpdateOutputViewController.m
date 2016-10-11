@@ -79,6 +79,26 @@ BOOL breakLoop = YES;
   [super viewDidLoad];
   // Do view setup here.
   
+
+//  NSSegmentedControl* segment = [[NSSegmentedControl alloc] initWithFrame:NSMakeRect(0, 0, 200, 100)];
+//  [segment setSegmentStyle:NSSegmentStyleSeparated];
+  
+  //this sort of works, but...
+  // 1) wrong state
+  // 2) not the button background - it's the entire view backgorund...
+//  [[self filterButtonAll] setWantsLayer:YES];
+//  [[[self filterButtonAll] layer] setBackgroundColor:[[NSColor whiteColor] CGColor]];
+  
+//  [[self filterButtonAll] cell] setBackgroundStyle:[NSBackgroundColorAttributeName]
+  
+//  [[self filterButtonAll] setCell:[ColoredButtonCell cellForButton: [self filterButton] withColor: [NSColor whiteColor]];
+//   setCell: [ColoredButtonCell
+//             cellForButton:myButton
+//             withColor:[NSColor xxxColor]
+//             ]
+//   ];
+
+  
 }
 
 
@@ -86,10 +106,27 @@ BOOL breakLoop = YES;
   //we need to reload the tags every time the view appears - it's possible code files were removed or the code file
   // was modified, etc.
   [self loadAllTags];
-  [[self buttonEdit] setWantsLayer:YES];
-  [[[self buttonEdit] layer] setBackgroundColor:[[NSColor whiteColor] CGColor]];
 
+//  [[self filterButtonAll] setState:NSOnState];
+  
+  
+// still doesn't work...
+//  [[self buttonEdit] setWantsLayer:YES];
+//  [[[self buttonEdit] layer] setBackgroundColor:[[NSColor whiteColor] CGColor]];
+
+  
 }
+
+-(void)viewDidAppear {
+  [[[StatTagShared sharedInstance] window] makeFirstResponder:[self tableViewOnDemand]];
+}
+
+//-(BOOL)enableAddTagButton {
+//  return [[[self documentManager] GetCodeFileList] count] > 0 ? YES : NO;
+//}
+//-(BOOL)enableRemoveTagButton {
+//  return NO;
+//}
 
 
 -(void)loadAllTags {
@@ -97,6 +134,12 @@ BOOL breakLoop = YES;
   
   for(STCodeFile* file in [_documentManager GetCodeFileList]) {
     [file LoadTagsFromContent];
+  }
+  
+  if([[[self documentManager] GetCodeFileList] count] > 0) {
+    [[self addTagButton] setEnabled:YES];
+  } else {
+    [[self addTagButton] setEnabled:NO];
   }
   
   //[self willChangeValueForKey:@"documentTags"];
@@ -241,13 +284,31 @@ BOOL breakLoop = YES;
   }
   
   NSInteger row = [[self tableViewOnDemand] rowForView:sender];
-  STTag* selectedTag = [[onDemandTags arrangedObjects] objectAtIndex:row];
-  if(selectedTag != nil) {
-    tagEditorController.documentManager = _documentManager;
-    tagEditorController.tag = selectedTag;
-    tagEditorController.delegate = self;
-    [self presentViewControllerAsSheet:tagEditorController];
+  if(row == -1) {
+    row = [[self tableViewOnDemand] clickedRow];
   }
+  if(row > -1) {
+    STTag* selectedTag = [[onDemandTags arrangedObjects] objectAtIndex:row];
+    if(selectedTag != nil) {
+      tagEditorController.documentManager = _documentManager;
+      tagEditorController.tag = selectedTag;
+      tagEditorController.delegate = self;
+      [self presentViewControllerAsSheet:tagEditorController];
+    }
+  }
+}
+
+- (IBAction)createTag:(id)sender {
+  
+  if (tagEditorController == nil)
+  {
+    tagEditorController = [[TagEditorViewController alloc] init];
+  }
+
+  tagEditorController.documentManager = _documentManager;
+  tagEditorController.tag = nil;
+  tagEditorController.delegate = self;
+  [self presentViewControllerAsSheet:tagEditorController];
 }
 
 - (void)dismissTagEditorController:(TagEditorViewController *)controller withReturnCode:(StatTagResponseState)returnCode {

@@ -6,6 +6,10 @@
 //  Copyright © 2016 StatTag. All rights reserved.
 //
 
+/*
+ For word wrapping on the file path, go to the size inspector and set "first runtime layout width" under "preferred width"
+ */
+
 #import "SettingsViewController.h"
 #import "StatTag.h"
 #import "StatTagShared.h"
@@ -41,6 +45,12 @@ NSString* const defaultLogFileName = @"StatTag.log";
   [[self boxGeneral] setBorderType:NSLineBorder];
   [[self boxGeneral] setFillColor:[NSColor whiteColor]];
 }
+
+//-(void)viewDidLayout {
+//  [super viewDidLayout];
+////  [[self labelFilePath] setPreferredMaxLayoutWidth:[[self labelFilePath] frame].size.width];
+////  [[self view] layoutSubtreeIfNeeded];
+//}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -119,9 +129,9 @@ NSString* const defaultLogFileName = @"StatTag.log";
   //    txtLogLocation.Text = logPath;
   //  }
   
-  [[self labelFilePath] setStringValue:@"/Users/ewhitley/Documents/work_other/NU/Word Plugin/_code/WindowsVersion/Word_Files_Working_Copies/StatTag.log"];
-  [self saveSettings];
-  return;
+//  [[self labelFilePath] setStringValue:@"/Users/ewhitley/Documents/work_other/NU/Word Plugin/_code/WindowsVersion/Word_Files_Working_Copies/StatTag.log"];
+//  [self saveSettings];
+//  return;
   
   NSOpenPanel* openPanel = [NSOpenPanel openPanel];
   [openPanel setCanChooseFiles:YES];
@@ -200,7 +210,7 @@ NSString* const defaultLogFileName = @"StatTag.log";
     [[self propertiesManager] setProperties:[self properties]];
     [[self propertiesManager] Save];
     [[self logManager] UpdateSettings:[self properties]];
-    
+//    [[self logPathControl] setURL:[NSURL URLWithString:[[[self properties] LogLocation] stringByExpandingTildeInPath]]];
   }
 }
 

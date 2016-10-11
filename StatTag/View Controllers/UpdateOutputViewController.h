@@ -55,4 +55,14 @@ IB_DESIGNABLE
 @property (strong, nonatomic) NSString* filterTagType;
 
 
+@property (weak) IBOutlet NSButton *filterButtonAll;
+
+
+@property (weak) IBOutlet NSButton *addTagButton;
+@property (weak) IBOutlet NSButton *removeTagButton;
+
+
+//-(BOOL)enableAddTagButton;
+//-(BOOL)enableRemoveTagButton;
+
 @end

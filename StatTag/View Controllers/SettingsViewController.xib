@@ -37,15 +37,16 @@
                                     <action selector="checkboxLoggingChanged:" target="-2" id="IU2-h0-aBl"/>
                                 </connections>
                             </button>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="RJE-dJ-G6u">
-                                <rect key="frame" x="114" y="161" width="332" height="17"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" placeholderString="Log Path Not Set" id="EyT-3A-Ryc">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RJE-dJ-G6u">
+                                <rect key="frame" x="114" y="161" width="312" height="17"/>
+                                <textFieldCell key="cell" sendsActionOnEndEditing="YES" placeholderString="Log Path Not Set" id="EyT-3A-Ryc">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                                 <connections>
                                     <action selector="labelFilePathClicked:" target="-2" id="8NK-ZX-5Cd"/>
+                                    <binding destination="-2" name="value" keyPath="self.logManager.LogFilePath" id="9Da-5U-xRZ"/>
                                 </connections>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5sE-yd-FR7">
@@ -74,12 +75,13 @@
                             <constraint firstItem="4S7-7A-rTx" firstAttribute="top" secondItem="RJE-dJ-G6u" secondAttribute="bottom" constant="19" id="5R0-7m-LZD"/>
                             <constraint firstItem="n1Z-0A-46h" firstAttribute="top" secondItem="33C-ff-rKk" secondAttribute="top" constant="20" id="60c-dx-wzp"/>
                             <constraint firstAttribute="trailing" secondItem="n1Z-0A-46h" secondAttribute="trailing" constant="20" id="FGW-hV-UG2"/>
-                            <constraint firstAttribute="trailing" secondItem="RJE-dJ-G6u" secondAttribute="trailing" id="FLU-tM-WeA"/>
                             <constraint firstItem="n1Z-0A-46h" firstAttribute="leading" secondItem="33C-ff-rKk" secondAttribute="leading" constant="20" id="Lc2-mq-P1p"/>
                             <constraint firstItem="5sE-yd-FR7" firstAttribute="leading" secondItem="33C-ff-rKk" secondAttribute="leading" constant="20" id="Le3-vV-2RO"/>
+                            <constraint firstAttribute="trailing" secondItem="RJE-dJ-G6u" secondAttribute="trailing" constant="20" id="OHK-6Y-8oE"/>
                             <constraint firstAttribute="trailing" secondItem="4S7-7A-rTx" secondAttribute="trailing" constant="20" id="T8s-B8-weK"/>
                             <constraint firstItem="RJE-dJ-G6u" firstAttribute="top" secondItem="n1Z-0A-46h" secondAttribute="bottom" constant="8" id="UWv-er-8Xa"/>
                             <constraint firstItem="RJE-dJ-G6u" firstAttribute="leading" secondItem="5sE-yd-FR7" secondAttribute="trailing" constant="12" id="VS7-dz-H4v"/>
+                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="4S7-7A-rTx" secondAttribute="bottom" constant="20" id="mZc-vK-cfi"/>
                             <constraint firstItem="5sE-yd-FR7" firstAttribute="top" secondItem="n1Z-0A-46h" secondAttribute="bottom" constant="8" id="sMQ-hX-uiQ"/>
                         </constraints>
                     </view>
@@ -92,5 +94,6 @@
                 <constraint firstAttribute="bottom" secondItem="cZ4-M5-QuD" secondAttribute="bottom" constant="20" id="jlu-XI-rh9"/>
             </constraints>
         </customView>
+        <userDefaultsController representsSharedInstance="YES" id="aZF-Iy-cIY"/>
     </objects>
 </document>
