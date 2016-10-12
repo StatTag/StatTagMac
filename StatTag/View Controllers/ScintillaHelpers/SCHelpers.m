@@ -12,7 +12,7 @@
 
 @implementation SCHelpers
 
-+(NSInteger)Clamp:(NSInteger)value min:(NSInteger)min max:(NSInteger) max
++(int)Clamp:(NSInteger)value min:(int)min max:(int) max
 {
   if (value < min)
     return min;
@@ -24,7 +24,7 @@
 }
 
 
-+(NSInteger)ClampMin:(NSInteger)value min:(NSInteger) min
++(int)ClampMin:(int)value min:(int) min
 {
   if (value < min)
     return min;

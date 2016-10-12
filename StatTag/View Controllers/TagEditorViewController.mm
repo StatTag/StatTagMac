@@ -59,7 +59,7 @@
 STCodeFile* codeFile;
 const int TagMargin = 1;
 const int TagMarker = 1;
-
+const uint TagMask = (1 << TagMarker);
 
 NSColor* commentColor;
 NSColor* stringColor;
@@ -263,6 +263,20 @@ static void *TagTypeContext = &TagTypeContext;
     
     //  NSLog(@"number of lines : %d", [scintillaHelper LinesOnScreen]);
     
+//    scintilla1.Margins[0].Width = 40;
+//    var margin = scintilla1.Margins[TagMargin];
+//    margin.Width = 20;
+//    margin.Sensitive = true;
+//    margin.Type = MarginType.Symbol;
+//    margin.Mask = Marker.MaskAll;
+//    margin.Cursor = MarginCursor.Arrow;
+//    var marker = scintilla1.Markers[TagMarker];
+//    marker.SetBackColor(Color.FromArgb(0, 204, 196, 223));
+//    //marker.SetBackColor(Color.DarkSeaGreen);
+//    marker.Symbol = MarkerSymbol.Background;
+
+    
+    
     if(_tag != nil) {
 
       if([[self tag] ValueFormat] == nil) {
@@ -282,6 +296,13 @@ static void *TagTypeContext = &TagTypeContext;
       //existing tag?
       _originalTag = [[STTag alloc] initWithTag:_tag];
       
+      //var marker = scintilla1.Markers[TagMarker];
+      //marker.SetBackColor(Color.FromArgb(0, 204, 196, 223));
+      //marker.Symbol = MarkerSymbol.Background;
+
+      SCMarker* marker = [[scintillaHelper Markers] marketAtIndex:TagMarker];
+      [marker SetBackColor:[StatTagShared colorFromRGBRed:204 green:196 blue:223 alpha:0]];
+      [marker setSymbol:Background];
       
       //FIXME:
 //      self.textBoxTagName.stringValue = [_tag Name];
@@ -869,8 +890,16 @@ static void *TagTypeContext = &TagTypeContext;
   // Markers.
   [_sourceEditor setGeneralProperty: SCI_SETMARGINWIDTHN parameter: TagMargin value: 20];
   [_sourceEditor setGeneralProperty: SCI_SETMARGINSENSITIVEN parameter: TagMargin value: 1];
-  [_sourceEditor setGeneralProperty: SCI_SETMARGINTYPEN parameter: TagMargin value: SC_MARGIN_SYMBOL];
+  //[_sourceEditor setGeneralProperty: SCI_SETMARGINTYPEN parameter: TagMargin value: SC_MARGIN_SYMBOL];
+  
+  //ntilla.DirectMessage(NativeMethods.SCI_MARKERSETBACK, new IntPtr(Index), new IntPtr(colour));
+  //scintilla.DirectMessage(NativeMethods.SCI_MARKERDEFINE, new IntPtr(Index), new IntPtr(markerSymbol));
+  //hrm...... are these not working? or is it because our "tagmargin" doesn't match the margin where we're operating?
+  [_sourceEditor setColorProperty: SCI_MARKERSETBACK parameter: TagMarker value: [NSColor redColor]];
+  [_sourceEditor setGeneralProperty: SCI_MARKERDEFINE parameter: TagMarker value: SC_MARK_BACKGROUND];
+
   [_sourceEditor setGeneralProperty: SCI_SETMARGINMASKN parameter: TagMargin value: -1];
+  
   /*
    Original .NET -> margin.Mask = Marker.MaskAll;
    
@@ -1136,8 +1165,126 @@ static void *TagTypeContext = &TagTypeContext;
 
 -(void)marginClick:(Scintilla::SCNotification*)notification
 {
-  NSInteger lineIndex = [scintillaHelper LineFromPosition:notification->position];
-  NSLog(@"margin [%ld] was clicked on line : %ld", (long)notification->margin, (long)lineIndex);
+  if(notification->margin == TagMargin)
+  {
+    NSInteger lineIndex = [scintillaHelper LineFromPosition:notification->position];
+    NSLog(@"margin [%ld] was clicked on line : %ld, modifiers: %d", (long)notification->margin, (long)lineIndex, notification->modifiers);
+    
+    //                var line = scintilla1.Lines[lineIndex];
+    SCLine* line = [[[scintillaHelper Lines] Lines] objectAtIndex:lineIndex];
+    
+    // Check to see if there are any existing selections.  If so, we need to determine if the newly selected
+    // row is a neighbor to the existing selection since we only allow continuous ranges.
+    NSInteger previousLineIndex = [[[[scintillaHelper Lines] Lines] objectAtIndex:(lineIndex - 1)] MarkerPrevious:(1 << TagMarker)];
+      //this seems like an extraordinarily risky line - confirmed this blows up when index is 0
+    
+    
+    if (previousLineIndex != -1)
+    {
+      if (abs(lineIndex - previousLineIndex) > 1)
+      {
+        if (notification->modifiers == SCMOD_SHIFT)
+        {
+          for (NSInteger index = previousLineIndex; index < lineIndex; index++)
+          {
+            [self SetLineMarker:[[[scintillaHelper Lines] Lines] objectAtIndex:index]  andMark:YES];
+          }
+        }
+        else
+        {
+          // Deselect everything
+          while (previousLineIndex > -1)
+          {
+            [self SetLineMarker:[[[scintillaHelper Lines] Lines] objectAtIndex:previousLineIndex] andMark:NO];
+//            SetLineMarker(scintilla1.Lines[previousLineIndex], false);
+
+            previousLineIndex = [[[[scintillaHelper Lines] Lines] objectAtIndex:(previousLineIndex)] MarkerPrevious:(1 << TagMarker)];
+          }
+        }
+      }
+    }
+    else
+    {
+      NSInteger nextLineIndex = [[[[scintillaHelper Lines] Lines] objectAtIndex:(lineIndex +1)] MarkerNext:(1 << TagMarker)];
+
+      if (abs(lineIndex - nextLineIndex) > 1)
+      {
+        if (notification->modifiers == SCMOD_SHIFT)
+        {
+          for (NSInteger index = nextLineIndex; index > lineIndex; index--)
+          {
+            [self SetLineMarker:[[[scintillaHelper Lines] Lines] objectAtIndex:index] andMark:YES];
+          }
+        }
+        else
+        {
+          // Deselect everything
+          while (nextLineIndex > -1)
+          {
+            [self SetLineMarker:[[[scintillaHelper Lines] Lines] objectAtIndex:nextLineIndex] andMark:NO];
+
+            nextLineIndex = [[[[scintillaHelper Lines] Lines] objectAtIndex:(nextLineIndex)] MarkerPrevious:(1 << TagMarker)];
+          }
+        }
+      }
+    }
+
+    NSLog(@"TagMask = %u", TagMask);
+    // Toggle based on the line's current marker status.
+    NSLog(@"[line MarkerGet] & TagMask = %lu", [line MarkerGet] & TagMask);
+    
+    [self SetLineMarker:line andMark:(([line MarkerGet] & TagMask) <= 0)];
+    
+//    if (codeCheckWorker.IsBusy)
+//    {
+//      ReprocessCodeReview = true;
+//      return;
+//    }
+//    
+    NSArray<NSString*>* selectedText = [self GetSelectedText];
+    if ([selectedText count] == 0)
+    {
+//      SetWarningDisplay(false);
+    }
+    else
+    {
+//      RunWorker(selectedText);
+    }
+  
+  }
 }
+
+-(NSArray<NSString*>*)GetSelectedText
+{
+  NSArray<NSString*>* lines = [[self GetSelectedLines] valueForKeyPath:@"Text"];
+  //NSLog(@"[self GetSelectedLines] %@", [self GetSelectedLines]);
+  //return GetSelectedLines().Select(x => x.Text).ToArray();
+  return lines;
+}
+
+-(NSArray<NSNumber*>*)GetSelectedIndices
+{
+  NSArray<NSNumber*>* lines = [[self GetSelectedLines] valueForKeyPath:@"Index"];
+  return lines;
+  //return GetSelectedLines().Select(x => x.Index).ToArray();
+}
+
+
+-(NSArray<SCLine*>*)GetSelectedLines
+{
+  NSMutableArray<SCLine*>* lines = [[NSMutableArray<SCLine*> alloc] init];
+  NSInteger nextLineIndex = [[[[scintillaHelper Lines] Lines] firstObject] MarkerNext:(1 << TagMarker)];
+  while (nextLineIndex > -1 && nextLineIndex < [[scintillaHelper Lines] Count])
+  {
+    [lines addObject:[[[scintillaHelper Lines] Lines] objectAtIndex: nextLineIndex]];
+    if (nextLineIndex == 0 || nextLineIndex == [[scintillaHelper Lines] Count] - 1)
+    {
+      break;
+    }
+    nextLineIndex = [[[[scintillaHelper Lines] Lines ] objectAtIndex:(nextLineIndex + 1)] MarkerNext:(1 << TagMarker)];
+  }
+  return (NSArray<SCLine*>*)lines;
+}
+
 
 @end

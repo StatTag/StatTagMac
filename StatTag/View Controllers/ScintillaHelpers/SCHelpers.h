@@ -11,8 +11,8 @@
 @interface SCHelpers : NSObject
 
 
-+(NSInteger)Clamp:(NSInteger)value min:(NSInteger)min max:(NSInteger) max;
-+(NSInteger)ClampMin:(NSInteger)value min:(NSInteger) min;
++(int)Clamp:(int)value min:(int)min max:(int) max;
++(int)ClampMin:(int)value min:(int) min;
 
 
 @end

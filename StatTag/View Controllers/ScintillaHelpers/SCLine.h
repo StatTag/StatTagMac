@@ -24,8 +24,12 @@
 
 -(id)initWithScintilla:(SCScintilla*)sc atIndex:(long)index;
 
--(SCMarkerHandle*)MarkerAdd:(NSInteger)marker;
--(void)MarkerDelete:(NSInteger)marker;
--(NSInteger)MarkerGet;
+-(SCMarkerHandle*)MarkerAdd:(int)marker;
+-(void)MarkerDelete:(int)marker;
+-(int)MarkerGet;
+-(int)MarkerNext:(uint)markerMask;
+-(int)MarkerPrevious:(uint)markerMask;
+
+-(NSString*)Text;
 
 @end

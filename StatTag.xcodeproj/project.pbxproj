@@ -100,6 +100,8 @@
 		384764B61DA5683100FCDABE /* NumericValuePropertiesController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 384764B41DA5683100FCDABE /* NumericValuePropertiesController.xib */; };
 		384764B91DA56B8300FCDABE /* IntegerOnlyNumberFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 384764B81DA56B8300FCDABE /* IntegerOnlyNumberFormatter.m */; };
 		385221C51DAD5D0B005E804B /* SCPerLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 385221C41DAD5D0B005E804B /* SCPerLine.m */; };
+		385221C91DAE90CF005E804B /* SCMarker.mm in Sources */ = {isa = PBXBuildFile; fileRef = 385221C81DAE90CF005E804B /* SCMarker.mm */; };
+		385221CC1DAE98CB005E804B /* SCMarkerCollection.mm in Sources */ = {isa = PBXBuildFile; fileRef = 385221CB1DAE98CB005E804B /* SCMarkerCollection.mm */; };
 		385906EE1D1C6E280088A0D7 /* StatTagModelJSONTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 385906ED1D1C6E280088A0D7 /* StatTagModelJSONTests.m */; };
 		385EF1421D95D53C005768C7 /* StatTagMacros.dotm in Resources */ = {isa = PBXBuildFile; fileRef = 385EF1401D95D53C005768C7 /* StatTagMacros.dotm */; };
 		385EF1431D95D53C005768C7 /* statTagTestUIScript.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 385EF1411D95D53C005768C7 /* statTagTestUIScript.scpt */; };
@@ -460,6 +462,10 @@
 		384764B81DA56B8300FCDABE /* IntegerOnlyNumberFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntegerOnlyNumberFormatter.m; sourceTree = "<group>"; };
 		385221C31DAD5D0B005E804B /* SCPerLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCPerLine.h; sourceTree = "<group>"; };
 		385221C41DAD5D0B005E804B /* SCPerLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCPerLine.m; sourceTree = "<group>"; };
+		385221C71DAE90CE005E804B /* SCMarker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMarker.h; sourceTree = "<group>"; };
+		385221C81DAE90CF005E804B /* SCMarker.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SCMarker.mm; sourceTree = "<group>"; };
+		385221CA1DAE98CB005E804B /* SCMarkerCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMarkerCollection.h; sourceTree = "<group>"; };
+		385221CB1DAE98CB005E804B /* SCMarkerCollection.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SCMarkerCollection.mm; sourceTree = "<group>"; };
 		385906ED1D1C6E280088A0D7 /* StatTagModelJSONTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagModelJSONTests.m; sourceTree = "<group>"; };
 		385EF1401D95D53C005768C7 /* StatTagMacros.dotm */ = {isa = PBXFileReference; lastKnownFileType = file; path = StatTagMacros.dotm; sourceTree = "<group>"; };
 		385EF1411D95D53C005768C7 /* statTagTestUIScript.scpt */ = {isa = PBXFileReference; lastKnownFileType = file; path = statTagTestUIScript.scpt; sourceTree = "<group>"; };
@@ -1321,6 +1327,10 @@
 				385221C41DAD5D0B005E804B /* SCPerLine.m */,
 				38F8034D1D9C5C1800C8F1EA /* SCScintilla.h */,
 				38F8034E1D9C5C1800C8F1EA /* SCScintilla.mm */,
+				385221C71DAE90CE005E804B /* SCMarker.h */,
+				385221C81DAE90CF005E804B /* SCMarker.mm */,
+				385221CA1DAE98CB005E804B /* SCMarkerCollection.h */,
+				385221CB1DAE98CB005E804B /* SCMarkerCollection.mm */,
 			);
 			path = ScintillaHelpers;
 			sourceTree = "<group>";
@@ -1896,6 +1906,7 @@
 				3836F54E1D92C89900BF0DD4 /* AppDelegate.mm in Sources */,
 				3836F5A01D92D03D00BF0DD4 /* SettingsViewController.m in Sources */,
 				38F803431D9C4B9A00C8F1EA /* SCHelpers.m in Sources */,
+				385221C91DAE90CF005E804B /* SCMarker.mm in Sources */,
 				38F803461D9C4CEB00C8F1EA /* SCMarkerHandle.mm in Sources */,
 				38C3CC7A1DA4298E00CEA70C /* TagEditorViewController.mm in Sources */,
 				387632411DA7D70500680898 /* PercentagePropertiesController.m in Sources */,
@@ -1905,6 +1916,7 @@
 				3876324B1DA8383900680898 /* AppEventListener.m in Sources */,
 				38D8B1C71D95872A00BF878A /* UpdateOutputProgressViewController.m in Sources */,
 				38EF1A671D99544F008EA9B0 /* readme.md in Sources */,
+				385221CC1DAE98CB005E804B /* SCMarkerCollection.mm in Sources */,
 				38A843A31D9B051100357727 /* readme.md in Sources */,
 				38F803531D9DAF7800C8F1EA /* UIUtility.m in Sources */,
 				383F3B981DA679AE0069C78E /* TagPreviewController.m in Sources */,

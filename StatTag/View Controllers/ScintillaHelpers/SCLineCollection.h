@@ -19,7 +19,7 @@
   NSMutableArray<SCLine*>* _lines;
 }
 
-@property (strong, nonatomic) SCScintilla* scintilla;
+@property (strong, nonatomic) SCScintilla* scintilla; //FIXME: this should probably be weak
 //@property (nonatomic) long Count;
 //@property (strong, nonatomic) NSArray<SCLine*>* lines;
 

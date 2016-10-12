@@ -12,11 +12,13 @@
 
 #import "SCHelpers.h"
 #import "SCLineCollection.h"
+#import "SCMarkerCollection.h"
+#import "SCMarker.h"
 
 @implementation SCScintilla
 
 @synthesize scintillaView = _scintillaView;
-@synthesize Markers = _Markers;
+//@synthesize Markers = _Markers;
 
 -(id)initWithScintillaView:(ScintillaView*)sc
 {
@@ -24,6 +26,7 @@
   if(self) {
     _scintillaView = sc;
     _Lines = [[SCLineCollection alloc] initWithScintilla:self];
+    _Markers = [[SCMarkerCollection alloc] initWithScintilla:self];
   }
   return self;
 }

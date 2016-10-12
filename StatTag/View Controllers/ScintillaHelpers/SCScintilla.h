@@ -10,14 +10,15 @@
 
 @class ScintillaView;
 @class SCLineCollection;
+@class SCMarkerCollection;
 
 @interface SCScintilla : NSObject {
   ScintillaView* _scintillaView;
-  NSMutableArray* _Markers;
+  //NSMutableArray* _Markers;
 }
 
 @property (strong, nonatomic) ScintillaView* scintillaView;
-@property (strong, nonatomic) NSMutableArray* Markers;
+//@property (strong, nonatomic) NSMutableArray* Markers;
 
 -(void)EmptyUndoBuffer;
 -(void)LineScroll:(NSInteger)lines columns:(NSInteger)columns;
@@ -28,5 +29,7 @@
 
 //-(SCLineCollection*)Lines;
 @property (strong, nonatomic) SCLineCollection* Lines;
+
+@property (strong, nonatomic) SCMarkerCollection* Markers;
 
 @end

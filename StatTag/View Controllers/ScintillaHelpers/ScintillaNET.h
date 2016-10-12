@@ -11,3 +11,9 @@
 #import "SCLine.h"
 #import "SCLineCollection.h"
 #import "SCScintilla.h"
+#import "SCMarkerCollection.h"
+#import "SCMarker.h"
+
+
+
+
