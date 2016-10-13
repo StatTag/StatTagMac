@@ -151,8 +151,10 @@ static StatTagShared *sharedInstance = nil;
       [[shared docManager] LoadCodeFileListFromDocument:[shared doc]];
       codeFilesVC.codeFiles = [[shared docManager] GetCodeFileList]; //just for setup
       [[window windowController] setContentViewController:shared.mainVC ];
+      [window setStyleMask:[window styleMask] | NSResizableWindowMask];
     } else {
       [[window windowController] setContentViewController:shared.needsWordController ];
+      [window setStyleMask:[window styleMask] & ~NSResizableWindowMask];
     }
   }
 }

@@ -95,6 +95,13 @@
   NSLog(@"launched %@\n", [[note userInfo] objectForKey:@"NSApplicationName"]);
   NSLog(@"launched %@\n", [[note userInfo] objectForKey:@"NSApplicationBundleIdentifier"]);
   
+  NSString* bundleID = [[note userInfo] objectForKey:@"NSApplicationBundleIdentifier"];
+  if([[STThisAddIn ProcessNames] containsObject:bundleID]) {
+    //Word did something
+    //NSLog(@"Caught Word Exit");
+    [[self class] wordIsOK];
+  }
+  
   //start polling our document status (no other way to do this...)
 }
 
@@ -111,13 +118,15 @@
   //[[[STGlobals sharedInstance] ThisAddIn] ProcessNames];
   
   //[self willChangeValueForKey:@"StatTagShared.sharedInstance.wordAppStatusMessage"];
-  [[StatTagShared sharedInstance] setWordAppStatusMessage:[[note userInfo] objectForKey:@"NSApplicationBundleIdentifier"]];
+  //[[StatTagShared sharedInstance] setWordAppStatusMessage:[[note userInfo] objectForKey:@"NSApplicationBundleIdentifier"]];
+
   //[self didChangeValueForKey:@"StatTagShared.sharedInstance.wordAppStatusMessage"];
   
   NSString* bundleID = [[note userInfo] objectForKey:@"NSApplicationBundleIdentifier"];
   if([[STThisAddIn ProcessNames] containsObject:bundleID]) {
     //Word did something
-    NSLog(@"Caught Word Exit");
+    //NSLog(@"Caught Word Exit");
+    [[self class] wordIsOK];
   }
   
   //BOOL ok = [self wordIsOK];
@@ -165,7 +174,14 @@
   StatTagShared* shared = [StatTagShared sharedInstance];
   
   if([[window windowController] contentViewController] != shared.needsWordController) {
+    
+    //save our existing window frame size so we can resize it later
+    [[StatTagShared sharedInstance] setArchivedWindowFrame:[window frame]];
+
     [[window windowController] setContentViewController:shared.needsWordController ];
+
+    //disable resizing
+    [window setStyleMask:[window styleMask] & ~NSResizableWindowMask];
   }
 }
 
@@ -186,7 +202,18 @@
     //[d initializeWordViews];
 
     //AppDelegate* appDelegate = (AppDelegate*)[[NSApplication sharedApplication] delegate];
+    
     [[StatTagShared sharedInstance] initializeWordViews];
+
+    if([[StatTagShared sharedInstance] archivedWindowFrame].size.width > 0) {
+      //save our existing window frame size so we can resize it later
+      //[window setFrame: frame display: YES animate: whetherYouWantAnimation];
+      [window setFrame:[[StatTagShared sharedInstance] archivedWindowFrame] display:YES animate:YES];
+      // of course we want animation! :)
+    }
+
+    //enable resizing
+    [window setStyleMask:[window styleMask] | NSResizableWindowMask];
   }
 }
 

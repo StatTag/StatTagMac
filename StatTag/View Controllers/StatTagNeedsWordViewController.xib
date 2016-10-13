@@ -3,80 +3,70 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11201"/>
         <capability name="box content view" minToolsVersion="7.0"/>
-        <capability name="system font weights other than Regular or Bold" minToolsVersion="7.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="StatTagNeedsWordViewController">
             <connections>
                 <outlet property="middleText" destination="Mng-Zf-gT5" id="Xvf-lJ-Hvl"/>
-                <outlet property="statTagLogoImage" destination="UFE-LU-LqR" id="II2-Yb-SGU"/>
                 <outlet property="statusMessage" destination="AwV-6p-nDc" id="ybF-co-3AH"/>
-                <outlet property="topText" destination="Eaz-Jr-9za" id="4jw-up-ttK"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView id="Hz6-mo-xeY">
-            <rect key="frame" x="0.0" y="0.0" width="548" height="339"/>
+            <rect key="frame" x="0.0" y="0.0" width="547" height="372"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <box boxType="custom" borderType="none" cornerRadius="4" title="Box" translatesAutoresizingMaskIntoConstraints="NO" id="5P7-2z-C6S">
-                    <rect key="frame" x="0.0" y="80" width="548" height="259"/>
-                    <view key="contentView" id="oMF-84-sBs">
-                        <rect key="frame" x="0.0" y="0.0" width="548" height="259"/>
+                <box boxType="custom" title="Box" translatesAutoresizingMaskIntoConstraints="NO" id="vuL-fv-kVY">
+                    <rect key="frame" x="0.0" y="80" width="547" height="292"/>
+                    <view key="contentView" id="fje-iE-Wku">
+                        <rect key="frame" x="1" y="1" width="545" height="290"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="UFE-LU-LqR">
-                                <rect key="frame" x="20" y="20" width="200" height="172"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="200" id="nCZ-lv-Gli"/>
-                                </constraints>
-                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="stattag_logo_purple" id="b9l-a7-Hfi"/>
-                            </imageView>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Eaz-Jr-9za">
-                                <rect key="frame" x="18" y="200" width="512" height="39"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Let's Sta(r)t Tagging!" id="hja-X7-gf8">
-                                    <font key="font" metaFont="systemSemibold" size="32"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Mng-Zf-gT5">
-                                <rect key="frame" x="238" y="20" width="292" height="172"/>
+                                <rect key="frame" x="223" y="12" width="304" height="150"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="300" id="Uw0-M0-phX"/>
+                                    <constraint firstAttribute="height" constant="150" id="mbH-hb-jSa"/>
+                                </constraints>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" id="j2g-Ug-Mt4">
                                     <font key="font" metaFont="system" size="15"/>
-                                    <string key="title">StatTag is ready to collaborate! 
+                                    <string key="title">StatTag is ready to go! 
 
-Make sure Microsoft Word is open and you have a document open.</string>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+Make sure Microsoft Word is active and you have a document open.</string>
+                                    <color key="textColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ftx-1e-b5X">
+                                <rect key="frame" x="216" y="182" width="321" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="100" id="DFI-fq-W26"/>
+                                    <constraint firstAttribute="width" constant="321" id="UDH-oh-o9s"/>
+                                </constraints>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="stattag_logo_text_white" id="Sbz-Yt-GAU"/>
+                            </imageView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="Mng-Zf-gT5" firstAttribute="top" secondItem="Eaz-Jr-9za" secondAttribute="bottom" constant="8" id="041-Ti-tBN"/>
-                            <constraint firstAttribute="trailing" secondItem="Eaz-Jr-9za" secondAttribute="trailing" constant="20" id="9Xa-d4-cwX"/>
-                            <constraint firstItem="Eaz-Jr-9za" firstAttribute="top" secondItem="oMF-84-sBs" secondAttribute="top" constant="20" id="B20-ve-GPo"/>
-                            <constraint firstItem="Mng-Zf-gT5" firstAttribute="leading" secondItem="UFE-LU-LqR" secondAttribute="trailing" constant="20" id="UGw-Xu-kIO"/>
-                            <constraint firstAttribute="bottom" secondItem="Mng-Zf-gT5" secondAttribute="bottom" constant="20" id="b6g-QD-gUe"/>
-                            <constraint firstItem="UFE-LU-LqR" firstAttribute="top" secondItem="Eaz-Jr-9za" secondAttribute="bottom" constant="8" id="cOt-72-igv"/>
-                            <constraint firstItem="Eaz-Jr-9za" firstAttribute="leading" secondItem="oMF-84-sBs" secondAttribute="leading" constant="20" id="eFN-Xt-iWs"/>
-                            <constraint firstItem="UFE-LU-LqR" firstAttribute="leading" secondItem="oMF-84-sBs" secondAttribute="leading" constant="20" id="eMo-sa-Luk"/>
-                            <constraint firstAttribute="trailing" secondItem="Mng-Zf-gT5" secondAttribute="trailing" constant="20" id="fXK-tR-URr"/>
-                            <constraint firstAttribute="bottom" secondItem="UFE-LU-LqR" secondAttribute="bottom" constant="20" id="rtS-MW-Fwc"/>
+                            <constraint firstAttribute="trailing" secondItem="Ftx-1e-b5X" secondAttribute="trailing" constant="8" id="0Mm-19-f4r"/>
+                            <constraint firstItem="Mng-Zf-gT5" firstAttribute="leading" secondItem="fje-iE-Wku" secondAttribute="leading" constant="225" id="2FI-GN-3Nz"/>
+                            <constraint firstAttribute="trailing" secondItem="Mng-Zf-gT5" secondAttribute="trailing" constant="20" id="4gV-x4-Ajr"/>
+                            <constraint firstItem="Ftx-1e-b5X" firstAttribute="top" secondItem="fje-iE-Wku" secondAttribute="top" constant="8" id="CYI-KS-Z1m"/>
+                            <constraint firstItem="Mng-Zf-gT5" firstAttribute="top" secondItem="Ftx-1e-b5X" secondAttribute="bottom" constant="20" id="OVf-tX-AuU"/>
+                            <constraint firstAttribute="bottom" secondItem="Mng-Zf-gT5" secondAttribute="bottom" constant="12" id="xhp-jD-62T"/>
                         </constraints>
                     </view>
-                    <color key="fillColor" name="controlHighlightColor" catalog="System" colorSpace="catalog"/>
+                    <color key="fillColor" red="0.31372549019607843" green="0.27450980392156865" blue="0.53333333333333333" alpha="1" colorSpace="calibratedRGB"/>
                 </box>
                 <box boxType="custom" borderType="none" title="Box" translatesAutoresizingMaskIntoConstraints="NO" id="ndX-vB-6UM">
-                    <rect key="frame" x="0.0" y="0.0" width="548" height="80"/>
+                    <rect key="frame" x="0.0" y="0.0" width="547" height="80"/>
                     <view key="contentView" id="a7Z-Dx-LSb">
-                        <rect key="frame" x="0.0" y="0.0" width="548" height="80"/>
+                        <rect key="frame" x="0.0" y="0.0" width="547" height="80"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="AwV-6p-nDc">
-                                <rect key="frame" x="18" y="20" width="512" height="40"/>
+                                <rect key="frame" x="18" y="20" width="511" height="40"/>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Message" id="lyf-pS-iJb">
                                     <font key="font" metaFont="systemBold" size="15"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -101,19 +91,19 @@ Make sure Microsoft Word is open and you have a document open.</string>
                 </box>
             </subviews>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="5P7-2z-C6S" secondAttribute="trailing" id="6rF-GD-fkc"/>
-                <constraint firstItem="5P7-2z-C6S" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="DRc-W4-A16"/>
+                <constraint firstAttribute="trailing" secondItem="vuL-fv-kVY" secondAttribute="trailing" id="0xo-SB-jmj"/>
                 <constraint firstItem="ndX-vB-6UM" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="Flo-6N-kDh"/>
                 <constraint firstAttribute="trailing" secondItem="ndX-vB-6UM" secondAttribute="trailing" id="NXW-HH-y6M"/>
+                <constraint firstItem="ndX-vB-6UM" firstAttribute="top" secondItem="vuL-fv-kVY" secondAttribute="bottom" id="XNH-ph-SmQ"/>
                 <constraint firstAttribute="bottom" secondItem="ndX-vB-6UM" secondAttribute="bottom" id="dAP-71-DaY"/>
-                <constraint firstItem="ndX-vB-6UM" firstAttribute="top" secondItem="5P7-2z-C6S" secondAttribute="bottom" id="rZU-W1-vE7"/>
-                <constraint firstItem="5P7-2z-C6S" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="vtM-wK-OsE"/>
+                <constraint firstItem="vuL-fv-kVY" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="isK-d2-Bj4"/>
+                <constraint firstItem="vuL-fv-kVY" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="x5y-Uo-V1Q"/>
             </constraints>
             <point key="canvasLocation" x="72" y="114.5"/>
         </customView>
         <userDefaultsController representsSharedInstance="YES" id="urV-Xt-p1B"/>
     </objects>
     <resources>
-        <image name="stattag_logo_purple" width="300" height="300"/>
+        <image name="stattag_logo_text_white" width="512" height="149"/>
     </resources>
 </document>

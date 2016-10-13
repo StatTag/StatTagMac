@@ -51,6 +51,7 @@
 
 -(void)initializeWordViews;
 
+@property NSRect archivedWindowFrame;
 
 typedef enum {
   ManageCodeFiles = 0,
