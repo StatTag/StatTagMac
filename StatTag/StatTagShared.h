@@ -17,6 +17,8 @@
 @class STPropertiesManager;
 @class STLogManager;
 @class StatTagNeedsWordViewController;
+@class SettingsViewController;
+@class FileMonitor;
 
 @interface StatTagShared : NSObject {
   MainTabViewController* _mainVC;
@@ -25,6 +27,7 @@
   STDocumentManager* _docManager;
   STPropertiesManager* _propertiesManager;
   STLogManager* _pogManager;
+  NSMutableArray<FileMonitor*>* _fileMonitors;
   //  NSWindow* _mainWindow;
 }
 
@@ -38,6 +41,7 @@
 @property (strong, nonatomic) STLogManager* logManager;
 @property (strong, nonatomic) StatTagNeedsWordViewController* needsWordController;
 @property (strong, nonatomic) ManageCodeFilesViewController* codeFilesViewController;
+@property (strong, nonatomic) SettingsViewController* settingsViewController;
 
 @property (strong, nonnull) NSString* wordAppStatusMessage;
 @property BOOL wordAccessible;
@@ -48,6 +52,8 @@
 + (NSColor*)colorFromRGBRed:(CGFloat)r  green:(CGFloat)g blue:(CGFloat)b alpha:(CGFloat)a;
 
 @property (weak, nonatomic) NSWindow* window;
+
+@property (strong, nonatomic) NSMutableArray<FileMonitor*>* fileMonitors;
 
 -(void)initializeWordViews;
 

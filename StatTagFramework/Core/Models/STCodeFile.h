@@ -42,6 +42,7 @@
 @property (strong, nonatomic) NSMutableArray<STTag *> *Tags;
 
 @property (strong, nonatomic) NSMutableArray<NSString *> *Content;
+@property (copy, nonatomic) NSString* ContentString;
 
 /**
  @brief Return the contents of the CodeFile

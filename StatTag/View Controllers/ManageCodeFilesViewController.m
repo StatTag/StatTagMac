@@ -8,7 +8,9 @@
 
 #import "ManageCodeFilesViewController.h"
 #import "StatTag.h"
-
+#import "FileMonitor.h"
+#import "StatTagShared.h"
+#import "STDocumentManager+FileMonitor.h"
 
 @interface ManageCodeFilesViewController ()
 
@@ -25,20 +27,75 @@ NSString* const allowedExtensions_CodeFiles = @"do/DO";
 
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do view setup here.
+  [super viewDidLoad];
+  // Do view setup here.
   NSLog(@"ManageCodeFilesViewController loaded");
 
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(codeFileEdited:)
+                                               name:@"codeFileEdited"
+                                             object:nil];
+
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(codeFileRenamed:)
+                                               name:@"codeFileRenamed"
+                                             object:nil];
+
+  
 }
 
 -(void)viewWillAppear {
   self.codeFiles = [[self documentManager] GetCodeFileList];
-  for(STCodeFile* cf in _codeFiles) {
-    NSLog(@"package : %@, path : %@", [cf StatisticalPackage], [cf FilePath]);
-  }
 }
 
+-(void)viewDidAppear
+{
+  [self startMonitoringCodeFiles];
+}
+
+-(void)viewWillDisappear {
+  [self stopMonitoringCodeFiles];
+}
+
+-(void)startMonitoringCodeFiles
+{
+  [[self documentManager] startMonitoringCodeFiles];
+}
+
+-(void)stopMonitoringCodeFiles
+{
+  [[self documentManager] stopMonitoringCodeFiles];
+}
+
+
 - (void)awakeFromNib {
+}
+
+-(void)codeFileEdited:(NSNotification *)notification
+{
+  //FIXME: go back and do this as an alert sheet
+  // http://pinkstone.co.uk/how-to-create-an-alert-view-in-cocoa/
+
+  NSString* filePathString = [[notification userInfo] valueForKey:@"originalFilePath"];
+  NSURL* filePath = [NSURL fileURLWithPath:filePathString];
+  NSAlert *alert = [[NSAlert alloc] init];
+  [alert addButtonWithTitle:@"OK"];
+  [alert setMessageText:[NSString stringWithFormat:@"The following code file was just changed outside of StatTag:\r\n\r\n%@", [filePath path]]];
+  [alert runModal];
+}
+
+-(void)codeFileRenamed:(NSNotification *)notification
+{
+  NSString* filePathString = [[notification userInfo] valueForKey:@"originalFilePath"];
+  NSURL* filePath = [NSURL fileURLWithPath:filePathString];
+  
+  NSString* newFilePathString = [[notification userInfo] valueForKey:@"newFilePath"];
+  NSURL* newFilePath = [NSURL fileURLWithPath:newFilePathString];
+  NSAlert *alert = [[NSAlert alloc] init];
+  [alert addButtonWithTitle:@"OK"];
+  [alert setMessageText:[NSString stringWithFormat:@"The following code file was just changed outside of StatTag:\r\n\r\n%@\r\n\r\nis now located at\r\n\r\n%@", [filePath path], [newFilePath path]]];
+  [alert runModal];
+
 }
 
 -(id) initWithCoder:(NSCoder *)coder {
@@ -52,7 +109,7 @@ NSString* const allowedExtensions_CodeFiles = @"do/DO";
 - (void)insertObject:(STCodeFile *)cf inCodeFilesAtIndex:(NSUInteger)index {
   [_documentManager AddCodeFile:[cf FilePath]];
   [_documentManager SaveCodeFileListToDocument:nil];
-
+  
 }
 
 //go back and review - this isn't fired (should be...)
@@ -106,9 +163,10 @@ NSString* const allowedExtensions_CodeFiles = @"do/DO";
 
 - (IBAction)removeFiles:(id)sender {
   NSIndexSet* selectedFiles = [arrayController selectionIndexes];
-  [_codeFiles removeObjectsAtIndexes:selectedFiles];
+  //[_codeFiles removeObjectsAtIndexes:selectedFiles];
+  [arrayController removeObjectsAtArrangedObjectIndexes:selectedFiles];
   [arrayController rearrangeObjects];
-  [_documentManager SaveCodeFileListToDocument:nil];
+  //[_documentManager SaveCodeFileListToDocument:nil];
 }
 
 - (IBAction)openFileInFinder:(id)sender {

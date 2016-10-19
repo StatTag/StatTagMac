@@ -64,6 +64,9 @@ const int RefreshStepInterval = 5;
     return result;
   }
 
+  NSString* previousTagName;
+  NSString* currentTagName;
+  
   @try {
     // Get all of the commands in the code file that should be executed given the current filter
     NSArray<STExecutionStep*>* steps = [parser GetExecutionSteps:file filterMode:filterMode tagsToRun:tagsToRun];
@@ -87,6 +90,18 @@ const int RefreshStepInterval = 5;
         Globals_Application_ScreenUpdating = false;
       }
 
+      //send a notification that we're starting a tag
+      if([step Tag] != nil)
+      {
+        if(![[[step Tag] Name] isEqualToString:previousTagName])
+        {
+          //we changed tags, so update the name and fire off a notification
+          //currentTagName = [[step Tag] Name];
+          //NSDictionary *tagInfo = @{@"tagName":currentTagName};
+          currentTagName = [NSString stringWithString:[[step Tag] Name]];
+          [[NSNotificationCenter defaultCenter] postNotificationName:@"tagUpdateStart" object:self userInfo:@{@"tagName":currentTagName, @"codeFileName":[[[step Tag] CodeFile] FileName]}];
+        }
+      }
       
       // If there is no tag, we will join all of the command code together.  This allows us to have
       // multi-line statements, such as a for loop.  Because we don't check for return results, we just
@@ -157,6 +172,17 @@ const int RefreshStepInterval = 5;
 
         }
       }
+      //send a notification that we're starting a tag
+      if([step Tag] != nil)
+      {
+        if(![currentTagName isEqualToString:previousTagName])
+        {
+          [[NSNotificationCenter defaultCenter] postNotificationName:@"tagUpdateComplete" object:self userInfo:@{@"tagName":currentTagName, @"codeFileName":[[[step Tag] CodeFile] FileName]}];
+          previousTagName = [NSString stringWithString:currentTagName];
+          //currentTagName = [[step Tag] Name];
+        }
+      }
+
     }
 
     result.Success = true;

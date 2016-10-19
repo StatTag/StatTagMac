@@ -30,6 +30,7 @@
 
 @property (weak) NSWindow* window;
 
+-(BOOL)enablePreferences;
 
 @end
 

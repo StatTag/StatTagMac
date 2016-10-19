@@ -954,47 +954,36 @@ Insert an StatTag field at the currently specified document range.
 
 @remark: This does not call the statistical software to update values.  It assumes that the tag contains the most up-to-date cached value and that it may be used for display if needed.
 */
--(BOOL)EditTag:(STTag*)tag
+-(BOOL)EditTag:(STTag*)tag existingTag:(STTag*)existingTag
 {
   NSLog(@"EditTag - Started");
   
   @try
   {
+    // If the value format has changed, refresh the values in the document with the
+    // new formatting of the results.
+    // TODO: Sometimes date/time format are null in one and blank strings in the other.  This is causing extra update cycles that aren't needed.
+    STUpdatePair* pair = [[STUpdatePair alloc] init:existingTag newItem:tag];
+    if (![[tag ValueFormat] isEqual: [existingTag ValueFormat]])
+    {
+      if (![[tag TableFormat] isEqual: [existingTag TableFormat]])
+      {
+        [tag UpdateFormattedTableData];
+      }
+      [self UpdateFields:pair];
+    } else if (![[tag TableFormat] isEqual: [existingTag TableFormat]])
+    {
+      [tag UpdateFormattedTableData];
+      [self UpdateFields:pair];
+    }
     
-//    var dialog = new EditTag(false, this);
-//    
-//    IntPtr hwnd = Process.GetCurrentProcess().MainWindowHandle;
-//    Log(string.Format("Established main window handle of {0}", hwnd.ToString()));
-//    
-//    dialog.Tag = new Tag(tag);
-//    var wrapper = new WindowWrapper(hwnd);
-//    NSLog(@"WindowWrapper established as: %@", wrapper.ToString()));
-//    if (DialogResult.OK == dialog.ShowDialog(wrapper))
-//    {
-//      // If the value format has changed, refresh the values in the document with the
-//      // new formatting of the results.
-//      // TODO: Sometimes date/time format are null in one and blank strings in the other.  This is causing extra update cycles that aren't needed.
-//      if (dialog.Tag.ValueFormat != tag.ValueFormat)
-//      {
-//        Log("Updating fields after tag value format changed");
-//        if (dialog.Tag.TableFormat != tag.TableFormat)
-//        {
-//          Log("Updating formatted table data");
-//          dialog.Tag.UpdateFormattedTableData();
-//        }
-//        UpdateFields(new UpdatePair<Tag>(tag, dialog.Tag));
-//      }
-//      else if (dialog.Tag.TableFormat != tag.TableFormat)
-//      {
-//        Log("Updating fields after tag table format changed");
-//        dialog.Tag.UpdateFormattedTableData();
-//        UpdateFields(new UpdatePair<Tag>(tag, dialog.Tag));
-//      }
-//      
-//      SaveEditedTag(dialog, tag);
-//      Log("EditTag - Finished (action)");
-//      return true;
-//    }
+    NSError* error;
+    [self SaveEditedTag:tag existingTag:existingTag error:&error];
+    if(error != nil)
+    {
+      return false;
+    }
+    return true;
   }
   @catch (NSException* exception)
   {
@@ -1009,30 +998,30 @@ Insert an StatTag field at the currently specified document range.
   return false;
 }
 
-/// <summary>
 /// After an tag has been edited in a dialog, handle all reference updates and saving
 /// that tag in its source file.
-/// </summary>
-/// <param name="dialog"></param>
-/// <param name="existingTag"></param>
-//public void SaveEditedTag(EditTag dialog, Tag existingTag = null)
-//{
-//  if (dialog.Tag != null && dialog.Tag.CodeFile != null)
-//  {
-//    // Update the code file with whatever was in the editor window.  While the code doesn't
-//    // always change, we will go ahead with the update each time instead of checking.  Note
-//    // that after this update is done, the indices for the tag objects passed in can
-//    // no longer be trusted until we update them.
-//    var codeFile = dialog.Tag.CodeFile;
-//    codeFile.UpdateContent(dialog.CodeText);
-//    
-//    // Now that the code file has been updated, we need to add the tag.  This may
-//    // be a new tag, or an updated one.
-//    codeFile.AddTag(dialog.Tag, existingTag);
-//    codeFile.Save();
-//  }
-//}
-
+-(void)SaveEditedTag:(STTag*)tag existingTag:(STTag*)existingTag error:(NSError**)outError
+{
+  //FIXME: add the error block... - right now we never fail
+  if (tag != nil && [tag CodeFile] != nil)
+  {
+    // Update the code file with whatever was in the editor window.  While the code doesn't
+    // always change, we will go ahead with the update each time instead of checking.  Note
+    // that after this update is done, the indices for the tag objects passed in can
+    // no longer be trusted until we update them.
+    STCodeFile* codeFile = [tag CodeFile];
+    
+    NSError* error;
+    [codeFile UpdateContent:[codeFile ContentString] error:error];
+    if(error == nil)
+    {
+      // Now that the code file has been updated, we need to add the tag.  This may
+      // be a new tag, or an updated one.
+      [codeFile AddTag:tag oldTag:existingTag];
+      [codeFile Save:&error];
+    }
+  }
+}
 
 /**
   Save all changes to all code files referenced by the current document.
@@ -1052,7 +1041,7 @@ Insert an StatTag field at the currently specified document range.
   {
     STFieldTag* fieldTag = [_TagManager GetFieldTag:field];
     STTag* tag = [_TagManager FindTag:fieldTag];
-    [self EditTag:tag];
+    [self EditTag:tag existingTag:nil];
   }
 }
 

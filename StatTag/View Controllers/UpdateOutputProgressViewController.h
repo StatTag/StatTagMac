@@ -36,4 +36,12 @@
 
 @property (nonatomic, weak) id<UpdateOutputProgressDelegate> delegate;
 
+@property (strong, nonatomic) NSNumber* numTagsCompleted;
+@property (strong, nonatomic) NSNumber* numTagsToProcess;
+@property (strong, nonatomic) NSString* progressCountText;
+
+@property (weak) IBOutlet NSProgressIndicator *progressIndicatorDeterminate;
+@property (weak) IBOutlet NSTextField *progressCountLabel;
+
+
 @end

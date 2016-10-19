@@ -17,7 +17,7 @@
 #import "StatTagNeedsWordViewController.h"
 #import "AppEventListener.h"
 #import "ViewUtils.h"
-
+#import "FileMonitor.h"
 
 @implementation StatTagShared
 
@@ -28,7 +28,7 @@
 
 @synthesize propertiesManager = _propertiesManager;
 @synthesize logManager = _logManager;
-
+@synthesize fileMonitors = _fileMonitors;
 
 static StatTagShared *sharedInstance = nil;
 
@@ -45,12 +45,17 @@ static StatTagShared *sharedInstance = nil;
   self = [super init];
   if (self) {
     [self setWordAppStatusMessage:@""];
+    [self setFileMonitors:[[NSMutableArray<FileMonitor*> alloc] init]];
   }
   return self;
 }
 
 -(void)dealloc
 {
+  for(FileMonitor* fm in [self fileMonitors])
+  {
+    [fm stopMonitoring];
+  }
 }
 
 + (id)allocWithZone:(NSZone*)zone {
@@ -129,6 +134,7 @@ static StatTagShared *sharedInstance = nil;
   settingsVC.logManager = [shared logManager];
   [[settingsVC propertiesManager] Load];
   settingsVC.properties = [[shared propertiesManager] Properties]; //just for setup
+  [[StatTagShared sharedInstance] setSettingsViewController: settingsVC];
   //  [propertiesManager Load];
   
   

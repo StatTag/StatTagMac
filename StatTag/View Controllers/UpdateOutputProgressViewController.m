@@ -37,6 +37,19 @@
 }
 
 -(void)viewDidAppear {
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(tagUpdateStart:)
+                                               name:@"tagUpdateStart"
+                                             object:nil];
+  
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(tagUpdateComplete:)
+                                               name:@"tagUpdateComplete"
+                                             object:nil];
+
+  [self setNumTagsCompleted:@0];
+  [self setNumTagsToProcess:@0];
+
   [self refreshTagsAsync];
 //  [self refreshTags];
 }
@@ -49,6 +62,7 @@
   // circle back here
   
   [progressIndicator startAnimation:nil];
+  [[self progressIndicatorDeterminate] startAnimation:nil];
   
   @try {
     [progressText setStringValue:[NSString stringWithFormat:@"Updating tags in %@", @"something"]];
@@ -72,6 +86,7 @@
     
     [progressIndicator setIndeterminate:YES];
     [progressIndicator stopAnimation:nil];
+    [[self progressIndicatorDeterminate] stopAnimation:nil];
     
     //[[[[self view] window] sheetParent] endSheet:[[self view] window] returnCode:NSModalResponseOK];
     
@@ -133,7 +148,13 @@
         //NSLog(@"found codefile %@", [cf FilePath]);
         
         dispatch_async(dispatch_get_main_queue(), ^{
-          [progressText setStringValue:[NSString stringWithFormat:@"Updating tags in %@", [[cf FilePathURL] lastPathComponent] ]];
+          [progressText setStringValue:@"Starting to update tags..."];
+          [self setNumTagsCompleted:@0];
+          [self setProgressCountText:[NSString stringWithFormat:@"%@/%ld", [self numTagsCompleted], [[self tagsToProcess] count]]];
+          [self setNumTagsToProcess:[NSNumber numberWithLong:[[self tagsToProcess] count]]];
+          [[self progressIndicatorDeterminate] setMinValue:0];
+          [[self progressIndicatorDeterminate] setMaxValue:[[self tagsToProcess] count]];
+          [[self progressCountLabel] setStringValue:[NSString stringWithFormat:@"(%@/%@)", [self numTagsCompleted], [self numTagsToProcess]]];
         });
         
         STStatsManagerExecuteResult* result = [stats ExecuteStatPackage:cf
@@ -143,9 +164,9 @@
 
         #pragma unused (result)
         
-        dispatch_async(dispatch_get_main_queue(), ^{
-          [progressText setStringValue:[NSString stringWithFormat:@"Updating field codes in %@", [[_documentManager activeDocument] name]]];
-        });
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//          [progressText setStringValue:[NSString stringWithFormat:@"Updating field codes in %@", [[_documentManager activeDocument] name]]];
+//        });
         
         
       }
@@ -170,11 +191,15 @@
         //          NSLog(@"script success = %hhd", success);
         //          NSLog(@"returning from AppleScript");
         
+        [progressText setStringValue:@"Updating Fields in Microsoft Word..."];
+
         [_documentManager UpdateFields];
         
         [progressIndicator setIndeterminate:YES];
         [progressIndicator stopAnimation:nil];
-        
+
+        [progressText setStringValue:@"Updates complete"];
+
         [_delegate dismissUpdateOutputProgressController:self withReturnCode:(StatTagResponseState)OK];
         //[[[[self view] window] sheetParent] endSheet:[[self view] window] returnCode:NSModalResponseOK];
         
@@ -199,6 +224,32 @@
 }
 
 - (IBAction)cancelOperation:(id)sender {
+}
+
+-(void)tagUpdateStart:(NSNotification*)notification
+{
+  dispatch_async(dispatch_get_main_queue(), ^{
+    NSString* tagName = [[notification userInfo] valueForKey:@"tagName"];
+    NSString* codeFileName = [[notification userInfo] valueForKey:@"codeFileName"];
+    [[self progressText] setStringValue:[NSString stringWithFormat:@"Updating tag '%@' in code file'%@'", tagName, codeFileName]];
+    NSLog(@"tag update start (%@/%@): %@", [self numTagsCompleted], [self numTagsToProcess], tagName);
+    [[self progressCountLabel] setStringValue:[NSString stringWithFormat:@"(%@/%@)", [self numTagsCompleted], [self numTagsToProcess]]];
+  });
+}
+
+-(void)tagUpdateComplete:(NSNotification*)notification
+{
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [self setNumTagsCompleted:[NSNumber numberWithDouble:([[self numTagsCompleted] doubleValue] + 1.0)]];
+    if([[self numTagsToProcess] doubleValue] > 0) {
+      [[self progressIndicatorDeterminate] setDoubleValue:[[self numTagsCompleted] doubleValue]];
+    }
+    else {
+      [[self progressIndicatorDeterminate] setDoubleValue:1.0];
+    }
+    [[self progressCountLabel] setStringValue:[NSString stringWithFormat:@"(%@/%@)", [self numTagsCompleted], [self numTagsToProcess]]];
+    //NSLog(@"tag update complete (%@/%@): %@", [self numTagsCompleted], [self numTagsToProcess], tagName);
+  });
 }
 
 

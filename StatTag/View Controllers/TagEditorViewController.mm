@@ -276,7 +276,10 @@ static void *TagTypeContext = &TagTypeContext;
 //    marker.Symbol = MarkerSymbol.Background;
 
     
-    
+    SCMarker* marker = [[scintillaHelper Markers] marketAtIndex:TagMarker];
+    [marker SetBackColor:[StatTagShared colorFromRGBRed:204 green:196 blue:223 alpha:0]];
+    [marker setSymbol:Background];
+
     if(_tag != nil) {
 
       if([[self tag] ValueFormat] == nil) {
@@ -293,16 +296,13 @@ static void *TagTypeContext = &TagTypeContext;
       }
 
       
-      //existing tag?
+      //existing tag
       _originalTag = [[STTag alloc] initWithTag:_tag];
       
       //var marker = scintilla1.Markers[TagMarker];
       //marker.SetBackColor(Color.FromArgb(0, 204, 196, 223));
       //marker.Symbol = MarkerSymbol.Background;
 
-      SCMarker* marker = [[scintillaHelper Markers] marketAtIndex:TagMarker];
-      [marker SetBackColor:[StatTagShared colorFromRGBRed:204 green:196 blue:223 alpha:0]];
-      [marker setSymbol:Background];
       
       //FIXME:
 //      self.textBoxTagName.stringValue = [_tag Name];
@@ -339,7 +339,7 @@ static void *TagTypeContext = &TagTypeContext;
       _originalTag = nil;
       
       //create a new tag and set some defaults
-      self.tag = [[STTag alloc] init];
+      [self setTag:[[STTag alloc] init]];
       [[self tag] setType:[STConstantsTagType Value]];
       //ack... I'd rather get this from the array controller, but...
       [[self tag] setCodeFile: [[[self documentManager] GetCodeFileList] firstObject]];
@@ -352,7 +352,9 @@ static void *TagTypeContext = &TagTypeContext;
       [[self tag] setValueFormat:v];
       [[self tag] setTableFormat:t];
       [[self tag] setFigureFormat:f];
-      
+      [[self tag] setType:[STConstantsTagType Value]];
+      [self UpdateForType:[[self tag] Type]];
+
       
       //EWW - not doing this - we're going to just let cocoa bindings handle it
       // that _is_ different - we're selecting the code file and not saying "hey, choose a code file"
@@ -508,14 +510,14 @@ static void *TagTypeContext = &TagTypeContext;
 
 
 - (IBAction)save:(id)sender {
-  //NOTE: we're not saving yet
+  //NOTE: we're not saving yet - this is all save VALIDATION
   
   NSError* saveError;
   NSError* saveWarning;
   
   //FIXME:
-  /*
-  if(! [[_tag Name] isEqualToString: [_textBoxTagName stringValue]]  ) {
+  //if(! [[_tag Name] isEqualToString: [_textBoxTagName stringValue]]  ) {
+  //if(! [[_tag Name] isEqualToString: [_textBoxTagName stringValue]]  ) {
     //the name has been changed - so update it
     //first see if we have a duplicate tag name
     
@@ -525,7 +527,8 @@ static void *TagTypeContext = &TagTypeContext;
     for(STCodeFile* cf in [_documentManager GetCodeFileList]) {
       for(STTag* aTag in [cf Tags]) {
         //FIXME:
-        if ([[aTag Name] isEqualToString:[_textBoxTagName stringValue]] && ![aTag isEqual:_tag]){
+        //if ([[aTag Name] isEqualToString:[_textBoxTagName stringValue]] && ![aTag isEqual:_tag]){
+        if ([[aTag Name] isEqualToString:[[self tag] Name]] && ![aTag isEqual:[self tag]]){
           if(cf == codeFile) {
             //same codefile, so this is an error
             //is the tag name reused (other than this tag)?
@@ -541,10 +544,39 @@ static void *TagTypeContext = &TagTypeContext;
         }
       }
     }
+  //}
+
+  NSArray<NSNumber*>* selectedIndices = [self GetSelectedIndices];
+  if([selectedIndices count] == 0)
+  {
+    [[self tag] setLineStart: nil];
+    [[self tag] setLineEnd: nil];
   }
-   */
-  
-  
+  else if ([selectedIndices count] == 1)
+  {
+    [[self tag] setLineStart: [selectedIndices firstObject]];
+    [[self tag] setLineEnd: [[self tag] LineStart]];
+  }
+  else
+  {
+    //http://stackoverflow.com/questions/15931112/finding-the-smallest-and-biggest-value-in-nsarray-of-nsnumbers
+    [[self tag] setLineStart:[selectedIndices valueForKeyPath:@"@min.self"]];
+    [[self tag] setLineEnd:[selectedIndices valueForKeyPath:@"@max.self"]];
+  }
+
+  if(saveError == nil)
+  {
+    if([[[self tag] Type] isEqualToString:[STConstantsTagType Value]]) {
+    } else if([[[self tag] Type] isEqualToString:[STConstantsTagType Table]]) {
+    } else if([[[self tag] Type] isEqualToString:[STConstantsTagType Figure]]) {
+    } else {
+      NSMutableDictionary *errorDetail;
+      errorDetail = [NSMutableDictionary dictionary];
+      [errorDetail setValue:[NSString stringWithFormat:@"This tag type is not yet supported"] forKey:NSLocalizedDescriptionKey];
+      saveError = [NSError errorWithDomain:@"com.stattag.StatTag" code:100 userInfo:errorDetail];
+    }
+  }
+
   if(saveError != nil) {
     //oops! something bad happened - tell the user
     [NSApp presentError:saveError];
@@ -572,57 +604,29 @@ static void *TagTypeContext = &TagTypeContext;
 
 -(void)saveAndClose {
   
-  
-  //  private void EditTag_FormClosing(object sender, FormClosingEventArgs e)
-  //  {
-  //    if (this.DialogResult == DialogResult.OK)
-  //    {
-  //      if (!TagUtil.ShouldCheckForDuplicateLabel(OriginalTag, Tag))
-  //      {
-  //        return;
-  //      }
-  //
-  //      var files = Manager.GetCodeFileList();
-  //      var result = TagUtil.CheckForDuplicateLabels(Tag, files);
-  //      if (result != null && result.Count > 0)
-  //      {
-  //        if (TagUtil.IsDuplicateLabelInSameFile(Tag, result))
-  //        {
-  //          UIUtility.WarningMessageBox(
-  //                                      string.Format("The tag name you have entered ('{0}') already appears in this file.\r\nPlease give this tag a unique name before proceeding.", Tag.Name),
-  //                                      Manager.Logger);
-  //          this.DialogResult = DialogResult.None;
-  //          e.Cancel = true;
-  //        }
-  //        else if (DialogResult.Yes != MessageBox.Show(
-  //                                                     string.Format(
-  //                                                                   "The tag name you have entered ('{0}') appears in {1} other {2}.  Are you sure you want to use the same label?",
-  //                                                                   Tag.Name, result.Count, "file".Pluralize(result.Count)),
-  //                                                     UIUtility.GetAddInName(), MessageBoxButtons.YesNo))
-  //        {
-  //          this.DialogResult = DialogResult.None;
-  //          e.Cancel = true;
-  //        }
-  //      }
-  //    }
-  //  }
-  
+  //NOTE: this assumes validation already occured in "save"
   
   NSError* saveError;
   
-//  if(changedCodeFile) {
-    codeFile.Content = [NSMutableArray arrayWithArray:[[_sourceEditor string] componentsSeparatedByString: @"\r\n"]];
-    [codeFile Save:&saveError];
-//  }
+  [[[self tag] CodeFile] setContent:[NSMutableArray arrayWithArray:[[_sourceEditor string] componentsSeparatedByString: @"\r\n"]]];
+  BOOL edited = [[self documentManager] EditTag:[self tag] existingTag:_originalTag];
   
   if(saveError != nil) {
     [NSApp presentError:saveError];
     return;
   }
   
+  if(edited == YES)
+  {
+    [_delegate dismissTagEditorController:self withReturnCode:(StatTagResponseState)OK];
+    return;
+  }
   
-  
-  [_delegate dismissTagEditorController:self withReturnCode:(StatTagResponseState)OK];
+  //something bad happened... we should probably have better error handling...
+  NSMutableDictionary *errorDetail = [NSMutableDictionary dictionary];
+  [errorDetail setValue:[NSString stringWithFormat:@"StatTag was not able to save changes"] forKey:NSLocalizedDescriptionKey];
+  saveError = [NSError errorWithDomain:@"com.stattag.StatTag" code:100 userInfo:errorDetail];
+  [NSApp presentError:saveError];
 }
 
 //MARK: tag basic properties delegate

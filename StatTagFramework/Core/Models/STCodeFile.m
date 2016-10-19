@@ -74,6 +74,14 @@
   //return _Content;
 }
 
+-(NSString*)ContentString
+{
+  return [[self Content] componentsJoinedByString:@"\n"];
+}
+-(void)setContentString:(NSString*)content
+{
+  [self setContent:[NSMutableArray arrayWithArray:[content componentsSeparatedByString:@"\n"]]];
+}
 
 /**
  This is typically a lightweight wrapper around the standard
@@ -240,7 +248,7 @@ the cached results in another tag.
 */
 -(void)Save:(NSError**)error
 {
-  [_FileHandler WriteAllLines:[self FilePathURL] withContent:_Content error:error];
+  [_FileHandler WriteAllLines:[self FilePathURL] withContent:[self Content] error:error];
 }
 
 /**

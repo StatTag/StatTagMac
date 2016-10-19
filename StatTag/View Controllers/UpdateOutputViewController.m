@@ -317,6 +317,8 @@ BOOL breakLoop = YES;
   if(returnCode == OK) {
     //no errors - so refresh the list of tags because we changed things
     [self loadAllTags];
+  } else if (returnCode == Cancel) {
+    [self loadAllTags];
   } else {
     //could be cancel, could be error
   }

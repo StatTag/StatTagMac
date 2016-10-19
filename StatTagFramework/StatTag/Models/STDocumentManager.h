@@ -94,6 +94,8 @@
 
 -(void) InsertField:(id)tag;
 
+-(BOOL)EditTag:(STTag*)tag existingTag:(STTag*)existingTag;
+
 -(void)UpdateFields:(STUpdatePair<STTag*>*)tagUpdatePair matchOnPosition:(BOOL)matchOnPosition;
 -(void)UpdateFields:(STUpdatePair<STTag*>*)tagUpdatePair;
 -(void)UpdateFields;

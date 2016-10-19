@@ -46,7 +46,6 @@
 
 
 
-
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 
   _window = [[[NSApplication sharedApplication] windows] firstObject];
@@ -95,6 +94,25 @@
   
   [AppEventListener stopListening];
 
+}
+
+//in our case - yes - let's quit if the last window is closed
+- (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication {
+  //FIXME: this is just a quick fix. Circle back and fix this to quit the app when the main window closes
+  return YES;
+}
+
+
+-(IBAction)openPreferences:(id)sender {
+  //https://developer.apple.com/library/content/qa/qa1552/_index.html
+  if (![[StatTagShared sharedInstance] settingsViewController])
+  {
+   // SettingsViewController* _settingsVC = [[SettingsViewController alloc] init];
+  } else {
+    //[[StatTagShared sharedInstance] settingsViewController] showW
+    //[[[StatTagShared sharedInstance] settingsViewController] showWindow:self];
+  }
+  NSLog(@"open preferences");
 }
 
 

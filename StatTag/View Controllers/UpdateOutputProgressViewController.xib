@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11201"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="UpdateOutputProgressViewController">
             <connections>
+                <outlet property="progressCountLabel" destination="i4c-GQ-o0k" id="pvO-SO-NFB"/>
                 <outlet property="progressIndicator" destination="LGk-6c-mvz" id="cCp-KM-yoJ"/>
+                <outlet property="progressIndicatorDeterminate" destination="9Gp-A2-G4Z" id="NI1-gI-MHg"/>
                 <outlet property="progressText" destination="TsW-pj-NV1" id="28Y-px-bmr"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
             </connections>
@@ -39,16 +40,32 @@ Gw
 </string>
                     </buttonCell>
                 </button>
+                <progressIndicator wantsLayer="YES" maxValue="100" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="9Gp-A2-G4Z">
+                    <rect key="frame" x="20" y="70" width="440" height="20"/>
+                </progressIndicator>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="i4c-GQ-o0k">
+                    <rect key="frame" x="20" y="46" width="37" height="17"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="0" id="uSP-SF-Azp">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
             </subviews>
             <constraints>
+                <constraint firstAttribute="trailing" secondItem="9Gp-A2-G4Z" secondAttribute="trailing" constant="20" id="HIE-ZW-4sD"/>
+                <constraint firstItem="9Gp-A2-G4Z" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="20" id="LE4-UP-NB9"/>
                 <constraint firstAttribute="trailing" secondItem="Luf-i4-jKW" secondAttribute="trailing" constant="20" id="SBC-Zm-f2G"/>
+                <constraint firstItem="9Gp-A2-G4Z" firstAttribute="top" secondItem="TsW-pj-NV1" secondAttribute="bottom" constant="18" id="Sc4-64-8i2"/>
                 <constraint firstItem="TsW-pj-NV1" firstAttribute="top" secondItem="LGk-6c-mvz" secondAttribute="top" id="Vuq-JB-3eA"/>
                 <constraint firstItem="Luf-i4-jKW" firstAttribute="top" relation="greaterThanOrEqual" secondItem="TsW-pj-NV1" secondAttribute="bottom" constant="20" id="axv-an-eo4"/>
                 <constraint firstAttribute="bottom" secondItem="Luf-i4-jKW" secondAttribute="bottom" constant="20" id="dGN-kj-MLV"/>
+                <constraint firstItem="i4c-GQ-o0k" firstAttribute="top" secondItem="9Gp-A2-G4Z" secondAttribute="bottom" constant="8" id="ed5-q4-Yry"/>
                 <constraint firstAttribute="trailing" secondItem="TsW-pj-NV1" secondAttribute="trailing" constant="20" id="j0w-56-JZH"/>
                 <constraint firstItem="TsW-pj-NV1" firstAttribute="leading" secondItem="LGk-6c-mvz" secondAttribute="trailing" constant="20" id="k4C-uj-cBs"/>
                 <constraint firstItem="LGk-6c-mvz" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="20" id="kzZ-2V-4mQ"/>
                 <constraint firstItem="LGk-6c-mvz" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" constant="20" id="nTz-X6-AuF"/>
+                <constraint firstItem="i4c-GQ-o0k" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="22" id="uwC-aX-OM2"/>
             </constraints>
             <point key="canvasLocation" x="131" y="90"/>
         </customView>
