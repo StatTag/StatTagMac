@@ -1095,20 +1095,12 @@ static void *TagTypeContext = &TagTypeContext;
   
 }
 
-//- (void) notification: (SCNotification*)scn
-//{
-//  // Parent notification. Details are passed as SCNotification structure.
-//  NSLog(@"scintilla did something");
-//}
-
-//- (void)notification:(Scintilla::SCNotification*)notification {
-//  NSLog(@"");
-//}
-
+//DO NOT MODIFY the parameter type
+//ignore the type mismatch - I can't seem to figure out how to get the namespace to work in the header,
+// so we're just saying "SCNotification" there - but the fully namespaced notification here
 - (void)notification:(Scintilla::SCNotification*)notification {
   
-  //ignore the type mismatch - I can't seem to figure out how to get the namespace to work in the header,
-  // so we're just saying "SCNotification" there - but the fully namespaced notification here
+
   /*
    scn.nmhdr.code = listType > 0 ? SCN_USERLISTSELECTION : SCN_AUTOCSELECTION;
    scn.message = 0;
@@ -1179,7 +1171,7 @@ static void *TagTypeContext = &TagTypeContext;
     
     // Check to see if there are any existing selections.  If so, we need to determine if the newly selected
     // row is a neighbor to the existing selection since we only allow continuous ranges.
-    NSInteger previousLineIndex = [[[[scintillaHelper Lines] Lines] objectAtIndex:(lineIndex - 1)] MarkerPrevious:(1 << TagMarker)];
+    NSInteger previousLineIndex = [[[[scintillaHelper Lines] Lines] objectAtIndex:(lineIndex > 0 ? lineIndex - 1 : lineIndex)] MarkerPrevious:(1 << TagMarker)];
       //this seems like an extraordinarily risky line - confirmed this blows up when index is 0
     
     
@@ -1209,7 +1201,8 @@ static void *TagTypeContext = &TagTypeContext;
     }
     else
     {
-      NSInteger nextLineIndex = [[[[scintillaHelper Lines] Lines] objectAtIndex:(lineIndex +1)] MarkerNext:(1 << TagMarker)];
+      
+      NSInteger nextLineIndex = [[[[scintillaHelper Lines] Lines] objectAtIndex:(lineIndex < [[[scintillaHelper Lines] Lines] count] ? lineIndex +1 : lineIndex)] MarkerNext:(1 << TagMarker)];
 
       if (abs(lineIndex - nextLineIndex) > 1)
       {
@@ -1227,7 +1220,10 @@ static void *TagTypeContext = &TagTypeContext;
           {
             [self SetLineMarker:[[[scintillaHelper Lines] Lines] objectAtIndex:nextLineIndex] andMark:NO];
 
-            nextLineIndex = [[[[scintillaHelper Lines] Lines] objectAtIndex:(nextLineIndex)] MarkerPrevious:(1 << TagMarker)];
+            //nextLineIndex = scintilla1.Lines[nextLineIndex].MarkerNext(1 << TagMarker);
+
+            
+            nextLineIndex = [[[[scintillaHelper Lines] Lines] objectAtIndex:(nextLineIndex)] MarkerNext:(1 << TagMarker)];
           }
         }
       }
@@ -1235,7 +1231,7 @@ static void *TagTypeContext = &TagTypeContext;
 
     NSLog(@"TagMask = %u", TagMask);
     // Toggle based on the line's current marker status.
-    NSLog(@"[line MarkerGet] & TagMask = %lu", [line MarkerGet] & TagMask);
+    NSLog(@"[line MarkerGet] & TagMask = %u", [line MarkerGet] & TagMask);
     
     [self SetLineMarker:line andMark:(([line MarkerGet] & TagMask) <= 0)];
     
@@ -1245,15 +1241,15 @@ static void *TagTypeContext = &TagTypeContext;
 //      return;
 //    }
 //    
-    NSArray<NSString*>* selectedText = [self GetSelectedText];
-    if ([selectedText count] == 0)
-    {
+//    NSArray<NSString*>* selectedText = [self GetSelectedText];
+//    if ([selectedText count] == 0)
+//    {
 //      SetWarningDisplay(false);
-    }
-    else
-    {
+//    }
+//    else
+//    {
 //      RunWorker(selectedText);
-    }
+//    }
   
   }
 }

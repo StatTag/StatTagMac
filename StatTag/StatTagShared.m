@@ -72,19 +72,10 @@ static StatTagShared *sharedInstance = nil;
   //our colors weren't right, so... had to read up on color spaces
   //http://stackoverflow.com/questions/426979/how-do-i-create-nscolor-instances-that-exactly-match-those-in-a-photoshop-ui-moc
   
-  //NSColorSpace *sRGB = [NSColorSpace sRGBColorSpace];
-  
-//  CGFloat rFloat = ((int)r) % 255;
-//  CGFloat gFloat = ((int)g) % 255;
-//  CGFloat bFloat = ((int)b) % 255;
-
   CGFloat rFloat = ((int)r) % 256 / 255.0;
   CGFloat gFloat = ((int)g) % 256 / 255.0;
   CGFloat bFloat = ((int)b) % 256 / 255.0;
 
-  
-  //return [NSColor colorWithSRGBRed:rFloat green:gFloat blue:bFloat alpha:a];
-  
   return [NSColor colorWithCalibratedRed:rFloat green:gFloat blue:bFloat alpha:a];
 }
 
@@ -161,6 +152,53 @@ static StatTagShared *sharedInstance = nil;
     } else {
       [[window windowController] setContentViewController:shared.needsWordController ];
       [window setStyleMask:[window styleMask] & ~NSResizableWindowMask];
+    }
+  }
+}
+
+-(void)setArchivedWindowFrame:(NSRect)archivedWindowFrame
+{
+  _archivedWindowFrame = archivedWindowFrame;
+
+  //save our rect
+  NSMutableDictionary* prefs = [[NSMutableDictionary alloc] init];
+//  [prefs setValue:[NSNumber numberWithInteger:_archivedWindowFrame.size.height] forKey:@"windowHeight"];
+//  [prefs setValue:[NSNumber numberWithInteger:_archivedWindowFrame.size.width] forKey:@"windowWidth"];
+//  [[NSUserDefaults standardUserDefaults] setValue:NSStringFromRect(_archivedWindowFrame) forKey:@"frame"];
+  
+  [prefs setValue:NSStringFromRect(_archivedWindowFrame) forKey:@"windowRect"];
+  [[NSUserDefaults standardUserDefaults] setPersistentDomain:prefs forName:[STCocoaUtil currentBundleIdentifier]];
+  [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+-(NSRect)archivedWindowFrame
+{
+  if(_archivedWindowFrame.size.height == 0)
+  {
+    //try to restore from preference
+    NSDictionary* prefsDict = [[NSUserDefaults standardUserDefaults] persistentDomainForName:[STCocoaUtil currentBundleIdentifier]];
+    NSRect rect = NSRectFromString([prefsDict valueForKey:@"windowRect"]);
+    _archivedWindowFrame = rect;
+    //_Properties.EnableLogging = [[prefsDict objectForKey:LogEnabledKey] boolValue];
+  }
+  return _archivedWindowFrame;
+}
+
+
+-(void)saveWindowFrame
+{
+  NSWindow* window = [[[NSApplication sharedApplication] windows] firstObject];
+  [[StatTagShared sharedInstance] setArchivedWindowFrame:[window frame]];
+}
+
+-(void)restoreWindowFrame
+{
+  NSWindow* window = [[[NSApplication sharedApplication] windows] firstObject];
+  if([[window windowController] contentViewController] == [[StatTagShared sharedInstance] mainVC])
+  {
+    NSRect frame = [[StatTagShared sharedInstance] archivedWindowFrame];
+    if(frame.size.width > 0) {
+      [window setFrame:frame display:YES animate:YES];
     }
   }
 }

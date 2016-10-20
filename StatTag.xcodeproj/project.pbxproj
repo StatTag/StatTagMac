@@ -121,6 +121,7 @@
 		386992C91DB6B6A200852B6E /* FileMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 386992C81DB6B6A200852B6E /* FileMonitor.m */; };
 		386992CC1DB6C72300852B6E /* STCodeFile+FileMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 386992CB1DB6C72300852B6E /* STCodeFile+FileMonitor.m */; };
 		386992CF1DB6CE2A00852B6E /* STDocumentManager+FileMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 386992CE1DB6CE2A00852B6E /* STDocumentManager+FileMonitor.m */; };
+		386992D21DB8E6F500852B6E /* STCodeFile+FileAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 386992D11DB8E6F500852B6E /* STCodeFile+FileAttributes.m */; };
 		3876323F1DA7D6FA00680898 /* PercentagePropertiesController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3876323E1DA7D6FA00680898 /* PercentagePropertiesController.xib */; };
 		387632411DA7D70500680898 /* PercentagePropertiesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 387632401DA7D70500680898 /* PercentagePropertiesController.m */; };
 		387632461DA7E2AC00680898 /* DateTimePropertiesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 387632441DA7E2AC00680898 /* DateTimePropertiesController.m */; };
@@ -491,6 +492,8 @@
 		386992CB1DB6C72300852B6E /* STCodeFile+FileMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "STCodeFile+FileMonitor.m"; sourceTree = "<group>"; };
 		386992CD1DB6CE2A00852B6E /* STDocumentManager+FileMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "STDocumentManager+FileMonitor.h"; sourceTree = "<group>"; };
 		386992CE1DB6CE2A00852B6E /* STDocumentManager+FileMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "STDocumentManager+FileMonitor.m"; sourceTree = "<group>"; };
+		386992D01DB8E6F500852B6E /* STCodeFile+FileAttributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "STCodeFile+FileAttributes.h"; sourceTree = "<group>"; };
+		386992D11DB8E6F500852B6E /* STCodeFile+FileAttributes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "STCodeFile+FileAttributes.m"; sourceTree = "<group>"; };
 		3876323E1DA7D6FA00680898 /* PercentagePropertiesController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PercentagePropertiesController.xib; sourceTree = "<group>"; };
 		387632401DA7D70500680898 /* PercentagePropertiesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PercentagePropertiesController.m; sourceTree = "<group>"; };
 		387632421DA7D70E00680898 /* PercentagePropertiesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PercentagePropertiesController.h; sourceTree = "<group>"; };
@@ -1080,6 +1083,8 @@
 				386992CB1DB6C72300852B6E /* STCodeFile+FileMonitor.m */,
 				386992CD1DB6CE2A00852B6E /* STDocumentManager+FileMonitor.h */,
 				386992CE1DB6CE2A00852B6E /* STDocumentManager+FileMonitor.m */,
+				386992D01DB8E6F500852B6E /* STCodeFile+FileAttributes.h */,
+				386992D11DB8E6F500852B6E /* STCodeFile+FileAttributes.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -1327,23 +1332,23 @@
 		38F8033D1D9C4B3500C8F1EA /* ScintillaHelpers */ = {
 			isa = PBXGroup;
 			children = (
-				38F8033E1D9C4B8200C8F1EA /* ScintillaNET.h */,
 				38F803411D9C4B9A00C8F1EA /* SCHelpers.h */,
 				38F803421D9C4B9A00C8F1EA /* SCHelpers.m */,
-				38F803441D9C4CEB00C8F1EA /* SCMarkerHandle.h */,
-				38F803451D9C4CEB00C8F1EA /* SCMarkerHandle.mm */,
+				38F8033E1D9C4B8200C8F1EA /* ScintillaNET.h */,
 				38F803471D9C50C000C8F1EA /* SCLine.h */,
 				38F803481D9C50C000C8F1EA /* SCLine.mm */,
 				38F8034A1D9C579000C8F1EA /* SCLineCollection.h */,
 				38F8034B1D9C579000C8F1EA /* SCLineCollection.mm */,
-				385221C31DAD5D0B005E804B /* SCPerLine.h */,
-				385221C41DAD5D0B005E804B /* SCPerLine.m */,
-				38F8034D1D9C5C1800C8F1EA /* SCScintilla.h */,
-				38F8034E1D9C5C1800C8F1EA /* SCScintilla.mm */,
 				385221C71DAE90CE005E804B /* SCMarker.h */,
 				385221C81DAE90CF005E804B /* SCMarker.mm */,
 				385221CA1DAE98CB005E804B /* SCMarkerCollection.h */,
 				385221CB1DAE98CB005E804B /* SCMarkerCollection.mm */,
+				38F803441D9C4CEB00C8F1EA /* SCMarkerHandle.h */,
+				38F803451D9C4CEB00C8F1EA /* SCMarkerHandle.mm */,
+				385221C31DAD5D0B005E804B /* SCPerLine.h */,
+				385221C41DAD5D0B005E804B /* SCPerLine.m */,
+				38F8034D1D9C5C1800C8F1EA /* SCScintilla.h */,
+				38F8034E1D9C5C1800C8F1EA /* SCScintilla.mm */,
 			);
 			path = ScintillaHelpers;
 			sourceTree = "<group>";
@@ -1923,6 +1928,7 @@
 				386992C91DB6B6A200852B6E /* FileMonitor.m in Sources */,
 				38F803431D9C4B9A00C8F1EA /* SCHelpers.m in Sources */,
 				385221C91DAE90CF005E804B /* SCMarker.mm in Sources */,
+				386992D21DB8E6F500852B6E /* STCodeFile+FileAttributes.m in Sources */,
 				38F803461D9C4CEB00C8F1EA /* SCMarkerHandle.mm in Sources */,
 				38C3CC7A1DA4298E00CEA70C /* TagEditorViewController.mm in Sources */,
 				387632411DA7D70500680898 /* PercentagePropertiesController.m in Sources */,

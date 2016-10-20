@@ -240,6 +240,11 @@ NSInteger stepLength;
 }
 
 -(NSArray<SCLine*>*)Lines {
+  //original code - we were just reading the line collection private member
+  // problem is... it's now disconnected from the content from the scintiall view... so it's wrong the moment
+  // our scintilla view is updated
+  // so for now we're just going to re-emit the content array (recreate it) when we query the collection
+  //[self populateLinesFromContent:[[[self scintilla] scintillaView] string]];
   return _lines;
 }
 

@@ -51,10 +51,12 @@ NSString* const allowedExtensions_CodeFiles = @"do/DO";
 -(void)viewDidAppear
 {
   [self startMonitoringCodeFiles];
+//  [[StatTagShared sharedInstance] restoreWindowFrame];
 }
 
 -(void)viewWillDisappear {
   [self stopMonitoringCodeFiles];
+//  [[StatTagShared sharedInstance] saveWindowFrame];
 }
 
 -(void)startMonitoringCodeFiles

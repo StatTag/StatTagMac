@@ -93,7 +93,9 @@
   // Insert code here to tear down your application
   
   [AppEventListener stopListening];
+  
 
+  
 }
 
 //in our case - yes - let's quit if the last window is closed

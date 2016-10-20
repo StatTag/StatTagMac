@@ -31,6 +31,17 @@
   return self;
 }
 
+//this is _really_ bad. Expensive. Slow.
+// I have no idea where we should sync this up w/ the content
+-(SCLineCollection*)Lines
+{
+  if(_Lines== nil)
+  {
+    _Lines = [[SCLineCollection alloc] initWithScintilla:self];
+  }
+  [_Lines RebuildLineData];
+  return _Lines;
+}
 
 /// Clears any undo or redo history.
 /// @remark This will also cause SetSavePoint to be called but will not raise the SavePointReached event

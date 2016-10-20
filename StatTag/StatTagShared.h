@@ -28,6 +28,7 @@
   STPropertiesManager* _propertiesManager;
   STLogManager* _pogManager;
   NSMutableArray<FileMonitor*>* _fileMonitors;
+  NSRect _archivedWindowFrame;
   //  NSWindow* _mainWindow;
 }
 
@@ -56,6 +57,9 @@
 @property (strong, nonatomic) NSMutableArray<FileMonitor*>* fileMonitors;
 
 -(void)initializeWordViews;
+
+-(void)saveWindowFrame;
+-(void)restoreWindowFrame;
 
 @property NSRect archivedWindowFrame;
 
