@@ -30,6 +30,7 @@
 @synthesize applicationVersion = _applicationVersion;
 
 +(NSArray<NSString*>*) ProcessNames {
+  //FIXME: move to plist
   return [NSArray arrayWithObjects:
           @"com.microsoft.Word",
           nil];
@@ -67,8 +68,6 @@
         _applicationVersion = [NSNumber numberWithInt:0];
       }
       
-      
-      //[self ThisAddIn_Startup];
     }
   }
   return self;
@@ -106,6 +105,7 @@
  check for the active document, since if it is not set it throws an exception.
 */
 -(STMSWord2011Document*)SafeGetActiveDocument {
+  //FIXME: Word will happily return a reference to a non-existent object - it will NOT be nil
   @try {
     return [[self Application] activeDocument];
   }
@@ -133,7 +133,6 @@
   [[self LogManager] UpdateSettings:[[[self PropertiesManager] Properties] EnableLogging]  filePath:[[[self PropertiesManager] Properties] LogLocation]];
   [[self LogManager] WriteMessage:@"Startup completed"];
   _DocumentManager.Logger = [self LogManager];
-  //  AfterDoubleClickErrorCallback += OnAfterDoubleClickErrorCallback;
 
   @try {
     // When you double-click on a document to open it (and Word is closed), the DocumentOpen event isn't called.
@@ -227,7 +226,7 @@
   [[self LogManager] WriteMessage:@"DocumentOpen - Completed"];
 }
 
-
+// FIXME: all double-click handling will have to be done in VBA then passed to the app via AppleScript. We would NOT implement this here. This would be in the StatTag UI. Leaving this here as a reference because that's where the original C# had it. We need better UI separation on the Obj-C side.
 /// <summary>
 /// Respond to an error after double-clicking on a field.
 /// </summary>

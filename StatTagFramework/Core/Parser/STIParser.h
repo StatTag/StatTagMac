@@ -14,12 +14,6 @@
 
 @protocol STIParser <NSObject>
 
-/*
- Tag[] Parse(CodeFile file, int filterMode = Constants.ParserFilterMode.IncludeAll, List<Tag> tagsToRun = null);
- List<ExecutionStep> GetExecutionSteps(CodeFile file, int filterMode = Constants.ParserFilterMode.IncludeAll, List<Tag> tagsToRun = null);
-
-
- */
 
 -(NSArray<STTag*>*)Parse:(STCodeFile*)file filterMode:(int)filterMode tagsToRun:(NSArray<STTag*>*)tagsToRun;
 -(NSArray<STTag*>*)Parse:(STCodeFile*)file filterMode:(int)filterMode;

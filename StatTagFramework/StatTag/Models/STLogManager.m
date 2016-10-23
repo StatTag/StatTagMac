@@ -61,7 +61,6 @@
   NSLog(@"error : %@", [error localizedDescription]);
   
   if(fileContents != nil) {
-    //if([[NSFileManager defaultManager] fileExistsAtPath:logFilePath]){
     //this returns YES for some invalid paths... ex: "my awesome file" (not a path) so we should probably review
     // http://stackoverflow.com/questions/2455735/why-does-nsfilemanager-return-true-on-fileexistsatpath-when-there-is-no-such-fil
     return [[NSFileManager defaultManager] isWritableFileAtPath:logFilePath];
@@ -75,14 +74,6 @@
     //do we want to alert the user if this fails?
     return createdFile;
   }
-  
-  //FileStream stream = null;
-//  BOOL success = [contentString
-//                  writeToFile:[filePath path]
-//                  atomically:YES
-//                  encoding:NSUTF8StringEncoding
-//                  error:nil];
-  
 }
 
 
@@ -127,13 +118,6 @@
       
       [myHandle writeData:[[NSString stringWithFormat:@"%@ - %@\r\n", [dateFormatter stringFromDate:[NSDate date]], text] dataUsingEncoding:NSUTF8StringEncoding]];
     }
-    
-    //  BOOL success = [contentString
-    //                  writeToFile:[filePath path]
-    //                  atomically:YES
-    //                  encoding:NSUTF8StringEncoding
-    //                  error:nil];
-
   }
 }
 

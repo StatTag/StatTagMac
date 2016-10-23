@@ -188,7 +188,6 @@
 
 
 
-//+(NSArray<NSObject<STJSONAble>*>*)DeserializeList:(NSString*)List forClass:(id)c error:(NSError**)outError
 +(NSArray<NSObject<STJSONAble>*>*)DeserializeList:(id)List forClass:(id)c error:(NSError**)outError
 {
   NSError *error = nil;

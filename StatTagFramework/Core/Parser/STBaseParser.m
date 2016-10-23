@@ -100,10 +100,8 @@
   STTag *tag;
   for (int index = 0; index < [lines count]; index++) {
 
-    //var line = lines[index].Trim();
     NSString *line = [[lines objectAtIndex:index] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     
-    //var match = StartTagRegEx.Match(line);
     NSArray* matches = [_StartTagRegEx matchesInString:line options:0 range: NSMakeRange(0, line.length)];
     
     if([matches count] > 0){

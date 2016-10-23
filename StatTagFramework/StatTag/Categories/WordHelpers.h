@@ -45,9 +45,6 @@
 +(STMSWord2011Table*)createTableAtRange:(STMSWord2011TextRange*)range withRows:(int)rows andCols:(int)cols;
 +(BOOL)insertParagraphAtRange:(STMSWord2011TextRange*)range;
 
-//+(NSString*)getFieldDataForFieldAtIndex:(int)theIndex;
-
-+(void)testService;
 
 +(BOOL)updateAllFields;
 

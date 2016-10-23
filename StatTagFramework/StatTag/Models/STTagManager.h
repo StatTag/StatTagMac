@@ -35,7 +35,6 @@
 -(NSDictionary<NSString*, NSArray<STTag*>*>*) FindAllUnlinkedTags;
 
 -(void)ProcessStatTagFields:(NSString*)aFunction configuration:(id)configuration;
-//-(void)ProcessStatTagFields:(void (^)(STMSWord2011Field*, STFieldTag*, id))aFunction configuration:(id)configuration;
 -(void)UpdateTagFieldData:(STMSWord2011Field*)field tag:(STFieldTag*)tag;
 -(void) UpdateUnlinkedTagsByCodeFile:(STMSWord2011Field*)field tag:(STFieldTag*)tag configuration:(id)configuration;
 -(void) UpdateUnlinkedTagsByTag:(STMSWord2011Field*)field tag:(STFieldTag*)tag configuration:(id)configuration;

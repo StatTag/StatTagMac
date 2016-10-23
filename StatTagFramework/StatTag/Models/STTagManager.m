@@ -91,6 +91,7 @@ the DocumentManager instance that contains it.
   
   //return files.SelectMany(file => file.Tags).FirstOrDefault(tag => tag.Id.Equals(id));
   //just easier to loop instead of using array predicate here - and since the size is small, performance shouldn't be a huge issue. We really need functional map/reduce/filter...
+  //could probably do an array filter by testing if the key/value pair match the criteria
   for(STCodeFile* file in files) {
     for(STTag* tag in [file Tags]) {
       if([tagID isEqualToString:[tag Id]]) {
@@ -148,8 +149,6 @@ the DocumentManager instance that contains it.
 */
 -(STFieldTag*)DeserializeFieldTag:(STMSWord2011Field*) field {
   
-  //[STGlobals activateDocument];
-
   [STGlobals activateDocument];
   
   NSArray<STCodeFile*>* files = [_DocumentManager GetCodeFileList];
@@ -157,36 +156,24 @@ the DocumentManager instance that contains it.
   NSLog(@"DeserializeFieldTag -> files : %@", files);
   //FIXME: we should fix his to be a hard crash - debugging...
 
-  //  if([field fieldCode] != nil) {
   STMSWord2011TextRange* code = [field fieldCode];
   NSLog(@"DeserializeFieldTag -> code : (%d,%d)", [code startOfContent], [code endOfContent]);
   STMSWord2011Field* nestedField = [[code fields] firstObject];//[code fields][1];
   
   [STGlobals activateDocument];
   NSString* nestedFieldText = [NSString stringWithString:[nestedField fieldText]];//[[nestedField fieldText] copy];
-
   [STGlobals activateDocument];
-//  NSLog(@"DeserializeFieldTag -> nestedField APPLESCRIPT (about to call)");
-//  NSString* testNestedFieldText = [WordHelpers getFieldDataForFieldAtIndex:[nestedField entry_index]];
-//  NSLog(@"DeserializeFieldTag -> nestedField APPLESCRIPT (just called)");
-//  NSLog(@"DeserializeFieldTag -> nestedField APPLESCRIPT field json: %@", testNestedFieldText);
   
-//  [STGlobals activateDocument];
   NSLog(@"DeserializeFieldTag -> nestedField : %@", nestedField);
   NSLog(@"DeserializeFieldTag -> nestedField field type: %d", [nestedField fieldType]);
   NSLog(@"DeserializeFieldTag -> nestedField field entry_index: %d", [nestedField entry_index]);
   
   NSLog(@"DeserializeFieldTag -> nestedField fieldText : %@", nestedFieldText);
-  //NSLog(@"DeserializeFieldTag -> ASOC field text : %@", [WordHelpers getFieldDataForFieldAtIndex:[nestedField entry_index]]);
   //FIXME: very, very unsure of this.. original c# used "Data" and we're using fieldText - which seems to be the closest approximation...
   //  var fieldTag = FieldTag.Deserialize(nestedField.Data.ToString(CultureInfo.InvariantCulture),
   //                                      files);
   STFieldTag* fieldTag = [STFieldTag Deserialize:nestedFieldText withFiles:files error:nil];
-  //  Marshal.ReleaseComObject(nestedField);
-  //  Marshal.ReleaseComObject(code);
   return fieldTag;
-  //  }
-  //  return nil;
 }
 
 
@@ -200,10 +187,6 @@ the DocumentManager instance that contains it.
   //FIXME: added some checks we should remove here - hard crash is preferred for now
   
   [STGlobals activateDocument];
-  
-//  if(field != nil && [field fieldText] != nil && [[field fieldText] length] > 0) {
-//  NSString* fieldText = [NSString stringWithString:[field fieldText]];
-//  NSLog(@"GetFieldTag - preparing to deserialize json: %@", fieldText);
   
   STFieldTag* fieldTag = [self DeserializeFieldTag:field];
   NSLog(@"GetFieldTag -> fieldTag : %@", [fieldTag description]);
@@ -229,9 +212,6 @@ the DocumentManager instance that contains it.
     // from the tag we found, to ensure it's available for later use.
     return [[STFieldTag alloc] initWithTag:tag andFieldTag:fieldTag];
     
-//  }
-
-//  return nil;
 }
 
 -(STDuplicateTagResults*)FindAllDuplicateTags {
@@ -278,7 +258,6 @@ the DocumentManager instance that contains it.
     }
 
     if(![self IsStatTagField:field]) {
-      //Marshal.ReleaseComObject(field);
       continue;
     }
 
@@ -286,7 +265,6 @@ the DocumentManager instance that contains it.
     STFieldTag* tag = [self GetFieldTag:field];
     if(tag == nil) {
       NSLog(@"The field tag is null or could not be found");
-      //Marshal.ReleaseComObject(field);
       continue;
     }
 
@@ -303,10 +281,8 @@ the DocumentManager instance that contains it.
       //FIXME: does this return a copy or the reference?
       [[results objectForKey:[tag CodeFilePath]] addObject:tag];
     }
-    //Marshal.ReleaseComObject(field);
   }
   
-  //Marshal.ReleaseComObject(document);
   NSLog(@"FindAllUnlinkedTags - Finished");
   return results;
 }
@@ -319,8 +295,6 @@ the DocumentManager instance that contains it.
  @param configuration: A set of configuration information specific to the function
  */
 -(void)ProcessStatTagFields:(NSString*)aFunction configuration:(id)configuration {
-//-(void)ProcessStatTagFields:(void (^)(STMSWord2011Field*, STFieldTag*, id))aFunction configuration:(id)configuration {
-  //public void ProcessStatTagFields(Action<Field, FieldTag, object> function, object configuration)
   NSLog(@"ProcessStatTagFields - Started");
  
   STMSWord2011Application* application = [[[STGlobals sharedInstance] ThisAddIn] Application];
@@ -404,8 +378,6 @@ the DocumentManager instance that contains it.
   STMSWord2011TextRange* code = [field fieldCode];
   STMSWord2011Field* nestedField = [code fields][1];
   nestedField.fieldText = [tag Serialize:nil];
-  //  Marshal.ReleaseComObject(nestedField);
-  //  Marshal.ReleaseComObject(code);
 }
 
 
@@ -449,7 +421,6 @@ the DocumentManager instance that contains it.
       [self UpdateTagFieldData:field tag:tag];
     } else if ([action Action] == [STConstantsCodeFileActionTask RemoveTags]) {
       NSLog(@"Removing %@", [tag Name]);
-      //[field select];
       [WordHelpers select:field];
 
       STMSWord2011Application* application = [[[STGlobals sharedInstance] ThisAddIn] Application];

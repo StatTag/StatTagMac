@@ -22,9 +22,6 @@
   return @"true|false|True|False";
 }
 
-//static NSMutableDictionary<NSString*,NSRegularExpression*>* RegexCache;
-//+ (NSMutableDictionary<NSString*,NSRegularExpression*>*)RegexCache { return RegexCache; }
-//+ (void)setRegexCache:(NSMutableDictionary<NSString*,NSRegularExpression*>*)cache { RegexCache = cache; }
 
 @synthesize RegexCache = _RegexCache;
 

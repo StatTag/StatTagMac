@@ -12,11 +12,7 @@
 @class STTag;
 
 @interface STBaseGenerator : NSObject<STIGenerator> {
-  //NSString* _CommentCharacter;
 }
-
-//@property (readonly, nonatomic) NSString* CommentCharacter;
-
 
 -(NSString*)CommentCharacter;
 -(NSString*)CreateOpenTagBase;

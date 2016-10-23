@@ -12,8 +12,6 @@
 
 @implementation STGlobals
 
-//@synthesize ThisAddIn = _ThisAddIn;
-
 static STGlobals* sharedInstance = nil;
 + (instancetype)sharedInstance
 {

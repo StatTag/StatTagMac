@@ -29,14 +29,8 @@
 -(void)UpdateLinkFormat:(STMSWord2011LinkFormat*)linkFormat;
 -(void)insertImageAtPath:(NSString*)filePath;
 -(void)UpdateAllImageLinks;
-//-(void)disableScreenUpdates;
-//-(void)enableScreenUpdates;
 -(NSNumber*)createTableAtRangeStart:(NSNumber*)rangeStart andRangeEnd:(NSNumber*)rangeEnd withRows:(NSNumber*)rows andCols:(NSNumber*)cols;
 -(NSNumber*)insertParagraphAtRangeStart:(NSNumber*)rangeStart andRangeEnd:(NSNumber*)rangeEnd;
-//-(NSString*)getFieldDataForFieldAtIndex:(NSNumber*)theIndex;
-//-(NSString*)getFieldDataForFieldAtIndexUsingScript:(NSNumber*)theIndex;
-//-(NSString*)getFieldDataFileForFieldAtIndex:(NSNumber*)theIndex;
-
 -(NSNumber*)updateAllFields;
 
 

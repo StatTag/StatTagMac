@@ -67,18 +67,7 @@
 
 //MARK: JSON
 -(NSDictionary *)toDictionary {
-  NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
-  
-  /*
-   NSMutableArray<NSString*>* _RowNames;
-   NSMutableArray<NSString*>* _ColumnNames;
-   int _RowSize;
-   int _ColumnSize;
-   NSMutableArray<NSNumber*>* _Data; //type is double
-   NSMutableArray<NSString*>* _FormattedCells;
-
-   */
-  
+  NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];  
   [dict setValue:[self RowNames] forKey:@"RowNames"];
   [dict setValue:[self ColumnNames] forKey:@"ColumnNames"];
   [dict setValue:[NSNumber numberWithInteger:[self RowSize]] forKey:@"RowSize"];

@@ -65,44 +65,20 @@ script WordASOC
         end if
     end tell
     
-    --log logMessage
-    
   end createOrUpdateDocumentVariableWithName:andValue:
-
-
-  --keeping this here as an example
---  on UpdateInlineShapes:doc
---    set docName to "" as text
---    tell application "Microsoft Word"
---      set docName to |name| of doc --as text
---    end tell
---    log "doc name : " & docName
---  end UpdateInlineShapes
 
 
   on UpdateLinkFormat:link
     
     set logMessage to "initial log message" as text
     set loopCount to 0
---    log logMessage
     tell application "Microsoft Word"
---      repeat with thisShape in (get inline shapes of active document)
---        --if auto update of link format of thisShape is false then
---          update link format of thisShape
---          set logMessage to "updated?" as text
---        --end if
---      end repeat
         set loopCount to loopCount + 1
-        --set logMessage = "looping (pre) : " & loopCount
         repeat with aShape in (get inline shapes of active document)
-          --set logMessage to " field : " & hyperlink address of hyperlink of aField
---          set isUpdatable to auto update of link format of aShape as boolean
           set logMessage to " field : " & source path of link format of aShape
           
---          set logMessage to "looping (pre) : " & loopCount & " auto update is " & isUpdatable
           if auto update of link format of aShape is true then
             set logMessage to logMessage & "\r\n" & "looping (updated) (AUTO-UPDATE = TRUE) : " & loopCount
-          --else if auto update of link format of aShape is in {missing value, true} then
           else
             set logMessage to logMessage & "\r\n" & "looping (updated) (AUTO-UPDATE = FALSE-ISH) : " & loopCount
             set myName to "" & source path of link format of aShape
@@ -114,9 +90,6 @@ script WordASOC
               update link format of aShape
               set logMessage to logMessage & "\r\n" & "got link format source name : " & myName
             end if
---          else if auto update of link format of aShape is true then
---            update link format of aShape
---            set logMessage to "looping (updated) (AUTO-UPDATE = TRUE) : " & loopCount
           end if
         end repeat
 
@@ -124,13 +97,6 @@ script WordASOC
     
     log logMessage
 
---    set logMessage to "initial log message" as text
---    log logMessage
---    tell application "Microsoft Word"
---      update link
---      set logMessage to "updated?" as text
---    end tell
---    log logMessage
   end UpdateLinkFormat
 
   on UpdateAllImageLinks()
@@ -218,13 +184,6 @@ script WordASOC
     set theIndex to theIndex as integer
     tell application "Microsoft Word"
       
-      --repeat with theDoc in documents
-      --  tell me to log path of theDoc
-      --end repeat
-      --set theDoc to the front document
-      --tell me to log "hello"
-      --tell me to log the path of theDoc
-      
       --breaks in Word
       --set thePath to the path of the front document
       --tell me to log thePath
@@ -232,14 +191,6 @@ script WordASOC
       set pathList to path of documents
       tell me to log pathList
       
-      --if fileName is in namesList then
-        --display dialog \"EXITING LOOP BECAUSE FOUND FILE\" & namesList
-        --exit repeat
-      --end if
-      
-      --set theDoc to active document
-      --item 3 of myList
-      --set refHeader to get header of section 1 of active document index header footer primary
       set theField to field theIndex of active document
       return field text of theField
     end tell
@@ -267,12 +218,8 @@ script WordASOC
       tell active document
         
         if (name of (variable strVarName) is missing value) then -- does NOT exist
-          --display dialog strVarName & " MISSING"
           set bolVarExists to false
-          
           else -- var DOES exist
-          
-          --display dialog strVarName & " FOUND"
           set bolVarExists to true
         end if -- Variable doesn't exist
         
@@ -318,21 +265,6 @@ script WordASOC
     tell application "StatTagTestUI"
       return updateFields
     end tell
-
-    -- no activate
---    tell application "System Events"
---      tell group 1 of group 2 of window "Billings" of process "Billings"
---        perform action "AXPress" of (get first button whose its name ends with " Timer")
---      end tell
---    end tell
-
-    -- no activate
---    tell application "System Events"
---      tell process "Microsoft Entourage"
---        tell   tell click menu item "menu item name" of menu 1 of menu bar item "Menu name" of menu bar 1
---        tell end tell
---    end tell
-          
   end updateAllFields
 
 end script

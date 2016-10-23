@@ -20,7 +20,6 @@
  a Word document to derive values that are placed into the document text.
 */
 @interface STCodeFile : NSObject <NSCopying, STJSONAble> {
-//  NSMutableArray<NSString *> *ContentCache;
   NSString* _StatisticalPackage;
   NSString* _FilePath;
   NSURL* _FilePathURL;
@@ -28,13 +27,9 @@
   NSMutableArray<STTag*>*_Tags;
   
   NSMutableArray<NSString*>* _Content;
-  
   NSMutableArray<NSString *> *ContentCache;
 }
 
-//NSMutableArray<NSString *> *onlyStrings
-
-//@property NSMutableArray<NSString *> *ContentCache;
 @property (copy, nonatomic) NSString *StatisticalPackage;
 @property (copy, nonatomic) NSString *FilePath;
 @property (copy, nonatomic) NSURL *FilePathURL;
@@ -81,7 +76,6 @@
 //MARK: JSON
 -(NSDictionary *)toDictionary;
 -(NSString*)Serialize:(NSError**)error;
-//-(NSString*)SerializeObject:(NSError**)error;
 -(instancetype)initWithDictionary:(NSDictionary*)dict;
 -(instancetype)initWithJSONString:(NSString*)JSONString error:(NSError**)error;
 
@@ -94,7 +88,6 @@
  CodeFile objects.  This does not resolve the list of tags that may be
  associated with the CodeFile.
  */
-//+(NSArray<STCodeFile*>*)DeserializeList:(NSString*)List error:(NSError**)error;
 +(NSArray<STCodeFile*>*)DeserializeList:(id)List error:(NSError**)error;
 
 

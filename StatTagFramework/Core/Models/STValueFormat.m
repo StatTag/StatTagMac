@@ -153,23 +153,6 @@
 
   NSDate *dateValue;
   dateValue = [STJSONUtility dateFromString:value];
-//  NSTimeZone *timeZone = [NSTimeZone localTimeZone];
-//  
-//  NSError *error = NULL;
-//  NSDataDetector *detector = [NSDataDetector dataDetectorWithTypes:(NSTextCheckingTypes)NSTextCheckingTypeDate error:&error];
-//  
-//  NSArray *matches = [detector matchesInString:value options:0 range:NSMakeRange(0, [value length])];
-//  
-//  for (NSTextCheckingResult *match in matches) {
-//    if ([match resultType] == NSTextCheckingTypeDate) {
-//      dateValue = [match date];
-//      //NSLog(@"timezone: %@", [match timeZone]);
-//      //NSLog(@"match: %@", match);
-//      if([match timeZone] == nil) {
-//        
-//      }
-//    }
-//  }
   
   if(dateValue == nil) {
     if(_AllowInvalidTypes){return value;}

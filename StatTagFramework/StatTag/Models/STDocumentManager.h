@@ -112,7 +112,6 @@
  Conduct an assessment of the active document to see if there are any inserted tags that do not have an associated code file in the document.
  
  @param document: The Word document to analyze.
- @param onlyShowDialogIfResultsFound: If true, the results dialog will only display if there is something to report
  */
 -(void)PerformDocumentCheck:(STMSWord2011Document*)document;
 

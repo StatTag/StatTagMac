@@ -64,7 +64,6 @@
  the same tag name.
 */
 +(NSDictionary<STCodeFile*, NSArray<NSNumber*>*>*)CheckForDuplicateLabels:(STTag*)tag files:(NSArray<STCodeFile*>*)files
-//public static Dictionary<CodeFile, int[]> CheckForDuplicateLabels(Tag tag, List<CodeFile> files)
 {
   if (tag == nil)
   {

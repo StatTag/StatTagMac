@@ -21,9 +21,6 @@
   if (file != nil)
   {
     if([[file StatisticalPackage] isEqualToString: [STConstantsStatisticalPackages Stata] ]) {
-      //FIXME: NOT IMPLEMENTED
-      //        return new StatTag.Core.Parser.Stata();
-      //[NSException raise:@"Not yet implemented" format:@"method not yet implemented"];
       return [[STBaseParserStata alloc] init];
     }
   }
@@ -35,9 +32,6 @@
   if (file != nil)
   {
     if([[file StatisticalPackage] isEqualToString: [STConstantsStatisticalPackages Stata] ]) {
-      ///NSException raise:@"Not yet implemented" format:@"method not yet implemented"];
-      //FIXME: NOT IMPLEMENTED
-      //        return new StatTag.Core.Generator.Stata();
        return [[STStataBaseGenerator alloc] init];
     }
   }
@@ -48,9 +42,6 @@
   if (file != nil)
   {
     if([[file StatisticalPackage] isEqualToString: [STConstantsStatisticalPackages Stata] ]) {
-      //[NSException raise:@"Not yet implemented" format:@"method not yet implemented"];
-      //FIXME: NOT IMPLEMENTED
-      //        return new StatTag.Core.ValueFormatter.Stata();
       return [[STStataBaseValueFormatter alloc] init];
     }
   }

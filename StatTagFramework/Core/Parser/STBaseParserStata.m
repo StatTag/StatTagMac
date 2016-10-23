@@ -14,12 +14,10 @@
 +(NSCharacterSet*)MacroDelimiters {
   NSCharacterSet* chars = [NSCharacterSet characterSetWithCharactersInString:@"`'"];
   return chars;
-  //return [NSArray<NSString*> arrayWithObjects:@"`", @"'", nil];
 }
 +(NSCharacterSet*)CalculationOperators {
   NSCharacterSet* chars = [NSCharacterSet characterSetWithCharactersInString:@"*/-+"];
   return chars;
-  //return [NSArray<NSString*> arrayWithObjects:@"*", @"/", @"-", @"+", nil];
 }
 //MARK: Value regex
 +(NSString*)ValueCommand {

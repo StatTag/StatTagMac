@@ -96,8 +96,6 @@ const int RefreshStepInterval = 5;
         if(![[[step Tag] Name] isEqualToString:previousTagName])
         {
           //we changed tags, so update the name and fire off a notification
-          //currentTagName = [[step Tag] Name];
-          //NSDictionary *tagInfo = @{@"tagName":currentTagName};
           currentTagName = [NSString stringWithString:[[step Tag] Name]];
           [[NSNotificationCenter defaultCenter] postNotificationName:@"tagUpdateStart" object:self userInfo:@{@"tagName":currentTagName, @"codeFileName":[[[step Tag] CodeFile] FileName]}];
         }

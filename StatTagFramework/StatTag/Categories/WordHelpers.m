@@ -9,10 +9,7 @@
 #import "WordHelpers.h"
 #import "STMSWord2011.h"
 #import <StatTagFramework/StatTag.h>
-#import "ASOC.h"
 #import "WordASOC.h"
-//#import <objc/objc-runtime.h>
-//#import <ScriptingBridge/SBApplication.h>
 
 @implementation WordHelpers
 
@@ -49,13 +46,6 @@ static WordHelpers* sharedInstance = nil;
   //return [doc createRangeStart:start end:end];
   *range = [doc createRangeStart:start end:end];
 }
-
-//+(void)replaceRange:(STMSWord2011TextRange**)range Start:(int)start end:(int)end {
-//  STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
-//  STMSWord2011Document* doc = [app activeDocument];
-//  *range = [doc createRangeStart:start end:end];
-//}
-
 
 +(STMSWord2011TextRange*)DuplicateRange:(STMSWord2011TextRange*)range forDoc:(STMSWord2011Document*)doc {
   return [doc createRangeStart:[range startOfContent] end:[range endOfContent]];
@@ -112,25 +102,15 @@ static WordHelpers* sharedInstance = nil;
     text = @"";
   }
   
-//  NSLog(@"WordHelpers - updateContent -> at range (%ld,%ld) for text : '%@'", (long)[*range startOfContent], (long)[*range endOfContent], text);
-  
   [*range setContent: text];
   
   [WordHelpers setRange:range Start:[*range startOfContent] end:([*range startOfContent] + [text length])];
-  
-  //*range = [WordHelpers setRange:range Start:[*range startOfContent] end:([*range startOfContent] + [text length])];
-  
-  
-//  NSLog(@"WordHelpers - (DONE) updateContent -> at range (%ld,%ld) for text : '%@'", (long)[*range startOfContent], (long)[*range endOfContent], text);
-
 }
 
 +(void)UpdateLinkFormat:(STMSWord2011LinkFormat*)linkFormat {
   [[self class] sharedInstance];
   WordASOC *asoc = [[NSClassFromString(@"WordASOC") alloc] init];
-  //if(linkFormat != nil) {
-    [asoc UpdateLinkFormat:linkFormat];
-  //}
+  [asoc UpdateLinkFormat:linkFormat];
 }
 
 +(BOOL)imageExistsAtPath:(NSString*)filePath {
@@ -206,6 +186,7 @@ static WordHelpers* sharedInstance = nil;
   [asoc UpdateAllImageLinks];
 }
 
+//none of these actually work in Word - leaving them here so we know we tried
 //+(void)disableScreenUpdates {
 //  [[self class] sharedInstance];
 //  WordASOC *asoc = [[NSClassFromString(@"WordASOC") alloc] init];
@@ -296,12 +277,6 @@ static WordHelpers* sharedInstance = nil;
   
 }
 
-
-//+(NSString*)getWordVersionFromApp:(STMSWord2011BaseApplication*)app {
-//  //retur [app ]
-//  return nil;
-//}
-
 +(BOOL)insertParagraphAtRange:(STMSWord2011TextRange*)range {
   [[self class] sharedInstance];
   WordASOC *asoc = [[NSClassFromString(@"WordASOC") alloc] init];
@@ -309,17 +284,6 @@ static WordHelpers* sharedInstance = nil;
   return inserted_paragraph;
 }
 
-
-//+(NSString*)getFieldDataForFieldAtIndex:(int)theIndex {
-//  [[self class] sharedInstance];
-//  WordASOC *asoc = [[NSClassFromString(@"WordASOC") alloc] init];
-//  //NSString* fieldText = [asoc getFieldDataForFieldAtIndex:[NSNumber numberWithInteger:theIndex]];
-//  //NSString* fieldText = [asoc getFieldDataForFieldAtIndexUsingScript:[NSNumber numberWithInteger:theIndex]];
-//
-//  NSString* fieldText = [asoc getFieldDataFileForFieldAtIndex:[NSNumber numberWithInteger:theIndex]];
-//  
-//  return fieldText;
-//}
 
 +(BOOL)updateAllFields {
   [[self class] sharedInstance];

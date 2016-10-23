@@ -19,8 +19,6 @@
 
 @property NSMutableDictionary<NSString*,NSRegularExpression*>* RegexCache;
 
-//+(NSMutableDictionary<NSString*,NSRegularExpression*>*)RegexCache;
-//+(void)setRegexCache:(NSMutableDictionary<NSString*,NSRegularExpression*>*)cache;
 + (instancetype)sharedInstance;
 
 +(void)Parse:(NSString*)tagText Tag:(STTag*)tag;

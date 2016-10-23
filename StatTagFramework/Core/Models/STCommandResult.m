@@ -22,15 +22,7 @@
       [[_ValueResult stringByTrimmingCharactersInSet: ws] length] == 0
       && [[_FigureResult stringByTrimmingCharactersInSet: ws] length] == 0
       && (_TableResult == nil || [_TableResult isEmpty])
-  );
-  
-  /*
-   return (string.IsNullOrWhiteSpace(ValueResult)
-   && string.IsNullOrWhiteSpace(FigureResult)
-   && (TableResult == null || TableResult.IsEmpty()));
-
-   */
-  
+  );  
 }
 -(NSString*)ToString {
   NSCharacterSet *ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];

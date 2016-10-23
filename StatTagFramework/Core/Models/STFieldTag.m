@@ -16,7 +16,6 @@
 
 @synthesize TableCellIndex = _TableCellIndex;
 
-//@synthesize CodeFilePath = _CodeFilePath;
 - (NSString*) CodeFilePath {
   if(_CodeFile != nil) {
     return [_CodeFile FilePath];

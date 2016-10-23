@@ -279,7 +279,6 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
     if (fieldTag == nil)
     {
       NSLog(@"The field tag is null or could not be found");
-      //Marshal.ReleaseComObject(field);
       continue;
     }
     
@@ -291,16 +290,13 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
       if (isFirstCell)
       {
         [WordHelpers select:field];
-        //[field select];
         STMSWord2011SelectionObject* selection = [app selection];
         
         firstFieldLocation = [selection selectionStart]; //selection.Range.Start;
-        //Marshal.ReleaseComObject(selection);
         
         NSLog(@"First table cell found at position %d", firstFieldLocation);
       }
       
-      //field.Delete();
       [field delete]; //does this work?
       
       if (isFirstCell)
@@ -314,7 +310,6 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
       }
     }
     
-    //Marshal.ReleaseComObject(field);
   }
   
   [WordHelpers toggleAllFieldCodes];
@@ -330,7 +325,6 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
  If the shape can be updated, we will process the update.
 */
 -(void)UpdateInlineShapes:(STMSWord2011Document*)document {
-  //[NSException raise:@"UpdateInlineShapes not implemented" format:@"UpdateInlineShapes not implemented"];
   
   SBElementArray<STMSWord2011InlineShape*>* shapes = [document inlineShapes];
   if (shapes == nil)
@@ -358,10 +352,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
         }
         // see thread - http://stackoverflow.com/questions/38621644/word-applescript-update-link-format-working-with-inline-shapes
         //linkFormat.Update(); //so this doesn't exist in any useful way - so we have to "update" by setting the full source path - _twice_.  First time just breaks things. Second time - it sticks.
-        //Marshal.ReleaseComObject(linkFormat);
       }
-      
-      //Marshal.ReleaseComObject(shape);
     }
   }
 
@@ -425,7 +416,6 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
     NSLog(@"Preparing to process %d fields", fieldsCount);
 
     [self setValue:@"Updating Fields" forKey:@"wordFieldUpdateStatus"];
-    //[self setValue:[NSNumber numberWithInteger:fieldsCount] forKey:@"wordFieldsTotal"];
     
     //FIXME: it's 1-based in Windows - but on the Mac? We should check...
     for (int index = 0; index < fieldsCount; index++)
@@ -440,27 +430,21 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
       
       if (![_TagManager IsStatTagField:field])
       {
-        //Marshal.ReleaseComObject(field);
         [self setValue:[NSNumber numberWithInteger:index+1] forKey:@"wordFieldsUpdated"];
         continue;
       }
       
       NSLog(@"Processing StatTag field");
       NSLog(@"RefreshTableTagFields -> found field : %@ and json : %@", [[field fieldCode] content], [field fieldText]);
-
       
       STFieldTag* tag = [_TagManager GetFieldTag:field];
       
-
-      
       NSLog(@"after tag generation");
-      
       NSLog(@"tag has FormattedResult : %@", [tag FormattedResult]);
       
       if (tag == nil)
       {
         NSLog(@"The field tag is null or could not be found");
-        //Marshal.ReleaseComObject(field);
         continue;
       }
       
@@ -472,11 +456,6 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
         if ((!matchOnPosition && ![tag isEqual: tagUpdatePair.Old])
             || (matchOnPosition && ![tag EqualsWithPosition:tagUpdatePair.Old]))
         {
-          //FIXME: note that the original conditions in the c# were slightly different...
-          /*
-           if ((!matchOnPosition && !tag.Equals(tagUpdatePair.Old))
-           || matchOnPosition && !tag.EqualsWithPosition(tagUpdatePair.Old))
-           */
           continue;
         }
         
@@ -487,25 +466,19 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
       
       NSLog(@"Inserting field for tag: %@", tag.Name);
       [WordHelpers select:field];
-      //[field select];
       [self InsertField:tag];
       
       [self setValue:[NSNumber numberWithInteger:index+1] forKey:@"wordFieldsUpdated"];
       
-      //Marshal.ReleaseComObject(field);
     }
-    //Marshal.ReleaseComObject(fields);
   }
   @catch (NSException *exception) {
     NSLog(@"%@", exception.reason);
     NSLog(@"method: %@, line : %d", NSStringFromSelector(_cmd), __LINE__);
     NSLog(@"%@", [NSThread callStackSymbols]);
-    //NSLog(@"UpdateFields exception : %@", exception.reason);
   }
   @finally
   {
-    //Marshal.ReleaseComObject(document);
-    
     //Cursor.Current = Cursors.Default;
     //application.ScreenUpdating = true;
     //[WordHelpers enableScreenUpdates];
@@ -562,10 +535,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
   STMSWord2011Document* document = [app activeDocument];
   
-//  [[document createRangeStart:[[selectedCell textObject] startOfContent] end:[[endCell textObject] endOfContent]] select];
   [WordHelpers select:[document createRangeStart:[[selectedCell textObject] startOfContent] end:[[endCell textObject] endOfContent]]];
-
-
   
   SBElementArray<STMSWord2011Cell*>* cells = [self GetCells:[app selection]];
   
@@ -676,7 +646,6 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   STMSWord2011Document* doc = [app activeDocument];
 
   for(STMSWord2011Table* aTable in [doc tables]) {
-    //- (STMSWord2011Cell *) getCellFromTableRow:(NSInteger)row column:(NSInteger)column;  // Returns a cell object that represents a cell in a table.
     STMSWord2011Cell* tableCell = [aTable getCellFromTableRow:[findCell rowIndex] column:[findCell columnIndex]];
     if([[findCell textObject] startOfContent] == [[tableCell textObject] startOfContent]
        && [[findCell textObject] endOfContent] == [[tableCell textObject] endOfContent]) {
@@ -686,9 +655,6 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   }
   
   NSLog(@"cell Points : %@", cellPoints);
-//  NSLog(@"cell table : %@", [[cells firstObject] ]);
-  //- (STMSWord2011Cell *) getCellFromTableRow:(NSInteger)row column:(NSInteger)column;  // Returns a cell object that represents a cell in a table.
-
 
   // Wait, why aren't I using a for (int index = 0...) loop instead of this foreach?
   // There is some weird issue with the Cells collection that was crashing when I used
@@ -696,14 +662,11 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   // cells, which caused a crash.  No idea why, and moved to this approach in the interest
   // of time.  Long-term it'd be nice to figure out what was causing the crash.
   int index = 0;
-  //for (STMSWord2011Cell* cell in cells)
-  //for (int index = cellsCount - 1; index >= 0; index--)
   for (NSValue* value in cellPoints)
   {
     
     NSPoint cellPoint = [value pointValue];
     STMSWord2011Cell* cell = [cellTable getCellFromTableRow:cellPoint.x column:cellPoint.y];
-    //STMSWord2011Cell* cell = [cells objectAtIndex:index];
     
     if (index >= [[table FormattedCells] count])
     {
@@ -725,20 +688,15 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
     
     [self CreateTagField:range tagIdentifier:[NSString stringWithFormat:@"%@%@%d", [tag Name], [STConstantsReservedCharacters TagTableCellDelimiter], index] displayValue:[innerTag FormattedResult] tag:innerTag];
     index++;
-    //Marshal.ReleaseComObject(range);
   }
   
   [self WarnOnMismatchedCellCount:cellsCount dataLength:[[table FormattedCells] count] ];
-  
-  //Marshal.ReleaseComObject(cells);
   
   // Once the table has been inserted, re-select it (inserting fields messes with the previous selection) and
   // insert a new line after it.  This gives us spacing after a table so inserting multiple tables doesn't have
   // them all glued together.
   
-  //[[[selection tables] firstObject] select];
   [WordHelpers select:[[selection tables] firstObject]];
-
   
   STMSWord2011SelectionObject* tableSelection = [[[[STGlobals sharedInstance] ThisAddIn] Application] selection];
   [self InsertNewLineAndMoveDown:tableSelection];
@@ -781,9 +739,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
     
     STMSWord2011Table* wordTable = [WordHelpers createTableAtRange:[[app selection] textObject] withRows:rowCount andCols:columnCount];
 
-    //[wordTable select];
     [WordHelpers select:wordTable];
-
     
     STMSWord2011BorderOptions* borders = [wordTable borderOptions];
     borders.insideLineStyle = STMSWord2011E167LineStyleSingle;
@@ -808,6 +764,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
 */
 -(void)WarnOnMismatchedCellCount:(int)selectedCellCount dataLength:(int)dataLength
 {
+  //FIXME: this is not ideal - we should be separating UI from this kind of behavior
   if (selectedCellCount > dataLength)
   {
     [STUIUtility WarningMessageBox:[NSString stringWithFormat:@"The number of cells you have selected (%d) is larger than the number of cells in your results (%d).\r\n\r\nOnly the first %d cells have been filled in with results.", selectedCellCount, dataLength, dataLength] logger:_Logger];
@@ -873,7 +830,6 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
       [self InsertTable:selection tag:tag];
     } else {
       NSLog(@"Inserting a single tag field");
-      //FIXME: unclear if we should use textObject or formattedText
       STMSWord2011TextRange* range = [selection textObject];
       [self CreateTagField:range tagIdentifier:[tag Name] displayValue:[tag FormattedResult] tag:tag];
       //Marshal.ReleaseComObject(range);
@@ -912,7 +868,6 @@ Insert an StatTag field at the currently specified document range.
   //var fields = FieldManager.InsertField(range, string.Format("{3}MacroButton {0} {1}{3}ADDIN {2}{4}{4}",
   //    Constants.FieldDetails.MacroButtonName, displayValue, tagIdentifier, FieldCreator.FieldOpen, FieldCreator.FieldClose));
   //Log(string.Format("Inserted field with identifier {0} and display value {1}", tagIdentifier, displayValue));
-
   
   NSArray<STMSWord2011Field*>* fields = [_FieldManager InsertField:range theString:
                                          
@@ -935,15 +890,10 @@ Insert an StatTag field at the currently specified document range.
                                           ]
                                          ];
   
-//  NSArray<STMSWord2011Field*>* fields = [_FieldManager InsertField:range theString:@"<MacroButton test test>"];
-//    NSArray<STMSWord2011Field*>* fields = [_FieldManager InsertField:range theString:@"< = 5 + < PAGE > >"];
   [STGlobals activateDocument];
   STMSWord2011Field* dataField = [fields firstObject];
-  //@property (copy) NSString *fieldText;  // Returns or sets data in an ADDIN field. The data is not visible in the field code or result. It is only accessible by returning the value of the data property. If the field isn't an ADDIN field, this property will cause an error.
   [STGlobals activateDocument];
   dataField.fieldText = [tag Serialize:nil];
-
-
   
   NSLog(@"CreateTagField - Finished");
 }
@@ -1081,7 +1031,6 @@ Insert an StatTag field at the currently specified document range.
     NSMutableArray<STCodeFile*>* refreshedFiles = [[NSMutableArray<STCodeFile*> alloc] init];
     for (STTag* tag in tags)
     {
-      //if (!refreshedFiles.Contains(tag.CodeFile))
       if(![refreshedFiles containsObject:[tag CodeFile]])
       {
         STStatsManagerExecuteResult* result = [_StatsManager ExecuteStatPackage:[tag CodeFile] filterMode:[STConstantsParserFilterMode TagList] tagsToRun:tags];
@@ -1185,7 +1134,6 @@ Insert an StatTag field at the currently specified document range.
 -(void)UpdateUnlinkedTagsByCodeFile:(NSDictionary<NSString*, STCodeFileAction*>*)actions
 {
   [[self TagManager] ProcessStatTagFields:@"UpdateUnlinkedTagsByCodeFile" configuration:actions];
-  //TagManager.ProcessStatTagFields(TagManager.UpdateUnlinkedTagsByCodeFile, actions);
 }
 
 /**
@@ -1216,6 +1164,8 @@ Insert an StatTag field at the currently specified document range.
   //NSMutableArray<STCodeFile*>* files = [[NSMutableArray<STCodeFile*> alloc] initWithArray:[self GetCodeFileList:document]];
   NSMutableArray<STCodeFile*>* files = [self GetCodeFileList:document];
 
+  // we don't do this - since we're using an NSSet / de-duping we just handle this w/o user feedback
+  // leaving this block here to remind us of that fact
   //  if (files.Any(x => x.FilePath.Equals(fileName, StringComparison.CurrentCultureIgnoreCase)))
   //  {
   //    Log(string.Format("Code file {0} already exists and won't be added again", fileName));
