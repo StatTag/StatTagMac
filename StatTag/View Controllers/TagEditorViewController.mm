@@ -89,6 +89,10 @@ static void *TagTypeContext = &TagTypeContext;
 
 
 -(void)awakeFromNib {
+  
+//  [[self view] setWantsLayer:YES];
+//  [[[self view] layer] setBackgroundColor:[[NSColor whiteColor] CGColor]];
+  
   [self addSourceViewEditor];
   
   commentColor = [StatTagShared colorFromRGBRed:0.0f green:127.0f blue:0.0f alpha: 1.0]; //0x00, 0x7F, 0x00
