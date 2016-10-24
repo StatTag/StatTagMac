@@ -75,7 +75,6 @@
 		3836F5561D92C89900BF0DD4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3836F5551D92C89900BF0DD4 /* Assets.xcassets */; };
 		3836F5591D92C89900BF0DD4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3836F5571D92C89900BF0DD4 /* Main.storyboard */; };
 		3836F5641D92C89900BF0DD4 /* StatTagTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3836F5631D92C89900BF0DD4 /* StatTagTests.m */; };
-		3836F56F1D92C89A00BF0DD4 /* StatTagUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3836F56E1D92C89A00BF0DD4 /* StatTagUITests.m */; };
 		3836F57D1D92C8EA00BF0DD4 /* StatTag.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 3836F57C1D92C8EA00BF0DD4 /* StatTag.sdef */; };
 		3836F5A01D92D03D00BF0DD4 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3836F59E1D92D03D00BF0DD4 /* SettingsViewController.m */; };
 		3836F5A11D92D03D00BF0DD4 /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3836F59F1D92D03D00BF0DD4 /* SettingsViewController.xib */; };
@@ -233,13 +232,6 @@
 			remoteGlobalIDString = 3836F5491D92C89900BF0DD4;
 			remoteInfo = StatTag;
 		};
-		3836F56B1D92C89A00BF0DD4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 382C8D1A1D0F672F00FE6878 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 3836F5491D92C89900BF0DD4;
-			remoteInfo = StatTag;
-		};
 		38D8B1B41D9496C300BF878A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 382C8D1A1D0F672F00FE6878 /* Project object */;
@@ -363,9 +355,6 @@
 		3836F55F1D92C89900BF0DD4 /* StatTagTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StatTagTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3836F5631D92C89900BF0DD4 /* StatTagTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StatTagTests.m; sourceTree = "<group>"; };
 		3836F5651D92C89900BF0DD4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3836F56A1D92C89A00BF0DD4 /* StatTagUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StatTagUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		3836F56E1D92C89A00BF0DD4 /* StatTagUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StatTagUITests.m; sourceTree = "<group>"; };
-		3836F5701D92C89A00BF0DD4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3836F57C1D92C8EA00BF0DD4 /* StatTag.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = StatTag.sdef; sourceTree = "<group>"; };
 		3836F59D1D92D03D00BF0DD4 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		3836F59E1D92D03D00BF0DD4 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
@@ -529,7 +518,6 @@
 		38EDF0311D2C2E6900ACD77B /* STCocoaUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STCocoaUtil.m; sourceTree = "<group>"; };
 		38EDF0341D2C2FC200ACD77B /* StatTagStataAutomationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagStataAutomationTests.m; sourceTree = "<group>"; };
 		38EF1A661D99544F008EA9B0 /* readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = readme.md; sourceTree = "<group>"; };
-		38EF1A691D99A16B008EA9B0 /* ACEView.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ACEView.framework; sourceTree = "<group>"; };
 		38F8033E1D9C4B8200C8F1EA /* ScintillaNET.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScintillaNET.h; sourceTree = "<group>"; };
 		38F803411D9C4B9A00C8F1EA /* SCHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCHelpers.h; sourceTree = "<group>"; };
 		38F803421D9C4B9A00C8F1EA /* SCHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCHelpers.m; sourceTree = "<group>"; };
@@ -589,13 +577,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		3836F5671D92C89A00BF0DD4 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -603,7 +584,6 @@
 			isa = PBXGroup;
 			children = (
 				38A877CB1D9AEEA0002F37DA /* Scintilla.framework */,
-				38EF1A691D99A16B008EA9B0 /* ACEView.framework */,
 				38C91F4A1D37AC710048A95E /* Cocoa.framework */,
 				38C91F451D36FC8A0048A95E /* AppleScriptObjC.framework */,
 				387A0E2F1D230DAF00F1FE9C /* OCMock.framework */,
@@ -612,7 +592,6 @@
 				382C8D421D101C2700FE6878 /* StatTagFrameworkTests */,
 				3836F54B1D92C89900BF0DD4 /* StatTag */,
 				3836F5621D92C89900BF0DD4 /* StatTagTests */,
-				3836F56D1D92C89A00BF0DD4 /* StatTagUITests */,
 				382C8D241D0F672F00FE6878 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -624,7 +603,6 @@
 				382C8D411D101C2700FE6878 /* StatTagFrameworkTests.xctest */,
 				3836F54A1D92C89900BF0DD4 /* StatTag.app */,
 				3836F55F1D92C89900BF0DD4 /* StatTagTests.xctest */,
-				3836F56A1D92C89A00BF0DD4 /* StatTagUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -822,15 +800,6 @@
 				3836F5651D92C89900BF0DD4 /* Info.plist */,
 			);
 			path = StatTagTests;
-			sourceTree = "<group>";
-		};
-		3836F56D1D92C89A00BF0DD4 /* StatTagUITests */ = {
-			isa = PBXGroup;
-			children = (
-				3836F56E1D92C89A00BF0DD4 /* StatTagUITests.m */,
-				3836F5701D92C89A00BF0DD4 /* Info.plist */,
-			);
-			path = StatTagUITests;
 			sourceTree = "<group>";
 		};
 		3836F5831D92CE7200BF0DD4 /* View Controllers */ = {
@@ -1363,24 +1332,6 @@
 			productReference = 3836F55F1D92C89900BF0DD4 /* StatTagTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		3836F5691D92C89A00BF0DD4 /* StatTagUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 3836F5771D92C89A00BF0DD4 /* Build configuration list for PBXNativeTarget "StatTagUITests" */;
-			buildPhases = (
-				3836F5661D92C89A00BF0DD4 /* Sources */,
-				3836F5671D92C89A00BF0DD4 /* Frameworks */,
-				3836F5681D92C89A00BF0DD4 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				3836F56C1D92C89A00BF0DD4 /* PBXTargetDependency */,
-			);
-			name = StatTagUITests;
-			productName = StatTagUITests;
-			productReference = 3836F56A1D92C89A00BF0DD4 /* StatTagUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -1405,11 +1356,6 @@
 						ProvisioningStyle = Automatic;
 						TestTargetID = 3836F5491D92C89900BF0DD4;
 					};
-					3836F5691D92C89A00BF0DD4 = {
-						CreatedOnToolsVersion = 8.0;
-						ProvisioningStyle = Automatic;
-						TestTargetID = 3836F5491D92C89900BF0DD4;
-					};
 				};
 			};
 			buildConfigurationList = 382C8D1D1D0F672F00FE6878 /* Build configuration list for PBXProject "StatTag" */;
@@ -1429,7 +1375,6 @@
 				382C8D401D101C2700FE6878 /* StatTagFrameworkTests */,
 				3836F5491D92C89900BF0DD4 /* StatTag */,
 				3836F55E1D92C89900BF0DD4 /* StatTagTests */,
-				3836F5691D92C89A00BF0DD4 /* StatTagUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -1478,13 +1423,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		3836F55D1D92C89900BF0DD4 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		3836F5681D92C89A00BF0DD4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1643,14 +1581,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		3836F5661D92C89A00BF0DD4 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				3836F56F1D92C89A00BF0DD4 /* StatTagUITests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -1658,11 +1588,6 @@
 			isa = PBXTargetDependency;
 			target = 3836F5491D92C89900BF0DD4 /* StatTag */;
 			targetProxy = 3836F5601D92C89900BF0DD4 /* PBXContainerItemProxy */;
-		};
-		3836F56C1D92C89A00BF0DD4 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 3836F5491D92C89900BF0DD4 /* StatTag */;
-			targetProxy = 3836F56B1D92C89A00BF0DD4 /* PBXContainerItemProxy */;
 		};
 		38D8B1B51D9496C300BF878A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1946,36 +1871,6 @@
 			};
 			name = Release;
 		};
-		3836F5781D92C89A00BF0DD4 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_SUSPICIOUS_MOVES = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = StatTagUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				PRODUCT_BUNDLE_IDENTIFIER = org.stattag.StatTagUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_TARGET_NAME = StatTag;
-			};
-			name = Debug;
-		};
-		3836F5791D92C89A00BF0DD4 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_SUSPICIOUS_MOVES = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = StatTagUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				PRODUCT_BUNDLE_IDENTIFIER = org.stattag.StatTagUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_TARGET_NAME = StatTag;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -2020,15 +1915,6 @@
 			buildConfigurations = (
 				3836F5751D92C89A00BF0DD4 /* Debug */,
 				3836F5761D92C89A00BF0DD4 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		3836F5771D92C89A00BF0DD4 /* Build configuration list for PBXNativeTarget "StatTagUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				3836F5781D92C89A00BF0DD4 /* Debug */,
-				3836F5791D92C89A00BF0DD4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -123,16 +123,6 @@ NSString* const defaultLogFileName = @"StatTag.log";
 
 - (IBAction)chooseFile:(id)sender {
   
-  //  var logPath = UIUtility.GetFileName(LogFileFilter, false);
-  //  if (!string.IsNullOrWhiteSpace(logPath))
-  //  {
-  //    txtLogLocation.Text = logPath;
-  //  }
-  
-//  [[self labelFilePath] setStringValue:@"/Users/ewhitley/Documents/work_other/NU/Word Plugin/_code/WindowsVersion/Word_Files_Working_Copies/StatTag.log"];
-//  [self saveSettings];
-//  return;
-  
   NSOpenPanel* openPanel = [NSOpenPanel openPanel];
   [openPanel setCanChooseFiles:YES];
   [openPanel setCanChooseDirectories:YES];
@@ -153,7 +143,6 @@ NSString* const defaultLogFileName = @"StatTag.log";
     NSArray<NSURL*>* files = [openPanel URLs];
     
     for( int i = 0; i < [files count]; i++ )
-      //for(NSURL* url in files)
     {
       NSURL* url = [files objectAtIndex:i];
       if ([fileManager fileExistsAtPath:[url path] isDirectory:&isDir] && isDir) {

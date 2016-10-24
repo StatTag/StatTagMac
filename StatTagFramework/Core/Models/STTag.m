@@ -68,6 +68,7 @@
   self.ValueFormat = [[STValueFormat alloc] init];
  // self.ValueFormat.FormatType = [STConstantsValueFormatType Default];
   self.FigureFormat = [[STFigureFormat alloc] init];
+  self.Name = @"";
   
   return self;
 }
@@ -93,6 +94,21 @@
     NSLog(@"self CachedResult = %@", [self CachedResult]);
     NSLog(@"tag(self) FormattedResult : %@", [self FormattedResult]);
   }
+  //fix any missing members
+  if(self.Name == nil) {
+    self.Name = @"";
+  }
+  if(self.TableFormat == nil) {
+    self.TableFormat = [[STTableFormat alloc] init];
+  }
+  if(self.ValueFormat == nil) {
+    self.ValueFormat = [[STValueFormat alloc] init];
+  }
+  if(self.FigureFormat == nil) {
+    self.FigureFormat = [[STFigureFormat alloc] init];
+  }
+  // self.ValueFormat.FormatType = [STConstantsValueFormatType Default];
+
   return self;
 }
 
