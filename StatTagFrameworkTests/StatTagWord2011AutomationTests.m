@@ -164,7 +164,8 @@
     NSLog(@"range properties : %@", [range properties]);
     NSLog(@"rangeCopy properties : %@", [rangeCopy properties]);
 
-    [rangeCopy select];
+    [WordHelpers select:rangeCopy];
+//    [rangeCopy select]; //this no longer works in Word 2016, so we need to use our custom "select"
     //go look...
     
   } else {
@@ -563,7 +564,7 @@
 }
 
 -(void)testAlertPanel {
-  [STUIUtility WarningMessageBox:@"something went wrong" logger:nil];
+  //[STUIUtility WarningMessageBox:@"something went wrong" logger:nil];
 }
 
 -(void)testViewWordFieldJSON {
@@ -613,7 +614,7 @@
 
 
 -(void)testFieldEnumeration {
-  [STWindowLauncher testGettingFields];
+  //[STWindowLauncher testGettingFields];
 }
 
 -(void)testASOCGetFieldText {
@@ -645,7 +646,7 @@
 
 -(void)testXPC {
   
-  [WordHelpers testService];
+  //[WordHelpers testService];
 
   
 }

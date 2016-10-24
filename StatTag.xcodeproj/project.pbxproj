@@ -154,7 +154,6 @@
 		38A7CE9C1D4FE29400B06AFF /* STPropertiesManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 38A7CE9A1D4FE29400B06AFF /* STPropertiesManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38A7CE9D1D4FE29400B06AFF /* STPropertiesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A7CE9B1D4FE29400B06AFF /* STPropertiesManager.m */; };
 		38A843A31D9B051100357727 /* readme.md in Sources */ = {isa = PBXBuildFile; fileRef = 38A843A21D9B051100357727 /* readme.md */; };
-		38A877CC1D9AEEA1002F37DA /* Scintilla.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38A877CB1D9AEEA0002F37DA /* Scintilla.framework */; };
 		38A877CD1D9AEEA7002F37DA /* Scintilla.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38A877CB1D9AEEA0002F37DA /* Scintilla.framework */; };
 		38A877CE1D9AEEA7002F37DA /* Scintilla.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 38A877CB1D9AEEA0002F37DA /* Scintilla.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		38AB41841DA1564C00EA464C /* TagEditorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38AB41831DA1564C00EA464C /* TagEditorViewController.xib */; };
@@ -547,7 +546,6 @@
 			files = (
 				38BE59AC1D52AA1000FF9E99 /* Cocoa.framework in Frameworks */,
 				38C91F461D36FC8A0048A95E /* AppleScriptObjC.framework in Frameworks */,
-				38A877CC1D9AEEA1002F37DA /* Scintilla.framework in Frameworks */,
 				382C28711D180CB900697D6F /* SystemConfiguration.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

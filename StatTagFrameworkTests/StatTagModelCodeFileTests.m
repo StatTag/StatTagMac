@@ -43,7 +43,7 @@
   
   url = [[NSURL alloc] initWithString:@"file1.txt"];
   cf.FilePathURL = url;
-  XCTAssert([@"file1.txt" isEqualToString:[[cf FilePathURL] path]]);
+  XCTAssert([@"file1.txt" isEqualToString:[[cf FilePathURL] lastPathComponent]]);
   XCTAssert([@"file1.txt" isEqualToString:[cf FilePath]]);
 
   url = [[NSURL alloc] initWithString:@"C:\\temp\\file1.txt"];
@@ -57,12 +57,13 @@
   STCodeFile* cf = [[STCodeFile alloc] init];
   
   cf.FilePath = @"file1.txt";
-  XCTAssert([@"file1.txt" isEqualToString:[[cf FilePathURL] path]]);
+  XCTAssert([@"file1.txt" isEqualToString:[[cf FilePathURL] lastPathComponent]]);
   XCTAssert([@"file1.txt" isEqualToString:[cf FilePath]]);
 
   cf.FilePath = @"C:\\temp\\file1.txt";
   XCTAssert([[cf FilePath] isEqualToString:@"C:\\temp\\file1.txt"]);
-  XCTAssertNil([cf FilePathURL]);
+  XCTAssert([[[cf FilePathURL] path] isEqualToString:@"/private/tmp/C:\\temp\\file1.txt"]);
+  //XCTAssertNil([cf FilePathURL]);
   
 }
 

@@ -371,26 +371,26 @@
   cr.TableResult = table;
   tag.CachedResult = [NSMutableArray<STCommandResult*> arrayWithObjects:cr, nil];
   NSArray<NSNumber*>* dimensions = [tag GetTableDisplayDimensions];
-  XCTAssertEqual(@2, [dimensions objectAtIndex:[STConstantsDimensionIndex Rows]]);
-  XCTAssertEqual(@3, [dimensions objectAtIndex:[STConstantsDimensionIndex Columns]]);
+  XCTAssertEqual(2, [[dimensions objectAtIndex:[STConstantsDimensionIndex Rows]] integerValue]);
+  XCTAssertEqual(3, [[dimensions objectAtIndex:[STConstantsDimensionIndex Columns]] integerValue]);
   
   tag.TableFormat.IncludeColumnNames = true;
   tag.TableFormat.IncludeRowNames = false;
   dimensions = [tag GetTableDisplayDimensions];
-  XCTAssertEqual(@3, [dimensions objectAtIndex:[STConstantsDimensionIndex Rows]]);
-  XCTAssertEqual(@3, [dimensions objectAtIndex:[STConstantsDimensionIndex Columns]]);
+  XCTAssertEqual(3, [[dimensions objectAtIndex:[STConstantsDimensionIndex Rows]] integerValue]);
+  XCTAssertEqual(3, [[dimensions objectAtIndex:[STConstantsDimensionIndex Columns]] integerValue]);
 
   tag.TableFormat.IncludeColumnNames = true;
   tag.TableFormat.IncludeRowNames = true;
   dimensions = [tag GetTableDisplayDimensions];
-  XCTAssertEqual(@3, [dimensions objectAtIndex:[STConstantsDimensionIndex Rows]]);
-  XCTAssertEqual(@4, [dimensions objectAtIndex:[STConstantsDimensionIndex Columns]]);
+  XCTAssertEqual(3, [[dimensions objectAtIndex:[STConstantsDimensionIndex Rows]] integerValue]);
+  XCTAssertEqual(4, [[dimensions objectAtIndex:[STConstantsDimensionIndex Columns]] integerValue]);
 
   tag.TableFormat.IncludeColumnNames = false;
   tag.TableFormat.IncludeRowNames = true;
   dimensions = [tag GetTableDisplayDimensions];
-  XCTAssertEqual(@2, [dimensions objectAtIndex:[STConstantsDimensionIndex Rows]]);
-  XCTAssertEqual(@4, [dimensions objectAtIndex:[STConstantsDimensionIndex Columns]]);
+  XCTAssertEqual(2, [[dimensions objectAtIndex:[STConstantsDimensionIndex Rows]] integerValue]);
+  XCTAssertEqual(4, [[dimensions objectAtIndex:[STConstantsDimensionIndex Columns]] integerValue]);
 }
 
 - (void)testFormatLineNumberRange {

@@ -9,94 +9,154 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "StatTag/View Controllers/ManageCodeFilesViewController.m"
-            timestampString = "498608135.208856"
+            filePath = "StatTagFrameworkTests/StatTagGeneratorTableGeneratorTests.m"
+            timestampString = "499010244.300473"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "59"
-            endingLineNumber = "59"
-            landmarkName = "-viewWillDisappear"
+            startingLineNumber = "29"
+            endingLineNumber = "29"
+            landmarkName = "-testCreateParameters_NoLabel"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[StatTagGeneratorTableGeneratorTests testCreateParameters_NoLabel]"
+                  moduleName = "StatTagFrameworkTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ewhitley/Documents/work_other/NU/Word%20Plugin/_code/StatTag/StatTagFrameworkTests/StatTagGeneratorTableGeneratorTests.m"
+                  timestampString = "499010248.775424"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "29"
+                  endingLineNumber = "29"
+                  offsetFromSymbolStart = "107">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[StatTagGeneratorTableGeneratorTests testCreateParameters_NoLabel]"
+                  moduleName = "StatTagFrameworkTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ewhitley/Documents/work_other/NU/Word%20Plugin/_code/StatTag/StatTagFrameworkTests/StatTagGeneratorTableGeneratorTests.m"
+                  timestampString = "499010248.77963"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "29"
+                  endingLineNumber = "29"
+                  offsetFromSymbolStart = "638">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[StatTagGeneratorTableGeneratorTests testCreateParameters_NoLabel]"
+                  moduleName = "StatTagFrameworkTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ewhitley/Documents/work_other/NU/Word%20Plugin/_code/StatTag/StatTagFrameworkTests/StatTagGeneratorTableGeneratorTests.m"
+                  timestampString = "499010248.783005"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "29"
+                  endingLineNumber = "29"
+                  offsetFromSymbolStart = "724">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[StatTagGeneratorTableGeneratorTests testCreateParameters_NoLabel]"
+                  moduleName = "StatTagFrameworkTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ewhitley/Documents/work_other/NU/Word%20Plugin/_code/StatTag/StatTagFrameworkTests/StatTagGeneratorTableGeneratorTests.m"
+                  timestampString = "499010248.787111"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "29"
+                  endingLineNumber = "29"
+                  offsetFromSymbolStart = "846">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "StatTag/StatTagShared.m"
-            timestampString = "498608364.388367"
+            filePath = "StatTagFrameworkTests/StatTagGeneratorBaseGeneratorTests.m"
+            timestampString = "499010847.617391"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "176"
-            endingLineNumber = "176"
-            landmarkName = "-archivedWindowFrame"
+            startingLineNumber = "71"
+            endingLineNumber = "71"
+            landmarkName = "-testCreateOpenTag_Table"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "StatTag/StatTagShared.m"
-            timestampString = "498608369.59531"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "196"
-            endingLineNumber = "196"
-            landmarkName = "-restoreWindowFrame"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "StatTag/StatTagShared.m"
-            timestampString = "498608675.401594"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "161"
-            endingLineNumber = "161"
-            landmarkName = "-setArchivedWindowFrame:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "StatTag/StatTagShared.m"
-            timestampString = "499003952.639149"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "98"
-            endingLineNumber = "98"
-            landmarkName = "-initializeWordViews"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "StatTagFramework/StatTag/Models/STDocumentManager.m"
-            timestampString = "499004176.870688"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1224"
-            endingLineNumber = "1224"
-            landmarkName = "-GetCodeFileList"
-            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[StatTagGeneratorBaseGeneratorTests testCreateOpenTag_Table]"
+                  moduleName = "StatTagFrameworkTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ewhitley/Documents/work_other/NU/Word%20Plugin/_code/StatTag/StatTagFrameworkTests/StatTagGeneratorBaseGeneratorTests.m"
+                  timestampString = "499010851.438596"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "71"
+                  endingLineNumber = "71"
+                  offsetFromSymbolStart = "206">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[StatTagGeneratorBaseGeneratorTests testCreateOpenTag_Table]"
+                  moduleName = "StatTagFrameworkTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ewhitley/Documents/work_other/NU/Word%20Plugin/_code/StatTag/StatTagFrameworkTests/StatTagGeneratorBaseGeneratorTests.m"
+                  timestampString = "499010851.442385"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "71"
+                  endingLineNumber = "71"
+                  offsetFromSymbolStart = "753">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[StatTagGeneratorBaseGeneratorTests testCreateOpenTag_Table]"
+                  moduleName = "StatTagFrameworkTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ewhitley/Documents/work_other/NU/Word%20Plugin/_code/StatTag/StatTagFrameworkTests/StatTagGeneratorBaseGeneratorTests.m"
+                  timestampString = "499010851.448647"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "71"
+                  endingLineNumber = "71"
+                  offsetFromSymbolStart = "1401">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[StatTagGeneratorBaseGeneratorTests testCreateOpenTag_Table]"
+                  moduleName = "StatTagFrameworkTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ewhitley/Documents/work_other/NU/Word%20Plugin/_code/StatTag/StatTagFrameworkTests/StatTagGeneratorBaseGeneratorTests.m"
+                  timestampString = "499010851.45997"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "71"
+                  endingLineNumber = "71"
+                  offsetFromSymbolStart = "1523">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
