@@ -185,7 +185,7 @@
   [[self DocumentManager] LoadCodeFileListFromDocument:doc];
   NSArray<STCodeFile*>* files = [[self DocumentManager] GetCodeFileList:doc];
 
-  [[self LogManager] WriteMessage:[NSString stringWithFormat:@"Loaded %d code files from document", [files count]]];
+  [[self LogManager] WriteMessage:[NSString stringWithFormat:@"Loaded %lu code files from document", (unsigned long)[files count]]];
 
   NSMutableArray<STCodeFile*>* filesNotFound = [[NSMutableArray<STCodeFile*> alloc] init];
   for(STCodeFile* file in files) {
@@ -201,7 +201,7 @@
 
       @try
       {
-        [[self LogManager] WriteMessage:[NSString stringWithFormat:@"Code file: %@ found and %d tags loaded", [file FilePath], [files count]]];
+        [[self LogManager] WriteMessage:[NSString stringWithFormat:@"Code file: %@ found and %lu tags loaded", [file FilePath], (unsigned long)[files count]]];
         STStatsManagerExecuteResult* results = [[self StatsManager] ExecuteStatPackage:file];
         [[self LogManager] WriteMessage:[NSString stringWithFormat:@"Executed the statistical code for file, with success = %hhd", results.Success]];
       }

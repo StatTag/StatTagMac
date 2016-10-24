@@ -15,7 +15,7 @@
  
  @remark The objective-c version of this method is NOT really doing anything. It's in here to maintain parity w/ the c# so it might minimize impact during initial porting.
  
- @param data: The string array to convert
+ @param data The string array to convert
  @Nil if the string array is null, otherwise an object-cast array representation of the original string array.
  */
 +(NSArray*)StringArrayToObjectArray:(NSArray<NSString*>*) data;

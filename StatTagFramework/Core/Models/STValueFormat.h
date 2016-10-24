@@ -30,19 +30,19 @@
 
 /**
  @brief Formats a result given the current configuration
- @param value: The string value to be formatted
+ @param value The string value to be formatted
  */
 -(NSString*)Format:(NSString*)value valueFormatter:(NSObject<STIValueFormatter>*)valueFormatter;
 /**
  @brief Formats a result given the current configuration
- @param value: The string value to be formatted
+ @param value The string value to be formatted
  */
 -(NSString*)Format:(NSString*)value;
 
 /**
  @brief Repeat a string value a number of times
- @param value: The string to be repeated
- @param count: The number of times to repeat the value
+ @param value The string to be repeated
+ @param count The number of times to repeat the value
  */
 +(NSString*)Repeat:(NSString*)value count:(int)count;
 

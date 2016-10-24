@@ -47,7 +47,7 @@
  @brief Perform any necessary pre-processing on the original code file content in order
         to allow it to be executed.  This may change the number of lines, so don't assume
         that the output will have a 1:1 line mapping from the original.
- @param originalContent: The contents as read from the code file
+ @param originalContent The contents as read from the code file
  @returns A list of strings representing the code that should be executed
  */
 -(NSArray<NSString*>*)PreProcessContent:(NSArray<NSString*>*) originalContent;

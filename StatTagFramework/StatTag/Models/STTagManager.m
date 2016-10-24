@@ -86,7 +86,7 @@ the DocumentManager instance that contains it.
     NSLog(@"Unable to find a tag because the files collection is null");
     return nil;
   } else {
-    NSLog(@"FindTagByID - found (%d) files", [files count]);
+    NSLog(@"FindTagByID - found (%lu) files", (unsigned long)[files count]);
   }
   
   //return files.SelectMany(file => file.Tags).FirstOrDefault(tag => tag.Id.Equals(id));

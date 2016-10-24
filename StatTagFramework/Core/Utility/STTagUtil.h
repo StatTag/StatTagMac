@@ -15,8 +15,8 @@
 /**
  Find all tags with a matching tag name (regardless of case).
  
- @param name:outputLabel The tag name to search for
- @param name:files The list of code files the tag should be contained in.
+ @param outputLabel The tag name to search for
+ @param files The list of code files the tag should be contained in.
  */
 +(NSArray<STTag*>*)FindTagsByName:(NSString*)outputLabel files:(NSArray<STCodeFile*>*) files;
 

@@ -150,7 +150,7 @@
 
 -(NSString*)description
 {
-  return [NSString stringWithFormat:@"Index:%ld, Height:%d, Length:%d, Text:", [self Index], [self Height], [self Length], [self Text]];
+  return [NSString stringWithFormat:@"Index:%ld, Height:%d, Length:%d, Text:%@", [self Index], [self Height], [self Length], [self Text]];
 }
 
 @end
