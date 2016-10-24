@@ -90,8 +90,6 @@ static void *TagTypeContext = &TagTypeContext;
 
 -(void)awakeFromNib {
   
-//  [[self view] setWantsLayer:YES];
-//  [[[self view] layer] setBackgroundColor:[[NSColor whiteColor] CGColor]];
   
   [self addSourceViewEditor];
   
@@ -109,88 +107,23 @@ static void *TagTypeContext = &TagTypeContext;
   
   //only need to do these once - globally
   self.tagBasicProperties.delegate = self;
-//  [[_tagBasicProperties tagFrequencyArrayController] addObjects: [STConstantsRunFrequency GetList]];
-//  [[_tagBasicProperties tagTypeArrayController] addObjects: [STConstantsTagType GetList]];
-
-//  self.tagBasicPropertiesDisclosure.disclosedView = self.tagBasicProperties.view;
-//  self.tagBasicPropertiesDisclosure.title = @"Tag Settings";
-
-  
   self.tagValueProperties.delegate = self;
-//  self.tagValuePropertiesDisclosure.disclosedView = self.tagValueProperties.view;
-//  self.tagValuePropertiesDisclosure.title = @"Value Options";
-
   self.tagTableProperties.delegate = self;
-//  self.tagTablePropertiesDisclosure.disclosedView = self.tagTableProperties.view;
-//  self.tagTablePropertiesDisclosure.title = @"Table Options";
   
   [self setShowTagValuePropertiesView:NO];
 
 }
 
 -(void)initializeStackView {
-  
-  //from Apple's example...
-  
-  //_tagBasicProperties = [[TagBasicPropertiesController alloc] init];
-  //  _tagBasicProperties.disclosedView = [_tagBasicProperties view]; //as expected, BOOOOOOOOOM
-
-  
-  
-//  NSBox *line = [[NSBox alloc] init];
-//  [line setBoxType:NSBoxSeparator];                     /* make it a line */
-//  [line setFrame:NSMakeRect(0.0, 4.0, 300.0, 0.0)];    /* Or assign NSLayoutConstraint objects */
-//  [_propertiesStackView addArrangedSubview:line];
-  
-//  [_propertiesStackView addArrangedSubview:_tagBasicProperties.view];
-//  [_propertiesStackView addArrangedSubview:_tagValueProperties.view];
-//  [_propertiesStackView addArrangedSubview:_tagTableProperties.view];
-//  [_propertiesStackView addArrangedSubview:_tagPreviewController.view];
-
-
-  
-
-  
-  
-//  _tagBasicPropertiesView = _tagBasicProperties.view;
-//  _tagValuePropertiesView = _tagValueProperties.view;
-//  //_tagFigurePropertiesView = _tagFigureProperties.view;
-//  _tagTablePropertiesView = _tagTableProperties.view;
-//  _tagPreviewView = _tagPreviewController.view;
-//  [_propertiesStackView layoutSubtreeIfNeeded];
-  
-  
-  
-//  self.tagBasicPropertiesView.wantsLayer = YES;
-//  self.tagBasicPropertiesView.layer.backgroundColor = [[NSColor yellowColor] CGColor];
   [ViewUtils fillView:_tagBasicPropertiesView withView:[_tagBasicProperties view]];
-
-//  self.tagValuePropertiesView.wantsLayer = YES;
-//  self.tagValuePropertiesView.layer.backgroundColor = [[NSColor lightGrayColor] CGColor];
   [ViewUtils fillView:_tagValuePropertiesView withView:[_tagValueProperties view]];
-
-//  self.tagTablePropertiesView.wantsLayer = YES;
-//  self.tagTablePropertiesView.layer.backgroundColor = [[NSColor yellowColor] CGColor];
   [ViewUtils fillView:_tagTablePropertiesView withView:[_tagTableProperties view]];
-
-//  self.tagPreviewView.wantsLayer = YES;
-//  self.tagPreviewView.layer.backgroundColor = [[NSColor lightGrayColor] CGColor];
   [ViewUtils fillView:_tagPreviewView withView:[_tagPreviewController view]];
 
-  
   [_propertiesStackView layoutSubtreeIfNeeded];
   
   [_tagPreviewController setShowsPreviewText:YES];
   [_tagPreviewController setShowsPreviewImage:YES];
-  
-//  _tagValueProperties.view.hidden = true;
-//  _tagTableProperties.view.hidden = true;
-  
-//    [_propertiesStackView addArrangedSubview:_tagTablePropertiesDisclosure.view];
-  
-  
-//  [_propertiesStackView addArrangedSubview:_tagBasicPropertiesDisclosure.view];
-//  [_propertiesStackView addArrangedSubview:_tagValuePropertiesDisclosure.view];
   
   // we want our views arranged from top to bottom
   _propertiesStackView.orientation = NSUserInterfaceLayoutOrientationVertical;
@@ -198,7 +131,6 @@ static void *TagTypeContext = &TagTypeContext;
   // the internal views should be aligned with their centers
   // (although since they'll all be the same width, it won't end up mattering)
   _propertiesStackView.alignment = NSLayoutAttributeCenterX;
-  
   _propertiesStackView.spacing = 0; // No spacing between the disclosure views
   
   // have the stackView strongly hug the sides of the views it contains
@@ -206,9 +138,6 @@ static void *TagTypeContext = &TagTypeContext;
   
   // have the stackView grow and shrink as its internal views grow, are added, or are removed
   [_propertiesStackView setHuggingPriority:NSLayoutPriorityDefaultHigh forOrientation:NSLayoutConstraintOrientationVertical];
-  
-  //  _propertiesStackView.translatesAutoresizingMaskIntoConstraints = false;
-  
 }
 
 -(void)configureStackView {
@@ -220,23 +149,13 @@ static void *TagTypeContext = &TagTypeContext;
 }
 
 - (void)viewDidLoad {
-  
-  //NSLog(@"preview : %@", [[self tag] textPreview]);
-  
-  NSLog(@"stackview count = %lu", (unsigned long)[[_propertiesStackView views] count]);
-  
   [super viewDidLoad];
-  // Do view setup here.
-  if(_documentManager != nil) {
-  }
   [self configureStackView];
 }
 
 -(void)viewWillAppear {
   [[self tagValuePropertiesView] setHidden:YES];
   [[self tagTablePropertiesView] setHidden:YES];
-//  [[self tagPreviewView] setHidden:YES];
-//  [[self propertiesStackView] layoutSubtreeIfNeeded];
 }
 
 -(void)viewDidLayout {
@@ -244,72 +163,32 @@ static void *TagTypeContext = &TagTypeContext;
 }
 
 -(void)viewDidAppear {
-  
-  //http://stackoverflow.com/questions/21306496/how-to-cancel-view-appearance-transitions-for-custom-container-controller-tran
-  //FIXME: these are temporarily here because I can't get them to hide in the other window events
-  // we get a crash when un-hiding the table view
-//  self.tagValueProperties.view.hidden = true;
-//  self.tagTableProperties.view.hidden = true;
-//  self.tagPreviewView.hidden = true;
-
-  
   if(_documentManager != nil) {
-    
     //every time this view appears we need to completely refresh all code files
     [_codeFileList removeObjects:[_codeFileList arrangedObjects]];
     [_codeFileList addObjects: [_documentManager GetCodeFileList]];
     
     //in either case - we're going to default to the top-most object in the code file list
     [self setCodeFile:nil];
-    
-    
-    //  NSLog(@"[[scintillaHelper Lines] count] : %lu", (unsigned long)[[[scintillaHelper Lines] Lines] count] );
-    
-    //  NSLog(@"number of lines : %d", [scintillaHelper LinesOnScreen]);
-    
-//    scintilla1.Margins[0].Width = 40;
-//    var margin = scintilla1.Margins[TagMargin];
-//    margin.Width = 20;
-//    margin.Sensitive = true;
-//    margin.Type = MarginType.Symbol;
-//    margin.Mask = Marker.MaskAll;
-//    margin.Cursor = MarginCursor.Arrow;
-//    var marker = scintilla1.Markers[TagMarker];
-//    marker.SetBackColor(Color.FromArgb(0, 204, 196, 223));
-//    //marker.SetBackColor(Color.DarkSeaGreen);
-//    marker.Symbol = MarkerSymbol.Background;
 
-    
     SCMarker* marker = [[scintillaHelper Markers] marketAtIndex:TagMarker];
     [marker SetBackColor:[StatTagShared colorFromRGBRed:204 green:196 blue:223 alpha:0]];
     [marker setSymbol:Background];
 
     if(_tag != nil) {
-
       if([[self tag] ValueFormat] == nil) {
         [[self tag] setValueFormat:[[STValueFormat alloc] init]];
       }
-//      if([[[self tag] ValueFormat] FormatType] == nil) {
-//        [[[self tag] ValueFormat] setFormatType:[STConstantsValueFormatType Default]];
-//      }
       if([[self tag] TableFormat] == nil) {
         [[self tag] setTableFormat:[[STTableFormat alloc] init]];
       }
       if([[self tag] FigureFormat] == nil) {
         [[self tag] setFigureFormat:[[STFigureFormat alloc] init]];
       }
-
       
       //existing tag
       _originalTag = [[STTag alloc] initWithTag:_tag];
       
-      //var marker = scintilla1.Markers[TagMarker];
-      //marker.SetBackColor(Color.FromArgb(0, 204, 196, 223));
-      //marker.Symbol = MarkerSymbol.Background;
-
-      
-      //FIXME:
-//      self.textBoxTagName.stringValue = [_tag Name];
       _listCodeFile.enabled = NO; // We don't allow switching code files
       if([_tag LineStart] != nil && [_tag LineEnd] != nil) {
         NSArray<NSString*>* lines = [[_sourceEditor string] componentsSeparatedByString:@"\r\n"];
@@ -317,11 +196,11 @@ static void *TagTypeContext = &TagTypeContext;
         int startIndex = MAX(0, [[_tag LineStart] intValue] );
         startIndex = MIN(startIndex, maxIndex);
         int endIndex = MIN([[_tag LineEnd] intValue], maxIndex);
-        NSLog(@"[[_tag LineStart] intValue] : %d", [[_tag LineStart] intValue]);
-        NSLog(@"[[_tag LineEnd] intValue] : %d", [[_tag LineEnd] intValue]);
+        //NSLog(@"[[_tag LineStart] intValue] : %d", [[_tag LineStart] intValue]);
+        //NSLog(@"[[_tag LineEnd] intValue] : %d", [[_tag LineEnd] intValue]);
         for (int index = startIndex; index <= endIndex; index++)
         {
-          NSLog(@"trying to add line at index: %d", index);
+          //NSLog(@"trying to add line at index: %d", index);
           [self SetLineMarker:[[[scintillaHelper Lines] Lines] objectAtIndex: index ] andMark:YES];
         }
         [scintillaHelper LineScroll:startIndex columns:0];
@@ -329,14 +208,10 @@ static void *TagTypeContext = &TagTypeContext;
       
       if([[[self tag] Type] isEqualToString: [STConstantsTagType Value]] ){
         [self UpdateForType:[[self tag]Type]];
-        //          valueProperties.SetValueFormat(Tag.ValueFormat);
       } else if([[[self tag] Type] isEqualToString: [STConstantsTagType Figure]] ){
         [self UpdateForType:[[self tag]Type]];
-        //          figureProperties.SetFigureFormat(Tag.FigureFormat);
       } else if([[[self tag] Type] isEqualToString: [STConstantsTagType Table]] ){
         [self UpdateForType:[[self tag] Type]];
-        //          tableProperties.SetTableFormat(Tag.TableFormat);
-        //          tableProperties.SetValueFormat(Tag.ValueFormat);
       }
     } else {
       //probably a new tag
@@ -374,10 +249,8 @@ static void *TagTypeContext = &TagTypeContext;
       //      }
     }
     
-    //[self configureStackView];
-    NSLog(@"view did appear stackview count = %lu", (unsigned long)[[_propertiesStackView views] count]);
-
-    NSLog(@"tag from properties view : %@", [_tagBasicProperties tag]);
+    //NSLog(@"view did appear stackview count = %lu", (unsigned long)[[_propertiesStackView views] count]);
+    //NSLog(@"tag from properties view : %@", [_tagBasicProperties tag]);
     [self updateTagTypeInformation:[[self tag] Type]];
     [self configureStackView];
   }
@@ -395,34 +268,10 @@ static void *TagTypeContext = &TagTypeContext;
   }
 }
 
-/*
-- (void)tabView:(NSTabView *)tabView didSelectTabViewItem:(NSTabViewItem *)tabViewItem
-{
-  if([tabViewItem.identifier isEqualToString:[STConstantsTagType Value]])
-  {
-    //Value
-    [[self tag] Type] = [STConstantsTagType Value];
-  } else if([tabViewItem.identifier isEqualToString:[STConstantsTagType Figure]])
-  {
-    //Figure
-    [[self tag] Type] = [STConstantsTagType Figure];
-  } else if([tabViewItem.identifier isEqualToString:[STConstantsTagType Table]])
-  {
-    //Table
-    [[self tag]Type] = [STConstantsTagType Table];
-  }
-  
-  [self SetInstructionText];
-}
-*/
-
 -(void)UpdateForType:(NSString*)tabIdentifier
 {
-//  [[self tagTypeTabView] selectTabViewItemWithIdentifier:tabIdentifier];
-  //FIXME
   [self SetInstructionText];
 }
-
 
 -(void) SetInstructionText
 {
@@ -457,8 +306,6 @@ static void *TagTypeContext = &TagTypeContext;
   // -----------
   [self didChangeValueForKey:@"instructionTitleText"];
 
-  
-  
   NSObject<STIResultCommandList>* commandList = [UIUtility GetResultCommandList:selectedCodeFile resultType:[[self tag]Type]];
   
   [self willChangeValueForKey:@"allowedCommandsText"];
@@ -480,19 +327,6 @@ static void *TagTypeContext = &TagTypeContext;
   //changedCodeFile = false; //we just reset the code file so set this back
   [scintillaHelper EmptyUndoBuffer];
 }
-
-//- (IBAction)setFrequency:(id)sender {
-//}
-//
-//- (IBAction)setTagName:(id)sender {
-//}
-
-
-//- (void) textDidChange:(NSNotification *)notification {
-//  // Handle text changes
-//  changedCodeFile = true;
-//  //NSLog(@"%s", __PRETTY_FUNCTION__);
-//}
 
 //note: moved to delegate - just showing how this is done with NSTextDelegate
 //-(void)controlTextDidChange:(NSNotification *)obj {
@@ -665,49 +499,9 @@ static void *TagTypeContext = &TagTypeContext;
 
   
   [self updateTagTypeInformation:[[[controller tagTypeList] selectedItem] representedObject]];
-
-  
-  /*
-  //add or remove the Value property type view
-  if([[[[controller tagTypeList] selectedItem] representedObject] isEqualToString:[STConstantsTagType Value]]) {
-//    [_propertiesStackView addArrangedSubview:[[self tagValueProperties] view]];
-    _tagValueProperties.view.hidden = false;
-  } else {
-    if([[_propertiesStackView arrangedSubviews] containsObject:[[self tagValueProperties] view]]) {
-      _tagValueProperties.view.hidden = true;
-//      [_propertiesStackView removeArrangedSubview:[[self tagValueProperties] view]];
-//      [[[self tagValueProperties] view] removeFromSuperview];
-    }
-  }
-  if([[[[controller tagTypeList] selectedItem] representedObject] isEqualToString:[STConstantsTagType Table]]) {
-//      [_propertiesStackView addArrangedSubview:[[self tagTableProperties] view]];
-    _tagTableProperties.view.hidden = false;
-  } else {
-    if([[_propertiesStackView arrangedSubviews] containsObject:[[self tagTableProperties] view]]) {
-      _tagTableProperties.view.hidden = true;
-//      [_propertiesStackView removeArrangedSubview:[[self tagTableProperties] view]];
-//      [[[self tagTableProperties] view] removeFromSuperview];
-    }
-  }
-  */
-  /*
-  if([[[[controller tagTypeList] selectedItem] representedObject] isEqualToString:[STConstantsTagType Value]]) {
-    [_propertiesStackView addArrangedSubview:[[self tagValuePropertiesDisclosure] view]];
-  } else {
-    if([[_propertiesStackView arrangedSubviews] containsObject:[[self tagValuePropertiesDisclosure] view]]) {
-      [_propertiesStackView removeArrangedSubview:[[self tagValuePropertiesDisclosure] view]];
-      [[[self tagValuePropertiesDisclosure] view] removeFromSuperview];
-    }
-  }
-   */
 }
 
 -(void)updateTagTypeInformation:(NSString*)tagType {
-//  if([[self tag] Type] == [STConstantsTagType Value]) {
-//    [self setShowTagValuePropertiesView:YES];
-//  }
-  
-//  [[self propertiesStackView] layoutSubtreeIfNeeded];
   [self SetInstructionText]; //this is not a "Cocoa way" of doing this - we should be observing for changes
 
   if([tagType isEqualToString:[STConstantsTagType Value]]) {
@@ -729,30 +523,6 @@ static void *TagTypeContext = &TagTypeContext;
 
   [_propertiesStackView layoutSubtreeIfNeeded];
 
-  
-  /*
-  //add or remove the Value property type view
-  if([tagType isEqualToString:[STConstantsTagType Value]]) {
-    _tagValueProperties.view.hidden = false;
-  } else {
-    if([[_propertiesStackView arrangedSubviews] containsObject:[[self tagValueProperties] view]]) {
-      _tagValueProperties.view.hidden = true;
-      //      [_propertiesStackView removeArrangedSubview:[[self tagValueProperties] view]];
-      //      [[[self tagValueProperties] view] removeFromSuperview];
-    }
-  }
-  if([tagType isEqualToString:[STConstantsTagType Table]]) {
-    //      [_propertiesStackView addArrangedSubview:[[self tagTableProperties] view]];
-    _tagTableProperties.view.hidden = false;
-  } else {
-    if([[_propertiesStackView arrangedSubviews] containsObject:[[self tagTableProperties] view]]) {
-      _tagTableProperties.view.hidden = true;
-      //      [_propertiesStackView removeArrangedSubview:[[self tagTableProperties] view]];
-      //      [[[self tagTableProperties] view] removeFromSuperview];
-    }
-  }
-   */
-
 }
 
 
@@ -765,20 +535,16 @@ static void *TagTypeContext = &TagTypeContext;
 //MARK: table properties settings delegate
 
 - (void)showColumnNamesDidChange:(TablePropertiesController*)controller {
-  
 }
 - (void)showRowNamesDidChange:(TablePropertiesController*)controller {
-  
 }
 - (void)decimalPlacesDidChange:(TablePropertiesController*)controller {
 }
-
 - (void)useThousandsSeparatorDidChange:(TablePropertiesController*)controller {
 }
 
 
 //MARK: KVO
-
 
 -(void) startObservingTagChanges {
   [self addObserver:self
@@ -793,7 +559,6 @@ static void *TagTypeContext = &TagTypeContext;
             forKeyPath:@"tag.Type"
                context:TagTypeContext];
 }
-
 
 - (void)observeValueForKeyPath:(NSString *)keyPath
                       ofObject:(id)object
@@ -813,8 +578,6 @@ static void *TagTypeContext = &TagTypeContext;
 
 
 //MARK: source view editor
-
-
 -(void)addSourceViewEditor {
   _sourceEditor = [[ScintillaView alloc] initWithFrame: [_sourceView frame]];
   [[self sourceEditor] setDelegate:self]; //ehhhhhh....
@@ -875,7 +638,6 @@ static void *TagTypeContext = &TagTypeContext;
 
 -(void)setupSourceViewEditor {
   
-  
   // Colors and styles for various syntactic elements. First the default style.
   [_sourceEditor setStringProperty: SCI_STYLESETFONT parameter: STYLE_DEFAULT value: @"Helvetica"];
   // [mEditor setStringProperty: SCI_STYLESETFONT parameter: STYLE_DEFAULT value: @"Monospac821 BT"]; // Very pleasing programmer's font.
@@ -922,10 +684,6 @@ static void *TagTypeContext = &TagTypeContext;
   
   
   [_sourceEditor setColorProperty: SCI_STYLESETBACK parameter: TagMarker value: [StatTagShared colorFromRGBRed:204 green:196 blue:223 alpha:1.0]];
-  //FIXME: - need this line
-  //  marker.Symbol = MarkerSymbol.Background;
-  // no idea what it's doing exactly
-  
   
   // Some special lexer properties.
   [_sourceEditor setLexerProperty: @"fold" value: @"1"];
@@ -970,19 +728,16 @@ static void *TagTypeContext = &TagTypeContext;
 -(void)loadSourceViewFromCodeFile:(STCodeFile*)codeFile {
   
   [_sourceEditor setString:[[codeFile Content] componentsJoinedByString:@"\r\n" ] ];
-  //[self sourceEditor]
   [[scintillaHelper Lines] populateLinesFromContent: [_sourceEditor string]];
   [[scintillaHelper Lines] RebuildLineData];
   
   //yeah - I know - it's not smart to do this with hardcoded comparisons
   //  - but I'm just working through it for now
-  
-  NSLog(@"%@", [scintillaHelper Lines]);
+  //NSLog(@"%@", [scintillaHelper Lines]);
   
   if([[codeFile StatisticalPackage] isEqualToString: [STConstantsStatisticalPackages Stata]]) {
     
     [_sourceEditor setGeneralProperty: SCI_SETLEXER parameter: SCLEX_STATA value: 0];
-    
     [_sourceEditor setGeneralProperty: SCI_STYLECLEARALL parameter: 0 value: 0];
     
     // Disable code block folding.
@@ -1103,24 +858,9 @@ static void *TagTypeContext = &TagTypeContext;
 //ignore the type mismatch - I can't seem to figure out how to get the namespace to work in the header,
 // so we're just saying "SCNotification" there - but the fully namespaced notification here
 - (void)notification:(Scintilla::SCNotification*)notification {
-  
-
-  /*
-   scn.nmhdr.code = listType > 0 ? SCN_USERLISTSELECTION : SCN_AUTOCSELECTION;
-   scn.message = 0;
-   scn.ch = ch;
-   scn.listCompletionMethod = completionMethod;
-   scn.wParam = listType;
-   scn.listType = listType;
-   Position firstPos = ac.posStart - ac.startLen;
-   scn.position = firstPos;
-   scn.lParam = firstPos;
-   scn.text = selected.c_str();
-   */
   //2013 -> Scintilla.h -> #define for each
   if(notification->nmhdr.code != SCN_PAINTED) {
     //#define SCN_CHARADDED 2001
-    
     //#define SCN_KEY 2005
     //#define SCN_DOUBLECLICK 2006
     //#define SCN_UPDATEUI 2007
@@ -1128,36 +868,35 @@ static void *TagTypeContext = &TagTypeContext;
     
     switch (notification->nmhdr.code) {
       case SCN_KEY: //2005
-        NSLog(@"clicked on a key");
+        //NSLog(@"clicked on a key");
         break;
       case SCN_DOUBLECLICK: //2006
-        NSLog(@"double-clicked on something");
+        //NSLog(@"double-clicked on something");
         break;
       case SCN_UPDATEUI: //2007
-        NSLog(@"some sort of UI update");
+        //NSLog(@"some sort of UI update");
         break;
       case SCN_MODIFIED: //2008
-        NSLog(@"modified");
+        //NSLog(@"modified");
         break;
       case SCN_MARGINCLICK: //2010
         //margin -> margin array. 1 = our "gutter" between line #'s and the text block
         //position -> x coordiante - NOT the line #
-        NSLog(@"margin clicked : margin[%d], position[%d]", notification->margin, notification->position);
+        //NSLog(@"margin clicked : margin[%d], position[%d]", notification->margin, notification->position);
         [self marginClick:notification];
-//        NSInteger lineIndex = [scintillaHelper LineFromPosition:notification->position];
-//        NSLog(@"line : %ld", (long)lineIndex);
+        //NSInteger lineIndex = [scintillaHelper LineFromPosition:notification->position];
+        //NSLog(@"line : %ld", (long)lineIndex);
         break;
       case SCN_FOCUSIN: //2028
-        NSLog(@"focus in");
+        //NSLog(@"focus in");
         break;
       case SCN_FOCUSOUT: //2029
-        NSLog(@"focus out");
+        //NSLog(@"focus out");
         break;
       default:
         //NSLog(@"SCNotification (unknown) : code: %d", notification->nmhdr.code);
         break;
     }
-    
   }
   //http://scintilla-interest.narkive.com/Igf6A0zn/nsdocument-with-scintilla
   //https://groups.google.com/forum/#!topic/scintilla-interest/5kVw7Vizgns
@@ -1168,16 +907,14 @@ static void *TagTypeContext = &TagTypeContext;
   if(notification->margin == TagMargin)
   {
     NSInteger lineIndex = [scintillaHelper LineFromPosition:notification->position];
-    NSLog(@"margin [%ld] was clicked on line : %ld, modifiers: %d", (long)notification->margin, (long)lineIndex, notification->modifiers);
+    //NSLog(@"margin [%ld] was clicked on line : %ld, modifiers: %d", (long)notification->margin, (long)lineIndex, notification->modifiers);
     
-    //                var line = scintilla1.Lines[lineIndex];
     SCLine* line = [[[scintillaHelper Lines] Lines] objectAtIndex:lineIndex];
     
     // Check to see if there are any existing selections.  If so, we need to determine if the newly selected
     // row is a neighbor to the existing selection since we only allow continuous ranges.
     NSInteger previousLineIndex = [[[[scintillaHelper Lines] Lines] objectAtIndex:(lineIndex > 0 ? lineIndex - 1 : lineIndex)] MarkerPrevious:(1 << TagMarker)];
       //this seems like an extraordinarily risky line - confirmed this blows up when index is 0
-    
     
     if (previousLineIndex != -1)
     {
@@ -1196,8 +933,6 @@ static void *TagTypeContext = &TagTypeContext;
           while (previousLineIndex > -1)
           {
             [self SetLineMarker:[[[scintillaHelper Lines] Lines] objectAtIndex:previousLineIndex] andMark:NO];
-//            SetLineMarker(scintilla1.Lines[previousLineIndex], false);
-
             previousLineIndex = [[[[scintillaHelper Lines] Lines] objectAtIndex:(previousLineIndex)] MarkerPrevious:(1 << TagMarker)];
           }
         }
@@ -1223,46 +958,23 @@ static void *TagTypeContext = &TagTypeContext;
           while (nextLineIndex > -1)
           {
             [self SetLineMarker:[[[scintillaHelper Lines] Lines] objectAtIndex:nextLineIndex] andMark:NO];
-
-            //nextLineIndex = scintilla1.Lines[nextLineIndex].MarkerNext(1 << TagMarker);
-
-            
             nextLineIndex = [[[[scintillaHelper Lines] Lines] objectAtIndex:(nextLineIndex)] MarkerNext:(1 << TagMarker)];
           }
         }
       }
     }
 
-    NSLog(@"TagMask = %u", TagMask);
+    //NSLog(@"TagMask = %u", TagMask);
     // Toggle based on the line's current marker status.
-    NSLog(@"[line MarkerGet] & TagMask = %u", [line MarkerGet] & TagMask);
+    //NSLog(@"[line MarkerGet] & TagMask = %u", [line MarkerGet] & TagMask);
     
     [self SetLineMarker:line andMark:(([line MarkerGet] & TagMask) <= 0)];
-    
-//    if (codeCheckWorker.IsBusy)
-//    {
-//      ReprocessCodeReview = true;
-//      return;
-//    }
-//    
-//    NSArray<NSString*>* selectedText = [self GetSelectedText];
-//    if ([selectedText count] == 0)
-//    {
-//      SetWarningDisplay(false);
-//    }
-//    else
-//    {
-//      RunWorker(selectedText);
-//    }
-  
   }
 }
 
 -(NSArray<NSString*>*)GetSelectedText
 {
   NSArray<NSString*>* lines = [[self GetSelectedLines] valueForKeyPath:@"Text"];
-  //NSLog(@"[self GetSelectedLines] %@", [self GetSelectedLines]);
-  //return GetSelectedLines().Select(x => x.Text).ToArray();
   return lines;
 }
 
@@ -1270,9 +982,7 @@ static void *TagTypeContext = &TagTypeContext;
 {
   NSArray<NSNumber*>* lines = [[self GetSelectedLines] valueForKeyPath:@"Index"];
   return lines;
-  //return GetSelectedLines().Select(x => x.Index).ToArray();
 }
-
 
 -(NSArray<SCLine*>*)GetSelectedLines
 {

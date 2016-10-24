@@ -120,17 +120,6 @@
 
 
 - (IBAction)showTimeCheckboxDidChange:(id)sender {
-//  if ([(NSButton*)sender state] == NSOffState) {
-//    [[[self tag] ValueFormat] setTimeFormat:@""];
-//    [[self timeOptionsList] setEnabled:NO];
-//  } else {
-//    NSString* timeFormat = [[[self timeOptionsList] selectedItem] representedObject];
-//    if(!timeFormat || [timeFormat isEqualToString:@""]) {
-//      [[self timeOptionsList] selectItemAtIndex:0] ;
-//    }
-//    [[[self tag] ValueFormat] setTimeFormat:[[[self timeOptionsList] selectedItem] representedObject]];
-//    [[self timeOptionsList] setEnabled:YES];
-//  }
 }
 
 

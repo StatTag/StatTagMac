@@ -80,7 +80,6 @@
 
 
 - (IBAction)selectValueType:(id)sender {
-  //[[self tag] setValueFormat:[[[self listTagValueType] selectedItem] representedObject]];
   [self displayChildViews];
   [_delegate valueTypeDidChange:self];
 }

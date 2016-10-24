@@ -92,7 +92,7 @@ static StatTagShared *sharedInstance = nil;
 
   
   //get our root view controller
-//  shared.mainVC = (MainTabViewController*)[[window windowController] contentViewController];
+  //  shared.mainVC = (MainTabViewController*)[[window windowController] contentViewController];
   //hrm... I wonder if we're screwing this up by assigning this here...
 
   MainTabViewController* t = [[NSStoryboard storyboardWithName:@"Main" bundle:nil] instantiateControllerWithIdentifier:@"MainTabViewController"];
@@ -162,10 +162,6 @@ static StatTagShared *sharedInstance = nil;
 
   //save our rect
   NSMutableDictionary* prefs = [[NSMutableDictionary alloc] init];
-//  [prefs setValue:[NSNumber numberWithInteger:_archivedWindowFrame.size.height] forKey:@"windowHeight"];
-//  [prefs setValue:[NSNumber numberWithInteger:_archivedWindowFrame.size.width] forKey:@"windowWidth"];
-//  [[NSUserDefaults standardUserDefaults] setValue:NSStringFromRect(_archivedWindowFrame) forKey:@"frame"];
-  
   [prefs setValue:NSStringFromRect(_archivedWindowFrame) forKey:@"windowRect"];
   [[NSUserDefaults standardUserDefaults] setPersistentDomain:prefs forName:[STCocoaUtil currentBundleIdentifier]];
   [[NSUserDefaults standardUserDefaults] synchronize];
@@ -179,7 +175,6 @@ static StatTagShared *sharedInstance = nil;
     NSDictionary* prefsDict = [[NSUserDefaults standardUserDefaults] persistentDomainForName:[STCocoaUtil currentBundleIdentifier]];
     NSRect rect = NSRectFromString([prefsDict valueForKey:@"windowRect"]);
     _archivedWindowFrame = rect;
-    //_Properties.EnableLogging = [[prefsDict objectForKey:LogEnabledKey] boolValue];
   }
   return _archivedWindowFrame;
 }

@@ -32,11 +32,9 @@
   NSLog(@"-[AppDelegate testNSWorkspace:]");
   
   // Get the custom notification center.
-  
   center = [[NSWorkspace sharedWorkspace] notificationCenter];
   
   // Install the notifications.
-  
   [center addObserver:self
              selector:@selector(appLaunched:)
                  name:NSWorkspaceDidLaunchApplicationNotification
@@ -107,20 +105,8 @@
 
 + (void)appTerminated:(NSNotification *)note
 {
-  NSLog(@"terminated %@\n", [[note userInfo] objectForKey:@"NSApplicationName"]);
-  NSLog(@"terminated %@\n", [[note userInfo] objectForKey:@"NSApplicationBundleIdentifier"]);
-
-//  +(NSArray<NSString*>*) ProcessNames {
-//    return [NSArray arrayWithObjects:
-//            @"com.microsoft.Word",
-//            nil];
-//  }
-  //[[[STGlobals sharedInstance] ThisAddIn] ProcessNames];
-  
-  //[self willChangeValueForKey:@"StatTagShared.sharedInstance.wordAppStatusMessage"];
-  //[[StatTagShared sharedInstance] setWordAppStatusMessage:[[note userInfo] objectForKey:@"NSApplicationBundleIdentifier"]];
-
-  //[self didChangeValueForKey:@"StatTagShared.sharedInstance.wordAppStatusMessage"];
+  //NSLog(@"terminated %@\n", [[note userInfo] objectForKey:@"NSApplicationName"]);
+  //NSLog(@"terminated %@\n", [[note userInfo] objectForKey:@"NSApplicationBundleIdentifier"]);
   
   NSString* bundleID = [[note userInfo] objectForKey:@"NSApplicationBundleIdentifier"];
   if([[STThisAddIn ProcessNames] containsObject:bundleID]) {
@@ -128,11 +114,6 @@
     //NSLog(@"Caught Word Exit");
     [[self class] wordIsOK];
   }
-  
-  //BOOL ok = [self wordIsOK];
-  //[self updateWordViewController];
-  //stop polling our document status
-
 }
 
 +(void)updateWordViewController {
@@ -146,27 +127,6 @@
       [[NSNotificationCenter defaultCenter] postNotificationName:@"disableAppUI" object:self];
     });
   }
-
-  /*
-    NSWindow* window = [[[NSApplication sharedApplication] windows] firstObject];
-    StatTagShared* shared = [StatTagShared sharedInstance];
-    
-    if([AppEventListener wordIsOK]) {
-      dispatch_async(dispatch_get_main_queue(), ^{
-        if([[window windowController] contentViewController] != shared.mainVC) {
-          [[shared docManager] LoadCodeFileListFromDocument:[shared doc]];
-          shared.codeFilesViewController.codeFiles = [[shared docManager] GetCodeFileList]; //just for setup
-          [[window windowController] setContentViewController:shared.mainVC ];
-        }
-      });
-    } else {
-      dispatch_async(dispatch_get_main_queue(), ^{
-        if([[window windowController] contentViewController] != shared.needsWordController) {
-          [[window windowController] setContentViewController:shared.needsWordController ];
-        }
-      });
-    }
-   */
 }
 
 +(void)disableAppUI {
@@ -190,19 +150,6 @@
   StatTagShared* shared = [StatTagShared sharedInstance];
   
   if([[window windowController] contentViewController] != shared.mainVC) {
-//    MainTabViewController* t = [[NSStoryboard storyboardWithName:@"Main" bundle:nil] instantiateControllerWithIdentifier:@"MainTabViewController"];
-//    shared.mainVC = t;
-//    [[window windowController] setContentViewController:t ];
-//    [[window windowController] setContentViewController:shared.mainVC ];
-//    [[shared docManager] LoadCodeFileListFromDocument:[shared doc]];
-//    shared.codeFilesViewController.codeFiles = [[shared docManager] GetCodeFileList]; //just for setup
-    //[(AppDelegate*)[NSApp delegate] initializeWordViews];
-    //UIApplicationDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-//    AppDelegate* d = (AppDelegate*)[[NSApplication sharedApplication] delegate];
-    //[d initializeWordViews];
-
-    //AppDelegate* appDelegate = (AppDelegate*)[[NSApplication sharedApplication] delegate];
-    
     [[StatTagShared sharedInstance] initializeWordViews];
 
     if([[StatTagShared sharedInstance] archivedWindowFrame].size.width > 0) {
@@ -222,16 +169,6 @@
 }
 
 +(void)listenForWord {
-  
-//  while (1) {
-//    [self updateWordViewController];
-//    [NSThread sleepForTimeInterval:3.0f];
-//  }
-
-//  NSRunLoop *threadRunLoop = [NSRunLoop currentRunLoop];
-//  while (1 && [threadRunLoop runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:3]]) {
-//    [self updateWordViewController];
-//  }
 }
 
 +(void)stopPolling {

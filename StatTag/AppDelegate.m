@@ -53,31 +53,6 @@
   [[StatTagShared sharedInstance] initializeWordViews];
 
   [AppEventListener startListening];
-
-  
-  //StatTagNeedsWordViewController* needsWordController
-  
-//  [[[_window windowController] contentViewController] view]
-  
-//  [[_window windowController] setContentViewController:xxxxx];
-  /*
-   let storyboard = NSStoryboard(name: "Main", bundle: nil)
-   if let homeViewController = (storyboard.instantiateControllerWithIdentifier("HomeViewController") as? NSViewController){
-   let windowController = NSWindowController(window: Constants.appDelegate!.window)
-   windowController.contentViewController = homeViewController
-   windowController.showWindow(Constants.appDelegate!.window)
-   }
-   */
-  
-  //http://stackoverflow.com/questions/5056374/nswindowcontroller-and-nsviewcontroller
-  
-    //[[_window windowController] showWindow:nil];
-    //self.masterViewController = [[MasterViewController alloc] initWithNibName:@"MasterViewController" bundle:nil];
-    //[self.window.contentView replaceSubview:self.window.contentView.view with:wc.view];
-  
-  //appDelegate = (AppDelegate*)[[NSApplication sharedApplication] delegate];
-  
-  
 }
 
 - (void)applicationDidBecomeActive:(NSNotification *)notification{
@@ -90,12 +65,8 @@
 
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
-  // Insert code here to tear down your application
-  
+  // Insert code here to tear down your application  
   [AppEventListener stopListening];
-  
-
-  
 }
 
 //in our case - yes - let's quit if the last window is closed
@@ -104,7 +75,7 @@
   return YES;
 }
 
-
+//FIXME: not yet implemented
 -(IBAction)openPreferences:(id)sender {
   //https://developer.apple.com/library/content/qa/qa1552/_index.html
   if (![[StatTagShared sharedInstance] settingsViewController])

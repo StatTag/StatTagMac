@@ -21,36 +21,6 @@
 
 @synthesize tablePropertiesDetailFormatView = _tablePropertiesDetailFormatView;
 
-//
-//-(void)fillView:(NSView*)parentView withView:(NSView*)newView {
-//  
-//  if(parentView != newView) {
-//  
-//    NSRect f = [parentView frame];
-//    f.size.width = newView.frame.size.width;
-//    f.size.height = newView.frame.size.height;
-//    parentView.frame = f;
-//
-//    newView.frame = [parentView bounds];
-//    
-//    [newView setTranslatesAutoresizingMaskIntoConstraints:NO];
-//    
-//    [parentView addSubview:newView];
-//    
-//    [parentView addConstraints:
-//     [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[newView]|"
-//                                             options:0
-//                                             metrics:nil
-//                                               views:NSDictionaryOfVariableBindings(newView)]];
-//    
-//    [parentView addConstraints:
-//     [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[newView]|"
-//                                             options:0
-//                                             metrics:nil
-//                                               views:NSDictionaryOfVariableBindings(newView)]];
-//  }
-//}
-
 - (void)viewDidLoad {
   [super viewDidLoad];
   [[self checkboxShowRowNames] setControlSize:NSSmallControlSize];
@@ -60,16 +30,12 @@
 
 - (void)viewWillAppear {
   [super viewWillAppear];
-  //self.numericPropertiesViewController.tag = self.tag;
   self.numericPropertiesViewController.decimalPlaces = [[[self tag] ValueFormat] DecimalPlaces];
   self.numericPropertiesViewController.useThousands = [[[self tag] ValueFormat] UseThousands];
   self.numericPropertiesViewController.enableThousandsControl = YES;
   self.numericPropertiesViewController.delegate = self;
   
-//  self.numericPropertiesViewController.view.wantsLayer = YES;
-//  self.numericPropertiesViewController.view.layer.backgroundColor = [[NSColor whiteColor] CGColor];
-  [ViewUtils fillView:_tablePropertiesDetailFormatView withView:[_numericPropertiesViewController view]];
-  
+  [ViewUtils fillView:_tablePropertiesDetailFormatView withView:[_numericPropertiesViewController view]];  
 }
 
 - (void)decimalPlacesDidChange:(NumericValuePropertiesController*)controller {

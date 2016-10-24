@@ -7,16 +7,9 @@
 //
 
 #import "UIUtility.h"
-//#import <StatTagFramework/STIResultCommandList.h>
 #import <StatTagFramework/StatTag.h>
 
 @implementation UIUtility
-
-
-//@protocol STIResultCommandList <NSObject>
-//
-//-(NSArray<NSString*>*)GetCommands;
-
 
 +(NSObject<STIResultCommandList>*)GetResultCommandList:(STCodeFile*)file resultType:(NSString*)resultType
 {

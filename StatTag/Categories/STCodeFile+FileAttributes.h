@@ -13,6 +13,7 @@
 
 @property (copy, nonatomic) NSDate* creationDate;
 @property (copy, nonatomic) NSDate* modificationDate;
-
+-(BOOL)fileAccessibleAtPath;
+-(NSString*)codeFileToolTipMessage;
 
 @end

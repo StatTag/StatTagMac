@@ -13,13 +13,6 @@
 #import "ValuePropertiesController.h"
 #import "TablePropertiesController.h"
 
-//#ifdef __cplusplus
-//  #include "Scintilla/ScintillaView.h"
-//  #include "Scintilla/InfoBar.h"
-//  #include "Scintilla/Scintilla.h"
-//#endif
-
-  
 
 @class ScintillaView;
 @class STTag;
@@ -41,7 +34,6 @@
 @end
 
 
-//ScintillaNotificationProtocol
 @interface TagEditorViewController : NSViewController <NSTextFieldDelegate, TagBasicPropertiesControllerDelegate, ValuePropertiesControllerDelegate, TablePropertiesControllerDelegate, ScintillaNotificationProtocol> {
   STTag* _tag;
   STDocumentManager* _documentManager;
@@ -54,8 +46,6 @@
   NSString* _allowedCommandsText;
   
   BOOL _showTagValuePropertiesView;
-  
-//  NSStackView* _propertiesStackView;
 }
 
 @property (strong, nonatomic) STTag* tag;
@@ -101,6 +91,9 @@
 @property (strong) IBOutlet TagPreviewController *tagPreviewController;
 @property (strong) IBOutlet DisclosureViewController *tagPreviewDisclosureController;
 @property (weak) IBOutlet NSView *tagPreviewView;
+
+
+@property (weak) IBOutlet NSView *codeEditingPanel;
 
 
 

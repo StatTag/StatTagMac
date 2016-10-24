@@ -28,7 +28,6 @@ NSString* const allowedExtensions_CodeFiles = @"do/DO";
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  // Do view setup here.
   NSLog(@"ManageCodeFilesViewController loaded");
 
   [[NSNotificationCenter defaultCenter] addObserver:self
@@ -51,12 +50,10 @@ NSString* const allowedExtensions_CodeFiles = @"do/DO";
 -(void)viewDidAppear
 {
   [self startMonitoringCodeFiles];
-//  [[StatTagShared sharedInstance] restoreWindowFrame];
 }
 
 -(void)viewWillDisappear {
   [self stopMonitoringCodeFiles];
-//  [[StatTagShared sharedInstance] saveWindowFrame];
 }
 
 -(void)startMonitoringCodeFiles
@@ -111,7 +108,6 @@ NSString* const allowedExtensions_CodeFiles = @"do/DO";
 - (void)insertObject:(STCodeFile *)cf inCodeFilesAtIndex:(NSUInteger)index {
   [_documentManager AddCodeFile:[cf FilePath]];
   [_documentManager SaveCodeFileListToDocument:nil];
-  
 }
 
 //go back and review - this isn't fired (should be...)
@@ -165,16 +161,12 @@ NSString* const allowedExtensions_CodeFiles = @"do/DO";
 
 - (IBAction)removeFiles:(id)sender {
   NSIndexSet* selectedFiles = [arrayController selectionIndexes];
-  //[_codeFiles removeObjectsAtIndexes:selectedFiles];
   [arrayController removeObjectsAtArrangedObjectIndexes:selectedFiles];
   [arrayController rearrangeObjects];
-  //[_documentManager SaveCodeFileListToDocument:nil];
 }
 
 - (IBAction)openFileInFinder:(id)sender {
-  
   //make sure you set the table's delegate and data source to file's owner
-  
   NSInteger row = [[self fileTableView] rowForView:sender];
 
   //if we just want the containing directory
@@ -186,20 +178,5 @@ NSString* const allowedExtensions_CodeFiles = @"do/DO";
   [[NSWorkspace sharedWorkspace] selectFile:[filePathURL path] inFileViewerRootedAtPath:[filePathURL path]];
   
 }
-
-
-
-
-//- (IBAction)btnOKAndSave:(id)sender {
-//  
-//  //need error handling
-//  [_manager SaveCodeFileListToDocument:nil];
-//  
-//}
-
-//- (IBAction)btnCancel:(id)sender {
-//  [[self window] close];
-//}
-
 
 @end

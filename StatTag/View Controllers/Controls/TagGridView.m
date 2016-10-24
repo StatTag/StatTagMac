@@ -46,7 +46,7 @@ const NSInteger DEFAULT_GRIDSIZE = 4;
     _headerFillColor = [NSColor darkGrayColor];
   }
   if(_headerLineColor == nil) {
-    _headerLineColor = _cellFillColor;//_cellLineColor == nil ? [NSColor darkGrayColor] : _cellLineColor;
+    _headerLineColor = _cellFillColor;
   }
 }
 
@@ -63,13 +63,8 @@ const NSInteger DEFAULT_GRIDSIZE = 4;
 
   //http://stackoverflow.com/questions/18344776/drawing-board-grid-with-cocoa
 
-  //0, 174, 239
-  
   for (NSUInteger x = 0; x < _gridSize; x++) {
     for (NSUInteger y = 0; y < _gridSize; y++) {
-      //NSColor *color = (x % 2 == y % 2) ? [NSColor whiteColor] : [NSColor yellowColor];
-      //[color set];
-      
       [_cellFillColor set];
       [NSBezierPath fillRect:[self rectOfCellAtColumn:x row:y]];
       
@@ -78,8 +73,6 @@ const NSInteger DEFAULT_GRIDSIZE = 4;
     }
   }
   
-//  NSColor *color = [NSColor grayColor];
-//  [color set];
   if(_useColumnLabels) {
     //if we're also using row labels, offset by one - we don't want columns and rows to get headers
     NSInteger startAtCol = _useRowLabels ? 1 : 0;

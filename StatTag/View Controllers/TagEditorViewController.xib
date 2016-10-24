@@ -10,6 +10,7 @@
             <connections>
                 <outlet property="buttonCancel" destination="NoP-JE-Fei" id="YVQ-hZ-G9P"/>
                 <outlet property="buttonSave" destination="ADP-pv-QJY" id="4gs-IM-oIc"/>
+                <outlet property="codeEditingPanel" destination="7d6-L2-EtB" id="ZW1-yz-fvD"/>
                 <outlet property="codeFileList" destination="4lW-4l-jLh" id="rr8-pY-skf"/>
                 <outlet property="labelInstructionText" destination="27e-Xe-bfn" id="clo-uc-hoO"/>
                 <outlet property="listCodeFile" destination="XiB-LI-d7f" id="b7h-oc-8PC"/>
@@ -38,10 +39,10 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="7d6-L2-EtB" userLabel="Code Editing View">
-                    <rect key="frame" x="0.0" y="61" width="669" height="389"/>
+                    <rect key="frame" x="0.0" y="0.0" width="669" height="450"/>
                     <subviews>
                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mA0-B2-GeQ">
-                            <rect key="frame" x="6" y="364" width="62" height="17"/>
+                            <rect key="frame" x="6" y="425" width="62" height="17"/>
                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Code file:" id="CSe-Ie-4AR">
                                 <font key="font" metaFont="system"/>
                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -49,7 +50,7 @@
                             </textFieldCell>
                         </textField>
                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="i52-gS-FJO">
-                            <rect key="frame" x="6" y="341" width="645" height="17"/>
+                            <rect key="frame" x="6" y="402" width="645" height="17"/>
                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Click on the margin to define tags:" id="Xx7-3F-dgY">
                                 <font key="font" metaFont="system"/>
                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -57,13 +58,13 @@
                             </textFieldCell>
                         </textField>
                         <customView translatesAutoresizingMaskIntoConstraints="NO" id="6Lh-06-MJS">
-                            <rect key="frame" x="8" y="0.0" width="658" height="335"/>
+                            <rect key="frame" x="8" y="8" width="658" height="388"/>
                             <constraints>
                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="250" id="tfG-HK-yg9"/>
                             </constraints>
                         </customView>
                         <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="XiB-LI-d7f">
-                            <rect key="frame" x="72" y="358" width="101" height="26"/>
+                            <rect key="frame" x="72" y="419" width="101" height="26"/>
                             <constraints>
                                 <constraint firstAttribute="width" relation="lessThanOrEqual" constant="900" id="YSg-xb-7sD"/>
                             </constraints>
@@ -90,7 +91,7 @@
                         <constraint firstAttribute="trailing" secondItem="i52-gS-FJO" secondAttribute="trailing" constant="20" id="4cj-HO-x4I"/>
                         <constraint firstItem="XiB-LI-d7f" firstAttribute="top" secondItem="7d6-L2-EtB" secondAttribute="top" constant="7" id="9FH-9g-unM"/>
                         <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="XiB-LI-d7f" secondAttribute="trailing" constant="8" id="Kxb-xk-Sgh"/>
-                        <constraint firstAttribute="bottom" secondItem="6Lh-06-MJS" secondAttribute="bottom" id="ThU-RY-ueR"/>
+                        <constraint firstAttribute="bottom" secondItem="6Lh-06-MJS" secondAttribute="bottom" constant="8" id="ThU-RY-ueR"/>
                         <constraint firstAttribute="trailing" secondItem="6Lh-06-MJS" secondAttribute="trailing" constant="3" id="bJi-Nf-ysP"/>
                         <constraint firstItem="XiB-LI-d7f" firstAttribute="leading" secondItem="mA0-B2-GeQ" secondAttribute="trailing" constant="8" id="c52-BQ-Ne2"/>
                         <constraint firstItem="i52-gS-FJO" firstAttribute="top" secondItem="mA0-B2-GeQ" secondAttribute="bottom" constant="6" id="c9K-Fg-TlM"/>
@@ -119,7 +120,7 @@
                                             <customView ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LqL-kn-7dP">
                                                 <rect key="frame" x="0.0" y="100" width="283" height="50"/>
                                             </customView>
-                                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="Ap9-Rh-z6C">
+                                            <customView ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ap9-Rh-z6C">
                                                 <rect key="frame" x="0.0" y="50" width="283" height="50"/>
                                             </customView>
                                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="9oi-ab-Odp">
@@ -262,9 +263,9 @@ Gw
                 <constraint firstAttribute="bottom" secondItem="ADP-pv-QJY" secondAttribute="bottom" constant="20" id="MZ8-DW-hkl"/>
                 <constraint firstAttribute="trailing" secondItem="9bD-7j-Tah" secondAttribute="trailing" id="OBY-RZ-lNg"/>
                 <constraint firstItem="9bD-7j-Tah" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="OKO-Jn-62V"/>
+                <constraint firstAttribute="bottom" secondItem="7d6-L2-EtB" secondAttribute="bottom" id="UNQ-FB-Ohb"/>
                 <constraint firstItem="NoP-JE-Fei" firstAttribute="top" secondItem="9bD-7j-Tah" secondAttribute="bottom" constant="20" id="bqL-9N-GuJ"/>
                 <constraint firstItem="9bD-7j-Tah" firstAttribute="leading" secondItem="7d6-L2-EtB" secondAttribute="trailing" id="hx2-MX-b6F"/>
-                <constraint firstItem="NoP-JE-Fei" firstAttribute="top" secondItem="7d6-L2-EtB" secondAttribute="bottom" constant="20" id="mKW-ok-kZt"/>
                 <constraint firstItem="7d6-L2-EtB" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="pJ3-6W-fhj"/>
                 <constraint firstItem="ADP-pv-QJY" firstAttribute="leading" secondItem="NoP-JE-Fei" secondAttribute="trailing" constant="20" id="pPH-W5-9ol"/>
             </constraints>

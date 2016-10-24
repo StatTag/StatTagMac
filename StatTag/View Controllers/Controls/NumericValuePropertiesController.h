@@ -15,17 +15,12 @@
 - (void)useThousandsSeparatorDidChange:(NumericValuePropertiesController*)controller;
 @end
 
-//@class STTag;
-//@class STFormat;
-
 @interface NumericValuePropertiesController : NSViewController <NSTextDelegate>
 
 @property (weak) IBOutlet NSTextField *textboxDecimalPlaces;
 @property (weak) IBOutlet NSStepper *stepperDecimalPlaces;
 @property (weak) IBOutlet NSButton *checkboxUseThousandsSeparator;
 
-//@property (strong) STTag* tag;
-//@property (strong) STFormat* format;
 @property BOOL useThousands;
 @property int decimalPlaces;
 

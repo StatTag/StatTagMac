@@ -77,28 +77,6 @@ BOOL breakLoop = YES;
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  // Do view setup here.
-  
-
-//  NSSegmentedControl* segment = [[NSSegmentedControl alloc] initWithFrame:NSMakeRect(0, 0, 200, 100)];
-//  [segment setSegmentStyle:NSSegmentStyleSeparated];
-  
-  //this sort of works, but...
-  // 1) wrong state
-  // 2) not the button background - it's the entire view backgorund...
-//  [[self filterButtonAll] setWantsLayer:YES];
-//  [[[self filterButtonAll] layer] setBackgroundColor:[[NSColor whiteColor] CGColor]];
-  
-//  [[self filterButtonAll] cell] setBackgroundStyle:[NSBackgroundColorAttributeName]
-  
-//  [[self filterButtonAll] setCell:[ColoredButtonCell cellForButton: [self filterButton] withColor: [NSColor whiteColor]];
-//   setCell: [ColoredButtonCell
-//             cellForButton:myButton
-//             withColor:[NSColor xxxColor]
-//             ]
-//   ];
-
-  
 }
 
 
@@ -106,28 +84,11 @@ BOOL breakLoop = YES;
   //we need to reload the tags every time the view appears - it's possible code files were removed or the code file
   // was modified, etc.
   [self loadAllTags];
-
-//  [[self filterButtonAll] setState:NSOnState];
-  
-  
-// still doesn't work...
-//  [[self buttonEdit] setWantsLayer:YES];
-//  [[[self buttonEdit] layer] setBackgroundColor:[[NSColor whiteColor] CGColor]];
-
-  
 }
 
 -(void)viewDidAppear {
   [[[StatTagShared sharedInstance] window] makeFirstResponder:[self tableViewOnDemand]];
 }
-
-//-(BOOL)enableAddTagButton {
-//  return [[[self documentManager] GetCodeFileList] count] > 0 ? YES : NO;
-//}
-//-(BOOL)enableRemoveTagButton {
-//  return NO;
-//}
-
 
 -(void)loadAllTags {
   [_documentManager LoadCodeFileListFromDocument:[[StatTagShared sharedInstance] doc]];
@@ -142,9 +103,6 @@ BOOL breakLoop = YES;
     [[self addTagButton] setEnabled:NO];
   }
   
-  //[self willChangeValueForKey:@"documentTags"];
-  //_documentTags = [[NSMutableArray<STTag*> alloc] initWithArray:[_documentManager GetTags]];
-  //[self didChangeValueForKey:@"documentTags"];
   [self setDocumentTags:[[NSMutableArray<STTag*> alloc] initWithArray:[_documentManager GetTags]]];
 }
 
@@ -166,41 +124,9 @@ BOOL breakLoop = YES;
 
 
 - (IBAction)refreshTags:(id)sender {
-  
-  //  STStatsManager* stats = [[STStatsManager alloc] init:manager];
-  //  for(STCodeFile* cf in [manager GetCodeFileList]) {
-  //    NSLog(@"found codefile %@", [cf FilePath]);
-  //    STStatsManagerExecuteResult* result = [stats ExecuteStatPackage:cf filterMode:[STConstantsParserFilterMode IncludeAll]];
-  //  }
-  
-  //  STStatsManager* stats = [[STStatsManager alloc] init:manager];
-  //  for(STCodeFile* cf in [manager GetCodeFileList]) {
-  //    NSLog(@"found codefile %@", [cf FilePath]);
-  //
-  //    STStatsManagerExecuteResult* result = [stats ExecuteStatPackage:cf
-  //                                                 filterMode:[STConstantsParserFilterMode TagList]
-  //                                                tagsToRun:[onDemandTags selectedObjects]
-  //                                           ];
-  //    NSLog(@"result : %hhd", result.Success);
-  //  }
-  
-  
-  //  [self startRefreshingFields];
   [self startRefreshingFieldsWithModalController];
-  //NSLog(@"success? %hhd", success);
-  
-  //  if(success) {
-  //    [[self window] close];
-  //  } else {
-  //
-  //  }
-  //  [manager UpdateFields];
-  
 }
 - (void)startRefreshingFieldsWithModalController {
-  
-  //tagUpdateProgressController
-  
   if (tagUpdateProgressController == nil)
   {
     tagUpdateProgressController = [[UpdateOutputProgressViewController alloc] init];
@@ -211,25 +137,6 @@ BOOL breakLoop = YES;
   tagUpdateProgressController.delegate = self;
   
   [self presentViewControllerAsSheet:tagUpdateProgressController];
-  
-  /*
-  [[[self view] window] beginSheet:[[tagUpdateProgressController view] window] completionHandler:^(NSModalResponse returnCode){
-    //NSLog(@"returnCode : %@", returnCode);
-    tagUpdateProgressController = nil;
-    if(returnCode == NSModalResponseOK) {
-      [[[self view] window] close];
-    } else {
-      NSAlert *alert = [[NSAlert alloc] init];
-      [alert setMessageText:@"StatTag encountered a problem"];
-      [alert setInformativeText:@"StatTag could not update your selected tags"];
-      [alert setAlertStyle:NSCriticalAlertStyle];
-      [alert addButtonWithTitle:@"Ok"];
-      [alert runModal];
-    }
-    
-  }];
-   */
-  
 }
 
 - (void)dismissUpdateOutputProgressController:(UpdateOutputProgressViewController *)controller withReturnCode:(StatTagResponseState)returnCode {
@@ -237,10 +144,6 @@ BOOL breakLoop = YES;
   [self dismissViewController:controller];
   if(returnCode == OK) {
     //reload the tag list
-    //[self documentManager] save
-    //[self loadAllTags];
-    //[[self documentManager] UpdateFields]; //don't do this here - we have the separate controller
-    //[self loadAllTags];
     [self willChangeValueForKey:@"documentTags"];
     [self didChangeValueForKey:@"documentTags"];
   }
@@ -252,14 +155,11 @@ BOOL breakLoop = YES;
     [_documentManager InsertField:tag];
   }
   
-  
   //need to figure out where we do this on a single tag within StatTag - doing this for all tags is expensive
   for(STMSWord2011Field* field in [[[StatTagShared sharedInstance] doc] fields]) {
     field.showCodes = ![field showCodes];
     field.showCodes = ![field showCodes];
   }
-
-  
 }
 
 
@@ -271,13 +171,7 @@ BOOL breakLoop = YES;
   return true;
 }
 
-//- (IBAction)cancel:(id)sender {
-//  [[self window] close];
-//}
-
 - (IBAction)editTag:(id)sender {
-
-  
   if (tagEditorController == nil)
   {
     tagEditorController = [[TagEditorViewController alloc] init];
@@ -323,27 +217,6 @@ BOOL breakLoop = YES;
     //could be cancel, could be error
   }
 }
-
-
-
-//MARK: tableview delegates
-//-(id)tableView
-//-(id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
-//  
-//  // populate each row of our table view with data
-//  // display a different value depending on each column (as identified in XIB)
-//  
-//  if ([tableColumn.identifier isEqualToString:@"tagPreviewText"]) {
-//    
-//    // first colum (numbers)
-//    //return [self.numbers objectAtIndex:row];
-//    
-//  } else {
-//    
-//    // second column (numberCodes)
-//    //return [self.numberCodes objectAtIndex:row];
-//  }
-//}
 
 -(NSString*)tagPreviewText:(STTag*)tag {
   return @"hello";

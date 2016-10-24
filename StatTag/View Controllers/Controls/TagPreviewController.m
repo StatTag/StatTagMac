@@ -21,25 +21,6 @@ static void *TagTypeContext = &TagTypeContext;
 static void *TagFormatContext = &TagFormatContext;
 static void *TagTableFormatContext = &TagTableFormatContext;
 
-
-////table
-//static void *TagTableFormatColumnNamesContext = &TagTableFormatColumnNamesContext;
-//static void *TagTableFormatRowNamesContext = &TagTableFormatRowNamesContext;
-//
-////basic numeric
-//static void *tagValueFormatDecimalPlaces = &tagValueFormatDecimalPlaces;
-//static void *tagValueFormatUseThousands = &tagValueFormatUseThousands;
-//
-////overall value type
-//static void *TagNumericValueType = &TagNumericValueType;
-//
-////datetime
-//static void *TagDateTimeShowDate = &TagDateTimeShowDate;
-//static void *TagDateTimeDateFormat = &TagDateTimeDateFormat;
-//static void *TagDateTimeShowTime = &TagDateTimeShowTime;
-//static void *TagDateTimeTimeFormat = &TagDateTimeTimeFormat;
-
-
 - (void)viewDidLoad {
   [super viewDidLoad];
   // Do view setup here.
@@ -104,8 +85,6 @@ static void *TagTableFormatContext = &TagTableFormatContext;
                      NSKeyValueObservingOptionOld)
             context:TagFormatContext];
 
-//  NSLog(@"", [[[self tag] ValueFormat] UseThousands] );
-  
 }
 
 -(void) stopObservingTagChanges {
@@ -130,7 +109,6 @@ static void *TagTableFormatContext = &TagTableFormatContext;
   [self removeObserver:self
             forKeyPath:@"tag.ValueFormat.TimeFormat"
                context:TagFormatContext];
-
 
 }
 
@@ -163,28 +141,7 @@ static void *TagTableFormatContext = &TagTableFormatContext;
   
   NSString* previewText;
   
-  //use something smarter like a value formatter...
-  
   if([[[tag ValueFormat] FormatType] isEqualToString:[STConstantsValueFormatType Numeric]] ) {
-    //number formatter
-    //      NSNumberFormatter* numberFormatter = [[NSNumberFormatter alloc] init];
-    //      //formatter.locale = NSLocale(localeIdentifier: "en_US")  // locale determines the decimal point (. or ,); English locale has "."
-    //      //formatter.groupingSeparator = ""  // you will never get thousands separator as output
-    //      if(![[[self tag] ValueFormat] UseThousands]) {
-    //        [numberFormatter setGroupingSeparator:@""];
-    //      } else {
-    //        [numberFormatter setLocale:[NSLocale currentLocale]];
-    //      }
-    //      [numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
-    //      NSInteger numDigits = [[[self tag] ValueFormat] DecimalPlaces];
-    //      [numberFormatter setMinimumFractionDigits:numDigits];
-    //      [numberFormatter setMaximumFractionDigits:numDigits];
-    //      previewText = [numberFormatter stringFromNumber:@100000];
-    
-    //      if([[[self tag] CachedResult] count] > 0) {
-    //
-    //      }
-    
     NSString* result = [[[tag CachedResult] lastObject] ValueResult];
     if(result == nil) {
       result = @"100000";
@@ -193,43 +150,9 @@ static void *TagTableFormatContext = &TagTableFormatContext;
     previewText = [[tag ValueFormat] Format:result];
   }
   else if([[[tag ValueFormat] FormatType] isEqualToString:[STConstantsValueFormatType DateTime]] ) {
-    //date formatter
-    //FIXME: move the date formatter to a singleton
-    //March 14, 2001 19:30:50
-    
-    //+ (NSDate*)dateFromString:(NSString*)dateString
-    //NSDate* previewDate = [STJSONUtility dateFromString:@"March 14, 2001 19:30:50"];
-    /*
-     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-     [formatter setDateFormat:format];
-     //FIXME: locale...
-     [formatter setLocale:currentLoc];
-     //  NSTimeZone *timeZone = [NSTimeZone localTimeZone];
-     [formatter setTimeZone:[NSTimeZone localTimeZone]];
-     return [formatter stringFromDate:dateValue];
-     */
-    //      STValueFormat* vf = [[STValueFormat alloc] init];
-    //      if([[STConstantsDateFormats GetList] containsObject:[[[self tag] ValueFormat] DateFormat]] ) {
-    //        vf.DateFormat = [[[self tag] ValueFormat] DateFormat];
-    //      }
-    //      if([[STConstantsTimeFormats GetList] containsObject:[[[self tag] ValueFormat] TimeFormat]] ) {
-    //        vf.TimeFormat = [[[self tag] ValueFormat] TimeFormat];
-    //      }
-    
     previewText = [[tag ValueFormat] Format:@"March 14, 2001 19:30:50"];
-    //previewText = [vf Format:@"March 14, 2001 19:30:50"];
   }
   else if([[[tag ValueFormat] FormatType] isEqualToString:[STConstantsValueFormatType Percentage]] ) {
-    //number formatter
-    /*
-     NSNumberFormatter* numberFormatter = [[NSNumberFormatter alloc] init];
-     [numberFormatter setNumberStyle:NSNumberFormatterPercentStyle];
-     NSInteger numDigits = [[[self tag] ValueFormat] DecimalPlaces];
-     [numberFormatter setGroupingSeparator:@""]; //what if we want thousands in percentages?
-     [numberFormatter setMinimumFractionDigits:numDigits];
-     [numberFormatter setMaximumFractionDigits:numDigits];
-     previewText = [numberFormatter stringFromNumber:@100];
-     */
     NSString* result = [[[tag CachedResult] lastObject] ValueResult];
     if(result == nil) {
       result = @"1";
@@ -275,7 +198,6 @@ static void *TagTableFormatContext = &TagTableFormatContext;
     preview = [[NSImage alloc] initWithData:[grid dataWithPDFInsideRect:[grid bounds]]];
   } else if ([tag Type] == [STConstantsTagType Figure]) {
     //FIXME: move property
-    
     //check the latest image result
     preview = [[NSImage alloc] initWithContentsOfFile:[tag FormattedResult]];
     if(preview == nil) {
@@ -297,31 +219,6 @@ static void *TagTableFormatContext = &TagTableFormatContext;
   
   NSImage* preview;
   preview = [[self class] generatePreviewImageFromTag:[self tag] forRect:[[self previewImageView] bounds]];
-  
-//  if([[self tag] Type] == [STConstantsTagType Table]) {
-//    TagGridView* grid = [[TagGridView alloc] initWithFrame:[[self previewImageView] bounds]];
-//    grid.useColumnLabels = [[[self tag] TableFormat] IncludeColumnNames];
-//    grid.useRowLabels = [[[self tag] TableFormat] IncludeRowNames];
-//    grid.gridSize = 6;
-//    //FIXME: move color
-//    grid.headerFillColor = [StatTagShared colorFromRGBRed:0 green:125 blue:255 alpha:1.0];
-//    preview = [[NSImage alloc] initWithData:[grid dataWithPDFInsideRect:[grid bounds]]];
-//  } else if ([[self tag] Type] == [STConstantsTagType Figure]) {
-//    //FIXME: move property
-//
-//    //check the latest image result
-//    preview = [[NSImage alloc] initWithContentsOfFile:[[self tag] FormattedResult]];
-//    if(preview == nil) {
-//      //then try the cached result
-//      preview = [[NSImage alloc] initWithContentsOfFile: [[[[self tag] CachedResult] lastObject] FigureResult]];
-//    }
-//    if(preview == nil) {
-//      //if we can't access our original image (or we can't interpret the format)
-//      // then just use the default placeholder image
-//      preview = [NSImage imageNamed:@"figure_preview"]; //move this to a property later
-//    }
-//  }
-  
   if(preview) {
     _previewImage = preview;
     [self setShowsPreviewImage:YES];
@@ -329,7 +226,6 @@ static void *TagTableFormatContext = &TagTableFormatContext;
   } else {
     //we can't show anything, so don't
     [self setShowsPreviewImage:NO];
-    //[self setValue:[NSNumber numberWithInt:NO] forKey:@"self.showsPreviewImage"];
   }
   
 }

@@ -54,10 +54,8 @@
     if (number < 0) {
       number = 0;
     }
-//    [self willChangeValueForKey:@"self.decimalPlaces"];
     [self setDecimalPlaces:(int)number];
-    self.decimalPlaces = (int)number;
-//    [self didChangeValueForKey:@"self.decimalPlaces"];
+    //self.decimalPlaces = (int)number;
     
     [[self delegate] decimalPlacesDidChange:self];
   }

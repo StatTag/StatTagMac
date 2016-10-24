@@ -22,7 +22,6 @@
 
 
 @interface TablePropertiesController : NSViewController <NumericValuePropertiesControllerDelegate> {
-//  NSView* _tablePropertiesDetailFormatView;
 }
 
 @property (strong) STTag* tag;

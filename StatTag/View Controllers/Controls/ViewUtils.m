@@ -15,11 +15,6 @@
   
   if(parentView != newView) {
     
-//    [parentView willRemoveSubview:<#(nonnull NSView *)#>]
-  
-    //[newView removeFromSuperview];
-    
-    
     NSRect f = [parentView frame];
     f.size.width = newView.frame.size.width;
     f.size.height = newView.frame.size.height;

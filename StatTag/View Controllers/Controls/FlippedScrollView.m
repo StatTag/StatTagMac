@@ -11,8 +11,7 @@
 @implementation FlippedScrollView
 
 - (void)drawRect:(NSRect)dirtyRect {
-    [super drawRect:dirtyRect];
-    // Drawing code here.
+  [super drawRect:dirtyRect];
 }
 
 -(BOOL)isFlipped {
