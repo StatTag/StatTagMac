@@ -20,6 +20,7 @@
 		381FD33F1D19F00700DB4B12 /* STConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 380A67A81D1077550045B72B /* STConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3824439E1DBE567D00EF0048 /* StatTagScriptSupport.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 3824439D1DBE567D00EF0048 /* StatTagScriptSupport.scpt */; };
 		382443A01DBE6D0E00EF0048 /* StatTagMacroInstallationScript.sh in Resources */ = {isa = PBXBuildFile; fileRef = 3824439F1DBE612800EF0048 /* StatTagMacroInstallationScript.sh */; };
+		382443A31DBE8E7200EF0048 /* STCodeFile+TagInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 382443A21DBE8E7200EF0048 /* STCodeFile+TagInfo.m */; };
 		382C284E1D1202D400697D6F /* STBaseParameterParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 382C284C1D1202D400697D6F /* STBaseParameterParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		382C284F1D1202D400697D6F /* STBaseParameterParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 382C284D1D1202D400697D6F /* STBaseParameterParser.m */; };
 		382C28511D13247800697D6F /* StatTagObjCPortingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 382C28501D13247700697D6F /* StatTagObjCPortingTests.m */; };
@@ -290,6 +291,8 @@
 		380A67A91D107A820045B72B /* StatTagModelConstantsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagModelConstantsTests.m; sourceTree = "<group>"; };
 		3824439D1DBE567D00EF0048 /* StatTagScriptSupport.scpt */ = {isa = PBXFileReference; lastKnownFileType = file; path = StatTagScriptSupport.scpt; sourceTree = "<group>"; };
 		3824439F1DBE612800EF0048 /* StatTagMacroInstallationScript.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = StatTagMacroInstallationScript.sh; sourceTree = "<group>"; };
+		382443A11DBE8E7200EF0048 /* STCodeFile+TagInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "STCodeFile+TagInfo.h"; sourceTree = "<group>"; };
+		382443A21DBE8E7200EF0048 /* STCodeFile+TagInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "STCodeFile+TagInfo.m"; sourceTree = "<group>"; };
 		382C284C1D1202D400697D6F /* STBaseParameterParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STBaseParameterParser.h; sourceTree = "<group>"; };
 		382C284D1D1202D400697D6F /* STBaseParameterParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STBaseParameterParser.m; sourceTree = "<group>"; };
 		382C28501D13247700697D6F /* StatTagObjCPortingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagObjCPortingTests.m; sourceTree = "<group>"; };
@@ -928,6 +931,8 @@
 				386992CE1DB6CE2A00852B6E /* STDocumentManager+FileMonitor.m */,
 				386992D01DB8E6F500852B6E /* STCodeFile+FileAttributes.h */,
 				386992D11DB8E6F500852B6E /* STCodeFile+FileAttributes.m */,
+				382443A11DBE8E7200EF0048 /* STCodeFile+TagInfo.h */,
+				382443A21DBE8E7200EF0048 /* STCodeFile+TagInfo.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -1555,6 +1560,7 @@
 				38C3CC7A1DA4298E00CEA70C /* TagEditorViewController.mm in Sources */,
 				387632411DA7D70500680898 /* PercentagePropertiesController.m in Sources */,
 				386992CF1DB6CE2A00852B6E /* STDocumentManager+FileMonitor.m in Sources */,
+				382443A31DBE8E7200EF0048 /* STCodeFile+TagInfo.m in Sources */,
 				386992CC1DB6C72300852B6E /* STCodeFile+FileMonitor.m in Sources */,
 				384764B01DA52D6400FCDABE /* TablePropertiesController.m in Sources */,
 				387632461DA7E2AC00680898 /* DateTimePropertiesController.m in Sources */,
