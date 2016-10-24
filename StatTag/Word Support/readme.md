@@ -7,7 +7,7 @@
 
 For sandboxed Word 2016, we're required to place files in the following path
 
-* `/Library/Application Scripts/com.microsoft.Excel/`
+* `~/Library/Application Scripts/com.microsoft.Word/`
 
 For consistency, we're also going to place scripts in the same location for 2011
 
