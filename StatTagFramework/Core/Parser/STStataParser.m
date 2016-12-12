@@ -1,14 +1,14 @@
 //
-//  STBaseParserStata.m
+//  STStataParser.m
 //  StatTag
 //
 //  Created by Eric Whitley on 6/28/16.
 //  Copyright © 2016 StatTag. All rights reserved.
 //
 
-#import "STBaseParserStata.h"
+#import "STStataParser.h"
 
-@implementation STBaseParserStata
+@implementation STStataParser
 
 
 +(NSCharacterSet*)MacroDelimiters {
@@ -20,18 +20,18 @@
   return chars;
 }
 //MARK: Value regex
-+(NSString*)ValueCommand {
-  return @"di(?:splay)?";
++(NSArray<NSString*>*)ValueCommands {
+  return [NSArray<NSString*> arrayWithObjects:@"display", @"dis", @"di", nil];
 }
 +(NSRegularExpression*)ValueKeywordRegex {
   NSError* error;
   NSRegularExpression* regex = [NSRegularExpression
-          regularExpressionWithPattern:[NSString stringWithFormat:@"^\\s*%@\\b", [[self class] ValueCommand]]
+          regularExpressionWithPattern:[NSString stringWithFormat:@"^\\s*(?:%@)\\b", [[[self class] ValueCommands] componentsJoinedByString:@"|"]]
           options:0
           error:&error];
   if(error){
     NSLog(@"Stata - ValueKeywordRegex : %@", [error localizedDescription]);
-    NSLog(@"Stata - [[self class] ValueCommand] : %@", [[self class] ValueCommand]);
+    NSLog(@"Stata - [[self class] ValueCommand] : %@", [[self class] ValueCommands]);
   }
   return regex;
 }
@@ -40,16 +40,17 @@
   
   //original c# value regex template (won't work in obj-c as we don't have the ? if/then/else conditional
   //NSString* valueRegexTemplate = @"^\\s*%@((\\s*\\()|(\\s+))(.*)(?(2)\\))";
+  //^\\s*(?:{0})((\\s*\\()|(\\s+))(.*)(?(2)\\))
 
-  NSString* valueRegexTemplate = @"^\\s*%@\\s*(((?:\\()(.*)(?:\\)\\s*$)+)|((\\()?(.*)))";
+  NSString* valueRegexTemplate = @"^\\s*(?:%@)\\s*(((?:\\()(.*)(?:\\)\\s*$)+)|((\\()?(.*)))";
   
   NSRegularExpression* regex =  [NSRegularExpression
-          regularExpressionWithPattern:[NSString stringWithFormat:valueRegexTemplate, [[self class] ValueCommand]]
+          regularExpressionWithPattern:[NSString stringWithFormat:valueRegexTemplate, [[[self class] ValueCommands] componentsJoinedByString:@"|"]]
           options:0
           error:&error];
   if(error){
     NSLog(@"Stata - ValueKeywordRegex : %@", [error localizedDescription]);
-    NSLog(@"Stata - [[self class] ValueCommand] : %@", [[self class] ValueCommand]);
+    NSLog(@"Stata - [[self class] ValueCommand] : %@", [[self class] ValueCommands]);
   }
   return regex;
 }
@@ -65,7 +66,7 @@
                                                             error:&error];
   if(error){
     NSLog(@"Stata - ValueKeywordRegex : %@", [error localizedDescription]);
-    NSLog(@"Stata - [[self class] ValueCommand] : %@", [[self class] ValueCommand]);
+    NSLog(@"Stata - [[self class] ValueCommand] : %@", [[self class] ValueCommands]);
   }
   return regex;
 }
@@ -77,7 +78,7 @@
           error:&error];
   if(error){
     NSLog(@"Stata - ValueKeywordRegex : %@", [error localizedDescription]);
-    NSLog(@"Stata - [[self class] ValueCommand] : %@", [[self class] ValueCommand]);
+    NSLog(@"Stata - [[self class] ValueCommand] : %@", [[self class] ValueCommands]);
   }
   return regex;
 }
@@ -122,6 +123,14 @@
           , nil];
   
 }
+
++(NSRegularExpression*)MacroRegex {
+  return [NSRegularExpression
+          regularExpressionWithPattern:@"`([\\S]*?)'"
+          options:NSRegularExpressionAnchorsMatchLines
+          error:nil];
+}
+
 
 /**
 This is used to test/extract a macro display value.
@@ -281,40 +290,34 @@ This is used to test/extract a macro display value.
 }
 
 
--(NSString*)MatchRegexReturnGroup:(NSString*)text regex:(NSRegularExpression*)regex groupNum:(NSInteger)groupNum
-{
-  NSTextCheckingResult* match = [regex firstMatchInString:text options:0 range:NSMakeRange(0, text.length)];
-  if(match) {
-    NSCharacterSet *ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
-    NSRange matchRange = [match rangeAtIndex:groupNum];
-    NSString *matchString = [[text substringWithRange:matchRange]stringByTrimmingCharactersInSet:ws];
-    return matchString;
-  }
-  return @"";
-}
 
--(NSArray<NSString*>*)GlobalMatchRegexReturnGroup:(NSString*)text regex:(NSRegularExpression*)regex groupNum:(NSInteger)groupNum
-{
-  
-  NSArray *matches = [regex matchesInString:text options:0 range:NSMakeRange(0, text.length)];
-  
-  if([matches count] == 0){
-    return nil;
-  }
 
+/**
+Given a command string, extract all macros that are present.  This will remove macro delimiters from the macro names returned.
+*/
+-(NSArray<NSString*>*)GetMacros:(NSString*)command
+{
+  NSMutableArray<NSString*>* macroNames = [[NSMutableArray<NSString*> alloc] init];
   NSCharacterSet *ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
-  //if ([[[tag Name] stringByTrimmingCharactersInSet: ws] length] == 0)
+  //  temp = [temp stringByTrimmingCharactersInSet: ws];
 
-  NSMutableArray<NSString*>* results = [[NSMutableArray<NSString*> alloc] init];
-  for (NSTextCheckingResult *match in matches)
+  if([[command stringByTrimmingCharactersInSet:ws] length] > 0)
   {
-    NSRange matchRange = [match rangeAtIndex:groupNum];
-    NSString *matchString = [[text substringWithRange:matchRange] stringByTrimmingCharactersInSet:ws];
-    [results addObject:matchString];
+    NSArray *matches = [[[self class] MacroRegex] matchesInString:command options:0 range:NSMakeRange(0, command.length)];
+    
+    if ([matches count] > 0)
+    {
+      for (int index = 0; index < [matches count]; index++)
+      {
+        //macroNames.Add(matches[index].Groups[1].Value);
+        [macroNames addObject:[command substringWithRange:[[matches objectAtIndex:index] rangeAtIndex:1]]];
+      }
+    }
   }
-
-  return results;
+  
+  return macroNames;
 }
+
 
 /**
  To prepare for use, we need to collapse down some of the text.  This includes:

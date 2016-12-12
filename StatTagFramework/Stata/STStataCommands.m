@@ -7,8 +7,15 @@
 //
 
 #import "STStataCommands.h"
+#import "STStataParser.h"
 
 @implementation STStataCommands
+
++(NSString*)CleanUpRegex:(NSString*)value
+{
+  return [[value stringByReplacingOccurrencesOfString:@"(:" withString:@"["] stringByReplacingOccurrencesOfString:@")?" withString:@"]"];
+}
+
 -(NSObject<STIResultCommandList>*)ValueResultCommands {
   return [[STStataCommandsValueCommands alloc] init];
 }

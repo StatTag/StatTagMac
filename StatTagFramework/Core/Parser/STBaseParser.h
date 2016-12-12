@@ -7,11 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "STIParser.h"
+#import "STICodeFileParser.h"
 #import "STConstants.h"
 #import "STCodeFile.h"
 
-@interface STBaseParser : NSObject <STIParser> {
+@interface STBaseParser : NSObject <STICodeFileParser> {
   NSRegularExpression* _StartTagRegEx;
   NSRegularExpression* _EndTagRegEx;
 }
@@ -56,5 +56,8 @@
 //MARK: private methods
 //had to make these public so we could use them in subclasses - these should probably be moved to a class extension
 -(NSTextCheckingResult*)DetectTag:(NSRegularExpression*)tagRegex line:(NSString*)line;
+
+-(NSString*)MatchRegexReturnGroup:(NSString*)text regex:(NSRegularExpression*)regex groupNum:(NSInteger)groupNum;
+-(NSArray<NSString*>*)GlobalMatchRegexReturnGroup:(NSString*)text regex:(NSRegularExpression*)regex groupNum:(NSInteger)groupNum;
 
 @end

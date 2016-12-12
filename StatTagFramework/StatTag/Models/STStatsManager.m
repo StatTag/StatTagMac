@@ -59,7 +59,7 @@ const NSInteger RefreshStepInterval = 5;
     return result;
   }
   
-  NSObject<STIParser>* parser = [STFactories GetParser:file];
+  NSObject<STICodeFileParser>* parser = [STFactories GetParser:file];
   if (parser == nil) {
     return result;
   }

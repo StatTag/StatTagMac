@@ -8,14 +8,14 @@
 
 #import <Foundation/Foundation.h>
 @class STCodeFile;
-@protocol STIParser;
+@protocol STICodeFileParser;
 @protocol STIGenerator;
 @protocol STIValueFormatter;
 
 
 @interface STFactories : NSObject
 
-+(NSObject<STIParser>*)GetParser:(STCodeFile*)file;
++(NSObject<STICodeFileParser>*)GetParser:(STCodeFile*)file;
 +(NSObject<STIGenerator>*)GetGenerator:(STCodeFile*)file;
 +(NSObject<STIValueFormatter>*)GetValueFormatter:(STCodeFile*)file;
 

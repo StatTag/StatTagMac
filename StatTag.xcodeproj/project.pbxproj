@@ -143,8 +143,8 @@
 		38788F951D30100F00299789 /* STStatsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 38788F931D30100F00299789 /* STStatsManager.m */; };
 		387A0E1B1D2193D000F1FE9C /* StatTagModelCommandResultTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 387A0E1A1D2193D000F1FE9C /* StatTagModelCommandResultTests.m */; };
 		387A0E1D1D21BEFD00F1FE9C /* StatTagModelAnnotationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 387A0E1C1D21BEFD00F1FE9C /* StatTagModelAnnotationTests.m */; };
-		387A0E251D22BC5F00F1FE9C /* STBaseParserStata.h in Headers */ = {isa = PBXBuildFile; fileRef = 387A0E231D22BC5F00F1FE9C /* STBaseParserStata.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		387A0E261D22BC5F00F1FE9C /* STBaseParserStata.m in Sources */ = {isa = PBXBuildFile; fileRef = 387A0E241D22BC5F00F1FE9C /* STBaseParserStata.m */; };
+		387A0E251D22BC5F00F1FE9C /* STStataParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 387A0E231D22BC5F00F1FE9C /* STStataParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		387A0E261D22BC5F00F1FE9C /* STStataParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 387A0E241D22BC5F00F1FE9C /* STStataParser.m */; };
 		387A0E281D22E65500F1FE9C /* StatTagParserBaseParserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 387A0E271D22E65500F1FE9C /* StatTagParserBaseParserTests.m */; };
 		387A0E2C1D22FA4200F1FE9C /* MockIFileHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 387A0E2B1D22FA4200F1FE9C /* MockIFileHandler.m */; };
 		387A0E301D230DAF00F1FE9C /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 387A0E2F1D230DAF00F1FE9C /* OCMock.framework */; };
@@ -160,7 +160,6 @@
 		3884513C1D19DCB3004C2B40 /* STValueParameterParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 3884513A1D19DCB3004C2B40 /* STValueParameterParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3884513D1D19DCB3004C2B40 /* STValueParameterParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3884513B1D19DCB3004C2B40 /* STValueParameterParser.m */; };
 		388ABF881DA5B1F600F08956 /* ViewUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 388ABF871DA5B1F500F08956 /* ViewUtils.m */; };
-		38A7CE911D4E2E4400B06AFF /* readme.md in Sources */ = {isa = PBXBuildFile; fileRef = 38A7CE901D4E2E4400B06AFF /* readme.md */; };
 		38A7CE981D4FDFB600B06AFF /* STGridDataItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 38A7CE961D4FDFB600B06AFF /* STGridDataItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38A7CE991D4FDFB600B06AFF /* STGridDataItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A7CE971D4FDFB600B06AFF /* STGridDataItem.m */; };
 		38A7CE9C1D4FE29400B06AFF /* STPropertiesManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 38A7CE9A1D4FE29400B06AFF /* STPropertiesManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -196,7 +195,7 @@
 		38C9B20F1D10A2B2003B571E /* STStataBaseValueFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C9B20D1D10A2B2003B571E /* STStataBaseValueFormatter.m */; };
 		38C9B2111D10A3B9003B571E /* StatTagValueFormatterBaseValueFormatterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C9B2101D10A3B9003B571E /* StatTagValueFormatterBaseValueFormatterTests.m */; };
 		38C9B2131D10A4D4003B571E /* StatTagValueFormatterStataTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C9B2121D10A4D4003B571E /* StatTagValueFormatterStataTests.m */; };
-		38C9B2151D10A89D003B571E /* STIParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C9B2141D10A89D003B571E /* STIParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		38C9B2151D10A89D003B571E /* STICodeFileParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C9B2141D10A89D003B571E /* STICodeFileParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38C9B2181D10A8CF003B571E /* STTag.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C9B2161D10A8CF003B571E /* STTag.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38C9B2191D10A8CF003B571E /* STTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C9B2171D10A8CF003B571E /* STTag.m */; };
 		38C9B21C1D10AA55003B571E /* STBaseParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C9B21A1D10AA55003B571E /* STBaseParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -236,7 +235,6 @@
 		38FF470D1DFEEBC000A65893 /* STRBaseGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 38FF470B1DFEEBC000A65893 /* STRBaseGenerator.m */; };
 		38FF47101DFEEC1D00A65893 /* STSASBaseGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 38FF470E1DFEEC1D00A65893 /* STSASBaseGenerator.h */; };
 		38FF47111DFEEC1D00A65893 /* STSASBaseGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 38FF470F1DFEEC1D00A65893 /* STSASBaseGenerator.m */; };
-		38FF47141DFEECB000A65893 /* STICodeFileParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 38FF47121DFEECB000A65893 /* STICodeFileParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38FF47181DFF021800A65893 /* STIStatAutomation.h in Headers */ = {isa = PBXBuildFile; fileRef = 38FF47161DFF021800A65893 /* STIStatAutomation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38FF471C1DFF058900A65893 /* STTableUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 38FF471A1DFF058900A65893 /* STTableUtil.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38FF471D1DFF058900A65893 /* STTableUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 38FF471B1DFF058900A65893 /* STTableUtil.m */; };
@@ -245,6 +243,10 @@
 		38FF47221DFF18D200A65893 /* STBaseManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 38516FC41DF5AF06006989BC /* STBaseManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38FF47251DFF19A000A65893 /* STProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 38FF47231DFF19A000A65893 /* STProperties.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38FF47261DFF19A000A65893 /* STProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 38FF47241DFF19A000A65893 /* STProperties.m */; };
+		38FF472C1DFF490000A65893 /* STRParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 38FF47281DFF490000A65893 /* STRParser.h */; };
+		38FF472D1DFF490000A65893 /* STRParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 38FF47291DFF490000A65893 /* STRParser.m */; };
+		38FF472E1DFF490000A65893 /* STSASParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 38FF472A1DFF490000A65893 /* STSASParser.h */; };
+		38FF472F1DFF490000A65893 /* STSASParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 38FF472B1DFF490000A65893 /* STSASParser.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -472,8 +474,8 @@
 		38788F931D30100F00299789 /* STStatsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STStatsManager.m; sourceTree = "<group>"; };
 		387A0E1A1D2193D000F1FE9C /* StatTagModelCommandResultTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagModelCommandResultTests.m; sourceTree = "<group>"; };
 		387A0E1C1D21BEFD00F1FE9C /* StatTagModelAnnotationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagModelAnnotationTests.m; sourceTree = "<group>"; };
-		387A0E231D22BC5F00F1FE9C /* STBaseParserStata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STBaseParserStata.h; sourceTree = "<group>"; };
-		387A0E241D22BC5F00F1FE9C /* STBaseParserStata.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STBaseParserStata.m; sourceTree = "<group>"; };
+		387A0E231D22BC5F00F1FE9C /* STStataParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STStataParser.h; sourceTree = "<group>"; };
+		387A0E241D22BC5F00F1FE9C /* STStataParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STStataParser.m; sourceTree = "<group>"; };
 		387A0E271D22E65500F1FE9C /* StatTagParserBaseParserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagParserBaseParserTests.m; sourceTree = "<group>"; };
 		387A0E2A1D22FA4200F1FE9C /* MockIFileHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MockIFileHandler.h; sourceTree = "<group>"; };
 		387A0E2B1D22FA4200F1FE9C /* MockIFileHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MockIFileHandler.m; sourceTree = "<group>"; };
@@ -530,7 +532,7 @@
 		38C9B20D1D10A2B2003B571E /* STStataBaseValueFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STStataBaseValueFormatter.m; sourceTree = "<group>"; };
 		38C9B2101D10A3B9003B571E /* StatTagValueFormatterBaseValueFormatterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagValueFormatterBaseValueFormatterTests.m; sourceTree = "<group>"; };
 		38C9B2121D10A4D4003B571E /* StatTagValueFormatterStataTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagValueFormatterStataTests.m; sourceTree = "<group>"; };
-		38C9B2141D10A89D003B571E /* STIParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STIParser.h; sourceTree = "<group>"; };
+		38C9B2141D10A89D003B571E /* STICodeFileParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STICodeFileParser.h; sourceTree = "<group>"; };
 		38C9B2161D10A8CF003B571E /* STTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STTag.h; sourceTree = "<group>"; };
 		38C9B2171D10A8CF003B571E /* STTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STTag.m; sourceTree = "<group>"; };
 		38C9B21A1D10AA55003B571E /* STBaseParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STBaseParser.h; sourceTree = "<group>"; };
@@ -579,7 +581,6 @@
 		38FF470B1DFEEBC000A65893 /* STRBaseGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STRBaseGenerator.m; sourceTree = "<group>"; };
 		38FF470E1DFEEC1D00A65893 /* STSASBaseGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STSASBaseGenerator.h; sourceTree = "<group>"; };
 		38FF470F1DFEEC1D00A65893 /* STSASBaseGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STSASBaseGenerator.m; sourceTree = "<group>"; };
-		38FF47121DFEECB000A65893 /* STICodeFileParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STICodeFileParser.h; sourceTree = "<group>"; };
 		38FF47161DFF021800A65893 /* STIStatAutomation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STIStatAutomation.h; sourceTree = "<group>"; };
 		38FF471A1DFF058900A65893 /* STTableUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STTableUtil.h; sourceTree = "<group>"; };
 		38FF471B1DFF058900A65893 /* STTableUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STTableUtil.m; sourceTree = "<group>"; };
@@ -587,6 +588,10 @@
 		38FF471F1DFF185100A65893 /* STLogManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STLogManager.m; sourceTree = "<group>"; };
 		38FF47231DFF19A000A65893 /* STProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STProperties.h; sourceTree = "<group>"; };
 		38FF47241DFF19A000A65893 /* STProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STProperties.m; sourceTree = "<group>"; };
+		38FF47281DFF490000A65893 /* STRParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STRParser.h; sourceTree = "<group>"; };
+		38FF47291DFF490000A65893 /* STRParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STRParser.m; sourceTree = "<group>"; };
+		38FF472A1DFF490000A65893 /* STSASParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STSASParser.h; sourceTree = "<group>"; };
+		38FF472B1DFF490000A65893 /* STSASParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STSASParser.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -735,7 +740,6 @@
 		382C8D301D0F67C200FE6878 /* Interfaces */ = {
 			isa = PBXGroup;
 			children = (
-				38FF47121DFEECB000A65893 /* STICodeFileParser.h */,
 				382C285F1D14539C00697D6F /* STIFileHandler.h */,
 				382C28611D1454D900697D6F /* STIResultCommandFormatter.h */,
 				382C28631D14552100697D6F /* STIResultCommandList.h */,
@@ -774,13 +778,10 @@
 			children = (
 				382C284C1D1202D400697D6F /* STBaseParameterParser.h */,
 				382C284D1D1202D400697D6F /* STBaseParameterParser.m */,
-				38C9B21A1D10AA55003B571E /* STBaseParser.h */,
-				38C9B21B1D10AA55003B571E /* STBaseParser.m */,
-				387A0E231D22BC5F00F1FE9C /* STBaseParserStata.h */,
-				387A0E241D22BC5F00F1FE9C /* STBaseParserStata.m */,
 				382C28D31D19D8E900697D6F /* STFigureParameterParser.h */,
 				382C28D41D19D8E900697D6F /* STFigureParameterParser.m */,
-				38C9B2141D10A89D003B571E /* STIParser.h */,
+				38C9B2141D10A89D003B571E /* STICodeFileParser.h */,
+				38FF47301DFF490C00A65893 /* PlatformParsers */,
 				382C28D71D19DACC00697D6F /* STTableParameterParser.h */,
 				382C28D91D19DAD500697D6F /* STTableParameterParser.m */,
 				3884513A1D19DCB3004C2B40 /* STValueParameterParser.h */,
@@ -1281,6 +1282,21 @@
 			path = Controls;
 			sourceTree = "<group>";
 		};
+		38FF47301DFF490C00A65893 /* PlatformParsers */ = {
+			isa = PBXGroup;
+			children = (
+				38C9B21A1D10AA55003B571E /* STBaseParser.h */,
+				38C9B21B1D10AA55003B571E /* STBaseParser.m */,
+				38FF47281DFF490000A65893 /* STRParser.h */,
+				38FF47291DFF490000A65893 /* STRParser.m */,
+				38FF472A1DFF490000A65893 /* STSASParser.h */,
+				38FF472B1DFF490000A65893 /* STSASParser.m */,
+				387A0E231D22BC5F00F1FE9C /* STStataParser.h */,
+				387A0E241D22BC5F00F1FE9C /* STStataParser.m */,
+			);
+			name = PlatformParsers;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -1305,7 +1321,7 @@
 				38FF47101DFEEC1D00A65893 /* STSASBaseGenerator.h in Headers */,
 				382C8D3B1D0F9E1D00FE6878 /* STFileHandler.h in Headers */,
 				382C28D11D19C5DC00697D6F /* STGeneralUtil.h in Headers */,
-				387A0E251D22BC5F00F1FE9C /* STBaseParserStata.h in Headers */,
+				387A0E251D22BC5F00F1FE9C /* STStataParser.h in Headers */,
 				382C8D371D0F68B200FE6878 /* STCodeFile.h in Headers */,
 				382C28AC1D195C2500697D6F /* STFieldTag.h in Headers */,
 				382C285B1D133BCD00697D6F /* STValueFormat.h in Headers */,
@@ -1319,10 +1335,10 @@
 				380A67A01D106E090045B72B /* STCodeFileAction.h in Headers */,
 				382C28C01D199F9A00697D6F /* STStataBaseGenerator.h in Headers */,
 				38F803581D9DB2B300C8F1EA /* STSASAutomation.h in Headers */,
+				38FF472C1DFF490000A65893 /* STRParser.h in Headers */,
 				38FF47201DFF185100A65893 /* STLogManager.h in Headers */,
 				38FF471C1DFF058900A65893 /* STTableUtil.h in Headers */,
 				382C28C41D19A00D00697D6F /* STTableParameterGenerator.h in Headers */,
-				38FF47141DFEECB000A65893 /* STICodeFileParser.h in Headers */,
 				38FF47181DFF021800A65893 /* STIStatAutomation.h in Headers */,
 				38A7CE981D4FDFB600B06AFF /* STGridDataItem.h in Headers */,
 				382C8D271D0F672F00FE6878 /* StatTagFramework.h in Headers */,
@@ -1334,6 +1350,7 @@
 				38FF470C1DFEEBC000A65893 /* STRBaseGenerator.h in Headers */,
 				382C28621D1454D900697D6F /* STIResultCommandFormatter.h in Headers */,
 				382C28C71D19A23100697D6F /* STValueParameterGenerator.h in Headers */,
+				38FF472E1DFF490000A65893 /* STSASParser.h in Headers */,
 				382C28CC1D19ADA000697D6F /* STTagUtil.h in Headers */,
 				382C28D81D19DACC00697D6F /* STTableParameterParser.h in Headers */,
 				382C28B01D1992E900697D6F /* STUpdatePair.h in Headers */,
@@ -1344,7 +1361,7 @@
 				382C28B81D199ACC00697D6F /* STBaseParameterGenerator.h in Headers */,
 				382C28641D14552100697D6F /* STIResultCommandList.h in Headers */,
 				385FDD2F1D33C88300AE0FE2 /* STMSWord2011.h in Headers */,
-				38C9B2151D10A89D003B571E /* STIParser.h in Headers */,
+				38C9B2151D10A89D003B571E /* STICodeFileParser.h in Headers */,
 				381FD33F1D19F00700DB4B12 /* STConstants.h in Headers */,
 				386992D61DBD10D400852B6E /* STUIUtility.h in Headers */,
 				38EDF02E1D2C005700ACD77B /* STStataCommands.h in Headers */,
@@ -1548,6 +1565,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				38FF472D1DFF490000A65893 /* STRParser.m in Sources */,
 				380A67A51D106FBB0045B72B /* STCommandResult.m in Sources */,
 				38F8035D1D9DB2C800C8F1EA /* STSASCommands.m in Sources */,
 				384CE67A1DF5F2FC0076FBDB /* STFilterFormat.m in Sources */,
@@ -1562,6 +1580,7 @@
 				382C28B91D199ACC00697D6F /* STBaseParameterGenerator.m in Sources */,
 				38C91F371D366AD70048A95E /* NSMutableArray+Stack.m in Sources */,
 				38FF470D1DFEEBC000A65893 /* STRBaseGenerator.m in Sources */,
+				38FF472F1DFF490000A65893 /* STSASParser.m in Sources */,
 				380A67A11D106E090045B72B /* STCodeFileAction.m in Sources */,
 				38C9B2011D109B40003B571E /* STExecutionStep.m in Sources */,
 				38C9B2051D109D0A003B571E /* STFigureFormat.m in Sources */,
@@ -1575,7 +1594,6 @@
 				38C9B2091D109F6B003B571E /* STBaseValueFormatter.m in Sources */,
 				38EDF0331D2C2E6900ACD77B /* STCocoaUtil.m in Sources */,
 				38A7CE991D4FDFB600B06AFF /* STGridDataItem.m in Sources */,
-				38A7CE911D4E2E4400B06AFF /* readme.md in Sources */,
 				382C28B51D1994DE00697D6F /* STBaseGenerator.m in Sources */,
 				38FF47211DFF185100A65893 /* STLogManager.m in Sources */,
 				382C28C11D199F9A00697D6F /* STStataBaseGenerator.m in Sources */,
@@ -1598,7 +1616,7 @@
 				3884513D1D19DCB3004C2B40 /* STValueParameterParser.m in Sources */,
 				382C28DA1D19DAD500697D6F /* STTableParameterParser.m in Sources */,
 				385FDD2D1D32F70100AE0FE2 /* STDocumentManager.m in Sources */,
-				387A0E261D22BC5F00F1FE9C /* STBaseParserStata.m in Sources */,
+				387A0E261D22BC5F00F1FE9C /* STStataParser.m in Sources */,
 				382C28CD1D19ADA000697D6F /* STTagUtil.m in Sources */,
 				38C91F401D36D1970048A95E /* WordHelpers.m in Sources */,
 				382C8D3C1D0F9E1D00FE6878 /* STFileHandler.m in Sources */,

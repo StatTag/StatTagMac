@@ -296,4 +296,40 @@
   return nil;
 }
 
+-(NSString*)MatchRegexReturnGroup:(NSString*)text regex:(NSRegularExpression*)regex groupNum:(NSInteger)groupNum
+{
+  NSTextCheckingResult* match = [regex firstMatchInString:text options:0 range:NSMakeRange(0, text.length)];
+  if(match) {
+    NSCharacterSet *ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+    NSRange matchRange = [match rangeAtIndex:groupNum];
+    NSString *matchString = [[text substringWithRange:matchRange]stringByTrimmingCharactersInSet:ws];
+    return matchString;
+  }
+  return @"";
+}
+
+-(NSArray<NSString*>*)GlobalMatchRegexReturnGroup:(NSString*)text regex:(NSRegularExpression*)regex groupNum:(NSInteger)groupNum
+{
+  
+  NSArray *matches = [regex matchesInString:text options:0 range:NSMakeRange(0, text.length)];
+  
+  if([matches count] == 0){
+    return nil;
+  }
+  
+  NSCharacterSet *ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+  //if ([[[tag Name] stringByTrimmingCharactersInSet: ws] length] == 0)
+  
+  NSMutableArray<NSString*>* results = [[NSMutableArray<NSString*> alloc] init];
+  for (NSTextCheckingResult *match in matches)
+  {
+    NSRange matchRange = [match rangeAtIndex:groupNum];
+    NSString *matchString = [[text substringWithRange:matchRange] stringByTrimmingCharactersInSet:ws];
+    [results addObject:matchString];
+  }
+  
+  return results;
+}
+
+
 @end

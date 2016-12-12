@@ -26,7 +26,7 @@
 
 -(void)testIsImageExport
 {
-  STBaseParserStata* parser = [[STBaseParserStata alloc] init];
+  STStataParser* parser = [[STStataParser alloc] init];
   XCTAssertFalse([parser IsImageExport:@"graph"]);
   XCTAssertTrue([parser IsImageExport:@"graph export"]);
   XCTAssertTrue([parser IsImageExport:@"  graph export  "]);
@@ -39,7 +39,7 @@
 
 -(void)testIsValueDisplay
 {
-  STBaseParserStata* parser = [[STBaseParserStata alloc] init];
+  STStataParser* parser = [[STStataParser alloc] init];
   XCTAssertFalse([parser IsValueDisplay:@"displa"]);
   XCTAssertTrue([parser IsValueDisplay:@"display"]);
   XCTAssertTrue([parser IsValueDisplay:@"  display  "]);
@@ -53,7 +53,7 @@
 
 -(void)testIsMacroDisplayValue
 {
-  STBaseParserStata* parser = [[STBaseParserStata alloc] init];
+  STStataParser* parser = [[STStataParser alloc] init];
   XCTAssertFalse([parser IsMacroDisplayValue: @"displa `x'"]);
   XCTAssertTrue([parser IsMacroDisplayValue: @"display `x'"]);
   XCTAssertTrue([parser IsMacroDisplayValue: @"display ` x '"]);
@@ -65,7 +65,7 @@
 
 -(void)testIsTableResult
 {
-  STBaseParserStata* parser = [[STBaseParserStata alloc] init];
+  STStataParser* parser = [[STStataParser alloc] init];
   XCTAssertFalse([parser IsTableResult: @"matri lis"]);
   XCTAssertTrue([parser IsTableResult: @"matrix list"]);
   XCTAssertTrue([parser IsTableResult: @"  matrix   list "]);
@@ -79,7 +79,7 @@
 
 -(void)testIsStartingLog
 {
-  STBaseParserStata* parser = [[STBaseParserStata alloc] init];
+  STStataParser* parser = [[STStataParser alloc] init];
 
   XCTAssertFalse([parser IsStartingLog: @"*log using tmp.txt"]);
   XCTAssertFalse([parser IsStartingLog: @"*cmdlog using tmp.txt"]);
@@ -108,7 +108,7 @@
 
 -(void)testGetLogType
 {
-  STBaseParserStata* parser = [[STBaseParserStata alloc] init];
+  STStataParser* parser = [[STStataParser alloc] init];
 
   XCTAssertNil([parser GetLogType: @"*log using tmp.txt"]);
   XCTAssertNil([parser GetLogType: @"*cmdlog using tmp.txt"]);
@@ -132,7 +132,7 @@
 
 -(void)testGetImageSaveLocation
 {
-  STBaseParserStata* parser = [[STBaseParserStata alloc] init];
+  STStataParser* parser = [[STStataParser alloc] init];
 
   XCTAssert([@"C:\\Development\\Stats\\bpgraph.pdf" isEqualToString:[parser GetImageSaveLocation:@"graph export \"C:\\Development\\Stats\\bpgraph.pdf\", as(pdf) replace"]]);
 
@@ -147,7 +147,7 @@
 
 -(void)testGetValueName
 {
-  STBaseParserStata* parser = [[STBaseParserStata alloc] init];
+  STStataParser* parser = [[STStataParser alloc] init];
   //NSLog(@"TEST VALUE: [parser GetValueName: \"display (5*2)\"] :  %@", [parser GetValueName: @"display (5*2)"]);
   
   XCTAssert([ @"test" isEqualToString: [parser GetValueName: @"display test"]]);
@@ -178,7 +178,7 @@
 
 -(void)testIsCalculatedDisplayValue
 {
-  STBaseParserStata* parser = [[STBaseParserStata alloc] init];
+  STStataParser* parser = [[STStataParser alloc] init];
 
   XCTAssertFalse([parser IsCalculatedDisplayValue: @""]);
   XCTAssertFalse([parser IsCalculatedDisplayValue: @"2*3"]);
@@ -190,7 +190,7 @@
 
 -(void)testGetMacroValueName
 {
-  STBaseParserStata* parser = [[STBaseParserStata alloc] init];
+  STStataParser* parser = [[STStataParser alloc] init];
 
   XCTAssertTrue([ @"x2" isEqualToString: [parser GetMacroValueName: @"display  `x2'"]]);
   XCTAssertTrue([ @"x2" isEqualToString: [parser GetMacroValueName: @"display  `x2'\r\n\r\n*Some comments following"]]);
@@ -199,7 +199,7 @@
 
 -(void)testGetTableName
 {
-  STBaseParserStata* parser = [[STBaseParserStata alloc] init];
+  STStataParser* parser = [[STStataParser alloc] init];
   
   XCTAssert([@"test_matrix" isEqualToString: [parser GetTableName: @"matrix list test_matrix"]]);
   XCTAssert([@"test_matrix" isEqualToString: [parser GetTableName: @"   matrix   list    test_matrix  "]]);
@@ -214,7 +214,7 @@
 
 -(void)testPreProcessContent_Empty
 {
-  STBaseParserStata* parser = [[STBaseParserStata alloc] init];
+  STStataParser* parser = [[STStataParser alloc] init];
   XCTAssertEqual(0, [[parser PreProcessContent:nil] count]);
 
   NSArray<NSString*>* emptyList = [[NSArray<NSString*> alloc] init];
@@ -223,7 +223,7 @@
 
 -(void)testPreProcessContent_TrailingComment
 {
-  STBaseParserStata* parser = [[STBaseParserStata alloc] init];
+  STStataParser* parser = [[STStataParser alloc] init];
   NSArray<NSString*>* testList;
   
   testList = [NSArray<NSString*> arrayWithObjects:
@@ -257,7 +257,7 @@
 
 -(void)testPreProcessContent_MultiLineComment
 {
-  STBaseParserStata* parser = [[STBaseParserStata alloc] init];
+  STStataParser* parser = [[STStataParser alloc] init];
   NSArray<NSString*>* testList;
 
   //1

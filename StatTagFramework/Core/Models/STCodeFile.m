@@ -11,7 +11,7 @@
 #import "STIFileHandler.h"
 #import "STFileHandler.h"
 #import "STFactories.h"
-#import "STIParser.h"
+#import "STICodeFileParser.h"
 #import "STConstants.h"
 #import "STIGenerator.h"
 
@@ -198,7 +198,7 @@ NSObject<STIFileHandler>* _FileHandler;
     return;
   }
   
-  NSObject<STIParser>* parser = [STFactories GetParser:self];
+  NSObject<STICodeFileParser>* parser = [STFactories GetParser:self];
   if (parser == nil) {
     return;
   }

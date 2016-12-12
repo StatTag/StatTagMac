@@ -61,7 +61,7 @@ const NSInteger ShowStata = 3;
   self = [super init];
   if(self) {
     //id Application;
-    Parser = [[STBaseParserStata alloc] init];
+    Parser = [[STStataParser alloc] init];
     OpenLogs = [[NSMutableArray<NSString*> alloc] init];
     _AppBundleIdentifier = [[self class] determineInstalledAppBundleIdentifier];
     if([[self class] IsAppInstalled]){

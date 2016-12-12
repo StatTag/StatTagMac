@@ -8,14 +8,15 @@
 
 #import <Foundation/Foundation.h>
 #import "STStataCommands.h"
+#import "STIStatAutomation.h"
 @class STStataApplication;
-@class STBaseParserStata;
+@class STStataParser;
 @class STCommandResult;
 @class STTable;
 
-@interface STStataAutomation : NSObject {
+@interface STStataAutomation : NSObject <STIStatAutomation> {
   STStataApplication* Application;
-  STBaseParserStata* Parser;
+  STStataParser* Parser;
   NSMutableArray<NSString*>* OpenLogs;
   
   const NSInteger StataHidden;
