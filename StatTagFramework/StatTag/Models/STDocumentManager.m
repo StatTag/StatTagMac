@@ -7,7 +7,7 @@
 //
 
 #import "STDocumentManager.h"
-#import "StatTag.h"
+#import "StatTagFramework.h"
 
 #import "STStatsManager.h"
 #import "STTagManager.h"
@@ -16,7 +16,7 @@
 #import "STGlobals.h"
 #import "STThisAddIn.h"
 #import "STCodeFile.h"
-#import "STFieldCreator.h"
+#import "STFieldGenerator.h"
 #import "STUIUtility.h"
 
 
@@ -39,7 +39,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
     DocumentCodeFiles = [[NSMutableDictionary<NSString*, NSMutableArray<STCodeFile*>*> alloc] init];
     _TagManager = [[STTagManager alloc] init:self];
     _StatsManager = [[STStatsManager alloc] init:self];
-    _FieldManager = [[STFieldCreator alloc] init];
+    _FieldManager = [[STFieldGenerator alloc] init];
     
     _wordFieldsTotal = @0;
     _wordFieldsUpdated = @0;
@@ -52,7 +52,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
   STMSWord2011Document* document = [app activeDocument];
   SBElementArray<STMSWord2011Field*>* fields = [document fields];
-  int fieldsCount = [fields count];
+  NSInteger fieldsCount = [fields count];
   return [NSNumber numberWithInteger:fieldsCount];
 }
 
@@ -250,14 +250,14 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
 
   NSLog(@"RefreshTableTagFields - Started");
   SBElementArray<STMSWord2011Field*>* fields = [document fields];
-  int fieldsCount = [fields count];
+  NSInteger fieldsCount = [fields count];
   bool tableRefreshed = false;
   
   STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
   
   // Fields is a 1-based index
   NSLog(@"Preparing to process %d} fields", fieldsCount);
-  for (int index = fieldsCount - 1; index >= 0; index--)
+  for (NSInteger index = fieldsCount - 1; index >= 0; index--)
   {
     STMSWord2011Field* field = fields[index];
     if (field == nil)
@@ -286,7 +286,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
     {
       BOOL isFirstCell = ([fieldTag TableCellIndex] != nil &&
                           [[fieldTag TableCellIndex] integerValue] == 0);
-      int firstFieldLocation = -1;
+      NSInteger firstFieldLocation = -1;
       if (isFirstCell)
       {
         [WordHelpers select:field];
@@ -332,8 +332,8 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
     return;
   }
   
-  int shapesCount = [shapes count];
-  for (int shapeIndex = 0; shapeIndex <= shapesCount; shapeIndex++)
+  NSInteger shapesCount = [shapes count];
+  for (NSInteger shapeIndex = 0; shapeIndex <= shapesCount; shapeIndex++)
   {
     STMSWord2011InlineShape* shape = shapes[shapeIndex];
     if (shape != nil)
@@ -411,14 +411,14 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
     NSLog(@"after UpdateInlineShapes");
     
     SBElementArray<STMSWord2011Field*>* fields = [document fields];
-    int fieldsCount = [fields count];
+    NSInteger fieldsCount = [fields count];
     // Fields is a 1-based index
     NSLog(@"Preparing to process %d fields", fieldsCount);
 
     [self setValue:@"Updating Fields" forKey:@"wordFieldUpdateStatus"];
     
     //FIXME: it's 1-based in Windows - but on the Mac? We should check...
-    for (int index = 0; index < fieldsCount; index++)
+    for (NSInteger index = 0; index < fieldsCount; index++)
     {
       
       STMSWord2011Field* field = fields[index];
@@ -523,12 +523,12 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   SBElementArray<STMSWord2011Column*>* columns = [table columns];
   SBElementArray<STMSWord2011Row*>* rows = [table rows];
 
-  int endColumn = MIN([columns count], [selectedCell columnIndex] + [[dimensions objectAtIndex:[STConstantsDimensionIndex Columns]] integerValue] - 1);
-  int endRow = MIN([rows count], [selectedCell rowIndex] + [[dimensions objectAtIndex:[STConstantsDimensionIndex Rows]] integerValue] - 1);
+  NSInteger endColumn = MIN([columns count], [selectedCell columnIndex] + [[dimensions objectAtIndex:[STConstantsDimensionIndex Columns]] integerValue] - 1);
+  NSInteger endRow = MIN([rows count], [selectedCell rowIndex] + [[dimensions objectAtIndex:[STConstantsDimensionIndex Rows]] integerValue] - 1);
   
-  NSLog(@"Selecting in existing to row %d, column %d", endRow, endColumn);
-  NSLog(@"Selected table has %d rows and %d columns", [rows count], [columns count]);
-  NSLog(@"Table to insert has dimensions %d by %d", [dimensions[0] integerValue], [dimensions[1] integerValue]);
+  NSLog(@"Selecting in existing to row %ld, column %ld", (long)endRow, (long)endColumn);
+  NSLog(@"Selected table has %ld rows and %ld columns", (long)[rows count], (long)[columns count]);
+  NSLog(@"Table to insert has dimensions %ld by %ld", [dimensions[0] integerValue], [dimensions[1] integerValue]);
 
   STMSWord2011Cell* endCell = [table getCellFromTableRow:endRow column:endColumn];
   
@@ -573,7 +573,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   STTable* table = [[[tag CachedResult] firstObject] TableResult];
   NSArray<NSNumber*>* dimensions = [tag GetTableDisplayDimensions];
   
-  int cellsCount = cells == nil ? 0 : [cells count];  // Because of the issue we mention below, pull the cell count right away
+  NSInteger cellsCount = cells == nil ? 0 : [cells count];  // Because of the issue we mention below, pull the cell count right away
   
   // Insert a new table if there is none selected.
   if (cellsCount == 0)
@@ -656,12 +656,12 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   
   NSLog(@"cell Points : %@", cellPoints);
 
-  // Wait, why aren't I using a for (int index = 0...) loop instead of this foreach?
+  // Wait, why aren't I using a for (NSInteger index = 0...) loop instead of this foreach?
   // There is some weird issue with the Cells collection that was crashing when I used
   // a for loop and index.  After a few iterations it was chopping out a few of the
   // cells, which caused a crash.  No idea why, and moved to this approach in the interest
   // of time.  Long-term it'd be nice to figure out what was causing the crash.
-  int index = 0;
+  NSInteger index = 0;
   for (NSValue* value in cellPoints)
   {
     
@@ -731,8 +731,8 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   STMSWord2011Document* doc = [app activeDocument];
 
   @try {
-    int rowCount = (format.IncludeColumnNames) ? (table.RowSize + 1) : (table.RowSize);
-    int columnCount = (format.IncludeRowNames) ? (table.ColumnSize + 1) : (table.ColumnSize);
+    NSInteger rowCount = (format.IncludeColumnNames) ? (table.RowSize + 1) : (table.RowSize);
+    NSInteger columnCount = (format.IncludeRowNames) ? (table.ColumnSize + 1) : (table.ColumnSize);
 
     NSLog(@"Table dimensions r=%d, c=%d", rowCount, columnCount);
 
@@ -762,7 +762,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
  Provide a warning to the user if the number of data cells available doesn't match
  the number of table cells they selected in the document.
 */
--(void)WarnOnMismatchedCellCount:(int)selectedCellCount dataLength:(int)dataLength
+-(void)WarnOnMismatchedCellCount:(NSInteger)selectedCellCount dataLength:(NSInteger)dataLength
 {
   //FIXME: this is not ideal - we should be separating UI from this kind of behavior
   if (selectedCellCount > dataLength)
@@ -873,13 +873,13 @@ Insert an StatTag field at the currently specified document range.
                                          
                                          [NSString stringWithFormat:@"%@MacroButton %@ %@%@ADDIN %@%@%@",
                                           
-                                          [STFieldCreator FieldOpen],
+                                          [STFieldGenerator FieldOpen],
                                           [STConstantsFieldDetails MacroButtonName],
                                           displayValue,
-                                          [STFieldCreator FieldOpen],
+                                          [STFieldGenerator FieldOpen],
                                           tagIdentifier,
-                                          [STFieldCreator FieldClose],
-                                          [STFieldCreator FieldClose]
+                                          [STFieldGenerator FieldClose],
+                                          [STFieldGenerator FieldClose]
                                           
                                           //0    Constants.FieldDetails.MacroButtonName,
                                           //1    displayValue,

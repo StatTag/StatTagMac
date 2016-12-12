@@ -8,7 +8,7 @@
 
 #import "DateTimePropertiesController.h"
 
-#import "StatTag.h"
+#import "StatTagFramework.h"
 
 @interface DateTimePropertiesController ()
 

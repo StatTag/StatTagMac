@@ -7,7 +7,7 @@
 //
 
 #import "ValuePropertiesController.h"
-#import "StatTag.h"
+#import "StatTagFramework.h"
 #import "ViewUtils.h"
 
 @interface ValuePropertiesController ()

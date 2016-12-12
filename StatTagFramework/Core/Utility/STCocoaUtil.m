@@ -40,7 +40,7 @@
         NSLog(@"app not found");
         break;
       default:
-        NSLog(@"an error occurred: %d",(int)result);
+        NSLog(@"an error occurred: %ld",(long)result);
         break;
     }
     
@@ -79,7 +79,7 @@
 +(NSString*)macOSVersion
 {
   NSOperatingSystemVersion osV = [[NSProcessInfo processInfo] operatingSystemVersion];
-  NSString* osVersion = [NSString stringWithFormat:@"macOS (%d.%d.%d)", osV.majorVersion, osV.minorVersion, osV.patchVersion];
+  NSString* osVersion = [NSString stringWithFormat:@"macOS (%ld.%ld.%ld)", (long)osV.majorVersion, (long)osV.minorVersion, (long)osV.patchVersion];
   return osVersion;
 }
 
@@ -104,7 +104,7 @@
   NSBundle* bundle = [NSBundle bundleForClass:[self class]];
   
   NSString * bundleIdentifier = [bundle bundleIdentifier];
-  NSString * bundleName = [bundle objectForInfoDictionaryKey:@"CFBundleName"];
+  //NSString * bundleName = [bundle objectForInfoDictionaryKey:@"CFBundleName"];
   NSString * appVersionString = [bundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
   NSString * appBuildString = [bundle objectForInfoDictionaryKey:@"CFBundleVersion"];
   

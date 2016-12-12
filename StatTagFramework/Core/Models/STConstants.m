@@ -15,7 +15,7 @@ NSString *const STStatTagErrorDomain = @"StatTagErrorDomain";
 +(NSString*)R { return @"R";}
 +(NSString*)SAS { return @"SAS";}
 +(NSArray<NSString *>*)GetList {
-  return [[NSArray alloc] initWithObjects:[STConstantsStatisticalPackages Stata], [STConstantsStatisticalPackages R], [STConstantsStatisticalPackages SAS], nil];
+  return [[NSArray alloc] initWithObjects:[STConstantsStatisticalPackages Stata], [STConstantsStatisticalPackages SAS], [STConstantsStatisticalPackages R],  nil];
 }
 @end
 
@@ -58,20 +58,28 @@ NSString *const STStatTagErrorDomain = @"StatTagErrorDomain";
 @implementation STConstantsFileFilters
 +(NSString*)StataLabel { return @"Stata Do Files";}
 +(NSString*)StataFilter { return @"*.do;*.ado";}
-+(NSString*)RLabel { return @"R";}
-+(NSString*)RFilter { return @"*.r";}
 +(NSString*)SASLabel { return @"SAS";}
 +(NSString*)SASFilter { return @"*.sas";}
++(NSString*)RLabel { return @"R";}
++(NSString*)RFilter { return @"*.r";}
 +(NSString*)AllLabel { return @"All files";}
 +(NSString*)AllFilter { return @"*.*";}
++(NSString*)SupportedLabel { return @"Supported files";}
++(NSString*)SupportedFileFilters {
+  return [[NSArray<NSString*> arrayWithObjects:[[self class] StataFilter], [[self class] SASFilter], [[self class] RFilter], nil] componentsJoinedByString:@"," ];
+}
 +(NSString*)FormatForOpenFileDialog {
-  return [NSString stringWithFormat:@"%@|%@|%@|%@|%@|%@|%@|%@",
+  return [NSString stringWithFormat:@"%@|%@|%@|%@|%@|%@|%@|%@|%@|%@",
+
+          [STConstantsFileFilters SupportedLabel],
+          [[NSArray<NSString*> arrayWithObjects:[[self class] StataFilter], [[self class] SASFilter], [[self class] RFilter], nil] componentsJoinedByString:@";" ],
+          
           [STConstantsFileFilters StataLabel],
           [STConstantsFileFilters StataFilter],
-          [STConstantsFileFilters RLabel],
-          [STConstantsFileFilters RFilter],
           [STConstantsFileFilters SASLabel],
           [STConstantsFileFilters SASFilter],
+          [STConstantsFileFilters RLabel],
+          [STConstantsFileFilters RFilter],
           [STConstantsFileFilters AllLabel],
           [STConstantsFileFilters AllFilter]
         ];
@@ -89,6 +97,8 @@ NSString *const STStatTagErrorDomain = @"StatTagErrorDomain";
 
 @implementation STConstantsReservedCharacters
 +(NSString*)TagTableCellDelimiter { return @"|";}
++(NSString*)ListDelimiter {return @",";};
++(NSString*)RangeDelimiter {return @"-";};
   @end
   
 @implementation STConstantsFieldDetails
@@ -111,13 +121,19 @@ NSString *const STStatTagErrorDomain = @"StatTagErrorDomain";
 @end
 
 @implementation STConstantsTableParameters
-+(NSString*)ColumnNames { return @"ColumnNames";}
-+(NSString*)RowNames { return @"RowNames";}
+//+(NSString*)ColumnNames { return @"ColumnNames";}
+//+(NSString*)RowNames { return @"RowNames";}
++(NSString*) FilterEnabled { return @"FilterEnabled";}
++(NSString*) FilterType { return @"FilterType"; }
++(NSString*) FilterValue { return @"FilterValue";}
 @end
 
 @implementation STConstantsTableParameterDefaults
-+(BOOL)ColumnNames { return FALSE;}
-+(BOOL)RowNames { return FALSE;}
+//+(BOOL)ColumnNames { return FALSE;}
+//+(BOOL)RowNames { return FALSE;}
++(BOOL) FilterEnabled { return false;}
++(NSString*) FilterType { return @""; }
++(NSString*) FilterValue { return @"";}
 @end
 
 @implementation STConstantsValueParameterDefaults
@@ -126,9 +142,15 @@ NSString *const STStatTagErrorDomain = @"StatTagErrorDomain";
 
 @implementation STConstantsCodeFileComment
 +(NSString*)Stata { return @"*";}
-+(NSString*)R { return @"*";}
 +(NSString*)SAS { return @"*";}
++(NSString*)R { return @"#";}
 @end
+
+@implementation STConstantsCodeFileCommentSuffix
++(NSString*)Default { return @"*";}
++(NSString*)SAS { return @";";}
+@end
+
 
 @implementation STConstantsTagTags
 +(NSString*)StartTag { return @">>>";}
@@ -139,14 +161,14 @@ NSString *const STStatTagErrorDomain = @"StatTagErrorDomain";
 @end
 
 @implementation STConstantsParserFilterMode
-+(int)IncludeAll { return 0;}
-+(int)ExcludeOnDemand { return 1;}
-+(int)TagList { return 2;}
++(NSInteger)IncludeAll { return 0;}
++(NSInteger)ExcludeOnDemand { return 1;}
++(NSInteger)TagList { return 2;}
 @end
 
 @implementation STConstantsExecutionStepType
-+(int)CodeBlock { return 0;}
-+(int)Tag { return 1;}
++(NSInteger)CodeBlock { return 0;}
++(NSInteger)Tag { return 1;}
 @end
 
 @implementation STConstantsDateFormats
@@ -166,15 +188,24 @@ NSString *const STStatTagErrorDomain = @"StatTagErrorDomain";
 @end
 
 @implementation STConstantsDimensionIndex
-+(int)Rows { return 0;}
-+(int)Columns { return 1;}
++(NSInteger)Rows { return 0;}
++(NSInteger)Columns { return 1;}
 @end
 
 @implementation STConstantsCodeFileActionTask
-+(int)NoAction { return 0;}
-+(int)ChangeFile { return 1;}
-+(int)RemoveTags { return 2;}
-+(int)ReAddFile { return 3;}
-+(int)SelectFile { return 4;}
++(NSInteger)NoAction { return 0;}
++(NSInteger)ChangeFile { return 1;}
++(NSInteger)RemoveTags { return 2;}
++(NSInteger)ReAddFile { return 3;}
++(NSInteger)SelectFile { return 4;}
 @end
 
+@implementation STConstantsFilterPrefix
++(NSString*)Row { return @"Row";}
++(NSString*)Column { return @"Column";}
+@end
+
+@implementation STConstantsFilterType
++(NSString*)Exclude { return @"Exclude";}
++(NSString*)Include { return @"Include";}
+@end

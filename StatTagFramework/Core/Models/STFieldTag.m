@@ -11,6 +11,7 @@
 #import "STConstants.h"
 #import "STTable.h"
 #import "STCommandResult.h"
+#import "STTableUtil.h"
 
 @implementation STFieldTag
 
@@ -151,7 +152,10 @@
     {
       _CachedResult = [[NSMutableArray<STCommandResult*> alloc] init];
       STCommandResult* cr = [[STCommandResult alloc] init];
-      cr.ValueResult = ([_TableCellIndex integerValue] < [[table FormattedCells] count]) ? [[table FormattedCells]objectAtIndex:[_TableCellIndex integerValue]] : @"";
+      
+      NSArray<NSString*>* displayData = [STTableUtil GetDisplayableVector:[table FormattedCells] format:_TableFormat];
+      cr.ValueResult = ([_TableCellIndex integerValue] < [displayData count]) ? [displayData objectAtIndex:[_TableCellIndex integerValue]] : @"";
+      
       [_CachedResult addObject:cr];
     }
   }

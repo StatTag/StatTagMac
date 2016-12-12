@@ -36,6 +36,7 @@ static STGlobals* sharedInstance = nil;
 +(void)activateDocument {
   STMSWord2011Application* application = [[[STGlobals sharedInstance] ThisAddIn] Application];
   STMSWord2011Document* document = [application activeDocument];
+  #pragma unused(document)
 }
 
 -(STThisAddIn*)ThisAddIn {

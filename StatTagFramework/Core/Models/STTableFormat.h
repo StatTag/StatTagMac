@@ -12,18 +12,19 @@
 
 @class STTable;
 @class STBaseValueFormatter;
+@class STFilterFormat;
+@class STTableData;
 
 @interface STTableFormat : NSObject <NSCopying, STJSONAble> {
-  BOOL _IncludeColumnNames;
-  BOOL _IncludeRowNames;
+  STFilterFormat* _RowFilter;
+  STFilterFormat* _ColumnFilter;
 }
 
-@property BOOL IncludeColumnNames;
-@property BOOL IncludeRowNames;
+@property (strong, nonatomic) STFilterFormat* RowFilter;
+@property (strong, nonatomic) STFilterFormat* ColumnFilter;
 
--(NSArray<NSString*>*)Format:(STTable*)tableData valueFormatter:(NSObject<STIValueFormatter>*)valueFormatter;
--(NSArray<NSString*>*)Format:(STTable*)tableData;
-
+-(STTableData*)Format:(STTable*)tableData valueFormatter:(NSObject<STIValueFormatter>*)valueFormatter;
+-(STTableData*)Format:(STTable*)tableData;
 
 
 //MARK: JSON

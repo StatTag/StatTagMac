@@ -9,7 +9,7 @@
 #import "StatTagShared.h"
 
 
-#import "StatTag.h"
+#import "StatTagFramework.h"
 #import "MainTabViewController.h"
 #import "ManageCodeFilesViewController.h"
 #import "SettingsViewController.h"

@@ -29,7 +29,7 @@
  @param @parameter: Optional - parameter to use with the specified action.
  @returns: The created GridDataItem that wraps and contains a CodeFileAction
  */
-+(STGridDataItem*)CreateActionItem:(NSString*)display action:(int)action parameter:(id)parameter;
++(STGridDataItem*)CreateActionItem:(NSString*)display action:(NSInteger)action parameter:(id)parameter;
 
 
 @end

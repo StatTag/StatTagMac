@@ -7,7 +7,7 @@
 //
 
 #import "STStatsManager.h"
-#import "StatTag.h"
+#import "StatTagFramework.h"
 #import "STDocumentManager.h"
 
 BOOL Globals_Application_ScreenUpdating = true;
@@ -21,7 +21,7 @@ BOOL Globals_Application_ScreenUpdating = true;
 @implementation STStatsManager
 
 
-const int RefreshStepInterval = 5;
+const NSInteger RefreshStepInterval = 5;
 @synthesize Manager = _Manager;
 
 
@@ -41,7 +41,7 @@ const int RefreshStepInterval = 5;
   @param filterMode: The type of filter to apply on the types of commands to execute
   @param tagsToRun: An optional list of tags to execute code for.  This is only applied when the filter mode is ParserFilterMode.TagList
 */
--(STStatsManagerExecuteResult*) ExecuteStatPackage:(STCodeFile*)file filterMode:(int)filterMode tagsToRun:(NSArray<STTag*>*)tagsToRun {
+-(STStatsManagerExecuteResult*) ExecuteStatPackage:(STCodeFile*)file filterMode:(NSInteger)filterMode tagsToRun:(NSArray<STTag*>*)tagsToRun {
   
   STStatsManagerExecuteResult* result = [[STStatsManagerExecuteResult alloc] init];
   result.Success = false;
@@ -73,7 +73,7 @@ const int RefreshStepInterval = 5;
     
     //C# apparently had this initially as an enumeration, then moved to index-based counting
     // not sure why, but following C#
-    for (int index = 0; index < [steps count]; index++) {
+    for (NSInteger index = 0; index < [steps count]; index++) {
       
       STExecutionStep* step = steps[index];
       
@@ -209,7 +209,7 @@ const int RefreshStepInterval = 5;
 -(STStatsManagerExecuteResult*) ExecuteStatPackage:(STCodeFile*)file {
   return [self ExecuteStatPackage:file filterMode:[STConstantsParserFilterMode ExcludeOnDemand] tagsToRun:nil];
 }
--(STStatsManagerExecuteResult*) ExecuteStatPackage:(STCodeFile*)file filterMode:(int)filterMode {
+-(STStatsManagerExecuteResult*) ExecuteStatPackage:(STCodeFile*)file filterMode:(NSInteger)filterMode {
   return [self ExecuteStatPackage:file filterMode:filterMode tagsToRun:nil];
 }
 

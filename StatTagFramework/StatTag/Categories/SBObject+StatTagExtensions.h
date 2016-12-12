@@ -17,7 +17,7 @@
  Since the objects don't really exist (properly as types) the way you think they would, you can't extend a "range" object - you have to extend the _scripting bridge_ object.  And, in practice, that's problematic since it's not only doesn't work all that well, but it's sort of a dangerous thing to do.
  
  */
-//#import <StatTag/StatTag.h>
+//#import <StatTag/StatTagFramework.h>
 //#import <ScriptingBridge/ScriptingBridge.h>
 //
 //@interface SBObject (StatTagExtensions)

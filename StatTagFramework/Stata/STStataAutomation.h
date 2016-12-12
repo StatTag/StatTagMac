@@ -18,9 +18,9 @@
   STBaseParserStata* Parser;
   NSMutableArray<NSString*>* OpenLogs;
   
-  const int StataHidden;
-  const int MinimizeStata;
-  const int ShowStata;
+  const NSInteger StataHidden;
+  const NSInteger MinimizeStata;
+  const NSInteger ShowStata;
 
   NSString* _AppBundleIdentifier;
 }

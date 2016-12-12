@@ -1,5 +1,5 @@
 //
-//  STFieldCreator.m
+//  STFieldGenerator.m
 //  StatTag
 //
 //  Created by Eric Whitley on 7/12/16.
@@ -22,10 +22,11 @@
 
  */
  
-#import "STFieldCreator.h"
-#import "StatTag.h"
+#import "STFieldGenerator.h"
+#import "StatTagFramework.h"
+#import "WordHelpers.h"
 
-@implementation STFieldCreator
+@implementation STFieldGenerator
 
 -(instancetype)init {
   self = [super init];
@@ -43,9 +44,34 @@
 }
 
 
--(void)offsetAllRanges:(NSMutableArray<STMSWord2011TextRange*>*)ranges EndsBy:(int)removeEnd {
+/**
+ Insert a StatTag nested field at the document range specified in the parameters.
+*/
++(void)GenerateField:(STMSWord2011TextRange*)range tagIdentifier:(NSString*)tagIdentifier displayValue:(NSString*)displayValue tag:(STFieldTag*)tag
+{
+  
+  //-(NSArray<STMSWord2011Field*>*)InsertField:(STMSWord2011TextRange*)range theString:(NSString*)theString fieldOpen:(NSString*)fieldOpen fieldClose:(NSString*)fieldClose
 
-  for (int index = 0; index < [ranges count] ; index++) {
+  //  InsertField(range, string.Format("{3}MacroButton {0} {1}{3}ADDIN {2}{4}{4}",
+  //Constants.FieldDetails.MacroButtonName,
+  //displayValue,
+  //tagIdentifier,
+  //FieldOpen,
+  //FieldClose));
+  NSArray<STMSWord2011Field*>* fields = [[self class] InsertField:range theString:[NSString stringWithFormat:@"%@MacroButton %@ %@%@ADDIN %@%@%@", [self FieldOpen], [STConstantsFieldDetails MacroButtonName], displayValue, [self FieldOpen], tagIdentifier, [self FieldClose], [self FieldClose] ]];
+  
+  STMSWord2011Field* dataField = [fields firstObject];
+  dataField.fieldText = [tag Serialize:nil];
+  
+  // This is a terrible hack, I know, but it's the only way I've found to get fields
+  // to appear correctly after doing this insert.
+  [WordHelpers toggleFieldCodesInRange:range];
+}
+
+
++(void)offsetAllRanges:(NSMutableArray<STMSWord2011TextRange*>*)ranges EndsBy:(NSInteger)removeEnd {
+
+  for (NSInteger index = 0; index < [ranges count] ; index++) {
     STMSWord2011TextRange* range = [ranges objectAtIndex:index];
     if(([range endOfContent] - removeEnd) > 0 && [range startOfContent] != [range endOfContent]) {
       //NSLog(@"OFFSETTING range -> ( %ld, %ld) content : %@", (long)[range startOfContent], (long)[range endOfContent], [range content]);
@@ -79,7 +105,7 @@
  @remark A solution for VBA has been taken from [this](http://stoptyping.co.uk/word/nested-fields-in-vba)
  article and adopted for C# by the author.
 */
--(NSArray<STMSWord2011Field*>*)InsertField:(STMSWord2011TextRange*)range theString:(NSString*)theString fieldOpen:(NSString*)fieldOpen fieldClose:(NSString*)fieldClose
++(NSArray<STMSWord2011Field*>*)InsertField:(STMSWord2011TextRange*)range theString:(NSString*)theString fieldOpen:(NSString*)fieldOpen fieldClose:(NSString*)fieldClose
 {
   
   NSCharacterSet *ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
@@ -121,14 +147,14 @@
   STMSWord2011TextRange* searchRange = [WordHelpers DuplicateRange:range];
   
   STMSWord2011TextRange* fieldRange = nil;
-  int loop = 0;
+  NSInteger loop = 0;
 
   while([searchRange startOfContent] != [searchRange endOfContent]) {
 
     loop = loop + 1;
 
-    STMSWord2011TextRange* nextOpen = [self FindNextOpen:[WordHelpers DuplicateRange:searchRange] text:fieldOpen];
-    STMSWord2011TextRange* nextClose = [self FindNextClose:[WordHelpers DuplicateRange:searchRange] text:fieldClose];
+    STMSWord2011TextRange* nextOpen = [[self class] FindNextOpen:[WordHelpers DuplicateRange:searchRange] text:fieldOpen];
+    STMSWord2011TextRange* nextClose = [[self class] FindNextClose:[WordHelpers DuplicateRange:searchRange] text:fieldClose];
 
     if(nextClose == nil) {
       break;
@@ -217,7 +243,7 @@
 
   
   // Move the current selection after all inserted fields.
-  int newPos = [fieldRange endOfContent] + [[fieldRange fields] count] + 1;
+  NSInteger newPos = [fieldRange endOfContent] + [[fieldRange fields] count] + 1;
   [WordHelpers setRange:&fieldRange Start:newPos end:newPos];
   
   [WordHelpers select:fieldRange];
@@ -230,13 +256,13 @@
   return fields;
   
 }
--(NSArray<STMSWord2011Field*>*)InsertField:(STMSWord2011TextRange*)range {
++(NSArray<STMSWord2011Field*>*)InsertField:(STMSWord2011TextRange*)range {
   return [self InsertField:range theString:[NSString stringWithFormat:@"%@%@", [[self class] FieldOpen], [[self class] FieldClose]] fieldOpen:[[self class] FieldOpen] fieldClose:[[self class] FieldClose]];
 }
--(NSArray<STMSWord2011Field*>*)InsertField:(STMSWord2011TextRange*)range theString:(NSString*)theString {
++(NSArray<STMSWord2011Field*>*)InsertField:(STMSWord2011TextRange*)range theString:(NSString*)theString {
   return [self InsertField:range theString:theString fieldOpen:[[self class]FieldOpen] fieldClose:[[self class]FieldClose]];
 }
--(NSArray<STMSWord2011Field*>*)InsertField:(STMSWord2011TextRange*)range theString:(NSString*)theString fieldOpen:(NSString*)fieldOpen {
++(NSArray<STMSWord2011Field*>*)InsertField:(STMSWord2011TextRange*)range theString:(NSString*)theString fieldOpen:(NSString*)fieldOpen {
   return [self InsertField:range theString:theString fieldOpen:fieldOpen fieldClose:[[self class]FieldClose]];
 }
 
@@ -251,11 +277,11 @@ Adds a new empty Word.Field to the specified Word.Range.
 
 @returns : The newly created Word.Field
 */
--(STMSWord2011Field*)InsertEmpty:(STMSWord2011TextRange*)range preserveFormatting:(BOOL)preserveFormatting {
-  STMSWord2011Field* result = [self AddFieldToRange:range type:STMSWord2011E183FieldEmpty preserveFormatting:preserveFormatting];
++(STMSWord2011Field*)InsertEmpty:(STMSWord2011TextRange*)range preserveFormatting:(BOOL)preserveFormatting {
+  STMSWord2011Field* result = [[self class] AddFieldToRange:range type:STMSWord2011E183FieldEmpty preserveFormatting:preserveFormatting];
   return result;
 }
--(STMSWord2011Field*)InsertEmpty:(STMSWord2011TextRange*)range {
++(STMSWord2011Field*)InsertEmpty:(STMSWord2011TextRange*)range {
   return [self InsertEmpty:range preserveFormatting:false];
 }
 
@@ -273,7 +299,7 @@ Adds a new empty Word.Field to the specified Word.Range.
 
  @remark: STMSWord2011E183 is equivalent to "WdFieldType"
  */
--(STMSWord2011Field*)AddFieldToRange:(STMSWord2011TextRange*)range type:(STMSWord2011E183)type preserveFormatting:(BOOL)preserveFormatting text:(NSString*)text {
++(STMSWord2011Field*)AddFieldToRange:(STMSWord2011TextRange*)range type:(STMSWord2011E183)type preserveFormatting:(BOOL)preserveFormatting text:(NSString*)text {
 
   //FIXME: this needs a lot of testing.
   // the original C# gets to use a simple "add" method (see below) to add the field and then get a handle bac to that same field. In our case, we can't quite do that. It _appears_ we can add a field using "createNewFieldTextRange..." and then maybe return the field from the range we just added it to - but this should _really_ be tested.
@@ -308,18 +334,18 @@ Adds a new empty Word.Field to the specified Word.Range.
   //  True to have the formatting that's applied to the field preserved during updates.
   
 }
--(STMSWord2011Field*)AddFieldToRange:(STMSWord2011TextRange*)range type:(STMSWord2011E183)type preserveFormatting:(BOOL)preserveFormatting {
++(STMSWord2011Field*)AddFieldToRange:(STMSWord2011TextRange*)range type:(STMSWord2011E183)type preserveFormatting:(BOOL)preserveFormatting {
   return [self AddFieldToRange:range type:type preserveFormatting:preserveFormatting text:nil];
 }
--(STMSWord2011Field*)AddFieldToRange:(STMSWord2011TextRange*)range type:(STMSWord2011E183)type {
++(STMSWord2011Field*)AddFieldToRange:(STMSWord2011TextRange*)range type:(STMSWord2011E183)type {
   return [self AddFieldToRange:range type:type preserveFormatting:false text:nil];
 }
 
 
 
 
--(STMSWord2011TextRange*)FindNextOpen:(STMSWord2011TextRange*)range text:(NSString*)text {
-  BOOL found = [self CreateFind:&range text:text];
++(STMSWord2011TextRange*)FindNextOpen:(STMSWord2011TextRange*)range text:(NSString*)text {
+  BOOL found = [[self class] CreateFind:&range text:text];
   STMSWord2011TextRange* result = [WordHelpers DuplicateRange:range];
 
   if(!found) {
@@ -330,7 +356,7 @@ Adds a new empty Word.Field to the specified Word.Range.
   return result;
 }
 
--(STMSWord2011TextRange*)FindNextClose:(STMSWord2011TextRange*)range text:(NSString*)text {
++(STMSWord2011TextRange*)FindNextClose:(STMSWord2011TextRange*)range text:(NSString*)text {
   //FIXME: review use of "duplicate" vs "copy" - unclear based on the C# API
   // API: https://msdn.microsoft.com/en-us/library/office/ff837543.aspx?f=255&MSPPError=-2147217396
   // Maybe? If this is really just a flat copy then this should work?
@@ -344,7 +370,7 @@ Adds a new empty Word.Field to the specified Word.Range.
 }
 
 //-(STMSWord2011Find*)CreateFind:(STMSWord2011TextRange*)range text:(NSString*)text {
--(BOOL)CreateFind:(STMSWord2011TextRange**)range text:(NSString*)text {
++(BOOL)CreateFind:(STMSWord2011TextRange**)range text:(NSString*)text {
   /*
    ** Really read this ***
    
@@ -360,8 +386,8 @@ Adds a new empty Word.Field to the specified Word.Range.
    
    1) it explodes, so you'd need to wrap it with try/catch
    2) the enumeration return isn't what's expected from the documentation - which is fine - but it returns..
-      "STMSWord2011EFRtTextRange" (int) or
-      "STMSWord2011EFRtInsertionPoint" (int)
+      "STMSWord2011EFRtTextRange" (NSInteger) or
+      "STMSWord2011EFRtInsertionPoint" (NSInteger)
      which don't help us
    3) the "found" property is completely empty - and that's what we actually need here...
 

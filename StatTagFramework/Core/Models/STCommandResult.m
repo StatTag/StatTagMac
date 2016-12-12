@@ -15,6 +15,7 @@
 @synthesize ValueResult = _ValueResult;
 @synthesize FigureResult = _FigureResult;
 @synthesize TableResult = _TableResult;
+@synthesize TableResultPromise = _TableResultPromise;
 
 -(BOOL)IsEmpty {
   NSCharacterSet *ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
@@ -22,6 +23,7 @@
       [[_ValueResult stringByTrimmingCharactersInSet: ws] length] == 0
       && [[_FigureResult stringByTrimmingCharactersInSet: ws] length] == 0
       && (_TableResult == nil || [_TableResult isEmpty])
+      && [[_TableResultPromise stringByTrimmingCharactersInSet: ws] length] <= 0
   );  
 }
 -(NSString*)ToString {
@@ -34,6 +36,9 @@
   }
   if(_TableResult != nil){
     return [_TableResult ToString];
+  }
+  if (_TableResultPromise != nil && [[_TableResultPromise stringByTrimmingCharactersInSet: ws] length] > 0) {
+    return [NSString stringWithFormat:@"Table promise: %@", _TableResultPromise];
   }
   return @"";
 }

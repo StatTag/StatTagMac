@@ -7,7 +7,7 @@
 //
 
 #import "UpdateOutputProgressViewController.h"
-#import "StatTag.h"
+#import "StatTagFramework.h"
 
 @interface UpdateOutputProgressViewController ()
 

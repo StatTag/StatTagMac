@@ -6,12 +6,12 @@
 //  Copyright © 2016 StatTag. All rights reserved.
 //
 
-#import "STValueGenerator.h"
+#import "STValueParameterGenerator.h"
 #import "STConstants.h"
 #import "STTag.h"
 #import "STValueFormat.h"
 
-@implementation STValueGenerator
+@implementation STValueParameterGenerator
 
 
 -(NSString*)CreateParameters:(STTag*)tag
@@ -55,7 +55,7 @@
 
 -(NSString*)CreatePercentageParameters:(STValueFormat*) format
 {
-  return [NSString stringWithFormat:@"%@=%d", [STConstantsValueParameters Decimals], [format DecimalPlaces]];
+  return [NSString stringWithFormat:@"%@=%ld", [STConstantsValueParameters Decimals], [format DecimalPlaces]];
 }
 
 -(NSString*)CreateDateTimeParameters:(STValueFormat*) format
@@ -76,7 +76,7 @@
 
 -(NSString*)CreateNumericParameters:(STValueFormat*) format
 {
-  return [NSString stringWithFormat:@"%@=%d, %@=%@",
+  return [NSString stringWithFormat:@"%@=%ld, %@=%@",
           [STConstantsValueParameters Decimals], [format DecimalPlaces],
           [STConstantsValueParameters UseThousands], [format UseThousands] ? @"True" : @"False"
           ];

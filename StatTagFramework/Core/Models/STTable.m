@@ -7,11 +7,10 @@
 //
 
 #import "STTable.h"
+#import "STTableData.h"
 
 @implementation STTable
 
-@synthesize RowNames = _RowNames;
-@synthesize ColumnNames = _ColumnNames;
 @synthesize RowSize = _RowSize;
 @synthesize ColumnSize = _ColumnSize;
 @synthesize Data = _Data; //type is double
@@ -20,23 +19,26 @@
 -(id)init {
   self = [super init];
   if(self) {
-    _RowNames = [[NSMutableArray alloc] init];
-    _ColumnNames = [[NSMutableArray alloc] init];
+    _Data = [[STTableData alloc] init];//[[NSMutableArray alloc] init];
   }
   return self;
 }
 
--(id)init:(NSArray <NSString *>*)rowNames columnNames:(NSArray <NSString *>*)columnNames rowSize:(int)rowSize columnSize:(int)columnSize data:(NSArray <NSNumber *>*)data {
+-(id)init:(NSInteger)rowSize columnSize:(NSInteger)columnSize data:(STTableData*)data {
   self = [super init];
   if(self) {
-    //note: original c# passes nil to the row/column name arrays if we send nil arguments
-    //originally I had changed this to init the arrays, but this causes issues later with format checks (see STTableFormat where it checks if row/column name arrays are nil
-    _RowNames = rowNames == nil ? nil : [[NSMutableArray alloc]initWithArray: rowNames];//[[NSMutableArray alloc] init];
-    _ColumnNames = columnNames == nil ? nil : [[NSMutableArray alloc]initWithArray: columnNames];//[[NSMutableArray alloc] init];
 
+    if ((data == nil && (rowSize * columnSize != 0))
+        || (data != nil
+            && ([data numRows] != rowSize
+                || [data numColumns] != columnSize)))
+    {
+      [NSException raise:@"The dimensions of the data do not match the row and column dimensions." format:@"The dimensions of the data do not match the row and column dimensions."];
+    }
+    
     _RowSize = rowSize;
     _ColumnSize = columnSize;
-    _Data = [[NSMutableArray alloc] initWithArray:data];
+    _Data = data;//[[NSMutableArray alloc] initWithArray:data];
   }
   return self;
 }
@@ -46,7 +48,25 @@
  @returns true if empty, false otherwise
  */
 -(BOOL)isEmpty {
-  return (_Data == nil || [_Data count] == 0 || _RowSize == 0 || _ColumnSize == 0);
+  return (_Data == nil || [_Data numRows] == 0 || _RowSize == 0 || _ColumnSize == 0);
+}
+
+
+/**
+ Our approach has been to sequentially number table cells, so this is used to pull out data at the appropriate 2D location.
+*/
++(NSString*)GetDataAtIndex:(STTableData*)data index:(NSInteger)index
+{
+  if (data == nil || index >= [data numItems])
+  {
+    return @"";
+  }
+  
+  return [data GetDataAtIndex:index];
+  
+  //NSInteger columns = [data numColumns];
+  //return [data valueAtRow:(index / columns) andColumn:(index % columns)];
+  //  return [[[data Data] objectAtIndex:(index / columns)] objectAtIndex:(index % columns)];
 }
 
 -(NSString*)ToString {
@@ -68,11 +88,11 @@
 //MARK: JSON
 -(NSDictionary *)toDictionary {
   NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];  
-  [dict setValue:[self RowNames] forKey:@"RowNames"];
-  [dict setValue:[self ColumnNames] forKey:@"ColumnNames"];
+  //[dict setValue:[self RowNames] forKey:@"RowNames"];
+  //[dict setValue:[self ColumnNames] forKey:@"ColumnNames"];
   [dict setValue:[NSNumber numberWithInteger:[self RowSize]] forKey:@"RowSize"];
   [dict setValue:[NSNumber numberWithInteger:[self ColumnSize]] forKey:@"ColumnSize"];
-  [dict setValue:[self Data] forKey:@"Data"];
+  [dict setValue:[[self Data] toDictionary] forKey:@"Data"];
   [dict setValue:[self FormattedCells] forKey:@"FormattedCells"];
   
   return dict;
@@ -80,13 +100,15 @@
 
 -(void)setWithDictionary:(NSDictionary*)dict {
   for (NSString* key in dict) {
-    
-//    if([key isEqualToString:@"RowSize"] || [key isEqualToString:@"ColumnSize"]) {
-//      int i = [[dict valueForKey:key] integerValue];
-//      [self setValue:@(i) forKey:key];
-//    } else {
+    if([key isEqualToString:@"Data"]) {
+      id aValue = [dict valueForKey:key];
+      NSDictionary *objDict = aValue;
+      if(objDict != nil) {
+        [self setValue:[[STTableData alloc] initWithDictionary:objDict] forKey:key];
+      }
+    } else {
       [self setValue:[dict valueForKey:key] forKey:key];
-//    }
+    }
   }
 }
 

@@ -16,7 +16,7 @@
 #import "STThisAddIn.h"
 #import "STMSWord2011.h"
 #import "AppDelegate.h"
-#import "StatTag.h"
+#import "StatTagFramework.h"
 
 #import "ManageCodeFilesViewController.h"
 #import "MainTabViewController.h"

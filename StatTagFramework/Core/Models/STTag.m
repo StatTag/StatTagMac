@@ -15,6 +15,8 @@
 #import "STCommandResult.h"
 #import "STFactories.h"
 #import "STTable.h"
+#import "STFilterFormat.h"
+
 
 @implementation STTag
 
@@ -411,6 +413,34 @@
   table.FormattedCells = [NSMutableArray arrayWithArray:[_TableFormat Format:table valueFormatter:[STFactories GetValueFormatter:_CodeFile]]];
 }
 
+/// Helper to be used for one particular dimension (row or column)
+/// </summary>
+/// <param name="originalDimension"></param>
+/// <param name="filter"></param>
+/// <returns></returns>
+-(NSInteger) GetDisplayDimension:(NSInteger)originalDimension filter:(STFilterFormat*)filter
+{
+  NSInteger dimension = originalDimension;
+  if (filter != nil && [filter Enabled])
+  {
+    if ([filter Type] != [STConstantsFilterType Exclude])
+    {
+      [NSException raise:@"Currently only the filter type is supported" format:@"Currently only the %@ filter type is supported", [STConstantsFilterType Exclude]];
+    }
+    NSArray<NSNumber*>* filterValue = [filter ExpandValue];
+    if (filterValue != nil)
+    {
+      // Take away the number of rows we are filtering out.  If it means we filter out more than we actually
+      // have, just make it 0.
+      dimension -= [filterValue count];
+      dimension = MAX(dimension, 0);
+    }
+  }
+  
+  return dimension;
+}
+
+
 /**
  Get the dimensions for the displayable table.  This factors in not only the data, but if column and
 row labels are included.
@@ -431,6 +461,7 @@ row labels are included.
   
   NSMutableArray<NSNumber*>* dimensions = [[NSMutableArray alloc] initWithObjects:[NSNumber numberWithInteger:[tableData RowSize]], [NSNumber numberWithInteger:[tableData ColumnSize]], nil];
   
+  /*
   if ([_TableFormat IncludeColumnNames] && [tableData ColumnNames] != nil)
   {
     dimensions[STConstantsDimensionIndex.Rows] = [NSNumber numberWithInteger:[dimensions[STConstantsDimensionIndex.Rows] integerValue] + 1];
@@ -442,6 +473,9 @@ row labels are included.
     dimensions[STConstantsDimensionIndex.Columns] = [NSNumber numberWithInteger:[dimensions[STConstantsDimensionIndex.Columns] integerValue] + 1];
     //dimensions[STConstantsDimensionIndex.Columns]++;
   }
+   */
+  
+  [dimensions setObject:[self GetDisplayDimension:[tableData RowSize] filter:[STTableFormat RowFilter]] atIndexedSubscript:0];
   
   return dimensions;
 }

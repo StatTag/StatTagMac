@@ -7,7 +7,7 @@
 //
 
 #import "STStataAutomation.h"
-#import "StatTag.h"
+#import "StatTagFramework.h"
 #import "STCocoaUtil.h"
 
 @implementation STStataAutomation
@@ -42,9 +42,9 @@ typedef NS_ENUM(NSInteger, ScalarType) {
   String = 2
 };
 
-const int StataHidden = 1;
-const int MinimizeStata = 2;
-const int ShowStata = 3;
+const NSInteger StataHidden = 1;
+const NSInteger MinimizeStata = 2;
+const NSInteger ShowStata = 3;
 
 //static STStataAutomation* sharedInstance = nil;
 //+ (instancetype)sharedInstance
@@ -245,8 +245,7 @@ const int ShowStata = 3;
 {
   NSString* matrixName = [Parser GetTableName:command];
   STTable* table = [[STTable alloc]
-                    init:[Application MatrixRowNames:command]
-                    columnNames:[Application MatrixColNames:command] rowSize:[Application MatrixRowDim:matrixName] columnSize:[Application MatrixColDim:matrixName] data:[self ProcessForMissingValues:[Application MatrixData:matrixName]]];
+                    init:[Application MatrixRowDim:matrixName] columnSize:[Application MatrixColDim:matrixName] data:[self ProcessForMissingValues:[Application MatrixData:matrixName]]];
   return table;
 }
 
@@ -262,7 +261,7 @@ const int ShowStata = 3;
   //FIXME: we can't do nilable fixed type arrays with NSNumber... so go back and review this.
   NSMutableArray* cleanedData = [[NSMutableArray alloc] initWithCapacity:[data count]];
   double missingValue = [Application UtilGetStMissingValue];
-  for(int index = 0; index < [data count]; index++) {
+  for(NSInteger index = 0; index < [data count]; index++) {
     [cleanedData addObject:([data[index]doubleValue] >= missingValue) ? [NSNull null] : data[index]];
   }
   return cleanedData;
@@ -286,7 +285,7 @@ const int ShowStata = 3;
     return result;
   }
   
-  int returnCode = [Application DoCommandAsync:command];
+  NSInteger returnCode = [Application DoCommandAsync:command];
   if(returnCode != 0) {
     @throw [NSException exceptionWithName:NSGenericException
                                    reason:[NSString stringWithFormat:@"There was an error while executing the Stata command: %@", command]

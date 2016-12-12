@@ -19,7 +19,7 @@
  */
 
 #import "TagEditorViewController.h"
-#import "StatTag.h"
+#import "StatTagFramework.h"
 #import "StatTagShared.h"
 #import "UIUtility.h"
 
@@ -52,6 +52,7 @@
 
 @synthesize instructionTitleText = _instructionTitleText;
 @synthesize allowedCommandsText = _allowedCommandsText;
+@synthesize editable = _editable;
 
 //@synthesize propertiesStackView = _propertiesStackView;
 
@@ -213,6 +214,8 @@ static void *TagTypeContext = &TagTypeContext;
       } else if([[[self tag] Type] isEqualToString: [STConstantsTagType Table]] ){
         [self UpdateForType:[[self tag] Type]];
       }
+      
+      
     } else {
       //probably a new tag
       _originalTag = nil;

@@ -19,7 +19,10 @@
 
 @implementation STFileHandler
 
-
++ (NSArray*) ReadAllLines:(NSURL*)filePath error:(NSError**)error {
+  STFileHandler* h = [[STFileHandler alloc] init];
+  return [h ReadAllLines:filePath error:error];
+}
 - (NSArray*) ReadAllLines:(NSURL*)filePath error:(NSError**)error {
   
   //it's possible we've got a URL w/o a file scheme (since we're setting so much with string vs. URL) - so we're going to see and try to set a file URL (which sets scheme)
@@ -39,6 +42,29 @@
   NSArray *stringArray = [fileString componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
   return stringArray;
 }
++ (NSString*) ReadAllLinesAsStringBlock:(NSURL*)filePath error:(NSError**)error {
+  STFileHandler* h = [[STFileHandler alloc] init];
+  return [h ReadAllLinesAsStringBlock:filePath error:error];
+}
+- (NSString*) ReadAllLinesAsStringBlock:(NSURL*)filePath error:(NSError**)error {
+  
+  //it's possible we've got a URL w/o a file scheme (since we're setting so much with string vs. URL) - so we're going to see and try to set a file URL (which sets scheme)
+  NSURL* urlWithScheme = [NSURL fileURLWithPath:[filePath path]];
+  
+  BOOL isDir;
+  if (![[NSFileManager defaultManager] fileExistsAtPath:[urlWithScheme path] isDirectory:&isDir]) {
+    NSDictionary *userInfo = @{
+                               NSLocalizedDescriptionKey: NSLocalizedString(@"Could not read file.", nil),
+                               NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"There was an issue reading the file.", nil),
+                               NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Is this a valid script file?", nil)
+                               };
+    *error = [NSError errorWithDomain:STStatTagErrorDomain code:NSURLErrorFileDoesNotExist userInfo:userInfo];
+  }
+  
+  NSString *fileString = [NSString stringWithContentsOfURL:urlWithScheme encoding:NSUTF8StringEncoding error:error];
+  return fileString;
+}
+
 - (BOOL) Exists:(NSURL*)filePath error:(NSError**)error {
   NSLog(@"%@ path = %@", NSStringFromSelector(_cmd), [filePath path]);
   
@@ -143,5 +169,37 @@
             error:error];
   NSLog(@"%@ success = %hhd", NSStringFromSelector(_cmd), success);
 }
+
+
+- (void) AppendAllText:(NSURL*)filePath withContent: (NSString*)content error:(NSError**)error
+{
+  NSError* fileErr;
+  if([self Exists:filePath error:&fileErr] && content != nil && [content length] > 0)
+  {
+    NSFileHandle *fileHandle = [self OpenWrite:filePath];
+    if(fileHandle)
+    {
+      [fileHandle seekToEndOfFile];
+      [fileHandle writeData:[content dataUsingEncoding:NSUTF8StringEncoding]];
+      [fileHandle closeFile];
+    }
+  }
+}
+
+//If you want to know more about...
+//NSFileManager -> http://nshipster.com/nsfilemanager/
+//NSFileHandle -> http://www.techotopia.com/index.php/Working_with_Files_in_Objective-C#Copying_a_File
+-(NSFileHandle*)OpenWrite:(NSURL*)filePath
+{
+  //return File.OpenWrite(filePath);
+  NSError* fileErr;
+  if([self Exists:filePath error:&fileErr])
+  {
+    NSFileHandle *fileHandle = [NSFileHandle fileHandleForWritingAtPath:[filePath path]];
+    return fileHandle;
+  }
+  return nil;
+}
+
 
 @end

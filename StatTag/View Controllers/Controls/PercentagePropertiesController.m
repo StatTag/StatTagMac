@@ -8,7 +8,7 @@
 
 #import "PercentagePropertiesController.h"
 
-#import "StatTag.h"
+#import "StatTagFramework.h"
 #import "ViewUtils.h"
 
 @interface PercentagePropertiesController ()

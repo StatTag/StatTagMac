@@ -7,7 +7,7 @@
 //
 
 #import "TagBasicPropertiesController.h"
-#import "StatTag.h"
+#import "StatTagFramework.h"
 
 @interface TagBasicPropertiesController ()
 

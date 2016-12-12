@@ -7,7 +7,7 @@
 //
 
 #import "STUIUtility.h"
-#import "StatTag.h"
+#import "StatTagFramework.h"
 #import <Cocoa/Cocoa.h>
 
 @implementation STUIUtility

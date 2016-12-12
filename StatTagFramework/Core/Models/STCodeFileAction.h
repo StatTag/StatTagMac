@@ -15,7 +15,7 @@
  */
 @interface STCodeFileAction : NSObject <STJSONAble> {
   NSString* _Label;
-  int _Action;
+  NSInteger _Action;
   id _Parameter;
 }
 
@@ -26,7 +26,7 @@
 /**
  @brief The action that should be performed, from Constants.CodeFileActionTask
  */
-@property int Action;
+@property NSInteger Action;
 /**
  @brief An optional parameter associated with an action.  For example, linking to a new file will
         specify the file to link to as the parameter.

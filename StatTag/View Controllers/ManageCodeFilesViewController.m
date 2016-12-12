@@ -7,7 +7,7 @@
 //
 
 #import "ManageCodeFilesViewController.h"
-#import "StatTag.h"
+#import "StatTagFramework.h"
 #import "FileMonitor.h"
 #import "StatTagShared.h"
 #import "STDocumentManager+FileMonitor.h"

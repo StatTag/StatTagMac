@@ -8,7 +8,7 @@
 
 #import "UpdateOutputViewController.h"
 
-#import "StatTag.h"
+#import "StatTagFramework.h"
 #import "StatTagShared.h"
 #import "UpdateOutputProgressViewController.h"
 #import "TagEditorViewController.h"

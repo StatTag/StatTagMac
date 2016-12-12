@@ -13,7 +13,7 @@
 
 @interface STValueFormat : NSObject <NSCopying, STJSONAble> {
   NSString* _FormatType;
-  int _DecimalPlaces;
+  NSInteger _DecimalPlaces;
   BOOL _UseThousands;
   NSString* _DateFormat;
   NSString* _TimeFormat;
@@ -21,7 +21,7 @@
 }
 
 @property (copy, nonatomic) NSString* FormatType;
-@property int DecimalPlaces;
+@property NSInteger DecimalPlaces;
 @property BOOL UseThousands;
 @property (copy, nonatomic) NSString* DateFormat;
 @property (copy, nonatomic) NSString* TimeFormat;
@@ -44,7 +44,7 @@
  @param value The string to be repeated
  @param count The number of times to repeat the value
  */
-+(NSString*)Repeat:(NSString*)value count:(int)count;
++(NSString*)Repeat:(NSString*)value count:(NSInteger)count;
 
 
 

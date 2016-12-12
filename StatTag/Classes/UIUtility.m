@@ -7,7 +7,7 @@
 //
 
 #import "UIUtility.h"
-#import <StatTagFramework/StatTag.h>
+#import <StatTagFramework/StatTagFramework.h>
 
 @implementation UIUtility
 

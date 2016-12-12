@@ -58,6 +58,8 @@ extern NSString *const STStatTagErrorDomain;
 +(NSString*)SASFilter;
 +(NSString*)AllLabel;
 +(NSString*)AllFilter;
++(NSString*)SupportedLabel;
++(NSString*)SupportedFileFilters;
 +(NSString*)FormatForOpenFileDialog;
 @end
 
@@ -72,6 +74,8 @@ extern NSString *const STStatTagErrorDomain;
 
 @interface STConstantsReservedCharacters : NSObject
 +(NSString*)TagTableCellDelimiter;
++(NSString*)ListDelimiter;
++(NSString*)RangeDelimiter;
 @end
 
 @interface STConstantsFieldDetails : NSObject
@@ -97,13 +101,19 @@ extern NSString *const STStatTagErrorDomain;
 @end
 
 @interface STConstantsTableParameters : NSObject
-+(NSString*)ColumnNames;
-+(NSString*)RowNames;
+//+(NSString*)ColumnNames;
+//+(NSString*)RowNames;
++(NSString*) FilterEnabled;
++(NSString*) FilterType;
++(NSString*) FilterValue;
 @end
 
 @interface STConstantsTableParameterDefaults : NSObject
-+(BOOL)ColumnNames;
-+(BOOL)RowNames;
+//+(BOOL)ColumnNames;
+//+(BOOL)RowNames;
++(BOOL) FilterEnabled;
++(NSString*) FilterType;
++(NSString*) FilterValue;
 @end
 
 @interface STConstantsValueParameterDefaults : NSObject
@@ -116,6 +126,12 @@ extern NSString *const STStatTagErrorDomain;
 +(NSString*)SAS;
 @end
 
+@interface STConstantsCodeFileCommentSuffix : NSObject
++(NSString*)Default;
++(NSString*)SAS;
+@end
+
+
 @interface STConstantsTagTags : NSObject
 +(NSString*)StartTag;
 +(NSString*)EndTag;
@@ -125,14 +141,14 @@ extern NSString *const STStatTagErrorDomain;
 @end
 
 @interface STConstantsParserFilterMode : NSObject
-+(int)IncludeAll;
-+(int)ExcludeOnDemand;
-+(int)TagList;
++(NSInteger)IncludeAll;
++(NSInteger)ExcludeOnDemand;
++(NSInteger)TagList;
 @end
 
 @interface STConstantsExecutionStepType : NSObject
-+(int)CodeBlock;
-+(int)Tag;
++(NSInteger)CodeBlock;
++(NSInteger)Tag;
 @end
 
 @interface STConstantsDateFormats : NSObject
@@ -148,15 +164,24 @@ extern NSString *const STStatTagErrorDomain;
 @end
 
 @interface STConstantsDimensionIndex : NSObject
-+(int)Rows;
-+(int)Columns;
++(NSInteger)Rows;
++(NSInteger)Columns;
 @end
 
 @interface STConstantsCodeFileActionTask : NSObject
-+(int)NoAction;
-+(int)ChangeFile;
-+(int)RemoveTags;
-+(int)ReAddFile;
-+(int)SelectFile;
++(NSInteger)NoAction;
++(NSInteger)ChangeFile;
++(NSInteger)RemoveTags;
++(NSInteger)ReAddFile;
++(NSInteger)SelectFile;
 @end
 
+@interface STConstantsFilterPrefix : NSObject
++(NSString*)Row;
++(NSString*)Column;
+@end
+
+@interface STConstantsFilterType : NSObject
++(NSString*)Exclude;
++(NSString*)Include;
+@end

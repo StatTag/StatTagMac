@@ -10,15 +10,16 @@
 #import <XCTest/XCTest.h>
 #import "STFileHandler.h"
 
-@interface StatTagModelFileHandlerTests : XCTestCase
+@interface StatTagModelFileHandlerTests : XCTestCase {
+  NSBundle *bundle;
+  NSURL *sourceFileUrl;
+  NSURL *destFileUrl;
+}
 
 @end
 
 @implementation StatTagModelFileHandlerTests
 
-NSBundle *bundle;
-NSURL *sourceFileUrl;
-NSURL *destFileUrl;
 
 
 - (void)setUp {
@@ -27,11 +28,11 @@ NSURL *destFileUrl;
   bundle = [NSBundle bundleForClass:[self class]];
   
   NSString *sourceFilePath = [bundle pathForResource:@"TestSourceTextFile" ofType:@"txt"];
-  sourceFileUrl = [[NSURL alloc] initWithString:sourceFilePath];
+  sourceFileUrl = [[NSURL alloc] initFileURLWithPath:sourceFilePath];
   NSLog(@"Setup sourceFileUrl: %@", [sourceFileUrl path]);
   
   NSString *destFilePath = [bundle pathForResource:@"TestDestinationTextFile" ofType:@"txt"];
-  destFileUrl = [[NSURL alloc] initWithString:destFilePath];
+  destFileUrl = [[NSURL alloc] initFileURLWithPath:destFilePath];
   NSLog(@"Setup destFileUrl: %@", [destFileUrl path]);
   [self resetDestinationFile];
   

@@ -12,7 +12,7 @@
 @class STTag;
 @class STValueFormat;
 
-@interface STValueGenerator : STBaseParameterGenerator
+@interface STValueParameterGenerator : STBaseParameterGenerator
 
 -(NSString*)CreateParameters:(STTag*)tag;
 -(NSString*)CreateValueParameters:(STTag*)tag;

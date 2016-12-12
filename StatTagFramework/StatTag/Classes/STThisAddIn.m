@@ -63,9 +63,9 @@
       
       NSArray* versionParts = [[_Application applicationVersion] componentsSeparatedByString:@"."];
       if(versionParts.count > 0) {
-        _applicationVersion = [NSNumber numberWithInt:[[versionParts firstObject] intValue]];
+        _applicationVersion = [NSNumber numberWithInteger:[[versionParts firstObject] intValue]];
       } else {
-        _applicationVersion = [NSNumber numberWithInt:0];
+        _applicationVersion = [NSNumber numberWithInteger:0];
       }
       
     }

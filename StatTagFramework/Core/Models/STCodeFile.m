@@ -444,10 +444,10 @@ the cached results in another tag.
   for(STTag* otherTag in _Tags){
     // Tags can't overlap, so we can simply check for the start after the end.
     if([otherTag LineStart] > [tag LineEnd]) {
-      int _lineStart = [[otherTag LineStart] integerValue] -2;
+      NSInteger _lineStart = [[otherTag LineStart] integerValue] -2;
       otherTag.LineStart = [NSNumber numberWithInteger:_lineStart];
       
-      int _lineEnd = [[otherTag LineEnd] integerValue] -2;
+      NSInteger _lineEnd = [[otherTag LineEnd] integerValue] -2;
       otherTag.LineEnd = [NSNumber numberWithInteger:_lineEnd];
     }
   }

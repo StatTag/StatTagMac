@@ -16,3 +16,15 @@
 
 typedef NSMutableDictionary<STTag*, NSArray<STTag*>*> STDuplicateTagResults;
 
+/*
+NOTE: this is different from the C#
+ 
+ StatTag.Core.Models.DuplicateTagResults -> is a class
+
+ We're using a typedef (which is how we had it originally - prior to the December, 2016 code update)
+ 
+ [Serializable]
+ public class DuplicateTagResults : Dictionary<CodeFile, Dictionary<Tag, List<Tag>>>
+ {
+ }
+*/

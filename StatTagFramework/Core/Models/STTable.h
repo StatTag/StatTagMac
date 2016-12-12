@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "STJSONable.h"
 #import "STConstants.h"
-
+@class STTableData;
 
 /**
   A table is a generic representation of a matrix, vector, list, etc. from different
@@ -17,23 +17,25 @@
   package representations, but is not necessarily an optimized view of the data.
  */
 @interface STTable : NSObject<STJSONAble> {
-  NSMutableArray<NSString*>* _RowNames;
-  NSMutableArray<NSString*>* _ColumnNames;
-  int _RowSize;
-  int _ColumnSize;
-  NSMutableArray<NSNumber*>* _Data; //type is double
-  NSMutableArray<NSString*>* _FormattedCells;
+  NSInteger _RowSize;
+  NSInteger _ColumnSize;
+  STTableData* _Data; //type is double
+  STTableData* _FormattedCells;
 }
 
-@property (strong, nonatomic) NSMutableArray<NSString*>* RowNames;
-@property (strong, nonatomic) NSMutableArray<NSString*>* ColumnNames;
-@property int RowSize;
-@property int ColumnSize;
-@property (strong, nonatomic) NSMutableArray<NSNumber*>* Data; //type is double
-@property (strong, nonatomic) NSMutableArray<NSString*>* FormattedCells;
+@property NSInteger RowSize;
+@property NSInteger ColumnSize;
+@property (strong, nonatomic) STTableData* Data; //type is double
+
+/**
+ The formatted cells will be filled for all values in the Data array (meaning, these
+ two collections will always be the same size).  If the user chooses to filter out
+ rows or columns, they will still be present in this collection.
+ */
+@property (strong, nonatomic) STTableData* FormattedCells;
 
 -(id)init;
--(id)init:(NSArray <NSString *>*)rowNames columnNames:(NSArray <NSString *>*)columnNames rowSize:(int)rowSize columnSize:(int)columnSize data:(NSArray <NSNumber *>*)data;
+-(id)init:(NSInteger)rowSize columnSize:(NSInteger)columnSize data:(NSArray<NSArray<NSString*>*>*)data;
 
 -(BOOL)isEmpty;
 -(NSString*)ToString; //used by STTableFormat

@@ -82,7 +82,7 @@
   return [self Format:value valueFormatter:nil];
 }
 
-+(NSString*)Repeat:(NSString*)value count:(int)count {
++(NSString*)Repeat:(NSString*)value count:(NSInteger)count {
   if(value != nil) {
     return [@"" stringByPaddingToLength:(count * [value length]) withString:value startingAtIndex:0];
   }
@@ -205,14 +205,14 @@
 
 //MARK: equality
 - (NSUInteger)hash {
-  int hashCode = (_FormatType != nil ? [_FormatType hash] : 0);
+  NSInteger hashCode = (_FormatType != nil ? [_FormatType hash] : 0);
   hashCode = (hashCode*397) ^ _DecimalPlaces;
   hashCode = (hashCode*397) ^ _UseThousands;
   hashCode = (hashCode*397) ^ (_DateFormat != nil ? [_DateFormat hash] : 0);
   hashCode = (hashCode*397) ^ (_TimeFormat != nil ? [_TimeFormat hash] : 0);
   hashCode = (hashCode*397) ^ (_AllowInvalidTypes ? 1 : 0);
   
-  return (NSUInteger)abs(hashCode);
+  return (NSUInteger)labs(hashCode);
 }
 
 - (BOOL)isEqual:(id)object

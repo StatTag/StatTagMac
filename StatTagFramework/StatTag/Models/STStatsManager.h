@@ -45,8 +45,8 @@
 
 -(instancetype)init:(STDocumentManager*)manager;
 
--(STStatsManagerExecuteResult*) ExecuteStatPackage:(STCodeFile*)file filterMode:(int)filterMode tagsToRun:(NSArray<STTag*>*)tagsToRun;
--(STStatsManagerExecuteResult*) ExecuteStatPackage:(STCodeFile*)file filterMode:(int)filterMode;
+-(STStatsManagerExecuteResult*) ExecuteStatPackage:(STCodeFile*)file filterMode:(NSInteger)filterMode tagsToRun:(NSArray<STTag*>*)tagsToRun;
+-(STStatsManagerExecuteResult*) ExecuteStatPackage:(STCodeFile*)file filterMode:(NSInteger)filterMode;
 -(STStatsManagerExecuteResult*) ExecuteStatPackage:(STCodeFile*)file;
 
 @end

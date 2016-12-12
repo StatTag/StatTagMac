@@ -8,7 +8,7 @@
 
 #import <XCTest/XCTest.h>
 //#import "STCodeFile.h"
-#import "StatTag.h"
+#import "StatTagFramework.h"
 #import "MockIFileHandler.h"
 #import <OCMock/OCMock.h>
 

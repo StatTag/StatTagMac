@@ -8,7 +8,7 @@
 
 #import <XCTest/XCTest.h>
 #import "ObjCPortingScratchPad.h"
-#import "StatTag.h"
+#import "StatTagFramework.h"
 
 @interface StatTagObjCPortingTests : XCTestCase
 

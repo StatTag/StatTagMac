@@ -21,7 +21,7 @@ within the table.</remarks>
 
  */
 @interface STFieldTag : STTag {
-  NSNumber* _TableCellIndex; //nil-able int value
+  NSNumber* _TableCellIndex; //nil-able NSInteger value
   NSString* _CodeFilePath;
   NSURL* _CodeFilePathURL;
 }

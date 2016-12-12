@@ -13,7 +13,7 @@
  */
 
 #import <XCTest/XCTest.h>
-#import "StatTag.h"
+#import "StatTagFramework.h"
 
 @interface StatTagWord2011AutomationTests : XCTestCase {
   STMSWord2011Application* app;

@@ -11,7 +11,7 @@
  */
 
 #import "SettingsViewController.h"
-#import "StatTag.h"
+#import "StatTagFramework.h"
 #import "StatTagShared.h"
 
 @interface SettingsViewController ()

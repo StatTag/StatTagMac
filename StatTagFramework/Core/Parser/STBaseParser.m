@@ -74,10 +74,10 @@
 -(NSArray<STTag*>*)Parse:(STCodeFile*)file  {
   return [self Parse:file filterMode:[STConstantsParserFilterMode IncludeAll] tagsToRun:nil];
 }
--(NSArray<STTag*>*)Parse:(STCodeFile*)file filterMode:(int)filterMode {
+-(NSArray<STTag*>*)Parse:(STCodeFile*)file filterMode:(NSInteger)filterMode {
   return [self Parse:file filterMode:filterMode tagsToRun:nil];
 }
--(NSArray<STTag*>*)Parse:(STCodeFile*)file filterMode:(int)filterMode tagsToRun:(NSArray<STTag*>*)tagsToRun {
+-(NSArray<STTag*>*)Parse:(STCodeFile*)file filterMode:(NSInteger)filterMode tagsToRun:(NSArray<STTag*>*)tagsToRun {
   
   [self SetupRegEx];
   
@@ -94,11 +94,11 @@
   
   NSNumber *startIndex;
   //http://stackoverflow.com/questions/895495/how-do-i-test-if-a-primitive-in-objective-c-is-nil
-  //NSNumber *num = [NSNumber numberWithInt:0];
+  //NSNumber *num = [NSNumber numberWithInteger:0];
   //[num intValue]
   
   STTag *tag;
-  for (int index = 0; index < [lines count]; index++) {
+  for (NSInteger index = 0; index < [lines count]; index++) {
 
     NSString *line = [[lines objectAtIndex:index] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     
@@ -152,10 +152,10 @@
 -(NSArray<STExecutionStep*>*)GetExecutionSteps:(STCodeFile*)file{
   return [self GetExecutionSteps:file filterMode:[STConstantsParserFilterMode IncludeAll] tagsToRun:nil];
 }
--(NSArray<STExecutionStep*>*)GetExecutionSteps:(STCodeFile*)file filterMode:(int)filterMode{
+-(NSArray<STExecutionStep*>*)GetExecutionSteps:(STCodeFile*)file filterMode:(NSInteger)filterMode{
   return [self GetExecutionSteps:file filterMode:filterMode tagsToRun:nil];
 }
--(NSArray<STExecutionStep*>*)GetExecutionSteps:(STCodeFile*)file filterMode:(int)filterMode tagsToRun:(NSArray<STTag*>*)tagsToRun {
+-(NSArray<STExecutionStep*>*)GetExecutionSteps:(STCodeFile*)file filterMode:(NSInteger)filterMode tagsToRun:(NSArray<STTag*>*)tagsToRun {
   
   NSMutableArray<STExecutionStep*> *executionSteps = [[NSMutableArray alloc]init];
   NSMutableArray<NSString*> *lines = [[NSMutableArray alloc] initWithArray:[self PreProcessContent:[file LoadFileContent]]];
@@ -168,7 +168,7 @@
   BOOL isSkipping = NO;
   STExecutionStep *step;
 
-  for (int index = 0; index < [lines count]; index++)
+  for (NSInteger index = 0; index < [lines count]; index++)
   {
     NSString *line = [[lines objectAtIndex:index] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     

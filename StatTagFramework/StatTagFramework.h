@@ -1,5 +1,5 @@
 //
-//  StatTag.h
+//  StatTagFramework.h
 //  StatTag
 //
 //  Created by Eric Whitley on 6/13/16.
@@ -42,7 +42,7 @@ FOUNDATION_EXPORT const unsigned char StatTagVersionString[];
 #import <StatTagFramework/STBaseManager.h>
 #import <StatTagFramework/STDocumentManager.h>
 #import <StatTagFramework/STDuplicateTagResults.h>
-#import <StatTagFramework/STFieldCreator.h>
+#import <StatTagFramework/STFieldGenerator.h>
 #import <StatTagFramework/STGridDataItem.h>
 #import <StatTagFramework/STProperties.h>
 #import <StatTagFramework/STPropertiesManager.h>
@@ -50,6 +50,8 @@ FOUNDATION_EXPORT const unsigned char StatTagVersionString[];
 #import <StatTagFramework/STStatsManager.h>
 #import <StatTagFramework/STTagManager.h>
 #import <StatTagFramework/STLogManager.h>
+#import <StatTagFramework/STCSVToTable.h>
+#import <StatTagFramework/STFilterFormat.h>
 
 
 #import <StatTagFramework/STUIUtility.h>
@@ -77,14 +79,17 @@ FOUNDATION_EXPORT const unsigned char StatTagVersionString[];
 #import <StatTagFramework/STFigureGenerator.h>
 #import <StatTagFramework/STIGenerator.h>
 #import <StatTagFramework/STStataBaseGenerator.h>
-#import <StatTagFramework/STTableGenerator.h>
-#import <StatTagFramework/STValueGenerator.h>
+#import <StatTagFramework/STTableParameterGenerator.h>
+#import <StatTagFramework/STValueParameterGenerator.h>
 
 //--Interfaces
 #import <StatTagFramework/STJSONAble.h>
 #import <StatTagFramework/STIFileHandler.h>
 #import <StatTagFramework/STIResultCommandFormatter.h>
 #import <StatTagFramework/STIResultCommandList.h>
+#import <StatTagFramework/STICodeFileParser.h>
+#import <StatTagFramework/STIStatAutomation.h>
+
 
 //--Models
 #import <StatTagFramework/STCodeFile.h>
@@ -115,6 +120,7 @@ FOUNDATION_EXPORT const unsigned char StatTagVersionString[];
 #import <StatTagFramework/STJSONUtility.h>
 #import <StatTagFramework/STTagUtil.h>
 #import <StatTagFramework/STGeneralUtil.h>
+#import <StatTagFramework/STTableUtil.h>
 
 
 //--ValueFormatter

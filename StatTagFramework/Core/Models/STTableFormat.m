@@ -10,12 +10,13 @@
 #import "STTable.h"
 #import "STIValueFormatter.h"
 #import "STBaseValueFormatter.h"
-
+#import "STFilterFormat.h"
+#import "STTableData.h"
 
 @implementation STTableFormat
 
-@synthesize IncludeColumnNames = _IncludeColumnNames;
-@synthesize IncludeRowNames = _IncludeRowNames;
+@synthesize RowFilter = _RowFilter;
+@synthesize ColumnFilter = _ColumnFilter;
 
 
 //MARK: copying
@@ -24,46 +25,73 @@
 {
   STTableFormat *format = [[[self class] allocWithZone:zone] init];//[[STTableFormat alloc] init];
   
-  format.IncludeColumnNames = _IncludeColumnNames;
-  format.IncludeRowNames = _IncludeRowNames;
-  
+  format.RowFilter = [_RowFilter copyWithZone: zone];
+  format.ColumnFilter = [_ColumnFilter copyWithZone: zone];
+
   return format;
+}
+
+-(instancetype) init
+{
+  self = [super init];
+  if(self)
+  {
+    _RowFilter = [[STFilterFormat alloc] initWithPrefix:[STConstantsFilterPrefix Row]];
+    _ColumnFilter = [[STFilterFormat alloc] initWithPrefix:[STConstantsFilterPrefix Column]];
+  }
+  return self;
 }
 
 //This is going to start out assuming left to right filling.  In the future
 //this will have different fill options.
--(NSArray<NSString*>*)Format:(STTable*)tableData valueFormatter:(NSObject<STIValueFormatter>*)valueFormatter {
+-(STTableData*)Format:(STTable*)tableData valueFormatter:(NSObject<STIValueFormatter>*)valueFormatter {
   
   if(valueFormatter == nil) {
     valueFormatter = [[STBaseValueFormatter alloc] init];
   }
   
-  NSMutableArray<NSString*> *formattedResults = [[NSMutableArray<NSString*> alloc] init];
   
   if (tableData == nil || [tableData Data] == nil)
   {
-    return formattedResults;
+    return [[STTableData alloc] init];
   }
 
-  BOOL canIncludeColumnNames = (_IncludeColumnNames && [tableData ColumnNames] != nil && [[tableData ColumnNames] count] > 0);
+//  BOOL canIncludeColumnNames = (_IncludeColumnNames && [tableData ColumnNames] != nil && [[tableData ColumnNames] count] > 0);
+//
+//  if (canIncludeColumnNames)
+//  {
+//    [formattedResults addObjectsFromArray:[tableData ColumnNames]];
+//  }
+//
+//  BOOL canIncludeRowNames = (_IncludeRowNames && [tableData RowNames] != nil && [[tableData RowNames] count] > 0);
 
-  if (canIncludeColumnNames)
+  //var formattedResults = new string[tableData.RowSize, tableData.ColumnSize];
+  STTableData* formattedResults = [[STTableData alloc] init];
+  
+  for (NSInteger row = 0; row < [tableData RowSize]; row++)
   {
-    [formattedResults addObjectsFromArray:[tableData ColumnNames]];
-  }
+//    if (canIncludeRowNames)
+//    {
+//      [formattedResults addObject:[tableData RowNames][rowIndex]];
+//    }
+    //NSMutableArray<NSString*>* inner = [[NSMutableArray<NSString*> alloc] init];
+    for (NSInteger column = 0; column < tableData.ColumnSize; column++)
+    {
+      // If we are not filtering, and the first cell is blank, don't finalize it.  We purposely want to
+      // allow that cell to have an empty string (not an empty placeholder value) to account for the
+      // intersection of row and column names.
+      if (row == 0 && column == 0 && ![[self RowFilter] Enabled] && ![[self ColumnFilter] Enabled])
+      {
+        
+        [formattedResults addValue: [[tableData Data] valueAtRow:row andColumn:column] atRow:row andColumn:column];
+        continue;
+      }
 
-  BOOL canIncludeRowNames = (_IncludeRowNames && [tableData RowNames] != nil && [[tableData RowNames] count] > 0);
-  for (int rowIndex = 0; rowIndex < [tableData RowSize]; rowIndex++)
-  {
-    if (canIncludeRowNames)
-    {
-      [formattedResults addObject:[tableData RowNames][rowIndex]];
-    }
-    for (int columnIndex = 0; columnIndex < tableData.ColumnSize; columnIndex++)
-    {
-      int index = (rowIndex * tableData.ColumnSize) + columnIndex;
-      //NOTE: we can send in [NSNull null] - if that happens, do an extra check and replace with empty string - otherwise, we get the string literal "<null>"
-      [formattedResults addObject:[NSString stringWithFormat:@"%@", ([[tableData Data][index] isEqual:[NSNull null]] ? @"" : [tableData Data][index])]];
+      [formattedResults addValue: [valueFormatter Finalize:[[tableData Data] valueAtRow:row andColumn:column]] atRow:row andColumn:column];
+
+//      NSInteger index = (rowIndex * tableData.ColumnSize) + columnIndex;
+//      //NOTE: we can send in [NSNull null] - if that happens, do an extra check and replace with empty string - otherwise, we get the string literal "<null>"
+//      [formattedResults addObject:[NSString stringWithFormat:@"%@", ([[tableData Data][index] isEqual:[NSNull null]] ? @"" : [tableData Data][index])]];
     }
   }
 
@@ -76,23 +104,23 @@
         NSLog(@"fr (finalized): %@", fr);
       }  
    */
-  for(int i = 0; i < [formattedResults count]; i++) {
-    NSString* fr = [valueFormatter Finalize:[formattedResults objectAtIndex:i]];
-    [formattedResults replaceObjectAtIndex:i withObject:fr];
-  }
+//  for(NSInteger i = 0; i < [formattedResults count]; i++) {
+//    NSString* fr = [valueFormatter Finalize:[formattedResults objectAtIndex:i]];
+//    [formattedResults replaceObjectAtIndex:i withObject:fr];
+//  }
 
   // If we have rows and columns, we want to include a blank first value so
   // it fits nicely into an N x M table.
   // Note that we do NOT use the valueFormatter here.  We absolutely want this to
   // be blank, so we don't touch it.
-  if (canIncludeColumnNames && canIncludeRowNames && [formattedResults count] > 0)
-  {
-    [formattedResults insertObject:@"" atIndex:0];
-  }
+//  if (canIncludeColumnNames && canIncludeRowNames && [formattedResults count] > 0)
+//  {
+//    [formattedResults insertObject:@"" atIndex:0];
+//  }
   
   return formattedResults;  
 }
--(NSArray<NSString*>*)Format:(STTable*)tableData {
+-(STTableData*)Format:(STTable*)tableData {
   return [self Format:tableData valueFormatter:nil];
 }
 
@@ -103,8 +131,8 @@
 //NOTE: go back later and figure out if/how the bulk of this can be centralized in some sort of generic or category (if possible)
 -(NSDictionary *)toDictionary {
   NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
-  [dict setValue:@([[NSNumber numberWithInteger:[self IncludeColumnNames]] boolValue]) forKey:@"IncludeColumnNames"];
-  [dict setValue:@([[NSNumber numberWithInteger:[self IncludeRowNames]] boolValue]) forKey:@"IncludeRowNames"];
+  [dict setValue:[[self RowFilter] toDictionary] forKey:@"RowFilter"];
+  [dict setValue:[[self ColumnFilter] toDictionary] forKey:@"ColumnFilter"];
   return dict;
 }
 

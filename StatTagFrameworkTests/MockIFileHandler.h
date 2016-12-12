@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "StatTag.h"
+#import "StatTagFramework.h"
 
 //MARK: "mock" IFileHandler
 /*

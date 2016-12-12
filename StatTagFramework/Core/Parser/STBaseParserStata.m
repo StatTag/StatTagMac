@@ -237,7 +237,7 @@ This is used to test/extract a macro display value.
   }
   
   if ([last_match numberOfRanges] > 0) {
-    for (int j = 0; j < last_match.numberOfRanges; j++) {
+    for (NSInteger j = 0; j < last_match.numberOfRanges; j++) {
       NSRange range = [last_match rangeAtIndex:j];
       if(range.location != NSNotFound) {
         NSCharacterSet *ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
@@ -281,7 +281,7 @@ This is used to test/extract a macro display value.
 }
 
 
--(NSString*)MatchRegexReturnGroup:(NSString*)text regex:(NSRegularExpression*)regex groupNum:(int)groupNum
+-(NSString*)MatchRegexReturnGroup:(NSString*)text regex:(NSRegularExpression*)regex groupNum:(NSInteger)groupNum
 {
   NSTextCheckingResult* match = [regex firstMatchInString:text options:0 range:NSMakeRange(0, text.length)];
   if(match) {
@@ -293,7 +293,7 @@ This is used to test/extract a macro display value.
   return @"";
 }
 
--(NSArray<NSString*>*)GlobalMatchRegexReturnGroup:(NSString*)text regex:(NSRegularExpression*)regex groupNum:(int)groupNum
+-(NSArray<NSString*>*)GlobalMatchRegexReturnGroup:(NSString*)text regex:(NSRegularExpression*)regex groupNum:(NSInteger)groupNum
 {
   
   NSArray *matches = [regex matchesInString:text options:0 range:NSMakeRange(0, text.length)];

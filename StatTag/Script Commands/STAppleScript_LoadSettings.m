@@ -8,7 +8,7 @@
 
 //#import <Cocoa/Cocoa.h>
 #import "STAppleScript_LoadSettings.h"
-#import "StatTag.h"
+#import "StatTagFramework.h"
 #import "AppDelegate.h"
 #import "MainTabViewController.h"
 #import "StatTagShared.h"

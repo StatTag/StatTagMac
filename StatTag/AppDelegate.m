@@ -8,7 +8,7 @@
 
 #import "AppDelegate.h"
 
-#import "StatTag.h"
+#import "StatTagFramework.h"
 #import "MainTabViewController.h"
 
 #import "StatTagShared.h"

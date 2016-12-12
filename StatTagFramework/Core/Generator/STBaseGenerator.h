@@ -15,6 +15,7 @@
 }
 
 -(NSString*)CommentCharacter;
+-(NSString*)CommentSuffixCharacter;
 -(NSString*)CreateOpenTagBase;
 -(NSString*)CreateClosingTag;
 

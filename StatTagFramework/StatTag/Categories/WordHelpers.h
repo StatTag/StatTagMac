@@ -29,8 +29,8 @@
  Kludgy.
  */
 +(void)updateContent:(NSString*)text inRange:(STMSWord2011TextRange**)range;
-//+(STMSWord2011TextRange*)setRangeStart:(int)start end:(int)end;
-+(void)setRange:(STMSWord2011TextRange**)range Start:(int)start end:(int)end;
+//+(STMSWord2011TextRange*)setRangeStart:(NSInteger)start end:(NSInteger)end;
++(void)setRange:(STMSWord2011TextRange**)range Start:(NSInteger)start end:(NSInteger)end;
 
 +(void)createOrUpdateDocumentVariableWithName:(NSString*)variableName andValue:(NSString*)variableValue;
 
@@ -41,8 +41,9 @@
 //+(void)disableScreenUpdates;
 //+(void)enableScreenUpdates;
 +(void)toggleAllFieldCodes;
++(void)toggleFieldCodesInRange:(STMSWord2011TextRange*)range;
 
-+(STMSWord2011Table*)createTableAtRange:(STMSWord2011TextRange*)range withRows:(int)rows andCols:(int)cols;
++(STMSWord2011Table*)createTableAtRange:(STMSWord2011TextRange*)range withRows:(NSInteger)rows andCols:(NSInteger)cols;
 +(BOOL)insertParagraphAtRange:(STMSWord2011TextRange*)range;
 
 
@@ -50,7 +51,7 @@
 
 +(void)select:(STMSWord2011BaseObject*)wordObject;
 
-+(void)selectTextAtRangeStart:(int)rangeStart andEnd:(int)rangeEnd;
++(void)selectTextAtRangeStart:(NSInteger)rangeStart andEnd:(NSInteger)rangeEnd;
 +(void)selectTextInRange:(STMSWord2011TextRange*)textRange;
 
 @end

@@ -8,7 +8,7 @@
 
 #import "WordHelpers.h"
 #import "STMSWord2011.h"
-#import <StatTagFramework/StatTag.h>
+#import <StatTagFramework/StatTagFramework.h>
 #import "WordASOC.h"
 
 @implementation WordHelpers
@@ -40,7 +40,7 @@ static WordHelpers* sharedInstance = nil;
   return [[self class] DuplicateRange: range forDoc:doc];
 }
 
-+(void)setRange:(STMSWord2011TextRange**)range Start:(int)start end:(int)end {
++(void)setRange:(STMSWord2011TextRange**)range Start:(NSInteger)start end:(NSInteger)end {
   STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
   STMSWord2011Document* doc = [app activeDocument];
   //return [doc createRangeStart:start end:end];
@@ -70,7 +70,7 @@ static WordHelpers* sharedInstance = nil;
 //  [[self class] sharedInstance];
 //  WordASOC *stuff = [[NSClassFromString(@"WordASOC") alloc] init];
 //  if(text != nil) {
-//    found = [[stuff findText:text atRangeStart:[NSNumber numberWithInt:[range startOfContent]] andRangeEnd:[NSNumber numberWithInt:[range endOfContent]]] boolValue];
+//    found = [[stuff findText:text atRangeStart:[NSNumber numberWithInteger:[range startOfContent]] andRangeEnd:[NSNumber numberWithInteger:[range endOfContent]]] boolValue];
 //    return found;
 //  }
 //  return found;
@@ -212,11 +212,19 @@ static WordHelpers* sharedInstance = nil;
   
 }
 
++(void)toggleFieldCodesInRange:(STMSWord2011TextRange*)range
+{  
+  for(STMSWord2011Field* field in [range fields]) {
+    field.showCodes = ![field showCodes];
+    field.showCodes = ![field showCodes];
+  }
+}
+
 //http://stackoverflow.com/questions/37239287/cocoa-scripting-returning-the-cloned-objects-from-a-duplicate-command/37251569#37251569
 //http://stackoverflow.com/questions/1247013/how-to-extract-applescript-data-from-a-nsappleeventdescriptor-in-cocoa-and-parse
 //http://stackoverflow.com/questions/6804541/getting-applescript-return-value-in-obj-c
 
-+(STMSWord2011Table*)createTableAtRange:(STMSWord2011TextRange*)range withRows:(int)rows andCols:(int)cols {
++(STMSWord2011Table*)createTableAtRange:(STMSWord2011TextRange*)range withRows:(NSInteger)rows andCols:(NSInteger)cols {
   
   [[self class] sharedInstance];
   WordASOC *asoc = [[NSClassFromString(@"WordASOC") alloc] init];
@@ -333,8 +341,8 @@ static WordHelpers* sharedInstance = nil;
       STMSWord2011TextRange* tr = [field fieldCode];
       NSLog(@"WordHelpers - select (%ld,%ld)", [tr startOfContent], [tr endOfContent]);
       if(tr != nil) {
-        int start = [tr startOfContent];
-        int end = [tr endOfContent] + 1;
+        NSInteger start = [tr startOfContent];
+        NSInteger end = [tr endOfContent] + 1;
         if(start > 0) {
           start = start - 1;
         }
@@ -353,7 +361,7 @@ static WordHelpers* sharedInstance = nil;
   }
 }
 
-+(void)selectTextAtRangeStart:(int)rangeStart andEnd:(int)rangeEnd {
++(void)selectTextAtRangeStart:(NSInteger)rangeStart andEnd:(NSInteger)rangeEnd {
     STMSWord2011SelectionObject* selection = [[[[STGlobals sharedInstance] ThisAddIn] Application] selection];//.activeWindow.selection;
     selection.selectionStart = rangeStart;
     selection.selectionEnd = rangeEnd;

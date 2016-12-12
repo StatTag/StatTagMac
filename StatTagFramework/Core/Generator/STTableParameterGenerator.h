@@ -11,7 +11,7 @@
 
 @class STTag;
 
-@interface STTableGenerator : STBaseParameterGenerator
+@interface STTableParameterGenerator : STBaseParameterGenerator
 
 -(NSString*)CreateParameters:(STTag*)tag;
 -(NSString*)CreateTableParameters:(STTag*)tag;

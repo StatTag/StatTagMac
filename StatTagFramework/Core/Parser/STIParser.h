@@ -15,12 +15,12 @@
 @protocol STIParser <NSObject>
 
 
--(NSArray<STTag*>*)Parse:(STCodeFile*)file filterMode:(int)filterMode tagsToRun:(NSArray<STTag*>*)tagsToRun;
--(NSArray<STTag*>*)Parse:(STCodeFile*)file filterMode:(int)filterMode;
+-(NSArray<STTag*>*)Parse:(STCodeFile*)file filterMode:(NSInteger)filterMode tagsToRun:(NSArray<STTag*>*)tagsToRun;
+-(NSArray<STTag*>*)Parse:(STCodeFile*)file filterMode:(NSInteger)filterMode;
 -(NSArray<STTag*>*)Parse:(STCodeFile*)file;
 
--(NSArray<STExecutionStep*>*)GetExecutionSteps:(STCodeFile*)file filterMode:(int)filterMode tagsToRun:(NSArray<STTag*>*)tagsToRun;
--(NSArray<STExecutionStep*>*)GetExecutionSteps:(STCodeFile*)file filterMode:(int)filterMode;
+-(NSArray<STExecutionStep*>*)GetExecutionSteps:(STCodeFile*)file filterMode:(NSInteger)filterMode tagsToRun:(NSArray<STTag*>*)tagsToRun;
+-(NSArray<STExecutionStep*>*)GetExecutionSteps:(STCodeFile*)file filterMode:(NSInteger)filterMode;
 -(NSArray<STExecutionStep*>*)GetExecutionSteps:(STCodeFile*)file;
 
 -(BOOL)IsImageExport:(NSString*)command;

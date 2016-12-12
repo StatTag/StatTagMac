@@ -7,7 +7,7 @@
 //
 
 #import "TagPreviewController.h"
-#import "StatTag.h"
+#import "StatTagFramework.h"
 #import "TagGridView.h"
 #import "StatTagShared.h"
 

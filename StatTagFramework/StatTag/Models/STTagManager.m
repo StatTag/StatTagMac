@@ -160,9 +160,9 @@ the DocumentManager instance that contains it.
   NSLog(@"DeserializeFieldTag -> code : (%d,%d)", [code startOfContent], [code endOfContent]);
   STMSWord2011Field* nestedField = [[code fields] firstObject];//[code fields][1];
   
-  [STGlobals activateDocument];
+  //[STGlobals activateDocument];
   NSString* nestedFieldText = [NSString stringWithString:[nestedField fieldText]];//[[nestedField fieldText] copy];
-  [STGlobals activateDocument];
+  //[STGlobals activateDocument];
   
   NSLog(@"DeserializeFieldTag -> nestedField : %@", nestedField);
   NSLog(@"DeserializeFieldTag -> nestedField field type: %d", [nestedField fieldType]);
@@ -243,17 +243,17 @@ the DocumentManager instance that contains it.
   STMSWord2011Document* document = [application activeDocument];
   
   NSArray<STMSWord2011Field*>* fields = [document fields];
-  int fieldsCount = [fields count];
+  NSInteger fieldsCount = [fields count];
 
   // Fields is a 1-based index
   // -- EWW -> above is from the original c# - will be interesting to see if this is the case for the Mac version
   //FIXME: check later to see if Fields is 1-based index
   NSArray<STCodeFile*>* files = [_DocumentManager GetCodeFileList];
-  NSLog(@"Preparing to process %d fields", fieldsCount);
-  for (int index = fieldsCount; index >= 1; index--) {
+  NSLog(@"Preparing to process %ld fields", fieldsCount);
+  for (NSInteger index = fieldsCount; index >= 1; index--) {
     STMSWord2011Field* field = fields[index];
     if(field == nil) {
-      NSLog(@"Null field detected at index %d", index);
+      NSLog(@"Null field detected at index %ld", index);
       continue;
     }
 
@@ -301,15 +301,15 @@ the DocumentManager instance that contains it.
   STMSWord2011Document* document = [application activeDocument];
 
   NSArray<STMSWord2011Field*>* fields = [document fields];
-  int fieldsCount = [fields count];
+  NSInteger fieldsCount = [fields count];
 
   // Fields is a 1-based index
-  NSLog(@"Preparing to process %d fields", fieldsCount);
-  for (int index = fieldsCount; index >= 1; index--) {
+  NSLog(@"Preparing to process %ld fields", fieldsCount);
+  for (NSInteger index = fieldsCount; index >= 1; index--) {
     
     STMSWord2011Field* field = fields[index];
     if(field == nil) {
-      NSLog(@"Null field detected at index %d", index);
+      NSLog(@"Null field detected at index %ld", index);
       continue;
     }
     if(![self IsStatTagField:field]) {

@@ -17,7 +17,7 @@
 @class STCodeFileAction;
 @class STTag;
 @class STMSWord2011Document;
-@class STFieldCreator;
+@class STFieldGenerator;
 @class STTag;
 @class STFieldTag;
 @class STMSWord2011SelectionObject;
@@ -29,7 +29,7 @@
   STTagManager* _TagManager;
   STStatsManager* _StatsManager;
   
-  STFieldCreator* _FieldManager;
+  STFieldGenerator* _FieldManager;
   
   NSNumber* _wordFieldsTotal;
   NSNumber* _wordFieldsUpdated;
@@ -38,7 +38,7 @@
 
 @property (strong, nonatomic) STTagManager* TagManager;
 @property (strong, nonatomic) STStatsManager* StatsManager;
-@property (strong, nonatomic) STFieldCreator* FieldManager;
+@property (strong, nonatomic) STFieldGenerator* FieldManager;
 
 @property (copy, nonatomic) NSNumber* wordFieldsTotal;
 @property (copy, nonatomic) NSNumber* wordFieldsUpdated;

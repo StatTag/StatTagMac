@@ -9,8 +9,8 @@
 #import "STBaseGenerator.h"
 #import "STConstants.h"
 #import "STTag.h"
-#import "STValueGenerator.h"
-#import "STTableGenerator.h"
+#import "STValueParameterGenerator.h"
+#import "STTableParameterGenerator.h"
 #import "STFigureGenerator.h"
 
 
@@ -20,12 +20,16 @@
   return nil;
 }
 
+-(NSString*)CommentSuffixCharacter {
+  return [STConstantsCodeFileCommentSuffix Default];
+}
+
 -(NSString*)CreateOpenTagBase {
   return [NSString stringWithFormat:@"%@%@%@%@", [self CommentCharacter], [self CommentCharacter], [STConstantsTagTags StartTag], [STConstantsTagTags TagPrefix]];
 }
 
 -(NSString*)CreateClosingTag {
-  return [NSString stringWithFormat:@"%@%@%@", [self CommentCharacter], [self CommentCharacter], [STConstantsTagTags EndTag]];
+  return [NSString stringWithFormat:@"%@%@%@%@", [self CommentCharacter], [self CommentCharacter], [STConstantsTagTags EndTag], [self CommentSuffixCharacter]];
 }
 
 -(NSString*)CreateOpenTag:(STTag*) tag {
@@ -35,7 +39,7 @@
   {
     if ([[tag Type] isEqualToString:[STConstantsTagType Value]])
     {
-      STValueGenerator* valueGenerator = [[STValueGenerator alloc] init];
+      STValueGenerator* valueGenerator = [[STValueParameterGenerator alloc] init];
       [openBase appendFormat:@"%@%@%@%@",
           [STConstantsTagType Value],
           [STConstantsTagTags ParamStart],
@@ -55,7 +59,7 @@
     }
     else if ([tag IsTableTag])
     {
-      STTableGenerator* tableGenerator = [[STTableGenerator alloc] init];
+      STTableGenerator* tableGenerator = [[STTableParameterGenerator alloc] init];
       #pragma unused(tableGenerator) //just following the c#
 
       [openBase appendFormat:@"%@%@%@%@",
@@ -72,6 +76,8 @@
       [NSException raise:@"Unsupported tag type" format:@"Unsupported tag type"];
     }
   }
+
+  [openBase appendString:[self CommentSuffixCharacter]];
   
   return openBase;
   
@@ -79,8 +85,8 @@
 }
 
 -(NSString*)CombineValueAndTableParameters:(STTag*)tag {
-  STTableGenerator* tableGenerator = [[STTableGenerator alloc]init];
-  STValueGenerator* valueGenerator = [[STValueGenerator alloc]init];
+  STTableGenerator* tableGenerator = [[STTableParameterGenerator alloc]init];
+  STValueGenerator* valueGenerator = [[STValueParameterGenerator alloc]init];
   NSString *tableParameters = [tableGenerator CreateParameters:tag];
   NSString *valueParameters = [valueGenerator CreateParameters:tag];
 

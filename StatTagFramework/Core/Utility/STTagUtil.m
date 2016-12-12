@@ -33,7 +33,7 @@
 
   //this is heavy-handed, but... I'm not sure of a better way to do this w/ our target
   NSMutableArray<STTag*>* allTags = [[NSMutableArray alloc] init];
-  for (int i = 0; i < [files count] ; i++)
+  for (NSInteger i = 0; i < [files count] ; i++)
   {
     [allTags addObjectsFromArray:[[files objectAtIndex:i] Tags]];
   }

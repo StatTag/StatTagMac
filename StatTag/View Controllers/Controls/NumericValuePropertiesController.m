@@ -7,7 +7,7 @@
 //
 
 #import "NumericValuePropertiesController.h"
-#import "StatTag.h"
+#import "StatTagFramework.h"
 
 @interface NumericValuePropertiesController ()
 

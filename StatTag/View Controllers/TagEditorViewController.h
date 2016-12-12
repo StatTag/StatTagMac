@@ -46,6 +46,7 @@
   NSString* _allowedCommandsText;
   
   BOOL _showTagValuePropertiesView;
+  BOOL _editable;
 }
 
 @property (strong, nonatomic) STTag* tag;
@@ -95,7 +96,7 @@
 
 @property (weak) IBOutlet NSView *codeEditingPanel;
 
-
+@property BOOL editable;
 
 /*
  EWW:

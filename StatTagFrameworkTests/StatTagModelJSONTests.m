@@ -7,7 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
-#import "StatTag.h"
+#import "StatTagFramework.h"
 
 @interface StatTagModelJSONTests : XCTestCase {
   NSDate* d1;
@@ -107,16 +107,16 @@
   //Table
   //-----------------
   t1 = [[STTable alloc] init];
-  t1.RowNames = [NSMutableArray arrayWithArray:@[@"1_row1", @"1_row2"]];
-  t1.ColumnNames = [NSMutableArray arrayWithArray:@[@"1_col1", @"1_col2"]];
+  //t1.RowNames = [NSMutableArray arrayWithArray:@[@"1_row1", @"1_row2"]];
+  //t1.ColumnNames = [NSMutableArray arrayWithArray:@[@"1_col1", @"1_col2"]];
   t1.Data = [NSMutableArray arrayWithArray:@[@1, @2, @3, @4]];
   t1.RowSize = 2;
   t1.ColumnSize = 2;
 
   //tableresult
   t2 = [[STTable alloc] init];
-  t2.RowNames = [NSMutableArray arrayWithArray:@[@"2_row1", @"2_row2"]];
-  t2.ColumnNames = [NSMutableArray arrayWithArray:@[@"2_col1", @"2_col2"]];
+  //t2.RowNames = [NSMutableArray arrayWithArray:@[@"2_row1", @"2_row2"]];
+  //t2.ColumnNames = [NSMutableArray arrayWithArray:@[@"2_col1", @"2_col2"]];
   t2.Data = [NSMutableArray arrayWithArray:@[@10, @20, @30, @40]];
   t2.RowSize = 2;
   t2.ColumnSize = 2;
