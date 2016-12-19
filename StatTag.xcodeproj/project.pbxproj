@@ -110,7 +110,6 @@
 		385221C51DAD5D0B005E804B /* SCPerLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 385221C41DAD5D0B005E804B /* SCPerLine.m */; };
 		385221C91DAE90CF005E804B /* SCMarker.mm in Sources */ = {isa = PBXBuildFile; fileRef = 385221C81DAE90CF005E804B /* SCMarker.mm */; };
 		385221CC1DAE98CB005E804B /* SCMarkerCollection.mm in Sources */ = {isa = PBXBuildFile; fileRef = 385221CB1DAE98CB005E804B /* SCMarkerCollection.mm */; };
-		385906EE1D1C6E280088A0D7 /* StatTagModelJSONTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 385906ED1D1C6E280088A0D7 /* StatTagModelJSONTests.m */; };
 		385EF1421D95D53C005768C7 /* StatTagMacros.dotm in Resources */ = {isa = PBXBuildFile; fileRef = 385EF1401D95D53C005768C7 /* StatTagMacros.dotm */; };
 		385FDD281D32F6DD00AE0FE2 /* STTagManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 385FDD261D32F6DD00AE0FE2 /* STTagManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		385FDD291D32F6DD00AE0FE2 /* STTagManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 385FDD271D32F6DD00AE0FE2 /* STTagManager.m */; };
@@ -154,7 +153,7 @@
 		387A0E3D1D24376F00F1FE9C /* StatTagParserBaseParserStataTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 387A0E3C1D24376F00F1FE9C /* StatTagParserBaseParserStataTests.m */; };
 		387A0E401D25BAB900F1FE9C /* StatTagGeneratorBaseGeneratorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 387A0E3F1D25BAB900F1FE9C /* StatTagGeneratorBaseGeneratorTests.m */; };
 		387A0E421D25C6E500F1FE9C /* StatTagGeneratorFigureGeneratorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 387A0E411D25C6E500F1FE9C /* StatTagGeneratorFigureGeneratorTests.m */; };
-		387A0E441D25C92600F1FE9C /* StatTagGeneratorTableGeneratorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 387A0E431D25C92600F1FE9C /* StatTagGeneratorTableGeneratorTests.m */; };
+		387A0E441D25C92600F1FE9C /* StatTagGeneratorTableParameterGeneratorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 387A0E431D25C92600F1FE9C /* StatTagGeneratorTableParameterGeneratorTests.m */; };
 		387A0E461D25C9BA00F1FE9C /* StatTagGeneratorValueGeneratorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 387A0E451D25C9B900F1FE9C /* StatTagGeneratorValueGeneratorTests.m */; };
 		3884513C1D19DCB3004C2B40 /* STValueParameterParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 3884513A1D19DCB3004C2B40 /* STValueParameterParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3884513D1D19DCB3004C2B40 /* STValueParameterParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3884513B1D19DCB3004C2B40 /* STValueParameterParser.m */; };
@@ -170,7 +169,7 @@
 		38AB418D1DA1BC2900EA464C /* TagBasicPropertiesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38AB418B1DA1BC2900EA464C /* TagBasicPropertiesController.m */; };
 		38AB418E1DA1BC2900EA464C /* TagBasicPropertiesController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38AB418C1DA1BC2900EA464C /* TagBasicPropertiesController.xib */; };
 		38B04FCC1DF607270070BD2E /* StatTagModelFilterFormatTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38B04FCB1DF607270070BD2E /* StatTagModelFilterFormatTests.m */; };
-		38B04FCF1DF61ED50070BD2E /* STTableData.h in Headers */ = {isa = PBXBuildFile; fileRef = 38B04FCD1DF61ED50070BD2E /* STTableData.h */; };
+		38B04FCF1DF61ED50070BD2E /* STTableData.h in Headers */ = {isa = PBXBuildFile; fileRef = 38B04FCD1DF61ED50070BD2E /* STTableData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38B04FD01DF61ED50070BD2E /* STTableData.m in Sources */ = {isa = PBXBuildFile; fileRef = 38B04FCE1DF61ED50070BD2E /* STTableData.m */; };
 		38BE59AC1D52AA1000FF9E99 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38C91F4A1D37AC710048A95E /* Cocoa.framework */; };
 		38C3CC761DA428E700CEA70C /* DisclosureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C3CC741DA428E700CEA70C /* DisclosureViewController.m */; };
@@ -209,6 +208,7 @@
 		38D8B1C71D95872A00BF878A /* UpdateOutputProgressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D8B1C51D95872A00BF878A /* UpdateOutputProgressViewController.m */; };
 		38D8B1C81D95872A00BF878A /* UpdateOutputProgressViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38D8B1C61D95872A00BF878A /* UpdateOutputProgressViewController.xib */; };
 		38E20DF01E08968600B524CE /* STBaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 38516FC51DF5AF06006989BC /* STBaseManager.m */; };
+		38E20DF21E0898A500B524CE /* StatTagModelStataTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38E20DF11E0898A500B524CE /* StatTagModelStataTests.m */; };
 		38EDF0271D2BFFD800ACD77B /* STStata.h in Headers */ = {isa = PBXBuildFile; fileRef = 38EDF0261D2BFFD800ACD77B /* STStata.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38EDF02A1D2C002A00ACD77B /* STStataAutomation.h in Headers */ = {isa = PBXBuildFile; fileRef = 38EDF0281D2C002A00ACD77B /* STStataAutomation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38EDF02B1D2C002A00ACD77B /* STStataAutomation.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EDF0291D2C002A00ACD77B /* STStataAutomation.m */; };
@@ -490,7 +490,7 @@
 		387A0E3C1D24376F00F1FE9C /* StatTagParserBaseParserStataTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagParserBaseParserStataTests.m; sourceTree = "<group>"; };
 		387A0E3F1D25BAB900F1FE9C /* StatTagGeneratorBaseGeneratorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagGeneratorBaseGeneratorTests.m; sourceTree = "<group>"; };
 		387A0E411D25C6E500F1FE9C /* StatTagGeneratorFigureGeneratorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagGeneratorFigureGeneratorTests.m; sourceTree = "<group>"; };
-		387A0E431D25C92600F1FE9C /* StatTagGeneratorTableGeneratorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagGeneratorTableGeneratorTests.m; sourceTree = "<group>"; };
+		387A0E431D25C92600F1FE9C /* StatTagGeneratorTableParameterGeneratorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagGeneratorTableParameterGeneratorTests.m; sourceTree = "<group>"; };
 		387A0E451D25C9B900F1FE9C /* StatTagGeneratorValueGeneratorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagGeneratorValueGeneratorTests.m; sourceTree = "<group>"; };
 		3884513A1D19DCB3004C2B40 /* STValueParameterParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STValueParameterParser.h; sourceTree = "<group>"; };
 		3884513B1D19DCB3004C2B40 /* STValueParameterParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STValueParameterParser.m; sourceTree = "<group>"; };
@@ -551,6 +551,7 @@
 		38D8B1C41D95872A00BF878A /* UpdateOutputProgressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateOutputProgressViewController.h; sourceTree = "<group>"; };
 		38D8B1C51D95872A00BF878A /* UpdateOutputProgressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateOutputProgressViewController.m; sourceTree = "<group>"; };
 		38D8B1C61D95872A00BF878A /* UpdateOutputProgressViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UpdateOutputProgressViewController.xib; sourceTree = "<group>"; };
+		38E20DF11E0898A500B524CE /* StatTagModelStataTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagModelStataTests.m; sourceTree = "<group>"; };
 		38EDF0261D2BFFD800ACD77B /* STStata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STStata.h; sourceTree = "<group>"; };
 		38EDF0281D2C002A00ACD77B /* STStataAutomation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STStataAutomation.h; sourceTree = "<group>"; };
 		38EDF0291D2C002A00ACD77B /* STStataAutomation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STStataAutomation.m; sourceTree = "<group>"; };
@@ -1091,8 +1092,9 @@
 				38EDF0341D2C2FC200ACD77B /* StatTagStataAutomationTests.m */,
 				387A0E3F1D25BAB900F1FE9C /* StatTagGeneratorBaseGeneratorTests.m */,
 				387A0E411D25C6E500F1FE9C /* StatTagGeneratorFigureGeneratorTests.m */,
-				387A0E431D25C92600F1FE9C /* StatTagGeneratorTableGeneratorTests.m */,
+				387A0E431D25C92600F1FE9C /* StatTagGeneratorTableParameterGeneratorTests.m */,
 				387A0E451D25C9B900F1FE9C /* StatTagGeneratorValueGeneratorTests.m */,
+				38E20DF11E0898A500B524CE /* StatTagModelStataTests.m */,
 			);
 			name = Generator;
 			sourceTree = "<group>";
@@ -1650,7 +1652,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				382C28541D1324EB00697D6F /* ObjCPortingScratchPad.m in Sources */,
-				385906EE1D1C6E280088A0D7 /* StatTagModelJSONTests.m in Sources */,
 				385FDD3E1D33FA1800AE0FE2 /* StatTagWord2011AutomationTests.m in Sources */,
 				382C286E1D16C77400697D6F /* StatTagModelCodeFileTests.m in Sources */,
 				38EDF0351D2C2FC200ACD77B /* StatTagStataAutomationTests.m in Sources */,
@@ -1659,8 +1660,9 @@
 				387A0E391D242C4400F1FE9C /* StatTagParserTableParserTests.m in Sources */,
 				382C285E1D135DE200697D6F /* StatTagModelValueFormatTests.m in Sources */,
 				382C8D441D101C2700FE6878 /* StatTagModelFileHandlerTests.m in Sources */,
+				38E20DF21E0898A500B524CE /* StatTagModelStataTests.m in Sources */,
 				382C28511D13247800697D6F /* StatTagObjCPortingTests.m in Sources */,
-				387A0E441D25C92600F1FE9C /* StatTagGeneratorTableGeneratorTests.m in Sources */,
+				387A0E441D25C92600F1FE9C /* StatTagGeneratorTableParameterGeneratorTests.m in Sources */,
 				38C9B2131D10A4D4003B571E /* StatTagValueFormatterStataTests.m in Sources */,
 				38B04FCC1DF607270070BD2E /* StatTagModelFilterFormatTests.m in Sources */,
 				387A0E1B1D2193D000F1FE9C /* StatTagModelCommandResultTests.m in Sources */,

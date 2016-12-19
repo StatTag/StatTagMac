@@ -73,7 +73,9 @@
   tag.TableFormat = [[STTableFormat alloc] init];
 //  NSLog(@"[generator CreateOpenTag:tag] : %@", [generator CreateOpenTag:tag]);
 //  NSLog(@"expected: **>>>ST:Table(ColumnNames=False, RowNames=False, Type=\"Default\")");
-  XCTAssert([@"**>>>ST:Table(ColumnNames=False, RowNames=False, Type=\"Default\")" isEqualToString:[generator CreateOpenTag:tag]]);
+//  XCTAssert([@"**>>>ST:Table(ColumnNames=False, RowNames=False, Type=\"Default\")" isEqualToString:[generator CreateOpenTag:tag]]);
+  XCTAssert([@"**>>>ST:Table(Type=\"Default\")" isEqualToString:[generator CreateOpenTag:tag]]);
+
 }
 
 - (void)testCombineValueAndTableParameters {
@@ -85,13 +87,20 @@
   tag.TableFormat = [[STTableFormat alloc] init];
 //  NSLog(@"[generator CombineValueAndTableParameters] : %@", [generator CombineValueAndTableParameters:tag]);
 //  NSLog(@"expected: ColumnNames=False, RowNames=False, Type=\"Default\"");
-  XCTAssert([@"ColumnNames=False, RowNames=False, Type=\"Default\"" isEqualToString:[generator CombineValueAndTableParameters:tag]]);
+//  XCTAssert([@"ColumnNames=False, RowNames=False, Type=\"Default\"" isEqualToString:[generator CombineValueAndTableParameters:tag]]);
+  XCTAssert([@"Type=\"Default\"" isEqualToString:[generator CombineValueAndTableParameters:tag]]);
+  //            Assert.AreEqual("Type=\"Default\"", generator.CombineValueAndTableParameters(tag));
+
 
   tag.ValueFormat.FormatType = [STConstantsValueFormatType Numeric];
   tag.ValueFormat.DecimalPlaces = 2;
 //  NSLog(@"[generator CombineValueAndTableParameters] : %@", [generator CombineValueAndTableParameters:tag]);
 //  NSLog(@"expected: ColumnNames=False, RowNames=False, Type=\"Numeric\", Decimals=2, Thousands=False");
-  XCTAssert([@"ColumnNames=False, RowNames=False, Type=\"Numeric\", Decimals=2, Thousands=False" isEqualToString:[generator CombineValueAndTableParameters:tag]]);
+//  XCTAssert([@"ColumnNames=False, RowNames=False, Type=\"Numeric\", Decimals=2, Thousands=False" isEqualToString:[generator CombineValueAndTableParameters:tag]]);
+  XCTAssert([@"Type=\"Numeric\", Decimals=2, Thousands=False" isEqualToString:[generator CombineValueAndTableParameters:tag]]);
+  
+  //            Assert.AreEqual("Type=\"Numeric\", Decimals=2, Thousands=False", generator.CombineValueAndTableParameters(tag));
+
 }
 
 

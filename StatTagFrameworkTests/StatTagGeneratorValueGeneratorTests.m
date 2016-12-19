@@ -24,7 +24,7 @@
 }
 
 - (void)testCreateDefaultParameters {
-  STValueGenerator* generator = [[STValueGenerator alloc] init];
+  STValueParameterGenerator* generator = [[STValueParameterGenerator alloc] init];
   XCTAssert([@"Type=\"Default\", " isEqualToString:[generator CreateDefaultParameters]]);
              
   // It will only add the AllowInvalidTypes attribute when it is not the default value
@@ -32,27 +32,27 @@
 }
 
 - (void)testCreatePercentageParameters_Default {
-  STValueGenerator* generator = [[STValueGenerator alloc] init];
+  STValueParameterGenerator* generator = [[STValueParameterGenerator alloc] init];
   STValueFormat* vf = [[STValueFormat alloc] init];
   XCTAssert([@"Decimals=0" isEqualToString:[generator CreatePercentageParameters:vf]]);
 }
 
 - (void)testCreatePercentageParameters_Value {
-  STValueGenerator* generator = [[STValueGenerator alloc] init];
+  STValueParameterGenerator* generator = [[STValueParameterGenerator alloc] init];
   STValueFormat* vf = [[STValueFormat alloc] init];
   vf.DecimalPlaces = 2;
   XCTAssert([@"Decimals=2" isEqualToString:[generator CreatePercentageParameters:vf]]);
 }
 
 - (void)testCreateNumericParameters_Default {
-  STValueGenerator* generator = [[STValueGenerator alloc] init];
+  STValueParameterGenerator* generator = [[STValueParameterGenerator alloc] init];
   STValueFormat* vf = [[STValueFormat alloc] init];
   NSLog(@"[generator CreateNumericParameters:vf] : %@", [generator CreateNumericParameters:vf]);
   XCTAssert([@"Decimals=0, Thousands=False" isEqualToString:[generator CreateNumericParameters:vf]]);
 }
 
 - (void)testCreateNumericParameters_Values {
-  STValueGenerator* generator = [[STValueGenerator alloc] init];
+  STValueParameterGenerator* generator = [[STValueParameterGenerator alloc] init];
   STValueFormat* vf = [[STValueFormat alloc] init];
   vf.DecimalPlaces = 1;
   XCTAssert([@"Decimals=1, Thousands=False" isEqualToString:[generator CreateNumericParameters:vf]]);
@@ -68,7 +68,7 @@
 }
 
 - (void)testCreateDateTimeParameters_Default {
-  STValueGenerator* generator = [[STValueGenerator alloc] init];
+  STValueParameterGenerator* generator = [[STValueParameterGenerator alloc] init];
   STValueFormat* vf = [[STValueFormat alloc] init];
   NSLog(@"[generator CreateDateTimeParameters:vf]: %@", [generator CreateDateTimeParameters:vf]);
   XCTAssert([@"" isEqualToString:[generator CreateDateTimeParameters:vf]]);
@@ -76,7 +76,7 @@
 
 - (void)testCreateDateTimeParameters_Values {
 
-  STValueGenerator* generator = [[STValueGenerator alloc] init];
+  STValueParameterGenerator* generator = [[STValueParameterGenerator alloc] init];
   STValueFormat* vf = [[STValueFormat alloc] init];
 
   vf.DateFormat = @"MM-DD-YYYY";
@@ -96,7 +96,7 @@
 }
 
 - (void)testCreateParameters_Default {
-  STValueGenerator* generator = [[STValueGenerator alloc] init];
+  STValueParameterGenerator* generator = [[STValueParameterGenerator alloc] init];
   STTag* tag = [[STTag alloc] init];
 
   XCTAssert([@"Type=\"Default\"" isEqualToString:[generator CreateParameters:tag]]);
@@ -109,7 +109,7 @@
 }
 
 - (void)testCreateParameters_RunFrequency {
-  STValueGenerator* generator = [[STValueGenerator alloc] init];
+  STValueParameterGenerator* generator = [[STValueParameterGenerator alloc] init];
   STTag* tag = [[STTag alloc] init];
 
   tag.RunFrequency = [STConstantsRunFrequency OnDemand];
@@ -128,7 +128,7 @@
 }
 
 - (void)testCreateParameters_EachType {
-  STValueGenerator* generator = [[STValueGenerator alloc] init];
+  STValueParameterGenerator* generator = [[STValueParameterGenerator alloc] init];
   STValueFormat* vf = [[STValueFormat alloc] init];
   STTag* tag = [[STTag alloc] init];
   tag.ValueFormat = vf;

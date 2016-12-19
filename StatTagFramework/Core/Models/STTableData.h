@@ -19,6 +19,9 @@
 
 -(instancetype)init;
 -(instancetype)initWithRows:(NSInteger)rows andCols:(NSInteger)cols;
+-(instancetype)initWithRows:(NSInteger)rows andCols:(NSInteger)cols andData:(NSArray<NSArray<NSString*>*>*)data;
+-(instancetype)initWithData:(NSArray<NSArray<NSString*>*>*)data;
+-(void)replaceData:(NSArray<NSArray<NSString*>*>*)data;
 
 -(void)addValue:(NSString*)value atRow:(NSInteger)row andColumn:(NSInteger)col;
 -(NSString*)valueAtRow:(NSInteger)row andColumn:(NSInteger)col;

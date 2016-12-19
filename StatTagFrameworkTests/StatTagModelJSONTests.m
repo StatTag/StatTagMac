@@ -109,7 +109,11 @@
   t1 = [[STTable alloc] init];
   //t1.RowNames = [NSMutableArray arrayWithArray:@[@"1_row1", @"1_row2"]];
   //t1.ColumnNames = [NSMutableArray arrayWithArray:@[@"1_col1", @"1_col2"]];
-  t1.Data = [NSMutableArray arrayWithArray:@[@1, @2, @3, @4]];
+  t1.Data = [[STTableData alloc] initWithRows:2 andCols:2];
+  [[t1 Data] addValue:@"1" atRow:1 andColumn:1];
+  [[t1 Data] addValue:@"2" atRow:1 andColumn:2];
+  [[t1 Data] addValue:@"3" atRow:2 andColumn:1];
+  [[t1 Data] addValue:@"4" atRow:2 andColumn:2];
   t1.RowSize = 2;
   t1.ColumnSize = 2;
 
@@ -117,7 +121,11 @@
   t2 = [[STTable alloc] init];
   //t2.RowNames = [NSMutableArray arrayWithArray:@[@"2_row1", @"2_row2"]];
   //t2.ColumnNames = [NSMutableArray arrayWithArray:@[@"2_col1", @"2_col2"]];
-  t2.Data = [NSMutableArray arrayWithArray:@[@10, @20, @30, @40]];
+  t1.Data = [[STTableData alloc] initWithRows:2 andCols:2];
+  [[t1 Data] addValue:@"10" atRow:1 andColumn:1];
+  [[t1 Data] addValue:@"20" atRow:1 andColumn:2];
+  [[t1 Data] addValue:@"30" atRow:2 andColumn:1];
+  [[t1 Data] addValue:@"40" atRow:2 andColumn:2];
   t2.RowSize = 2;
   t2.ColumnSize = 2;
 

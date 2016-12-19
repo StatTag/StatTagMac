@@ -132,8 +132,8 @@
   
 //  NSLog(@"aRange -> start: %ld, end : %ld, content : %@", (long)[aRange startOfContent], (long)[aRange endOfContent], [aRange content]);
   
-  STFieldCreator* creator = [[STFieldCreator alloc] init];
-  NSArray<STMSWord2011Field*>* fields = [creator InsertField:aRange theString:theText];
+  //STFieldGenerator* creator = [[STFieldGenerator alloc] init];
+  NSArray<STMSWord2011Field*>* fields = [STFieldGenerator InsertField:aRange theString:theText];
   NSLog(@"fields count : %lu, values : %@", (unsigned long)[fields count], fields);
   
 //  [app createNewFieldTextRange:aRange fieldType:STMSWord2011E183FieldEmpty fieldText:@"sample field" preserveFormatting:false];

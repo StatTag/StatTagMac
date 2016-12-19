@@ -19,6 +19,27 @@
   return self;
 }
 
+-(instancetype)initWithData:(NSArray<NSArray<NSString*>*>*)data
+{
+  self = [super init];
+  if(self)
+  {
+    [self replaceData:data];
+  }
+  return self;
+}
+
+-(void)replaceData:(NSArray<NSArray<NSString*>*>*)data
+{
+  for(NSInteger row = 0; row < [data count]; row++)
+  {
+    for(NSInteger col = 0; col < [data[row] count]; col++)
+    {
+      [self addValue:data[row][col] atRow:row andColumn:col];
+    }
+  }
+}
+
 -(instancetype)initWithRows:(NSInteger)rows andCols:(NSInteger)cols
 {
   self = [super init];
@@ -28,6 +49,18 @@
   }
   return self;
 }
+
+-(instancetype)initWithRows:(NSInteger)rows andCols:(NSInteger)cols andData:(NSArray<NSArray<NSString*>*>*)data
+{
+  self = [super init];
+  if(self)
+  {
+    [self setDataSizeWithRows:rows andCols:cols];
+    [self replaceData:data];
+  }
+  return self;
+}
+
 
 -(void)setDataSizeWithRows:(NSInteger)rows andCols:(NSInteger)cols
 {

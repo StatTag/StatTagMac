@@ -55,6 +55,7 @@ FOUNDATION_EXPORT const unsigned char StatTagVersionString[];
 #import <StatTagFramework/STLogManager.h>
 
 #import <StatTagFramework/STUIUtility.h>
+#import <StatTagFramework/STTableData.h>
 
 
 
