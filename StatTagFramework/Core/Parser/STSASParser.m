@@ -6,9 +6,9 @@
 //  Copyright © 2016 StatTag. All rights reserved.
 //
 
-#import "STRParser.h"
+#import "STSASParser.h"
 
-@implementation STRParser
+@implementation STSASParser
 
 
 //+(NSCharacterSet*)MacroDelimiters {

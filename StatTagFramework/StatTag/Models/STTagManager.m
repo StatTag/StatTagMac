@@ -157,7 +157,7 @@ the DocumentManager instance that contains it.
   //FIXME: we should fix his to be a hard crash - debugging...
 
   STMSWord2011TextRange* code = [field fieldCode];
-  NSLog(@"DeserializeFieldTag -> code : (%d,%d)", [code startOfContent], [code endOfContent]);
+  NSLog(@"DeserializeFieldTag -> code : (%ld,%ld)", [code startOfContent], [code endOfContent]);
   STMSWord2011Field* nestedField = [[code fields] firstObject];//[code fields][1];
   
   //[STGlobals activateDocument];
@@ -166,7 +166,7 @@ the DocumentManager instance that contains it.
   
   NSLog(@"DeserializeFieldTag -> nestedField : %@", nestedField);
   NSLog(@"DeserializeFieldTag -> nestedField field type: %d", [nestedField fieldType]);
-  NSLog(@"DeserializeFieldTag -> nestedField field entry_index: %d", [nestedField entry_index]);
+  NSLog(@"DeserializeFieldTag -> nestedField field entry_index: %ld", [nestedField entry_index]);
   
   NSLog(@"DeserializeFieldTag -> nestedField fieldText : %@", nestedFieldText);
   //FIXME: very, very unsure of this.. original c# used "Data" and we're using fieldText - which seems to be the closest approximation...
@@ -432,7 +432,7 @@ the DocumentManager instance that contains it.
       NSLog(@"Linking code file %@", [tag CodeFilePath]);
       [_DocumentManager AddCodeFile:[tag CodeFilePath]];
     } else {
-      NSLog(@"The action task of %d is not known and will be skipped", [action Action]);
+      NSLog(@"The action task of %ld is not known and will be skipped", (long)[action Action]);
     }
   }
   
@@ -489,7 +489,7 @@ the DocumentManager instance that contains it.
       NSLog(@"Linking code file %@", [tag CodeFilePath]);
       [_DocumentManager AddCodeFile:[tag CodeFilePath]];
     } else {
-      NSLog(@"The action task of %d is not known and will be skipped", [action Action]);
+      NSLog(@"The action task of %ld is not known and will be skipped", [action Action]);
     }
   }
   

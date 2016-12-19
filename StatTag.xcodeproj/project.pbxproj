@@ -208,6 +208,7 @@
 		38D8B1C31D9586D200BF878A /* UpdateOutputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38D8B1C11D9586D200BF878A /* UpdateOutputViewController.xib */; };
 		38D8B1C71D95872A00BF878A /* UpdateOutputProgressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D8B1C51D95872A00BF878A /* UpdateOutputProgressViewController.m */; };
 		38D8B1C81D95872A00BF878A /* UpdateOutputProgressViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38D8B1C61D95872A00BF878A /* UpdateOutputProgressViewController.xib */; };
+		38E20DF01E08968600B524CE /* STBaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 38516FC51DF5AF06006989BC /* STBaseManager.m */; };
 		38EDF0271D2BFFD800ACD77B /* STStata.h in Headers */ = {isa = PBXBuildFile; fileRef = 38EDF0261D2BFFD800ACD77B /* STStata.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38EDF02A1D2C002A00ACD77B /* STStataAutomation.h in Headers */ = {isa = PBXBuildFile; fileRef = 38EDF0281D2C002A00ACD77B /* STStataAutomation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38EDF02B1D2C002A00ACD77B /* STStataAutomation.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EDF0291D2C002A00ACD77B /* STStataAutomation.m */; };
@@ -1628,6 +1629,7 @@
 				385FDD341D33CEEE00AE0FE2 /* STThisAddIn.m in Sources */,
 				38C9B20F1D10A2B2003B571E /* STStataBaseValueFormatter.m in Sources */,
 				38A7CE9D1D4FE29400B06AFF /* STPropertiesManager.m in Sources */,
+				38E20DF01E08968600B524CE /* STBaseManager.m in Sources */,
 				3884513D1D19DCB3004C2B40 /* STValueParameterParser.m in Sources */,
 				382C28DA1D19DAD500697D6F /* STTableParameterParser.m in Sources */,
 				385FDD2D1D32F70100AE0FE2 /* STDocumentManager.m in Sources */,
