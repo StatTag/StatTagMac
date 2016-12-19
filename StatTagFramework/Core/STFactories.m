@@ -25,8 +25,8 @@
   {
     if([[file StatisticalPackage] isEqualToString: [STConstantsStatisticalPackages Stata] ]) {
       return [[STStataParser alloc] init];
-    } else if([[file StatisticalPackage] isEqualToString: [STConstantsStatisticalPackages SAS] ]) {
-      return [[STSASParser alloc] init];
+//    } else if([[file StatisticalPackage] isEqualToString: [STConstantsStatisticalPackages SAS] ]) {
+//      return [[STSASParser alloc] init];
     } else if([[file StatisticalPackage] isEqualToString: [STConstantsStatisticalPackages R] ]) {
       return [[STRParser alloc] init];
     }

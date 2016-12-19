@@ -243,7 +243,7 @@
 		38FF47261DFF19A000A65893 /* STProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 38FF47241DFF19A000A65893 /* STProperties.m */; };
 		38FF472C1DFF490000A65893 /* STRParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 38FF47281DFF490000A65893 /* STRParser.h */; };
 		38FF472D1DFF490000A65893 /* STRParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 38FF47291DFF490000A65893 /* STRParser.m */; };
-		38FF472E1DFF490000A65893 /* STSASParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 38FF472A1DFF490000A65893 /* STSASParser.h */; };
+		38FF472E1DFF490000A65893 /* STSASParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 38FF472A1DFF490000A65893 /* STSASParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38FF472F1DFF490000A65893 /* STSASParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 38FF472B1DFF490000A65893 /* STSASParser.m */; };
 		38FF47321E083A8700A65893 /* STICodeFileParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 38FF47311E083A8700A65893 /* STICodeFileParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38FF47341E08449F00A65893 /* STDuplicateTagResults.h in Headers */ = {isa = PBXBuildFile; fileRef = 38FF47331E08449F00A65893 /* STDuplicateTagResults.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1872,12 +1872,12 @@
 				INFOPLIST_FILE = "$(SRCROOT)/StatTagFramework/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = org.stattag.StatTagFramework;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
+				SDKROOT = macosx10.12;
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -1899,11 +1899,11 @@
 				INFOPLIST_FILE = "$(SRCROOT)/StatTagFramework/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = org.stattag.StatTagFramework;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
+				SDKROOT = macosx10.12;
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -1922,6 +1922,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = stattag.org.StatTagFrameworkTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.12;
 			};
 			name = Debug;
 		};
@@ -1939,6 +1940,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = stattag.org.StatTagFrameworkTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.12;
 			};
 			name = Release;
 		};
