@@ -27,6 +27,7 @@
 -(NSArray<STExecutionStep*>*)GetExecutionSteps:(STCodeFile*)file filterMode:(NSInteger)filterMode;
 -(NSArray<STExecutionStep*>*)GetExecutionSteps:(STCodeFile*)file;
 
++(NSString*)FormatCommandListAsNonCapturingGroup:(NSArray<NSString*>*)commands;
 
 //These are empty because this was an abstract class in the original code
 -(BOOL)IsImageExport:(NSString*)command;
@@ -59,5 +60,8 @@
 
 -(NSString*)MatchRegexReturnGroup:(NSString*)text regex:(NSRegularExpression*)regex groupNum:(NSInteger)groupNum;
 -(NSArray<NSString*>*)GlobalMatchRegexReturnGroup:(NSString*)text regex:(NSRegularExpression*)regex groupNum:(NSInteger)groupNum;
+
+//FIXME: move this somewhere else
++(BOOL)regexIsMatch:(NSRegularExpression*)regex inString:(NSString*)string;
 
 @end

@@ -66,6 +66,12 @@ NSString* const InvalidFilterExceptionMessage = @"The filter value is invalid.  
   if([self hash] == [object hash])
   {
     return YES;
+    
+//    return other.Prefix.Equals(this.Prefix)
+//    && other.Enabled == this.Enabled
+//    && other.Type.Equals(this.Type)
+//    && other.Value.Equals(this.Value);
+    
   }
   return NO;
 }

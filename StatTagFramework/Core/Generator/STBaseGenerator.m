@@ -39,7 +39,7 @@
   {
     if ([[tag Type] isEqualToString:[STConstantsTagType Value]])
     {
-      STValueGenerator* valueGenerator = [[STValueParameterGenerator alloc] init];
+      STValueParameterGenerator* valueGenerator = [[STValueParameterGenerator alloc] init];
       [openBase appendFormat:@"%@%@%@%@",
           [STConstantsTagType Value],
           [STConstantsTagTags ParamStart],
@@ -59,7 +59,7 @@
     }
     else if ([tag IsTableTag])
     {
-      STTableGenerator* tableGenerator = [[STTableParameterGenerator alloc] init];
+      STTableParameterGenerator* tableGenerator = [[STTableParameterGenerator alloc] init];
       #pragma unused(tableGenerator) //just following the c#
 
       [openBase appendFormat:@"%@%@%@%@",
@@ -85,8 +85,8 @@
 }
 
 -(NSString*)CombineValueAndTableParameters:(STTag*)tag {
-  STTableGenerator* tableGenerator = [[STTableParameterGenerator alloc]init];
-  STValueGenerator* valueGenerator = [[STValueParameterGenerator alloc]init];
+  STTableParameterGenerator* tableGenerator = [[STTableParameterGenerator alloc]init];
+  STValueParameterGenerator* valueGenerator = [[STValueParameterGenerator alloc]init];
   NSString *tableParameters = [tableGenerator CreateParameters:tag];
   NSString *valueParameters = [valueGenerator CreateParameters:tag];
 

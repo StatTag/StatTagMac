@@ -29,7 +29,8 @@
 {
   if (filter != nil && [filter Enabled])
   {
-    if(builder != nil && [builder length] > 0)
+    NSCharacterSet *ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+    if(builder != nil && [[builder stringByTrimmingCharactersInSet:ws] length] > 0)
     {
       [builder appendFormat:@", "];
       //builder.AppendFormat(", ");
@@ -40,6 +41,7 @@
         [filter Prefix],
         [STConstantsTableParameters FilterEnabled],
         [filter Enabled] ? @"True" : @"False",
+        //C# emits "True" or "False" for filter.Enabled when using in a string formatter
 
         [filter Prefix],
         [STConstantsTableParameters FilterType],
@@ -57,6 +59,8 @@
 -(NSString*)CreateTableParameters:(STTag*) tag
 {
   NSMutableString* builder = [[NSMutableString alloc] init];
+  // If the table format is null, or both filters are disabled we are not going to add anything
+  // to the output (just to reduce clutter).
   if([tag TableFormat] != nil && ([[[tag TableFormat] ColumnFilter] Enabled] || [[[tag TableFormat] RowFilter] Enabled] )) {
     [self AppendFilter:[[tag TableFormat] ColumnFilter] builder:builder];
     [self AppendFilter:[[tag TableFormat] RowFilter] builder:builder];

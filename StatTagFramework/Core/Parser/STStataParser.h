@@ -13,16 +13,21 @@
   
 }
 
-+(BOOL)regexIsMatch:(NSRegularExpression*)regex inString:(NSString*)string;
+//+(BOOL)regexIsMatch:(NSRegularExpression*)regex inString:(NSString*)string;
 
 +(NSCharacterSet*)MacroDelimiters;
++(NSCharacterSet*)CalculationOperators;
+
++(NSArray<NSString*>*)MacroDelimitersCharacters;
++(NSArray<NSString*>*)CalculationOperatorsCharacters;
+
 
 //MARK: Value regex
 +(NSArray<NSString*>*)ValueCommands;
 //MARK: Graph regex
-+(NSString*)GraphCommand;
++(NSArray<NSString*>*)GraphCommands;
 //MARK: Table regex
-+(NSString*)TableCommand;
++(NSArray<NSString*>*)TableCommands;
 
 +(NSRegularExpression*)MacroRegex;
 

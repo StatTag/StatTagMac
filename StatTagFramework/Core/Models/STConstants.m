@@ -147,7 +147,7 @@ NSString *const STStatTagErrorDomain = @"StatTagErrorDomain";
 @end
 
 @implementation STConstantsCodeFileCommentSuffix
-+(NSString*)Default { return @"*";}
++(NSString*)Default { return @"";}
 +(NSString*)SAS { return @";";}
 @end
 
@@ -202,7 +202,7 @@ NSString *const STStatTagErrorDomain = @"StatTagErrorDomain";
 
 @implementation STConstantsFilterPrefix
 +(NSString*)Row { return @"Row";}
-+(NSString*)Column { return @"Column";}
++(NSString*)Column { return @"Col";}
 @end
 
 @implementation STConstantsFilterType

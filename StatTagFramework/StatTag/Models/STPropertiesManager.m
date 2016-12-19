@@ -17,6 +17,7 @@ NSString* const ApplicationKey = @"Software\\Northwestern University\\StatTag";
 NSString* const StataLocationKey = @"Stata Location";
 NSString* const LogLocationKey = @"Log Location";
 NSString* const LogEnabledKey = @"Logging Enabled";
+NSString* const RunCodeOnOpenKey = @"Autorun Code";
 
 @synthesize Properties = _Properties;
 
@@ -38,6 +39,7 @@ NSString* const LogEnabledKey = @"Logging Enabled";
   [prefsDict setValue:[_Properties StataLocation] forKey:StataLocationKey];
   [prefsDict setValue:[_Properties LogLocation] forKey:LogLocationKey];
   [prefsDict setObject:[NSNumber numberWithBool:[_Properties EnableLogging]] forKey:LogEnabledKey];
+  [prefsDict setValue:[NSNumber numberWithBool:[_Properties RunCodeOnOpen]] forKey:RunCodeOnOpenKey];
 
   [[NSUserDefaults standardUserDefaults] setPersistentDomain:prefsDict forName:[STCocoaUtil currentBundleIdentifier]];
   [[NSUserDefaults standardUserDefaults] synchronize];
@@ -61,6 +63,7 @@ NSString* const LogEnabledKey = @"Logging Enabled";
   _Properties.StataLocation = [prefsDict valueForKey:StataLocationKey];
   _Properties.LogLocation = [prefsDict valueForKey:LogLocationKey];
   _Properties.EnableLogging = [[prefsDict objectForKey:LogEnabledKey] boolValue];
+  _Properties.RunCodeOnOpen = [[prefsDict objectForKey:RunCodeOnOpenKey] boolValue];
 
 // we can't use the app-based domain because it will be the host app and not the StatTag framework's domain
 //  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];

@@ -15,9 +15,9 @@
 
 @interface STFactories : NSObject
 
-+(NSObject<STICodeFileParser>*)GetParser:(STCodeFile*)file;
-+(NSObject<STIGenerator>*)GetGenerator:(STCodeFile*)file;
-+(NSObject<STIValueFormatter>*)GetValueFormatter:(STCodeFile*)file;
++(id<STICodeFileParser>)GetParser:(STCodeFile*)file;
++(id<STIGenerator>)GetGenerator:(STCodeFile*)file;
++(id<STIValueFormatter>)GetValueFormatter:(STCodeFile*)file;
 
 
 @end

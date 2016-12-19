@@ -7,7 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "STSASCommands.h"
+#import "STIStatAutomation.h"
 
-@interface STSASAutomation : NSObject
+@interface STSASAutomation : NSObject<STIStatAutomation>
 
 @end

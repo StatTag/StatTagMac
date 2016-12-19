@@ -7,6 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "STIStatAutomation.h"
+#import "STICodeFileParser.h"
+
+
 @class STTag;
 @class STDocumentManager;
 @class STCodeFile;
@@ -44,6 +48,9 @@
 @property (strong, nonatomic) STDocumentManager* Manager;
 
 -(instancetype)init:(STDocumentManager*)manager;
+
++(id<STIStatAutomation>)GetStatAutomation:(STCodeFile*) file;
++(id<STICodeFileParser>)GetCodeFileParser:(STCodeFile*) file;
 
 -(STStatsManagerExecuteResult*) ExecuteStatPackage:(STCodeFile*)file filterMode:(NSInteger)filterMode tagsToRun:(NSArray<STTag*>*)tagsToRun;
 -(STStatsManagerExecuteResult*) ExecuteStatPackage:(STCodeFile*)file filterMode:(NSInteger)filterMode;

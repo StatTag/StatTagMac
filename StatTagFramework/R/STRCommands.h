@@ -1,8 +1,8 @@
 //
-//  STStataCommands.h
+//  STRCommands.h
 //  StatTag
 //
-//  Created by Eric Whitley on 7/5/16.
+//  Created by Eric Whitley on 12/19/16.
 //  Copyright © 2016 StatTag. All rights reserved.
 //
 
@@ -10,7 +10,8 @@
 #import "STIResultCommandFormatter.h"
 #import "STIResultCommandList.h"
 
-@interface STStataCommands : NSObject<STIResultCommandFormatter>
+
+@interface STRCommands  : NSObject<STIResultCommandFormatter>
 -(NSObject<STIResultCommandList>*)ValueResultCommands;
 -(NSObject<STIResultCommandList>*)FigureResultCommands;
 -(NSObject<STIResultCommandList>*)TableResultCommands;
@@ -18,18 +19,17 @@
 @end
 
 
-@interface STStataCommandsValueCommands : NSObject<STIResultCommandList>
+@interface STRCommandsValueCommands : NSObject<STIResultCommandList>
 //-(NSString*)Display;
 -(NSArray<NSString*>*)GetCommands;
 @end
 
-@interface STStataCommandsFigureCommands : NSObject<STIResultCommandList>
+@interface STRCommandsFigureCommands : NSObject<STIResultCommandList>
 //-(NSString*)GraphExport;
 -(NSArray<NSString*>*)GetCommands;
 @end
 
-
-@interface STStataCommandsTableCommands : NSObject<STIResultCommandList>
+@interface STRCommandsTableCommands : NSObject<STIResultCommandList>
 //-(NSString*)MatrixList;
 -(NSArray<NSString*>*)GetCommands;
 @end

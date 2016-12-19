@@ -10,6 +10,7 @@
 #import "STTable.h"
 #import "CHCSVParser.h"
 #import "STFileHandler.h"
+#import "STTableData.h"
 
 @implementation STCSVToTable
 
@@ -44,6 +45,7 @@
 
   //NSString* csvString = [STFileHandler ReadAllLinesAsStringBlock:tableFilePath error:&err];
 
+  //CHCSVParserOptionsSanitizesFields -> per docs, sets "quoted" (and a lot more, so be careful)
   NSArray* csv_data = [NSArray arrayWithContentsOfDelimitedURL:tableFilePath options:CHCSVParserOptionsSanitizesFields delimiter:','];
 
   if(csv_data != nil)
@@ -93,11 +95,7 @@
 
     NSArray<NSNumber*>* dimensions = [STCSVToTable GetTableDimensionsForPath:tableFilePath];
     
-    //FIXME: this is a mess
-    if(dimensions == nil || [dimensions indexOfObject: [NSNumber numberWithInteger:0] inSortedRange:NSMakeRange(0, dimensions.count) options:NSBinarySearchingFirstEqual | NSBinarySearchingInsertionIndex
-                                 usingComparator:^NSComparisonResult(NSNumber *obj1, NSNumber *obj2) {
-                                   return [obj1 compare:obj2];
-                                 }] != nil)
+    if(dimensions == nil || [dimensions containsObject:@0] || [dimensions count] < 2)
     {
       return table;
     }
@@ -108,42 +106,29 @@
     if(csv_data != nil)
     {
       NSInteger row = 0;
-      NSMutableArray<NSMutableArray<NSString*>*>* data = [[NSMutableArray<NSMutableArray<NSString*>*> alloc] init];
+      STTableData* data = [[STTableData alloc] initWithRows:[[dimensions objectAtIndex:0] integerValue] andCols:[[dimensions objectAtIndex:1] integerValue]];
       
-//      NSMutableArray<NSString*>* data = [[NSMutableArray<NSString*> alloc] initWithObjects:[NSString stringWithFormat:@"%@", [dimensions objectAtIndex:0]], [NSString stringWithFormat:@"%@", [dimensions objectAtIndex:1]], nil];
-
-      for(NSArray<NSArray*>* a in csv_data)
+      for(NSArray<NSArray*>* rows in csv_data)
       {
+        //row array
+        
         NSInteger column = 0;
-
-        for(NSInteger index = 0; index < [a count]; index++)
+        for(NSArray<NSString*>* columns in rows)
         {
-          //          data[row, index] = fields[index];
-          //  return [[data objectAtIndex:(index / columns)] objectAtIndex:(index % columns)];
-
-          
+          //column array (in row "rows")
+          [data addValue:[columns objectAtIndex:column] atRow:row andColumn:column];
+          column = column + 1;
         }
-        //        for (int index = 0; index < fields.Length; index++)
-        //        {
-        //        }
-        //
-        //      int fieldsLength = (fields == null ? 0 : fields.Length);
-        //      // If this is an unbalanced row, balance it with empty strings
-        //      if (fieldsLength < dimensions[1])
-        //      {
-        //        for (int index = fieldsLength; index < dimensions[1]; index++)
-        //        {
-        //          data[row, index] = string.Empty;
-        //        }
-        //      }
-        //
-        //      row++;
 
+        //we shouldn't need to balance the array like the C# version - it should just magically "work"
+        // since the class auto-fills the empty / missing row/column values (we initialized with a known # of rows/cols)
+        
+        row = row + 1;
       }
       
-//      [table setRowSize:[[dimensions objectAtIndex:0] integerValue]];
-//      [table setColumnSize:[[dimensions objectAtIndex:1] integerValue]];
-//      [table setData:outer];
+      [table setRowSize:[[dimensions objectAtIndex:0] integerValue]];
+      [table setColumnSize:[[dimensions objectAtIndex:1] integerValue]];
+      [table setData:data];
     }
 
 

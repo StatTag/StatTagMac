@@ -73,6 +73,10 @@ FOUNDATION_EXPORT const unsigned char StatTagVersionString[];
 #import <StatTagFramework/STSASAutomation.h>
 #import <StatTagFramework/STSASCommands.h>
 
+//--R
+#import <StatTagFramework/STRAutomation.h>
+#import <StatTagFramework/STRCommands.h>
+
 //--Generators
 #import <StatTagFramework/STBaseGenerator.h>
 #import <StatTagFramework/STBaseParameterGenerator.h>

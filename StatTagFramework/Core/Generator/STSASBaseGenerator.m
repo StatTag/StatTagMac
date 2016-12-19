@@ -16,7 +16,7 @@
 }
 
 -(NSString*)CommentSuffixCharacter {
-  return [STConstantsCodeFileComment SAS];
+  return [STConstantsCodeFileCommentSuffix SAS];
 }
 
 @end

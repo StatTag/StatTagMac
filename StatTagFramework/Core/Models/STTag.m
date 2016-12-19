@@ -410,14 +410,12 @@
   }
   
   STTable* table = [[_CachedResult firstObject] TableResult];
-  table.FormattedCells = [NSMutableArray arrayWithArray:[_TableFormat Format:table valueFormatter:[STFactories GetValueFormatter:_CodeFile]]];
+  table.FormattedCells = [_TableFormat Format:table valueFormatter:[STFactories GetValueFormatter:_CodeFile]];
 }
 
-/// Helper to be used for one particular dimension (row or column)
-/// </summary>
-/// <param name="originalDimension"></param>
-/// <param name="filter"></param>
-/// <returns></returns>
+/**
+ Helper to be used for one particular dimension (row or column)
+*/
 -(NSInteger) GetDisplayDimension:(NSInteger)originalDimension filter:(STFilterFormat*)filter
 {
   NSInteger dimension = originalDimension;
@@ -459,7 +457,17 @@ row labels are included.
 //  dimensions[0] = [tableData RowSize];
 //  dimensions[1] = [tableData ColumnSize];
   
-  NSMutableArray<NSNumber*>* dimensions = [[NSMutableArray alloc] initWithObjects:[NSNumber numberWithInteger:[tableData RowSize]], [NSNumber numberWithInteger:[tableData ColumnSize]], nil];
+  //NSMutableArray<NSNumber*>* dimensions = [[NSMutableArray alloc] initWithObjects:[NSNumber numberWithInteger:[tableData RowSize]], [NSNumber numberWithInteger:[tableData ColumnSize]], nil];
+
+  //NSMutableArray<NSNumber*>* dimensions = [[NSMutableArray alloc] init];
+  NSNumber* r = [NSNumber numberWithInteger:[self GetDisplayDimension:[tableData RowSize] filter:_TableFormat.RowFilter]];
+  NSNumber* c = [NSNumber numberWithInteger:[self GetDisplayDimension:[tableData ColumnSize] filter:_TableFormat.ColumnFilter]];
+  
+  NSMutableArray<NSNumber*>* dimensions = [[NSMutableArray alloc] initWithObjects:r, c, nil];
+  
+//  GetDisplayDimension(tableData.RowSize, TableFormat.RowFilter),
+//  GetDisplayDimension(tableData.ColumnSize, TableFormat.ColumnFilter)
+
   
   /*
   if ([_TableFormat IncludeColumnNames] && [tableData ColumnNames] != nil)
@@ -475,7 +483,7 @@ row labels are included.
   }
    */
   
-  [dimensions setObject:[self GetDisplayDimension:[tableData RowSize] filter:[STTableFormat RowFilter]] atIndexedSubscript:0];
+  //[dimensions setObject:[self GetDisplayDimension:[tableData RowSize] filter:[STTableFormat RowFilter]] atIndexedSubscript:0];
   
   return dimensions;
 }

@@ -14,7 +14,13 @@
 @interface STBaseGenerator : NSObject<STIGenerator> {
 }
 
+/** 
+ The comment character that is used for single line comments
+ */
 -(NSString*)CommentCharacter;
+/**
+ The suffix expected at the end of a comment (default is none)
+ */
 -(NSString*)CommentSuffixCharacter;
 -(NSString*)CreateOpenTagBase;
 -(NSString*)CreateClosingTag;

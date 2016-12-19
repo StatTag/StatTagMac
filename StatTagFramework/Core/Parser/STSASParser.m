@@ -54,43 +54,43 @@
   return regex;
 }
 //MARK: Figure regex
-+(NSString*)FigureCommand {
-  return @"ods pdf";
++(NSArray<NSString*>*)FigureCommands {
+  return [[NSArray<NSString*> alloc] initWithObjects:@"ods pdf", nil];
 }
 +(NSRegularExpression*)FigureKeywordRegex {
   NSError* error;
   NSRegularExpression* regex =   [NSRegularExpression
-                                  regularExpressionWithPattern:[NSString stringWithFormat:@"^\\s*%@\\b[\\S\\s]*file", [[[self class] FigureCommand] stringByReplacingOccurrencesOfString:@" " withString:@"\\s+" ]]
+                                  regularExpressionWithPattern:[NSString stringWithFormat:@"^\\s*%@\\b[\\S\\s]*file", [[[[self class] FigureCommands] componentsJoinedByString:@"|"] stringByReplacingOccurrencesOfString:@" " withString:@"\\s+" ]]
                                   options:NSRegularExpressionCaseInsensitive
                                   error:&error];
   if(error){
     NSLog(@"Stata - ValueKeywordRegex : %@", [error localizedDescription]);
-    NSLog(@"Stata - [[self class] FigureCommand] : %@", [[self class] FigureCommand]);
+    NSLog(@"Stata - [[self class] FigureCommand] : %@", [[self class] FigureCommands]);
   }
   return regex;
 }
 +(NSRegularExpression*)FigureRegex {
   NSError* error;
   NSRegularExpression* regex =   [NSRegularExpression
-                                  regularExpressionWithPattern:[NSString stringWithFormat:@"^\\s*%@\\b[\\S\\s]*file\\s*=\\s*\"(.*)\"[\\S\\s]*;", [[[self class] FigureCommand] stringByReplacingOccurrencesOfString:@" " withString:@"\\s+" ]]
+                                  regularExpressionWithPattern:[NSString stringWithFormat:@"^\\s*%@\\b[\\S\\s]*file\\s*=\\s*\"(.*)\"[\\S\\s]*;", [[[[self class] FigureCommands] componentsJoinedByString:@"|"] stringByReplacingOccurrencesOfString:@" " withString:@"\\s+" ]]
                                   options:NSRegularExpressionCaseInsensitive
                                   error:&error];
   if(error){
     NSLog(@"Stata - FigureRexec : %@", [error localizedDescription]);
-    NSLog(@"Stata - [[self class] FigureCommand] : %@", [[self class] FigureCommand]);
+    NSLog(@"Stata - [[self class] FigureCommand] : %@", [[self class] FigureCommands]);
   }
   return regex;
 }
 
 
 //MARK: Graph regex
-+(NSString*)GraphCommand {
-  return @"gr(?:aph)? export";
++(NSArray<NSString*>*)GraphCommands {
+  return [NSArray arrayWithObjects:@"gr(?:aph)? export", nil];
 }
 +(NSRegularExpression*)GraphKeywordRegex {
   NSError* error;
   NSRegularExpression* regex =   [NSRegularExpression
-          regularExpressionWithPattern:[NSString stringWithFormat:@"^\\s*%@\\b", [[[self class] GraphCommand] stringByReplacingOccurrencesOfString:@" " withString:@"\\s+" ]]
+          regularExpressionWithPattern:[NSString stringWithFormat:@"^\\s*%@\\b", [[[[self class] GraphCommands] componentsJoinedByString:@"|"] stringByReplacingOccurrencesOfString:@" " withString:@"\\s+" ]]
                                                           options:NSRegularExpressionCaseInsensitive
                                                             error:&error];
   if(error){
@@ -102,7 +102,7 @@
 +(NSRegularExpression*)GraphRegex {
   NSError* error;
   NSRegularExpression* regex =   [NSRegularExpression
-          regularExpressionWithPattern:[NSString stringWithFormat:@"^\\s*%@\\s+\\\"?([^\\\",]*)[\\\",]?", [[[self class] GraphCommand] stringByReplacingOccurrencesOfString:@" " withString:@"\\s+" ]]
+          regularExpressionWithPattern:[NSString stringWithFormat:@"^\\s*%@\\s+\\\"?([^\\\",]*)[\\\",]?", [[[[self class] GraphCommands] componentsJoinedByString:@"|"] stringByReplacingOccurrencesOfString:@" " withString:@"\\s+" ]]
           options:NSRegularExpressionCaseInsensitive
           error:&error];
   if(error){
@@ -113,18 +113,18 @@
 }
 
 //MARK: Table regex
-+(NSString*)TableCommand {
-  return @"ods csv";
++(NSArray<NSString*>*)TableCommands {
+  return [NSArray arrayWithObjects:@"ods csv", nil];
 }
 +(NSRegularExpression*)TableKeywordRegex {
   return [NSRegularExpression
-          regularExpressionWithPattern:[NSString stringWithFormat:@"^\\s*%@\\b[\\S\\s]*file", [[[self class] TableCommand] stringByReplacingOccurrencesOfString:@" " withString:@"\\s+" ]]
+          regularExpressionWithPattern:[NSString stringWithFormat:@"^\\s*%@\\b[\\S\\s]*file", [[[[self class] TableCommands] componentsJoinedByString:@"|"] stringByReplacingOccurrencesOfString:@" " withString:@"\\s+" ]]
           options:NSRegularExpressionCaseInsensitive
           error:nil];
 }
 +(NSRegularExpression*)TableRegex {
   return [NSRegularExpression
-          regularExpressionWithPattern:[NSString stringWithFormat:@"^\\s*%@\\b[\\S\\s]*file\\s*=\\s*\"(.*)\"[\\S\\s]*;", [[[self class] TableCommand] stringByReplacingOccurrencesOfString:@" " withString:@"\\s+" ]]
+          regularExpressionWithPattern:[NSString stringWithFormat:@"^\\s*%@\\b[\\S\\s]*file\\s*=\\s*\"(.*)\"[\\S\\s]*;", [[[[self class] TableCommands] componentsJoinedByString:@"|"] stringByReplacingOccurrencesOfString:@" " withString:@"\\s+" ]]
           options:NSRegularExpressionCaseInsensitive
           error:nil];
 }

@@ -91,7 +91,13 @@
 //http://stackoverflow.com/questions/1702870/how-to-collect-system-info-in-osx-using-objective-c
 //http://www.cocoawithlove.com/blog/2016/03/08/swift-wrapper-for-sysctl.html
 
-
++(NSArray<NSString*>*)splitStringIntoArrray:(NSString*)str {
+  NSMutableArray *chars = [[NSMutableArray alloc] initWithCapacity:[str length]];
+  for (int i=0; i < [str length]; i++) {
+    [chars addObject:[NSString stringWithFormat:@"%c", [str characterAtIndex:i]]];
+  }
+  return chars;
+}
 +(NSString*)currentBundleIdentifier {
   NSBundle* bundle = [NSBundle bundleForClass:[self class]];
   NSString * bundleName = [bundle bundleIdentifier];

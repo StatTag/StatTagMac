@@ -31,7 +31,7 @@
  @returns : True if the path is valid, false otherwise.
  */
 
-+(BOOL)IsValidLogPath:(NSString*)logFilePath;
+-(BOOL)IsValidLogPath:(NSString*)logFilePath;
 
 
 /**

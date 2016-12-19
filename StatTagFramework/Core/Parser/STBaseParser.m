@@ -65,9 +65,29 @@
 }
 
 
++(NSString*)FormatCommandListAsNonCapturingGroup:(NSArray<NSString*>*)commands
+{
+  if ([commands count] == 0)
+  {
+    return @"";
+  }
+  
+  NSMutableArray<NSString*>* a = [[NSMutableArray<NSString*> alloc] initWithArray:commands];
+  for(NSInteger i = 0; i < [a count]; i++) {
+    NSString* s = [[a objectAtIndex:i] stringByReplacingOccurrencesOfString:@" " withString:@"\\s+"];
+    [a setObject:s atIndexedSubscript:i];
+  }
+  return [NSString stringWithFormat:@"(?:%@)", [a componentsJoinedByString:@"|"]];
+//  return string.Format("(?:{0})",
+//                       string.Join("|", commands.Select(x => x.Replace(" ", "\\s+"))));
+}
+
+
 -(NSArray<NSString*>*)PreProcessContent:(NSArray<NSString*>*) originalContent {
   return nil;
 }
+
+
 
 
 //MARK: protocol implementation - the subclasses will need to actually override this
@@ -329,6 +349,19 @@
   }
   
   return results;
+}
+
+
+//FIXME: Move this somewhere else - this is general regex functionality
++(BOOL)regexIsMatch:(NSRegularExpression*)regex inString:(NSString*)string {
+  NSRange textRange = NSMakeRange(0, string.length);
+  //NSMatchingReportProgress
+  NSRange matchRange = [regex rangeOfFirstMatchInString:string options:0 range:textRange];
+
+  if (matchRange.location != NSNotFound)
+    return true;
+
+  return false;
 }
 
 

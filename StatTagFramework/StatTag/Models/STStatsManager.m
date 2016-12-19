@@ -9,6 +9,8 @@
 #import "STStatsManager.h"
 #import "StatTagFramework.h"
 #import "STDocumentManager.h"
+#import "STIStatAutomation.h"
+#import "STICodeFileParser.h"
 
 BOOL Globals_Application_ScreenUpdating = true;
 
@@ -34,6 +36,44 @@ const NSInteger RefreshStepInterval = 5;
 }
 
 
+
+/**
+ Factory method to return the appropriate statistical automation engine
+ 
+ @param file The code file we will be executing
+ @returns A stat package automation instance
+*/
++(id<STIStatAutomation>)GetStatAutomation:(STCodeFile*) file
+{
+  if (file != nil)
+  {
+    if([[file StatisticalPackage] isEqualToString:[STConstantsStatisticalPackages Stata]])
+    {
+      return [[STStataAutomation alloc] init];
+    } else if ([[file StatisticalPackage] isEqualToString:[STConstantsStatisticalPackages SAS]]) {
+      return [[STSASAutomation alloc] init];
+    } else if ([[file StatisticalPackage] isEqualToString:[STConstantsStatisticalPackages R]]) {
+      return [[STRAutomation alloc] init];
+    }
+  }
+  
+  return nil;
+}
+
++(id<STICodeFileParser>)GetCodeFileParser:(STCodeFile*) file
+{
+  if (file != nil)
+  {
+    if([[file StatisticalPackage] isEqualToString:[STConstantsStatisticalPackages Stata]])
+    {
+      return [[STStataParser alloc] init];
+    }
+  }
+  
+  return nil;
+}
+
+
 /**
  Run the statistical package for a given code file.
 
@@ -47,13 +87,13 @@ const NSInteger RefreshStepInterval = 5;
   result.Success = false;
   result.UpdatedTags = [[NSMutableArray<STTag*> alloc] init];
   
-  STStataAutomation* automation = [[STStataAutomation alloc] init];
+  //STStataAutomation* automation = [[STStataAutomation alloc] init];
+  NSObject<STIStatAutomation>* automation = [[self class] GetStatAutomation:file];
   
   if(! [automation Initialize]){
     //FIXME: we should probably do something w/ NSError here?
     /*
-     MessageBox.Show(
-     "Could not communicate with Stata.  You will need to enable Stata Automation (not done by default) to run this code in StatTag.\r\n\r\nThis can be done from StatTag > Settings, or see http://www.stata.com/automation",
+     MessageBox.Show(automation.GetInitializationErrorMessage(), UIUtility.GetAddInName());
      */
     //   UIUtility.GetAddInName());
     return result;
@@ -110,8 +150,8 @@ const NSInteger RefreshStepInterval = 5;
         [automation RunCommands:[NSArray<NSString*> arrayWithObject:combinedCommand]];
         continue;
       }
-
-      NSArray<STCommandResult*>* results = [automation RunCommands:[step Code]];
+      
+      NSArray<STCommandResult*>* results = [automation RunCommands:[step Code] tag:[step Tag]];
       STTag* tag = [[self Manager] FindTag:[[step Tag] Id]];
 
       
@@ -158,7 +198,9 @@ const NSInteger RefreshStepInterval = 5;
             //FIXME: test this... it's very likely we're not actually modifying the object as we think we are here... these are probably copies and not strongly referenced instances
             for(STCommandResult* a_result in [tag CachedResult]) {
               if([a_result TableResult] != nil ) {
-                a_result.TableResult.FormattedCells = [NSMutableArray<NSString*> arrayWithArray:[[tag TableFormat]Format:[a_result TableResult] valueFormatter:[STFactories GetValueFormatter:[tag CodeFile]]]];
+//                a_result.TableResult.FormattedCells = [NSMutableArray<NSString*> arrayWithArray:[[tag TableFormat]Format:[a_result TableResult] valueFormatter:[STFactories GetValueFormatter:[tag CodeFile]]]];
+                
+                a_result.TableResult.FormattedCells = [[tag TableFormat] Format:[a_result TableResult] valueFormatter: [STFactories GetValueFormatter:[tag CodeFile]]];
               }
             }
           }

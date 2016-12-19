@@ -13,7 +13,7 @@
 
 @synthesize RowSize = _RowSize;
 @synthesize ColumnSize = _ColumnSize;
-@synthesize Data = _Data; //type is double
+@synthesize Data = _Data;
 @synthesize FormattedCells = _FormattedCells;
 
 -(id)init {
@@ -38,7 +38,7 @@
     
     _RowSize = rowSize;
     _ColumnSize = columnSize;
-    _Data = data;//[[NSMutableArray alloc] initWithArray:data];
+    _Data = data;
   }
   return self;
 }

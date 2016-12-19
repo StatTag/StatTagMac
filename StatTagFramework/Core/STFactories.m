@@ -12,30 +12,30 @@
 #import "STICodeFileParser.h"
 #import "STBaseValueFormatter.h"
 #import "STStataParser.h"
-#import "STBaseParserSAS.h"
-#import "STBaseParserR.h"
+#import "STSASParser.h"
+#import "STRParser.h"
 #import "STBaseGenerator.h"
 #import "STStataBaseGenerator.h"
 #import "STStataBaseValueFormatter.h"
 
 @implementation STFactories
 
-+(NSObject<STICodeFileParser>*)GetParser:(STCodeFile*)file {
++(id<STICodeFileParser>)GetParser:(STCodeFile*)file {
   if (file != nil)
   {
     if([[file StatisticalPackage] isEqualToString: [STConstantsStatisticalPackages Stata] ]) {
       return [[STStataParser alloc] init];
     } else if([[file StatisticalPackage] isEqualToString: [STConstantsStatisticalPackages SAS] ]) {
-      return [[STBaseParserSAS alloc] init];
+      return [[STSASParser alloc] init];
     } else if([[file StatisticalPackage] isEqualToString: [STConstantsStatisticalPackages R] ]) {
-      return [[STBaseParserR alloc] init];
+      return [[STRParser alloc] init];
     }
   }
   return nil;
 }
 
 
-+(NSObject<STIGenerator>*)GetGenerator:(STCodeFile*)file {
++(id<STIGenerator>)GetGenerator:(STCodeFile*)file {
   if (file != nil)
   {
     if([[file StatisticalPackage] isEqualToString: [STConstantsStatisticalPackages Stata] ]) {
@@ -45,7 +45,7 @@
   return nil;
 }
 
-+(NSObject<STIValueFormatter>*)GetValueFormatter:(STCodeFile*)file {
++(id<STIValueFormatter>)GetValueFormatter:(STCodeFile*)file {
   if (file != nil)
   {
     if([[file StatisticalPackage] isEqualToString: [STConstantsStatisticalPackages Stata] ]) {

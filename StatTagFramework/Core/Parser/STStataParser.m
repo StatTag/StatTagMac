@@ -7,18 +7,29 @@
 //
 
 #import "STStataParser.h"
+#import "STCocoaUtil.h"
 
 @implementation STStataParser
 
+NSString* const macroChars = @"`'";
+NSString* const calcChars = @"*/-+";
 
 +(NSCharacterSet*)MacroDelimiters {
-  NSCharacterSet* chars = [NSCharacterSet characterSetWithCharactersInString:@"`'"];
+  NSCharacterSet* chars = [NSCharacterSet characterSetWithCharactersInString:macroChars];
   return chars;
 }
 +(NSCharacterSet*)CalculationOperators {
-  NSCharacterSet* chars = [NSCharacterSet characterSetWithCharactersInString:@"*/-+"];
+  NSCharacterSet* chars = [NSCharacterSet characterSetWithCharactersInString:calcChars];
   return chars;
 }
+
++(NSArray<NSString*>*)MacroDelimitersCharacters {
+  return [STCocoaUtil splitStringIntoArrray:macroChars];
+}
++(NSArray<NSString*>*)CalculationOperatorsCharacters {
+  return [STCocoaUtil splitStringIntoArrray:calcChars];
+}
+
 //MARK: Value regex
 +(NSArray<NSString*>*)ValueCommands {
   return [NSArray<NSString*> arrayWithObjects:@"display", @"dis", @"di", nil];
@@ -55,13 +66,13 @@
   return regex;
 }
 //MARK: Graph regex
-+(NSString*)GraphCommand {
-  return @"gr(?:aph)? export";
++(NSArray<NSString*>*)GraphCommands {
+  return [NSArray<NSString*> arrayWithObjects:@"gr(?:aph)? export", nil];
 }
 +(NSRegularExpression*)GraphKeywordRegex {
   NSError* error;
   NSRegularExpression* regex =   [NSRegularExpression
-          regularExpressionWithPattern:[NSString stringWithFormat:@"^\\s*%@\\b", [[[self class] GraphCommand] stringByReplacingOccurrencesOfString:@" " withString:@"\\s+" ]]
+          regularExpressionWithPattern:[NSString stringWithFormat:@"^\\s*%@\\b", [[[[self class] GraphCommands] componentsJoinedByString:@"|"]stringByReplacingOccurrencesOfString:@" " withString:@"\\s+" ]]
                                                           options:0
                                                             error:&error];
   if(error){
@@ -73,7 +84,7 @@
 +(NSRegularExpression*)GraphRegex {
   NSError* error;
   NSRegularExpression* regex =   [NSRegularExpression
-          regularExpressionWithPattern:[NSString stringWithFormat:@"^\\s*%@\\s+\\\"?([^\\\",]*)[\\\",]?", [[[self class] GraphCommand] stringByReplacingOccurrencesOfString:@" " withString:@"\\s+" ]]
+          regularExpressionWithPattern:[NSString stringWithFormat:@"^\\s*%@\\s+\\\"?([^\\\",]*)[\\\",]?", [[[[self class] GraphCommands]componentsJoinedByString:@"|"] stringByReplacingOccurrencesOfString:@" " withString:@"\\s+" ]]
           options:0
           error:&error];
   if(error){
@@ -84,18 +95,18 @@
 }
 
 //MARK: Table regex
-+(NSString*)TableCommand {
-  return @"mat(?:rix)? l(?:ist)?";
++(NSArray<NSString*>*)TableCommands {
+  return [NSArray<NSString*> arrayWithObjects:@"mat(?:rix)? l(?:ist)?", nil];
 }
 +(NSRegularExpression*)TableKeywordRegex {
   return [NSRegularExpression
-          regularExpressionWithPattern:[NSString stringWithFormat:@"^\\s*%@\\b", [[[self class] TableCommand] stringByReplacingOccurrencesOfString:@" " withString:@"\\s+" ]]
+          regularExpressionWithPattern:[NSString stringWithFormat:@"^\\s*%@\\b", [[[[self class] TableCommands]componentsJoinedByString:@"|"] stringByReplacingOccurrencesOfString:@" " withString:@"\\s+" ]]
           options:0
           error:nil];
 }
 +(NSRegularExpression*)TableRegex {
   return [NSRegularExpression
-          regularExpressionWithPattern:[NSString stringWithFormat:@"^\\s*%@\\s+([^,]*?)(?:\\r|\\n|$)", [[[self class] TableCommand] stringByReplacingOccurrencesOfString:@" " withString:@"\\s+" ]]
+          regularExpressionWithPattern:[NSString stringWithFormat:@"^\\s*%@\\s+([^,]*?)(?:\\r|\\n|$)", [[[[self class] TableCommands]componentsJoinedByString:@"|"] stringByReplacingOccurrencesOfString:@" " withString:@"\\s+" ]]
           options:0
           error:nil];
 }
@@ -151,16 +162,16 @@ This is used to test/extract a macro display value.
 //MARK: regex helper methods - MOVE THESE
 
 //FIXME: Move this somewhere else - this is general regex functionality
-+(BOOL)regexIsMatch:(NSRegularExpression*)regex inString:(NSString*)string {
-  NSRange textRange = NSMakeRange(0, string.length);
-  //NSMatchingReportProgress
-  NSRange matchRange = [regex rangeOfFirstMatchInString:string options:0 range:textRange];
-  
-  if (matchRange.location != NSNotFound)
-    return true;
-  
-  return false;
-}
+//+(BOOL)regexIsMatch:(NSRegularExpression*)regex inString:(NSString*)string {
+//  NSRange textRange = NSMakeRange(0, string.length);
+//  //NSMatchingReportProgress
+//  NSRange matchRange = [regex rangeOfFirstMatchInString:string options:0 range:textRange];
+//  
+//  if (matchRange.location != NSNotFound)
+//    return true;
+//  
+//  return false;
+//}
 
 
 //MARK: regex override methods

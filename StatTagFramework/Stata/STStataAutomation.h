@@ -70,7 +70,7 @@ extern NSString *const UnregisterParameter;
  */
 -(BOOL)IsReturnable:(NSString*)command;
 
--(NSArray<STCommandResult*>*)CombineAndRunCommands:(NSArray<NSString*>*) commands;
+//-(NSArray<STCommandResult*>*)CombineAndRunCommands:(NSArray<NSString*>*) commands;
 
 /**
  Run a collection of commands and provide all applicable results.
@@ -96,7 +96,7 @@ extern NSString *const UnregisterParameter;
  those results, we will display large integers as a result.  To clean up the results, we
  will detect missing values and set them to null.
  */
--(NSArray<NSNumber*>*)ProcessForMissingValues:(NSArray<NSNumber*>*)data;
+-(NSArray<NSString*>*)ProcessForMissingValues:(NSArray<NSNumber*>*)data;
 
 /**
  Run a Stata command and provide the result of the command (if one should be returned).
@@ -108,5 +108,7 @@ extern NSString *const UnregisterParameter;
 +(BOOL)UnregisterAutomationAPI:(NSString*) path;
 +(BOOL)RegisterAutomationAPI:(NSString*) path;
 
+
+-(NSString*)GetInitializationErrorMessage;
 
 @end

@@ -67,7 +67,7 @@
  @returns : True if the path is valid, false otherwise.
  */
 
-+(BOOL)IsValidLogPath:(NSString*)logFilePath {
+-(BOOL)IsValidLogPath:(NSString*)logFilePath {
   
   NSCharacterSet *ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
   if (logFilePath == nil || [[logFilePath stringByTrimmingCharactersInSet: ws] length] == 0) {
@@ -125,7 +125,7 @@
 -(void)UpdateSettings:(BOOL)enabled filePath:(NSString*)filePath {
   //self.LogFilePath = filePath;
   [self setLogFilePathWithString:filePath];
-  _Enabled = (enabled && [[self class]IsValidLogPath:[[self LogFilePath] path]]);
+  _Enabled = (enabled && [self IsValidLogPath:[[self LogFilePath] path]]);
 }
 
 
@@ -136,7 +136,7 @@
 */
 -(void) WriteMessage:(NSString*)text
 {
-  if (_Enabled && [[self class] IsValidLogPath:[[self LogFilePath] path]])
+  if (_Enabled && [self IsValidLogPath:[[self LogFilePath] path]])
   {
 
     //                FileHandler.AppendAllText(LogFilePath, string.Format("{0} - {1}\r\n", DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss.fff"), text));

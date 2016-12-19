@@ -25,8 +25,7 @@
 
 @property NSInteger RowSize;
 @property NSInteger ColumnSize;
-@property (strong, nonatomic) STTableData* Data; //type is double
-
+@property (strong, nonatomic) STTableData* Data;
 /**
  The formatted cells will be filled for all values in the Data array (meaning, these
  two collections will always be the same size).  If the user chooses to filter out
@@ -35,11 +34,16 @@
 @property (strong, nonatomic) STTableData* FormattedCells;
 
 -(id)init;
--(id)init:(NSInteger)rowSize columnSize:(NSInteger)columnSize data:(NSArray<NSArray<NSString*>*>*)data;
+-(id)init:(NSInteger)rowSize columnSize:(NSInteger)columnSize data:(STTableData*)data;
 
 -(BOOL)isEmpty;
 -(NSString*)ToString; //used by STTableFormat
 
+
+/**
+ Our approach has been to sequentially number table cells, so this is used to pull out data at the appropriate 2D location.
+ */
++(NSString*)GetDataAtIndex:(STTableData*)data index:(NSInteger)index;
 
 
 //MARK: JSON

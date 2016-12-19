@@ -18,8 +18,8 @@
 #import "STCodeFile.h"
 #import "STFieldGenerator.h"
 #import "STUIUtility.h"
-
-
+#import "STFilterFormat.h"
+#import "STTableUtil.h"
 
 @implementation STDocumentManager
 
@@ -229,12 +229,20 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   }
   
   // Are we changing the display of headers?
-  if (tagUpdatePair.Old.TableFormat.IncludeColumnNames != tagUpdatePair.New.TableFormat.IncludeColumnNames
-      || tagUpdatePair.Old.TableFormat.IncludeRowNames != tagUpdatePair.New.TableFormat.IncludeRowNames)
+//  if (tagUpdatePair.Old.TableFormat.IncludeColumnNames != tagUpdatePair.New.TableFormat.IncludeColumnNames
+//      || tagUpdatePair.Old.TableFormat.IncludeRowNames != tagUpdatePair.New.TableFormat.IncludeRowNames)
+//  {
+//    NSLog(@"Table dimensions have changed based on header settings");
+//    return true;
+//  }
+  
+  if (![tagUpdatePair.Old.TableFormat.ColumnFilter isEqual:tagUpdatePair.New.TableFormat.ColumnFilter]
+    || ![tagUpdatePair.Old.TableFormat.RowFilter isEqual:tagUpdatePair.New.TableFormat.RowFilter])
   {
-    NSLog(@"Table dimensions have changed based on header settings");
+    NSLog(@"Table dimensions have changed based on filter settings");
     return true;
   }
+
   
   return false;
 }
@@ -256,13 +264,13 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
   
   // Fields is a 1-based index
-  NSLog(@"Preparing to process %d} fields", fieldsCount);
+  NSLog(@"Preparing to process %ld} fields", fieldsCount);
   for (NSInteger index = fieldsCount - 1; index >= 0; index--)
   {
     STMSWord2011Field* field = fields[index];
     if (field == nil)
     {
-      NSLog(@"Null field detected at index %d", index);
+      NSLog(@"Null field detected at index %ld", index);
       continue;
     }
     
@@ -294,7 +302,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
         
         firstFieldLocation = [selection selectionStart]; //selection.Range.Start;
         
-        NSLog(@"First table cell found at position %d", firstFieldLocation);
+        NSLog(@"First table cell found at position %ld", firstFieldLocation);
       }
       
       [field delete]; //does this work?
@@ -346,7 +354,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
         if([WordHelpers imageExistsAtPath:[linkFormat sourceFullName]]) {
           linkFormat.sourceFullName = [linkFormat sourceFullName];
           linkFormat.sourceFullName = [linkFormat sourceFullName];
-          NSLog(@"updating shape[%d] with file path : '%@'", shapeIndex, [linkFormat sourceFullName]);
+          NSLog(@"updating shape[%ld] with file path : '%@'", shapeIndex, [linkFormat sourceFullName]);
         } else {
           NSLog(@"UpdateInlineShapes tried to update a file and can't find image at requested path - '%@'", [linkFormat sourceFullName]);
         }
@@ -413,7 +421,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
     SBElementArray<STMSWord2011Field*>* fields = [document fields];
     NSInteger fieldsCount = [fields count];
     // Fields is a 1-based index
-    NSLog(@"Preparing to process %d fields", fieldsCount);
+    NSLog(@"Preparing to process %ld fields", fieldsCount);
 
     [self setValue:@"Updating Fields" forKey:@"wordFieldUpdateStatus"];
     
@@ -424,7 +432,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
       STMSWord2011Field* field = fields[index];
       if (field == nil)
       {
-        NSLog(@"Null field detected at index %d", index);
+        NSLog(@"Null field detected at index %ld", index);
         continue;
       }
       
@@ -579,12 +587,12 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   if (cellsCount == 0)
   {
     NSLog(@"No cells selected, creating a new table");
- 
-    [self CreateWordTableForTableResult:selection table:table format:[tag TableFormat]];
+    [self CreateWordTableForTableResult:selection table:table format:[tag TableFormat] dimensions:dimensions];
+    
     // The table will be the size we need.  Update these tracking variables with the cells and
     // total size so that we can begin inserting data.
     cells = [self GetCells:selection];
-    cellsCount = [[table FormattedCells] count];
+    cellsCount = [[dimensions objectAtIndex:0] integerValue] * [[dimensions objectAtIndex:1] integerValue];
   }
   // Our heuristic is that a single cell selected with the selection being the same position most
   // likely means the user has their cursor in a table.  We are going to assume they want us to
@@ -597,7 +605,12 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
     cellsCount = [cells count];
   }
   
-  if (table.FormattedCells == nil || [[table FormattedCells] count] == 0)
+  //+(NSArray<NSString*>*)GetDisplayableVector:(STTableData*)data format:(STTableFormat*)format;
+
+  NSArray<NSString*>* displayData = [STTableUtil GetDisplayableVector:[table FormattedCells] format:[tag TableFormat]];
+  
+  //if (table.FormattedCells == nil || [[table FormattedCells] count] == 0)
+  if (displayData == nil || [displayData count] == 0)
   {
     [STUIUtility WarningMessageBox:@"There are no table results to insert." logger:_Logger];
     return;
@@ -637,7 +650,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
     point.x = [cell rowIndex];
     point.y = [cell columnIndex];
     [cellPoints addObject:[NSValue valueWithPoint:point]];
-    NSLog(@"cell (%d,%d)", [cell rowIndex], [cell columnIndex]);
+    NSLog(@"cell (%ld,%ld)", [cell rowIndex], [cell columnIndex]);
   }
   
   STMSWord2011Cell* findCell = [cells firstObject];
@@ -668,9 +681,9 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
     NSPoint cellPoint = [value pointValue];
     STMSWord2011Cell* cell = [cellTable getCellFromTableRow:cellPoint.x column:cellPoint.y];
     
-    if (index >= [[table FormattedCells] count])
+    if (index >= [displayData count])
     {
-      NSLog(@"Index %d is beyond result cell length of %d", index, [[table FormattedCells] count]);
+      NSLog(@"Index %ld is beyond result cell length of %ld", index, [displayData count]);
       break;
     }
     
@@ -680,17 +693,17 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
     // value is related with, since we have multiple fields (and therefore multiple copies of the tag) in the
     // document.  Note that we are wiping out the cached value to just have the individual cell value present.
     STCommandResult* commandResult = [[STCommandResult alloc] init];
-    commandResult.ValueResult = [[table FormattedCells] objectAtIndex:index];
+    commandResult.ValueResult = [displayData objectAtIndex:index];
     NSMutableArray<STCommandResult*>* cachedResult = [[NSMutableArray<STCommandResult*> alloc] init];
     [cachedResult addObject:commandResult];
     STFieldTag* innerTag = [[STFieldTag alloc] initWithTag:tag andTableCellIndex:[NSNumber numberWithInteger:index]];
     innerTag.CachedResult = cachedResult;
     
-    [self CreateTagField:range tagIdentifier:[NSString stringWithFormat:@"%@%@%d", [tag Name], [STConstantsReservedCharacters TagTableCellDelimiter], index] displayValue:[innerTag FormattedResult] tag:innerTag];
+    [self CreateTagField:range tagIdentifier:[NSString stringWithFormat:@"%@%@%ld", [tag Name], [STConstantsReservedCharacters TagTableCellDelimiter], index] displayValue:[innerTag FormattedResult] tag:innerTag];
     index++;
   }
   
-  [self WarnOnMismatchedCellCount:cellsCount dataLength:[[table FormattedCells] count] ];
+  [self WarnOnMismatchedCellCount:cellsCount dataLength:[displayData count] ];
   
   // Once the table has been inserted, re-select it (inserting fields messes with the previous selection) and
   // insert a new line after it.  This gives us spacing after a table so inserting multiple tables doesn't have
@@ -723,7 +736,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   Create a new table in the Word document at the current selection point.  This assumes we have a
   statistical result containing a table that needs to be inserted.
  */
--(void)CreateWordTableForTableResult:(STMSWord2011SelectionObject*)selection table:(STTable*)table format:(STTableFormat*)format {
+-(void)CreateWordTableForTableResult:(STMSWord2011SelectionObject*)selection table:(STTable*)table format:(STTableFormat*)format dimensions:(NSArray<NSNumber*>*)dimensions {
  
   NSLog(@"CreateWordTableForTableResult - Started");
 
@@ -731,10 +744,12 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   STMSWord2011Document* doc = [app activeDocument];
 
   @try {
-    NSInteger rowCount = (format.IncludeColumnNames) ? (table.RowSize + 1) : (table.RowSize);
-    NSInteger columnCount = (format.IncludeRowNames) ? (table.ColumnSize + 1) : (table.ColumnSize);
+    NSInteger rowCount = [[dimensions objectAtIndex:0] integerValue];
+    NSInteger columnCount = [[dimensions objectAtIndex:1] integerValue];
+    //    NSInteger rowCount = (format.IncludeColumnNames) ? (table.RowSize + 1) : (table.RowSize);
+    //    NSInteger columnCount = (format.IncludeRowNames) ? (table.ColumnSize + 1) : (table.ColumnSize);
 
-    NSLog(@"Table dimensions r=%d, c=%d", rowCount, columnCount);
+    NSLog(@"Table dimensions r=%ld, c=%ld", rowCount, columnCount);
 
     
     STMSWord2011Table* wordTable = [WordHelpers createTableAtRange:[[app selection] textObject] withRows:rowCount andCols:columnCount];
@@ -767,11 +782,11 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   //FIXME: this is not ideal - we should be separating UI from this kind of behavior
   if (selectedCellCount > dataLength)
   {
-    [STUIUtility WarningMessageBox:[NSString stringWithFormat:@"The number of cells you have selected (%d) is larger than the number of cells in your results (%d).\r\n\r\nOnly the first %d cells have been filled in with results.", selectedCellCount, dataLength, dataLength] logger:_Logger];
+    [STUIUtility WarningMessageBox:[NSString stringWithFormat:@"The number of cells you have selected (%ld) is larger than the number of cells in your results (%ld).\r\n\r\nOnly the first %ld cells have been filled in with results.", selectedCellCount, dataLength, dataLength] logger:_Logger];
   }
   else if (selectedCellCount < dataLength)
   {
-    [STUIUtility WarningMessageBox:[NSString stringWithFormat:@"The number of cells you have selected (%d) is smaller than the number of cells in your results (%d).\r\n\r\nOnly the first %d cells have been used.", selectedCellCount, dataLength, selectedCellCount] logger:_Logger];
+    [STUIUtility WarningMessageBox:[NSString stringWithFormat:@"The number of cells you have selected (%ld) is smaller than the number of cells in your results (%ld).\r\n\r\nOnly the first %ld cells have been used.", selectedCellCount, dataLength, selectedCellCount] logger:_Logger];
   }
 }
 
@@ -860,7 +875,7 @@ Insert an StatTag field at the currently specified document range.
  */
 -(void)CreateTagField:(STMSWord2011TextRange*)range tagIdentifier:(NSString*)tagIdentifier displayValue:(NSString*)displayValue tag:(STTag*)tag {
   NSLog(@"CreateTagField - Started");
-  NSLog(@"Creating tag with range : (%d,%d) and tagIdentifier: %@ and displayValue : %@ with tag : %@", [range startOfContent], [range endOfContent], tagIdentifier, displayValue, tag);
+  NSLog(@"Creating tag with range : (%ld,%ld) and tagIdentifier: %@ and displayValue : %@ with tag : %@", [range startOfContent], [range endOfContent], tagIdentifier, displayValue, tag);
   //C# - XML - can't use it as we don't have support for InsertXML
   //  range.InsertXML(OpenXmlGenerator.GenerateField(tagIdentifier, displayValue, tag));
   
@@ -869,7 +884,8 @@ Insert an StatTag field at the currently specified document range.
   //    Constants.FieldDetails.MacroButtonName, displayValue, tagIdentifier, FieldCreator.FieldOpen, FieldCreator.FieldClose));
   //Log(string.Format("Inserted field with identifier {0} and display value {1}", tagIdentifier, displayValue));
   
-  NSArray<STMSWord2011Field*>* fields = [_FieldManager InsertField:range theString:
+  
+  NSArray<STMSWord2011Field*>* fields = [[_FieldManager class] InsertField:range theString:
                                          
                                          [NSString stringWithFormat:@"%@MacroButton %@ %@%@ADDIN %@%@%@",
                                           
@@ -1064,7 +1080,7 @@ Insert an StatTag field at the currently specified document range.
     NSLog(@"%@", exception.reason);
     NSLog(@"method: %@, line : %d", NSStringFromSelector(_cmd), __LINE__);
     NSLog(@"%@", [NSThread callStackSymbols]);
-    [STUIUtility ReportException:exception userMessage:@"There was an unexpected error when trying to insert the tag output into the Word sdocument." logger:_Logger];
+    [STUIUtility ReportException:exception userMessage:@"There was an unexpected error when trying to insert the tag output into the Word document." logger:_Logger];
   }
   @finally
   {
@@ -1236,7 +1252,10 @@ Insert an StatTag field at the currently specified document range.
   
   NSString* fullName = [document fullName];
   if([DocumentCodeFiles objectForKey:fullName] == nil) {
+    NSLog(@"Code file list for %@ is not yet cached.", fullName);
     [DocumentCodeFiles setValue:[[NSMutableArray<STCodeFile*> alloc] init] forKey:fullName];
+    [self LoadCodeFileListFromDocument:document];
+    //NSLog(@"Loaded %@ code files from document", DocumentCodeFiles[fullName].Count);
   }
   
   return DocumentCodeFiles[fullName];

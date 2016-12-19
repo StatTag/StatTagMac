@@ -9,6 +9,9 @@
 #import "STStataAutomation.h"
 #import "StatTagFramework.h"
 #import "STCocoaUtil.h"
+#import "STTableUtil.h"
+#import "STTableData.h"
+#import "STTable.h"
 
 @implementation STStataAutomation
 
@@ -142,13 +145,16 @@ const NSInteger ShowStata = 3;
   return [Parser IsValueDisplay:command] || [Parser IsImageExport:command] || [Parser IsTableResult:command];
 }
 
--(NSArray<STCommandResult*>*)CombineAndRunCommands:(NSArray<NSString*>*) commands
-{
-  NSString* combinedCommand = [commands componentsJoinedByString:@"\r\n"];
-  return [self RunCommands:[NSArray<NSString*> arrayWithObjects:combinedCommand, nil]];
+//-(NSArray<STCommandResult*>*)CombineAndRunCommands:(NSArray<NSString*>*) commands
+//{
+//  NSString* combinedCommand = [commands componentsJoinedByString:@"\r\n"];
+//  return [self RunCommands:[NSArray<NSString*> arrayWithObjects:combinedCommand, nil]];
+//}
+
+-(NSArray<STCommandResult*>*)RunCommands:(NSArray<NSString*>*)commands tag:(STTag*)tag {
+  return [self RunCommands:commands tag:nil];
 }
-
-
+  
 /**
  Run a collection of commands and provide all applicable results.
 */
@@ -187,6 +193,20 @@ const NSInteger ShowStata = 3;
 
 }
 
+
+-(NSString*)GetMacroValue:(NSString*)name
+{
+  NSString* result = [Application MacroValue:name];
+  // If we get an empty string, try it with the prefix for local macros
+  NSCharacterSet *ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+
+  if ([[result stringByTrimmingCharactersInSet:ws] length] == 0)
+  {
+    result = [Application MacroValue:[NSString stringWithFormat:@"%@%@",LocalMacroPrefix, name]];
+  }
+  return result;
+}
+
 /**
   Determine the string result for a command that returns a single value.  This includes
   macros and scalars.
@@ -209,12 +229,13 @@ const NSInteger ShowStata = 3;
   
   if([Parser IsMacroDisplayValue:command]) {
     name = [Parser GetMacroValueName:command];
-    NSString* result = [Application MacroValue:name];
-    // If we get an empty string, try it with the prefix for local macros
-    if(result == nil || [result length] == 0) {
-      result = [Application MacroValue:[NSString stringWithFormat:@"%@%@", LocalMacroPrefix, name]];
-    }
-    return result;
+    return [self GetMacroValue:name];
+//    NSString* result = [Application MacroValue:name];
+//    // If we get an empty string, try it with the prefix for local macros
+//    if(result == nil || [result length] == 0) {
+//      result = [Application MacroValue:[NSString stringWithFormat:@"%@%@", LocalMacroPrefix, name]];
+//    }
+//    return result;
   }
   
   name = [Parser GetValueName:command];
@@ -244,8 +265,17 @@ const NSInteger ShowStata = 3;
 -(STTable*)GetTableResult:(NSString*) command
 {
   NSString* matrixName = [Parser GetTableName:command];
-  STTable* table = [[STTable alloc]
-                    init:[Application MatrixRowDim:matrixName] columnSize:[Application MatrixColDim:matrixName] data:[self ProcessForMissingValues:[Application MatrixData:matrixName]]];
+  
+  
+  NSArray<NSString*>* rowNames = [Application MatrixRowNames:matrixName];
+  NSArray<NSString*>* columnNames = [Application MatrixColNames:matrixName];
+  NSInteger rowCount = [Application MatrixRowDim:matrixName] + ((rowNames != nil && [rowNames count] > 0) ? 1 : 0);
+  NSInteger columnCount = [Application MatrixColDim:matrixName] + ((columnNames != nil && [columnNames count] > 0) ? 1 : 0);
+
+  NSArray<NSString*>* data = [self ProcessForMissingValues:[Application MatrixData:matrixName]];
+  STTableData* arrayData = [STTableUtil MergeTableVectorsToArray:rowNames columnNames:columnNames data:data totalRows:rowCount totalColumns:columnCount];
+  STTable* table = [[STTable alloc] init:rowCount columnSize:columnCount data:arrayData];
+
   return table;
 }
 
@@ -257,12 +287,13 @@ const NSInteger ShowStata = 3;
   those results, we will display large integers as a result.  To clean up the results, we
   will detect missing values and set them to null.
 */
--(NSArray<NSNumber*>*)ProcessForMissingValues:(NSArray<NSNumber*>*)data {
-  //FIXME: we can't do nilable fixed type arrays with NSNumber... so go back and review this.
-  NSMutableArray* cleanedData = [[NSMutableArray alloc] initWithCapacity:[data count]];
+-(NSArray<NSString*>*)ProcessForMissingValues:(NSArray<NSNumber*>*)data {
+  //FIXME: we can't do nilable fixed type arrays with NSNumber or NSString... so go back and review this.
+  NSMutableArray<NSString*>* cleanedData = [[NSMutableArray<NSString*> alloc] initWithCapacity:[data count]];
   double missingValue = [Application UtilGetStMissingValue];
   for(NSInteger index = 0; index < [data count]; index++) {
-    [cleanedData addObject:([data[index]doubleValue] >= missingValue) ? [NSNull null] : data[index]];
+    //[cleanedData addObject:([data[index]doubleValue] >= missingValue) ? [NSNull null] : [NSString stringWithFormat:@"%@", data[index]]];
+    [cleanedData addObject:([data[index]doubleValue] >= missingValue) ? @"." : [NSString stringWithFormat:@"%@", data[index]]];
   }
   return cleanedData;
 }
@@ -297,11 +328,35 @@ const NSInteger ShowStata = 3;
   }
   
   if([Parser IsImageExport:command]) {
+    
+    
+    NSString* imageLocation = [Parser GetImageSaveLocation:command];
+    if([imageLocation containsString:[[STStataParser MacroDelimitersCharacters] firstObject]])
+    {
+      NSArray<NSString*>* macros = [Parser GetMacros:imageLocation];
+      for(NSString* macro in macros)
+      {
+        NSString* result = [self GetMacroValue:macro];
+        imageLocation = [self ReplaceMacroWithValue:imageLocation macro:macro value:result];
+      }
+      
+    }
+    
     STCommandResult* result = [[STCommandResult alloc] init];
-    result.FigureResult = [Parser GetImageSaveLocation:command];
+    result.FigureResult = imageLocation;
     return result;
   }
   return nil;
+}
+
+
+/**
+ Given a macro name that appears in a command string, replace it with its expanded value
+*/
+-(NSString*)ReplaceMacroWithValue:(NSString*)originalString macro:(NSString*)macro value:(NSString*)value
+{
+  NSString* n = [NSString stringWithFormat:@"%@%@%@", [[STStataParser MacroDelimitersCharacters] objectAtIndex:0], macro, [[STStataParser MacroDelimitersCharacters] objectAtIndex:1]];
+  return [originalString stringByReplacingOccurrencesOfString:n withString:value];
 }
 
 -(void)dealloc
@@ -349,5 +404,12 @@ const NSInteger ShowStata = 3;
 //  
 //  return (0 == process.ExitCode);
 //}
+
+
+-(NSString*)GetInitializationErrorMessage
+{
+  return @"Could not communicate with Stata. Please ensure that Stata is installed and is, at minium, version 13.";
+}
+
 
 @end
