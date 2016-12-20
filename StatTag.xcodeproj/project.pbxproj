@@ -213,6 +213,9 @@
 		38E20DF61E09A4F600B524CE /* StatTagUtilityTableUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38E20DF51E09A4F600B524CE /* StatTagUtilityTableUtilTests.m */; };
 		38E20DF91E09E6D300B524CE /* sample_png.png in Resources */ = {isa = PBXBuildFile; fileRef = 38E20DF81E09E6D300B524CE /* sample_png.png */; };
 		38E20DFB1E09E92200B524CE /* sample_pdf.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 38E20DFA1E09E92200B524CE /* sample_pdf.pdf */; };
+		38E20E011E09EC5700B524CE /* fake-file.do in Resources */ = {isa = PBXBuildFile; fileRef = 38E20DFE1E09EC5700B524CE /* fake-file.do */; };
+		38E20E021E09EC5700B524CE /* simple-macro-test-2.do in Resources */ = {isa = PBXBuildFile; fileRef = 38E20DFF1E09EC5700B524CE /* simple-macro-test-2.do */; };
+		38E20E031E09EC5700B524CE /* simple-macro-test.do in Resources */ = {isa = PBXBuildFile; fileRef = 38E20E001E09EC5700B524CE /* simple-macro-test.do */; };
 		38EDF0271D2BFFD800ACD77B /* STStata.h in Headers */ = {isa = PBXBuildFile; fileRef = 38EDF0261D2BFFD800ACD77B /* STStata.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38EDF02A1D2C002A00ACD77B /* STStataAutomation.h in Headers */ = {isa = PBXBuildFile; fileRef = 38EDF0281D2C002A00ACD77B /* STStataAutomation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38EDF02B1D2C002A00ACD77B /* STStataAutomation.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EDF0291D2C002A00ACD77B /* STStataAutomation.m */; };
@@ -560,6 +563,9 @@
 		38E20DF51E09A4F600B524CE /* StatTagUtilityTableUtilTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagUtilityTableUtilTests.m; sourceTree = "<group>"; };
 		38E20DF81E09E6D300B524CE /* sample_png.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sample_png.png; sourceTree = "<group>"; };
 		38E20DFA1E09E92200B524CE /* sample_pdf.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = sample_pdf.pdf; sourceTree = "<group>"; };
+		38E20DFE1E09EC5700B524CE /* fake-file.do */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "fake-file.do"; sourceTree = "<group>"; };
+		38E20DFF1E09EC5700B524CE /* simple-macro-test-2.do */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "simple-macro-test-2.do"; sourceTree = "<group>"; };
+		38E20E001E09EC5700B524CE /* simple-macro-test.do */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "simple-macro-test.do"; sourceTree = "<group>"; };
 		38EDF0261D2BFFD800ACD77B /* STStata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STStata.h; sourceTree = "<group>"; };
 		38EDF0281D2C002A00ACD77B /* STStataAutomation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STStataAutomation.h; sourceTree = "<group>"; };
 		38EDF0291D2C002A00ACD77B /* STStataAutomation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STStataAutomation.m; sourceTree = "<group>"; };
@@ -940,6 +946,7 @@
 		38516FD21DF5D1EA006989BC /* Fixtures */ = {
 			isa = PBXGroup;
 			children = (
+				38E20DFC1E09EC3400B524CE /* Sample_Code_Files */,
 				38E20DF71E09E6BC00B524CE /* Embedded_Files */,
 				38516FD31DF5D1FA006989BC /* CSV */,
 			);
@@ -1208,6 +1215,24 @@
 				38E20DF81E09E6D300B524CE /* sample_png.png */,
 			);
 			path = Embedded_Files;
+			sourceTree = "<group>";
+		};
+		38E20DFC1E09EC3400B524CE /* Sample_Code_Files */ = {
+			isa = PBXGroup;
+			children = (
+				38E20DFD1E09EC4200B524CE /* Stata */,
+			);
+			path = Sample_Code_Files;
+			sourceTree = "<group>";
+		};
+		38E20DFD1E09EC4200B524CE /* Stata */ = {
+			isa = PBXGroup;
+			children = (
+				38E20DFE1E09EC5700B524CE /* fake-file.do */,
+				38E20DFF1E09EC5700B524CE /* simple-macro-test-2.do */,
+				38E20E001E09EC5700B524CE /* simple-macro-test.do */,
+			);
+			path = Stata;
 			sourceTree = "<group>";
 		};
 		38EDF0251D2BFF8300ACD77B /* Stata */ = {
@@ -1554,9 +1579,12 @@
 			files = (
 				384CE6741DF5D5930076FBDB /* testArrayFile.txt in Resources */,
 				38E20DFB1E09E92200B524CE /* sample_pdf.pdf in Resources */,
+				38E20E021E09EC5700B524CE /* simple-macro-test-2.do in Resources */,
 				380A67971D102FFA0045B72B /* TestDestinationTextFile.txt in Resources */,
+				38E20E031E09EC5700B524CE /* simple-macro-test.do in Resources */,
 				38516FD91DF5D20A006989BC /* unbalanced.csv in Resources */,
 				38516FD71DF5D20A006989BC /* balanced.csv in Resources */,
+				38E20E011E09EC5700B524CE /* fake-file.do in Resources */,
 				38E20DF91E09E6D300B524CE /* sample_png.png in Resources */,
 				38516FD81DF5D20A006989BC /* empty.csv in Resources */,
 				382C8D4D1D101CE000FE6878 /* TestSourceTextFile.txt in Resources */,

@@ -210,7 +210,11 @@
   
   [manager LoadCodeFileListFromDocument:doc];
   NSLog(@"GetCodeFileList : %@", [manager GetCodeFileList]);
-  [manager AddCodeFile:@"/Users/ewhitley/Documents/work_other/NU/Word Plugin/_code/WindowsVersion/Word_Files_Working_Copies/simple-macro-test.do"];
+
+  NSBundle* bundle = [NSBundle bundleForClass:[self class]];
+  NSString *sourceFilePath = [bundle pathForResource:@"simple-macro-test" ofType:@"do"];
+  [manager AddCodeFile:sourceFilePath];
+
   NSLog(@"GetCodeFileList : %@", [manager GetCodeFileList]);
   
   NSLog(@"GetTags : %@", [manager GetTags]);
@@ -257,7 +261,9 @@
   //https://groups.google.com/forum/#!msg/microsoft.public.mac.office.word/jzksDl1ebCw/YGddKCkIJdYJ
   
   STDocumentManager* manager = [[STDocumentManager alloc] init];
-  [manager AddCodeFile:@"/Users/ewhitley/Documents/work_other/NU/Word Plugin/_code/WindowsVersion/Word_Files_Working_Copies/simple-macro-test.do"];
+  NSBundle* bundle = [NSBundle bundleForClass:[self class]];
+  NSString *sourceFilePath = [bundle pathForResource:@"simple-macro-test" ofType:@"do"];
+  [manager AddCodeFile:sourceFilePath];
   
   [manager GetTags];
   
@@ -274,8 +280,10 @@
   
   STDocumentManager* manager = [[STDocumentManager alloc] init];
 
-  [manager AddCodeFile:@"/Users/ewhitley/Documents/work_other/NU/Word Plugin/_code/WindowsVersion/Word_Files_Working_Copies/simple-macro-test.do"];
-  
+  NSBundle* bundle = [NSBundle bundleForClass:[self class]];
+  NSString *sourceFilePath = [bundle pathForResource:@"simple-macro-test" ofType:@"do"];
+  [manager AddCodeFile:sourceFilePath];
+
   [manager GetTags];
   
   for(STTag* tag in [manager GetTags]) {
@@ -334,7 +342,9 @@
 -(void)testSaveCodeFileListToDocument {
   STDocumentManager* manager = [[STDocumentManager alloc] init];
   
-  [manager AddCodeFile:@"/Users/ewhitley/Documents/work_other/NU/Word Plugin/_code/WindowsVersion/Word_Files_Working_Copies/simple-macro-test.do"];
+  NSBundle* bundle = [NSBundle bundleForClass:[self class]];
+  NSString *sourceFilePath = [bundle pathForResource:@"simple-macro-test" ofType:@"do"];
+  [manager AddCodeFile:sourceFilePath];
 
 //  for(STCodeFile* cf in [manager GetCodeFileList]) {
 //    NSLog(@"codeFile content: %@", [cf Content]);
@@ -447,12 +457,9 @@
 
 -(void)testInsertInlineShapeWithASOC {
   
-//  NSString* path = @"/Users/ewhitley/Desktop/word.png";
   NSBundle* bundle = [NSBundle bundleForClass:[self class]];
   NSString *sourceFilePath = [bundle pathForResource:@"sample_pdf" ofType:@"pdf"];
-
-  NSString* path = sourceFilePath;//@"/Users/ewhitley/Desktop/word.pdf";
-//  NSString* path = @"Users:ewhitley:Desktop:word.png";
+  NSString* path = sourceFilePath;
 
 //  NSURL* theFileURL = [NSURL fileURLWithPath:path];
 //  NSString* hfsPath = (NSString*)CFBridgingRelease(CFURLCopyFileSystemPath((CFURLRef)theFileURL, kCFURLHFSPathStyle));
@@ -500,8 +507,8 @@
   NSString *sourceFilePath = [bundle pathForResource:@"sample_png" ofType:@"png"];
   //sourceFileUrl = [[NSURL alloc] initFileURLWithPath:sourceFilePath];
   
-  result.FigureResult = sourceFilePath;//@"/Users/ewhitley/Desktop/word.png";
-
+  result.FigureResult = sourceFilePath;
+  
   STTag* tag = [[STTag alloc] init];
   tag.Name = @"test tag";
   tag.Type = [STConstantsTagType Figure];
@@ -580,7 +587,9 @@
   
   
   STDocumentManager* manager = [[STDocumentManager alloc] init];
-  [manager AddCodeFile:@"/Users/ewhitley/Documents/work_other/NU/Word Plugin/_code/WindowsVersion/Word_Files_Working_Copies/simple-macro-test.do"];
+  NSBundle* bundle = [NSBundle bundleForClass:[self class]];
+  NSString *sourceFilePath = [bundle pathForResource:@"simple-macro-test" ofType:@"do"];
+  [manager AddCodeFile:sourceFilePath];
   
   [manager GetTags];
   
