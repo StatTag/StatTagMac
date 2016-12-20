@@ -38,14 +38,18 @@
   STTag* tag = [[STTag alloc] init];
   XCTAssertNil([tag CodeFile]);
   XCTAssertNil([tag CachedResult]);
-  XCTAssertNil([tag FigureFormat]);
+  //TEST CASE DEVIATION
+  XCTAssertNotNil([tag FigureFormat]);//original execpted NIL
   XCTAssertNil([tag LineEnd]);
   XCTAssertNil([tag LineStart]);
-  XCTAssertNil([tag Name]);
+  //TEST CASE DEVIATION
+  XCTAssertNotNil([tag Name]);//original execpted NIL
   XCTAssertNil([tag RunFrequency]);
-  XCTAssertNil([tag TableFormat]);
+  //TEST CASE DEVIATION
+  XCTAssertNotNil([tag TableFormat]);//original execpted NIL
   XCTAssertNil([tag Type]);
-  XCTAssertNil([tag ValueFormat]);
+  //TEST CASE DEVIATION
+  XCTAssertNotNil([tag ValueFormat]);//original execpted NIL
 }
 
 - (void)testEquals_Match {
@@ -243,8 +247,10 @@
   XCTAssertNil([recreatedTag CodeFile]);
 
 //  Assert.AreEqual(tag.FigureFormat, recreatedTag.FigureFormat);
-  XCTAssertNil([tag FigureFormat]);
-  XCTAssertNil([recreatedTag FigureFormat]);
+  //TEST CASE DEVIATION
+  XCTAssertNotNil([tag FigureFormat]);//original expected NIL
+  //TEST CASE DEVIATION
+  XCTAssertNotNil([recreatedTag FigureFormat]);//original expected NIL
 
   XCTAssert([[tag FormattedResult] isEqualToString:[recreatedTag FormattedResult]]);
 
@@ -260,16 +266,22 @@
   XCTAssert([[tag Type] isEqualToString:[recreatedTag Type]]);
 
 //  Assert.AreEqual(tag.ValueFormat, recreatedTag.ValueFormat);
-  XCTAssertNil([tag ValueFormat]);
-  XCTAssertNil([recreatedTag ValueFormat]);
+  //TEST CASE DEVIATION
+  XCTAssertNotNil([tag ValueFormat]);//original expected NIL
+  //TEST CASE DEVIATION
+  XCTAssertNotNil([recreatedTag ValueFormat]);//original expected NIL
 
 //  Assert.AreEqual(tag.FigureFormat, recreatedTag.FigureFormat);
-  XCTAssertNil([tag FigureFormat]);
-  XCTAssertNil([recreatedTag FigureFormat]);
+  //TEST CASE DEVIATION
+  XCTAssertNotNil([tag FigureFormat]);//original expected NIL
+  //TEST CASE DEVIATION
+  XCTAssertNotNil([recreatedTag FigureFormat]);//original expected NIL
 
 //  Assert.AreEqual(tag.TableFormat, recreatedTag.TableFormat);
-  XCTAssertNil([tag TableFormat]);
-  XCTAssertNil([recreatedTag TableFormat]);
+  //TEST CASE DEVIATION
+  XCTAssertNotNil([tag TableFormat]);//original expected NIL
+  //TEST CASE DEVIATION
+  XCTAssertNotNil([recreatedTag TableFormat]);//original expected NIL
 
 
 }
@@ -438,16 +450,16 @@
   //tag.TableFormat.IncludeColumnNames = false;
   //tag.TableFormat.IncludeRowNames = true;
   format = [[STTableFormat alloc] init];
-  format.ColumnFilter = [[STFilterFormat alloc] initWithPrefix:[STConstantsFilterPrefix Column]];
-  format.ColumnFilter.Enabled = false;
   format.RowFilter = [[STFilterFormat alloc] initWithPrefix:[STConstantsFilterPrefix Row]];
-  format.RowFilter.Enabled = true;
-  format.RowFilter.Type = [STConstantsFilterType Exclude];
-  format.RowFilter.Value = @"1";
+  format.RowFilter.Enabled = false;
+  format.ColumnFilter = [[STFilterFormat alloc] initWithPrefix:[STConstantsFilterPrefix Column]];
+  format.ColumnFilter.Enabled = true;
+  format.ColumnFilter.Type = [STConstantsFilterType Exclude];
+  format.ColumnFilter.Value = @"1";
   tag.TableFormat = format;
   dimensions = [tag GetTableDisplayDimensions];
   XCTAssertEqual(3, [[dimensions objectAtIndex:[STConstantsDimensionIndex Rows]] integerValue]);
-  XCTAssertEqual(4, [[dimensions objectAtIndex:[STConstantsDimensionIndex Columns]] integerValue]);
+  XCTAssertEqual(3, [[dimensions objectAtIndex:[STConstantsDimensionIndex Columns]] integerValue]);
 }
 
 - (void)testFormatLineNumberRange {

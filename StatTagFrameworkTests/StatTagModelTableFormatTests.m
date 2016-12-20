@@ -125,24 +125,8 @@
   STTable* table = [[STTable alloc] init:3 columnSize:3 data:[[STTableData alloc] initWithData:@[@[ @"", @"Col1", @"Col2" ], @[ @"Row1", @"0", @"1" ], @[ @"Row2", @"2", @"3" ] ]]];
 
   XCTAssertEqual(9, [[format Format:table] numItems]);
-  XCTAssertEqual(@", Col1, Col2, Row1, 0, 1, Row2, 2, 3", [self FormatArrayForChecking:[format Format:table]]);
-  
+  XCTAssert([@", Col1, Col2, Row1, 0, 1, Row2, 2, 3" isEqualToString:[self FormatArrayForChecking:[format Format:table]]]);
 
-  
-//  STTableFormat* format = [[STTableFormat alloc] init];
-//  format.IncludeColumnNames = true;
-//  format.IncludeRowNames = true;
-//  
-//  STTable* table = [[STTable alloc]
-//                    init:[NSArray arrayWithObjects:@"Row1", @"Row2", nil] columnNames:[NSArray arrayWithObjects:@"Col1", @"Col2", nil] rowSize:2 columnSize:2 data:[NSArray arrayWithObjects:@0.0, @1.0, @2.0, @3.0, nil]];
-//
-//  XCTAssertEqual(9, [[format Format:table] count]);
-//  XCTAssert([@", Col1, Col2, Row1, 0, 1, Row2, 2, 3" isEqualToString:[[format Format:table] componentsJoinedByString:@", "]]);
-//  
-//  table = [[STTable alloc]
-//           init:nil columnNames:nil rowSize:2 columnSize:2 data:[NSArray arrayWithObjects:@0.0, @1.0, @2.0, @3.0, nil]];
-//  XCTAssertEqual(4, [[format Format:table] count]);
-//  XCTAssert([@"0, 1, 2, 3" isEqualToString:[[format Format:table] componentsJoinedByString:@", "]]);
 }
 
 - (void)testFormat_DataColumnsAndRowsWithMissingValues {
@@ -156,37 +140,13 @@
   STTable* table = [[STTable alloc] init:3 columnSize:3 data:[[STTableData alloc] initWithData:@[@[ @"", @"Col1", @"Col2" ], @[ @"Row1", @"0", @"1" ], @[ @"Row2", [NSNull null], @"3" ] ]]];
   
   XCTAssertEqual(9, [[format Format:table] numItems]);
-  XCTAssertEqual(@", Col1, Col2, Row1, 0, 1, Row2, MISSING, 3", [self FormatArrayForChecking:[format Format:table]]);
+  
+  //            Assert.AreEqual(", Col1, Col2, Row1, 0, 1, Row2, MISSING, 3", FormatArrayForChecking(format.Format(table, new TestValueFormatter())));
 
+  //PAY ATTENTION: we're not using the default formatters - we're using the TestValueFormatter definition from up top - so we get "MISSING" as the missing value from -(NSString*)GetMissingValue;
+  XCTAssert([@", Col1, Col2, Row1, 0, 1, Row2, MISSING, 3" isEqualToString: [self FormatArrayForChecking:[format Format:table valueFormatter:[[TestValueFormatter alloc] init]]]]);
   
-//  var format = new TableFormat()
-//  {
-//    ColumnFilter = new FilterFormat(Constants.FilterPrefix.Column) { Enabled = false },
-//    RowFilter = new FilterFormat(Constants.FilterPrefix.Row) { Enabled = false }
-//  };
-//  var table = new Table(3, 3,
-//                        new string[,] { { "", "Col1", "Col2" }, { "Row1", "0", "1" }, { "Row2", null, "3" } });
-//  Assert.AreEqual(9, format.Format(table).Length);
-//  Assert.AreEqual(", Col1, Col2, Row1, 0, 1, Row2, MISSING, 3", FormatArrayForChecking(format.Format(table, new TestValueFormatter())));
 
-  
-  
-//  STTableFormat* format = [[STTableFormat alloc] init];
-//  format.IncludeColumnNames = true;
-//  format.IncludeRowNames = true;
-//  
-//  STTable* table = [[STTable alloc]
-//                    init:[NSArray arrayWithObjects:@"Row1", @"Row2", nil] columnNames:[NSArray arrayWithObjects:@"Col1", @"Col2", nil] rowSize:2 columnSize:2 data:[NSArray arrayWithObjects:@0.0, @1.0, [NSNull null], @3.0, nil]];
-//
-//  XCTAssertEqual(9, [[format Format:table] count]);
-//  XCTAssert([@", Col1, Col2, Row1, 0, 1, Row2, MISSING, 3" isEqualToString:[[format Format:table valueFormatter:[[TestValueFormatter alloc] init]] componentsJoinedByString:@", "]]);
-//  
-//  table = [[STTable alloc]
-//           init:nil columnNames:nil rowSize:2 columnSize:2 data:[NSArray arrayWithObjects:@0.0, @1.0, @2.0, @3.0, nil]];
-//  XCTAssertEqual(4, [[format Format:table] count]);
-//  XCTAssert([@"0, 1, 2, 3" isEqualToString:[[format Format:table] componentsJoinedByString:@", "]]);
-
-  
 }
 
 @end

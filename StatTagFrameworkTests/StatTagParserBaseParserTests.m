@@ -127,8 +127,8 @@
   NSArray<STTag*>* result = [parser Parse:mock];
 
   XCTAssertEqual(1, [result count]);
-  XCTAssertEqual(@0, [result[0] LineStart]);
-  XCTAssertEqual(@2, [result[0] LineEnd]);
+  XCTAssertEqual(0, [[result[0] LineStart] integerValue]);
+  XCTAssertEqual(2, [[result[0] LineEnd] integerValue]);
 
 }
 
@@ -165,8 +165,8 @@
   
   NSArray<STTag*>* result = [parser Parse:mock];
   XCTAssertEqual(1, [result count]);
-  XCTAssertEqual(@2, [result[0] LineStart]);
-  XCTAssertEqual(@4, [result[0] LineEnd]);
+  XCTAssertEqual(2, [[result[0] LineStart] integerValue]);
+  XCTAssertEqual(4, [[result[0] LineEnd] integerValue]);
 }
 
 -(void)testParse_OnDemandFilter{

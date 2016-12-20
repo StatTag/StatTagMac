@@ -147,6 +147,10 @@
   // The Serailize function will modify the Name property to a normalized value.
   // We expect this and explicitly confirm it's intended behavior.
   STFieldTag* tag = [[STFieldTag alloc] init];
+  
+  //Test case deviation!
+  [tag setName:nil]; //we're testing the serialization - not the object, so this is OK for the moment
+
   XCTAssertNil([tag Name]);
   NSError* err;
   NSString* serialized __unused = [tag Serialize:&err];
@@ -182,12 +186,12 @@
 
   //both are nil
   //XCTAssert([[tag FigureFormat] isEqual:[recreatedTag FigureFormat]]);//nil so they won't match
+  
+  //Test case deviation!
   XCTAssertNil([tag FigureFormat]);
   XCTAssertNil([recreatedTag FigureFormat]);
 
   XCTAssert([[tag FormattedResult] isEqualToString:[recreatedTag FormattedResult]]);
-  //XCTAssertNil([tag FormattedResult]);
-  //XCTAssertNil([recreatedTag FormattedResult]);
 
   XCTAssertEqual([[tag LineEnd] integerValue], [[recreatedTag LineEnd] integerValue]);
   XCTAssertEqual([[tag LineStart] integerValue], [[recreatedTag LineStart] integerValue]);
@@ -205,23 +209,14 @@
   
   // how can we test equality? or are they both supposed to be nil?
   //both are nil
-  //NSLog(@"[tag ValueFormat] : %@", [tag ValueFormat]);
-  //NSLog(@"[recreatedTag ValueFormat] : %@", [recreatedTag ValueFormat]);
-  //XCTAssert([[tag ValueFormat] isEqual:[recreatedTag ValueFormat]]);
   XCTAssertNil([tag ValueFormat]);
   XCTAssertNil([recreatedTag ValueFormat]);
   
   //both are nil
-  //NSLog(@"[tag TableFormat] : %@", [tag TableFormat]);
-  //NSLog(@"[recreatedTag TableFormat] : %@", [recreatedTag TableFormat]);
-  //XCTAssert([[tag TableFormat] isEqual:[recreatedTag TableFormat]]);
   XCTAssertNil([tag TableFormat]);
   XCTAssertNil([recreatedTag TableFormat]);
 
   //both are nil
-  //NSLog(@"[tag FigureFormat] : %@", [tag FigureFormat]);
-  //NSLog(@"[recreatedTag FigureFormat] : %@", [recreatedTag FigureFormat]);
-  //XCTAssert([[tag FigureFormat] isEqual:[recreatedTag FigureFormat]]); //duplicate test
   XCTAssertNil([tag FigureFormat]);
   XCTAssertNil([recreatedTag FigureFormat]);
 

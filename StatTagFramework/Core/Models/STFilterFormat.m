@@ -108,20 +108,24 @@ NSString* const InvalidFilterExceptionMessage = @"The filter value is invalid.  
 {
   
   NSCharacterSet *ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
-  NSRange r = [[self Value] rangeOfCharacterFromSet:ws];
-  if (r.location != NSNotFound) {
+  if([[[self Value] stringByTrimmingCharactersInSet:ws] length] <= 0) {
     return nil;
   }
   
-  NSArray<NSString*>* components = [[self Value] componentsSeparatedByString:[STConstantsReservedCharacters RangeDelimiter]];
+//  NSRange r = [[self Value] rangeOfCharacterFromSet:ws];
+//  if (r.location != NSNotFound) {
+//    return nil;
+//  }
+  
+  NSArray<NSString*>* components = [[self Value] componentsSeparatedByString:[STConstantsReservedCharacters ListDelimiter]];
 
   if([components count] == 0)
   {
     return nil;
   }
   
-  //NSMutableArray<NSNumber*>* valueList = [[NSMutableArray<NSNumber*> alloc] init];
-  NSMutableOrderedSet<NSNumber*>* valueList = [[NSMutableOrderedSet<NSNumber*> alloc] init];
+  //NSMutableSet<NSNumber*>* valueList = [[NSMutableSet<NSNumber*> alloc] init];
+  NSMutableArray<NSNumber*>* valueList = [[NSMutableArray<NSNumber*> alloc] init];
   
   for(NSString* component in components)
   {
@@ -154,12 +158,13 @@ NSString* const InvalidFilterExceptionMessage = @"The filter value is invalid.  
 
   }
   
-  //why don't we just use NSOrderdSet?
-//  NSSortDescriptor *lowToHigh = [NSSortDescriptor sortDescriptorWithKey:@"self" ascending:NO];
-//  [valueList sortUsingDescriptors:[NSArray arrayWithObject:lowToHigh]];
-//  valueList = [valueList valueForKeyPath:@"@distinctUnionOfObjects.self"];
+  //why don't we just use NSSet? - electing NOT to do this in case we change how this works later
+  valueList = [[valueList valueForKeyPath:@"@distinctUnionOfObjects.self"] mutableCopy];
+  NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey: @"self" ascending: YES];
+  [valueList sortUsingDescriptors: @[sort]];
   
-  return [valueList array];
+  return valueList;
+  //return [valueList array];
 }
 
 

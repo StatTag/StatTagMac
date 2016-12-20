@@ -421,7 +421,7 @@
   NSInteger dimension = originalDimension;
   if (filter != nil && [filter Enabled])
   {
-    if ([filter Type] != [STConstantsFilterType Exclude])
+    if (![[filter Type] isEqualToString: [STConstantsFilterType Exclude]])
     {
       [NSException raise:@"Currently only the filter type is supported" format:@"Currently only the %@ filter type is supported", [STConstantsFilterType Exclude]];
     }

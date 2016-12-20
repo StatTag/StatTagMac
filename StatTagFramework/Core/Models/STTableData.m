@@ -33,9 +33,12 @@
 {
   for(NSInteger row = 0; row < [data count]; row++)
   {
-    for(NSInteger col = 0; col < [data[row] count]; col++)
+    if([[data objectAtIndex:row] isKindOfClass:[NSArray class]])
     {
-      [self addValue:data[row][col] atRow:row andColumn:col];
+      for(NSInteger col = 0; col < [data[row] count]; col++)
+      {
+        [self addValue:data[row][col] atRow:row andColumn:col];
+      }
     }
   }
 }
@@ -172,6 +175,22 @@
   
   [[_Data objectAtIndex:row] setObject:value atIndexedSubscript:col];
   
+}
+
+-(void)balanceData
+{
+  if([self numItems] != ([self numRows] * [self numColumns]))
+  {
+    //we have an unbalanced set of data
+    for(NSInteger rowIndex = 0; rowIndex < [self numRows]; rowIndex++)
+    {
+      //go through the rows - if the column count for the row < numColumns, then fill it
+      for(NSInteger colIndex = [[[self Data] objectAtIndex:rowIndex] count]; colIndex < [self numColumns]; colIndex ++)
+      {
+        [self addValue:@"" atRow:rowIndex andColumn:colIndex];
+      }
+    }
+  }
 }
 
 -(NSString*) description

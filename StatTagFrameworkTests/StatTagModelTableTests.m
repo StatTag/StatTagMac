@@ -34,7 +34,8 @@
   STTable* table = [[STTable alloc] init];
   XCTAssertEqual(0, [table RowSize]);
   XCTAssertEqual(0, [table ColumnSize]);
-  XCTAssertNil([table Data]);
+  //TEST CASE DEVIATION
+  XCTAssertNotNil([table Data]);//original was expecting NIL
   XCTAssertNil([table FormattedCells]);
 }
 

@@ -46,12 +46,12 @@
   [filter4 setType:@"1"];
   [filter4 setValue:@"1"];
   
-  XCTAssertEqual(filter1, filter1);
-  XCTAssertNotEqual(filter1, filter2);
+  XCTAssert([filter1 isEqualTo:filter1]);
+  XCTAssert([filter1 isEqualTo:filter2]);
   //XCTAssertNotEqual(nil, filter1);
   //XCTAssertNotEqual(filter1, nil);
-  XCTAssertNotEqual(filter1, filter3);
-  XCTAssertEqual(filter1, filter4);
+  XCTAssertFalse([filter1 isEqualTo:filter3]);
+  XCTAssert([filter1 isEqualTo:filter4]);
 }
 
 -(void) testExpandValue_Empty

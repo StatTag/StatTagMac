@@ -20,6 +20,10 @@
 }
 
 -(NSString*)Finalize:(NSString*)value {
+  if(value == nil || [value isKindOfClass:[[NSNull null] class]])
+  {
+    return [self GetMissingValue];
+  }  
   NSCharacterSet *ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
   return [[value stringByTrimmingCharactersInSet: ws] length] == 0 ? [self GetMissingValue] : value;
 }

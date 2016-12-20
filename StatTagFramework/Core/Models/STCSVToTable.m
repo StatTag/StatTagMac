@@ -81,7 +81,7 @@
 +(STTable*)GetTableResultForPath:(NSURL*)tableFilePath
 {
   
-  [NSException raise:@"NOT YET IMPLEMENTED - STCSVToTable GetTableResultForPath" format:@"NOT YET IMPLEMENTED - STCSVToTable GetTableResultForPath"];
+  //[NSException raise:@"NOT YET IMPLEMENTED - STCSVToTable GetTableResultForPath" format:@"NOT YET IMPLEMENTED - STCSVToTable GetTableResultForPath"];
   
   STTable* table = [[STTable alloc] init];
 
@@ -108,27 +108,27 @@
       NSInteger row = 0;
       STTableData* data = [[STTableData alloc] initWithRows:[[dimensions objectAtIndex:0] integerValue] andCols:[[dimensions objectAtIndex:1] integerValue]];
       
-      for(NSArray<NSArray*>* rows in csv_data)
+      for(NSArray<NSString*>* rows in csv_data)
       {
         //row array
         
         NSInteger column = 0;
-        for(NSArray<NSString*>* columns in rows)
+        for(NSString* columns in rows)
         {
           //column array (in row "rows")
-          [data addValue:[columns objectAtIndex:column] atRow:row andColumn:column];
+          [data addValue:columns atRow:row andColumn:column];
           column = column + 1;
         }
-
-        //we shouldn't need to balance the array like the C# version - it should just magically "work"
-        // since the class auto-fills the empty / missing row/column values (we initialized with a known # of rows/cols)
-        
         row = row + 1;
       }
+      
+      //move the C# "balance data" approach into the STTableData class - "balanceData" selector
+
       
       [table setRowSize:[[dimensions objectAtIndex:0] integerValue]];
       [table setColumnSize:[[dimensions objectAtIndex:1] integerValue]];
       [table setData:data];
+      [[table Data] balanceData]; //balance the data
     }
 
 

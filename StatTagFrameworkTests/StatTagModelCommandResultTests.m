@@ -52,7 +52,7 @@
   result.FigureResult = @"";
   
   //result.TableResult = new Table(1, 1, new string[,] { {"0.0"} });
-  result.TableResult = [[STTable alloc] init:1 columnSize:1 data:[[STTableData alloc] initWithData:@[@0.0]]];
+  result.TableResult = [[STTable alloc] init:1 columnSize:1 data:[[STTableData alloc] initWithData:@[@[@0.0]]]];
   
   //result.TableResult = [[STTable alloc] init:@[@"Test"] columnNames:@[@"Test"] rowSize:1 columnSize:1 data:@[@0.0]];
   XCTAssertFalse([result IsEmpty]);
@@ -72,7 +72,7 @@
 
   result.ValueResult = @"";
   result.FigureResult = @"";
-  result.TableResult = [[STTable alloc] init:1 columnSize:1 data:[[STTableData alloc] initWithData:@[@0.0]]];
+  result.TableResult = [[STTable alloc] init:1 columnSize:1 data:[[STTableData alloc] initWithData:@[@[@0.0]]]];
   //result.TableResult = [[STTable alloc] init:@[@"Test"] columnNames:@[@"Test"] rowSize:1 columnSize:1 data:@[@0.0]];
   XCTAssert([@"STTable" isEqualToString:[result ToString]]);
 }

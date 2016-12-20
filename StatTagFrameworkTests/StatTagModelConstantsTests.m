@@ -28,7 +28,7 @@
 
 - (void)testStatisticalPackages {
   //NSLog(@"%@", [STConstantsStatisticalPackages GetList]);
-  NSArray *products = [[NSArray alloc] initWithObjects: @"Stata", @"R", @"SAS", nil];
+  NSArray *products = [[NSArray alloc] initWithObjects: @"Stata", @"SAS", @"R", nil];
 //  NSLog(@"%@", products);
 //  NSLog(@"%@", [STConstantsStatisticalPackages GetList]);
 //  NSLog(@"isEqual = %hhd", [products isEqualToArray: [STConstantsStatisticalPackages GetList] ]);

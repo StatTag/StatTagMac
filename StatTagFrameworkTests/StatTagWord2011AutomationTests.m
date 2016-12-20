@@ -177,18 +177,18 @@
 }
 
 - (void)testStringFunction {
-  NSLog(@"'%@' length : %d", @"", [self getLengthForString:@""]);
+  NSLog(@"'%@' length : %ld", @"", [self getLengthForString:@""]);
   
   NSString* text = @"abc";
-  NSLog(@"'%@' length : %d", text, [self getLengthForString:text]);
+  NSLog(@"'%@' length : %ld", text, [self getLengthForString:text]);
 
   text = @"";
-  NSLog(@"'%@' length : %d", text, [self getLengthForString:text]);
+  NSLog(@"'%@' length : %ld", text, [self getLengthForString:text]);
 
   
 }
 
-- (int)getLengthForString:(NSString*)text {
+- (NSInteger)getLengthForString:(NSString*)text {
   return [text length];
 }
 
@@ -238,7 +238,7 @@
     }
 
     
-    NSLog(@"result length : %lu", (unsigned long)[[result UpdatedTags] count]);
+    NSLog(@"result length : %ld", [[result UpdatedTags] count]);
     for(STTag* tag in [result UpdatedTags]) {
       NSLog(@"tag -> name: %@, type: %@", [tag Name], [tag Type]);
       NSLog(@"tag -> formatted result: %@", [tag FormattedResult]);
@@ -263,7 +263,7 @@
   
   STStatsManager* stats = [[STStatsManager alloc] init:manager];
   for(STCodeFile* cf in [manager GetCodeFileList]) {
-    STStatsManagerExecuteResult* result = [stats ExecuteStatPackage:cf filterMode:[STConstantsParserFilterMode IncludeAll]];
+    STStatsManagerExecuteResult* result __unused = [stats ExecuteStatPackage:cf filterMode:[STConstantsParserFilterMode IncludeAll]];
   }
 
   [manager UpdateFields];
@@ -448,7 +448,10 @@
 -(void)testInsertInlineShapeWithASOC {
   
 //  NSString* path = @"/Users/ewhitley/Desktop/word.png";
-  NSString* path = @"/Users/ewhitley/Desktop/word.pdf";
+  NSBundle* bundle = [NSBundle bundleForClass:[self class]];
+  NSString *sourceFilePath = [bundle pathForResource:@"sample_pdf" ofType:@"pdf"];
+
+  NSString* path = sourceFilePath;//@"/Users/ewhitley/Desktop/word.pdf";
 //  NSString* path = @"Users:ewhitley:Desktop:word.png";
 
 //  NSURL* theFileURL = [NSURL fileURLWithPath:path];
@@ -466,7 +469,7 @@
   
   
   NSLog(@"did we add the shape?");
-  NSLog(@"count : %d", [[doc inlineShapes] count]);
+  NSLog(@"count : %ld", [[doc inlineShapes] count]);
   
   for(STMSWord2011InlineShape* s in [doc inlineShapes]) {
     NSLog(@"path : %@", [[s linkFormat] sourceFullName]);
@@ -492,7 +495,12 @@
   
   
   STCommandResult* result = [[STCommandResult alloc] init];
-  result.FigureResult = @"/Users/ewhitley/Desktop/word.png";
+  
+  NSBundle* bundle = [NSBundle bundleForClass:[self class]];
+  NSString *sourceFilePath = [bundle pathForResource:@"sample_png" ofType:@"png"];
+  //sourceFileUrl = [[NSURL alloc] initFileURLWithPath:sourceFilePath];
+  
+  result.FigureResult = sourceFilePath;//@"/Users/ewhitley/Desktop/word.png";
 
   STTag* tag = [[STTag alloc] init];
   tag.Name = @"test tag";
@@ -501,7 +509,7 @@
 
   [[tag CachedResult] addObject:result];
 
-  NSLog(@"[[tag CachedResult] count] : %d", [[tag CachedResult] count]);
+  NSLog(@"[[tag CachedResult] count] : %ld", [[tag CachedResult] count]);
   
   [manager InsertImage:tag];
   
@@ -511,7 +519,7 @@
 -(void)testInsertTable {
   STMSWord2011TextRange* selection = [[app selection] textObject];
   STMSWord2011Table* table = [WordHelpers createTableAtRange:selection withRows:4 andCols:3];
-  NSLog(@"table rows : %d, cols : %d", [[table rows] count], [[table columns] count]);
+  NSLog(@"table rows : %ld, cols : %ld", [[table rows] count], [[table columns] count]);
 }
 
 
@@ -563,9 +571,9 @@
   [manager InsertNewLineAndMoveDown:[app selection]];
 }
 
--(void)testAlertPanel {
-  //[STUIUtility WarningMessageBox:@"something went wrong" logger:nil];
-}
+//-(void)testAlertPanel {
+//  //[STUIUtility WarningMessageBox:@"something went wrong" logger:nil];
+//}
 
 -(void)testViewWordFieldJSON {
   //STTagManager* _TagManager = [[STTagManager alloc] init];
@@ -578,7 +586,7 @@
   
   STStatsManager* stats = [[STStatsManager alloc] init:manager];
   for(STCodeFile* cf in [manager GetCodeFileList]) {
-    STStatsManagerExecuteResult* result = [stats ExecuteStatPackage:cf filterMode:[STConstantsParserFilterMode IncludeAll]];
+    STStatsManagerExecuteResult* result __unused = [stats ExecuteStatPackage:cf filterMode:[STConstantsParserFilterMode IncludeAll]];
   }
 
   
@@ -586,14 +594,14 @@
 
   
   SBElementArray<STMSWord2011Field*>* fields = [doc fields];
-  int fieldsCount = [fields count];
+  NSInteger fieldsCount = [fields count];
   // Fields is a 1-based index
-  NSLog(@"Preparing to process %d fields", fieldsCount);
+  NSLog(@"Preparing to process %ld fields", fieldsCount);
   
-  int index = 0;
+  NSInteger index = 0;
   for(STMSWord2011Field* field in [doc fields]) {
     NSLog(@"");
-    NSLog(@"field (%d)", index);
+    NSLog(@"field (%ld)", index);
     NSLog(@"==================");
     NSLog(@"fieldText : %@", [field fieldText]);
     
@@ -613,42 +621,42 @@
 }
 
 
--(void)testFieldEnumeration {
-  //[STWindowLauncher testGettingFields];
-}
+//-(void)testFieldEnumeration {
+//  //[STWindowLauncher testGettingFields];
+//}
+//
+//-(void)testASOCGetFieldText {
+//  
+////  for(STMSWord2011Field* field in [doc fields]) {
+////    NSLog(@"WordHelpers (%d) : %@",[field entry_index], [WordHelpers getFieldDataForFieldAtIndex:[field entry_index]]);
+////  }
+//  //NSLog(@"WordHelpers %@",[WordHelpers getFieldDataForFieldAtIndex:2]);
+//  //+(NSString*)getFieldDataForFieldAtIndex:(int)theIndex
+//  
+//}
 
--(void)testASOCGetFieldText {
-  
-//  for(STMSWord2011Field* field in [doc fields]) {
-//    NSLog(@"WordHelpers (%d) : %@",[field entry_index], [WordHelpers getFieldDataForFieldAtIndex:[field entry_index]]);
+
+//-(void)testWordFields {
+//  
+//  for(STMSWord2011Document* aDoc in [app documents]) {
+//    NSLog(@"%@", [aDoc path]);
+//    //path
+//    for(STMSWord2011Field* field in [aDoc fields]) {
+//      //NSLog(@"WordHelpers (%d) : %@",[field entry_index], [WordHelpers getFieldDataForFieldAtIndex:[field entry_index]]);
+//    }
 //  }
-  //NSLog(@"WordHelpers %@",[WordHelpers getFieldDataForFieldAtIndex:2]);
-  //+(NSString*)getFieldDataForFieldAtIndex:(int)theIndex
-  
-}
-
-
--(void)testWordFields {
-  
-  for(STMSWord2011Document* aDoc in [app documents]) {
-    NSLog(@"%@", [aDoc path]);
-    //path
-    for(STMSWord2011Field* field in [aDoc fields]) {
-      //NSLog(@"WordHelpers (%d) : %@",[field entry_index], [WordHelpers getFieldDataForFieldAtIndex:[field entry_index]]);
-    }
-  }
-  
-}
+//  
+//}
 
 -(void)testAppleScriptToApp {
   [WordHelpers updateAllFields];
 }
 
--(void)testXPC {
-  
-  //[WordHelpers testService];
-
-  
-}
+//-(void)testXPC {
+//  
+//  //[WordHelpers testService];
+//
+//  
+//}
 
 @end
