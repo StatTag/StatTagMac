@@ -89,13 +89,21 @@
 
 - (void)testConstructor_TagWithIndex_TableCell {
 
+  STTableFormat* tf = [[STTableFormat alloc] init];
+  tf.ColumnFilter = [[STFilterFormat alloc] initWithPrefix:[STConstantsFilterPrefix Column]];
+  tf.ColumnFilter.Enabled = false;
+  tf.RowFilter = [[STFilterFormat alloc] initWithPrefix:[STConstantsFilterPrefix Row]];
+  tf.RowFilter.Enabled = false;
+  
+
+  
   STTable* t = [[STTable alloc] init];
-  t.ColumnNames = [NSMutableArray arrayWithObjects:@"c1",@"c2", nil];
-  t.RowNames = [NSMutableArray arrayWithObjects:@"r1",@"r2", nil];
+  //t.ColumnNames = [NSMutableArray arrayWithObjects:@"c1",@"c2", nil];
+  //t.RowNames = [NSMutableArray arrayWithObjects:@"r1",@"r2", nil];
   t.ColumnSize = 2;
   t.RowSize = 2;
-  t.Data = [NSMutableArray<NSNumber*> arrayWithObjects:@1.0, @2.0, @3.0, @4.0, nil];
-  t.FormattedCells = [NSMutableArray<NSString*> arrayWithObjects:@"1.0", @"2.0", @"3.0", @"4.0", nil];
+  t.Data = [[STTableData alloc] initWithData:@[@[@"", @"c1", @"c2"], @[@"r1", @"1.0", @"2.0"], @[@"r2", @"3.0", @"4.0"]]];
+  t.FormattedCells = [[STTableData alloc] initWithData:@[@[@"", @"c1", @"c2"], @[@"r1", @"1.0", @"2.0"], @[@"r2", @"3.0", @"4.0"]]];
 
   STCommandResult* cr = [[STCommandResult alloc] init];
   cr.TableResult = t;
@@ -108,10 +116,14 @@
   
   STFieldTag* fieldTag = [[STFieldTag alloc] initWithTag:tag andTableCellIndex:@0];
   XCTAssertEqual(0, [[fieldTag TableCellIndex] integerValue]);
-  XCTAssert([@"1.0" isEqualToString:[fieldTag FormattedResult]]);
-  
-  fieldTag = [[STFieldTag alloc] initWithTag:tag andTableCellIndex:@2];
-  XCTAssertEqual(2, [[fieldTag TableCellIndex] integerValue]);
+  XCTAssert([@"" isEqualToString:[fieldTag FormattedResult]]);
+
+  fieldTag = [[STFieldTag alloc] initWithTag:tag andTableCellIndex:@3];
+  XCTAssertEqual(3, [[fieldTag TableCellIndex] integerValue]);
+  XCTAssert([@"r1" isEqualToString:[fieldTag FormattedResult]]);
+
+  fieldTag = [[STFieldTag alloc] initWithTag:tag andTableCellIndex:@7];
+  XCTAssertEqual(7, [[fieldTag TableCellIndex] integerValue]);
   XCTAssert([@"3.0" isEqualToString:[fieldTag FormattedResult]]);
   
 }
@@ -128,6 +140,21 @@
   XCTAssert([[tag Type] isEqualToString:[fieldTag Type]]);
   XCTAssertEqual([[tag TableCellIndex] integerValue], [[fieldTag TableCellIndex] integerValue]);
 }
+
+
+-(void)testSerialize_NormalizesObjectName
+{
+  // The Serailize function will modify the Name property to a normalized value.
+  // We expect this and explicitly confirm it's intended behavior.
+  STFieldTag* tag = [[STFieldTag alloc] init];
+  XCTAssertNil([tag Name]);
+  NSError* err;
+  NSString* serialized __unused = [tag Serialize:&err];
+  XCTAssertNotNil([tag Name]);
+}
+
+//TODO: Test serialize/deserialize with a TableResult in the CachedResult collection
+
 
 - (void)testSerialize_Deserialize {
   
@@ -205,111 +232,111 @@
   XCTAssert([[tag CodeFilePath]  isEqual:[recreatedTag CodeFilePath] ]);
 }
 
-
-- (void)testSerialize_Deserialize_Table {
-  
-  STTable* t = [[STTable alloc] init];
-  t.ColumnNames = [NSMutableArray arrayWithObjects:@"c1",@"c2", nil];
-  t.RowNames = [NSMutableArray arrayWithObjects:@"r1",@"r2", nil];
-  t.ColumnSize = 2;
-  t.RowSize = 2;
-  t.Data = [NSMutableArray<NSNumber*> arrayWithObjects:@1.0, @2.0, @3.0, @4.0, nil];
-  t.FormattedCells = [NSMutableArray<NSString*> arrayWithObjects:@"1.0", @"2.0", @"3.0", @"4.0", nil];
-  
-  STCommandResult* cr = [[STCommandResult alloc] init];
-  cr.TableResult = t;
-  
-  NSMutableArray<STCommandResult*>* crList = [NSMutableArray<STCommandResult*> arrayWithObject:cr];
-  
-  STTag* tag = [STTag tagWithName:@"Test" andCodeFile:nil andType:[STConstantsTagType Table]];
-  tag.CachedResult = crList;
-
-  
-  NSError* error;
-  NSLog(@"formatted result : %@", [tag FormattedResult]);
-  NSString* serialized = [tag Serialize:nil];
-  NSLog(@"%@", serialized);
-  
-  STFieldTag* recreatedTag = [STFieldTag Deserialize:serialized error:&error];
-  NSLog(@"%@", [recreatedTag Serialize:nil]);
-  
-  
-  
-  STTagManager* tagManager = [[STTagManager alloc] init];
-
-  STFieldTag* secondTag = [[STFieldTag alloc] initWithTag:tag andFieldTag:recreatedTag];
-  NSLog(@"%@", [secondTag Serialize:nil]);
-
-  
-  STFieldTag* secondFieldTag = [[STFieldTag alloc] initWithTag:tag andTableCellIndex:@0];
-  NSLog(@"formatted result : %@", [secondFieldTag FormattedResult]);
-  NSLog(@"%@", [secondFieldTag Serialize:nil]);
-
-
-  STFieldTag* thirdFieldTag = [[STFieldTag alloc] initWithTag:tag andFieldTag:secondFieldTag];
-  NSLog(@"%@", [thirdFieldTag Serialize:nil]);
-  
-  
-  
-  /*
-  // Assert.AreEqual(tag.FigureFormat, recreatedTag.FigureFormat);
-  // how can we test equality? or are they both supposed to be nil?
-  // in obj-c, any [nil isEqual: nil] comparison will fail
-  // http://stackoverflow.com/questions/5914845/sending-isequal-to-nil-always-returns-no
-  
-  //both are nil
-  //XCTAssert([[tag FigureFormat] isEqual:[recreatedTag FigureFormat]]);//nil so they won't match
-  XCTAssertNil([tag FigureFormat]);
-  XCTAssertNil([recreatedTag FigureFormat]);
-  
-  XCTAssert([[tag FormattedResult] isEqualToString:[recreatedTag FormattedResult]]);
-  //XCTAssertNil([tag FormattedResult]);
-  //XCTAssertNil([recreatedTag FormattedResult]);
-  
-  XCTAssertEqual([[tag LineEnd] integerValue], [[recreatedTag LineEnd] integerValue]);
-  XCTAssertEqual([[tag LineStart] integerValue], [[recreatedTag LineStart] integerValue]);
-  
-  //how are these matching if tag.Name is (nil) and the rormalized recreatedTag.Name is ""?
-  //NOTE: spoke w/ Luke - normalize occurs before we serialize/desserialize, so the value will be "" for both
-  XCTAssert([[tag Name] isEqualToString:[recreatedTag Name]]);
-  
-  //both are nil
-  //XCTAssert([[tag RunFrequency] isEqualToString:[recreatedTag RunFrequency]]);
-  XCTAssertNil([tag RunFrequency]);
-  XCTAssertNil([recreatedTag RunFrequency]);
-  
-  XCTAssert([[tag Type] isEqual:[recreatedTag Type]]);
-  
-  // how can we test equality? or are they both supposed to be nil?
-  //both are nil
-  //NSLog(@"[tag ValueFormat] : %@", [tag ValueFormat]);
-  //NSLog(@"[recreatedTag ValueFormat] : %@", [recreatedTag ValueFormat]);
-  //XCTAssert([[tag ValueFormat] isEqual:[recreatedTag ValueFormat]]);
-  XCTAssertNil([tag ValueFormat]);
-  XCTAssertNil([recreatedTag ValueFormat]);
-  
-  //both are nil
-  //NSLog(@"[tag TableFormat] : %@", [tag TableFormat]);
-  //NSLog(@"[recreatedTag TableFormat] : %@", [recreatedTag TableFormat]);
-  //XCTAssert([[tag TableFormat] isEqual:[recreatedTag TableFormat]]);
-  XCTAssertNil([tag TableFormat]);
-  XCTAssertNil([recreatedTag TableFormat]);
-  
-  //both are nil
-  //NSLog(@"[tag FigureFormat] : %@", [tag FigureFormat]);
-  //NSLog(@"[recreatedTag FigureFormat] : %@", [recreatedTag FigureFormat]);
-  //XCTAssert([[tag FigureFormat] isEqual:[recreatedTag FigureFormat]]); //duplicate test
-  XCTAssertNil([tag FigureFormat]);
-  XCTAssertNil([recreatedTag FigureFormat]);
-  
-  XCTAssertEqual([[tag TableCellIndex] integerValue], [[recreatedTag TableCellIndex] integerValue]);
-  // The recreated tag doesn't truly recreate the code file object.  We attempt to restore it the best we can with the file path.
-  
-  XCTAssert([[tag CodeFilePath]  isEqual:[[recreatedTag CodeFile] FilePath] ]);
-  XCTAssert([[tag CodeFilePath]  isEqual:[recreatedTag CodeFilePath] ]);
-   */
-}
-
+//
+//- (void)testSerialize_Deserialize_Table {
+//  
+//  STTable* t = [[STTable alloc] init];
+//  t.ColumnNames = [NSMutableArray arrayWithObjects:@"c1",@"c2", nil];
+//  t.RowNames = [NSMutableArray arrayWithObjects:@"r1",@"r2", nil];
+//  t.ColumnSize = 2;
+//  t.RowSize = 2;
+//  t.Data = [NSMutableArray<NSNumber*> arrayWithObjects:@1.0, @2.0, @3.0, @4.0, nil];
+//  t.FormattedCells = [NSMutableArray<NSString*> arrayWithObjects:@"1.0", @"2.0", @"3.0", @"4.0", nil];
+//  
+//  STCommandResult* cr = [[STCommandResult alloc] init];
+//  cr.TableResult = t;
+//  
+//  NSMutableArray<STCommandResult*>* crList = [NSMutableArray<STCommandResult*> arrayWithObject:cr];
+//  
+//  STTag* tag = [STTag tagWithName:@"Test" andCodeFile:nil andType:[STConstantsTagType Table]];
+//  tag.CachedResult = crList;
+//
+//  
+//  NSError* error;
+//  NSLog(@"formatted result : %@", [tag FormattedResult]);
+//  NSString* serialized = [tag Serialize:nil];
+//  NSLog(@"%@", serialized);
+//  
+//  STFieldTag* recreatedTag = [STFieldTag Deserialize:serialized error:&error];
+//  NSLog(@"%@", [recreatedTag Serialize:nil]);
+//  
+//  
+//  
+//  STTagManager* tagManager = [[STTagManager alloc] init];
+//
+//  STFieldTag* secondTag = [[STFieldTag alloc] initWithTag:tag andFieldTag:recreatedTag];
+//  NSLog(@"%@", [secondTag Serialize:nil]);
+//
+//  
+//  STFieldTag* secondFieldTag = [[STFieldTag alloc] initWithTag:tag andTableCellIndex:@0];
+//  NSLog(@"formatted result : %@", [secondFieldTag FormattedResult]);
+//  NSLog(@"%@", [secondFieldTag Serialize:nil]);
+//
+//
+//  STFieldTag* thirdFieldTag = [[STFieldTag alloc] initWithTag:tag andFieldTag:secondFieldTag];
+//  NSLog(@"%@", [thirdFieldTag Serialize:nil]);
+//  
+//  
+//  
+//  /*
+//  // Assert.AreEqual(tag.FigureFormat, recreatedTag.FigureFormat);
+//  // how can we test equality? or are they both supposed to be nil?
+//  // in obj-c, any [nil isEqual: nil] comparison will fail
+//  // http://stackoverflow.com/questions/5914845/sending-isequal-to-nil-always-returns-no
+//  
+//  //both are nil
+//  //XCTAssert([[tag FigureFormat] isEqual:[recreatedTag FigureFormat]]);//nil so they won't match
+//  XCTAssertNil([tag FigureFormat]);
+//  XCTAssertNil([recreatedTag FigureFormat]);
+//  
+//  XCTAssert([[tag FormattedResult] isEqualToString:[recreatedTag FormattedResult]]);
+//  //XCTAssertNil([tag FormattedResult]);
+//  //XCTAssertNil([recreatedTag FormattedResult]);
+//  
+//  XCTAssertEqual([[tag LineEnd] integerValue], [[recreatedTag LineEnd] integerValue]);
+//  XCTAssertEqual([[tag LineStart] integerValue], [[recreatedTag LineStart] integerValue]);
+//  
+//  //how are these matching if tag.Name is (nil) and the rormalized recreatedTag.Name is ""?
+//  //NOTE: spoke w/ Luke - normalize occurs before we serialize/desserialize, so the value will be "" for both
+//  XCTAssert([[tag Name] isEqualToString:[recreatedTag Name]]);
+//  
+//  //both are nil
+//  //XCTAssert([[tag RunFrequency] isEqualToString:[recreatedTag RunFrequency]]);
+//  XCTAssertNil([tag RunFrequency]);
+//  XCTAssertNil([recreatedTag RunFrequency]);
+//  
+//  XCTAssert([[tag Type] isEqual:[recreatedTag Type]]);
+//  
+//  // how can we test equality? or are they both supposed to be nil?
+//  //both are nil
+//  //NSLog(@"[tag ValueFormat] : %@", [tag ValueFormat]);
+//  //NSLog(@"[recreatedTag ValueFormat] : %@", [recreatedTag ValueFormat]);
+//  //XCTAssert([[tag ValueFormat] isEqual:[recreatedTag ValueFormat]]);
+//  XCTAssertNil([tag ValueFormat]);
+//  XCTAssertNil([recreatedTag ValueFormat]);
+//  
+//  //both are nil
+//  //NSLog(@"[tag TableFormat] : %@", [tag TableFormat]);
+//  //NSLog(@"[recreatedTag TableFormat] : %@", [recreatedTag TableFormat]);
+//  //XCTAssert([[tag TableFormat] isEqual:[recreatedTag TableFormat]]);
+//  XCTAssertNil([tag TableFormat]);
+//  XCTAssertNil([recreatedTag TableFormat]);
+//  
+//  //both are nil
+//  //NSLog(@"[tag FigureFormat] : %@", [tag FigureFormat]);
+//  //NSLog(@"[recreatedTag FigureFormat] : %@", [recreatedTag FigureFormat]);
+//  //XCTAssert([[tag FigureFormat] isEqual:[recreatedTag FigureFormat]]); //duplicate test
+//  XCTAssertNil([tag FigureFormat]);
+//  XCTAssertNil([recreatedTag FigureFormat]);
+//  
+//  XCTAssertEqual([[tag TableCellIndex] integerValue], [[recreatedTag TableCellIndex] integerValue]);
+//  // The recreated tag doesn't truly recreate the code file object.  We attempt to restore it the best we can with the file path.
+//  
+//  XCTAssert([[tag CodeFilePath]  isEqual:[[recreatedTag CodeFile] FilePath] ]);
+//  XCTAssert([[tag CodeFilePath]  isEqual:[recreatedTag CodeFilePath] ]);
+//   */
+//}
+//
 
 
 - (void)testLinkToCodeFile_Found {

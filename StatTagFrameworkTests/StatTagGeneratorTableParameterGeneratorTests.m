@@ -56,6 +56,8 @@
 //                                                 RowFilter = new FilterFormat("Row") { Enabled = false }
 //                                               }
 //                                             }));
+  XCTAssert(false);
+
 }
 
 -(void) testCreateParameters_RowFilter
@@ -70,6 +72,8 @@
 //                                                 RowFilter = new FilterFormat("Row") { Enabled = true, Type = Constants.FilterType.Exclude, Value = "1" }
 //                                               }
 //                                             }));
+  XCTAssert(false);
+
 }
 
 -(void) testCreateParameters_ColumnFilter
@@ -84,6 +88,8 @@
 //                                                 ColumnFilter = new FilterFormat("Column") { Enabled = true, Type = Constants.FilterType.Exclude, Value = "1" }
 //                                               }
 //                                             }));
+  XCTAssert(false);
+
 }
 
 

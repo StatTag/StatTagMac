@@ -496,6 +496,23 @@
 }
 
 
+-(void)testFormatCommandListAsNonCapturingGroup
+{
+  XCTAssert([@"" isEqualToString:[STBaseParser FormatCommandListAsNonCapturingGroup:@[]]]);
+  XCTAssert([@"(?:test)" isEqualToString:[STBaseParser FormatCommandListAsNonCapturingGroup:@[@"test"]]]);
+  XCTAssert([@"(?:test\\s+cmd)" isEqualToString:[STBaseParser FormatCommandListAsNonCapturingGroup:@[@"test cmd"]]]);
+  
+  //for reasons I can't figure out, I can't seem to use the short-hand array creation syntax to just create the array inline for the FormatCommandListAsNonCapturingGroup argument
+  NSArray<NSString*>* a = @[@"test1", @"test2"];
+  XCTAssert([@"(?:test1|test2)" isEqualToString:[STBaseParser FormatCommandListAsNonCapturingGroup:a]]);
+  
+//  Assert.AreEqual(string.Empty, BaseParser.FormatCommandListAsNonCapturingGroup(new string[0]));
+//  Assert.AreEqual("(?:test)", BaseParser.FormatCommandListAsNonCapturingGroup(new[] { "test" }));
+//  Assert.AreEqual("(?:test\\s+cmd)", BaseParser.FormatCommandListAsNonCapturingGroup(new[] { "test cmd" }));
+//  Assert.AreEqual("(?:test1|test2)", BaseParser.FormatCommandListAsNonCapturingGroup(new[] { "test1", "test2" }));
+}
+
+
 @end
 
 

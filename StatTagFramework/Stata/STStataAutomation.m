@@ -293,7 +293,9 @@ const NSInteger ShowStata = 3;
   double missingValue = [Application UtilGetStMissingValue];
   for(NSInteger index = 0; index < [data count]; index++) {
     //[cleanedData addObject:([data[index]doubleValue] >= missingValue) ? [NSNull null] : [NSString stringWithFormat:@"%@", data[index]]];
-    [cleanedData addObject:([data[index]doubleValue] >= missingValue) ? @"." : [NSString stringWithFormat:@"%@", data[index]]];
+//    [cleanedData addObject:(NSString*)[NSNull null]];
+    
+    [cleanedData addObject:([data[index]doubleValue] >= missingValue) ? (NSString*)[NSNull null] : [NSString stringWithFormat:@"%@", data[index]]];
   }
   return cleanedData;
 }

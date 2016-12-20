@@ -322,10 +322,23 @@
   XCTAssertFalse([tag HasTableData]);
 
   // Actual data
+//  STTableFormat* format = [[STTableFormat alloc] init];
+//  format.IncludeColumnNames = false;
+//  format.IncludeRowNames = false;
+//  STTable* table = [[STTable alloc] init:@[@"Row1", @"Row2"] columnNames:@[@"Col1", @"Col2"] rowSize:2 columnSize:1 data:@[@0.0, @1.0, @2.0, @3.0]];
+  
   STTableFormat* format = [[STTableFormat alloc] init];
-  format.IncludeColumnNames = false;
-  format.IncludeRowNames = false;
-  STTable* table = [[STTable alloc] init:@[@"Row1", @"Row2"] columnNames:@[@"Col1", @"Col2"] rowSize:2 columnSize:1 data:@[@0.0, @1.0, @2.0, @3.0]];
+  format.ColumnFilter = [[STFilterFormat alloc] initWithPrefix:[STConstantsFilterPrefix Column]];
+  format.ColumnFilter.Enabled = true;
+  format.ColumnFilter.Type = [STConstantsFilterType Exclude];
+  format.ColumnFilter.Value = @"1";
+  format.RowFilter = [[STFilterFormat alloc] initWithPrefix:[STConstantsFilterPrefix Row]];
+  format.RowFilter.Enabled = true;
+  format.RowFilter.Type = [STConstantsFilterType Exclude];
+  format.RowFilter.Value = @"1";
+  
+  STTable* table = [[STTable alloc] init:3 columnSize:3 data:[[STTableData alloc] initWithData:@[@[@"", @"Col1", @"Col2"], @[@"Row1", @"0.0", @"1.0"], @[@"Row2", @"2.0", @"3.0"]]]];
+  
   tag = [[STTag alloc] init];
   tag.Type = [STConstantsTagType Table];
   cr = [[STCommandResult alloc] init];
@@ -353,9 +366,20 @@
   XCTAssertNil([tag GetTableDisplayDimensions]);
 
   // No table data
+//  STTableFormat* format = [[STTableFormat alloc] init];
+//  format.IncludeColumnNames = false;
+//  format.IncludeRowNames = false;
+
   STTableFormat* format = [[STTableFormat alloc] init];
-  format.IncludeColumnNames = false;
-  format.IncludeRowNames = false;
+  format.ColumnFilter = [[STFilterFormat alloc] initWithPrefix:[STConstantsFilterPrefix Column]];
+  format.ColumnFilter.Enabled = true;
+  format.ColumnFilter.Type = [STConstantsFilterType Exclude];
+  format.ColumnFilter.Value = @"1";
+  format.RowFilter = [[STFilterFormat alloc] initWithPrefix:[STConstantsFilterPrefix Row]];
+  format.RowFilter.Enabled = true;
+  format.RowFilter.Type = [STConstantsFilterType Exclude];
+  format.RowFilter.Value = @"1";
+  
   tag = [[STTag alloc] init];
   tag.Type = [STConstantsTagType Table];
   tag.TableFormat = format;
@@ -363,7 +387,17 @@
   XCTAssertNil([tag GetTableDisplayDimensions]);
 
   // Actual data
-  STTable* table = [[STTable alloc] init:@[@"Row1", @"Row2"] columnNames:@[@"Col1", @"Col2", @"Col3"] rowSize:2 columnSize:3 data:@[@0.0, @1.0, @2.0, @3.0, @4.0, @5.0, @6.0]];
+  format = [[STTableFormat alloc] init];
+  format.ColumnFilter = [[STFilterFormat alloc] initWithPrefix:[STConstantsFilterPrefix Column]];
+  format.ColumnFilter.Enabled = true;
+  format.ColumnFilter.Type = [STConstantsFilterType Exclude];
+  format.ColumnFilter.Value = @"1";
+  format.RowFilter = [[STFilterFormat alloc] initWithPrefix:[STConstantsFilterPrefix Row]];
+  format.RowFilter.Enabled = true;
+  format.RowFilter.Type = [STConstantsFilterType Exclude];
+  format.RowFilter.Value = @"1";
+  STTable* table = [[STTable alloc] init:3 columnSize:4 data:[[STTableData alloc] initWithData:@[@[ @"", @"Col1", @"Col2", @"Col3" ], @[ @"Row1", @"0.0", @"1.0", @"2.0" ], @[ @"Row2", @"3.0", @"4.0", @"5.0" ]]]];
+  
   tag = [[STTag alloc] init];
   tag.Type = [STConstantsTagType Table];
   tag.TableFormat = format;
@@ -374,22 +408,45 @@
   XCTAssertEqual(2, [[dimensions objectAtIndex:[STConstantsDimensionIndex Rows]] integerValue]);
   XCTAssertEqual(3, [[dimensions objectAtIndex:[STConstantsDimensionIndex Columns]] integerValue]);
   
-  tag.TableFormat.IncludeColumnNames = true;
-  tag.TableFormat.IncludeRowNames = false;
+  
+  format = [[STTableFormat alloc] init];
+  format.ColumnFilter = [[STFilterFormat alloc] initWithPrefix:[STConstantsFilterPrefix Column]];
+  format.ColumnFilter.Enabled = false;
+  format.RowFilter = [[STFilterFormat alloc] initWithPrefix:[STConstantsFilterPrefix Row]];
+  format.RowFilter.Enabled = true;
+  format.RowFilter.Type = [STConstantsFilterType Exclude];
+  format.RowFilter.Value = @"1";
+  tag.TableFormat = format;
+  //tag.TableFormat.IncludeColumnNames = true;
+  //tag.TableFormat.IncludeRowNames = false;
   dimensions = [tag GetTableDisplayDimensions];
-  XCTAssertEqual(3, [[dimensions objectAtIndex:[STConstantsDimensionIndex Rows]] integerValue]);
-  XCTAssertEqual(3, [[dimensions objectAtIndex:[STConstantsDimensionIndex Columns]] integerValue]);
+  XCTAssertEqual(2, [[dimensions objectAtIndex:[STConstantsDimensionIndex Rows]] integerValue]);
+  XCTAssertEqual(4, [[dimensions objectAtIndex:[STConstantsDimensionIndex Columns]] integerValue]);
 
-  tag.TableFormat.IncludeColumnNames = true;
-  tag.TableFormat.IncludeRowNames = true;
+  //tag.TableFormat.IncludeColumnNames = true;
+  //tag.TableFormat.IncludeRowNames = true;
+  format = [[STTableFormat alloc] init];
+  format.ColumnFilter = [[STFilterFormat alloc] initWithPrefix:[STConstantsFilterPrefix Column]];
+  format.ColumnFilter.Enabled = false;
+  format.RowFilter = [[STFilterFormat alloc] initWithPrefix:[STConstantsFilterPrefix Row]];
+  format.RowFilter.Enabled = false;
+  tag.TableFormat = format;
   dimensions = [tag GetTableDisplayDimensions];
   XCTAssertEqual(3, [[dimensions objectAtIndex:[STConstantsDimensionIndex Rows]] integerValue]);
   XCTAssertEqual(4, [[dimensions objectAtIndex:[STConstantsDimensionIndex Columns]] integerValue]);
 
-  tag.TableFormat.IncludeColumnNames = false;
-  tag.TableFormat.IncludeRowNames = true;
+  //tag.TableFormat.IncludeColumnNames = false;
+  //tag.TableFormat.IncludeRowNames = true;
+  format = [[STTableFormat alloc] init];
+  format.ColumnFilter = [[STFilterFormat alloc] initWithPrefix:[STConstantsFilterPrefix Column]];
+  format.ColumnFilter.Enabled = false;
+  format.RowFilter = [[STFilterFormat alloc] initWithPrefix:[STConstantsFilterPrefix Row]];
+  format.RowFilter.Enabled = true;
+  format.RowFilter.Type = [STConstantsFilterType Exclude];
+  format.RowFilter.Value = @"1";
+  tag.TableFormat = format;
   dimensions = [tag GetTableDisplayDimensions];
-  XCTAssertEqual(2, [[dimensions objectAtIndex:[STConstantsDimensionIndex Rows]] integerValue]);
+  XCTAssertEqual(3, [[dimensions objectAtIndex:[STConstantsDimensionIndex Rows]] integerValue]);
   XCTAssertEqual(4, [[dimensions objectAtIndex:[STConstantsDimensionIndex Columns]] integerValue]);
 }
 

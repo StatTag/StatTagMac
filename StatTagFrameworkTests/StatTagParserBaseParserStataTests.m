@@ -47,8 +47,12 @@
   XCTAssertFalse([parser IsValueDisplay:@"adisplay"]);
   XCTAssertFalse([parser IsValueDisplay:@"a display"]);
   XCTAssertTrue([parser IsValueDisplay:@"display value"]);
+  
+  //NOTE: note the lack of "s" in "di[s]play"
+  XCTAssertFalse([parser IsValueDisplay:@"diplay value"]);// Making sure our optional capture of "s" doesn't cause invalid commands to be accepted
+
   XCTAssertTrue([parser IsValueDisplay:@"di value"]);  // Handle abbreviated command
-  XCTAssertFalse([parser IsValueDisplay:@"dis value"]);  // Handle abbreviated command
+  XCTAssertTrue([parser IsValueDisplay:@"dis value"]);  // Handle abbreviated command
 }
 
 -(void)testIsMacroDisplayValue
@@ -159,6 +163,7 @@
   XCTAssert([ @"test" isEqualToString: [parser GetValueName: @"display (test)"]]);
   XCTAssert([ @"test" isEqualToString: [parser GetValueName: @"display(test)"]]);
   XCTAssert([ @"r(n)" isEqualToString: [parser GetValueName: @"display r(n)"]]);
+  XCTAssert([ @"n*(3)" isEqualToString: [parser GetValueName: @"display n*(3)"]]);
   XCTAssert([ @"r(n)" isEqualToString: [parser GetValueName: @"display r(n)\r\n\r\n*Some comments following"]]);
   XCTAssert([ @"2" isEqualToString: [parser GetValueName: @"display 2 \r\n \r\n*Some comments following"]]);
   XCTAssert([ @"5*2" isEqualToString: [parser GetValueName: @"display (5*2)"]]); // Handle calculations as display parameters
@@ -291,5 +296,22 @@
   
 }
 
+
+-(void) GetMacros
+{
+  STStataParser* parser = [[STStataParser alloc] init];
+  XCTAssertEqual(0, [[parser GetMacros:nil] count]);
+  XCTAssertEqual(0, [[parser GetMacros:@""] count]);
+  XCTAssertEqual(0, [[parser GetMacros:@"display x"] count]);
+
+  NSArray<NSString*>* result = [parser GetMacros:@"display `x'"];
+  XCTAssertEqual(1, [result count]);
+  XCTAssert([@"x" isEqualToString:[result firstObject]]);
+  
+  result = [parser GetMacros:@"display `x'\\`y'"];
+  XCTAssertEqual(2, [result count]);
+  XCTAssert([@"x" isEqualToString:[result objectAtIndex:0]]);
+  XCTAssert([@"y" isEqualToString:[result objectAtIndex:2]]);
+}
 
 @end
