@@ -39,16 +39,16 @@ NSString* const RowNames = @"RowNames";
   // attribute is there, we are going to convert it into a filter.
   // We are making the assumption that if this is an old tag that the Include attribute was set.  If not, we will
   // assume this is a newer tag and no conversion is necessary.
-  BOOL includeColumnNames = [[self class] GetBoolParameter:ColumnNames text:tagText];
-  if(!includeColumnNames)
+  NSNumber* includeColumnNames = [[self class] GetBoolParameter:ColumnNames text:tagText];
+  if(includeColumnNames != nil && ![includeColumnNames boolValue])
   {
     tag.TableFormat.ColumnFilter.Enabled = true;
     tag.TableFormat.ColumnFilter.Type = [STConstantsFilterType Exclude];
     tag.TableFormat.ColumnFilter.Value = @"1";
   }
 
-  BOOL includeRowNames = [[self class] GetBoolParameter:RowNames text:tagText];
-  if(!includeRowNames)
+  NSNumber* includeRowNames = [[self class] GetBoolParameter:RowNames text:tagText];
+  if(includeRowNames != nil && ![includeRowNames boolValue])
   {
     tag.TableFormat.RowFilter.Enabled = true;
     tag.TableFormat.RowFilter.Type = [STConstantsFilterType Exclude];
@@ -74,9 +74,9 @@ NSString* const RowNames = @"RowNames";
 
 +(void) BuildFilter:(NSString*)filterPrefix filter:(STFilterFormat*)filter tagText:(NSString*)tagText
 {
-  
-  filter.Enabled = [[self class] GetBoolParameter:[NSString stringWithFormat:@"%@%@", filterPrefix, [STConstantsTableParameters FilterEnabled]] text:tagText defaultValue:[STConstantsTableParameterDefaults FilterEnabled]];
-  
+
+  filter.Enabled = [[[self class] GetBoolParameter:[NSString stringWithFormat:@"%@%@", filterPrefix, [STConstantsTableParameters FilterEnabled]] text:tagText defaultBOOLValue:[STConstantsTableParameterDefaults FilterEnabled]] boolValue];
+
   // We are only going to look at other parameters if the filter is enabled.
   if (filter.Enabled)
   {

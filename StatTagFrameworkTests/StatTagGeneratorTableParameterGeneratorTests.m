@@ -40,55 +40,59 @@
 -(void) testCreateParameters_FiltersDisabled
 {
   STTableParameterGenerator* generator = [[STTableParameterGenerator alloc] init];
-//  var generator = new TableParameterGenerator();
+  STTag* tag = [[STTag alloc] init];
+  tag.Name = @"Test";
   
-//  // Null table format
-//  Assert.AreEqual("Label=\"Test\"", generator.CreateParameters(new Tag() { Name = "Test" }));
-//  
-//  // Row and column filters both disabled
-//  Assert.AreEqual("Label=\"Test\"",
-//                  generator.CreateParameters(new Tag()
-//                                             {
-//                                               Name = "Test",
-//                                               TableFormat = new TableFormat()
-//                                               {
-//                                                 ColumnFilter = new FilterFormat("Column") {Enabled = false},
-//                                                 RowFilter = new FilterFormat("Row") { Enabled = false }
-//                                               }
-//                                             }));
-  XCTAssert(false);
+  // Null table format
+  XCTAssert([@"Label=\"Test\"" isEqualToString:[generator CreateParameters:tag]]);
+
+  // Row and column filters both disabled
+  tag = [[STTag alloc] init];
+  tag.Name = @"Test";
+  STTableFormat* tableFormat = [[STTableFormat alloc] init];
+  STFilterFormat* colFilter = [[STFilterFormat alloc] initWithPrefix:@"Column"];
+  colFilter.Enabled = NO;
+  tableFormat.ColumnFilter = colFilter;
+  STFilterFormat* rowFilter = [[STFilterFormat alloc] initWithPrefix:@"Row"];
+  rowFilter.Enabled = NO;
+  tableFormat.RowFilter = rowFilter;
+  tag.TableFormat = tableFormat;
+  XCTAssert([@"Label=\"Test\"" isEqualToString:[generator CreateParameters:tag]]);
 
 }
 
 -(void) testCreateParameters_RowFilter
 {
-//  var generator = new TableParameterGenerator();
-//  Assert.AreEqual("Label=\"Test\", RowFilterEnabled=True, RowFilterType=\"Exclude\", RowFilterValue=\"1\"",
-//                  generator.CreateParameters(new Tag()
-//                                             {
-//                                               Name = "Test",
-//                                               TableFormat = new TableFormat()
-//                                               {
-//                                                 RowFilter = new FilterFormat("Row") { Enabled = true, Type = Constants.FilterType.Exclude, Value = "1" }
-//                                               }
-//                                             }));
-  XCTAssert(false);
+  STTableParameterGenerator* generator = [[STTableParameterGenerator alloc] init];
+
+  STTag* tag = [[STTag alloc] init];
+  tag.Name = @"Test";
+  STTableFormat* tableFormat = [[STTableFormat alloc] init];
+  STFilterFormat* rowFilter = [[STFilterFormat alloc] initWithPrefix:@"Row"];
+  rowFilter.Enabled = YES;
+  rowFilter.Type = [STConstantsFilterType Exclude];
+  rowFilter.Value = @"1";
+  tableFormat.RowFilter = rowFilter;
+  tag.TableFormat = tableFormat;
+  XCTAssert([@"Label=\"Test\", RowFilterEnabled=True, RowFilterType=\"Exclude\", RowFilterValue=\"1\"" isEqualToString:[generator CreateParameters:tag]]);
 
 }
 
 -(void) testCreateParameters_ColumnFilter
 {
-//  var generator = new TableParameterGenerator();
-//  Assert.AreEqual("Label=\"Test\", ColumnFilterEnabled=True, ColumnFilterType=\"Exclude\", ColumnFilterValue=\"1\"",
-//                  generator.CreateParameters(new Tag()
-//                                             {
-//                                               Name = "Test",
-//                                               TableFormat = new TableFormat()
-//                                               {
-//                                                 ColumnFilter = new FilterFormat("Column") { Enabled = true, Type = Constants.FilterType.Exclude, Value = "1" }
-//                                               }
-//                                             }));
-  XCTAssert(false);
+  
+  STTableParameterGenerator* generator = [[STTableParameterGenerator alloc] init];
+  
+  STTag* tag = [[STTag alloc] init];
+  tag.Name = @"Test";
+  STTableFormat* tableFormat = [[STTableFormat alloc] init];
+  STFilterFormat* columnFilter = [[STFilterFormat alloc] initWithPrefix:@"Column"];
+  columnFilter.Enabled = YES;
+  columnFilter.Type = [STConstantsFilterType Exclude];
+  columnFilter.Value = @"1";
+  tableFormat.ColumnFilter = columnFilter;
+  tag.TableFormat = tableFormat;
+  XCTAssert([@"Label=\"Test\", ColumnFilterEnabled=True, ColumnFilterType=\"Exclude\", ColumnFilterValue=\"1\"" isEqualToString:[generator CreateParameters:tag]]);
 
 }
 

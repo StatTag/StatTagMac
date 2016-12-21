@@ -69,16 +69,16 @@ BOOL DefaultBoolValue = true;
 }
 
 - (void)testGetBoolParameter_Normal {
-  XCTAssertEqual(false, [STBaseParameterParser GetBoolParameter:@"Test" text:@"(Test=false)" defaultValue:DefaultBoolValue]);
-  XCTAssertEqual(false, [STBaseParameterParser GetBoolParameter:@"Test" text:@"(Test=False)" defaultValue:DefaultBoolValue]);
+  XCTAssertEqual(false, [[STBaseParameterParser GetBoolParameter:@"Test" text:@"(Test=false)" defaultBOOLValue:DefaultBoolValue] boolValue]);
+  XCTAssertEqual(false, [[STBaseParameterParser GetBoolParameter:@"Test" text:@"(Test=False)" defaultBOOLValue:DefaultBoolValue] boolValue]);
 }
 
 - (void)testGetBoolParameter_MissingValue {
-  XCTAssertEqual(DefaultBoolValue, [STBaseParameterParser GetBoolParameter:@"Test" text:@"(Test=)" defaultValue:DefaultBoolValue]);
+  XCTAssertEqual(DefaultBoolValue, [[STBaseParameterParser GetBoolParameter:@"Test" text:@"(Test=)" defaultBOOLValue:DefaultBoolValue] boolValue]);
 }
 
 - (void)testGetBoolParameter_Quoted {
-  XCTAssertEqual(DefaultBoolValue, [STBaseParameterParser GetBoolParameter:@"Test" text:@"(Test=\"false\")" defaultValue:DefaultBoolValue]);
+  XCTAssertEqual(DefaultBoolValue, [[STBaseParameterParser GetBoolParameter:@"Test" text:@"(Test=\"false\")" defaultBOOLValue:DefaultBoolValue] boolValue]);
 }
 
 

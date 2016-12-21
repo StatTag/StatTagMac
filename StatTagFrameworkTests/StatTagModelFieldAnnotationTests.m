@@ -188,8 +188,8 @@
   //XCTAssert([[tag FigureFormat] isEqual:[recreatedTag FigureFormat]]);//nil so they won't match
   
   //Test case deviation!
-  XCTAssertNil([tag FigureFormat]);
-  XCTAssertNil([recreatedTag FigureFormat]);
+  XCTAssertNotNil([tag FigureFormat]);//original was NIL
+  XCTAssertNotNil([recreatedTag FigureFormat]);//original was NIL
 
   XCTAssert([[tag FormattedResult] isEqualToString:[recreatedTag FormattedResult]]);
 
@@ -209,16 +209,19 @@
   
   // how can we test equality? or are they both supposed to be nil?
   //both are nil
-  XCTAssertNil([tag ValueFormat]);
-  XCTAssertNil([recreatedTag ValueFormat]);
+  //Test case deviation!
+  XCTAssertNotNil([tag ValueFormat]);//original was NIL
+  XCTAssertNotNil([recreatedTag ValueFormat]);//original was NIL
   
   //both are nil
-  XCTAssertNil([tag TableFormat]);
-  XCTAssertNil([recreatedTag TableFormat]);
+  //Test case deviation!
+  XCTAssertNotNil([tag TableFormat]);//original was NIL
+  XCTAssertNotNil([recreatedTag TableFormat]);//original was NIL
 
   //both are nil
-  XCTAssertNil([tag FigureFormat]);
-  XCTAssertNil([recreatedTag FigureFormat]);
+  //Test case deviation!
+  XCTAssertNotNil([tag FigureFormat]);//original was NIL
+  XCTAssertNotNil([recreatedTag FigureFormat]);//original was NIL
 
   XCTAssertEqual([[tag TableCellIndex] integerValue], [[recreatedTag TableCellIndex] integerValue]);
   // The recreated tag doesn't truly recreate the code file object.  We attempt to restore it the best we can with the file path.

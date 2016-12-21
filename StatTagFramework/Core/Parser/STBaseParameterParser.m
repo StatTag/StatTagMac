@@ -143,7 +143,7 @@ static STBaseParameterParser* sharedInstance = nil;
 /*
  NOTE: we can't return nil-able bool values and returning NSNumber (to front a bool) seems like it's going to be really, really confusing to people later on - so we're going to just default to "false" in the event we don't have a default - which will force a bool result
  */
-+(BOOL) GetBoolParameter:(NSString*)name text:(NSString*)text defaultValue:(BOOL)defaultValue
++(NSNumber*) GetBoolParameter:(NSString*)name text:(NSString*)text defaultValue:(NSNumber*)defaultValue
 {
   NSString* stringValue = [STBaseParameterParser GetParameter:name valueMatch:[STBaseParameterParser BoolValueMatch] text:text defaultValue:nil quoted:false];
   
@@ -154,13 +154,16 @@ static STBaseParameterParser* sharedInstance = nil;
   
   NSNumber* value = [NSNumber numberWithBool:[stringValue boolValue]];
   if(value){
-    return [value boolValue];
+    return value;
   }
   
   return defaultValue;
 }
-+(BOOL) GetBoolParameter:(NSString*)name text:(NSString*)text {
-  return [STBaseParameterParser GetBoolParameter:name text:text defaultValue:false];
++(NSNumber*) GetBoolParameter:(NSString*)name text:(NSString*)text {
+  return [STBaseParameterParser GetBoolParameter:name text:text defaultValue:nil];
+}
++(NSNumber*) GetBoolParameter:(NSString*)name text:(NSString*)text defaultBOOLValue:(BOOL)defaultValue{
+  return [STBaseParameterParser GetBoolParameter:name text:text defaultValue:[NSNumber numberWithBool:defaultValue]];
 }
 
 @end

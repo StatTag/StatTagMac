@@ -31,14 +31,14 @@
   NSNumber *intValue = [STValueParameterParser GetIntParameter:[STConstantsValueParameters Decimals] text:tagText defaultValue:0];
   [tag ValueFormat].DecimalPlaces = [intValue integerValue]; // Since we specify a default, we assume it won't ever be null
 
-  BOOL boolValue = [STValueParameterParser GetBoolParameter:[STConstantsValueParameters UseThousands] text:tagText defaultValue:false];
+  BOOL boolValue = [[STValueParameterParser GetBoolParameter:[STConstantsValueParameters UseThousands] text:tagText defaultBOOLValue:false] boolValue];
   [tag ValueFormat].UseThousands = boolValue;// Since we specify a default, we assume it won't ever be null
 
   [tag ValueFormat].DateFormat = [STValueParameterParser GetStringParameter:[STConstantsValueParameters DateFormat] text:tagText];
   [tag ValueFormat].TimeFormat = [STValueParameterParser GetStringParameter:[STConstantsValueParameters TimeFormat] text:tagText];
 
 
-  boolValue = [STValueParameterParser GetBoolParameter:[STConstantsValueParameters AllowInvalidTypes] text:tagText defaultValue:false];
+  boolValue = [[STValueParameterParser GetBoolParameter:[STConstantsValueParameters AllowInvalidTypes] text:tagText defaultBOOLValue:false] boolValue];
   [tag ValueFormat].AllowInvalidTypes = boolValue; // Since we specify a default, we assume it won't ever be null
   
 }

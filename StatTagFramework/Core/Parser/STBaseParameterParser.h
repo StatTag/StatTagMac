@@ -36,8 +36,15 @@
 +(NSNumber*) GetIntParameter:(NSString*)name text:(NSString*)text defaultValue:(NSNumber*)defaultValue;
 +(NSNumber*) GetIntParameter:(NSString*)name text:(NSString*)text;
 
-+(BOOL) GetBoolParameter:(NSString*)name text:(NSString*)text defaultValue:(BOOL)defaultValue;
-+(BOOL) GetBoolParameter:(NSString*)name text:(NSString*)text;
+/**
+ @returns BOOL value wrapped in NSNumber (because we need it to be nullable)
+ */
++(NSNumber*) GetBoolParameter:(NSString*)name text:(NSString*)text defaultValue:(NSNumber*)defaultValue;
+/**
+ @returns BOOL value wrapped in NSNumber (because we need it to be nullable)
+ */
++(NSNumber*) GetBoolParameter:(NSString*)name text:(NSString*)text;
++(NSNumber*) GetBoolParameter:(NSString*)name text:(NSString*)text defaultBOOLValue:(BOOL)defaultValue;
 
 
 
