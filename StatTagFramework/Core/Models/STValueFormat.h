@@ -18,6 +18,7 @@
   NSString* _DateFormat;
   NSString* _TimeFormat;
   BOOL _AllowInvalidTypes;
+  NSLocale* _CurrentLocale;
 }
 
 @property (copy, nonatomic) NSString* FormatType;
@@ -26,7 +27,7 @@
 @property (copy, nonatomic) NSString* DateFormat;
 @property (copy, nonatomic) NSString* TimeFormat;
 @property BOOL AllowInvalidTypes;
-
+@property (copy, nonatomic) NSLocale* CurrentLocale;
 
 /**
  @brief Formats a result given the current configuration

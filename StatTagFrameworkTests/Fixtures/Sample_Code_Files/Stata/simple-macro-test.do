@@ -24,7 +24,7 @@ display `z'
 **<<<
 
 **>>>ST:Value(Label="macro test 3", Frequency="Always", Type="Numeric", Decimals=3, Thousands=True)
-gen mydate = mdy(month, day, year)
+local mydate = mdy(12, 1, 1990)
 display `mydate'
 **<<<
 
@@ -58,6 +58,6 @@ graph export "/Users/ewhitley/Desktop/chartoftheday_3171_Apples_Historic_Quarter
 **<<<
 
 **>>>ST:Value(Label="macro date", Frequency="Always", Type="DateTime", DateFormat="MMMM dd, yyyy", TimeFormat="HH:mm")
-gen mydate = mdy(month, day, year)
+local mydate = mdy(11, 20, 2010)
 display `mydate'
 **<<<

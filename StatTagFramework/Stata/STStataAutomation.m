@@ -145,6 +145,7 @@ const NSInteger ShowStata = 3;
   return [Parser IsValueDisplay:command] || [Parser IsImageExport:command] || [Parser IsTableResult:command];
 }
 
+//method removed in C# december 2016 update
 //-(NSArray<STCommandResult*>*)CombineAndRunCommands:(NSArray<NSString*>*) commands
 //{
 //  NSString* combinedCommand = [commands componentsJoinedByString:@"\r\n"];
@@ -152,13 +153,6 @@ const NSInteger ShowStata = 3;
 //}
 
 -(NSArray<STCommandResult*>*)RunCommands:(NSArray<NSString*>*)commands tag:(STTag*)tag {
-  return [self RunCommands:commands tag:nil];
-}
-  
-/**
- Run a collection of commands and provide all applicable results.
-*/
--(NSArray<STCommandResult*>*)RunCommands:(NSArray<NSString*>*)commands {
   @try {
     NSMutableArray<STCommandResult*>* commandResults = [[NSMutableArray<STCommandResult*> alloc] init];
     for(NSString* command in commands) {
@@ -179,7 +173,7 @@ const NSInteger ShowStata = 3;
     NSLog(@"%@", exception.reason);
     NSLog(@"method: %@, line : %d", NSStringFromSelector(_cmd), __LINE__);
     NSLog(@"%@", [NSThread callStackSymbols]);
-
+    
     NSLog(@"Exception Initialize %@: %@", NSStringFromClass([self class]), [exception description]);
     for(NSString* openLog in OpenLogs) {
       [self RunCommand:[NSString stringWithFormat:@"%@ close", openLog]];
@@ -190,7 +184,13 @@ const NSInteger ShowStata = 3;
   }
   @finally {
   }
-
+}
+  
+/**
+ Run a collection of commands and provide all applicable results.
+*/
+-(NSArray<STCommandResult*>*)RunCommands:(NSArray<NSString*>*)commands {
+  return [self RunCommands:commands tag:nil];
 }
 
 

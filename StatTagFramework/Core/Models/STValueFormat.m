@@ -19,7 +19,7 @@
 @synthesize DateFormat = _DateFormat;
 @synthesize TimeFormat = _TimeFormat;
 @synthesize AllowInvalidTypes = _AllowInvalidTypes;
-
+@synthesize CurrentLocale = _CurrentLocale;
 
 //MARK: copying
 
@@ -27,6 +27,7 @@
   self = [super init];
   if(self) {
 //    self.FormatType = [STConstantsValueFormatType Default];
+    _CurrentLocale = [NSLocale currentLocale];
   }
   return self;
 }
@@ -41,6 +42,7 @@
   format.DateFormat = [_DateFormat copyWithZone:zone];
   format.TimeFormat = [_TimeFormat copyWithZone:zone];
   format.AllowInvalidTypes = _AllowInvalidTypes;
+  format.CurrentLocale = [_CurrentLocale copyWithZone: zone];
 
   return format;
 }
@@ -98,7 +100,12 @@
   
   NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
   f.numberStyle = NSNumberFormatterDecimalStyle;
-  f.locale = [NSLocale currentLocale]; //this is the default, but explicitly setting this in code so it's clear there may be issues with conflicting locales (what's in data vs. user preference)
+  NSLocale* currentLoc = [NSLocale currentLocale];
+  if(_CurrentLocale != nil) {
+    currentLoc = _CurrentLocale;
+  }
+  f.locale = currentLoc;
+//  f.locale = [NSLocale currentLocale]; //this is the default, but explicitly setting this in code so it's clear there may be issues with conflicting locales (what's in data vs. user preference)
   NSNumber *aNumber = [f numberFromString:value];
   
   if(aNumber == nil) {
@@ -116,6 +123,7 @@
   [formatter setMinimumFractionDigits:_DecimalPlaces];
   [formatter setMaximumFractionDigits:_DecimalPlaces];
   [formatter setRoundingMode: NSNumberFormatterRoundHalfEven];
+  [formatter setLocale:currentLoc];
   return [formatter stringFromNumber:[NSNumber numberWithDouble:numericValue]];
 }
 
@@ -126,7 +134,13 @@
 -(NSString*) FormatPercentage:(NSString*) value {
   NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
   f.numberStyle = NSNumberFormatterDecimalStyle;
-  f.locale = [NSLocale currentLocale]; //this is the default, but explicitly setting this in code so it's clear there may be issues with conflicting locales (what's in data vs. user preference)
+  NSLocale* currentLoc = [NSLocale currentLocale];
+  if(_CurrentLocale != nil) {
+    currentLoc = _CurrentLocale;
+  }
+  f.locale = currentLoc;
+
+//  f.locale = [NSLocale currentLocale]; //this is the default, but explicitly setting this in code so it's clear there may be issues with conflicting locales (what's in data vs. user preference)
   NSNumber *aNumber = [f numberFromString:value];
   
   if(aNumber == nil) {
@@ -142,6 +156,7 @@
   [formatter setMinimumFractionDigits:_DecimalPlaces];
   [formatter setMaximumFractionDigits:_DecimalPlaces];
   [formatter setRoundingMode: NSNumberFormatterRoundHalfEven];
+  [formatter setLocale:currentLoc];
   return [formatter stringFromNumber:[NSNumber numberWithDouble:numericValue]];
 }
 
@@ -187,6 +202,10 @@
   
   //this is a huge guess... we need to discuss locale handling
   NSLocale* currentLoc = [NSLocale currentLocale];
+  if(_CurrentLocale != nil) {
+    currentLoc = _CurrentLocale;
+  }
+
 
   NSLog(@"Date: %@", dateValue);
   

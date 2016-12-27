@@ -136,11 +136,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StatTagFrameworkTests/StatTagUtilityTableUtilTests.m"
-            timestampString = "504545204.857709"
+            timestampString = "504547828.600124"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "175"
-            endingLineNumber = "175"
+            startingLineNumber = "158"
+            endingLineNumber = "158"
             landmarkName = "-testFormat_DataOnly"
             landmarkType = "7">
          </BreakpointContent>

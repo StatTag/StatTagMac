@@ -535,7 +535,8 @@
 
 //  STLogManager* log = [[STLogManager alloc] init];
   log.Enabled = true;
-  log.LogFilePath = @"~/Desktop/test/test.log";
+  log.LogFilePath = [NSURL fileURLWithPath:[@"~/Desktop/test/test.log" stringByExpandingTildeInPath]];
+  
   
   [log WriteMessage:@"adding line for log file..."];
   

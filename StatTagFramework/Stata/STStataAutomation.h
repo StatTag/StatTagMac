@@ -76,6 +76,10 @@ extern NSString *const UnregisterParameter;
  Run a collection of commands and provide all applicable results.
  */
 -(NSArray<STCommandResult*>*)RunCommands:(NSArray<NSString*>*)commands;
+/**
+ Run a collection of commands and provide all applicable results.
+ */
+-(NSArray<STCommandResult*>*)RunCommands:(NSArray<NSString*>*)commands tag:(STTag*)tag;
 
 /**
  Determine the string result for a command that returns a single value.  This includes
