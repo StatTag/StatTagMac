@@ -145,6 +145,23 @@
 
 }
 
+-(void)testRegexParser
+{
+ 
+  NSString* tagName;
+  NSString* tagText;
+
+  tagText = @"Table(Label=\"Test\", ColFilterEnabled=True, ColFilterType=\"Exclude\", ColFilterValue=\"1,3-5\")";
+  tagName = [STTag NormalizeName:[STBaseParameterParser GetStringParameter:[STConstantsTagParameters Label] text:tagText]];
+  XCTAssert([tagName isEqualToString:@"Test"]);
+
+  
+  tagText = @"Table(Label=\"Test\", RowFilterEnabled=True, RowFilterType=\"Exclude\", RowFilterValue=\"1,3-5\")";
+  tagName = [STTag NormalizeName:[STBaseParameterParser GetStringParameter:[STConstantsTagParameters Label] text:tagText]];
+  XCTAssert([tagName isEqualToString:@"Test"]);
+
+}
+
 -(void)testParse_ColFilter
 {
 
@@ -197,42 +214,41 @@
 
 -(void)testParse_RowFilter
 {
-  XCTAssertTrue(false);
+  
+  STTag* tag = [[STTag alloc] init];
+  [STTableParameterParser Parse:@"Table(Label=\"Test\", RowFilterEnabled=True, RowFilterType=\"Exclude\", RowFilterValue=\"1,3-5\")" tag:tag];
+  XCTAssert([@"Test" isEqualToString:[tag Name]]);
+  XCTAssertTrue([[[tag TableFormat] RowFilter] Enabled]);
+  XCTAssert([@"Exclude" isEqualToString: [[[tag TableFormat] RowFilter] Type]]);
+  XCTAssert([@"1,3-5" isEqualToString: [[[tag TableFormat] RowFilter] Value]]);
 
-//  var tag = new Tag();
-//  TableParameterParser.Parse("Table(Label=\"Test\", RowFilterEnabled=True, RowFilterType=\"Exclude\", RowFilterValue=\"1,3-5\")", tag);
-//  Assert.AreEqual("Test", tag.Name);
-//  Assert.IsTrue(tag.TableFormat.RowFilter.Enabled);
-//  Assert.AreEqual("Exclude", tag.TableFormat.RowFilter.Type);
-//  Assert.AreEqual("1,3-5", tag.TableFormat.RowFilter.Value);
-//  
-//  // Default value
-//  TableParameterParser.Parse("Table(Label=\"Test\", RowFilterEnabled=True, RowFilterType=\"Exclude\")", tag);
-//  Assert.AreEqual("Test", tag.Name);
-//  Assert.IsTrue(tag.TableFormat.RowFilter.Enabled);
-//  Assert.AreEqual("Exclude", tag.TableFormat.RowFilter.Type);
-//  Assert.AreEqual(Constants.TableParameterDefaults.FilterValue, tag.TableFormat.RowFilter.Value);
-//  
-//  TableParameterParser.Parse("Table(Label=\"Test\", RowFilterEnabled=True, RowFilterValue=\"1,3-5\")", tag);
-//  Assert.AreEqual("Test", tag.Name);
-//  Assert.IsTrue(tag.TableFormat.RowFilter.Enabled);
-//  Assert.AreEqual(Constants.TableParameterDefaults.FilterType, tag.TableFormat.RowFilter.Type);
-//  Assert.AreEqual("1,3-5", tag.TableFormat.RowFilter.Value);
-//  
-//  // If someone says a filter is enabled but turns on nothing else, we will allow it.  It's the same as turning
-//  // off the filter, so maybe we should disable it, but won't do that for now.
-//  TableParameterParser.Parse("Table(Label=\"Test\", RowFilterEnabled=True)", tag);
-//  Assert.AreEqual("Test", tag.Name);
-//  Assert.IsTrue(tag.TableFormat.RowFilter.Enabled);
-//  Assert.AreEqual(Constants.TableParameterDefaults.FilterType, tag.TableFormat.RowFilter.Type);
-//  Assert.AreEqual(Constants.TableParameterDefaults.FilterValue, tag.TableFormat.RowFilter.Value);
-//  
-//  // If the filter is not enabled, we are going to ignore that any other parameters exist for the filter
-//  TableParameterParser.Parse("Table(Label=\"Test\", RowFilterEnabled=False, RowFilterType=\"Exclude\", RowFilterValue=\"1,3-5\")", tag);
-//  Assert.AreEqual("Test", tag.Name);
-//  Assert.IsFalse(tag.TableFormat.ColumnFilter.Enabled);
-//  Assert.AreEqual(string.Empty, tag.TableFormat.ColumnFilter.Type);
-//  Assert.AreEqual(string.Empty, tag.TableFormat.ColumnFilter.Value);
+  // Default value
+  [STTableParameterParser Parse:@"Table(Label=\"Test\", RowFilterEnabled=True, RowFilterType=\"Exclude\")" tag:tag];
+  XCTAssert([@"Test" isEqualToString:[tag Name]]);
+  XCTAssertTrue([[[tag TableFormat] RowFilter] Enabled]);
+  XCTAssert([@"Exclude" isEqualToString: [[[tag TableFormat] RowFilter] Type]]);
+  XCTAssert([[STConstantsTableParameterDefaults FilterValue] isEqualToString: [[[tag TableFormat] RowFilter] Value]]);
+
+  [STTableParameterParser Parse:@"Table(Label=\"Test\", RowFilterEnabled=True, RowFilterValue=\"1,3-5\")" tag:tag];
+  XCTAssert([@"Test" isEqualToString:[tag Name]]);
+  XCTAssertTrue([[[tag TableFormat] RowFilter] Enabled]);
+  XCTAssert([[STConstantsTableParameterDefaults FilterType] isEqualToString: [[[tag TableFormat] RowFilter] Type]]);
+  XCTAssert([@"1,3-5" isEqualToString: [[[tag TableFormat] RowFilter] Value]]);
+  
+  // If someone says a filter is enabled but turns on nothing else, we will allow it.  It's the same as turning off the filter, so maybe we should disable it, but won't do that for now.
+  [STTableParameterParser Parse:@"Table(Label=\"Test\", RowFilterEnabled=True)" tag:tag];
+  XCTAssert([@"Test" isEqualToString:[tag Name]]);
+  XCTAssertTrue([[[tag TableFormat] RowFilter] Enabled]);
+  XCTAssert([[STConstantsTableParameterDefaults FilterType] isEqualToString: [[[tag TableFormat] RowFilter] Type]]);
+  XCTAssert([[STConstantsTableParameterDefaults FilterValue] isEqualToString: [[[tag TableFormat] RowFilter] Value]]);
+  
+  // If the filter is not enabled, we are going to ignore that any other parameters exist for the filter
+  [STTableParameterParser Parse:@"Table(Label=\"Test\", RowFilterEnabled=False, RowFilterType=\"Exclude\", RowFilterValue=\"1,3-5\")" tag:tag];
+  XCTAssert([@"Test" isEqualToString:[tag Name]]);
+  XCTAssertFalse([[[tag TableFormat] ColumnFilter] Enabled]);
+  XCTAssert([@"" isEqualToString: [[[tag TableFormat] ColumnFilter] Type]]);
+  XCTAssert([@"" isEqualToString: [[[tag TableFormat] ColumnFilter] Value]]);
+
 }
 
 /**
@@ -243,46 +259,47 @@
 */
 -(void)testParse_v1_To_v2_Migration
 {
-  XCTAssertTrue(false);
-//  var tag = new Tag();
-//  TableParameterParser.Parse("Table(Label=\"Test\", ColumnNames=True, RowNames=False)", tag);
-//  Assert.AreEqual("Test", tag.Name);
-//  Assert.IsTrue(tag.TableFormat.RowFilter.Enabled);
-//  Assert.AreEqual("1", tag.TableFormat.RowFilter.Value);
-//  Assert.AreEqual(Constants.FilterType.Exclude, tag.TableFormat.RowFilter.Type);
-//  Assert.IsFalse(tag.TableFormat.ColumnFilter.Enabled);
-//  Assert.AreEqual(string.Empty, tag.TableFormat.ColumnFilter.Type);
-//  Assert.AreEqual(string.Empty, tag.TableFormat.ColumnFilter.Value);
-//  
-//  // Run it again, flipping the order of parameters to test it works in any order
-//  TableParameterParser.Parse("Table(RowNames=False, ColumnNames=True, Label=\"Test\")", tag);
-//  Assert.AreEqual("Test", tag.Name);
-//  Assert.IsTrue(tag.TableFormat.RowFilter.Enabled);
-//  Assert.AreEqual("1", tag.TableFormat.RowFilter.Value);
-//  Assert.AreEqual(Constants.FilterType.Exclude, tag.TableFormat.RowFilter.Type);
-//  Assert.IsFalse(tag.TableFormat.ColumnFilter.Enabled);
-//  Assert.AreEqual(string.Empty, tag.TableFormat.ColumnFilter.Type);
-//  Assert.AreEqual(string.Empty, tag.TableFormat.ColumnFilter.Value);
-//  
-//  // Playing around with spacing
-//  TableParameterParser.Parse("Table( RowNames = False , ColumnNames = False , Label = \"Test\" ) ", tag);
-//  Assert.AreEqual("Test", tag.Name);
-//  Assert.IsTrue(tag.TableFormat.RowFilter.Enabled);
-//  Assert.AreEqual("1", tag.TableFormat.RowFilter.Value);
-//  Assert.AreEqual(Constants.FilterType.Exclude, tag.TableFormat.RowFilter.Type);
-//  Assert.IsTrue(tag.TableFormat.ColumnFilter.Enabled);
-//  Assert.AreEqual("1", tag.TableFormat.ColumnFilter.Value);
-//  Assert.AreEqual(Constants.FilterType.Exclude, tag.TableFormat.ColumnFilter.Type);
-//  
-//  // Run one more time, with just columns
-//  TableParameterParser.Parse("Table( RowNames = True , ColumnNames = False , Label = \"Test\" ) ", tag);
-//  Assert.AreEqual("Test", tag.Name);
-//  Assert.IsTrue(tag.TableFormat.ColumnFilter.Enabled);
-//  Assert.AreEqual("1", tag.TableFormat.ColumnFilter.Value);
-//  Assert.AreEqual(Constants.FilterType.Exclude, tag.TableFormat.ColumnFilter.Type);
-//  Assert.IsFalse(tag.TableFormat.RowFilter.Enabled);
-//  Assert.AreEqual(string.Empty, tag.TableFormat.RowFilter.Type);
-//  Assert.AreEqual(string.Empty, tag.TableFormat.RowFilter.Value);
+
+  STTag* tag = [[STTag alloc] init];
+  [STTableParameterParser Parse:@"Table(Label=\"Test\", ColumnNames=True, RowNames=False)" tag:tag];
+  XCTAssert([@"Test" isEqualToString:[tag Name]]);
+  XCTAssertTrue([[[tag TableFormat] RowFilter] Enabled]);
+  XCTAssert([@"1" isEqualToString: [[[tag TableFormat] RowFilter] Value]]);
+  XCTAssert([[STConstantsFilterType Exclude] isEqualToString: [[[tag TableFormat] RowFilter] Type]]);
+  XCTAssertFalse([[[tag TableFormat] ColumnFilter] Enabled]);
+  XCTAssert([@"" isEqualToString: [[[tag TableFormat] ColumnFilter] Value]]);
+  XCTAssert([@"" isEqualToString: [[[tag TableFormat] ColumnFilter] Type]]);
+
+  // Run it again, flipping the order of parameters to test it works in any order
+  [STTableParameterParser Parse:@"Table(RowNames=False, ColumnNames=True, Label=\"Test\")" tag:tag];
+  XCTAssert([@"Test" isEqualToString:[tag Name]]);
+  XCTAssertTrue([[[tag TableFormat] RowFilter] Enabled]);
+  XCTAssert([@"1" isEqualToString: [[[tag TableFormat] RowFilter] Value]]);
+  XCTAssert([[STConstantsFilterType Exclude] isEqualToString: [[[tag TableFormat] RowFilter] Type]]);
+  XCTAssertFalse([[[tag TableFormat] ColumnFilter] Enabled]);
+  XCTAssert([@"" isEqualToString: [[[tag TableFormat] ColumnFilter] Value]]);
+  XCTAssert([@"" isEqualToString: [[[tag TableFormat] ColumnFilter] Type]]);
+  
+  // Playing around with spacing
+  [STTableParameterParser Parse:@"Table( RowNames = False , ColumnNames = False , Label = \"Test\" ) " tag:tag];
+  XCTAssert([@"Test" isEqualToString:[tag Name]]);
+  XCTAssertTrue([[[tag TableFormat] RowFilter] Enabled]);
+  XCTAssert([@"1" isEqualToString: [[[tag TableFormat] RowFilter] Value]]);
+  XCTAssert([[STConstantsFilterType Exclude] isEqualToString: [[[tag TableFormat] RowFilter] Type]]);
+  XCTAssertTrue([[[tag TableFormat] ColumnFilter] Enabled]);
+  XCTAssert([@"1" isEqualToString: [[[tag TableFormat] RowFilter] Value]]);
+  XCTAssert([[STConstantsFilterType Exclude] isEqualToString: [[[tag TableFormat] RowFilter] Type]]);
+  
+  // Run one more time, with just columns
+  [STTableParameterParser Parse:@"Table( RowNames = True , ColumnNames = False , Label = \"Test\" ) " tag:tag];
+  XCTAssert([@"Test" isEqualToString:[tag Name]]);
+  XCTAssertTrue([[[tag TableFormat] ColumnFilter] Enabled]);
+  XCTAssert([@"1" isEqualToString: [[[tag TableFormat] ColumnFilter] Value]]);
+  XCTAssert([[STConstantsFilterType Exclude] isEqualToString: [[[tag TableFormat] ColumnFilter] Type]]);
+  XCTAssertFalse([[[tag TableFormat] RowFilter] Enabled]);
+  XCTAssert([@"" isEqualToString: [[[tag TableFormat] RowFilter] Value]]);
+  XCTAssert([@"" isEqualToString: [[[tag TableFormat] RowFilter] Type]]);
+
 }
 
 @end

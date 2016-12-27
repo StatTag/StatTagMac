@@ -106,31 +106,16 @@
   NSMutableArray<NSString*>* dataVector = [[NSMutableArray<NSString*> alloc] init];
   for (NSInteger row = 0; row < [data numRows]; row++)
   {
-    //doing a contains here against NSNumber is not going to get what we need
-    //    if (useRowFilter && excludeRowIndices.Contains(row))
-    if (useRowFilter)
+    if(useRowFilter && [excludeRowIndices containsObject:[NSNumber numberWithInteger:row]])
     {
-      for(NSNumber* n in excludeRowIndices)
-      {
-        if([n integerValue] == row)
-        {
-          continue;
-        }
-      }
+      continue;
     }
     
     for (NSInteger column = 0; column < [data numColumns]; column++)
     {
-      // if (useColumnFilter && excludeColumnIndices.Contains(column))
-      if (useColumnFilter)
+      if(useColumnFilter && [excludeColumnIndices containsObject:[NSNumber numberWithInteger:column]])
       {
-        for(NSNumber* n in excludeColumnIndices)
-        {
-          if([n integerValue] == column)
-          {
-            continue;
-          }
-        }
+        continue;
       }
       [dataVector addObject:[data valueAtRow:row andColumn:column]];
     }
