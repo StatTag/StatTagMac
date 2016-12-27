@@ -54,7 +54,7 @@
     if (number < 0) {
       number = 0;
     }
-    [self setDecimalPlaces:(int)number];
+    [self setDecimalPlaces:(NSInteger)number];
     //self.decimalPlaces = (int)number;
     
     [[self delegate] decimalPlacesDidChange:self];

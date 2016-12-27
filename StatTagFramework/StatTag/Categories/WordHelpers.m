@@ -124,7 +124,7 @@ static WordHelpers* sharedInstance = nil;
     } else {
       NSURL* theFileURL = [NSURL fileURLWithPath:filePath];
       NSString *loweredExtension = [[theFileURL pathExtension] lowercaseString];
-      NSSet *validImageExtensions = [NSSet setWithArray:[NSImage imageFileTypes]];
+      NSSet *validImageExtensions = [NSSet setWithArray:[NSImage imageTypes]];
       if ([validImageExtensions containsObject:loweredExtension]) {
         return true;
       } else {

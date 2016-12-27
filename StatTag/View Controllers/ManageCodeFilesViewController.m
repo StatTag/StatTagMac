@@ -137,7 +137,7 @@ NSString* const allowedExtensions_CodeFiles = @"do/DO";
   {
     NSArray<NSURL*>* files = [openPanel URLs];
     
-    for( int i = 0; i < [files count]; i++ )
+    for( NSInteger i = 0; i < [files count]; i++ )
     {
       NSURL* url = [files objectAtIndex:i];
       //      if ([fileManager fileExistsAtPath:[url path] isDirectory:&isDir] && isDir) {

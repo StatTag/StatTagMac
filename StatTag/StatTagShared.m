@@ -46,6 +46,7 @@ static StatTagShared *sharedInstance = nil;
   if (self) {
     [self setWordAppStatusMessage:@""];
     [self setFileMonitors:[[NSMutableArray<FileMonitor*> alloc] init]];
+    [self setLogManager:[[STLogManager alloc] init]];
   }
   return self;
 }

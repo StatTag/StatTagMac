@@ -70,7 +70,7 @@ dispatch_source_t fileMonitorSource;
     if(fileMonitorSource)
     {
       // Copy the filename for later use.
-      int length = strlen(c);
+      NSInteger length = strlen(c);
       char* newString = (char*)malloc(length + 1);
       newString = strcpy(newString, c);
       dispatch_set_context(fileMonitorSource, newString);
@@ -146,7 +146,7 @@ dispatch_source_t fileMonitorSource;
             [[NSNotificationCenter defaultCenter] postNotificationName:@"codeFileRenamed" object:self userInfo:fileInfo];
 
             //store the updated path as our path
-            int length = strlen(newPath);
+            NSInteger length = strlen(newPath);
             char* newString = (char*)malloc(length + 1);
             newString = strcpy(newString, newPath);
             dispatch_set_context(fileMonitorSource, newString);

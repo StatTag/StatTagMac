@@ -26,7 +26,7 @@
   STMSWord2011Document* _doc;
   STDocumentManager* _docManager;
   STPropertiesManager* _propertiesManager;
-  STLogManager* _pogManager;
+  STLogManager* _logManager;
   NSMutableArray<FileMonitor*>* _fileMonitors;
   NSRect _archivedWindowFrame;
   //  NSWindow* _mainWindow;

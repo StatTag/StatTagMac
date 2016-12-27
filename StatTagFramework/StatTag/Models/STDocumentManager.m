@@ -743,7 +743,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   NSLog(@"CreateWordTableForTableResult - Started");
 
   STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
-  STMSWord2011Document* doc = [app activeDocument];
+  STMSWord2011Document* __unused doc = [app activeDocument];
 
   @try {
     NSInteger rowCount = [[dimensions objectAtIndex:0] integerValue];
@@ -830,7 +830,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   }
   
   STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
-  STMSWord2011Document* doc = [app activeDocument];
+  STMSWord2011Document* __unused doc = [app activeDocument];
 
   @try {
     STMSWord2011SelectionObject* selection = [app selection];

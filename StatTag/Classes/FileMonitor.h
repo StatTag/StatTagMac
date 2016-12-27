@@ -10,7 +10,7 @@
 
 @interface FileMonitor : NSObject {
   dispatch_source_t fileSource;
-  int monitoredFileDescriptor;
+  NSInteger monitoredFileDescriptor;
 }
 
 @property (copy, nonatomic) NSURL* filePath;

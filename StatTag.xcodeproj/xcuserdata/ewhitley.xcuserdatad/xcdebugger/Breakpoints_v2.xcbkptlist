@@ -87,13 +87,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "StatTagFramework/Core/Models/STTableFormat.m"
-            timestampString = "503961543.38706"
+            filePath = "StatTag/View Controllers/Controls/TagGridView.m"
+            timestampString = "504568880.918633"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "121"
-            endingLineNumber = "121"
-            landmarkName = "-Format:valueFormatter:"
+            startingLineNumber = "81"
+            endingLineNumber = "81"
+            landmarkName = "-drawRect:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -103,29 +103,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "StatTagFramework/Core/Models/STTableFormat.m"
-            timestampString = "503961641.066171"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "90"
-            endingLineNumber = "90"
-            landmarkName = "-Format:valueFormatter:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "StatTagFramework/Core/Models/STTableFormat.m"
-            timestampString = "503961643.250529"
+            filePath = "StatTag/View Controllers/Controls/TagGridView.m"
+            timestampString = "504568941.490599"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "86"
             endingLineNumber = "86"
-            landmarkName = "-Format:valueFormatter:"
+            landmarkName = "-drawRect:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -135,13 +119,45 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "StatTagFrameworkTests/StatTagUtilityTableUtilTests.m"
-            timestampString = "504547828.600124"
+            filePath = "StatTag/View Controllers/Controls/TagPreviewController.m"
+            timestampString = "504568947.339791"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "158"
-            endingLineNumber = "158"
-            landmarkName = "-testFormat_DataOnly"
+            startingLineNumber = "197"
+            endingLineNumber = "197"
+            landmarkName = "+generatePreviewImageFromTag:forRect:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "StatTag/View Controllers/SettingsViewController.m"
+            timestampString = "504570446.466245"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "144"
+            endingLineNumber = "144"
+            landmarkName = "-saveSettings"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "StatTag/View Controllers/SettingsViewController.m"
+            timestampString = "504571006.246278"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "87"
+            endingLineNumber = "87"
+            landmarkName = "-setup"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

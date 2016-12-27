@@ -82,8 +82,10 @@ NSString* const defaultLogFileName = @"StatTag.log";
 }
 
 -(void)setup {
+  
+  
   [[self checkboxLogging] setState: [[self properties] EnableLogging] ? NSOnState : NSOffState];
-  if([[self properties] LogLocation] != nil && [[[self properties] LogLocation] length] > 0 && ![[[self properties] LogLocation] isEqualToString:@"Log Path Not Set"] && [STLogManager IsValidLogPath: [[self properties] LogLocation]]) {
+  if([[self properties] LogLocation] != nil && [[[self properties] LogLocation] length] > 0 && ![[[self properties] LogLocation] isEqualToString:@"Log Path Not Set"] && [[self logManager] IsValidLogPath: [[self properties] LogLocation]]) {
     [[self labelFilePath] setStringValue: [[self properties] LogLocation]];
   } else {
     [self setDefaultPath];
@@ -121,7 +123,7 @@ NSString* const defaultLogFileName = @"StatTag.log";
   {
     NSArray<NSURL*>* files = [openPanel URLs];
     
-    for( int i = 0; i < [files count]; i++ )
+    for( NSInteger i = 0; i < [files count]; i++ )
     {
       NSURL* url = [files objectAtIndex:i];
       if ([fileManager fileExistsAtPath:[url path] isDirectory:&isDir] && isDir) {
@@ -142,13 +144,14 @@ NSString* const defaultLogFileName = @"StatTag.log";
   [[self properties] setEnableLogging:[[self checkboxLogging] state ] == NSOnState ? YES : NO ];
   [[self properties] setLogLocation:[labelFilePath stringValue]];
   
-  if ([[self properties] EnableLogging] && ![STLogManager IsValidLogPath: [[self properties] LogLocation]])
+  if ([[self properties] EnableLogging] && ![[self logManager] IsValidLogPath: [[self properties] LogLocation]])
   {
     [STUIUtility WarningMessageBox:@"The debug file you have selected appears to be invalid, or you do not have rights to access it.\r\nPlease select a valid path for the debug file, or disable debugging." logger:nil];
   } else {
     [[self propertiesManager] setProperties:[self properties]];
     [[self propertiesManager] Save];
     [[self logManager] UpdateSettings:[self properties]];
+    //[[self logManager] UpdateSettings:[self properties]];
   }
 }
 

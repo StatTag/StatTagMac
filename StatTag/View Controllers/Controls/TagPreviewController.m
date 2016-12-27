@@ -190,9 +190,29 @@ static void *TagTableFormatContext = &TagTableFormatContext;
   
   if([tag Type] == [STConstantsTagType Table]) {
     TagGridView* grid = [[TagGridView alloc] initWithFrame:rect];
-    grid.useColumnLabels = [[tag TableFormat] IncludeColumnNames];
-    grid.useRowLabels = [[tag TableFormat] IncludeRowNames];
-    grid.gridSize = 6;
+    
+    grid.showFilteredRows = YES;
+    grid.showFilteredColumns = YES;
+    
+    if([tag HasTableData])
+    {
+      NSArray<NSNumber*>* dimensions = [tag GetTableDisplayDimensions];
+      if([dimensions count] == 2)
+      {
+        [grid setNumCols:[[dimensions objectAtIndex:0] integerValue]];
+        [grid setNumRows:[[dimensions objectAtIndex:1] integerValue]];
+      }
+    }
+
+    if([[tag TableFormat] ColumnFilter] != nil && [[[tag TableFormat] ColumnFilter] Enabled])
+    {
+      [grid setFilterColumns:[[[tag TableFormat] ColumnFilter] ExpandValue]];
+    }
+    if([[tag TableFormat] RowFilter] != nil && [[[tag TableFormat] RowFilter] Enabled])
+    {
+      [grid setFilterRows:[[[tag TableFormat] RowFilter] ExpandValue]];
+    }
+
     //FIXME: move color
     grid.headerFillColor = [StatTagShared colorFromRGBRed:0 green:125 blue:255 alpha:1.0];
     preview = [[NSImage alloc] initWithData:[grid dataWithPDFInsideRect:[grid bounds]]];

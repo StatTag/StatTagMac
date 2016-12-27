@@ -22,7 +22,7 @@
 @property (weak) IBOutlet NSButton *checkboxUseThousandsSeparator;
 
 @property BOOL useThousands;
-@property int decimalPlaces;
+@property NSInteger decimalPlaces;
 
 @property (nonatomic, weak) id<NumericValuePropertiesControllerDelegate> delegate;
 @property NSInteger maxNumSize;

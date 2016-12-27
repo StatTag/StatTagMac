@@ -86,7 +86,7 @@
     
     // Check write access
     NSURL* logPath = [NSURL fileURLWithPath:logFilePath];
-    NSFileHandle* stream = [[self FileHandler] OpenWrite: logPath];
+    NSFileHandle* __unused stream = [[self FileHandler] OpenWrite: logPath];
   }
   @catch (NSException* exc)
   {
