@@ -204,6 +204,7 @@ static WordHelpers* sharedInstance = nil;
 +(void)toggleAllFieldCodes {
   STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
   STMSWord2011Document* doc = [app activeDocument];
+
   
   for(STMSWord2011Field* field in [doc fields]) {
     field.showCodes = ![field showCodes];

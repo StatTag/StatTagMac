@@ -33,5 +33,7 @@
 -(NSNumber*)insertParagraphAtRangeStart:(NSNumber*)rangeStart andRangeEnd:(NSNumber*)rangeEnd;
 -(NSNumber*)updateAllFields;
 
+//-(void)disableScreenUpdates;
+//-(void)enableScreenUpdates;
 
 @end

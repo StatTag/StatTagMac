@@ -23,6 +23,10 @@
 
 @property (strong, nonatomic) NSObject<STIFileHandler>* FileHandler;
 
+
+-(instancetype)init;
+-(instancetype)initWithFileHandler:(NSObject<STIFileHandler>*)handler;
+
 /**
  Determine if a given path is accessible and can be opened with write access.
  

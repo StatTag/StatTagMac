@@ -26,6 +26,8 @@
   int _WriteAllLines_wasCalled;
   int _WriteAllText_wasCalled;
   int _ReadAllLines_wasCalled;
+  int _OpenWrite_wasCalled;
+  int _AppendAllText_wasCalled;
 }
 @property (readwrite, nonatomic, copy) NSArray<NSString*>* lines;
 @property (readwrite, nonatomic) BOOL exists;
@@ -33,6 +35,8 @@
 @property (readwrite, nonatomic) int WriteAllLines_wasCalled;
 @property (readwrite, nonatomic) int WriteAllText_wasCalled;
 @property (readwrite, nonatomic) int ReadAllLines_wasCalled;
+@property (readwrite, nonatomic) int OpenWrite_wasCalled;
+@property (readwrite, nonatomic) int AppendAllText_wasCalled;
 
 - (NSArray*) ReadAllLines:(NSURL*)filePath error:(NSError**)error;
 - (BOOL) Exists:(NSURL*)filePath error:(NSError**)error;

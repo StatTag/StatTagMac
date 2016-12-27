@@ -76,30 +76,53 @@
 
   //if we have tilde paths, expand the full path
   logFilePath = [logFilePath stringByExpandingTildeInPath];
-  
-  NSError *error;
-  NSStringEncoding encoding;
-  NSString *fileContents = [NSString stringWithContentsOfFile:logFilePath
-                                                 usedEncoding:&encoding
-                                                        error:&error];
 
-  NSLog(@"logFilePath : %@", logFilePath);
-  NSLog(@"error : %@", [error localizedDescription]);
-  
-  if(fileContents != nil) {
-    //this returns YES for some invalid paths... ex: "my awesome file" (not a path) so we should probably review
-    // http://stackoverflow.com/questions/2455735/why-does-nsfilemanager-return-true-on-fileexistsatpath-when-there-is-no-such-fil
-    return [[NSFileManager defaultManager] isWritableFileAtPath:logFilePath];
-  } else {
-    //also - go back and review this. This apparently also returns YES if the file already exists... so we may not need all of the checks.
-    BOOL createdFile = [[NSFileManager defaultManager] createFileAtPath:logFilePath contents:nil attributes:nil];
-    /*
-     From: https://developer.apple.com/library/ios/documentation/Cocoa/Reference/Foundation/Classes/NSFileManager_Class/index.html#//apple_ref/occ/instm/NSFileManager/createFileAtPath:contents:attributes:
-     If you specify nil for the attributes parameter, this method uses a default set of values for the owner, group, and permissions of any newly created directories in the path.
-     */
-    //do we want to alert the user if this fails?
-    return createdFile;
+  //this entire approach is very "C#" and not very "Apple"
+  //we really should completely change this to use the Apple style exception/error handling
+  @try
+  {
+    // Check write access
+    //stream = FileHandler.OpenWrite(logFilePath);
+    
+    // Check write access
+    NSURL* logPath = [NSURL fileURLWithPath:logFilePath];
+    NSFileHandle* stream = [[self FileHandler] OpenWrite: logPath];
   }
+  @catch (NSException* exc)
+  {
+    return false;
+  }
+  @finally
+  {
+  }
+  
+  return true;
+  
+  //
+//  NSError *error;
+//  NSStringEncoding encoding;
+//  NSString *fileContents = [NSString stringWithContentsOfFile:logFilePath
+//                                                 usedEncoding:&encoding
+//                                                        error:&error];
+//
+//  NSLog(@"logFilePath : %@", logFilePath);
+//  NSLog(@"error : %@", [error localizedDescription]);
+//  
+//  if(fileContents != nil) {
+//    //this returns YES for some invalid paths... ex: "my awesome file" (not a path) so we should probably review
+//    // http://stackoverflow.com/questions/2455735/why-does-nsfilemanager-return-true-on-fileexistsatpath-when-there-is-no-such-fil
+//    return [[NSFileManager defaultManager] isWritableFileAtPath:logFilePath];
+//  } else {
+//    //also - go back and review this. This apparently also returns YES if the file already exists... so we may not need all of the checks.
+//    BOOL createdFile = [[NSFileManager defaultManager] createFileAtPath:logFilePath contents:nil attributes:nil];
+//    /*
+//     From: https://developer.apple.com/library/ios/documentation/Cocoa/Reference/Foundation/Classes/NSFileManager_Class/index.html#//apple_ref/occ/instm/NSFileManager/createFileAtPath:contents:attributes:
+//     If you specify nil for the attributes parameter, this method uses a default set of values for the owner, group, and permissions of any newly created directories in the path.
+//     */
+//    //do we want to alert the user if this fails?
+//    return createdFile;
+//  }
+//  
 }
 
 

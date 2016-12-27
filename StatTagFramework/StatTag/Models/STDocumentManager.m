@@ -399,6 +399,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   
   [self setValue:@"Updating Fields" forKey:@"wordFieldUpdateStatus"];
   
+  
   @try
   {
     BOOL tableDimensionChange = [self IsTableTagChangingDimensions:tagUpdatePair];
@@ -490,6 +491,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
     //Cursor.Current = Cursors.Default;
     //application.ScreenUpdating = true;
     //[WordHelpers enableScreenUpdates];
+
   }
 
   [WordHelpers toggleAllFieldCodes];

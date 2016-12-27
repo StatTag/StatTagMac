@@ -137,21 +137,27 @@ script WordASOC
   -- http://lists.apple.com/archives/applescript-users/2011/Apr/msg00129.html
   --broken in Word
   -- http://answers.microsoft.com/en-us/mac/forum/macoffice2011-macword/screen-updating-applescript/230edaf6-49fe-4b8c-981f-7697a335f11b
---  on disableScreenUpdates()
---    tell application "Microsoft Word"
---      tell active document
---        --set screen updating to false
---      end tell
---    end tell
---  end disableScreenUpdates
---
---  on enableScreenUpdates()
---    tell application "Microsoft Word"
---      tell active document
---        --set screen updating to true
---      end tell
---    end tell
---  end enableScreenUpdates
+#  on disableScreenUpdates()
+#    tell application "Microsoft Word"
+#      --tell active document
+#      activate
+#      run VB macro macro name "StatTagDisableScreenUpdates"
+#        --set screen updating to false
+#      --do script "Application.ScreenUpdating = False"
+#      --end tell
+#    end tell
+#  end disableScreenUpdates
+#
+#  on enableScreenUpdates()
+#    tell application "Microsoft Word"
+#      --tell active document
+#      activate
+#      run VB macro macro name "StatTagEnableScreenUpdates"
+#        --set screen updating to true
+#      --do script "Application.ScreenUpdating = True"
+#      --end tell
+#    end tell
+#  end enableScreenUpdates
 
 
   on createTableAtRangeStart:theRangeStart andRangeEnd:theRangeEnd withRows:numRows andCols:numCols
