@@ -130,8 +130,8 @@ NSString* const allowedExtensions_CodeFiles = @"do/DO";
   NSArray<NSString*>* types = [allowedExtensions_CodeFiles pathComponents];
   [openPanel setAllowedFileTypes:types];
   
-  BOOL isDir;
-  NSFileManager* fileManager = [NSFileManager defaultManager];
+  //BOOL isDir;
+  //NSFileManager* fileManager = [NSFileManager defaultManager];
   
   if ( [openPanel runModal] == NSOKButton )
   {

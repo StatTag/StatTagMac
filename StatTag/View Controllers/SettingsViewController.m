@@ -74,7 +74,7 @@ NSString* const defaultLogFileName = @"StatTag.log";
 
 
 -(void)setDefaultPath {
-  NSFileManager* fileManager = [NSFileManager defaultManager];
+  //NSFileManager* fileManager = [NSFileManager defaultManager];
   //NSString* homeDirectory = NSHomeDirectory();
   NSString* documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
   

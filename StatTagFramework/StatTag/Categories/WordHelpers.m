@@ -144,6 +144,17 @@ static WordHelpers* sharedInstance = nil;
   if([[self class] imageExistsAtPath:filePath]) {
     NSURL* theFileURL = [NSURL fileURLWithPath:filePath];
     NSString* hfsPath = (NSString*)CFBridgingRelease(CFURLCopyFileSystemPath((CFURLRef)theFileURL, kCFURLHFSPathStyle));
+    
+    //MARK: FIXME - get rid of kCFURLHFSPathStyle
+    /*
+    Leaving the above warning and commenting...
+     Our AppleScript wants an HFS path - but those are not ideal and support is deprecated as of 10.9
+     https://developer.apple.com/library/content/releasenotes/CoreFoundation/RN-CoreFoundation/
+     
+     "The use of kCFURLHFSPathStyle is deprecated. The Carbon File Manager, which uses HFS style paths, is deprecated. HFS style paths are unreliable because they can arbitrarily refer to multiple volumes if those volumes have identical volume names. You should instead use kCFURLPOSIXPathStyle wherever possible."
+     
+     We should probably go back and change the AppleScript, then circle back and fix this
+     */
     [asoc insertImageAtPath:hfsPath];
   }
   
