@@ -189,21 +189,23 @@
   
   BOOL ok = NO;
   
-  if([STThisAddIn IsAppInstalled]) {
-    if([STThisAddIn IsAppRunning]) {
-      NSInteger numDocs = [[[[[STGlobals sharedInstance] ThisAddIn] Application] documents] count];
-      STMSWord2011Document* doc = [[[STGlobals sharedInstance] ThisAddIn] SafeGetActiveDocument];
-      if(numDocs > 0 && doc != nil && [doc name] != nil) {
-        [[StatTagShared sharedInstance] setWordAppStatusMessage:@""];
-        ok = YES;
+  @autoreleasepool {
+    if([STThisAddIn IsAppInstalled]) {
+      if([STThisAddIn IsAppRunning]) {
+        NSInteger numDocs = [[[[[STGlobals sharedInstance] ThisAddIn] Application] documents] count];
+        STMSWord2011Document* doc = [[[STGlobals sharedInstance] ThisAddIn] SafeGetActiveDocument];
+        if(numDocs > 0 && doc != nil && [doc name] != nil) {
+          [[StatTagShared sharedInstance] setWordAppStatusMessage:@""];
+          ok = YES;
+        } else {
+          [[StatTagShared sharedInstance] setWordAppStatusMessage:@"Please open a document from within Microsoft Word"];
+        }
       } else {
-        [[StatTagShared sharedInstance] setWordAppStatusMessage:@"Please open a document from within Microsoft Word"];
+        [[StatTagShared sharedInstance] setWordAppStatusMessage:@"StatTag requires Microsoft Word to be running"];
       }
     } else {
-      [[StatTagShared sharedInstance] setWordAppStatusMessage:@"StatTag requires Microsoft Word to be running"];
+      [[StatTagShared sharedInstance] setWordAppStatusMessage:@"StatTag requires Microsoft Word for macOS"];
     }
-  } else {
-    [[StatTagShared sharedInstance] setWordAppStatusMessage:@"StatTag requires Microsoft Word for macOS"];
   }
   
   return ok;

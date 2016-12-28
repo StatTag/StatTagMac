@@ -68,7 +68,9 @@ const NSInteger ShowStata = 3;
     OpenLogs = [[NSMutableArray<NSString*> alloc] init];
     _AppBundleIdentifier = [[self class] determineInstalledAppBundleIdentifier];
     if([[self class] IsAppInstalled]){
-      Application = [SBApplication applicationWithBundleIdentifier:_AppBundleIdentifier];
+      @autoreleasepool {
+        Application = [SBApplication applicationWithBundleIdentifier:_AppBundleIdentifier];
+      }
     }
   }
   return self;
@@ -79,11 +81,14 @@ const NSInteger ShowStata = 3;
 }
   
 +(BOOL)IsAppRunning {
-  STStataApplication *s = [SBApplication applicationWithBundleIdentifier:[[self class] determineInstalledAppBundleIdentifier]];
-  if([s isRunning]) {
-    return true;
+  BOOL running = false;
+  @autoreleasepool {
+    STStataApplication *s = [SBApplication applicationWithBundleIdentifier:[[self class] determineInstalledAppBundleIdentifier]];
+    if([s isRunning]) {
+      running = true;
+    }
   }
-  return false;
+  return running;
 }
 
 +(NSURL*)AppPath {
@@ -116,7 +121,9 @@ const NSInteger ShowStata = 3;
     OpenLogs = [[NSMutableArray<NSString*> alloc] init];
     _AppBundleIdentifier = [[self class] determineInstalledAppBundleIdentifier];
     if([[self class] IsAppInstalled]){
-      Application = [SBApplication applicationWithBundleIdentifier:_AppBundleIdentifier];
+      @autoreleasepool {
+        Application = [SBApplication applicationWithBundleIdentifier:_AppBundleIdentifier];
+      }
     }
     [Application DoCommand:DisablePagingCommand stopOnError:true addToReview:true];
     [self Show];

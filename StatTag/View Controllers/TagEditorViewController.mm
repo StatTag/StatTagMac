@@ -146,7 +146,12 @@ static void *TagTypeContext = &TagTypeContext;
   _tagValueProperties.tag = [self tag];
   _tagTableProperties.tag = [self tag];
   _tagPreviewController.tag = [self tag];
-  [_propertiesStackView setDetachesHiddenViews:YES];
+  //if (NSAppKitVersionNumber >= NSAppKitVersionNumber10_11)
+  //{
+  #if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_11
+    [_propertiesStackView setDetachesHiddenViews:YES];
+  #endif
+  //}
 }
 
 - (void)viewDidLoad {
@@ -510,17 +515,31 @@ static void *TagTypeContext = &TagTypeContext;
   if([tagType isEqualToString:[STConstantsTagType Value]]) {
     [[self tagValuePropertiesView] setHidden:NO];
   } else {
+    #if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_11
     if([[_propertiesStackView arrangedSubviews] containsObject:[self tagValuePropertiesView]]) {
       [[self tagValuePropertiesView] setHidden:YES];
     }
+    #else
+    if([[_propertiesStackView subviews] containsObject:[self tagValuePropertiesView]])
+    {
+      [_propertiesStackView setVisibilityPriority:NSStackViewVisibilityPriorityNotVisible forView:[self tagValuePropertiesView]];
+    }
+    #endif
   }
   
   if([tagType isEqualToString:[STConstantsTagType Table]]) {
     [[self tagTablePropertiesView] setHidden:NO];
   } else {
-    if([[_propertiesStackView arrangedSubviews] containsObject:[self tagTablePropertiesView]]) {
-      [[self tagTablePropertiesView] setHidden:YES];
-    }
+    #if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_11
+      if([[_propertiesStackView arrangedSubviews] containsObject:[self tagTablePropertiesView]]) {
+        [[self tagTablePropertiesView] setHidden:YES];
+      }
+    #else
+      if([[_propertiesStackView subviews] containsObject:[self tagValuePropertiesView]])
+      {
+        [_propertiesStackView setVisibilityPriority:NSStackViewVisibilityPriorityMustHold forView:[self tagValuePropertiesView]];
+      }
+    #endif
   }
 
 

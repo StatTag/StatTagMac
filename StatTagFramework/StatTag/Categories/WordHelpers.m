@@ -35,16 +35,20 @@ static WordHelpers* sharedInstance = nil;
 }
 
 +(STMSWord2011TextRange*)DuplicateRange:(STMSWord2011TextRange*)range {
-  STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
-  STMSWord2011Document* doc = [app activeDocument];
-  return [[self class] DuplicateRange: range forDoc:doc];
+  //@autoreleasepool {
+    STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
+    STMSWord2011Document* doc = [app activeDocument];
+    return [[self class] DuplicateRange: range forDoc:doc];
+  //}
 }
 
 +(void)setRange:(STMSWord2011TextRange**)range Start:(NSInteger)start end:(NSInteger)end {
-  STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
-  STMSWord2011Document* doc = [app activeDocument];
-  //return [doc createRangeStart:start end:end];
-  *range = [doc createRangeStart:start end:end];
+  //@autoreleasepool {
+    STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
+    STMSWord2011Document* doc = [app activeDocument];
+    //return [doc createRangeStart:start end:end];
+    *range = [doc createRangeStart:start end:end];
+  //}
 }
 
 +(STMSWord2011TextRange*)DuplicateRange:(STMSWord2011TextRange*)range forDoc:(STMSWord2011Document*)doc {
@@ -86,11 +90,13 @@ static WordHelpers* sharedInstance = nil;
 
 +(void)createOrUpdateDocumentVariableWithName:(NSString*)variableName andValue:(NSString*)variableValue {
   //message our sharedInstance so we load applescripts (once)
-  [[self class] sharedInstance];
-  WordASOC *asoc = [[NSClassFromString(@"WordASOC") alloc] init];
-  if(variableName != nil) {
-    [asoc createOrUpdateDocumentVariableWithName:variableName andValue:variableValue];
-  }
+  //@autoreleasepool {
+    [[self class] sharedInstance];
+    WordASOC *asoc = [[NSClassFromString(@"WordASOC") alloc] init];
+    if(variableName != nil) {
+      [asoc createOrUpdateDocumentVariableWithName:variableName andValue:variableValue];
+    }
+  //}
 }
 
 
@@ -108,9 +114,11 @@ static WordHelpers* sharedInstance = nil;
 }
 
 +(void)UpdateLinkFormat:(STMSWord2011LinkFormat*)linkFormat {
-  [[self class] sharedInstance];
-  WordASOC *asoc = [[NSClassFromString(@"WordASOC") alloc] init];
-  [asoc UpdateLinkFormat:linkFormat];
+  //@autoreleasepool {
+    [[self class] sharedInstance];
+    WordASOC *asoc = [[NSClassFromString(@"WordASOC") alloc] init];
+    [asoc UpdateLinkFormat:linkFormat];
+  //}
 }
 
 +(BOOL)imageExistsAtPath:(NSString*)filePath {
@@ -137,27 +145,28 @@ static WordHelpers* sharedInstance = nil;
 }
 
 +(void)insertImageAtPath:(NSString*)filePath {
-  //FIXME: we need some better error handling, etc. for all of this
-  [[self class] sharedInstance];
-  WordASOC *asoc = [[NSClassFromString(@"WordASOC") alloc] init];
-  
-  if([[self class] imageExistsAtPath:filePath]) {
-    NSURL* theFileURL = [NSURL fileURLWithPath:filePath];
-    NSString* hfsPath = (NSString*)CFBridgingRelease(CFURLCopyFileSystemPath((CFURLRef)theFileURL, kCFURLHFSPathStyle));
+  //@autoreleasepool {
+    //FIXME: we need some better error handling, etc. for all of this
+    [[self class] sharedInstance];
+    WordASOC *asoc = [[NSClassFromString(@"WordASOC") alloc] init];
     
-    //MARK: FIXME - get rid of kCFURLHFSPathStyle
-    /*
-    Leaving the above warning and commenting...
-     Our AppleScript wants an HFS path - but those are not ideal and support is deprecated as of 10.9
-     https://developer.apple.com/library/content/releasenotes/CoreFoundation/RN-CoreFoundation/
-     
-     "The use of kCFURLHFSPathStyle is deprecated. The Carbon File Manager, which uses HFS style paths, is deprecated. HFS style paths are unreliable because they can arbitrarily refer to multiple volumes if those volumes have identical volume names. You should instead use kCFURLPOSIXPathStyle wherever possible."
-     
-     We should probably go back and change the AppleScript, then circle back and fix this
-     */
-    [asoc insertImageAtPath:hfsPath];
-  }
-  
+    if([[self class] imageExistsAtPath:filePath]) {
+      NSURL* theFileURL = [NSURL fileURLWithPath:filePath];
+      NSString* hfsPath = (NSString*)CFBridgingRelease(CFURLCopyFileSystemPath((CFURLRef)theFileURL, kCFURLHFSPathStyle));
+      
+      //MARK: FIXME - get rid of kCFURLHFSPathStyle
+      /*
+      Leaving the above warning and commenting...
+       Our AppleScript wants an HFS path - but those are not ideal and support is deprecated as of 10.9
+       https://developer.apple.com/library/content/releasenotes/CoreFoundation/RN-CoreFoundation/
+       
+       "The use of kCFURLHFSPathStyle is deprecated. The Carbon File Manager, which uses HFS style paths, is deprecated. HFS style paths are unreliable because they can arbitrarily refer to multiple volumes if those volumes have identical volume names. You should instead use kCFURLPOSIXPathStyle wherever possible."
+       
+       We should probably go back and change the AppleScript, then circle back and fix this
+       */
+      [asoc insertImageAtPath:hfsPath];
+    }
+  //}
   
 //  if(filePath != nil) {
 //    //do more file path checking...
@@ -192,9 +201,11 @@ static WordHelpers* sharedInstance = nil;
 }
 
 +(void)UpdateAllImageLinks {
-  [[self class] sharedInstance];
-  WordASOC *asoc = [[NSClassFromString(@"WordASOC") alloc] init];
-  [asoc UpdateAllImageLinks];
+  @autoreleasepool {
+    [[self class] sharedInstance];
+    WordASOC *asoc = [[NSClassFromString(@"WordASOC") alloc] init];
+    [asoc UpdateAllImageLinks];
+  }
 }
 
 //none of these actually work in Word - leaving them here so we know we tried
@@ -213,22 +224,26 @@ static WordHelpers* sharedInstance = nil;
 // with special characters in the embedded fields.  A workaround is toggling the fields
 // to show and hide codes.
 +(void)toggleAllFieldCodes {
-  STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
-  STMSWord2011Document* doc = [app activeDocument];
-
-  
-  for(STMSWord2011Field* field in [doc fields]) {
-    field.showCodes = ![field showCodes];
-    field.showCodes = ![field showCodes];
+  @autoreleasepool {
+    STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
+    STMSWord2011Document* doc = [app activeDocument];
+    
+    
+    for(STMSWord2011Field* field in [doc fields]) {
+      field.showCodes = ![field showCodes];
+      field.showCodes = ![field showCodes];
+    }
   }
   
 }
 
 +(void)toggleFieldCodesInRange:(STMSWord2011TextRange*)range
-{  
-  for(STMSWord2011Field* field in [range fields]) {
-    field.showCodes = ![field showCodes];
-    field.showCodes = ![field showCodes];
+{
+  @autoreleasepool {
+    for(STMSWord2011Field* field in [range fields]) {
+      field.showCodes = ![field showCodes];
+      field.showCodes = ![field showCodes];
+    }
   }
 }
 
@@ -237,19 +252,21 @@ static WordHelpers* sharedInstance = nil;
 //http://stackoverflow.com/questions/6804541/getting-applescript-return-value-in-obj-c
 
 +(STMSWord2011Table*)createTableAtRange:(STMSWord2011TextRange*)range withRows:(NSInteger)rows andCols:(NSInteger)cols {
-  
-  [[self class] sharedInstance];
-  WordASOC *asoc = [[NSClassFromString(@"WordASOC") alloc] init];
-  BOOL created_table = [[asoc createTableAtRangeStart:[NSNumber numberWithInteger:[range startOfContent]] andRangeEnd:[NSNumber numberWithInteger:[range endOfContent]] withRows:[NSNumber numberWithInteger:rows] andCols:[NSNumber numberWithInteger:cols]] boolValue];
+  //@autoreleasepool {
 
-  if(created_table) {
-    STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
-    STMSWord2011Document* doc = [app activeDocument];
-    STMSWord2011Table* table = [[doc tables] lastObject];
-    return table;
-  }
+    [[self class] sharedInstance];
+    WordASOC *asoc = [[NSClassFromString(@"WordASOC") alloc] init];
+    BOOL created_table = [[asoc createTableAtRangeStart:[NSNumber numberWithInteger:[range startOfContent]] andRangeEnd:[NSNumber numberWithInteger:[range endOfContent]] withRows:[NSNumber numberWithInteger:rows] andCols:[NSNumber numberWithInteger:cols]] boolValue];
 
-  return nil;
+    if(created_table) {
+      STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
+      STMSWord2011Document* doc = [app activeDocument];
+      STMSWord2011Table* table = [[doc tables] lastObject];
+      return table;
+    }
+
+    return nil;
+  //}
 
   /*
    tried alternatives to doing this in AppleScript
@@ -298,94 +315,102 @@ static WordHelpers* sharedInstance = nil;
 }
 
 +(BOOL)insertParagraphAtRange:(STMSWord2011TextRange*)range {
-  [[self class] sharedInstance];
-  WordASOC *asoc = [[NSClassFromString(@"WordASOC") alloc] init];
-  BOOL inserted_paragraph = [[asoc insertParagraphAtRangeStart:[NSNumber numberWithInteger:[range startOfContent]] andRangeEnd:[NSNumber numberWithInteger:[range endOfContent]]] boolValue];
-  return inserted_paragraph;
+  //@autoreleasepool {
+    [[self class] sharedInstance];
+    WordASOC *asoc = [[NSClassFromString(@"WordASOC") alloc] init];
+    BOOL inserted_paragraph = [[asoc insertParagraphAtRangeStart:[NSNumber numberWithInteger:[range startOfContent]] andRangeEnd:[NSNumber numberWithInteger:[range endOfContent]]] boolValue];
+    return inserted_paragraph;
+  //}
 }
 
 
 +(BOOL)updateAllFields {
-  [[self class] sharedInstance];
-  WordASOC *asoc = [[NSClassFromString(@"WordASOC") alloc] init];
-  return [[asoc updateAllFields] boolValue];
+  //@autoreleasepool {
+    [[self class] sharedInstance];
+    WordASOC *asoc = [[NSClassFromString(@"WordASOC") alloc] init];
+    return [[asoc updateAllFields] boolValue];
+  //}
 }
 
 +(void)select:(STMSWord2011BaseObject*)wordObject {
-
-  //Word 2011 supports the "select" method - 2016 does NOT - it was removed
-  if([wordObject respondsToSelector:@selector(select)]){
-    // 2011...
-    if ([wordObject respondsToSelector:@selector(fieldCode)]) {
-      STMSWord2011Field* field = (STMSWord2011Field*)wordObject;
-      STMSWord2011TextRange* tr = [field fieldCode];
-      NSLog(@"WordHelpers - select (%ld,%ld)", [tr startOfContent], [tr endOfContent]);
-    }
-    [wordObject select];
-    
-    STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
-    NSLog(@"WordHelpers - selection (%ld,%ld)", [[app selection] selectionStart], [[app selection] selectionEnd]);
-  }
-  else {
-    // 2016...
-    //
-    // We're really really really prefer to use "isKindOfClass" but when we message "class" on an SBObject
-    //   we run into issues with the compiler at runtime - something to do with scripting bridge and proxy objects
-    //   when we refer to the type
-    //
-    // Instead, we're going to get a handle on the instance class (which we can check for type). Then we're just
-    //   going to do a string comparison against the known class (names) we want to 'select'
-    //
-    // Our class types do NOT match the emitted sdef class names - they use the raw internal Word class names
-    //   (Check the script editor)
-    //
-    // We then just (try...) to cast the type and approximate the previous (2011) selection
-    //
-    // There may be a better way to do this with Obj-C. Not clear to me if that's the case.
-    NSString* woClass = NSStringFromClass([wordObject class]);
-    //NSLog(@"className : %@", woClass);
-    
-    if([woClass isEqualToString:@"MicrosoftWordField"]) {
-      //field requires we offset the start/end character positions because they use escape sequences
-      // to indicate field start "{" and field end "}" - when you select the content, those escape characters
-      // aren't included
-      STMSWord2011Field* field = (STMSWord2011Field*)wordObject;
-      STMSWord2011TextRange* tr = [field fieldCode];
-      NSLog(@"WordHelpers - select (%ld,%ld)", [tr startOfContent], [tr endOfContent]);
-      if(tr != nil) {
-        NSInteger start = [tr startOfContent];
-        NSInteger end = [tr endOfContent] + 1;
-        if(start > 0) {
-          start = start - 1;
-        }
-        [WordHelpers selectTextAtRangeStart:start andEnd:end];
+  @autoreleasepool {
+    //Word 2011 supports the "select" method - 2016 does NOT - it was removed
+    if([wordObject respondsToSelector:@selector(select)]){
+      // 2011...
+      if ([wordObject respondsToSelector:@selector(fieldCode)]) {
+        STMSWord2011Field* field = (STMSWord2011Field*)wordObject;
+        STMSWord2011TextRange* tr = [field fieldCode];
+        NSLog(@"WordHelpers - select (%ld,%ld)", [tr startOfContent], [tr endOfContent]);
       }
-    } else if ([woClass isEqualToString:@"MicrosoftWordTable"]) {
-      //table
-      STMSWord2011Table* table = (STMSWord2011Table*)wordObject;
-      STMSWord2011TextRange* tr = [table textObject];
-      [WordHelpers selectTextInRange:tr];
-    } else if ([woClass isEqualToString:@"MicrosoftWordTextRange"]) {
-      //text range
-      STMSWord2011TextRange* tr = (STMSWord2011TextRange*)wordObject;
-      [WordHelpers selectTextInRange:tr];
+      [wordObject select];
+      
+      STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
+      NSLog(@"WordHelpers - selection (%ld,%ld)", [[app selection] selectionStart], [[app selection] selectionEnd]);
+    }
+    else {
+      // 2016...
+      //
+      // We're really really really prefer to use "isKindOfClass" but when we message "class" on an SBObject
+      //   we run into issues with the compiler at runtime - something to do with scripting bridge and proxy objects
+      //   when we refer to the type
+      //
+      // Instead, we're going to get a handle on the instance class (which we can check for type). Then we're just
+      //   going to do a string comparison against the known class (names) we want to 'select'
+      //
+      // Our class types do NOT match the emitted sdef class names - they use the raw internal Word class names
+      //   (Check the script editor)
+      //
+      // We then just (try...) to cast the type and approximate the previous (2011) selection
+      //
+      // There may be a better way to do this with Obj-C. Not clear to me if that's the case.
+      NSString* woClass = NSStringFromClass([wordObject class]);
+      //NSLog(@"className : %@", woClass);
+      
+      if([woClass isEqualToString:@"MicrosoftWordField"]) {
+        //field requires we offset the start/end character positions because they use escape sequences
+        // to indicate field start "{" and field end "}" - when you select the content, those escape characters
+        // aren't included
+        STMSWord2011Field* field = (STMSWord2011Field*)wordObject;
+        STMSWord2011TextRange* tr = [field fieldCode];
+        NSLog(@"WordHelpers - select (%ld,%ld)", [tr startOfContent], [tr endOfContent]);
+        if(tr != nil) {
+          NSInteger start = [tr startOfContent];
+          NSInteger end = [tr endOfContent] + 1;
+          if(start > 0) {
+            start = start - 1;
+          }
+          [WordHelpers selectTextAtRangeStart:start andEnd:end];
+        }
+      } else if ([woClass isEqualToString:@"MicrosoftWordTable"]) {
+        //table
+        STMSWord2011Table* table = (STMSWord2011Table*)wordObject;
+        STMSWord2011TextRange* tr = [table textObject];
+        [WordHelpers selectTextInRange:tr];
+      } else if ([woClass isEqualToString:@"MicrosoftWordTextRange"]) {
+        //text range
+        STMSWord2011TextRange* tr = (STMSWord2011TextRange*)wordObject;
+        [WordHelpers selectTextInRange:tr];
+      }
     }
   }
 }
 
 +(void)selectTextAtRangeStart:(NSInteger)rangeStart andEnd:(NSInteger)rangeEnd {
+  @autoreleasepool {
     STMSWord2011SelectionObject* selection = [[[[STGlobals sharedInstance] ThisAddIn] Application] selection];//.activeWindow.selection;
     selection.selectionStart = rangeStart;
     selection.selectionEnd = rangeEnd;
+  }
 }
 
 +(void)selectTextInRange:(STMSWord2011TextRange*)textRange {
-  if(textRange != nil) {
-    STMSWord2011SelectionObject* selection = [[[[STGlobals sharedInstance] ThisAddIn] Application] selection];//.activeWindow.selection;
-    selection.selectionStart = [textRange startOfContent];
-    selection.selectionEnd = [textRange endOfContent];
+  @autoreleasepool {
+    if(textRange != nil) {
+      STMSWord2011SelectionObject* selection = [[[[STGlobals sharedInstance] ThisAddIn] Application] selection];//.activeWindow.selection;
+      selection.selectionStart = [textRange startOfContent];
+      selection.selectionEnd = [textRange endOfContent];
+    }
   }
-
 }
 
 @end

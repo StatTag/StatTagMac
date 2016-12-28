@@ -50,7 +50,15 @@
   if(self) {
     _AppBundleIdentifier = [[self class] determineInstalledAppBundleIdentifier];
     if([[self class] IsAppInstalled]){
-      _Application = [SBApplication applicationWithBundleIdentifier:_AppBundleIdentifier];
+      @autoreleasepool {
+        _Application = [SBApplication applicationWithBundleIdentifier:_AppBundleIdentifier];
+        NSArray* versionParts = [[_Application applicationVersion] componentsSeparatedByString:@"."];
+        if(versionParts.count > 0) {
+          _applicationVersion = [NSNumber numberWithInteger:[[versionParts firstObject] intValue]];
+        } else {
+          _applicationVersion = [NSNumber numberWithInteger:0];
+        }
+      }
       _LogManager = [[STLogManager alloc] init];
       _DocumentManager = [[STDocumentManager alloc] init];
       
@@ -60,13 +68,6 @@
       [[self PropertiesManager] Load];
       [[self LogManager] UpdateSettings:[[[self PropertiesManager] Properties] EnableLogging]  filePath:[[[self PropertiesManager] Properties] LogLocation]];
       _DocumentManager.Logger = [self LogManager];
-      
-      NSArray* versionParts = [[_Application applicationVersion] componentsSeparatedByString:@"."];
-      if(versionParts.count > 0) {
-        _applicationVersion = [NSNumber numberWithInteger:[[versionParts firstObject] intValue]];
-      } else {
-        _applicationVersion = [NSNumber numberWithInteger:0];
-      }
       
     }
   }
@@ -78,11 +79,14 @@
 }
 
 +(BOOL)IsAppRunning {
-  STMSWord2011Application *s = [SBApplication applicationWithBundleIdentifier:[[self class] determineInstalledAppBundleIdentifier]];
-  if([s isRunning]) {
-    return true;
+  BOOL running = false;
+  @autoreleasepool {
+    STMSWord2011Application *s = [SBApplication applicationWithBundleIdentifier:[[self class] determineInstalledAppBundleIdentifier]];
+    if([s isRunning]) {
+      running = true;
+    }
   }
-  return false;
+  return running;
 }
 
 +(NSURL*)AppPath {

@@ -7,6 +7,7 @@
 //
 
 #import "TagGridView.h"
+#import <QuartzCore/QuartzCore.h>
 
 @implementation TagGridView
 
@@ -63,6 +64,11 @@ const NSInteger DEFAULT_NUMCOLS = 4;
   
   if(_filteredColumnColor == nil) {
     _filteredColumnColor = [NSColor lightGrayColor];
+//    CGSize size = CGSizeMake(200, 200);
+//    NSImage* pat = [self drawStripedBoxWithSize:size withBackgroundColor:[NSColor redColor] andStrokeColor:[NSColor whiteColor] withLineWidth:1.0 atAtAngle:45 andSpaceBetweenLine:2.0];
+//    if(pat != nil) {
+//      _cellFillColor = [NSColor colorWithPatternImage:pat];
+//    }
   }
   if(_filteredRowColor == nil) {
     _filteredRowColor = [NSColor lightGrayColor];
@@ -171,6 +177,111 @@ const NSInteger DEFAULT_NUMCOLS = 4;
   NSAlignMaxXNearest | NSAlignMaxYNearest ;
   return [self backingAlignedRect:rect options:alignOpts];
 }
+
+//
+//-(NSImage*)drawStripedBoxWithSize:(CGSize)size withBackgroundColor:(NSColor*)bgColor andStrokeColor:(NSColor*)strokeColor withLineWidth:(CGFloat)lineWidth atAtAngle:(CGFloat)angle andSpaceBetweenLine:(CGFloat)space
+//{
+//
+////  NSImage *bgImage = [[NSImage alloc] initWithSize:size];
+////  [bgImage lockFocus];
+//
+//  CIContext *context = [CIContext contextWithOptions:nil];
+//  CIFilter *filter = [CIFilter filterWithName:@"CIStripesGenerator"];
+//  [filter setDefaults];
+//  [filter setValue:bgColor forKey:@"inputColor0"];
+//  [filter setValue:strokeColor forKey:@"inputColor1"];
+//  // 2
+//  CGImageRef cgimg =
+//  [context createCGImage:filter.outputImage fromRect:CGRectMake(0, 0, size.width, size.height)];
+//  // 3
+//  NSImage *bgImage = [[NSImage alloc] initWithCGImage:cgimg size:size];
+//  // 4
+//  CGImageRelease(cgimg);
+//  
+////  [bgImage unlockFocus];
+//
+//  return bgImage;
+//  
+////  return bgImage;
+//
+////  //NSImage *bigImage = [[[NSImagealloc] initWithSize:size] autorelease];
+////  CGSize doubledSize = CGSizeMake(size.height * 2.0, size.width * 2.0);
+////  NSImage* bgImage = [[NSImage alloc] initWithSize:doubledSize];
+//// 
+////
+////  [bgImage lockFocus];
+////  
+//////  NSImage *bg = [NSImageimageNamed:@"bg"];
+//////  NSColor *backgroundColor = [NSColorcolorWithPatternImage:bg];
+//////  [backgroundColor set];
+//////  NSRectFill([selfbounds]);
+////
+////  
+////
+////  CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];
+////
+////
+////  
+////  [bgColor set];
+////  
+//////  NSRect rect = NSInsetRect([self rectOfCellAtColumn:x row:0], 0.5, 0.5);
+////  
+////  CGContextClearRect(context, NSMakeRect(0, 0, doubledSize.width, doubledSize.height));
+////  
+////  //filled w/ our background
+////  CGContextSetFillColorWithColor(context, [bgColor CGColor]);
+////  //CGContextFillEllipseInRect(context, NSMakeRect(0, 0, size.width, size.height));
+////
+////  CGContextTranslateCTM(context, doubledSize.width/2, doubledSize.height/2);
+////  //move our origin point to the center so when we rotate we keep relative position
+////  CGFloat radians = M_PI*angle/180;
+////  CGContextRotateCTM(context, radians);
+////  
+////  NSInteger numLines = size.width / (lineWidth + space);
+////  
+////  for(NSInteger x = 0; x < numLines; x++)
+////  {
+////    NSRect rect = NSMakeRect(x * (lineWidth + space), 0, lineWidth, size.height);
+////    CGPathRef path = CGPathCreateWithRect(rect, NULL);
+////    [strokeColor setFill];
+////    CGContextAddPath(context, path);
+////    CGContextDrawPath(context, kCGPathFillStroke);
+////    CGPathRelease(path);
+////  }
+////  
+////
+////  
+////  //CGContextTranslateCTM(context, 0, 0);
+////
+//////  CGPathRef path = CGPathCreateWithRect(rect, NULL);
+//////  [[UIColor redColor] setFill];
+//////  [[UIColor greenColor] setStroke];
+//////  CGContextAddPath(context, path);
+//////  CGContextDrawPath(context, kCGPathFillStroke);
+//////  CGPathRelease(path);
+////  
+////  //NSBezierPath strokePath = [NSBezierPath ]
+////  
+//////  let color1Path = UIBezierPath(rect: CGRect(x: 0, y: 0, width: color1Width, height: color1Height))
+//////  color1.setFill()
+//////  color1Path.fill()
+////
+////  
+//////  [_headerFillColor set];
+//////  [NSBezierPath fillRect:rect];
+////  
+////  //viewPattern.transform = CGAffineTransformMakeRotation(CGFloat(M_PI*135/180))
+////  
+////  
+////  [bgImage unlockFocus];
+////  
+////  
+////  //NSBitmapImageRep *imgRep = [[toSave representations] objectAtIndex: 0];
+////  //NSData *data = [imgRep representationUsingType: NSPNGFileType properties: nil];
+////
+////  return bgImage;
+//}
+
 
 
 @end
