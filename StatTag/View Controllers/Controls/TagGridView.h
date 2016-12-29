@@ -8,7 +8,10 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface TagGridView : NSView
+@interface TagGridView : NSView {
+  NSArray<NSNumber*>* _filterRows;
+  NSArray<NSNumber*>* _filterColumns;
+}
 
 //@property NSInteger gridSize;
 @property BOOL useColumnLabels;

@@ -11,6 +11,9 @@
 
 @implementation TagGridView
 
+@synthesize filterColumns = _filterColumns;
+@synthesize filterRows = _filterRows;
+
 //- (void)drawRect:(NSRect)dirtyRect {
 //  [super drawRect:dirtyRect];
 //}
@@ -34,6 +37,35 @@ const NSInteger DEFAULT_NUMCOLS = 4;
   }
   return self;
 }
+
+-(void)setFilterColumns:(NSArray<NSNumber *> *)filterColumns
+{
+  _filterColumns = filterColumns;
+  NSInteger maxVal = [[_filterColumns valueForKeyPath:@"@max.intValue"] intValue] + 1;//vals are 0-based indexes
+  if(maxVal > [self numCols])
+  {
+    [self setNumCols:maxVal];
+  }
+}
+-(NSArray<NSNumber *> *)filterColumns
+{
+  return _filterColumns;
+}
+
+-(void)setFilterRows:(NSArray<NSNumber *> *)filterRows
+{
+  _filterRows = filterRows;
+  NSInteger maxVal = [[_filterRows valueForKeyPath:@"@max.intValue"] intValue] + 1;//vals are 0-based indexes
+  if(maxVal > [self numRows])
+  {
+    [self setNumRows:maxVal];
+  }
+}
+-(NSArray<NSNumber *> *)filterRows
+{
+  return _filterRows;
+}
+
 
 -(void)configureGrid {
 //  if(_gridSize == 0) {
@@ -146,23 +178,23 @@ const NSInteger DEFAULT_NUMCOLS = 4;
 -(NSInteger)numColsToDraw
 {
   return _numCols;
-  NSInteger numColsToShow = _numCols;
-  if(_showFilteredColumns == NO && [self filterColumns] != nil && [[self filterColumns] count] < _numCols)
-  {
-    numColsToShow = _numCols - [[self filterColumns] count];
-  }
-  return numColsToShow;
+//  NSInteger numColsToShow = _numCols;
+//  if(_showFilteredColumns == NO && [self filterColumns] != nil && [[self filterColumns] count] < _numCols)
+//  {
+//    numColsToShow = _numCols - [[self filterColumns] count];
+//  }
+//  return numColsToShow;
 }
 
 -(NSInteger)numRowsToDraw
 {
   return _numRows;
-  NSInteger numRowsToShow = _numRows;
-  if(_showFilteredRows == NO && [self filterRows] != nil && [[self filterRows] count] < _numRows)
-  {
-    numRowsToShow = _numRows - [[self filterRows] count];
-  }
-  return numRowsToShow;
+//  NSInteger numRowsToShow = _numRows;
+//  if(_showFilteredRows == NO && [self filterRows] != nil && [[self filterRows] count] < _numRows)
+//  {
+//    numRowsToShow = _numRows - [[self filterRows] count];
+//  }
+//  return numRowsToShow;
 }
 
 - (NSRect)rectOfCellAtColumn:(NSUInteger)column row:(NSUInteger)row {

@@ -19,20 +19,20 @@
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <customView id="Hz6-mo-xeY">
-            <rect key="frame" x="0.0" y="0.0" width="338" height="296"/>
+        <customView misplaced="YES" id="Hz6-mo-xeY">
+            <rect key="frame" x="0.0" y="0.0" width="437" height="399"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="KpU-hq-ouJ" userLabel="Table Properties Label">
-                    <rect key="frame" x="6" y="275" width="326" height="14"/>
+                    <rect key="frame" x="6" y="378" width="522" height="14"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Table Options" id="teb-pV-IBF">
                         <font key="font" metaFont="smallSystemBold"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
-                <button translatesAutoresizingMaskIntoConstraints="NO" id="WV1-Ig-PLj">
-                    <rect key="frame" x="98" y="247" width="230" height="18"/>
+                <button misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WV1-Ig-PLj">
+                    <rect key="frame" x="98" y="262" width="426" height="18"/>
                     <buttonCell key="cell" type="check" title="Column(s)" bezelStyle="regularSquare" imagePosition="left" lineBreakMode="truncatingTail" state="on" inset="2" id="KU8-bt-yyz">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="smallSystem"/>
@@ -43,7 +43,7 @@
                     </connections>
                 </button>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2GJ-cn-4Sb">
-                    <rect key="frame" x="10" y="249" width="84" height="14"/>
+                    <rect key="frame" x="10" y="293" width="84" height="14"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="80" id="lx7-o4-jG4"/>
                     </constraints>
@@ -53,17 +53,17 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
-                <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="Fg3-7e-qXq" userLabel="Horizonal Line Numeric Properties">
-                    <rect key="frame" x="12" y="168" width="314" height="5"/>
+                <box verticalHuggingPriority="750" misplaced="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="Fg3-7e-qXq" userLabel="Horizonal Line Numeric Properties">
+                    <rect key="frame" x="12" y="183" width="510" height="5"/>
                 </box>
                 <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="23m-ed-f6Q" userLabel="Horizontal Line Top">
-                    <rect key="frame" x="0.0" y="293" width="338" height="5"/>
+                    <rect key="frame" x="0.0" y="396" width="534" height="5"/>
                 </box>
-                <customView translatesAutoresizingMaskIntoConstraints="NO" id="pAZ-94-tSh">
-                    <rect key="frame" x="0.0" y="0.0" width="338" height="170"/>
+                <customView misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pAZ-94-tSh">
+                    <rect key="frame" x="0.0" y="0.0" width="534" height="185"/>
                 </customView>
-                <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HBE-wh-e1f">
-                    <rect key="frame" x="119" y="225" width="207" height="19"/>
+                <textField verticalHuggingPriority="750" misplaced="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HBE-wh-e1f">
+                    <rect key="frame" x="119" y="240" width="403" height="19"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="1, 3-5" drawsBackground="YES" id="nxA-12-R9Y">
                         <customFormatter key="formatter" id="lCi-YD-9GJ" customClass="TableValueFilterFormatter"/>
                         <font key="font" metaFont="smallSystem"/>
@@ -75,19 +75,8 @@
                         <outlet property="delegate" destination="-2" id="g7g-2q-L4O"/>
                     </connections>
                 </textField>
-                <button translatesAutoresizingMaskIntoConstraints="NO" id="hfj-Hb-ZEy">
-                    <rect key="frame" x="98" y="201" width="230" height="18"/>
-                    <buttonCell key="cell" type="check" title="Row(s)" bezelStyle="regularSquare" imagePosition="left" lineBreakMode="truncatingTail" state="on" inset="2" id="K0m-ET-xmH">
-                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                        <font key="font" metaFont="smallSystem"/>
-                    </buttonCell>
-                    <connections>
-                        <action selector="checkedRowNames:" target="-2" id="7At-4G-d7D"/>
-                        <binding destination="-2" name="value" keyPath="self.tag.TableFormat.RowFilter.Enabled" id="hdz-AL-PaZ"/>
-                    </connections>
-                </button>
-                <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x1s-WS-XLk">
-                    <rect key="frame" x="119" y="179" width="207" height="19"/>
+                <textField verticalHuggingPriority="750" misplaced="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x1s-WS-XLk">
+                    <rect key="frame" x="119" y="194" width="403" height="19"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="1, 3-5" drawsBackground="YES" id="uQ0-Wj-lh3">
                         <customFormatter key="formatter" id="fL6-B7-I7d" customClass="TableValueFilterFormatter"/>
                         <font key="font" metaFont="smallSystem"/>
@@ -98,6 +87,39 @@
                         <binding destination="-2" name="value" keyPath="self.tag.TableFormat.RowFilter.Value" id="PaI-4m-TAK"/>
                         <outlet property="delegate" destination="-2" id="MKb-iD-WsJ"/>
                     </connections>
+                </textField>
+                <button misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hfj-Hb-ZEy">
+                    <rect key="frame" x="98" y="216" width="426" height="18"/>
+                    <buttonCell key="cell" type="check" title="Row(s)" bezelStyle="regularSquare" imagePosition="left" lineBreakMode="truncatingTail" state="on" inset="2" id="K0m-ET-xmH">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="smallSystem"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="checkedRowNames:" target="-2" id="7At-4G-d7D"/>
+                        <binding destination="-2" name="value" keyPath="self.tag.TableFormat.RowFilter.Enabled" id="hdz-AL-PaZ"/>
+                    </connections>
+                </button>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jXK-Eh-A7o">
+                    <rect key="frame" x="117" y="319" width="256" height="47"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="47" id="v4U-5p-AnN"/>
+                    </constraints>
+                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Enter the values or ranges to exclude, separated by commas: (e.g. 1, 3, 8-10)" id="z6A-MY-Rhj">
+                        <font key="font" metaFont="smallSystem"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NaM-l5-pwg">
+                    <rect key="frame" x="10" y="319" width="84" height="47"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="80" id="DFv-fk-G2z"/>
+                    </constraints>
+                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Row/ Column Filter" id="LbK-KC-Vkx">
+                        <font key="font" metaFont="smallSystem"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
                 </textField>
             </subviews>
             <constraints>
@@ -110,10 +132,15 @@
                 <constraint firstAttribute="trailing" secondItem="23m-ed-f6Q" secondAttribute="trailing" id="IQP-mD-7zj"/>
                 <constraint firstItem="hfj-Hb-ZEy" firstAttribute="leading" secondItem="WV1-Ig-PLj" secondAttribute="leading" id="JJJ-UN-WWe"/>
                 <constraint firstItem="HBE-wh-e1f" firstAttribute="leading" secondItem="2GJ-cn-4Sb" secondAttribute="trailing" constant="27" id="KQW-YG-W24"/>
+                <constraint firstItem="jXK-Eh-A7o" firstAttribute="top" secondItem="NaM-l5-pwg" secondAttribute="top" id="Keg-Te-tzt"/>
+                <constraint firstItem="NaM-l5-pwg" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="12" id="Ksj-n5-pVR"/>
                 <constraint firstAttribute="trailing" secondItem="KpU-hq-ouJ" secondAttribute="trailing" constant="8" id="N7H-o7-ni1"/>
                 <constraint firstItem="hfj-Hb-ZEy" firstAttribute="top" secondItem="HBE-wh-e1f" secondAttribute="bottom" constant="8" id="NZJ-7v-xUf"/>
+                <constraint firstItem="jXK-Eh-A7o" firstAttribute="leading" secondItem="NaM-l5-pwg" secondAttribute="trailing" constant="27" id="Opp-gX-VDA"/>
+                <constraint firstItem="NaM-l5-pwg" firstAttribute="height" secondItem="jXK-Eh-A7o" secondAttribute="height" id="QcY-UT-FRa"/>
                 <constraint firstAttribute="trailing" secondItem="HBE-wh-e1f" secondAttribute="trailing" constant="12" id="Rfm-DF-PHS"/>
                 <constraint firstItem="pAZ-94-tSh" firstAttribute="top" secondItem="Fg3-7e-qXq" secondAttribute="bottom" id="SxB-eb-NhF"/>
+                <constraint firstItem="NaM-l5-pwg" firstAttribute="top" secondItem="KpU-hq-ouJ" secondAttribute="bottom" constant="12" id="Twc-V1-Eag"/>
                 <constraint firstAttribute="bottom" secondItem="pAZ-94-tSh" secondAttribute="bottom" id="UOe-fd-zZe"/>
                 <constraint firstItem="23m-ed-f6Q" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="VGb-4R-Slv"/>
                 <constraint firstItem="HBE-wh-e1f" firstAttribute="top" secondItem="WV1-Ig-PLj" secondAttribute="bottom" constant="5" id="XdB-HB-R67"/>
@@ -124,12 +151,13 @@
                 <constraint firstItem="pAZ-94-tSh" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="hhJ-cn-RFV"/>
                 <constraint firstItem="WV1-Ig-PLj" firstAttribute="centerY" secondItem="2GJ-cn-4Sb" secondAttribute="centerY" id="iQj-5I-Mlx"/>
                 <constraint firstItem="2GJ-cn-4Sb" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="12" id="isX-mm-Bt9"/>
-                <constraint firstItem="2GJ-cn-4Sb" firstAttribute="top" secondItem="KpU-hq-ouJ" secondAttribute="bottom" constant="12" id="jlb-ne-k0c"/>
+                <constraint firstItem="2GJ-cn-4Sb" firstAttribute="top" secondItem="NaM-l5-pwg" secondAttribute="bottom" constant="12" id="quq-yO-TIG"/>
+                <constraint firstAttribute="trailing" secondItem="jXK-Eh-A7o" secondAttribute="trailing" constant="12" id="r20-69-jRF"/>
                 <constraint firstAttribute="trailing" secondItem="Fg3-7e-qXq" secondAttribute="trailing" constant="12" id="uyM-P6-oxF"/>
                 <constraint firstItem="KpU-hq-ouJ" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="8" id="xqB-UR-e24"/>
                 <constraint firstAttribute="trailing" secondItem="x1s-WS-XLk" secondAttribute="trailing" constant="12" id="zB4-KH-JQj"/>
             </constraints>
-            <point key="canvasLocation" x="61" y="166"/>
+            <point key="canvasLocation" x="-73.5" y="114.5"/>
         </customView>
         <userDefaultsController representsSharedInstance="YES" id="6CO-dG-Yr4"/>
         <viewController id="45g-QP-X3f" customClass="NumericValuePropertiesController"/>

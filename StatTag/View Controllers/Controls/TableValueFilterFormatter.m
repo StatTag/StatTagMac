@@ -66,7 +66,7 @@
   BOOL valid = YES;
   *object = [NSString stringWithString:string];
 
-  if(_finalValueRegex != nil)
+  if(_finalValueRegex != nil && [string length] > 0)
   {
     NSRange firstMatch = [_finalValueRegex rangeOfFirstMatchInString:string options:0 range:NSMakeRange(0, [string length])];
     
