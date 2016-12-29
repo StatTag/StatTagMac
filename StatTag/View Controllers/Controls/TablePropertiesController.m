@@ -30,6 +30,19 @@
 
 - (void)viewWillAppear {
   [super viewWillAppear];
+  
+  //Enter the values or ranges to exclude, separated by commas: (e.g. 1, 3, 8-10)
+  
+  //it's possible the filter isn't set on the tag, so if that's the case, set it to exclude
+  if([[[[self tag] TableFormat] RowFilter] Type] == nil || ![[STConstantsFilterType GetList] containsObject: [[[[self tag] TableFormat] RowFilter] Type]] )
+  {
+    [[[[self tag] TableFormat] RowFilter] setType:[STConstantsFilterType Exclude]];
+  }
+  if([[[[self tag] TableFormat] ColumnFilter] Type] == nil || ![[STConstantsFilterType GetList] containsObject: [[[[self tag] TableFormat] ColumnFilter] Type]] )
+  {
+    [[[[self tag] TableFormat] ColumnFilter] setType:[STConstantsFilterType Exclude]];
+  }
+  
   self.numericPropertiesViewController.decimalPlaces = [[[self tag] ValueFormat] DecimalPlaces];
   self.numericPropertiesViewController.useThousands = [[[self tag] ValueFormat] UseThousands];
   self.numericPropertiesViewController.enableThousandsControl = YES;
@@ -54,6 +67,7 @@
 }
 
 
+
 - (IBAction)checkedColumnNames:(id)sender {
   if([[self delegate] respondsToSelector:@selector(showColumnNamesDidChange:)]) {
     [_delegate showColumnNamesDidChange:self];
@@ -66,6 +80,33 @@
   }
 }
 
+/*
+-(void)control:(NSControl*)control didFailToFormatString:(nonnull NSString *)string errorDescription:(nullable NSString *)error
+{
+  NSAlert *alert = [[NSAlert alloc] init];
+  [alert setAlertStyle:NSAlertStyleWarning];
+  if(control == [self columnFilterTextField] || control == [self rowFilterTextField])
+  {
+    [alert setMessageText:@"Invalid filter"];
+  }
+  [alert setInformativeText:error];
+  [alert addButtonWithTitle:@"Ok"];
+  [alert runModal];
+  
+}
+*/
 
+-(void)control:(NSControl*)control didFailToValidatePartialString:(nonnull NSString *)string errorDescription:(nullable NSString *)error
+{
+  NSAlert *alert = [[NSAlert alloc] init];
+  [alert setAlertStyle:NSAlertStyleWarning];
+  if(control == [self columnFilterTextField] || control == [self rowFilterTextField])
+  {
+    [alert setMessageText:@"Invalid filter"];
+  }
+  [alert setInformativeText:error];
+  [alert addButtonWithTitle:@"Ok"];
+  [alert runModal];
+}
 
 @end

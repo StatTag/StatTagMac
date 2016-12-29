@@ -216,6 +216,7 @@
 		38E20E011E09EC5700B524CE /* fake-file.do in Resources */ = {isa = PBXBuildFile; fileRef = 38E20DFE1E09EC5700B524CE /* fake-file.do */; };
 		38E20E021E09EC5700B524CE /* simple-macro-test-2.do in Resources */ = {isa = PBXBuildFile; fileRef = 38E20DFF1E09EC5700B524CE /* simple-macro-test-2.do */; };
 		38E20E031E09EC5700B524CE /* simple-macro-test.do in Resources */ = {isa = PBXBuildFile; fileRef = 38E20E001E09EC5700B524CE /* simple-macro-test.do */; };
+		38E9CB101E1473A9006B3571 /* TableValueFilterFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 38E9CB0F1E1473A9006B3571 /* TableValueFilterFormatter.m */; };
 		38EDF0271D2BFFD800ACD77B /* STStata.h in Headers */ = {isa = PBXBuildFile; fileRef = 38EDF0261D2BFFD800ACD77B /* STStata.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38EDF02A1D2C002A00ACD77B /* STStataAutomation.h in Headers */ = {isa = PBXBuildFile; fileRef = 38EDF0281D2C002A00ACD77B /* STStataAutomation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38EDF02B1D2C002A00ACD77B /* STStataAutomation.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EDF0291D2C002A00ACD77B /* STStataAutomation.m */; };
@@ -566,6 +567,8 @@
 		38E20DFE1E09EC5700B524CE /* fake-file.do */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "fake-file.do"; sourceTree = "<group>"; };
 		38E20DFF1E09EC5700B524CE /* simple-macro-test-2.do */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "simple-macro-test-2.do"; sourceTree = "<group>"; };
 		38E20E001E09EC5700B524CE /* simple-macro-test.do */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "simple-macro-test.do"; sourceTree = "<group>"; };
+		38E9CB0E1E1473A9006B3571 /* TableValueFilterFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableValueFilterFormatter.h; sourceTree = "<group>"; };
+		38E9CB0F1E1473A9006B3571 /* TableValueFilterFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableValueFilterFormatter.m; sourceTree = "<group>"; };
 		38EDF0261D2BFFD800ACD77B /* STStata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STStata.h; sourceTree = "<group>"; };
 		38EDF0281D2C002A00ACD77B /* STStataAutomation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STStataAutomation.h; sourceTree = "<group>"; };
 		38EDF0291D2C002A00ACD77B /* STStataAutomation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STStataAutomation.m; sourceTree = "<group>"; };
@@ -1307,6 +1310,9 @@
 		38F803611D9DCB5800C8F1EA /* Controls */ = {
 			isa = PBXGroup;
 			children = (
+				387632431DA7E2AC00680898 /* DateTimePropertiesController.h */,
+				387632441DA7E2AC00680898 /* DateTimePropertiesController.m */,
+				387632451DA7E2AC00680898 /* DateTimePropertiesController.xib */,
 				3846CC3B1DA49B840066D186 /* FlippedClipView.h */,
 				3846CC3C1DA49B840066D186 /* FlippedClipView.m */,
 				3846CC381DA49B0E0066D186 /* FlippedScrollView.h */,
@@ -1316,15 +1322,14 @@
 				384764B21DA5683100FCDABE /* NumericValuePropertiesController.h */,
 				384764B31DA5683100FCDABE /* NumericValuePropertiesController.m */,
 				384764B41DA5683100FCDABE /* NumericValuePropertiesController.xib */,
-				387632431DA7E2AC00680898 /* DateTimePropertiesController.h */,
-				387632441DA7E2AC00680898 /* DateTimePropertiesController.m */,
-				387632451DA7E2AC00680898 /* DateTimePropertiesController.xib */,
 				387632421DA7D70E00680898 /* PercentagePropertiesController.h */,
 				387632401DA7D70500680898 /* PercentagePropertiesController.m */,
 				3876323E1DA7D6FA00680898 /* PercentagePropertiesController.xib */,
 				384764AD1DA52D6400FCDABE /* TablePropertiesController.h */,
 				384764AE1DA52D6400FCDABE /* TablePropertiesController.m */,
 				384764AF1DA52D6400FCDABE /* TablePropertiesController.xib */,
+				38E9CB0E1E1473A9006B3571 /* TableValueFilterFormatter.h */,
+				38E9CB0F1E1473A9006B3571 /* TableValueFilterFormatter.m */,
 				38AB418A1DA1BC2900EA464C /* TagBasicPropertiesController.h */,
 				38AB418B1DA1BC2900EA464C /* TagBasicPropertiesController.m */,
 				38AB418C1DA1BC2900EA464C /* TagBasicPropertiesController.xib */,
@@ -1747,6 +1752,7 @@
 				384764B91DA56B8300FCDABE /* IntegerOnlyNumberFormatter.m in Sources */,
 				38F8034F1D9C5C1800C8F1EA /* SCScintilla.mm in Sources */,
 				3836F5A51D92D07700BF0DD4 /* ManageCodeFilesViewController.m in Sources */,
+				38E9CB101E1473A9006B3571 /* TableValueFilterFormatter.m in Sources */,
 				383F3B9C1DA684390069C78E /* TagGridView.m in Sources */,
 				38D8B1C21D9586D200BF878A /* UpdateOutputViewController.m in Sources */,
 				3846CC3D1DA49B840066D186 /* FlippedClipView.m in Sources */,

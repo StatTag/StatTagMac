@@ -16,6 +16,8 @@
 @protocol TablePropertiesControllerDelegate <NSObject>
 - (void)showColumnNamesDidChange:(TablePropertiesController*)controller;
 - (void)showRowNamesDidChange:(TablePropertiesController*)controller;
+- (void)columnFilterValueDidChange:(TablePropertiesController*)controller;
+- (void)rowFilterValueDidChange:(TablePropertiesController*)controller;
 - (void)decimalPlacesDidChange:(TablePropertiesController*)controller;
 - (void)useThousandsSeparatorDidChange:(TablePropertiesController*)controller;
 @end
@@ -40,6 +42,9 @@
 @property (strong) IBOutlet NumericValuePropertiesController *numericPropertiesViewController;
 @property (weak) IBOutlet NSBox *customViewSeparatorLine;
 
+@property (weak) IBOutlet NSTextField *columnFilterTextField;
+
+@property (weak) IBOutlet NSTextField *rowFilterTextField;
 
 
 

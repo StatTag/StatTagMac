@@ -50,13 +50,25 @@ static void *TagTableFormatContext = &TagTableFormatContext;
                context:TagTypeContext];
 
   [self addObserver:self
-         forKeyPath:@"tag.TableFormat.IncludeColumnNames"
+         forKeyPath:@"tag.TableFormat.RowFilter.Enabled"
             options:(NSKeyValueObservingOptionNew |
                      NSKeyValueObservingOptionOld)
             context:TagTableFormatContext];
 
   [self addObserver:self
-         forKeyPath:@"tag.TableFormat.IncludeRowNames"
+         forKeyPath:@"tag.TableFormat.RowFilter.Value"
+            options:(NSKeyValueObservingOptionNew |
+                     NSKeyValueObservingOptionOld)
+            context:TagTableFormatContext];
+  
+  [self addObserver:self
+         forKeyPath:@"tag.TableFormat.RowFilter.Enabled"
+            options:(NSKeyValueObservingOptionNew |
+                     NSKeyValueObservingOptionOld)
+            context:TagTableFormatContext];
+
+  [self addObserver:self
+         forKeyPath:@"tag.TableFormat.ColumnFilter.Value"
             options:(NSKeyValueObservingOptionNew |
                      NSKeyValueObservingOptionOld)
             context:TagTableFormatContext];
@@ -92,10 +104,16 @@ static void *TagTableFormatContext = &TagTableFormatContext;
                forKeyPath:@"tag.Type"
                   context:TagTypeContext];
   [self removeObserver:self
-            forKeyPath:@"tag.TableFormat.IncludeColumnNames"
+            forKeyPath:@"tag.TableFormat.RowFilter.Enabled"
                context:TagTableFormatContext];
   [self removeObserver:self
-            forKeyPath:@"tag.TableFormat.IncludeRowNames"
+            forKeyPath:@"tag.TableFormat.RowFilter.Value"
+               context:TagTableFormatContext];
+  [self removeObserver:self
+            forKeyPath:@"tag.TableFormat.ColumnFilter.Enabled"
+               context:TagTableFormatContext];
+  [self removeObserver:self
+            forKeyPath:@"tag.TableFormat.ColumnFilter.Value"
                context:TagTableFormatContext];
   [self removeObserver:self
             forKeyPath:@"tag.ValueFormat.DecimalPlaces"

@@ -184,4 +184,5 @@ extern NSString *const STStatTagErrorDomain;
 @interface STConstantsFilterType : NSObject
 +(NSString*)Exclude;
 +(NSString*)Include;
++(NSArray<NSString *>*)GetList;
 @end

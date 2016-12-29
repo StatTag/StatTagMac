@@ -208,4 +208,8 @@ NSString *const STStatTagErrorDomain = @"StatTagErrorDomain";
 @implementation STConstantsFilterType
 +(NSString*)Exclude { return @"Exclude";}
 +(NSString*)Include { return @"Include";}
++(NSArray<NSString *>*)GetList {
+  return [[NSArray alloc] initWithObjects:[STConstantsFilterType Exclude], [STConstantsFilterType Include], nil];
+}
+
 @end
