@@ -72,6 +72,7 @@
                     </textFieldCell>
                     <connections>
                         <binding destination="-2" name="value" keyPath="self.tag.TableFormat.ColumnFilter.Value" id="h7a-s1-d1y"/>
+                        <binding destination="-2" name="toolTip" keyPath="self.filterToolTip" id="GdA-th-SAa"/>
                         <outlet property="delegate" destination="-2" id="g7g-2q-L4O"/>
                     </connections>
                 </textField>
@@ -85,6 +86,7 @@
                     </textFieldCell>
                     <connections>
                         <binding destination="-2" name="value" keyPath="self.tag.TableFormat.RowFilter.Value" id="PaI-4m-TAK"/>
+                        <binding destination="-2" name="toolTip" keyPath="self.filterToolTip" id="0X6-HW-JWK"/>
                         <outlet property="delegate" destination="-2" id="MKb-iD-WsJ"/>
                     </connections>
                 </textField>

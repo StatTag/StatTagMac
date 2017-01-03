@@ -43,9 +43,8 @@
 @property (weak) IBOutlet NSBox *customViewSeparatorLine;
 
 @property (weak) IBOutlet NSTextField *columnFilterTextField;
-
 @property (weak) IBOutlet NSTextField *rowFilterTextField;
 
-
+@property (copy, nonatomic) NSString* filterToolTip;
 
 @end

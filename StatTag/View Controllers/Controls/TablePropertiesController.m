@@ -66,7 +66,10 @@
   }
 }
 
-
+-(NSString*)filterToolTip
+{
+  return @"Enter the values or ranges to exclude, separated by commas: (e.g. 1, 3, 8-10)";
+}
 
 - (IBAction)checkedColumnNames:(id)sender {
   if([[self delegate] respondsToSelector:@selector(showColumnNamesDidChange:)]) {
