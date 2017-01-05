@@ -10,6 +10,7 @@
 
 #import "StatTagFramework.h"
 #import "ViewUtils.h"
+#import "AppKitCompatibilityDeclarations.h"
 
 @interface TablePropertiesController ()
 

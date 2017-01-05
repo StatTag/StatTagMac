@@ -9,6 +9,7 @@
 #import "ValuePropertiesController.h"
 #import "StatTagFramework.h"
 #import "ViewUtils.h"
+#import "AppKitCompatibilityDeclarations.h"
 
 @interface ValuePropertiesController ()
 

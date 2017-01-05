@@ -502,6 +502,7 @@
 		387A0E451D25C9B900F1FE9C /* StatTagGeneratorValueGeneratorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagGeneratorValueGeneratorTests.m; sourceTree = "<group>"; };
 		3884513A1D19DCB3004C2B40 /* STValueParameterParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STValueParameterParser.h; sourceTree = "<group>"; };
 		3884513B1D19DCB3004C2B40 /* STValueParameterParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STValueParameterParser.m; sourceTree = "<group>"; };
+		3885B0F01E1EC902001CE9FA /* AppKitCompatibilityDeclarations.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppKitCompatibilityDeclarations.h; sourceTree = "<group>"; };
 		388ABF861DA5B1F500F08956 /* ViewUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewUtils.h; sourceTree = "<group>"; };
 		388ABF871DA5B1F500F08956 /* ViewUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewUtils.m; sourceTree = "<group>"; };
 		38A7CE901D4E2E4400B06AFF /* readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = readme.md; sourceTree = "<group>"; };
@@ -861,6 +862,7 @@
 		3836F54B1D92C89900BF0DD4 /* StatTag */ = {
 			isa = PBXGroup;
 			children = (
+				3885B0EE1E1EC887001CE9FA /* Vendor */,
 				387632511DA93FF400680898 /* Categories */,
 				387632481DA837FF00680898 /* AppEventListener */,
 				38F803501D9DAF5500C8F1EA /* Classes */,
@@ -1114,6 +1116,22 @@
 				38EDF0341D2C2FC200ACD77B /* StatTagStataAutomationTests.m */,
 			);
 			name = Generator;
+			sourceTree = "<group>";
+		};
+		3885B0EE1E1EC887001CE9FA /* Vendor */ = {
+			isa = PBXGroup;
+			children = (
+				3885B0EF1E1EC88D001CE9FA /* Apple */,
+			);
+			path = Vendor;
+			sourceTree = "<group>";
+		};
+		3885B0EF1E1EC88D001CE9FA /* Apple */ = {
+			isa = PBXGroup;
+			children = (
+				3885B0F01E1EC902001CE9FA /* AppKitCompatibilityDeclarations.h */,
+			);
+			path = Apple;
 			sourceTree = "<group>";
 		};
 		38C3CC721DA428D100CEA70C /* DisclosureView */ = {
@@ -1934,12 +1952,12 @@
 				INFOPLIST_FILE = "$(SRCROOT)/StatTagFramework/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = org.stattag.StatTagFramework;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx10.12;
+				SDKROOT = macosx10.11;
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -1961,11 +1979,11 @@
 				INFOPLIST_FILE = "$(SRCROOT)/StatTagFramework/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = org.stattag.StatTagFramework;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx10.12;
+				SDKROOT = macosx10.11;
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -2030,6 +2048,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = org.stattag.StatTag;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.11;
 			};
 			name = Debug;
 		};
@@ -2056,6 +2075,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = org.stattag.StatTag;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.11;
 			};
 			name = Release;
 		};
