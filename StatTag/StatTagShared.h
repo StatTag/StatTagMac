@@ -19,6 +19,7 @@
 @class StatTagNeedsWordViewController;
 @class SettingsViewController;
 @class FileMonitor;
+@class UpdateOutputViewController;
 
 @interface StatTagShared : NSObject {
   MainTabViewController* _mainVC;
@@ -43,6 +44,8 @@
 @property (strong, nonatomic) StatTagNeedsWordViewController* needsWordController;
 @property (strong, nonatomic) ManageCodeFilesViewController* codeFilesViewController;
 @property (strong, nonatomic) SettingsViewController* settingsViewController;
+@property (strong, nonatomic) UpdateOutputViewController* tagsViewController;
+
 
 @property (strong, nonnull) NSString* wordAppStatusMessage;
 @property BOOL wordAccessible;
@@ -77,5 +80,7 @@ typedef enum {
 
 
 extern NSString* const kStatTagErrorDomain = @"STErrorDomain";
+
+-(void)logAppStartup;
 
 @end

@@ -16,3 +16,7 @@
 
 @end
 
+@interface STAppleScript_UpdateFields : NSScriptCommand
+
+@end
+

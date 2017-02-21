@@ -82,8 +82,6 @@ NSString* const defaultLogFileName = @"StatTag.log";
 }
 
 -(void)setup {
-  
-  
   [[self checkboxLogging] setState: [[self properties] EnableLogging] ? NSOnState : NSOffState];
   if([[self properties] LogLocation] != nil && [[[self properties] LogLocation] length] > 0 && ![[[self properties] LogLocation] isEqualToString:@"Log Path Not Set"] && [[self logManager] IsValidLogPath: [[self properties] LogLocation]]) {
     [[self labelFilePath] setStringValue: [[self properties] LogLocation]];

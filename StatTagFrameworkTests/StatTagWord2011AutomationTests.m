@@ -669,4 +669,21 @@
 //  
 //}
 
+
+-(void)testCreatingFormField
+{
+  STMSWord2011TextRange* r = [[STMSWord2011TextRange alloc] init];
+  [r setRangeStart:1 end:1];
+//  r.startOfContent = 0;
+//  r.endOfContent = 0;
+  
+  STMSWord2011E183 fieldType = STMSWord2011E183FieldFormTextInput;
+  NSString* fieldText = @"I am some field text";
+  NSString* fieldName = @"Field1";
+  
+  STMSWord2011Field* f = [STFieldGenerator AddFieldToRange:r type:fieldType preserveFormatting:YES text:fieldText];
+
+  
+}
+
 @end

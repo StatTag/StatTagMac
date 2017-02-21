@@ -61,6 +61,8 @@ IB_DESIGNABLE
 @property (weak) IBOutlet NSButton *addTagButton;
 @property (weak) IBOutlet NSButton *removeTagButton;
 
+- (STTag*)selectTagWithName:(NSString*)tagName;
+- (IBAction)editTag:(id)sender;
 
 //-(BOOL)enableAddTagButton;
 //-(BOOL)enableRemoveTagButton;

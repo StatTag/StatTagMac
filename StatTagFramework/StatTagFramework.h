@@ -31,6 +31,7 @@ FOUNDATION_EXPORT const unsigned char StatTagVersionString[];
 #import <StatTagFramework/WordHelpers.h>
 //#import <StatTagFramework/SBObject+StatTagExtensions.h>
 #import <StatTagFramework/WordASOC.h>
+#import <StatTagFramework/NSString+MD5.h>
 //#import <StatTagFramework/WordFindProtocol.h>
 
 

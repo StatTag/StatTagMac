@@ -53,6 +53,7 @@
   [[StatTagShared sharedInstance] initializeWordViews];
 
   [AppEventListener startListening];
+  //[[StatTagShared sharedInstance] logAppStartup];
 }
 
 - (void)applicationDidBecomeActive:(NSNotification *)notification{

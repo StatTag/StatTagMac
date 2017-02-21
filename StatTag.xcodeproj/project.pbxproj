@@ -168,6 +168,8 @@
 		38AB41841DA1564C00EA464C /* TagEditorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38AB41831DA1564C00EA464C /* TagEditorViewController.xib */; };
 		38AB418D1DA1BC2900EA464C /* TagBasicPropertiesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38AB418B1DA1BC2900EA464C /* TagBasicPropertiesController.m */; };
 		38AB418E1DA1BC2900EA464C /* TagBasicPropertiesController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38AB418C1DA1BC2900EA464C /* TagBasicPropertiesController.xib */; };
+		38AD75C71E4923D30099752E /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = 38AD75C61E4923D30099752E /* NSString+MD5.m */; };
+		38AD75C81E4924870099752E /* NSString+MD5.h in Headers */ = {isa = PBXBuildFile; fileRef = 38AD75C51E4923B90099752E /* NSString+MD5.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38B04FCC1DF607270070BD2E /* StatTagModelFilterFormatTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38B04FCB1DF607270070BD2E /* StatTagModelFilterFormatTests.m */; };
 		38B04FCF1DF61ED50070BD2E /* STTableData.h in Headers */ = {isa = PBXBuildFile; fileRef = 38B04FCD1DF61ED50070BD2E /* STTableData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38B04FD01DF61ED50070BD2E /* STTableData.m in Sources */ = {isa = PBXBuildFile; fileRef = 38B04FCE1DF61ED50070BD2E /* STTableData.m */; };
@@ -516,6 +518,8 @@
 		38AB418A1DA1BC2900EA464C /* TagBasicPropertiesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagBasicPropertiesController.h; sourceTree = "<group>"; };
 		38AB418B1DA1BC2900EA464C /* TagBasicPropertiesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagBasicPropertiesController.m; sourceTree = "<group>"; };
 		38AB418C1DA1BC2900EA464C /* TagBasicPropertiesController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TagBasicPropertiesController.xib; sourceTree = "<group>"; };
+		38AD75C51E4923B90099752E /* NSString+MD5.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+MD5.h"; sourceTree = "<group>"; };
+		38AD75C61E4923D30099752E /* NSString+MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MD5.m"; sourceTree = "<group>"; };
 		38B04FCB1DF607270070BD2E /* StatTagModelFilterFormatTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagModelFilterFormatTests.m; sourceTree = "<group>"; };
 		38B04FCD1DF61ED50070BD2E /* STTableData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STTableData.h; sourceTree = "<group>"; };
 		38B04FCE1DF61ED50070BD2E /* STTableData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STTableData.m; sourceTree = "<group>"; };
@@ -1155,6 +1159,8 @@
 				38C91F761D37FAFC0048A95E /* WordASOC.h */,
 				38C91F3D1D36D1970048A95E /* WordHelpers.h */,
 				38C91F3E1D36D1970048A95E /* WordHelpers.m */,
+				38AD75C51E4923B90099752E /* NSString+MD5.h */,
+				38AD75C61E4923D30099752E /* NSString+MD5.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -1389,6 +1395,7 @@
 			files = (
 				38C9B2041D109D0A003B571E /* STFigureFormat.h in Headers */,
 				382C28B41D1994DE00697D6F /* STBaseGenerator.h in Headers */,
+				38AD75C81E4924870099752E /* NSString+MD5.h in Headers */,
 				385FDD331D33CEEE00AE0FE2 /* STThisAddIn.h in Headers */,
 				3884513C1D19DCB3004C2B40 /* STValueParameterParser.h in Headers */,
 				38C9B2001D109B40003B571E /* STExecutionStep.h in Headers */,
@@ -1703,6 +1710,7 @@
 				38B04FD01DF61ED50070BD2E /* STTableData.m in Sources */,
 				385FDD341D33CEEE00AE0FE2 /* STThisAddIn.m in Sources */,
 				38C9B20F1D10A2B2003B571E /* STStataBaseValueFormatter.m in Sources */,
+				38AD75C71E4923D30099752E /* NSString+MD5.m in Sources */,
 				38A7CE9D1D4FE29400B06AFF /* STPropertiesManager.m in Sources */,
 				38E20DF01E08968600B524CE /* STBaseManager.m in Sources */,
 				3884513D1D19DCB3004C2B40 /* STValueParameterParser.m in Sources */,

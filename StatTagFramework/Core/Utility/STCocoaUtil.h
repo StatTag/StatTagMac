@@ -16,6 +16,9 @@
 +(NSString*)systemInformation;
 +(NSString*)macOSVersion;
 +(NSString*)machineModel;
++(NSInteger)physicalMemoryInBytes;
++(NSString*)physicalMemory;
+
 
 +(NSString*)currentBundleIdentifier;
 +(NSString*)getApplicationDetailsForBundleID:(NSString*)app;

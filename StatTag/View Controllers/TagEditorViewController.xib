@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11201"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
         <capability name="box content view" minToolsVersion="7.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
         <capability name="stacking Non-gravity area distributions on NSStackView" minToolsVersion="7.0" minSystemVersion="10.11"/>
     </dependencies>
     <objects>
@@ -120,7 +121,7 @@
                                             <customView ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LqL-kn-7dP">
                                                 <rect key="frame" x="0.0" y="100" width="283" height="50"/>
                                             </customView>
-                                            <customView ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ap9-Rh-z6C">
+                                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="Ap9-Rh-z6C">
                                                 <rect key="frame" x="0.0" y="50" width="283" height="50"/>
                                             </customView>
                                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="9oi-ab-Odp">

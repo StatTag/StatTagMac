@@ -87,6 +87,17 @@
   return [NSString stringWithFormat:@"System: %@, Device Profile: %@", [[self class] macOSVersion], [[self class] machineModel]];
 }
 
+//https://developer.apple.com/reference/foundation/nsprocessinfo
++(NSInteger)physicalMemoryInBytes
+{
+  return [[NSProcessInfo processInfo] physicalMemory];
+}
+
++(NSString*)physicalMemory
+{
+  return [NSString stringWithFormat:@"%llu GB", ([[NSProcessInfo processInfo] physicalMemory] / 1024 / 1024 / 1024)];
+}
+
 //if we need further info, go look at these - _fantastic_ examples
 //http://stackoverflow.com/questions/1702870/how-to-collect-system-info-in-osx-using-objective-c
 //http://www.cocoawithlove.com/blog/2016/03/08/swift-wrapper-for-sysctl.html

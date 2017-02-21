@@ -112,6 +112,26 @@ BOOL breakLoop = YES;
   
 }
 
+- (STTag*)selectTagWithName:(NSString*)tagName {
+  
+  STTag* tag = nil;
+  NSPredicate *predicate = [NSPredicate predicateWithFormat:@"Name == %@", tagName];
+  NSArray *filteredArray = [[onDemandTags arrangedObjects] filteredArrayUsingPredicate:predicate];
+  tag =  filteredArray.count > 0 ? filteredArray.firstObject : nil;
+  
+  if(tag != nil)
+  {
+    NSInteger tagIndex=[[onDemandTags arrangedObjects] indexOfObject:tag];
+    if(NSNotFound == tagIndex) {
+      NSLog(@"selectTagWithName couldn't find tag '%@' in onDemandTags", [tag Name]);
+    } else {
+      [onDemandTags setSelectionIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(tagIndex, tagIndex)]];
+      return tag;
+    }
+  }
+  return nil;
+}
+
 
 - (IBAction)selectOnDemandNone:(id)sender {
   [onDemandTags setSelectionIndexes:[NSIndexSet indexSet]];
@@ -177,7 +197,8 @@ BOOL breakLoop = YES;
     tagEditorController = [[TagEditorViewController alloc] init];
   }
   
-  NSInteger row = [[self tableViewOnDemand] rowForView:sender];
+  //NSInteger row = [[self tableViewOnDemand] rowForView:sender];
+  NSInteger row = [[self tableViewOnDemand] selectedRow];
   if(row == -1) {
     row = [[self tableViewOnDemand] clickedRow];
   }

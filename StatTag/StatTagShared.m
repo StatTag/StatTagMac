@@ -19,6 +19,7 @@
 #import "ViewUtils.h"
 #import "FileMonitor.h"
 
+
 @implementation StatTagShared
 
 @synthesize docManager = _docManager;
@@ -107,6 +108,15 @@ static StatTagShared *sharedInstance = nil;
   
   shared.logManager = [[STLogManager alloc] init];
   shared.propertiesManager = [[STPropertiesManager alloc] init];
+
+  [[shared propertiesManager] Load];
+  //self.properties = [[self propertiesManager] Properties]; //just for setup
+  
+  shared.logManager.Enabled = shared.propertiesManager.Properties.EnableLogging;
+  if(shared.propertiesManager.Properties.LogLocation != nil)
+  {
+    shared.logManager.LogFilePath = [NSURL fileURLWithPath:shared.propertiesManager.Properties.LogLocation];
+  }
   
   //get our code file list on startup
   //  [[shared docManager] LoadCodeFileListFromDocument:[shared doc]];
@@ -135,6 +145,7 @@ static StatTagShared *sharedInstance = nil;
   //send over our managers, etc.
   UpdateOutputViewController* updateOutputVC = (UpdateOutputViewController*)[[[[shared mainVC ] tabView] tabViewItemAtIndex:(StatTagTabIndexes)UpdateOutput] viewController];
   updateOutputVC.documentManager = [shared docManager];
+  shared.tagsViewController = updateOutputVC;
   //updateOutputVC.codeFiles = [[shared docManager] GetCodeFileList]; //just for setup
   
   
@@ -155,6 +166,8 @@ static StatTagShared *sharedInstance = nil;
       [window setStyleMask:[window styleMask] & ~NSResizableWindowMask];
     }
   }
+  
+  [self logAppStartup];
 }
 
 -(void)setArchivedWindowFrame:(NSRect)archivedWindowFrame
@@ -197,6 +210,11 @@ static StatTagShared *sharedInstance = nil;
       [window setFrame:frame display:YES animate:YES];
     }
   }
+}
+
+-(void)logAppStartup
+{
+  [[self logManager] WriteMessage:[NSString stringWithFormat:@"Starting StatTag... OS: %@; Hardware: %@; RAM: %@", [STCocoaUtil macOSVersion], [STCocoaUtil machineModel], [STCocoaUtil physicalMemory]]];
 }
 
 

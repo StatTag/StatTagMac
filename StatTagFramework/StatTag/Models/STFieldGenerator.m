@@ -348,8 +348,6 @@ Adds a new empty Word.Field to the specified Word.Range.
 }
 
 
-
-
 +(STMSWord2011TextRange*)FindNextOpen:(STMSWord2011TextRange*)range text:(NSString*)text {
   @autoreleasepool {
     BOOL found = [[self class] CreateFind:&range text:text];
