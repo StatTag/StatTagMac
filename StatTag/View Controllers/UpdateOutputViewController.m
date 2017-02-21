@@ -112,6 +112,10 @@ BOOL breakLoop = YES;
   
 }
 
+/**
+ This is used by the external AppleScript interface to select a tag
+ We then use it immediately after to (likely) fire the tag UI
+ */
 - (STTag*)selectTagWithName:(NSString*)tagName {
   
   STTag* tag = nil;
@@ -125,7 +129,7 @@ BOOL breakLoop = YES;
     if(NSNotFound == tagIndex) {
       NSLog(@"selectTagWithName couldn't find tag '%@' in onDemandTags", [tag Name]);
     } else {
-      [onDemandTags setSelectionIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(tagIndex, tagIndex)]];
+      [onDemandTags setSelectionIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(tagIndex, 1)]];
       return tag;
     }
   }
