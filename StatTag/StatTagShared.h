@@ -46,6 +46,10 @@
 @property (strong, nonatomic) SettingsViewController* settingsViewController;
 @property (strong, nonatomic) UpdateOutputViewController* tagsViewController;
 
+@property (strong, nonatomic) NSString* lastLaunchedAppVersion;
+-(BOOL)isFirstLaunch;
+-(BOOL)isNewVersion;
+
 
 @property (strong, nonnull) NSString* wordAppStatusMessage;
 @property BOOL wordAccessible;

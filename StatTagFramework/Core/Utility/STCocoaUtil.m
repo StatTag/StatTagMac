@@ -110,8 +110,14 @@
   return chars;
 }
 +(NSString*)currentBundleIdentifier {
+  
+  NSString *bundleName = [[NSBundle mainBundle] bundleIdentifier];
+  /*
+   //originall had this so we could better test the app, but when we do this we get the framework bundle and not
+   // the app bundle (when running)
   NSBundle* bundle = [NSBundle bundleForClass:[self class]];
   NSString * bundleName = [bundle bundleIdentifier];
+  */
   return bundleName;
 }
 
@@ -155,5 +161,18 @@
   return nil;
 }
 
-
+/*
+//http://stackoverflow.com/questions/9408293/how-do-you-get-the-bundle-identifier-from-an-applications-name-in-cocoa
+-(NSString*) bundleIdentifierForApplicationName:(NSString *)appName
+{
+  NSWorkspace * workspace = [NSWorkspace sharedWorkspace];
+  NSString * appPath = [workspace fullPathForApplication:appName];
+  if (appPath) {
+    NSBundle * appBundle = [NSBundle bundleWithPath:appPath];
+    return [appBundle bundleIdentifier];
+  }
+  return nil;
+}
+*/
+ 
 @end

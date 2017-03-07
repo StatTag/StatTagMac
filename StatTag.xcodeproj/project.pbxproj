@@ -123,6 +123,7 @@
 		385FDD3E1D33FA1800AE0FE2 /* StatTagWord2011AutomationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 385FDD3D1D33FA1800AE0FE2 /* StatTagWord2011AutomationTests.m */; };
 		385FDD431D35681400AE0FE2 /* STFieldGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 385FDD411D35681400AE0FE2 /* STFieldGenerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		385FDD441D35681400AE0FE2 /* STFieldGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 385FDD421D35681400AE0FE2 /* STFieldGenerator.m */; };
+		386652E91E6C5F0300F3150E /* MacroInstallerUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 386652E81E6C5F0300F3150E /* MacroInstallerUtility.m */; };
 		386992C91DB6B6A200852B6E /* FileMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 386992C81DB6B6A200852B6E /* FileMonitor.m */; };
 		386992CC1DB6C72300852B6E /* STCodeFile+FileMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 386992CB1DB6C72300852B6E /* STCodeFile+FileMonitor.m */; };
 		386992CF1DB6CE2A00852B6E /* STDocumentManager+FileMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 386992CE1DB6CE2A00852B6E /* STDocumentManager+FileMonitor.m */; };
@@ -139,6 +140,10 @@
 		387632541DA9402500680898 /* STTag+Preview.m in Sources */ = {isa = PBXBuildFile; fileRef = 387632531DA9402500680898 /* STTag+Preview.m */; };
 		38788F941D30100F00299789 /* STStatsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 38788F921D30100F00299789 /* STStatsManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38788F951D30100F00299789 /* STStatsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 38788F931D30100F00299789 /* STStatsManager.m */; };
+		3879D5E81E6DA86F00BF1964 /* AlertDisclosureTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3879D5E61E6DA86F00BF1964 /* AlertDisclosureTextView.m */; };
+		3879D5E91E6DA86F00BF1964 /* AlertDisclosureTextView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3879D5E71E6DA86F00BF1964 /* AlertDisclosureTextView.xib */; };
+		3879D5EB1E6DD09C00BF1964 /* StatTagMacroInstallText.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 3879D5EA1E6DD09C00BF1964 /* StatTagMacroInstallText.rtf */; };
+		3879D5EF1E6E179100BF1964 /* StatTagMacroRemovalScript.sh in Resources */ = {isa = PBXBuildFile; fileRef = 3879D5EE1E6E179100BF1964 /* StatTagMacroRemovalScript.sh */; };
 		387A0E1B1D2193D000F1FE9C /* StatTagModelCommandResultTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 387A0E1A1D2193D000F1FE9C /* StatTagModelCommandResultTests.m */; };
 		387A0E1D1D21BEFD00F1FE9C /* StatTagModelTagTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 387A0E1C1D21BEFD00F1FE9C /* StatTagModelTagTests.m */; };
 		387A0E251D22BC5F00F1FE9C /* STStataParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 387A0E231D22BC5F00F1FE9C /* STStataParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -461,6 +466,8 @@
 		385FDD3D1D33FA1800AE0FE2 /* StatTagWord2011AutomationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagWord2011AutomationTests.m; sourceTree = "<group>"; };
 		385FDD411D35681400AE0FE2 /* STFieldGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STFieldGenerator.h; sourceTree = "<group>"; };
 		385FDD421D35681400AE0FE2 /* STFieldGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STFieldGenerator.m; sourceTree = "<group>"; };
+		386652E71E6C5F0300F3150E /* MacroInstallerUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacroInstallerUtility.h; sourceTree = "<group>"; };
+		386652E81E6C5F0300F3150E /* MacroInstallerUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MacroInstallerUtility.m; sourceTree = "<group>"; };
 		386992C71DB6B6A200852B6E /* FileMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileMonitor.h; sourceTree = "<group>"; };
 		386992C81DB6B6A200852B6E /* FileMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileMonitor.m; sourceTree = "<group>"; };
 		386992CA1DB6C72300852B6E /* STCodeFile+FileMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "STCodeFile+FileMonitor.h"; sourceTree = "<group>"; };
@@ -486,6 +493,11 @@
 		387632531DA9402500680898 /* STTag+Preview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "STTag+Preview.m"; sourceTree = "<group>"; };
 		38788F921D30100F00299789 /* STStatsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STStatsManager.h; sourceTree = "<group>"; };
 		38788F931D30100F00299789 /* STStatsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STStatsManager.m; sourceTree = "<group>"; };
+		3879D5E51E6DA86F00BF1964 /* AlertDisclosureTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlertDisclosureTextView.h; sourceTree = "<group>"; };
+		3879D5E61E6DA86F00BF1964 /* AlertDisclosureTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlertDisclosureTextView.m; sourceTree = "<group>"; };
+		3879D5E71E6DA86F00BF1964 /* AlertDisclosureTextView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AlertDisclosureTextView.xib; sourceTree = "<group>"; };
+		3879D5EA1E6DD09C00BF1964 /* StatTagMacroInstallText.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = StatTagMacroInstallText.rtf; sourceTree = "<group>"; };
+		3879D5EE1E6E179100BF1964 /* StatTagMacroRemovalScript.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = StatTagMacroRemovalScript.sh; sourceTree = "<group>"; };
 		387A0E1A1D2193D000F1FE9C /* StatTagModelCommandResultTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagModelCommandResultTests.m; sourceTree = "<group>"; };
 		387A0E1C1D21BEFD00F1FE9C /* StatTagModelTagTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagModelTagTests.m; sourceTree = "<group>"; };
 		387A0E231D22BC5F00F1FE9C /* STStataParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STStataParser.h; sourceTree = "<group>"; };
@@ -976,10 +988,12 @@
 		385EF13F1D95D52A005768C7 /* Word Support */ = {
 			isa = PBXGroup;
 			children = (
+				3879D5EA1E6DD09C00BF1964 /* StatTagMacroInstallText.rtf */,
 				3824439D1DBE567D00EF0048 /* StatTagScriptSupport.scpt */,
 				385EF1401D95D53C005768C7 /* StatTagMacros.dotm */,
 				38EF1A661D99544F008EA9B0 /* readme.md */,
 				3824439F1DBE612800EF0048 /* StatTagMacroInstallationScript.sh */,
+				3879D5EE1E6E179100BF1964 /* StatTagMacroRemovalScript.sh */,
 			);
 			path = "Word Support";
 			sourceTree = "<group>";
@@ -1305,6 +1319,11 @@
 				38F803521D9DAF7700C8F1EA /* UIUtility.m */,
 				386992C71DB6B6A200852B6E /* FileMonitor.h */,
 				386992C81DB6B6A200852B6E /* FileMonitor.m */,
+				386652E71E6C5F0300F3150E /* MacroInstallerUtility.h */,
+				386652E81E6C5F0300F3150E /* MacroInstallerUtility.m */,
+				3879D5E51E6DA86F00BF1964 /* AlertDisclosureTextView.h */,
+				3879D5E61E6DA86F00BF1964 /* AlertDisclosureTextView.m */,
+				3879D5E71E6DA86F00BF1964 /* AlertDisclosureTextView.xib */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -1565,7 +1584,8 @@
 					};
 					3836F5491D92C89900BF0DD4 = {
 						CreatedOnToolsVersion = 8.0;
-						ProvisioningStyle = Automatic;
+						DevelopmentTeam = ZRBJAU296F;
+						ProvisioningStyle = Manual;
 					};
 					3836F55E1D92C89900BF0DD4 = {
 						CreatedOnToolsVersion = 8.0;
@@ -1634,7 +1654,9 @@
 				3824439E1DBE567D00EF0048 /* StatTagScriptSupport.scpt in Resources */,
 				38D8B1C81D95872A00BF878A /* UpdateOutputProgressViewController.xib in Resources */,
 				384764B61DA5683100FCDABE /* NumericValuePropertiesController.xib in Resources */,
+				3879D5E91E6DA86F00BF1964 /* AlertDisclosureTextView.xib in Resources */,
 				384764B11DA52D6400FCDABE /* TablePropertiesController.xib in Resources */,
+				3879D5EB1E6DD09C00BF1964 /* StatTagMacroInstallText.rtf in Resources */,
 				387632471DA7E2AC00680898 /* DateTimePropertiesController.xib in Resources */,
 				38F803661D9DCB8900C8F1EA /* ValuePropertiesController.xib in Resources */,
 				387632501DA83B6C00680898 /* StatTagNeedsWordViewController.xib in Resources */,
@@ -1643,6 +1665,7 @@
 				383F3B991DA679AE0069C78E /* TagPreviewController.xib in Resources */,
 				3836F5A11D92D03D00BF0DD4 /* SettingsViewController.xib in Resources */,
 				3836F5A61D92D07700BF0DD4 /* ManageCodeFilesViewController.xib in Resources */,
+				3879D5EF1E6E179100BF1964 /* StatTagMacroRemovalScript.sh in Resources */,
 				38C3CC771DA428E700CEA70C /* DisclosureViewController.xib in Resources */,
 				38AB41841DA1564C00EA464C /* TagEditorViewController.xib in Resources */,
 			);
@@ -1777,12 +1800,14 @@
 				38F803651D9DCB8900C8F1EA /* ValuePropertiesController.m in Sources */,
 				384764B91DA56B8300FCDABE /* IntegerOnlyNumberFormatter.m in Sources */,
 				38F8034F1D9C5C1800C8F1EA /* SCScintilla.mm in Sources */,
+				386652E91E6C5F0300F3150E /* MacroInstallerUtility.m in Sources */,
 				3836F5A51D92D07700BF0DD4 /* ManageCodeFilesViewController.m in Sources */,
 				38E9CB101E1473A9006B3571 /* TableValueFilterFormatter.m in Sources */,
 				383F3B9C1DA684390069C78E /* TagGridView.m in Sources */,
 				38D8B1C21D9586D200BF878A /* UpdateOutputViewController.m in Sources */,
 				3846CC3D1DA49B840066D186 /* FlippedClipView.m in Sources */,
 				388ABF881DA5B1F600F08956 /* ViewUtils.m in Sources */,
+				3879D5E81E6DA86F00BF1964 /* AlertDisclosureTextView.m in Sources */,
 				3836F5AD1D92ED9D00BF0DD4 /* STAppleScript_LoadSettings.m in Sources */,
 				3836F5511D92C89900BF0DD4 /* main.m in Sources */,
 				3876324F1DA83B6C00680898 /* StatTagNeedsWordViewController.m in Sources */,
@@ -1973,9 +1998,10 @@
 		382C8D2D1D0F672F00FE6878 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -2010,7 +2036,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = stattag.org.StatTagFrameworkTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx10.12;
+				SDKROOT = macosx10.11;
 			};
 			name = Debug;
 		};
@@ -2028,7 +2054,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = stattag.org.StatTagFrameworkTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx10.12;
+				SDKROOT = macosx10.11;
 			};
 			name = Release;
 		};
@@ -2039,7 +2065,9 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = ZRBJAU296F;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -2067,7 +2095,9 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = ZRBJAU296F;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",

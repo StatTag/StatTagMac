@@ -22,6 +22,9 @@
 
 #import "ViewUtils.h"
 
+#import "MacroInstallerUtility.h"
+
+
 @interface AppDelegate ()
 
 @end
@@ -54,6 +57,12 @@
 
   [AppEventListener startListening];
   //[[StatTagShared sharedInstance] logAppStartup];
+  
+  if([[StatTagShared sharedInstance] isFirstLaunch])
+  {
+    [MacroInstallerUtility installMacros];
+  }
+  
 }
 
 - (void)applicationDidBecomeActive:(NSNotification *)notification{
@@ -87,6 +96,14 @@
     //[[[StatTagShared sharedInstance] settingsViewController] showWindow:self];
   }
   NSLog(@"open preferences");
+}
+
+- (IBAction)installWordMacros:(id)sender {
+  [MacroInstallerUtility installMacros];
+}
+
+- (IBAction)removeWordMacros:(id)sender {
+  [MacroInstallerUtility removeMacros];
 }
 
 

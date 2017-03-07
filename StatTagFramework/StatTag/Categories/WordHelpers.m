@@ -131,14 +131,24 @@ static WordHelpers* sharedInstance = nil;
       return false;
     } else {
       NSURL* theFileURL = [NSURL fileURLWithPath:filePath];
-      NSString *loweredExtension = [[theFileURL pathExtension] lowercaseString];
-      NSSet *validImageExtensions = [NSSet setWithArray:[NSImage imageTypes]];
-      if ([validImageExtensions containsObject:loweredExtension]) {
-        return true;
-      } else {
-        NSLog(@"Couldn't insert image at path. NSImage does not support extension : %@", loweredExtension);
-        return false;
+      if(theFileURL != nil)
+      {
+        NSImage* tempImage = [[NSImage alloc] initWithContentsOfFile:[theFileURL path]];
+        if(tempImage != nil) {
+          return true;
+        }
       }
+      NSLog(@"Couldn't insert image at path. NSImage can't read file : %@", theFileURL);
+      return false;
+
+//      NSString *loweredExtension = [[theFileURL pathExtension] lowercaseString];
+//      NSSet *validImageExtensions = [NSSet setWithArray:[NSImage imageTypes]];
+//      if ([validImageExtensions containsObject:loweredExtension]) {
+//        return true;
+//      } else {
+//        NSLog(@"Couldn't insert image at path. NSImage does not support extension : %@", loweredExtension);
+//        return false;
+//      }
     }
   }
   return false;
@@ -154,7 +164,7 @@ static WordHelpers* sharedInstance = nil;
       NSURL* theFileURL = [NSURL fileURLWithPath:filePath];
       NSString* hfsPath = (NSString*)CFBridgingRelease(CFURLCopyFileSystemPath((CFURLRef)theFileURL, kCFURLHFSPathStyle));
       
-      //MARK: FIXME - get rid of kCFURLHFSPathStyle
+      //MARK: FIXME - get rid of kCFURLHFSPathStyle - we should update the AppleScript to support POSIX paths
       /*
       Leaving the above warning and commenting...
        Our AppleScript wants an HFS path - but those are not ideal and support is deprecated as of 10.9
@@ -230,8 +240,10 @@ static WordHelpers* sharedInstance = nil;
     
     
     for(STMSWord2011Field* field in [doc fields]) {
-      field.showCodes = ![field showCodes];
-      field.showCodes = ![field showCodes];
+      field.showCodes = NO;
+      field.showCodes = NO;
+      //field.showCodes = ![field showCodes];
+      //field.showCodes = ![field showCodes];
     }
   }
   
@@ -241,8 +253,10 @@ static WordHelpers* sharedInstance = nil;
 {
   @autoreleasepool {
     for(STMSWord2011Field* field in [range fields]) {
-      field.showCodes = ![field showCodes];
-      field.showCodes = ![field showCodes];
+      field.showCodes = NO;
+      field.showCodes = NO;
+      //field.showCodes = ![field showCodes];
+      //field.showCodes = ![field showCodes];
     }
   }
 }

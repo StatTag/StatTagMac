@@ -21,6 +21,8 @@ static void *TagTypeContext = &TagTypeContext;
 static void *TagFormatContext = &TagFormatContext;
 static void *TagTableFormatContext = &TagTableFormatContext;
 
+static BOOL valuePreviewsEnabled = NO;
+
 - (void)viewDidLoad {
   [super viewDidLoad];
   // Do view setup here.
@@ -160,7 +162,12 @@ static void *TagTableFormatContext = &TagTableFormatContext;
   NSString* previewText;
   
   if([[[tag ValueFormat] FormatType] isEqualToString:[STConstantsValueFormatType Numeric]] ) {
-    NSString* result = [[[tag CachedResult] lastObject] ValueResult];
+    NSString* result;
+    if(valuePreviewsEnabled == YES)
+    {
+      result = [[[tag CachedResult] lastObject] ValueResult];
+
+    }
     if(result == nil) {
       result = @"100000";
     }
@@ -168,10 +175,17 @@ static void *TagTableFormatContext = &TagTableFormatContext;
     previewText = [[tag ValueFormat] Format:result];
   }
   else if([[[tag ValueFormat] FormatType] isEqualToString:[STConstantsValueFormatType DateTime]] ) {
-    previewText = [[tag ValueFormat] Format:@"March 14, 2001 19:30:50"];
+    if(valuePreviewsEnabled == YES)
+    {
+    }
+    previewText = [[tag ValueFormat] Format:@"January 24, 1984 19:30:50"];
   }
   else if([[[tag ValueFormat] FormatType] isEqualToString:[STConstantsValueFormatType Percentage]] ) {
-    NSString* result = [[[tag CachedResult] lastObject] ValueResult];
+    NSString* result;
+    if(valuePreviewsEnabled == YES)
+    {
+      result = [[[tag CachedResult] lastObject] ValueResult];
+    }
     if(result == nil) {
       result = @"1";
     }
@@ -187,7 +201,7 @@ static void *TagTableFormatContext = &TagTableFormatContext;
 
 -(void)generatePreviewText {
   
-  //FIXME: NOTE this needs to be refactored to move the formatters into the singletone
+  //FIXME: NOTE this needs to be refactored to move the formatters into the singleton
   //super expensive
   if ([[self tag] Type] == [STConstantsTagType Figure]) {
     [self setShowsPreviewText:NO];
@@ -237,10 +251,13 @@ static void *TagTableFormatContext = &TagTableFormatContext;
   } else if ([tag Type] == [STConstantsTagType Figure]) {
     //FIXME: move property
     //check the latest image result
-    preview = [[NSImage alloc] initWithContentsOfFile:[tag FormattedResult]];
-    if(preview == nil) {
-      //then try the cached result
-      preview = [[NSImage alloc] initWithContentsOfFile: [[[tag CachedResult] lastObject] FigureResult]];
+    if(valuePreviewsEnabled == YES)
+    {
+      preview = [[NSImage alloc] initWithContentsOfFile:[tag FormattedResult]];
+      if(preview == nil) {
+        //then try the cached result
+        preview = [[NSImage alloc] initWithContentsOfFile: [[[tag CachedResult] lastObject] FigureResult]];
+      }
     }
     if(preview == nil) {
       //if we can't access our original image (or we can't interpret the format)

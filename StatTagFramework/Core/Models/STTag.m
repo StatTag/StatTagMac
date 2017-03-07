@@ -307,9 +307,9 @@
 
 - (BOOL)isEqual:(id)object
 {
-  if (![object isKindOfClass:self.class]) {
-    return NO;
-  }
+//  if (![object isKindOfClass:self.class]) {
+//    return NO;
+//  }
 
   STTag *tag = object;
   if (tag == nil)

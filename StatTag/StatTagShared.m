@@ -30,6 +30,7 @@
 @synthesize propertiesManager = _propertiesManager;
 @synthesize logManager = _logManager;
 @synthesize fileMonitors = _fileMonitors;
+@synthesize lastLaunchedAppVersion = _lastLaunchedAppVersion;
 
 static StatTagShared *sharedInstance = nil;
 
@@ -175,7 +176,9 @@ static StatTagShared *sharedInstance = nil;
   _archivedWindowFrame = archivedWindowFrame;
 
   //save our rect
-  NSMutableDictionary* prefs = [[NSMutableDictionary alloc] init];
+  //NSMutableDictionary* prefs = [[NSMutableDictionary alloc] init];
+  NSMutableDictionary* prefs = [[NSMutableDictionary alloc] initWithDictionary:[[NSUserDefaults standardUserDefaults] persistentDomainForName:[STCocoaUtil currentBundleIdentifier]]];
+
   [prefs setValue:NSStringFromRect(_archivedWindowFrame) forKey:@"windowRect"];
   [[NSUserDefaults standardUserDefaults] setPersistentDomain:prefs forName:[STCocoaUtil currentBundleIdentifier]];
   [[NSUserDefaults standardUserDefaults] synchronize];
@@ -193,6 +196,51 @@ static StatTagShared *sharedInstance = nil;
   return _archivedWindowFrame;
 }
 
+
+
+-(void)setLastLaunchedAppVersion:(NSString *)lastLaunchedAppVersion
+{
+  _lastLaunchedAppVersion = lastLaunchedAppVersion;
+  //NSMutableDictionary* prefs = [[NSMutableDictionary alloc] init];
+  NSMutableDictionary* prefs = [[NSMutableDictionary alloc] initWithDictionary:[[NSUserDefaults standardUserDefaults] persistentDomainForName:[STCocoaUtil currentBundleIdentifier]]];
+  [prefs setValue:_lastLaunchedAppVersion forKey:@"lastLaunchedAppVersion"];
+  [[NSUserDefaults standardUserDefaults] setPersistentDomain:prefs forName:[STCocoaUtil currentBundleIdentifier]];
+  [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+-(NSString*)lastLaunchedAppVersion
+{
+  NSDictionary* prefsDict = [[NSUserDefaults standardUserDefaults] persistentDomainForName:[STCocoaUtil currentBundleIdentifier]];
+  _lastLaunchedAppVersion = [prefsDict valueForKey:@"lastLaunchedAppVersion"];
+  return _lastLaunchedAppVersion;
+}
+
+-(BOOL)isFirstLaunch
+{
+  NSString *currentAppVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+  
+  if ([self lastLaunchedAppVersion] != nil) {
+    return NO;
+  }
+  
+  [self setLastLaunchedAppVersion:currentAppVersion];
+  
+  return YES;
+}
+
+
+-(BOOL)isNewVersion
+{
+  NSString *currentAppVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+
+  if ([self lastLaunchedAppVersion] != nil && [currentAppVersion isEqualToString:[self lastLaunchedAppVersion]]) {
+    return NO;
+  }
+
+  [self setLastLaunchedAppVersion:currentAppVersion];
+  
+  return YES;
+}
 
 -(void)saveWindowFrame
 {

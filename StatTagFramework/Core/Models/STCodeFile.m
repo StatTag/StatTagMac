@@ -187,7 +187,7 @@ NSObject<STIFileHandler>* _FileHandler;
 -(void)LoadTagsFromContent:(BOOL)preserveCache {
   NSArray<STTag*>* savedTags;
   if(preserveCache){
-    savedTags = [[NSArray<STTag*> alloc] initWithArray:_Tags];
+    savedTags = [[NSArray<STTag*> alloc] initWithArray:_Tags];    
   }
   
   // Any time we try to load, reset the list of tags that may exist
@@ -276,6 +276,7 @@ the cached results in another tag.
   [dict setValue:[self StatisticalPackage] forKey:@"StatisticalPackage"];
   [dict setValue:[self FilePath] forKey:@"FilePath"];
   [dict setValue:[STJSONUtility convertDateToDateString:self.LastCached] forKey:@"LastCached"]; //format?
+  //[dict setValue:ContentCache forKey:@"ContentCache"];
   return dict;
 }
 

@@ -20,12 +20,33 @@
 #* `~/Library/Group Containers/UBF8T346G9.Office/User Content/Templates/`
 
 
-AppBundleResourceMacroFile="/Applications/StatTag.app/Contents/Resources/StatTagMacros.dotm"
-AppBundleResourceAppleScriptFile="/Applications/StatTag.app/Contents/Resources/StatTagScriptSupport.scpt"
+bundle_path="/Applications/StatTag.app/Contents/Resources/"
+
+while getopts a: option
+do
+case $option in
+a)
+bundle_path=$OPTARG
+;;
+esac
+done
+
+echo $bundle_path
+
+#line below intentionally throws an error for testing
+#lets_throw_an_error
+
+#should probably re-evaluate how we obtain these file paths
+AppBundleResourceMacroFile=$bundle_path"StatTagMacros.dotm"
+AppBundleResourceAppleScriptFile=$bundle_path"StatTagScriptSupport.scpt"
+
+echo $AppBundleResourceMacroFile
 
 Word2016AppleScriptPath="/Users/$USER/Library/Application Scripts/com.microsoft.Word/"
 Word2011MacroPath="/Applications/Microsoft Office 2011/Office/Startup/Word"
-Word2016MacroPath="/Users/$USER/Library/Group Containers/UBF8T346G9.Office/User Content.localized/Templates.localized"
+#Word2016MacroPath="/Users/$USER/Library/Group Containers/UBF8T346G9.Office/User Content.localized/Templates.localized"
+#we want the template to go into the startup area so it always loads
+Word2016MacroPath="/Users/$USER/Library/Group Containers/UBF8T346G9.Office/User Content.localized/Startup.localized/Word"
 
 [ -e "`eval echo ${AppBundleResourceMacroFile//>}`" ]
 MacroFileAvailable=$?
@@ -51,12 +72,15 @@ if (( MacroFileAvailable == 0 && AppleScriptFileAvailable == 0)); then
   [ -e "`eval echo ${Word2011MacroPath//>}`" ]
   Word2011Installed=$?
 
-  if (( Word2011Installed == 0 )); then
-    echo "Word 2011 Installed - installing macro file"
-    cp "$AppBundleResourceMacroFile" "$Word2011MacroPath"
-    #copy our bundle resources to the target path
-  else
-    echo "Word 2011 NOT installed"
+  Word2011SupportEnabled=0
+  if (( Word2011SupportEnabled == 1 )); then
+    if (( Word2011Installed == 0 && Word2011SupportEnabled == 1 )); then
+      echo "Word 2011 Installed - installing macro file"
+      cp "$AppBundleResourceMacroFile" "$Word2011MacroPath"
+      #copy our bundle resources to the target path
+    else
+      echo "Word 2011 NOT installed"
+    fi
   fi
 
   #------------- WORD 2016 -------------

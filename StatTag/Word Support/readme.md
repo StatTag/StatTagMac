@@ -14,14 +14,19 @@ For consistency, we're also going to place scripts in the same location for 2011
 
 #### Word Macro Templates ####
 
-For 2011
+### For 2011 ###
 
 * `/Applications/Microsoft Office 2011/Office/Startup/Word/`
 
-For 2016
+### For 2016 ###
+
+One-off Templates (from which a document MUST be based)
 
 * `~/Library/Group Containers/UBF8T346G9.Office/User Content/Templates/`
 
+### Global Templates ###
+
+* `/Users/$USER/Library/Group Containers/UBF8T346G9.Office/User Content.localized/Startup.localized/Word`
 
 #### How to Modify the Word 2016 Ribbon ####
 

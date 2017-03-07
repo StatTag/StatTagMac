@@ -118,4 +118,9 @@
 
 -(STMSWord2011Document*)activeDocument;
 
+
++(void)toggleWordFieldsForTags:(NSArray<STTag*>*)tags;
++(void)toggleWordFieldsForTag:(STTag*)tag;
+
+
 @end

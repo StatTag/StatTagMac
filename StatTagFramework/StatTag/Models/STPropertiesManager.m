@@ -35,13 +35,15 @@ NSString* const RunCodeOnOpenKey = @"Autorun Code";
 -(void)Save
 {
 
-  NSMutableDictionary* prefsDict = [[NSMutableDictionary alloc] init];
-  [prefsDict setValue:[_Properties StataLocation] forKey:StataLocationKey];
-  [prefsDict setValue:[_Properties LogLocation] forKey:LogLocationKey];
-  [prefsDict setObject:[NSNumber numberWithBool:[_Properties EnableLogging]] forKey:LogEnabledKey];
-  [prefsDict setValue:[NSNumber numberWithBool:[_Properties RunCodeOnOpen]] forKey:RunCodeOnOpenKey];
+  NSMutableDictionary* prefs = [[NSMutableDictionary alloc] initWithDictionary:[[NSUserDefaults standardUserDefaults] persistentDomainForName:[STCocoaUtil currentBundleIdentifier]]];
 
-  [[NSUserDefaults standardUserDefaults] setPersistentDomain:prefsDict forName:[STCocoaUtil currentBundleIdentifier]];
+  //NSMutableDictionary* prefsDict = [[NSMutableDictionary alloc] init];
+  [prefs setValue:[_Properties StataLocation] forKey:StataLocationKey];
+  [prefs setValue:[_Properties LogLocation] forKey:LogLocationKey];
+  [prefs setValue:[NSNumber numberWithBool:[_Properties EnableLogging]] forKey:LogEnabledKey];
+  [prefs setValue:[NSNumber numberWithBool:[_Properties RunCodeOnOpen]] forKey:RunCodeOnOpenKey];
+
+  [[NSUserDefaults standardUserDefaults] setPersistentDomain:prefs forName:[STCocoaUtil currentBundleIdentifier]];
   [[NSUserDefaults standardUserDefaults] synchronize];
   
 // we can't use the app-based domain because it will be the host app and not the StatTag framework's domain

@@ -94,7 +94,16 @@
         
         [progressText setStringValue:@"Updating Fields in Microsoft Word..."];
 
-        [_documentManager UpdateFields];
+        for(STTag* tag in _tagsToProcess)
+        {
+          STUpdatePair<STTag*>* pair = [[STUpdatePair alloc] init];
+          pair.Old = tag;
+          pair.New = tag;
+          [_documentManager UpdateFields:pair];
+        }
+        //EWW 2017-03-07
+        //changed entire update process here
+//        [_documentManager UpdateFields];
         
         [progressIndicator setIndeterminate:YES];
         [progressIndicator stopAnimation:nil];

@@ -320,11 +320,37 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
     
   }
   
-  [WordHelpers toggleAllFieldCodes];
+  //[WordHelpers toggleAllFieldCodes];
   
   NSLog(@"RefreshTableTagFields - Finished, Returning %d", tableRefreshed);
   return tableRefreshed;
 
+}
+
++(void)toggleWordFieldsForTags:(NSArray<STTag*>*)tags
+{
+  for(STTag* tag in tags)
+  {
+    [self toggleWordFieldsForTag:tag];
+  }
+}
+
++(void)toggleWordFieldsForTag:(STTag*)tag
+{
+  for(STMSWord2011Field* field in [[[[STGlobals sharedInstance] ThisAddIn] SafeGetActiveDocument] fields]) {
+    if(field != nil && tag != nil && [[[field fieldCode] content] containsString:[NSString stringWithFormat:@"MacroButton %@", [STConstantsFieldDetails MacroButtonName]]] && [[[[field nextField] fieldCode] content] hasSuffix:[NSString stringWithFormat:@"ADDIN %@", [tag Name]]])
+    {
+      field.showCodes = NO;
+      field.showCodes = NO;
+      field.nextField.showCodes = NO;
+      field.nextField.showCodes = NO;
+      
+//      field.showCodes = ![field showCodes];
+//      field.showCodes = ![field showCodes];
+//      [[field nextField] setShowCodes:![[field nextField] showCodes]];
+//      [[field nextField] setShowCodes:![[field nextField] showCodes]];
+    }
+  }
 }
 
 
@@ -376,7 +402,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   with whatever is set as the current cached value.
 
  @param tagUpdatePair: An optional tag to update.  If specified, the contents of the tag (including its underlying data) will be refreshed.
- The reaason this is an Tag and not a FieldTag is that the function is only called after a change to the main tag reference.
+ The reason this is an Tag and not a FieldTag is that the function is only called after a change to the main tag reference.
  If not specified, all tag fields will be updated
 
  @param matchOnPosition: If set to true, an tag will only be matched if its line numbers (in the code file) are a match.  This is used when updating after disambiguating two tags with the same name, but isn't needed otherwise.
@@ -389,6 +415,9 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   STMSWord2011Application* application = [[[STGlobals sharedInstance] ThisAddIn] Application];
   NSLog(@"Application (%@) : %@", [application name], application );
   STMSWord2011Document* document = [application activeDocument];
+  
+  //[[application settings] setAnimateScreenMovements:NO]; //nope...
+  
   
   
   //FIXME: we need to do something different...
@@ -494,7 +523,8 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
 
   }
 
-  [WordHelpers toggleAllFieldCodes];
+  //[WordHelpers toggleAllFieldCodes];
+  //[[application settings] setAnimateScreenMovements:YES]; //Nope...
   
   NSLog(@"UpdateFields - Finished");
   

@@ -66,7 +66,8 @@
     
     // This is a terrible hack, I know, but it's the only way I've found to get fields
     // to appear correctly after doing this insert.
-    [WordHelpers toggleFieldCodesInRange:range];
+    //[WordHelpers toggleFieldCodesInRange:range];
+    [STDocumentManager toggleWordFieldsForTag:tag];    
   }
 }
 
@@ -188,8 +189,10 @@
         [WordHelpers setRange:&fieldRange Start:[fieldRange startOfContent] end:[nextClose endOfContent]];
         
         result = [self InsertEmpty:fieldRange];
-        result.showCodes = ![result showCodes];
-        result.showCodes = ![result showCodes];
+        result.showCodes = NO;
+        result.showCodes = NO;
+        //result.showCodes = ![result showCodes];
+        //result.showCodes = ![result showCodes];
         
         //offset our range by 2 because we've introduced a field (with braces internally)
         [WordHelpers setRange:&searchRange Start:[searchRange startOfContent]+4 end:([searchRange endOfContent]+4 )];

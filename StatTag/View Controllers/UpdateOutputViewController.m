@@ -178,13 +178,53 @@ BOOL breakLoop = YES;
   for(STTag* tag in [onDemandTags selectedObjects]) {
     [_documentManager InsertField:tag];
   }
+
+  //EWW 2017-03-02 - asked by team to add this in here
+  //when we insert a tag (for now?) we also need to populate the value
+  [self refreshTags:self];
+
+  //we're double-generating this.......
+//  for(STTag* tag in [onDemandTags selectedObjects]) {
+//    for(STMSWord2011Field* field in [[[StatTagShared sharedInstance] doc] fields]) {
+//      if([self isMatchForStatTagField:field forTag:tag])
+//      {
+//        field.showCodes = ![field showCodes];
+//        field.showCodes = ![field showCodes];
+//      }
+//    }
+//  }
   
   //need to figure out where we do this on a single tag within StatTag - doing this for all tags is expensive
+//  for(STMSWord2011Field* field in [[[StatTagShared sharedInstance] doc] fields]) {
+//    NSLog(@"fieldText : %@", [field fieldText]);
+//    NSLog(@"fieldCode : %@", [[field fieldCode] content]);
+//    
+//    field.showCodes = ![field showCodes];
+//    field.showCodes = ![field showCodes];
+//  }
+}
+
+-(void)toggleWordFieldsForTag:(STTag*)tag
+{
   for(STMSWord2011Field* field in [[[StatTagShared sharedInstance] doc] fields]) {
-    field.showCodes = ![field showCodes];
-    field.showCodes = ![field showCodes];
+    if(field != nil && tag != nil && [[[field fieldCode] content] containsString:[NSString stringWithFormat:@"MacroButton %@", [STConstantsFieldDetails MacroButtonName]]] && [[[[field nextField] fieldCode] content] containsString:[NSString stringWithFormat:@"ADDIN %@", [tag Name]]])
+    {
+      field.showCodes = ![field showCodes];
+      field.showCodes = ![field showCodes];
+    }
   }
 }
+
+
+-(BOOL)isMatchForStatTagField:(STMSWord2011Field*)field forTag:(STTag*)tag
+{
+  if(field != nil && tag != nil && [[[field fieldCode] content] containsString:[NSString stringWithFormat:@"MacroButton %@", [STConstantsFieldDetails MacroButtonName]]] && [[[[field nextField] fieldCode] content] containsString:[NSString stringWithFormat:@"ADDIN %@", [tag Name]]])
+  {
+    return YES;
+  }
+  return NO;
+}
+
 
 
 - (BOOL) getNewValues {
@@ -237,7 +277,7 @@ BOOL breakLoop = YES;
     //no errors - so refresh the list of tags because we changed things
     [self loadAllTags];
   } else if (returnCode == Cancel) {
-    [self loadAllTags];
+    //[self loadAllTags];
   } else {
     //could be cancel, could be error
   }
