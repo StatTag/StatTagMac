@@ -71,6 +71,7 @@
  @remark Can be safely called any time, even if logging is disabled. Recursively called for all inner exceptions.
  @param exc : The exception to write to the log file.
  */
--(void)WriteException:(NSException*) exc;
+//-(void)WriteException:(NSException*) exc;
+-(void)WriteException:(id) exc;
 
 @end

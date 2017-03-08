@@ -498,6 +498,7 @@
 		3879D5E71E6DA86F00BF1964 /* AlertDisclosureTextView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AlertDisclosureTextView.xib; sourceTree = "<group>"; };
 		3879D5EA1E6DD09C00BF1964 /* StatTagMacroInstallText.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = StatTagMacroInstallText.rtf; sourceTree = "<group>"; };
 		3879D5EE1E6E179100BF1964 /* StatTagMacroRemovalScript.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = StatTagMacroRemovalScript.sh; sourceTree = "<group>"; };
+		3879D5F01E70463D00BF1964 /* StatTag-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "StatTag-Prefix.pch"; sourceTree = "<group>"; };
 		387A0E1A1D2193D000F1FE9C /* StatTagModelCommandResultTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagModelCommandResultTests.m; sourceTree = "<group>"; };
 		387A0E1C1D21BEFD00F1FE9C /* StatTagModelTagTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagModelTagTests.m; sourceTree = "<group>"; };
 		387A0E231D22BC5F00F1FE9C /* STStataParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STStataParser.h; sourceTree = "<group>"; };
@@ -897,6 +898,7 @@
 				3836F55A1D92C89900BF0DD4 /* Info.plist */,
 				3836F54F1D92C89900BF0DD4 /* Supporting Files */,
 				38A843A21D9B051100357727 /* readme.md */,
+				3879D5F01E70463D00BF1964 /* StatTag-Prefix.pch */,
 			);
 			path = StatTag;
 			sourceTree = "<group>";
@@ -2074,6 +2076,7 @@
 				);
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_INPUT_FILETYPE = automatic;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/$(PROJECT_NAME)/StatTag-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					SCI_NAMESPACE,
 					SCI_LEXER,
@@ -2104,6 +2107,7 @@
 				);
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_INPUT_FILETYPE = automatic;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/$(PROJECT_NAME)/StatTag-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					SCI_NAMESPACE,
 					SCI_LEXER,

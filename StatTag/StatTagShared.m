@@ -265,5 +265,15 @@ static StatTagShared *sharedInstance = nil;
   [[self logManager] WriteMessage:[NSString stringWithFormat:@"Starting StatTag... OS: %@; Hardware: %@; RAM: %@", [STCocoaUtil macOSVersion], [STCocoaUtil machineModel], [STCocoaUtil physicalMemory]]];
 }
 
+//-(void)logMessage:(NSString*)message
+//{
+//  [[self logManager] WriteMessage:message];
+//}
+//
+//-(void)logException:(NSException*)exception
+//{
+//  [[self logManager] WriteException: exception];
+//}
+
 
 @end

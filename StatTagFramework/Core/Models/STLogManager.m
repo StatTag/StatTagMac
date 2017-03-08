@@ -164,6 +164,7 @@
 
     //                FileHandler.AppendAllText(LogFilePath, string.Format("{0} - {1}\r\n", DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss.fff"), text));
 
+    NSLog(@"Log Message: %@", text);
     NSError* err;
     [[self FileHandler] AppendAllText:[self LogFilePath] withContent:[NSString stringWithFormat:@"%@ - %@\r\n", [dateFormatter stringFromDate:[NSDate date]], text] error:&err];
     
@@ -181,10 +182,33 @@
  @remark Can be safely called any time, even if logging is disabled. Recursively called for all inner exceptions.
  @param exc : The exception to write to the log file.
 */
--(void)WriteException:(NSException*) exc
+-(void)WriteException:(id) exc
 {
-  NSArray* stackTrace = [exc callStackSymbols];
-  [self WriteMessage:[NSString stringWithFormat:@"Error: %@\r\nmacOS: %@\r\nHardware: %@\r\nStack trace: %@", [exc description], [STCocoaUtil macOSVersion], [STCocoaUtil machineModel], stackTrace]];
+//  NSLog(@"Log Exception: %@", [exc description]);
+//  NSArray* stackTrace = [exc callStackSymbols];
+//  [self WriteMessage:[NSString stringWithFormat:@"Error: %@\r\nmacOS: %@\r\nHardware: %@\r\nStack trace: %@", [exc description], [STCocoaUtil macOSVersion], [STCocoaUtil machineModel], stackTrace]];
+
+  if(exc == nil) { return; }
+
+  NSArray* stackTrace;
+  NSString* errorDescription;
+  if([exc isKindOfClass:[NSException class]])
+  {
+    stackTrace = [exc callStackSymbols];
+    errorDescription = [exc description];
+  }
+  if([exc isKindOfClass:[NSError class]])
+  {
+    errorDescription = [exc description];
+  }
+  if([exc isKindOfClass:[NSString class]])
+  {
+    errorDescription = exc;
+  }
+  
+  NSLog(@"Log Exception: %@", [exc description]);
+  [self WriteMessage:[NSString stringWithFormat:@"Error: %@, macOS: %@, Hardware: %@, Stack trace: %@", errorDescription, [STCocoaUtil macOSVersion], [STCocoaUtil machineModel], stackTrace]];
+
 }
 
 

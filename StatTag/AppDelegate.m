@@ -51,6 +51,7 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 
+  
   _window = [[[NSApplication sharedApplication] windows] firstObject];
   [[StatTagShared sharedInstance] setWindow:_window];
   [[StatTagShared sharedInstance] initializeWordViews];
@@ -62,6 +63,21 @@
   {
     [MacroInstallerUtility installMacros];
   }
+
+  //example of logging with a string
+  LOG_STATTAG_MESSAGE(@"StatTag Finished Launching");
+
+//  //example of logging an error with an exception
+//  NSException* exc = [[NSException alloc] initWithName:@"Test Exception" reason:@"Something bad happened" userInfo:@{@"My Key" : @"My Key Value"}];
+//  LOG_STATTAG_EXCEPTION(exc);
+//
+//  //example of logging an error with a string
+//  NSString* s = @"Test String Exception";
+//  LOG_STATTAG_EXCEPTION(s);
+//
+//  //example of logging an error with an error
+//  NSError* err = [[NSError alloc] initWithDomain:@"StatTag Error" code:1 userInfo:@{NSLocalizedDescriptionKey : @"This is a test error"}];
+//  LOG_STATTAG_EXCEPTION(err);
   
 }
 

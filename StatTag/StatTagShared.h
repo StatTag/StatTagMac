@@ -15,11 +15,13 @@
 @class STDocumentManager;
 @class ManageCodeFilesViewController;
 @class STPropertiesManager;
-@class STLogManager;
+//@class STLogManager;
 @class StatTagNeedsWordViewController;
 @class SettingsViewController;
 @class FileMonitor;
 @class UpdateOutputViewController;
+
+#import "STLogManager.h"
 
 @interface StatTagShared : NSObject {
   MainTabViewController* _mainVC;
@@ -87,4 +89,12 @@ extern NSString* const kStatTagErrorDomain = @"STErrorDomain";
 
 -(void)logAppStartup;
 
+//-(void)logMessage:(NSString*)message;
+//-(void)logException:(NSException*)exception;
+
+
+#define LOG_STATTAG_MESSAGE(var, ...) [[[StatTagShared sharedInstance] logManager] WriteMessage:var, ## __VA_ARGS__]
+#define LOG_STATTAG_EXCEPTION(var, ...) [[[StatTagShared sharedInstance] logManager] WriteException:var, ## __VA_ARGS__]
+
 @end
+

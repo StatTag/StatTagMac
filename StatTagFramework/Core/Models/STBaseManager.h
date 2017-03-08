@@ -28,7 +28,7 @@
  Wrapper around a LogManager instance.  Since logging is not always enabled/available for this object
  the wrapper only writes if a logger is accessible.
  */
--(void)LogException:(NSException*)exc;
+-(void)LogException:(id)exc;
 
 
 @end
