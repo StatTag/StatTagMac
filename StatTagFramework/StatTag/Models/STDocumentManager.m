@@ -434,6 +434,10 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   
   @try
   {
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [[NSNotificationCenter defaultCenter] postNotificationName:@"tagUpdateStart" object:self userInfo:@{@"tagName":[[tagUpdatePair New] Name], @"codeFileName":[[[tagUpdatePair New] CodeFile] FileName], @"type" : @"field"}];
+    });
+    
     BOOL tableDimensionChange = [self IsTableTagChangingDimensions:tagUpdatePair];
     if (tableDimensionChange)
     {
@@ -871,6 +875,10 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
     NSLog(@"The tag is null");
     return;
   }
+
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"tagUpdateStart" object:self userInfo:@{@"tagName":[tag Name], @"codeFileName":[[tag CodeFile] FileName], @"type" : @"field"}];
+  });
   
   if([[tag Type] isEqualToString:[STConstantsTagType Figure]]) {
     NSLog(@"Detected a Figure tag");

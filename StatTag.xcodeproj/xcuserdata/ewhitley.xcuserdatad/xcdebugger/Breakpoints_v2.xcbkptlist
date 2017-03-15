@@ -1304,11 +1304,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StatTagFramework/StatTag/Models/STDocumentManager.m"
-            timestampString = "511209050.13266"
+            timestampString = "511277879.519922"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "479"
-            endingLineNumber = "479"
+            startingLineNumber = "483"
+            endingLineNumber = "483"
             landmarkName = "-UpdateFields:matchOnPosition:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1320,11 +1320,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StatTagFramework/StatTag/Models/STDocumentManager.m"
-            timestampString = "511209050.13266"
+            timestampString = "511277879.519922"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "495"
-            endingLineNumber = "495"
+            startingLineNumber = "499"
+            endingLineNumber = "499"
             landmarkName = "-UpdateFields:matchOnPosition:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1352,11 +1352,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StatTagFramework/StatTag/Models/STDocumentManager.m"
-            timestampString = "511209050.13266"
+            timestampString = "511277879.519922"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "872"
-            endingLineNumber = "872"
+            startingLineNumber = "876"
+            endingLineNumber = "876"
             landmarkName = "-InsertFieldWithFieldTag:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1432,11 +1432,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StatTagFramework/StatTag/Models/STDocumentManager.m"
-            timestampString = "511209123.609108"
+            timestampString = "511277879.519922"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "522"
-            endingLineNumber = "522"
+            startingLineNumber = "526"
+            endingLineNumber = "526"
             landmarkName = "-UpdateFields:matchOnPosition:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1576,11 +1576,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StatTagFramework/StatTag/Models/STDocumentManager.m"
-            timestampString = "511220869.543505"
+            timestampString = "511277879.519922"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "437"
-            endingLineNumber = "437"
+            startingLineNumber = "441"
+            endingLineNumber = "441"
             landmarkName = "-UpdateFields:matchOnPosition:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1592,11 +1592,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StatTagFramework/StatTag/Models/STDocumentManager.m"
-            timestampString = "511276807.501751"
+            timestampString = "511277879.519922"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1125"
-            endingLineNumber = "1125"
+            startingLineNumber = "1133"
+            endingLineNumber = "1133"
             landmarkName = "-InsertTagsInDocument:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1608,11 +1608,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StatTagFramework/StatTag/Models/STDocumentManager.m"
-            timestampString = "511276784.139596"
+            timestampString = "511277879.519922"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1129"
-            endingLineNumber = "1129"
+            startingLineNumber = "1137"
+            endingLineNumber = "1137"
             landmarkName = "-InsertTagsInDocument:"
             landmarkType = "7">
          </BreakpointContent>

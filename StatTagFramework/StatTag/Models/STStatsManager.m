@@ -142,7 +142,7 @@ const NSInteger RefreshStepInterval = 5;
           //we changed tags, so update the name and fire off a notification
           currentTagName = [NSString stringWithString:[[step Tag] Name]];
           dispatch_async(dispatch_get_main_queue(), ^{
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"tagUpdateStart" object:self userInfo:@{@"tagName":currentTagName, @"codeFileName":[[[step Tag] CodeFile] FileName]}];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"tagUpdateStart" object:self userInfo:@{@"tagName":currentTagName, @"codeFileName":[[[step Tag] CodeFile] FileName], @"type" : @"tag"}];
           });
         }
       }
@@ -224,7 +224,7 @@ const NSInteger RefreshStepInterval = 5;
         if(![currentTagName isEqualToString:previousTagName])
         {
           dispatch_async(dispatch_get_main_queue(), ^{
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"tagUpdateComplete" object:self userInfo:@{@"tagName":currentTagName, @"codeFileName":[[[step Tag] CodeFile] FileName]}];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"tagUpdateComplete" object:self userInfo:@{@"tagName":currentTagName, @"codeFileName":[[[step Tag] CodeFile] FileName], @"type" : @"tag"}];
           });
           previousTagName = [NSString stringWithString:currentTagName];
           //currentTagName = [[step Tag] Name];

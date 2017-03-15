@@ -156,14 +156,23 @@
 - (IBAction)cancelOperation:(id)sender {
 }
 
+
 -(void)tagUpdateStart:(NSNotification*)notification
 {
   dispatch_async(dispatch_get_main_queue(), ^{
     NSString* tagName = [[notification userInfo] valueForKey:@"tagName"];
     NSString* codeFileName = [[notification userInfo] valueForKey:@"codeFileName"];
+    NSString* type = [[notification userInfo] valueForKey:@"type"];
     NSLog(@"tagUpdateStart complete => tag: %@", tagName);
 
-    [[self progressText] setStringValue:[NSString stringWithFormat:@"%@ tag '%@' in code file'%@'", [self insert] ? @"Inserting" : @"Updating", tagName, codeFileName]];
+    if([type isEqualToString:@"tag"])
+    {
+      [[self progressText] setStringValue:[NSString stringWithFormat:@"%@ %@ '%@' from code file'%@'", [self insert] ? @"Inserting" : @"Updating", type, tagName, codeFileName]];
+    }
+    if([type isEqualToString:@"field"])
+    {
+      [[self progressText] setStringValue:[NSString stringWithFormat:@"%@ %@ for tag '%@'", [self insert] ? @"Inserting" : @"Updating", type, tagName]];
+    }
     //NSLog(@"tag update start (%@/%@): %@", [self numTagsCompleted], [self numTagsToProcess], tagName);
     [[self progressCountLabel] setStringValue:[NSString stringWithFormat:@"(%@/%@)", [self numTagsCompleted], [self numTagsToProcess]]];
   });
