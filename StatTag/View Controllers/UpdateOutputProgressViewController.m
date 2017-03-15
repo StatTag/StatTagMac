@@ -21,11 +21,13 @@
 @synthesize documentManager = _documentManager;
 @synthesize tagsToProcess = _tagsToProcess;
 
+@synthesize insert = _insert;
 
 -(id) initWithCoder:(NSCoder *)coder {
   self = [super initWithCoder:coder];
   if(self) {
     [[NSBundle mainBundle] loadNibNamed:@"UpdateOutputProgressViewController" owner:self topLevelObjects:nil];
+    _insert = NO;
   }
   return self;
 }
@@ -34,9 +36,6 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
     // Do view setup here.
-}
-
--(void)viewDidAppear {
   [[NSNotificationCenter defaultCenter] addObserver:self
                                            selector:@selector(tagUpdateStart:)
                                                name:@"tagUpdateStart"
@@ -46,6 +45,9 @@
                                            selector:@selector(tagUpdateComplete:)
                                                name:@"tagUpdateComplete"
                                              object:nil];
+}
+
+-(void)viewDidAppear {
 
   [self setNumTagsCompleted:@0];
   [self setNumTagsToProcess:@0];
@@ -57,68 +59,92 @@
 - (void)refreshTagsAsync {
   
   //this isn't quite right - but it works for now
-  
+  [self setNumTagsCompleted:@0];
+  [self setNumTagsToProcess:[NSNumber numberWithLong:[[self tagsToProcess] count]]];
+  [[self progressIndicatorDeterminate] setMinValue:0];
+  [[self progressIndicatorDeterminate] setMaxValue:[[self tagsToProcess] count]];
+
   [progressIndicator setIndeterminate:YES];
   [progressIndicator startAnimation:nil];
-  [progressText setStringValue:[NSString stringWithFormat:@"Updating tags..."]];
+  if([self insert])
+  {
+    [progressText setStringValue:[NSString stringWithFormat:@"Inserting tags..."]];
+  } else {
+    [progressText setStringValue:[NSString stringWithFormat:@"Updating tags..."]];
+  }
   //NSLog(@"%lu tags", (unsigned long)[_tagsToProcess count]);
   
   dispatch_async(dispatch_get_global_queue(0, 0), ^{
     
     @try {
-      
-      STStatsManager* stats = [[STStatsManager alloc] init:_documentManager];
-      for(STCodeFile* cf in [_documentManager GetCodeFileList]) {
-        //NSLog(@"found codefile %@", [cf FilePath]);
+
+      if([self insert])
+      {
+        dispatch_async(dispatch_get_main_queue(), ^{
+          [progressText setStringValue:@"Starting to insert tags..."];
+        });
+        [_documentManager InsertTagsInDocument:[self tagsToProcess]];
+        dispatch_async(dispatch_get_main_queue(), ^{
+          [progressIndicator setIndeterminate:YES];
+          [progressIndicator stopAnimation:nil];
+          [progressText setStringValue:@"Insert complete"];
+          [_delegate dismissUpdateOutputProgressController:self withReturnCode:(StatTagResponseState)OK];
+          return;
+        });
+      }
+      else
+      {
+  
+        STStatsManager* stats = [[STStatsManager alloc] init:_documentManager];
         
         dispatch_async(dispatch_get_main_queue(), ^{
           [progressText setStringValue:@"Starting to update tags..."];
-          [self setNumTagsCompleted:@0];
           [self setProgressCountText:[NSString stringWithFormat:@"%@/%ld", [self numTagsCompleted], [[self tagsToProcess] count]]];
-          [self setNumTagsToProcess:[NSNumber numberWithLong:[[self tagsToProcess] count]]];
-          [[self progressIndicatorDeterminate] setMinValue:0];
-          [[self progressIndicatorDeterminate] setMaxValue:[[self tagsToProcess] count]];
           [[self progressCountLabel] setStringValue:[NSString stringWithFormat:@"(%@/%@)", [self numTagsCompleted], [self numTagsToProcess]]];
         });
-        
-        STStatsManagerExecuteResult* result = [stats ExecuteStatPackage:cf
-                                                             filterMode:[STConstantsParserFilterMode TagList]
-                                                              tagsToRun:_tagsToProcess
-                                               ];
 
-        #pragma unused (result)
-        
-      }
-      
-      dispatch_async(dispatch_get_main_queue(), ^{
-        
-        [progressText setStringValue:@"Updating Fields in Microsoft Word..."];
-
-        for(STTag* tag in _tagsToProcess)
-        {
-          STUpdatePair<STTag*>* pair = [[STUpdatePair alloc] init];
-          pair.Old = tag;
-          pair.New = tag;
-          [_documentManager UpdateFields:pair];
+        for(STCodeFile* cf in [_documentManager GetCodeFileList]) {
+          //NSLog(@"found codefile %@", [cf FilePath]);
+          
+          
+          STStatsManagerExecuteResult* result = [stats ExecuteStatPackage:cf
+                                                               filterMode:[STConstantsParserFilterMode TagList]
+                                                                tagsToRun:_tagsToProcess
+                                                 ];
+          #pragma unused (result)
+          
         }
-        //EWW 2017-03-07
-        //changed entire update process here
-//        [_documentManager UpdateFields];
         
-        [progressIndicator setIndeterminate:YES];
-        [progressIndicator stopAnimation:nil];
-
-        [progressText setStringValue:@"Updates complete"];
-
-        [_delegate dismissUpdateOutputProgressController:self withReturnCode:(StatTagResponseState)OK];
-      });
+        dispatch_async(dispatch_get_main_queue(), ^{
+          
+          [progressText setStringValue:@"Updating Fields in Microsoft Word..."];
+          
+          //can we move this to a background thread?
+          for(STTag* tag in _tagsToProcess)
+          {
+            STUpdatePair<STTag*>* pair = [[STUpdatePair alloc] init];
+            pair.Old = tag;
+            pair.New = tag;
+            [_documentManager UpdateFields:pair];
+          }
+          //EWW 2017-03-07
+          //changed entire update process here
+          //        [_documentManager UpdateFields];
+          
+          [progressIndicator setIndeterminate:YES];
+          [progressIndicator stopAnimation:nil];
+          
+          [progressText setStringValue:@"Updates complete"];
+          
+          [_delegate dismissUpdateOutputProgressController:self withReturnCode:(StatTagResponseState)OK];
+        });
       
-      
-//      dispatch_async(dispatch_get_main_queue(), ^{
-//        //        [NSApp endSheet:[self window]];
-//        //        [[self window] orderOut:self];
-//      });
-      
+      }
+      //      dispatch_async(dispatch_get_main_queue(), ^{
+      //        //        [NSApp endSheet:[self window]];
+      //        //        [[self window] orderOut:self];
+      //      });
+        
     }
     @catch (NSException* exc) {
       [_delegate dismissUpdateOutputProgressController:self withReturnCode:(StatTagResponseState)Error];
@@ -135,7 +161,9 @@
   dispatch_async(dispatch_get_main_queue(), ^{
     NSString* tagName = [[notification userInfo] valueForKey:@"tagName"];
     NSString* codeFileName = [[notification userInfo] valueForKey:@"codeFileName"];
-    [[self progressText] setStringValue:[NSString stringWithFormat:@"Updating tag '%@' in code file'%@'", tagName, codeFileName]];
+    NSLog(@"tagUpdateStart complete => tag: %@", tagName);
+
+    [[self progressText] setStringValue:[NSString stringWithFormat:@"%@ tag '%@' in code file'%@'", [self insert] ? @"Inserting" : @"Updating", tagName, codeFileName]];
     //NSLog(@"tag update start (%@/%@): %@", [self numTagsCompleted], [self numTagsToProcess], tagName);
     [[self progressCountLabel] setStringValue:[NSString stringWithFormat:@"(%@/%@)", [self numTagsCompleted], [self numTagsToProcess]]];
   });
@@ -144,6 +172,10 @@
 -(void)tagUpdateComplete:(NSNotification*)notification
 {
   dispatch_async(dispatch_get_main_queue(), ^{
+
+    NSString* tagName = [[notification userInfo] valueForKey:@"tagName"];
+    NSLog(@"tagUpdateComplete complete => tag: %@", tagName);
+    
     [self setNumTagsCompleted:[NSNumber numberWithDouble:([[self numTagsCompleted] doubleValue] + 1.0)]];
     if([[self numTagsToProcess] doubleValue] > 0) {
       [[self progressIndicatorDeterminate] setDoubleValue:[[self numTagsCompleted] doubleValue]];

@@ -138,6 +138,8 @@ static WordHelpers* sharedInstance = nil;
           return true;
         }
       }
+      //we need a better way of logging this - the entire approach to logging needs to be reviewed
+      [[STLogManager sharedInstance] WriteException:[NSString stringWithFormat:@"Couldn't insert image at path. NSImage can't read file : %@", theFileURL]];
       NSLog(@"Couldn't insert image at path. NSImage can't read file : %@", theFileURL);
       return false;
 

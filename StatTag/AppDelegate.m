@@ -24,6 +24,8 @@
 
 #import "MacroInstallerUtility.h"
 
+#import <QuartzCore/QuartzCore.h>
+#import <CoreVideo/CoreVideo.h>
 
 @interface AppDelegate ()
 
@@ -37,7 +39,7 @@
 //@synthesize mainVC = _mainVC;
 //@synthesize mainWindow = _mainWindow;
 
-
+@synthesize dockTileView = _dockTileView;
 
 
 //http://stackoverflow.com/questions/36681587/os-x-storyboard-calls-viewdidload-before-applicationdidfinishlaunching
@@ -64,8 +66,11 @@
     [MacroInstallerUtility installMacros];
   }
 
-  //example of logging with a string
-  LOG_STATTAG_MESSAGE(@"StatTag Finished Launching");
+  
+  //NSDockTile* dockTile = [[NSApplication sharedApplication] dockTile];
+  //[self animateDockTileStart];
+//  //example of logging with a string
+//  LOG_STATTAG_MESSAGE(@"StatTag Finished Launching");
 
 //  //example of logging an error with an exception
 //  NSException* exc = [[NSException alloc] initWithName:@"Test Exception" reason:@"Something bad happened" userInfo:@{@"My Key" : @"My Key Value"}];

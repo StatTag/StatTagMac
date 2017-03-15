@@ -59,7 +59,7 @@
           _applicationVersion = [NSNumber numberWithInteger:0];
         }
       }
-      _LogManager = [[STLogManager alloc] init];
+      _LogManager = [STLogManager sharedInstance];//[[STLogManager alloc] init];
       _DocumentManager = [[STDocumentManager alloc] init];
       
       _StatsManager = [[STStatsManager alloc] init:[self DocumentManager]];

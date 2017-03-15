@@ -23,6 +23,7 @@
 
 @property (strong, nonatomic) NSObject<STIFileHandler>* FileHandler;
 
++ (id)sharedInstance;
 
 -(instancetype)init;
 -(instancetype)initWithFileHandler:(NSObject<STIFileHandler>*)handler;
@@ -73,5 +74,9 @@
  */
 //-(void)WriteException:(NSException*) exc;
 -(void)WriteException:(id) exc;
+
+//#define LOG_STATTAGFRAMEWORK_MESSAGE(var, ...) [[STLogManager sharedInstance] WriteMessage:var, ## __VA_ARGS__]
+//#define LOG_STATTAGFRAMEWORK_EXCEPTION(var, ...) [[STLogManager sharedInstance] logManager] WriteException:var, ## __VA_ARGS__]
+
 
 @end

@@ -83,6 +83,10 @@ const NSInteger RefreshStepInterval = 5;
 */
 -(STStatsManagerExecuteResult*) ExecuteStatPackage:(STCodeFile*)file filterMode:(NSInteger)filterMode tagsToRun:(NSArray<STTag*>*)tagsToRun {
   
+  dispatch_async(dispatch_get_main_queue(), ^{
+    NSLog(@"ExecuteStatPackage preparing to execute %ld tags", (unsigned long)[tagsToRun count]);
+  });
+  
   STStatsManagerExecuteResult* result = [[STStatsManagerExecuteResult alloc] init];
   result.Success = false;
   result.UpdatedTags = [[NSMutableArray<STTag*> alloc] init];
@@ -137,7 +141,9 @@ const NSInteger RefreshStepInterval = 5;
         {
           //we changed tags, so update the name and fire off a notification
           currentTagName = [NSString stringWithString:[[step Tag] Name]];
-          [[NSNotificationCenter defaultCenter] postNotificationName:@"tagUpdateStart" object:self userInfo:@{@"tagName":currentTagName, @"codeFileName":[[[step Tag] CodeFile] FileName]}];
+          dispatch_async(dispatch_get_main_queue(), ^{
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"tagUpdateStart" object:self userInfo:@{@"tagName":currentTagName, @"codeFileName":[[[step Tag] CodeFile] FileName]}];
+          });
         }
       }
       
@@ -212,12 +218,14 @@ const NSInteger RefreshStepInterval = 5;
 
         }
       }
-      //send a notification that we're starting a tag
+      //send a notification that we're completing a tag
       if([step Tag] != nil)
       {
         if(![currentTagName isEqualToString:previousTagName])
         {
-          [[NSNotificationCenter defaultCenter] postNotificationName:@"tagUpdateComplete" object:self userInfo:@{@"tagName":currentTagName, @"codeFileName":[[[step Tag] CodeFile] FileName]}];
+          dispatch_async(dispatch_get_main_queue(), ^{
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"tagUpdateComplete" object:self userInfo:@{@"tagName":currentTagName, @"codeFileName":[[[step Tag] CodeFile] FileName]}];
+          });
           previousTagName = [NSString stringWithString:currentTagName];
           //currentTagName = [[step Tag] Name];
         }

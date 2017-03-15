@@ -17,6 +17,13 @@
 @synthesize FileHandler = _FileHandler;
 
 @synthesize LogFilePath = _LogFilePath;
+
+//singleton
+static STLogManager *sharedInstance = nil;
+
+
+
+
 - (void) setLogFilePath:(NSURL*)p {
   _LogFilePath = p;//[p stringByExpandingTildeInPath];
 }
@@ -56,6 +63,20 @@
     dateFormatter.dateFormat = @"MM/dd/yyyy HH:mm:ss.SSS";
     _FileHandler = handler != nil ? handler : [[STFileHandler alloc] init];
   }
+  return self;
+}
+
+//Singleton
++ (STLogManager*)sharedInstance {
+  if (sharedInstance == nil) {
+    sharedInstance = [[super allocWithZone:NULL] init];
+  }
+  return sharedInstance;
+}
++ (id)allocWithZone:(NSZone*)zone {
+  return [self sharedInstance];
+}
+- (id)copyWithZone:(NSZone *)zone {
   return self;
 }
 

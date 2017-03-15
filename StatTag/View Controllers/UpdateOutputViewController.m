@@ -148,9 +148,9 @@ BOOL breakLoop = YES;
 
 
 - (IBAction)refreshTags:(id)sender {
-  [self startRefreshingFieldsWithModalController];
+  [self startRefreshingFieldsWithModalController:NO];
 }
-- (void)startRefreshingFieldsWithModalController {
+- (void)startRefreshingFieldsWithModalController:(BOOL)insert {
   if (tagUpdateProgressController == nil)
   {
     tagUpdateProgressController = [[UpdateOutputProgressViewController alloc] init];
@@ -158,6 +158,7 @@ BOOL breakLoop = YES;
 
   tagUpdateProgressController.tagsToProcess = [NSMutableArray arrayWithArray:[onDemandTags selectedObjects]];
   tagUpdateProgressController.documentManager = _documentManager;
+  tagUpdateProgressController.insert = insert;
   tagUpdateProgressController.delegate = self;
   
   [self presentViewControllerAsSheet:tagUpdateProgressController];
@@ -174,7 +175,11 @@ BOOL breakLoop = YES;
 }
 
 - (IBAction)insertTagIntoDocument:(id)sender {
+  
+  
+ // [_documentManager InsertTagsInDocument:[onDemandTags selectedObjects]];
 
+  /*
   for(STTag* tag in [onDemandTags selectedObjects]) {
     [_documentManager InsertField:tag];
   }
@@ -182,7 +187,9 @@ BOOL breakLoop = YES;
   //EWW 2017-03-02 - asked by team to add this in here
   //when we insert a tag (for now?) we also need to populate the value
   [self refreshTags:self];
-
+   */
+  [self startRefreshingFieldsWithModalController:YES];
+  
   //we're double-generating this.......
 //  for(STTag* tag in [onDemandTags selectedObjects]) {
 //    for(STMSWord2011Field* field in [[[StatTagShared sharedInstance] doc] fields]) {

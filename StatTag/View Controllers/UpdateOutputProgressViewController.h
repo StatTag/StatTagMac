@@ -25,7 +25,7 @@
   
   NSMutableArray<STTag*>* _tagsToProcess;
   STDocumentManager* _documentManager;
-
+  BOOL _insert;
 }
 
 @property (strong, nonatomic) NSMutableArray<STTag*>* tagsToProcess;
@@ -43,5 +43,6 @@
 @property (weak) IBOutlet NSProgressIndicator *progressIndicatorDeterminate;
 @property (weak) IBOutlet NSTextField *progressCountLabel;
 
+@property BOOL insert;
 
 @end

@@ -223,6 +223,9 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
     return false;
   }
   
+  //NSLog(@"IsTableTagChangingDimensions [tagUpdatePair New] className: %@", [[tagUpdatePair New] className]);
+  //NSLog(@"IsTableTagChangingDimensions [tagUpdatePair New] className: %@", [[tagUpdatePair Old] className]);
+  
   if (![[tagUpdatePair Old] IsTableTag] || ![[tagUpdatePair New]IsTableTag])
   {
     return false;
@@ -443,10 +446,11 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
       }
     }
     
-    NSLog(@"before UpdateInlineShapes");
-    [self setValue:@"Updating Inline Shapes" forKey:@"wordFieldUpdateStatus"];
-    [self UpdateInlineShapes:document];
-    NSLog(@"after UpdateInlineShapes");
+    //Moved below
+//    NSLog(@"before UpdateInlineShapes");
+//    [self setValue:@"Updating Inline Shapes" forKey:@"wordFieldUpdateStatus"];
+//    [self UpdateInlineShapes:document];
+//    NSLog(@"after UpdateInlineShapes");
     
     SBElementArray<STMSWord2011Field*>* fields = [document fields];
     NSInteger fieldsCount = [fields count];
@@ -509,6 +513,21 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
       [self setValue:[NSNumber numberWithInteger:index+1] forKey:@"wordFieldsUpdated"];
       
     }
+    
+    //Moved here to see about updating after field updates
+    // trying to address the situation where we don't have data in the field before we update it
+    //NOTE: No - this isn't great because we're updating ALL shapes
+    //also adding in a really quick check for "only do this to figures"
+    if([[[tagUpdatePair Old] Type] isEqualToString:[STConstantsTagType Figure]] || [[[tagUpdatePair New] Type] isEqualToString:[STConstantsTagType Figure]])
+    {
+      NSLog(@"before UpdateInlineShapes");
+      [self setValue:@"Updating Inline Shapes" forKey:@"wordFieldUpdateStatus"];
+      [self UpdateInlineShapes:document];
+      NSLog(@"after UpdateInlineShapes");
+    
+    }
+
+    
   }
   @catch (NSException *exception) {
     NSLog(@"%@", exception.reason);
@@ -1098,10 +1117,15 @@ Insert an StatTag field at the currently specified document range.
     // tags that changed.  We do this after the fields are inserted to better manage
     // the cursor position in the document.
     // FIXME: really test this... it's really not clear if this is working.
-    NSArray<STTag*> *theTags = [updatedTags valueForKey:@"Name"];
-    NSOrderedSet<STTag*> *orderedSet = [NSOrderedSet<STTag*> orderedSetWithArray:theTags];
-    NSSet *uniqueTags = [orderedSet set];
+//    NSArray<STTag*> *theTags = [updatedTags valueForKey:@"Name"];
+//    NSOrderedSet<STTag*> *orderedSet = [NSOrderedSet<STTag*> orderedSetWithArray:theTags];
+//    NSSet<STTag*> *uniqueTags = [orderedSet set];
+//    updatedTags = [[NSMutableArray<STTag*> alloc] initWithArray:[uniqueTags allObjects]];
+
+    NSOrderedSet<STTag*> *orderedSet = [NSOrderedSet<STTag*> orderedSetWithArray:updatedTags];
+    NSSet<STTag*> *uniqueTags = [orderedSet set];
     updatedTags = [[NSMutableArray<STTag*> alloc] initWithArray:[uniqueTags allObjects]];
+
     for (STTag* updatedTag in updatedTags)
     {
       [self UpdateFields:[[STUpdatePair alloc] init:updatedTag newItem:updatedTag]];

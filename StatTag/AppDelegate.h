@@ -30,6 +30,9 @@
 
 @property (weak) NSWindow* window;
 
+@property (weak) IBOutlet NSView *dockTileView;
+
+-(void)update;
 //-(BOOL)enablePreferences;
 
 @end

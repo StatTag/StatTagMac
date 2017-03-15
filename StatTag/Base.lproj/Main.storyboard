@@ -644,13 +644,13 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="StatTag" id="jyw-eE-GGc">
                                     <items>
-                                        <menuItem title="Install Word Support" id="Uyr-KU-5Ko">
+                                        <menuItem title="Install Word Toolbar" id="Uyr-KU-5Ko">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="installWordMacros:" target="Voe-Tx-rLC" id="ZjI-aU-el6"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Remove Word Support" id="cce-JP-r1O">
+                                        <menuItem title="Remove Word Toolbar" id="cce-JP-r1O">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="removeWordMacros:" target="Voe-Tx-rLC" id="GD9-Dc-q03"/>
@@ -677,9 +677,17 @@
                         <outlet property="delegate" destination="Voe-Tx-rLC" id="PrD-fu-P6m"/>
                     </connections>
                 </application>
-                <customObject id="Voe-Tx-rLC" customClass="AppDelegate"/>
+                <customObject id="Voe-Tx-rLC" customClass="AppDelegate">
+                    <connections>
+                        <outlet property="dockTileView" destination="thf-M7-Qem" id="dOg-zg-scR"/>
+                    </connections>
+                </customObject>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <userDefaultsController representsSharedInstance="YES" id="JsZ-7c-bDm"/>
+                <customView id="thf-M7-Qem">
+                    <rect key="frame" x="0.0" y="0.0" width="163" height="96"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                </customView>
             </objects>
             <point key="canvasLocation" x="75" y="-103"/>
         </scene>
