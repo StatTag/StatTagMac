@@ -33,6 +33,8 @@
 -(NSNumber*)insertParagraphAtRangeStart:(NSNumber*)rangeStart andRangeEnd:(NSNumber*)rangeEnd;
 -(NSNumber*)updateAllFields;
 
+-(void)setActiveDocumentByDocName:(NSString*)theName;
+
 //-(void)disableScreenUpdates;
 //-(void)enableScreenUpdates;
 

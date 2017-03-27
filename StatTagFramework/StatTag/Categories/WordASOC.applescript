@@ -204,13 +204,13 @@ script WordASOC
   end getFieldDataForFieldAtIndex:
   
   
-  
+  (*
   on getFieldDataForFieldAtIndexUsingScript:theIndex
     set theIndex to theIndex as integer
     set myScript to load script ("/Users/ewhitley/Documents/work_other/NU/Word Plugin/_code/StatTag_AppleScripts/STAdditions.scpt" as POSIX file)
     set scriptResult to myScript's getFieldDataForFieldAtIndex(theIndex)
   end getFieldDataForFieldAtIndexUsingScript:
-
+*)
 
   on getFieldDataFileForFieldAtIndex:theIndex
     
@@ -272,5 +272,28 @@ script WordASOC
       return updateFields
     end tell
   end updateAllFields
+
+
+(*
+  on setActiveDocumentByDocPath:thePath
+    set thePath to thePath as string
+  end setActiveDocumentByDocPath:
+*)
+
+  on setActiveDocumentByDocName:theName
+    set theName to theName as string
+    --display dialog theName
+    --activate application "Microsoft Word"
+    tell application "Microsoft Word"
+      set names to name of documents
+      repeat with currentName in names
+        if ((currentName as string) is equal to theName) then
+          activate object document theName
+          return
+        end if
+      end repeat
+    end tell
+  end setActiveDocumentByDocName:
+
 
 end script

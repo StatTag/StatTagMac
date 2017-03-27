@@ -429,4 +429,13 @@ static WordHelpers* sharedInstance = nil;
   }
 }
 
++(void)setActiveDocumentByDocName:(NSString*)theName {
+  [[self class] sharedInstance];
+  WordASOC *asoc = [[NSClassFromString(@"WordASOC") alloc] init];
+  if(theName != nil) {
+    [asoc setActiveDocumentByDocName:theName];
+  }
+}
+
+
 @end

@@ -332,12 +332,15 @@ const NSInteger ShowStata = 3;
                                  userInfo:nil];
   }
   
-  while([Application UtilIsStataFree] == 0) {
+  [Application UtilIsStataFreeEvent];
+  while([Application UtilIsStataFree] == NO) {
     [NSThread sleepForTimeInterval:0.1f];
   }
   
+  NSInteger stataErrorCode = [Application UtilStataErrorCode];
+  NSLog(@"stataErrorCode : %ld", stataErrorCode);
+
   if([Parser IsImageExport:command]) {
-    
     
     NSString* imageLocation = [Parser GetImageSaveLocation:command];
     if([imageLocation containsString:[[STStataParser MacroDelimitersCharacters] firstObject]])

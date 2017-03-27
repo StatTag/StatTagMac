@@ -85,6 +85,7 @@
 		3836F5A61D92D07700BF0DD4 /* ManageCodeFilesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3836F5A41D92D07700BF0DD4 /* ManageCodeFilesViewController.xib */; };
 		3836F5A91D92EBCB00BF0DD4 /* MainTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3836F5A81D92EBCB00BF0DD4 /* MainTabViewController.m */; };
 		3836F5AD1D92ED9D00BF0DD4 /* STAppleScript_LoadSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 3836F5AC1D92ED9D00BF0DD4 /* STAppleScript_LoadSettings.m */; };
+		383A27931E800583009379F1 /* sample.txt in Resources */ = {isa = PBXBuildFile; fileRef = 383A27921E800583009379F1 /* sample.txt */; };
 		383F3B981DA679AE0069C78E /* TagPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 383F3B961DA679AE0069C78E /* TagPreviewController.m */; };
 		383F3B991DA679AE0069C78E /* TagPreviewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 383F3B971DA679AE0069C78E /* TagPreviewController.xib */; };
 		383F3B9C1DA684390069C78E /* TagGridView.m in Sources */ = {isa = PBXBuildFile; fileRef = 383F3B9B1DA684390069C78E /* TagGridView.m */; };
@@ -415,6 +416,7 @@
 		3836F5A81D92EBCB00BF0DD4 /* MainTabViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainTabViewController.m; sourceTree = "<group>"; };
 		3836F5AB1D92ED9D00BF0DD4 /* STAppleScript_LoadSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STAppleScript_LoadSettings.h; sourceTree = "<group>"; };
 		3836F5AC1D92ED9D00BF0DD4 /* STAppleScript_LoadSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STAppleScript_LoadSettings.m; sourceTree = "<group>"; };
+		383A27921E800583009379F1 /* sample.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sample.txt; sourceTree = "<group>"; };
 		383F3B951DA679AE0069C78E /* TagPreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagPreviewController.h; sourceTree = "<group>"; };
 		383F3B961DA679AE0069C78E /* TagPreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagPreviewController.m; sourceTree = "<group>"; };
 		383F3B971DA679AE0069C78E /* TagPreviewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TagPreviewController.xib; sourceTree = "<group>"; };
@@ -957,6 +959,14 @@
 			path = "Script Commands";
 			sourceTree = "<group>";
 		};
+		383A27911E800565009379F1 /* IntegrationTests */ = {
+			isa = PBXGroup;
+			children = (
+				383A27921E800583009379F1 /* sample.txt */,
+			);
+			path = IntegrationTests;
+			sourceTree = "<group>";
+		};
 		38516FCC1DF5C712006989BC /* ThirdParty */ = {
 			isa = PBXGroup;
 			children = (
@@ -1244,6 +1254,7 @@
 		38D0C1EC1D1B2503001CC013 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				383A27911E800565009379F1 /* IntegrationTests */,
 				38516FD21DF5D1EA006989BC /* Fixtures */,
 				380A67961D102FFA0045B72B /* TestDestinationTextFile.txt */,
 				382C8D4C1D101CE000FE6878 /* TestSourceTextFile.txt */,
@@ -1520,7 +1531,9 @@
 			buildPhases = (
 				382C8D3D1D101C2700FE6878 /* Sources */,
 				382C8D3E1D101C2700FE6878 /* Frameworks */,
+				383A27951E8161C8009379F1 /* ShellScript */,
 				382C8D3F1D101C2700FE6878 /* Resources */,
+				383A27941E8005A6009379F1 /* ShellScript */,
 				387A0E341D23110100F1FE9C /* CopyFiles */,
 			);
 			buildRules = (
@@ -1639,6 +1652,7 @@
 				38E20E011E09EC5700B524CE /* fake-file.do in Resources */,
 				38E20DF91E09E6D300B524CE /* sample_png.png in Resources */,
 				38516FD81DF5D20A006989BC /* empty.csv in Resources */,
+				383A27931E800583009379F1 /* sample.txt in Resources */,
 				382C8D4D1D101CE000FE6878 /* TestSourceTextFile.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1681,6 +1695,35 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		383A27941E8005A6009379F1 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "echo \"CONFIGURATION_BUILD_DIR = $CONFIGURATION_BUILD_DIR\"\necho \"CONTENTS_FOLDER_PATH = $CONTENTS_FOLDER_PATH\"\nFIND_PATH=\"C:\\Development\\Stats\\Lunch and Launch\"\nNEW_PATH=\"$CONFIGURATION_BUILD_DIR/$CONTENTS_FOLDER_PATH/Resources\"\necho \"FIND_PATH = $FIND_PATH\"\necho \"NEW_PATH = $NEW_PATH\"\nf1=\"sample.txt\"\nf2=\"$CONFIGURATION_BUILD_DIR/$CONTENTS_FOLDER_PATH/Resources/$f1\"\necho \"f2 = $f2\"\nif [ -f $f2 ]; then\nsed -i \"\" -e \"s|thing1:|$NEW_PATH|\" \"$f2\"\nelse\necho \"File not found: $f2\"\nfi";
+		};
+		383A27951E8161C8009379F1 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "echo \"CONTENTS_FOLDER_PATH = $CONTENTS_FOLDER_PATH\"\necho \"SRCROOT = $SRCROOT\"\nfind \"${SRCROOT}/StatTagFrameworkTests/IntegrationTests/$1\" -type f -print0 | xargs -0 touch";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		382C8D1E1D0F672F00FE6878 /* Sources */ = {

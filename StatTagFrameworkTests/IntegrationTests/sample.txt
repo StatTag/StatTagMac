@@ -1,0 +1,18 @@
+***************************************************************
+*** Program Name: Stata Example.do
+***
+*** Notes: This program contains information on the commands used
+*** with Stata to generate output that is compatible with StatTag
+***
+*** Date Created: 5 January, 2017
+***************************************************************
+
+thing1: "Production"
+
+* Use the following line of code to specify where your dataset is, and where any
+*output figures should be saved. This filepath should point to a location on your
+*computer.
+global Path C:\Development\Stats\Lunch and Launch
+
+* Import the dataset
+import delimited "C:\Development\Stats\Lunch and Launch\SampleData.csv", delimiter(comma) varnames(1)

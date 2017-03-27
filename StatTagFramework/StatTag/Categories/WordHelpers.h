@@ -54,4 +54,6 @@
 +(void)selectTextAtRangeStart:(NSInteger)rangeStart andEnd:(NSInteger)rangeEnd;
 +(void)selectTextInRange:(STMSWord2011TextRange*)textRange;
 
++(void)setActiveDocumentByDocName:(NSString*)theName;
+
 @end
