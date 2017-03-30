@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12118"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="TagIndicatorView">
+            <connections>
+                <outlet property="tagImageView" destination="IV8-1e-60i" id="v71-Wz-vaZ"/>
+                <outlet property="tagLabel" destination="QWy-N7-6la" id="xeF-BU-kxn"/>
+                <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="Hz6-mo-xeY">
+            <rect key="frame" x="0.0" y="0.0" width="36" height="20"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="IV8-1e-60i">
+                    <rect key="frame" x="0.0" y="0.0" width="36" height="20"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="20" id="tNW-La-f4j"/>
+                        <constraint firstAttribute="width" constant="36" id="uCG-EM-BEX"/>
+                    </constraints>
+                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="tag_button" id="pfc-c1-897"/>
+                </imageView>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QWy-N7-6la">
+                    <rect key="frame" x="6" y="0.0" width="28" height="17"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="24" id="Gr3-gG-LIM"/>
+                    </constraints>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="0" placeholderString="123" id="Hz9-3N-dfl">
+                        <font key="font" metaFont="smallSystem"/>
+                        <color key="textColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+            </subviews>
+            <constraints>
+                <constraint firstItem="QWy-N7-6la" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" constant="3" id="57O-qj-vJQ"/>
+                <constraint firstAttribute="bottom" secondItem="QWy-N7-6la" secondAttribute="bottom" id="7EJ-1J-mfk"/>
+                <constraint firstAttribute="trailing" secondItem="IV8-1e-60i" secondAttribute="trailing" id="87c-Or-Dm5"/>
+                <constraint firstItem="IV8-1e-60i" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="CAt-Uj-Q2I"/>
+                <constraint firstItem="IV8-1e-60i" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="UYO-dg-zHi"/>
+                <constraint firstAttribute="bottom" secondItem="IV8-1e-60i" secondAttribute="bottom" id="fqq-ok-4KU"/>
+                <constraint firstAttribute="trailing" secondItem="QWy-N7-6la" secondAttribute="trailing" constant="4" id="uut-FH-0gc"/>
+            </constraints>
+        </customView>
+    </objects>
+    <resources>
+        <image name="tag_button" width="494" height="223"/>
+    </resources>
+</document>

@@ -55,5 +55,6 @@
 +(void)selectTextInRange:(STMSWord2011TextRange*)textRange;
 
 +(void)setActiveDocumentByDocName:(NSString*)theName;
++(NSString*)getActiveDocumentName;
 
 @end

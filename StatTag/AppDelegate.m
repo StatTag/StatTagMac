@@ -33,6 +33,9 @@
 
 @implementation AppDelegate
 
+@synthesize preferencesWindowController = _preferencesWindowController;
+@synthesize aboutWindowController = _aboutWindowController;
+
 //@synthesize manager = _manager;
 //@synthesize doc = _doc;
 //@synthesize app = _app;
@@ -49,11 +52,25 @@
 //http://stackoverflow.com/questions/24193238/appdelegate-for-cocoa-app-using-storyboards-in-xcode-6/24543911#24543911
 //http://stackoverflow.com/questions/30492512/reference-outlet-to-main-nswindow-in-appdelegate-osx
 
+-(instancetype)init
+{
+  self = [super init];
+  if(self)
+  {
+    [self runStatTagWithDocumentBrowser];
+  }
+  return self;
+}
 
+-(void)applicationWillFinishLaunching:(NSNotification *)notification
+{
+}
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 
-  
+//  [self runStatTagWithDocumentBrowser];
+
+/*
   _window = [[[NSApplication sharedApplication] windows] firstObject];
   [[StatTagShared sharedInstance] setWindow:_window];
   [[StatTagShared sharedInstance] initializeWordViews];
@@ -65,7 +82,7 @@
   {
     [MacroInstallerUtility installMacros];
   }
-
+*/
   
   //NSDockTile* dockTile = [[NSApplication sharedApplication] dockTile];
   //[self animateDockTileStart];
@@ -86,8 +103,29 @@
   
 }
 
+-(void)runStatTagWithDocumentBrowser
+{
+  [[StatTagShared sharedInstance] configureBasicProperties];
+}
+-(void)runStatTagWithTabs
+{
+  _window = [[[NSApplication sharedApplication] windows] firstObject];
+  [[StatTagShared sharedInstance] setWindow:_window];
+  [[StatTagShared sharedInstance] initializeWordViews];
+  
+  [AppEventListener startListening];
+  //[[StatTagShared sharedInstance] logAppStartup];
+  
+  if([[StatTagShared sharedInstance] isFirstLaunch])
+  {
+    [MacroInstallerUtility installMacros];
+  }
+}
+
 - (void)applicationDidBecomeActive:(NSNotification *)notification{
   //Posted immediately after the app becomes active.
+  //we're going to check to see if word is active + our active word document collection, etc. here
+  //we're going to replace the active polling method
 }
 
 - (void)applicationDidResignActive:(NSNotification *)notification {
@@ -108,15 +146,50 @@
 
 //FIXME: not yet implemented
 -(IBAction)openPreferences:(id)sender {
+  [self openPreferences];
+}
+
+-(void)openPreferences {
   //https://developer.apple.com/library/content/qa/qa1552/_index.html
-  if (![[StatTagShared sharedInstance] settingsViewController])
-  {
-   // SettingsViewController* _settingsVC = [[SettingsViewController alloc] init];
-  } else {
-    //[[StatTagShared sharedInstance] settingsViewController] showW
-    //[[[StatTagShared sharedInstance] settingsViewController] showWindow:self];
-  }
+  //  if (![[StatTagShared sharedInstance] settingsViewController])
+  //  {
+  //   // SettingsViewController* _settingsVC = [[SettingsViewController alloc] init];
+  //  } else {
+  //    //[[StatTagShared sharedInstance] settingsViewController] showW
+  //    //[[[StatTagShared sharedInstance] settingsViewController] showWindow:self];
+  //  }
+  NSStoryboard *storyBoard = [NSStoryboard storyboardWithName:@"Main" bundle:nil]; // get a reference to the storyboard
+  self.preferencesWindowController = [storyBoard instantiateControllerWithIdentifier:@"preferencesWindowController"]; // instantiate your window controller
+  
+  SettingsViewController* settings = (SettingsViewController*)self.preferencesWindowController.contentViewController;
+  
+  StatTagShared* shared = [StatTagShared sharedInstance];
+  settings.propertiesManager = [shared propertiesManager];
+  settings.logManager = [shared logManager];
+  [[settings propertiesManager] Load];
+  settings.properties = [[shared propertiesManager] Properties]; //just for setup
+  
+  [[self preferencesWindowController] showWindow:self]; // show the window
+  
+  
   NSLog(@"open preferences");
+}
+
+
+-(IBAction)openAboutWindow:(id)sender {
+  [self openAboutWindow];
+}
+
+-(void)openAboutWindow
+{
+  NSStoryboard *storyBoard = [NSStoryboard storyboardWithName:@"Main" bundle:nil]; // get a reference to the storyboard
+  self.aboutWindowController = [storyBoard instantiateControllerWithIdentifier:@"aboutWindowController"]; // instantiate your window controller
+  [[self aboutWindowController] contentViewController];
+  
+  [[self aboutWindowController] showWindow:self]; // show the window
+  
+  NSLog(@"open about");
+
 }
 
 - (IBAction)installWordMacros:(id)sender {

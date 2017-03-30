@@ -264,6 +264,11 @@
 }
 
 -(void)setWithDictionary:(NSDictionary*)dict {
+  if(dict == nil || [dict isKindOfClass:[[NSNull null] class]])
+  {
+    return;
+  }
+
   for (NSString* key in dict) {
     //    if([key isEqualToString:@"FilePath"]) {
     //      [self setValue:[NSURL fileURLWithPath:[dict valueForKey:key]] forKey:key];
@@ -300,7 +305,10 @@
 {
   self = [super init];
   if (self) {
-    [self setWithDictionary:dict];
+    if(dict != nil  && ![dict isKindOfClass:[[NSNull null] class]])
+    {
+      [self setWithDictionary:dict];
+    }
   }
   return self;
 }

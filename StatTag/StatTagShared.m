@@ -69,6 +69,20 @@ static StatTagShared *sharedInstance = nil;
   return self;
 }
 
+-(STMSWord2011Document*)doc
+{
+  STMSWord2011Document* d = _doc;
+  if(_doc == nil)
+  {
+    d = [[[StatTagShared sharedInstance] app] activeDocument];
+    _doc = d;
+  }
+  return _doc;
+}
+-(void)setDoc:(STMSWord2011Document *)doc
+{
+  _doc = doc;
+}
 
 + (NSColor*)colorFromRGBRed:(CGFloat)r  green:(CGFloat)g blue:(CGFloat)b alpha:(CGFloat)a
 {
@@ -82,7 +96,28 @@ static StatTagShared *sharedInstance = nil;
   return [NSColor colorWithCalibratedRed:rFloat green:gFloat blue:bFloat alpha:a];
 }
 
+-(void)configureBasicProperties
+{
+  StatTagShared* shared = [StatTagShared sharedInstance];
 
+  //set up some of our shared stattag stuff
+  shared.app= [[[STGlobals sharedInstance] ThisAddIn] Application];
+  shared.doc = [[shared app] activeDocument]; //this will be problematic ongoing when we open / close documents, etc.
+  shared.docManager = [[STDocumentManager alloc] init];
+  
+  shared.logManager = [[STLogManager alloc] init];
+  shared.propertiesManager = [[STPropertiesManager alloc] init];
+  
+  [[shared propertiesManager] Load];
+  //self.properties = [[self propertiesManager] Properties]; //just for setup
+  
+  shared.logManager.Enabled = shared.propertiesManager.Properties.EnableLogging;
+  if(shared.propertiesManager.Properties.LogLocation != nil)
+  {
+    shared.logManager.LogFilePath = [NSURL fileURLWithPath:shared.propertiesManager.Properties.LogLocation];
+  }
+
+}
 
 -(void)initializeWordViews
 {

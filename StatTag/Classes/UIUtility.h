@@ -15,4 +15,6 @@
 
 +(NSObject<STIResultCommandList>*)GetResultCommandList:(STCodeFile*)file resultType:(NSString*)resultType;
 
++(void)setHyperlink:(NSURL*)url withTitle:(NSString*)title inTextField:(NSTextField*)inTextField;
+
 @end

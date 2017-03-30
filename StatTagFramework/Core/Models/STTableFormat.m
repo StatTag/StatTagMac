@@ -137,6 +137,11 @@
 }
 
 -(void)setWithDictionary:(NSDictionary*)dict {
+  if(dict == nil || [dict isKindOfClass:[[NSNull null] class]])
+  {
+    return;
+  }
+
   for (NSString* key in dict) {
     [self setValue:[dict valueForKey:key] forKey:key];
   }
@@ -167,7 +172,10 @@
 {
   self = [super init];
   if (self) {
-    [self setWithDictionary:dict];
+    if(dict != nil  && ![dict isKindOfClass:[[NSNull null] class]])
+    {
+      [self setWithDictionary:dict];
+    }
   }
   return self;
 }

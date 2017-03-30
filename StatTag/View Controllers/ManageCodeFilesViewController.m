@@ -23,7 +23,7 @@
 @synthesize codeFiles = _codeFiles;
 @synthesize documentManager = _documentManager;
 
-NSString* const allowedExtensions_CodeFiles = @"do/DO";
+
 
 
 - (void)viewDidLoad {

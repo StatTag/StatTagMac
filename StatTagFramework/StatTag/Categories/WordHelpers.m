@@ -437,5 +437,12 @@ static WordHelpers* sharedInstance = nil;
   }
 }
 
++(NSString*)getActiveDocumentName {
+  //@autoreleasepool {
+  STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
+  STMSWord2011Document* doc = [app activeDocument];
+  return [doc name];
+}
+
 
 @end

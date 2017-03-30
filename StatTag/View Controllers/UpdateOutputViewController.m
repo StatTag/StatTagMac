@@ -90,6 +90,41 @@ BOOL breakLoop = YES;
   [[[StatTagShared sharedInstance] window] makeFirstResponder:[self tableViewOnDemand]];
 }
 
+-(void)loadTagsForCodeFiles:(NSArray<STCodeFile*>*)codeFiles {
+  [_documentManager LoadCodeFileListFromDocument:[[StatTagShared sharedInstance] doc]];
+  
+  for(STCodeFile* file in [_documentManager GetCodeFileList]) {
+    [file LoadTagsFromContent];
+  }
+
+//  for(STCodeFile* file in codeFiles) {
+//    [file LoadTagsFromContent];
+//  }
+  
+  //FIXME: we should probably check these aginst the list of code files to be safe
+  if([codeFiles count] > 0) {
+    [[self addTagButton] setEnabled:YES];
+  } else {
+    [[self addTagButton] setEnabled:NO];
+  }
+  NSMutableArray<STTag*>* allTags = [[NSMutableArray<STTag*> alloc] initWithArray:[_documentManager GetTags]];
+  NSMutableArray<STTag*>* filteredTags = [[NSMutableArray<STTag*> alloc] init];
+  //FIXME: do this without loops - just do a filtered array
+  //for now, validating
+  for(STTag* t in allTags)
+  {
+    for(STCodeFile* f in codeFiles)
+    {
+      if([[f FilePath] isEqualToString:[[t CodeFile] FilePath]])
+      {
+        [filteredTags addObject:t];
+      }      
+    }
+  }
+  
+  [self setDocumentTags:filteredTags];
+}
+
 -(void)loadAllTags {
   [_documentManager LoadCodeFileListFromDocument:[[StatTagShared sharedInstance] doc]];
   
@@ -136,6 +171,30 @@ BOOL breakLoop = YES;
   return nil;
 }
 
+/**
+ This is used by the external AppleScript interface to select a tag
+ We then use it immediately after to (likely) fire the tag UI
+ */
+- (STTag*)selectTagWithID:(NSString*)tagID {
+  
+  STTag* tag = nil;
+  NSPredicate *predicate = [NSPredicate predicateWithFormat:@"Id == %@", tagID];
+  NSArray *filteredArray = [[onDemandTags arrangedObjects] filteredArrayUsingPredicate:predicate];
+  tag =  filteredArray.count > 0 ? filteredArray.firstObject : nil;
+  
+  if(tag != nil)
+  {
+    NSInteger tagIndex=[[onDemandTags arrangedObjects] indexOfObject:tag];
+    if(NSNotFound == tagIndex) {
+      NSLog(@"selectTagWithID couldn't find tag '%@' in onDemandTags", [tag Name]);
+    } else {
+      [onDemandTags setSelectionIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(tagIndex, 1)]];
+      return tag;
+    }
+  }
+  return nil;
+}
+
 
 - (IBAction)selectOnDemandNone:(id)sender {
   [onDemandTags setSelectionIndexes:[NSIndexSet indexSet]];
@@ -151,6 +210,9 @@ BOOL breakLoop = YES;
   [self startRefreshingFieldsWithModalController:NO];
 }
 - (void)startRefreshingFieldsWithModalController:(BOOL)insert {
+  
+  [[NSNotificationCenter defaultCenter] postNotificationName:@"tagInsertRefreshStarted" object:self userInfo:nil];
+
   if (tagUpdateProgressController == nil)
   {
     tagUpdateProgressController = [[UpdateOutputProgressViewController alloc] init];
@@ -164,7 +226,7 @@ BOOL breakLoop = YES;
   [self presentViewControllerAsSheet:tagUpdateProgressController];
 }
 
-- (void)dismissUpdateOutputProgressController:(UpdateOutputProgressViewController *)controller withReturnCode:(StatTagResponseState)returnCode {
+- (void)dismissUpdateOutputProgressController:(UpdateOutputProgressViewController *)controller withReturnCode:(StatTagResponseState)returnCode andFailedTags:(NSArray<STTag *> *)failedTags {
   //FIXME: need to handle errors from worker sheet
   [self dismissViewController:controller];
   if(returnCode == OK) {
@@ -172,6 +234,38 @@ BOOL breakLoop = YES;
     [self willChangeValueForKey:@"documentTags"];
     [self didChangeValueForKey:@"documentTags"];
   }
+  
+  if([failedTags count] > 0)
+  {
+    [self alertUserToFailedTags:failedTags];
+  }
+  
+  [[NSNotificationCenter defaultCenter] postNotificationName:@"tagInsertRefreshCompleted" object:self userInfo:nil];
+}
+
+-(void)alertUserToFailedTags:(NSArray<STTag*>*)failedTags
+{
+  //we should really fix how this all works
+  NSLog(@"failed tags : %@", failedTags);
+  
+  NSAlert *alert = [[NSAlert alloc] init];
+  [alert setMessageText:@"Not All Tags Could be Processed"];
+  
+  NSMutableString* content = [[NSMutableString alloc] initWithString:@"StatTag could not run the following tags\n"];
+  for(STTag* t in failedTags)
+  {
+    [content appendString:[NSString stringWithFormat:@"•\t%@ (%@)\n", [t Name], [[t CodeFile] FileName] ]];
+  }
+  [content appendString:@"\nPlease try running your code file(s) directly in their respective statistical programs. Look for any warnings or errors that might prevent successful completion."];
+ 
+  [alert setInformativeText:content];
+
+  [alert setAlertStyle:NSWarningAlertStyle];
+  [alert addButtonWithTitle:@"OK"];
+  [alert beginSheetModalForWindow:[[self view] window] completionHandler:^(NSModalResponse returnCode) {
+  }];
+
+  
 }
 
 - (IBAction)insertTagIntoDocument:(id)sender {

@@ -14,6 +14,7 @@
 //@class STDocumentManager;
 //@class ManageCodeFilesViewController;
 
+
 @interface AppDelegate : NSObject <NSApplicationDelegate> {
 //  MainTabViewController* _mainVC;
 //  STMSWord2011Application* _app;
@@ -26,13 +27,18 @@
 //@property (strong, nonatomic) STDocumentManager* manager;
 //
 //@property (strong, nonatomic) MainTabViewController* mainVC; //weak?
+@property NSWindowController *preferencesWindowController;
+@property NSWindowController *aboutWindowController;
 
 
 @property (weak) NSWindow* window;
 
 @property (weak) IBOutlet NSView *dockTileView;
 
--(void)update;
+-(void)openPreferences;
+-(void)openAboutWindow;
+
+//-(void)update;
 //-(BOOL)enablePreferences;
 
 @end

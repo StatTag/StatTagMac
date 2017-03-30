@@ -26,17 +26,89 @@
 //http://stackoverflow.com/questions/37194835/making-cocoa-application-scriptable-swift
 //then open the main storyboard
 // you'll find the tab controller - inside of it, each tab can be assigned an identifier - that's what you're looking for
+//
+//@implementation STAppleScript_OpenSettings
+//
+//-(id)performDefaultImplementation {
+//
+//  StatTagShared* shared = [StatTagShared sharedInstance];
+////  [[[shared mainVC] tabView] selectTabViewItemAtIndex:(StatTagTabIndexes)ManageCodeFiles];
+//
+//  [[[shared mainVC] tabView] selectTabViewItemWithIdentifier:@"Settings"];
+//  
+//  //https://forums.developer.apple.com/thread/9991
+//  
+//  return nil;
+//}
+//@end
+//
+//
+//@implementation STAppleScript_OpenManageCodeFiles
+//
+//-(id)performDefaultImplementation {
+//  
+//  StatTagShared* shared = [StatTagShared sharedInstance];
+//  //  [[[shared mainVC] tabView] selectTabViewItemAtIndex:(StatTagTabIndexes)ManageCodeFiles];
+//  
+//  [[[shared mainVC] tabView] selectTabViewItemWithIdentifier:@"ManageCodeFiles"];
+//  
+//  //https://forums.developer.apple.com/thread/9991
+//  
+//  return nil;
+//}
+//@end
+//
+//
+//@implementation STAppleScript_UpdateFields
+//
+//-(id)performDefaultImplementation {
+//  StatTagShared* shared = [StatTagShared sharedInstance];
+//  [[[shared mainVC] tabView] selectTabViewItemWithIdentifier:@"UpdateOutput"];
+//  
+//  //if a tag argument was sent in...
+//  //let's now see if we can find the tag by name/id and open it
+//  NSDictionary<NSString*, id>* args = [self evaluatedArguments];
+//  NSLog(@"UpdateOutput: num args -> %ld", [args count]);
+//  NSString* keys = [[args allKeys] componentsJoinedByString:@","];
+//  NSLog(@"UpdateOutput: keys ->%@", keys);
+//  //NSLog(@"UpdateOutput: keys ->%@", [args allKeys]);
+//  
+//  //1) detect the tags in the current document
+//  //2) match the tag (if possible)
+//  //3) if the tag is matched, select it in the table
+//  //4) open the UI for the tag editor
+//  NSString* tagName = [[self evaluatedArguments] valueForKey:@"TagName"];
+//  STTag* tag = [[[StatTagShared sharedInstance] tagsViewController] selectTagWithName:tagName];
+//  NSLog(@"tag name : %@", [tag Name]);
+//  if(tag != nil)
+//  {
+//    [[[StatTagShared sharedInstance] tagsViewController] editTag:nil];
+//  }
+//  
+//  NSLog(@"%@", args);
+//  
+//  return nil;
+//}
+//@end
+
 
 @implementation STAppleScript_OpenSettings
 
 -(id)performDefaultImplementation {
 
-  StatTagShared* shared = [StatTagShared sharedInstance];
-//  [[[shared mainVC] tabView] selectTabViewItemAtIndex:(StatTagTabIndexes)ManageCodeFiles];
-
-  [[[shared mainVC] tabView] selectTabViewItemWithIdentifier:@"Settings"];
+  AppDelegate* appDelegate = (AppDelegate*)[[NSApplication sharedApplication] delegate];
+  [appDelegate openPreferences];
   
-  //https://forums.developer.apple.com/thread/9991
+  return nil;
+}
+@end
+
+@implementation STAppleScript_OpenAbout
+
+-(id)performDefaultImplementation {
+  
+  AppDelegate* appDelegate = (AppDelegate*)[[NSApplication sharedApplication] delegate];
+  [appDelegate openAboutWindow];
   
   return nil;
 }
@@ -46,25 +118,31 @@
 @implementation STAppleScript_OpenManageCodeFiles
 
 -(id)performDefaultImplementation {
-  
-  StatTagShared* shared = [StatTagShared sharedInstance];
-  //  [[[shared mainVC] tabView] selectTabViewItemAtIndex:(StatTagTabIndexes)ManageCodeFiles];
-  
-  [[[shared mainVC] tabView] selectTabViewItemWithIdentifier:@"ManageCodeFiles"];
-  
-  //https://forums.developer.apple.com/thread/9991
+
+  //set the active document to the current document on screen
+  //we don't need to do anything past that because the code file list will display in the code file panel
+  [[NSNotificationCenter defaultCenter] postNotificationName:@"activeDocumentDidChange" object:self userInfo:nil];
   
   return nil;
 }
 @end
 
+@implementation STAppleScript_OpenManageTags
+
+-(id)performDefaultImplementation {
+  //activate the document
+  //select "all tags"
+  
+  //we choose "all tags" by default when we load the content
+  [[NSNotificationCenter defaultCenter] postNotificationName:@"activeDocumentDidChange" object:self userInfo:nil];
+
+  return nil;
+}
+@end
 
 @implementation STAppleScript_UpdateFields
 
 -(id)performDefaultImplementation {
-  StatTagShared* shared = [StatTagShared sharedInstance];
-  [[[shared mainVC] tabView] selectTabViewItemWithIdentifier:@"UpdateOutput"];
-  
   //if a tag argument was sent in...
   //let's now see if we can find the tag by name/id and open it
   NSDictionary<NSString*, id>* args = [self evaluatedArguments];
@@ -78,16 +156,16 @@
   //3) if the tag is matched, select it in the table
   //4) open the UI for the tag editor
   NSString* tagName = [[self evaluatedArguments] valueForKey:@"TagName"];
-  STTag* tag = [[[StatTagShared sharedInstance] tagsViewController] selectTagWithName:tagName];
-  NSLog(@"tag name : %@", [tag Name]);
-  if(tag != nil)
+  NSString* tagID = [[self evaluatedArguments] valueForKey:@"TagID"];
+  
+  NSDictionary* userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:tagName, @"TagName", tagID, @"TagID", nil];
+  
+  if(tagName != nil)
   {
-    [[[StatTagShared sharedInstance] tagsViewController] editTag:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"activeTagDidChange" object:self userInfo:userInfo];
   }
   
-  NSLog(@"%@", args);
   
   return nil;
 }
 @end
-

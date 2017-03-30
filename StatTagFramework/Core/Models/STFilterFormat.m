@@ -223,7 +223,10 @@ NSString* const InvalidFilterExceptionMessage = @"The filter value is invalid.  
 {
   self = [super init];
   if (self) {
-    [self setWithDictionary:dict];
+    if(dict != nil  && ![dict isKindOfClass:[[NSNull null] class]])
+    {
+      [self setWithDictionary:dict];
+    }
   }
   return self;
 }

@@ -8,6 +8,8 @@
 
 #import "UIUtility.h"
 #import <StatTagFramework/StatTagFramework.h>
+#import "NSAttributedString+Hyperlink.h"
+
 
 @implementation UIUtility
 
@@ -35,6 +37,24 @@
   }
 
   return nil;
+}
+
+
+
+//https://developer.apple.com/library/content/qa/qa1487/_index.html
++(void)setHyperlink:(NSURL*)url withTitle:(NSString*)title inTextField:(NSTextField*)inTextField
+{
+  // both are needed, otherwise hyperlink won't accept mousedown
+  [inTextField setAllowsEditingTextAttributes: YES];
+  [inTextField setSelectable: YES];
+  
+  //NSURL* url = [NSURL URLWithString:@"http://www.apple.com"];
+  
+  NSMutableAttributedString* string = [[NSMutableAttributedString alloc] init];
+  [string appendAttributedString: [NSAttributedString hyperlinkFromString:title withURL:url]];
+  
+  // set the attributed string to the NSTextField
+  [inTextField setAttributedStringValue: string];
 }
 
 

@@ -223,10 +223,13 @@ const NSInteger RefreshStepInterval = 5;
       {
         if(![currentTagName isEqualToString:previousTagName])
         {
+          bool no_result = [[tag FormattedResult] isEqualToString:[STConstantsPlaceholders EmptyField]];
+          
           dispatch_async(dispatch_get_main_queue(), ^{
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"tagUpdateComplete" object:self userInfo:@{@"tagName":currentTagName, @"codeFileName":[[[step Tag] CodeFile] FileName], @"type" : @"tag"}];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"tagUpdateComplete" object:self userInfo:@{@"tagName":currentTagName, @"tagID":[[step Tag] Id], @"codeFileName":[[[step Tag] CodeFile] FileName], @"type" : @"tag", @"no_result" : [NSNumber numberWithBool:no_result]}];
           });
           previousTagName = [NSString stringWithString:currentTagName];
+          
           //currentTagName = [[step Tag] Name];
         }
       }

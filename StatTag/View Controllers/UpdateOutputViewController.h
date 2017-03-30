@@ -64,6 +64,9 @@ IB_DESIGNABLE
 - (STTag*)selectTagWithName:(NSString*)tagName;
 - (IBAction)editTag:(id)sender;
 
+-(void)loadAllTags;
+-(void)loadTagsForCodeFiles:(NSArray<STCodeFile*>*)codeFiles;
+
 //-(BOOL)enableAddTagButton;
 //-(BOOL)enableRemoveTagButton;
 

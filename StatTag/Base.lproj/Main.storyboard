@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12118"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -18,7 +18,7 @@
                                         <menuItem title="About StatTag" id="5kV-Vb-QxS">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
-                                                <action selector="orderFrontStandardAboutPanel:" target="Ady-hI-5gd" id="Exp-CZ-Vem"/>
+                                                <action selector="openAboutWindow:" target="Voe-Tx-rLC" id="zPc-q7-GNm"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="VOq-y0-SEH"/>
@@ -691,6 +691,68 @@
             </objects>
             <point key="canvasLocation" x="75" y="-103"/>
         </scene>
+        <!--About Window Controller-->
+        <scene sceneID="5c8-j1-Ond">
+            <objects>
+                <windowController storyboardIdentifier="aboutWindowController" id="W7G-iM-ke7" userLabel="About Window Controller" sceneMemberID="viewController">
+                    <window key="window" title="About StatTag" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="xh5-sd-8MC">
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
+                        <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+                        <rect key="contentRect" x="196" y="240" width="480" height="270"/>
+                        <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
+                    </window>
+                    <connections>
+                        <segue destination="rbg-pG-S9r" kind="relationship" relationship="window.shadowedContentViewController" id="onL-Z6-w62"/>
+                    </connections>
+                </windowController>
+                <customObject id="4WQ-V2-TPq" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1316" y="550"/>
+        </scene>
+        <!--Preferences Window Controller-->
+        <scene sceneID="djk-k8-MhS">
+            <objects>
+                <windowController storyboardIdentifier="preferencesWindowController" id="ECo-6X-mpQ" userLabel="Preferences Window Controller" sceneMemberID="viewController">
+                    <window key="window" title="Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="vZv-cd-bXu" userLabel="WIndow">
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+                        <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+                        <rect key="contentRect" x="196" y="240" width="480" height="270"/>
+                        <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
+                    </window>
+                    <connections>
+                        <segue destination="Vix-qB-mqC" kind="relationship" relationship="window.shadowedContentViewController" id="Pjo-14-PgI"/>
+                    </connections>
+                </windowController>
+                <customObject id="3BB-vw-vkV" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1561" y="925"/>
+        </scene>
+        <!--Settings View Controller-->
+        <scene sceneID="HSq-7s-Ahd">
+            <objects>
+                <viewController id="Vix-qB-mqC" customClass="SettingsViewController" sceneMemberID="viewController">
+                    <view key="view" id="FEc-c7-i1q">
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </view>
+                </viewController>
+                <customObject id="VE6-fI-SdI" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1015" y="914"/>
+        </scene>
+        <!--About View Controller-->
+        <scene sceneID="CBq-QX-0ck">
+            <objects>
+                <viewController title="About View Controller" id="rbg-pG-S9r" customClass="AboutViewController" sceneMemberID="viewController">
+                    <view key="view" id="B58-MJ-x2w">
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </view>
+                </viewController>
+                <customObject id="we9-hT-uxe" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-717" y="550"/>
+        </scene>
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">
             <objects>
@@ -702,7 +764,7 @@
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
                     </window>
                     <connections>
-                        <segue destination="QPf-IZ-ApU" kind="relationship" relationship="window.shadowedContentViewController" id="2Oh-2X-P2H"/>
+                        <segue destination="orG-Tx-oXQ" kind="relationship" relationship="window.shadowedContentViewController" id="h3g-b8-ixH"/>
                     </connections>
                 </windowController>
                 <customObject id="Oky-zY-oP4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
@@ -737,6 +799,19 @@
             </objects>
             <point key="canvasLocation" x="75" y="707"/>
         </scene>
+        <!--Document Browser View Controller-->
+        <scene sceneID="5MY-Gi-C9b">
+            <objects>
+                <viewController id="orG-Tx-oXQ" customClass="DocumentBrowserViewController" sceneMemberID="viewController">
+                    <view key="view" id="hTX-cZ-wqO">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </view>
+                </viewController>
+                <customObject id="Mul-a9-Apt" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="632" y="345"/>
+        </scene>
         <!--Stat Tag Needs Word View Controller-->
         <scene sceneID="drC-66-AVK">
             <objects>
@@ -758,7 +833,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2V6-Xb-DKC">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2V6-Xb-DKC">
                                 <rect key="frame" x="234" y="195" width="10" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="1" id="zjS-gK-UtF">
@@ -782,7 +857,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Jf7-Ql-daT">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Jf7-Ql-daT">
                                 <rect key="frame" x="240" y="215" width="12" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="2" id="B7m-Fv-kBg">

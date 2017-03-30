@@ -28,16 +28,16 @@
 }
 -(NSString*)ToString {
   NSCharacterSet *ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
-  if ([[_ValueResult stringByTrimmingCharactersInSet: ws] length] > 0) {
+  if ([_ValueResult isKindOfClass:[NSString class]] && [[_ValueResult stringByTrimmingCharactersInSet: ws] length] > 0) {
     return _ValueResult;
   }
-  if ([[_FigureResult stringByTrimmingCharactersInSet: ws] length] > 0) {
+  if ([_FigureResult isKindOfClass:[NSString class]] && [[_FigureResult stringByTrimmingCharactersInSet: ws] length] > 0) {
     return _FigureResult;
   }
   if(_TableResult != nil){
     return [_TableResult ToString];
   }
-  if (_TableResultPromise != nil && [[_TableResultPromise stringByTrimmingCharactersInSet: ws] length] > 0) {
+  if (_TableResultPromise != nil && [_TableResultPromise isKindOfClass:[NSString class]] && [[_TableResultPromise stringByTrimmingCharactersInSet: ws] length] > 0) {
     return [NSString stringWithFormat:@"Table promise: %@", _TableResultPromise];
   }
   return @"";
@@ -60,13 +60,29 @@
 }
 
 -(void)setWithDictionary:(NSDictionary*)dict {
+  if(dict == nil || [dict isKindOfClass:[[NSNull null] class]])
+  {
+    return;
+  }
+
   for (NSString* key in dict) {
     if([key isEqualToString:@"IsEmpty"]) {
       //skip
     } else if([key isEqualToString:@"TableResult"]) {
       [self setValue:[[STTable alloc] initWithDictionary:[dict valueForKey:key]] forKey:key];
     } else {
-      [self setValue:[dict valueForKey:key] forKey:key];
+      //we may have new / unexpected results - ex: when we got "verbatim" everything blew up
+      @try {
+        id val = [dict valueForKey:key];
+        if(![val isKindOfClass:[[NSNull null] class]])
+        {
+          [self setValue:[dict valueForKey:key] forKey:key];
+        }
+      }
+      @catch (NSException *exception) {
+        NSLog(@"Unable to set '%@' value for key '%@'", [self className], key);
+        NSLog(@"%@", exception.reason);
+      }
     }
   }
 }
@@ -96,7 +112,10 @@
 {
   self = [super init];
   if (self) {
-    [self setWithDictionary:dict];
+    if(dict != nil  && ![dict isKindOfClass:[[NSNull null] class]])
+    {
+      [self setWithDictionary:dict];
+    }
   }
   return self;
 }

@@ -281,6 +281,11 @@ the cached results in another tag.
 }
 
 -(void)setWithDictionary:(NSDictionary*)dict {
+  if(dict == nil || [dict isKindOfClass:[[NSNull null] class]])
+  {
+    return;
+  }
+
   for (NSString* key in dict) {
     if([key isEqualToString:@"FilePath"]) {
       //[self setValue:[[NSURL alloc] initWithString:[dict valueForKey:key]] forKey:key];
@@ -331,7 +336,10 @@ the cached results in another tag.
 {
   self = [super init];
   if (self) {
-    [self setWithDictionary:dict];
+    if(dict != nil  && ![dict isKindOfClass:[[NSNull null] class]])
+    {
+      [self setWithDictionary:dict];
+    }
   }
   return self;
 }

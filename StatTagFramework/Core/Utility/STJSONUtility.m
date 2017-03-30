@@ -216,9 +216,12 @@
   if ([values isKindOfClass:[NSArray class]] && error == nil) {
     for(id d in values) {
       if([d isKindOfClass:[NSDictionary class]]){
-        id file = [[[c class] alloc] initWithDictionary:d];
-        if(file != nil) {
-          [list addObject:file];
+        if(d != nil && ![d isKindOfClass:[[NSNull null] class]])
+        {
+          id file = [[[c class] alloc] initWithDictionary:d];
+          if(file != nil) {
+            [list addObject:file];
+          }
         }
       }
     }

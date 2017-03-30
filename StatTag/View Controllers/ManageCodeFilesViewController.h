@@ -10,6 +10,8 @@
 @class STCodeFile;
 @class STDocumentManager;
 
+static NSString* const allowedExtensions_CodeFiles = @"do/DO";
+
 @interface ManageCodeFilesViewController : NSViewController {
   NSArrayController *arrayController;
   __weak NSTableView *fileTableView;
@@ -21,5 +23,6 @@
 @property (strong) IBOutlet NSArrayController *arrayController;
 @property (strong, nonatomic) NSMutableArray<STCodeFile*>* codeFiles;
 @property (strong, nonatomic) STDocumentManager* documentManager;
+
 
 @end

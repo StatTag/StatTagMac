@@ -41,6 +41,10 @@
 }
 
 -(void)setWithDictionary:(NSDictionary*)dict {
+  if(dict == nil || [dict isKindOfClass:[[NSNull null] class]])
+  {
+    return;
+  }
   for (NSString* key in dict) {
     if([key isEqualToString:@"Parameter"]) {
       //explicitly calling this out because it's currently unclear how we should handle reconstructing this one
@@ -77,7 +81,10 @@
 {
   self = [super init];
   if (self) {
-    [self setWithDictionary:dict];
+    if(dict != nil  && ![dict isKindOfClass:[[NSNull null] class]])
+    {
+      [self setWithDictionary:dict];
+    }
   }
   return self;
 }

@@ -182,6 +182,10 @@ static void *TagTypeContext = &TagTypeContext;
     [marker setSymbol:Background];
 
     if(_tag != nil) {
+      if([[self tag] Name] == nil) {
+        [[self tag] setName:@""];
+      }
+
       if([[self tag] ValueFormat] == nil) {
         [[self tag] setValueFormat:[[STValueFormat alloc] init]];
       }
@@ -225,6 +229,7 @@ static void *TagTypeContext = &TagTypeContext;
       //probably a new tag
       _originalTag = nil;
       
+      [[self tag] setName:@""];
       //create a new tag and set some defaults
       [self setTag:[[STTag alloc] init]];
       [[self tag] setType:[STConstantsTagType Value]];
@@ -361,9 +366,12 @@ static void *TagTypeContext = &TagTypeContext;
   NSError* saveError;
   NSError* saveWarning;
   
-  //FIXME:
-  //if(! [[_tag Name] isEqualToString: [_textBoxTagName stringValue]]  ) {
-  //if(! [[_tag Name] isEqualToString: [_textBoxTagName stringValue]]  ) {
+  NSCharacterSet *ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+  if([[self tag] Name] != nil && [[[[self tag] Name] stringByTrimmingCharactersInSet: ws] length] > 0 )
+  {
+    //FIXME:
+    //if(! [[_tag Name] isEqualToString: [_textBoxTagName stringValue]]  ) {
+    //if(! [[_tag Name] isEqualToString: [_textBoxTagName stringValue]]  ) {
     //the name has been changed - so update it
     //first see if we have a duplicate tag name
     
@@ -384,30 +392,48 @@ static void *TagTypeContext = &TagTypeContext;
           } else {
             //different codefile - we should warn
             NSMutableDictionary *errorDetail = [NSMutableDictionary dictionary];
-            [errorDetail setValue:[NSString stringWithFormat:@"The Tag name %@ is already used in code file %@. Tag names should be unique. You may continue, but it is suggested you use a different name.", [aTag Name], [codeFile FileName]] forKey:NSLocalizedDescriptionKey];
+            [errorDetail setValue:[NSString stringWithFormat:@"The Tag name %@ is already used in code file %@. Tag names should be unique. You may continue, but it is suggested you use a different name.", [aTag Name], [cf FileName]] forKey:NSLocalizedDescriptionKey];
             saveWarning = [NSError errorWithDomain:@"com.stattag.StatTag" code:100 userInfo:errorDetail];
           }
         }
       }
     }
-  //}
+    //}
 
-  NSArray<NSNumber*>* selectedIndices = [self GetSelectedIndices];
-  if([selectedIndices count] == 0)
-  {
-    [[self tag] setLineStart: nil];
-    [[self tag] setLineEnd: nil];
   }
-  else if ([selectedIndices count] == 1)
-  {
-    [[self tag] setLineStart: [selectedIndices firstObject]];
-    [[self tag] setLineEnd: [[self tag] LineStart]];
+  else {
+    NSMutableDictionary *errorDetail;
+    errorDetail = [NSMutableDictionary dictionary];
+    [errorDetail setValue:[NSString stringWithFormat:@"Please supply a tag name"] forKey:NSLocalizedDescriptionKey];
+    saveError = [NSError errorWithDomain:@"com.stattag.StatTag" code:100 userInfo:errorDetail];
+
   }
-  else
+
+  if(saveError == nil)
   {
-    //http://stackoverflow.com/questions/15931112/finding-the-smallest-and-biggest-value-in-nsarray-of-nsnumbers
-    [[self tag] setLineStart:[selectedIndices valueForKeyPath:@"@min.self"]];
-    [[self tag] setLineEnd:[selectedIndices valueForKeyPath:@"@max.self"]];
+    NSArray<NSNumber*>* selectedIndices = [self GetSelectedIndices];
+    if([selectedIndices count] == 0)
+    {
+      [[self tag] setLineStart: nil];
+      [[self tag] setLineEnd: nil];
+      
+      NSMutableDictionary *errorDetail;
+      errorDetail = [NSMutableDictionary dictionary];
+      [errorDetail setValue:[NSString stringWithFormat:@"Please click on the margin of the code viewer to select the lines you would like to use in your tag"] forKey:NSLocalizedDescriptionKey];
+      saveError = [NSError errorWithDomain:@"com.stattag.StatTag" code:100 userInfo:errorDetail];
+      
+    }
+    else if ([selectedIndices count] == 1)
+    {
+      [[self tag] setLineStart: [selectedIndices firstObject]];
+      [[self tag] setLineEnd: [[self tag] LineStart]];
+    }
+    else
+    {
+      //http://stackoverflow.com/questions/15931112/finding-the-smallest-and-biggest-value-in-nsarray-of-nsnumbers
+      [[self tag] setLineStart:[selectedIndices valueForKeyPath:@"@min.self"]];
+      [[self tag] setLineEnd:[selectedIndices valueForKeyPath:@"@max.self"]];
+    }
   }
 
   if(saveError == nil)
@@ -482,6 +508,7 @@ static void *TagTypeContext = &TagTypeContext;
 
 - (void)tagNameDidChange:(TagBasicPropertiesController*)controller {
     [[controller tagNameTextbox] setStringValue: [[[controller tagNameTextbox] stringValue] stringByReplacingOccurrencesOfString:[STConstantsReservedCharacters TagTableCellDelimiter] withString:@""]];
+  _tag.Name = [[controller tagNameTextbox] stringValue];
     //this might be smarter  - right now we actually wind up moving key positions, which is bad
     //http://stackoverflow.com/questions/12161654/restrict-nstextfield-to-only-allow-numbers
 }
@@ -900,6 +927,7 @@ static void *TagTypeContext = &TagTypeContext;
         break;
       case SCN_MODIFIED: //2008
         //NSLog(@"modified");
+        //NSLog(@"notification : %d", notification->modificationType);
         break;
       case SCN_MARGINCLICK: //2010
         //margin -> margin array. 1 = our "gutter" between line #'s and the text block
@@ -928,6 +956,14 @@ static void *TagTypeContext = &TagTypeContext;
 {
   if(notification->margin == TagMargin)
   {
+    //this is going to look terrible (it is), but we're going to reload the helper lines before doing this...
+    //when scintilla is done editing (and I'm not sure how we get that notification) our "Lines" are out of sync w/ the content - so we need to refresh them w/ the latest content in Scintilla
+    //there's VERY likely a better way to do this (or even a better place to put this), but for the moment I'm sticking it here because it's obvious and it fixes an issue where we try to load content from LINES using a Scintilla line index that extends beyond the content bounds
+    // there's an overall "modified" event (SCN_MODIFIED), but we don't want all modifications - just
+    // "modification ended" events
+    [[scintillaHelper Lines] populateLinesFromContent: [_sourceEditor string]];
+    [[scintillaHelper Lines] RebuildLineData];
+
     NSInteger lineIndex = [scintillaHelper LineFromPosition:notification->position];
     //NSLog(@"margin [%ld] was clicked on line : %ld, modifiers: %d", (long)notification->margin, (long)lineIndex, notification->modifiers);
     
@@ -962,8 +998,19 @@ static void *TagTypeContext = &TagTypeContext;
     }
     else
     {
-      
-      NSInteger nextLineIndex = [[[[scintillaHelper Lines] Lines] objectAtIndex:(lineIndex < [[[scintillaHelper Lines] Lines] count] ? lineIndex +1 : lineIndex)] MarkerNext:(1 << TagMarker)];
+      //EWW - "uglifying" this so it's clear what we're doing
+      //also - the positions are off here - so I'm just break-fixing this
+      //if you click on the last line in the editor, it breaks
+      // we should probably evaluate the whole +1 thing and revisit this later
+      NSInteger x = (lineIndex < [[[scintillaHelper Lines] Lines] count] ? lineIndex +1 : lineIndex);
+      if(x > [[[scintillaHelper Lines] Lines] count] - 1)
+      {
+        x = [[[scintillaHelper Lines] Lines] count] - 1;
+      }
+      SCLine* y = [[[scintillaHelper Lines] Lines] objectAtIndex:x];
+      NSInteger nextLineIndex = [y MarkerNext:(1 << TagMarker)];
+
+      //NSInteger nextLineIndex = [[[[scintillaHelper Lines] Lines] objectAtIndex:(lineIndex < [[[scintillaHelper Lines] Lines] count] ? lineIndex +1 : lineIndex)] MarkerNext:(1 << TagMarker)];
 
       if (abs(lineIndex - nextLineIndex) > 1)
       {

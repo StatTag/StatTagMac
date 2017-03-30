@@ -9,14 +9,18 @@
 #import <Foundation/Foundation.h>
 
 @interface STAppleScript_OpenSettings : NSScriptCommand
+@end
 
+@interface STAppleScript_OpenAbout : NSScriptCommand
 @end
 
 @interface STAppleScript_OpenManageCodeFiles : NSScriptCommand
-
 @end
 
-@interface STAppleScript_UpdateFields : NSScriptCommand
+@interface STAppleScript_OpenManageTags : NSScriptCommand
+@end
 
+
+@interface STAppleScript_UpdateFields : NSScriptCommand
 @end
 

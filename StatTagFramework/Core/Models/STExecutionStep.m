@@ -40,6 +40,11 @@
 }
 
 -(void)setWithDictionary:(NSDictionary*)dict {
+  if(dict == nil || [dict isKindOfClass:[[NSNull null] class]])
+  {
+    return;
+  }
+
   for (NSString* key in dict) {
     if([key isEqualToString:@"Tag"]) {
       [self setValue:[[STTag alloc] initWithDictionary:[dict valueForKey:key]] forKey:key];

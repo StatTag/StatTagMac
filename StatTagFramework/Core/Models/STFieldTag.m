@@ -191,6 +191,11 @@
 }
 
 -(void)setWithDictionary:(NSDictionary*)dict {
+  if(dict == nil || [dict isKindOfClass:[[NSNull null] class]])
+  {
+    return;
+  }
+
   [super setWithDictionary:dict];
 //  for (NSString* key in dict) {
 //    if([key isEqualToString:@"FilePath"]) {

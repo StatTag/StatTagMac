@@ -20,6 +20,7 @@
 
 @synthesize documentManager = _documentManager;
 @synthesize tagsToProcess = _tagsToProcess;
+@synthesize failedTags = _failedTags;
 
 @synthesize insert = _insert;
 
@@ -51,7 +52,8 @@
 
   [self setNumTagsCompleted:@0];
   [self setNumTagsToProcess:@0];
-
+  _failedTags = [[NSMutableArray<STTag*> alloc] init];
+  
   [self refreshTagsAsync];
 //  [self refreshTags];
 }
@@ -88,7 +90,7 @@
           [progressIndicator setIndeterminate:YES];
           [progressIndicator stopAnimation:nil];
           [progressText setStringValue:@"Insert complete"];
-          [_delegate dismissUpdateOutputProgressController:self withReturnCode:(StatTagResponseState)OK];
+          [_delegate dismissUpdateOutputProgressController:self withReturnCode:(StatTagResponseState)OK andFailedTags:[self failedTags]];
           return;
         });
       }
@@ -136,7 +138,7 @@
           
           [progressText setStringValue:@"Updates complete"];
           
-          [_delegate dismissUpdateOutputProgressController:self withReturnCode:(StatTagResponseState)OK];
+          [_delegate dismissUpdateOutputProgressController:self withReturnCode:(StatTagResponseState)OK  andFailedTags:[self failedTags]];
         });
       
       }
@@ -147,7 +149,7 @@
         
     }
     @catch (NSException* exc) {
-      [_delegate dismissUpdateOutputProgressController:self withReturnCode:(StatTagResponseState)Error];
+      [_delegate dismissUpdateOutputProgressController:self withReturnCode:(StatTagResponseState)Error andFailedTags:[self failedTags]];
     }
   });
   
@@ -183,7 +185,22 @@
   dispatch_async(dispatch_get_main_queue(), ^{
 
     NSString* tagName = [[notification userInfo] valueForKey:@"tagName"];
+    NSString* tagID = [[notification userInfo] valueForKey:@"tagID"];
     NSLog(@"tagUpdateComplete complete => tag: %@", tagName);
+    bool no_result = [(NSNumber*)[[notification userInfo] valueForKey:@"no_result"] boolValue];
+    //@"no_result" : [NSNumber numberWithBool:no_result]}
+    if(no_result)
+    {
+      NSLog(@"tagUpdateComplete - Failed to process tag : '%@' Id:(%@)", tagName, tagID);
+      //find our tag from the ID
+      for(STTag* t in [self tagsToProcess])
+      {
+        if([[t Id] isEqualToString:tagID])
+        {
+          [[self failedTags] addObject:t];
+        }
+      }
+    }
     
     [self setNumTagsCompleted:[NSNumber numberWithDouble:([[self numTagsCompleted] doubleValue] + 1.0)]];
     if([[self numTagsToProcess] doubleValue] > 0) {

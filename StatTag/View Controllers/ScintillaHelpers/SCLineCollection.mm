@@ -55,7 +55,7 @@ NSInteger stepLength;
   //for(NSString* c in ca) {
   //
   //}
-  long numLines = [[content componentsSeparatedByString:@"\r\n"] count];
+  long numLines = [[content componentsSeparatedByString:@"\n"] count];
   int i;
   _lines = [[NSMutableArray<SCLine*> alloc] init];
   for(i = 0; i < numLines; i ++ ) {

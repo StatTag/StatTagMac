@@ -66,6 +66,7 @@
 @property (strong, nonatomic) NSMutableArray<FileMonitor*>* fileMonitors;
 
 -(void)initializeWordViews;
+-(void)configureBasicProperties;
 
 -(void)saveWindowFrame;
 -(void)restoreWindowFrame;
