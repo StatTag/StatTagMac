@@ -98,10 +98,10 @@
 
 -(void)startObservingAppFocus
 {
-//    [[NSNotificationCenter defaultCenter]addObserver:self
-//                                          selector:@selector(loadDocsAndContent)
-//                                              name:NSApplicationDidBecomeActiveNotification
-//                                            object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self
+                                          selector:@selector(loadDocsAndContent)
+                                              name:NSApplicationDidBecomeActiveNotification
+                                            object:nil];
 }
 -(void)stopObservingAppFocus
 {
