@@ -28,9 +28,9 @@
 - (void)dismissTagEditorController:(TagEditorViewController*)controller withReturnCode:(StatTagResponseState)returnCode;
 @end
 
-@class SCNotification;
+@class STSCNotification;
 @protocol ScintillaNotificationProtocol
-- (void)notification: (SCNotification*)notification;
+- (void)notification: (STSCNotification*)notification;
 @end
 
 
