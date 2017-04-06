@@ -154,7 +154,7 @@
 
 //  [self tableViewSelectionDidChange:[[NSNotification alloc] init]];
   
-  NSString* docName = [WordHelpers getActiveDocumentName];
+  NSString* docName = [WordHelpers getActiveDocumentName];// stringByReplacingOccurrencesOfString:@" [Compatibility Mode]" withString:@""];
   
   if(![[[[self documentsArrayController] selectedObjects] firstObject] isEqualToString:docName])
   {
@@ -342,7 +342,7 @@
   {
     if([w document] != nil)
     {
-      [current_word_doc_names addObject:[w name]];
+      [current_word_doc_names addObject:[[w document ] name] ]; //stringByReplacingOccurrencesOfString:@" [Compatibility Mode]" withString:@""]];
     }
   }
   

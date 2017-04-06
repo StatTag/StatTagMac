@@ -285,15 +285,15 @@ script WordASOC
     --display dialog theName
     --activate application "Microsoft Word"
     tell application "Microsoft Word"
-      set names to name of windows
-      repeat with currentName in names
-        set aDocument to document named currentName
-        set thisDocName to name of aDocument
-        if ((currentName as string) is equal to thisDocName) then
+      --set names to name of windows
+      --repeat with currentName in names
+      --  set aDocument to document named currentName
+      --  set thisDocName to name of aDocument
+      --  if ((currentName as string) is equal to thisDocName) then
           activate object document theName
-          return
-        end if
-      end repeat
+      --    return
+      --  end if
+      --end repeat
     end tell
   end setActiveDocumentByDocName:
 
