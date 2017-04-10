@@ -48,8 +48,27 @@
 }
 
 -(NSString*)FileName {
-  return [[self FilePathURL] lastPathComponent];
+  NSString* fileName = [[self FilePath] lastPathComponent];
+  if([fileName isEqualToString:[self FilePath]])
+  {
+    //may be a Windows path
+    // I get valid URLs back from these, but can't pluck out just the file name
+    // It's flagged as a valid file URL, but the file name can't be pulled out
+    // can't determine the best way to approach this, so I'm going to try a quick work-around
+    fileName = [[[self FilePath] componentsSeparatedByString:@"\\"] lastObject];
+  }
+  return fileName;
 }
+
+-(NSString*)DirectoryPathString {
+  NSString* folderPath = [self FilePath];
+  NSRange lastFileNamePosition = [[self FilePath] rangeOfString:[self FileName] options:NSBackwardsSearch];
+  if(lastFileNamePosition.location != NSNotFound) {
+    folderPath = [folderPath stringByReplacingCharactersInRange:lastFileNamePosition withString:@""];
+  }
+  return folderPath;
+}
+
 
 -(void)setStatisticalPackage:(NSString *)StatisticalPackage {
   _StatisticalPackage = StatisticalPackage;

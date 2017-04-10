@@ -7,18 +7,37 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "TagIndicatorView.h"
+//#import "TagIndicatorView.h"
+
+typedef enum {
+  TagIndicatorViewTagStyleNormal,
+  TagIndicatorViewTagStyleWarning,
+  TagIndicatorViewTagStyleError
+} TagIndicatorViewTagStyle;
+
+typedef enum {
+  TagIndicatorViewTagFocusAllTags,
+  TagIndicatorViewTagFocusUnlinkedTags,
+  TagIndicatorViewTagFocusDuplicateTags
+} TagIndicatorViewTagFocus;
+
 
 @interface DocumentBrowserTagSummary : NSObject {
   NSString* _tagGroupTitle;
-  TagIndicatorViewTagType _tagType;
+  TagIndicatorViewTagStyle _tagStyle;
+  TagIndicatorViewTagFocus _tagFocus;
 }
 
 @property (strong) NSString* tagGroupTitle;
-@property TagIndicatorViewTagType tagType;
+@property TagIndicatorViewTagStyle tagStyle;
+@property TagIndicatorViewTagFocus tagFocus;
 @property NSInteger tagCount;
 
 -(instancetype)init;
--(instancetype)initWithTitle:(NSString*)title andType:(TagIndicatorViewTagType)type andCount:(NSInteger)count;
+-(instancetype)initWithTitle:(NSString*)title andStyle:(TagIndicatorViewTagStyle)type withFocus:(TagIndicatorViewTagFocus)focus andCount:(NSInteger)count;
+
++ (NSImage *)colorImage:(NSImage*)image forTagIndicatorViewTagStyle:(TagIndicatorViewTagStyle)style;
++ (NSImage *)colorImage:(NSImage*)image withTint:(NSColor *)tint;
+
 
 @end

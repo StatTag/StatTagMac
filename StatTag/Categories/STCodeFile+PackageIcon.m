@@ -24,7 +24,7 @@
   {
     img = [NSImage imageNamed:@"stats_package_sas"];
   } else {
-    img = [NSImage imageNamed:@"stattag_logo_purple"];
+    img = [NSImage imageNamed:@"stattag_tag_purple"];
   }
   
   return img;

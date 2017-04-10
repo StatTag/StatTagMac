@@ -22,13 +22,13 @@
             <rect key="frame" x="0.0" y="0.0" width="232" height="347"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="34" horizontalPageScroll="10" verticalLineScroll="34" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fep-eZ-Lfn" userLabel="Scroll View - Code Files">
+                <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="42" horizontalPageScroll="10" verticalLineScroll="42" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fep-eZ-Lfn" userLabel="Scroll View - Code Files">
                     <rect key="frame" x="0.0" y="19" width="232" height="224"/>
                     <clipView key="contentView" id="5ib-Aa-Xio">
                         <rect key="frame" x="0.0" y="0.0" width="232" height="224"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView identifier="fileTableView" verticalHuggingPriority="750" tag="2" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnSelection="YES" autosaveColumns="NO" rowHeight="32" rowSizeStyle="automatic" viewBased="YES" id="WqB-pS-IU6">
+                            <tableView identifier="fileTableView" verticalHuggingPriority="750" tag="2" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnSelection="YES" autosaveColumns="NO" rowHeight="40" rowSizeStyle="automatic" viewBased="YES" id="WqB-pS-IU6">
                                 <rect key="frame" x="0.0" y="0.0" width="232" height="224"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <size key="intercellSpacing" width="3" height="2"/>
@@ -45,11 +45,11 @@
                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                         <prototypeCellViews>
                                             <tableCellView id="azK-EH-Shx">
-                                                <rect key="frame" x="1" y="1" width="36" height="32"/>
+                                                <rect key="frame" x="1" y="1" width="36" height="40"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vnO-pP-jiL">
-                                                        <rect key="frame" x="3" y="0.0" width="32" height="32"/>
+                                                        <rect key="frame" x="3" y="4" width="32" height="32"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="stats_package_stata" id="XPg-3d-Iac"/>
                                                         <connections>
@@ -62,42 +62,6 @@
                                                 </connections>
                                             </tableCellView>
                                         </prototypeCellViews>
-                                    </tableColumn>
-                                    <tableColumn identifier="fileStatusCell" width="24" minWidth="10" maxWidth="3.4028234663852886e+38" id="JPM-sD-mTA">
-                                        <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
-                                            <font key="font" metaFont="smallSystem"/>
-                                            <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </tableHeaderCell>
-                                        <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" title="Text Cell" id="UUa-FF-XSi">
-                                            <font key="font" metaFont="system"/>
-                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                            <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                        </textFieldCell>
-                                        <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
-                                        <prototypeCellViews>
-                                            <tableCellView id="Zv0-K9-Ktq">
-                                                <rect key="frame" x="40" y="1" width="24" height="27"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                <subviews>
-                                                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SJg-u2-VoB">
-                                                        <rect key="frame" x="3" y="2" width="19" height="23"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="warning" id="l8n-s3-7Sr"/>
-                                                        <connections>
-                                                            <binding destination="Zv0-K9-Ktq" name="hidden" keyPath="objectValue.fileAccessibleAtPath" id="5Do-D5-ZxI"/>
-                                                            <binding destination="Zv0-K9-Ktq" name="toolTip" keyPath="objectValue.codeFileToolTipMessage" id="4xy-Di-JKJ"/>
-                                                        </connections>
-                                                    </imageView>
-                                                </subviews>
-                                                <connections>
-                                                    <outlet property="imageView" destination="SJg-u2-VoB" id="y76-QX-sJM"/>
-                                                </connections>
-                                            </tableCellView>
-                                        </prototypeCellViews>
-                                        <connections>
-                                            <binding destination="dNU-vC-xar" name="value" keyPath="arrangedObjects.fileAccessibleAtPath" id="laS-LL-QFb"/>
-                                        </connections>
                                     </tableColumn>
                                     <tableColumn identifier="" width="163" minWidth="150" maxWidth="400" id="wG0-dh-UXS" userLabel="File">
                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="File">
@@ -113,11 +77,11 @@
                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                         <prototypeCellViews>
                                             <tableCellView id="PV6-Xf-Fh8">
-                                                <rect key="frame" x="67" y="1" width="163" height="32"/>
+                                                <rect key="frame" x="40" y="1" width="163" height="40"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yka-hl-Xib">
-                                                        <rect key="frame" x="0.0" y="8" width="163" height="17"/>
+                                                        <rect key="frame" x="0.0" y="23" width="163" height="17"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="OHi-rs-05L">
                                                             <font key="font" metaFont="system"/>
@@ -128,12 +92,63 @@
                                                             <binding destination="PV6-Xf-Fh8" name="value" keyPath="objectValue.FileName" id="iYF-n6-aRz"/>
                                                         </connections>
                                                     </textField>
+                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Ai-ET-eVf">
+                                                        <rect key="frame" x="0.0" y="3" width="163" height="17"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                                        <textFieldCell key="cell" lineBreakMode="truncatingMiddle" sendsActionOnEndEditing="YES" title="Table View Cell" id="PFk-M8-mVo">
+                                                            <font key="font" metaFont="smallSystem"/>
+                                                            <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                        <connections>
+                                                            <binding destination="PV6-Xf-Fh8" name="value" keyPath="objectValue.DirectoryPathString" id="jSz-5a-do3"/>
+                                                        </connections>
+                                                    </textField>
                                                 </subviews>
                                                 <connections>
                                                     <outlet property="textField" destination="Yka-hl-Xib" id="hBl-el-xus"/>
                                                 </connections>
                                             </tableCellView>
                                         </prototypeCellViews>
+                                        <connections>
+                                            <binding destination="dNU-vC-xar" name="value" keyPath="arrangedObjects.self" id="UWu-gN-3UC"/>
+                                        </connections>
+                                    </tableColumn>
+                                    <tableColumn identifier="fileStatusCell" width="24" minWidth="10" maxWidth="3.4028234663852886e+38" id="JPM-sD-mTA">
+                                        <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
+                                            <font key="font" metaFont="smallSystem"/>
+                                            <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </tableHeaderCell>
+                                        <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" title="Text Cell" id="UUa-FF-XSi">
+                                            <font key="font" metaFont="system"/>
+                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                        <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                        <prototypeCellViews>
+                                            <tableCellView id="Zv0-K9-Ktq">
+                                                <rect key="frame" x="206" y="1" width="23" height="40"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <subviews>
+                                                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SJg-u2-VoB">
+                                                        <rect key="frame" x="3" y="15" width="19" height="23"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="warning" id="l8n-s3-7Sr"/>
+                                                        <connections>
+                                                            <binding destination="Zv0-K9-Ktq" name="toolTip" keyPath="objectValue.codeFileToolTipMessage" id="4xy-Di-JKJ"/>
+                                                            <binding destination="Zv0-K9-Ktq" name="hidden" keyPath="objectValue.fileAccessibleAtPath" id="5Do-D5-ZxI"/>
+                                                        </connections>
+                                                    </imageView>
+                                                </subviews>
+                                                <connections>
+                                                    <outlet property="imageView" destination="SJg-u2-VoB" id="y76-QX-sJM"/>
+                                                </connections>
+                                            </tableCellView>
+                                        </prototypeCellViews>
+                                        <connections>
+                                            <binding destination="dNU-vC-xar" name="value" keyPath="arrangedObjects.fileAccessibleAtPath" id="laS-LL-QFb"/>
+                                        </connections>
                                     </tableColumn>
                                 </tableColumns>
                                 <connections>

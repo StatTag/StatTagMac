@@ -165,7 +165,6 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"activeTagDidChange" object:self userInfo:userInfo];
   }
   
-  
   return nil;
 }
 @end

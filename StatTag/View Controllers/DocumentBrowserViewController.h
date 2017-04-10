@@ -9,8 +9,8 @@
 #import <Cocoa/Cocoa.h>
 #import "DocumentBrowserCodeFilesViewController.h"
 
-@class DocumentBrowserCodeFilesViewController;
-@class UnlinkedTagsViewController;
+@class DocumentBrowserDocumentViewController;
+
 
 @interface DocumentBrowserViewController : NSViewController <NSTableViewDelegate, DocumentBrowserCodeFilesDelegate> {
   STDocumentManager* _documentManager;
@@ -18,21 +18,13 @@
 
 @property (strong, nonatomic) STDocumentManager* documentManager;
 
+//left-hand documents list
 @property (strong) IBOutlet NSArrayController *documentsArrayController;
-
 @property (weak) IBOutlet NSTableView *documentsTableView;
 
-@property (strong) IBOutlet DocumentBrowserCodeFilesViewController *codeFilesViewController;
-@property (weak) IBOutlet NSView *codeFilesView;
-
-
-@property (weak) IBOutlet NSView *focusView;
-
-@property (strong) IBOutlet UpdateOutputViewController *tagListViewController;
-
-
-@property (strong) IBOutlet UnlinkedTagsViewController *unlinkedTagsViewController;
-
+//right document view
+@property (strong) IBOutlet DocumentBrowserDocumentViewController *documentBrowserDocumentViewController;
+@property (weak) IBOutlet NSView *documentBrowserDocumentView;
 
 
 @end

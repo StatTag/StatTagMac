@@ -13,7 +13,11 @@
 
 @class DocumentBrowserCodeFilesViewController;
 @protocol DocumentBrowserCodeFilesDelegate <NSObject>
-- (void)selectedCodeFileDidChange:(DocumentBrowserCodeFilesViewController*)controller;
+//- (void)selectedCodeFileDidChange:(DocumentBrowserCodeFilesViewController*)controller;
+//- (void)selectedTagSummaryDidChange:(DocumentBrowserCodeFilesViewController*)controller;
+-(void)codeFilesSetFocusOnTags:(DocumentBrowserCodeFilesViewController*)controller;
+-(void)codeFilesSetFocusOnDuplicateTags:(DocumentBrowserCodeFilesViewController*)controller;
+-(void)codeFilesSetFocusOnUnlinkedTags:(DocumentBrowserCodeFilesViewController*)controller;
 @end
 
 

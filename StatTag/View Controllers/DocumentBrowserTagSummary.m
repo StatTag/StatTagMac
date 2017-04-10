@@ -11,7 +11,7 @@
 @implementation DocumentBrowserTagSummary
 
 @synthesize tagGroupTitle = _tagGroupTitle;
-@synthesize tagType = _tagType;
+@synthesize tagStyle = _tagStyle;
 @synthesize tagCount = _tagCount;
 
 
@@ -19,20 +19,63 @@
   self = [super init];
   if(self){
     _tagGroupTitle = [[NSString alloc] init];
-    _tagType = TagIndicatorViewTagTypeNormal;
+    _tagStyle = TagIndicatorViewTagStyleNormal;
     _tagCount = 0;
   }
   return self;
 }
 
--(instancetype)initWithTitle:(NSString*)title andType:(TagIndicatorViewTagType)type andCount:(NSInteger)count {
+-(instancetype)initWithTitle:(NSString*)title andStyle:(TagIndicatorViewTagStyle)style withFocus:(TagIndicatorViewTagFocus)focus andCount:(NSInteger)count {
   self = [super init];
   if(self){
-    _tagType = type;
+    _tagStyle = style;
     _tagGroupTitle = title;
+    _tagFocus = focus;
     _tagCount = count;
   }
   return self;
+}
+
+
+//tinting
++ (NSImage *)colorImage:(NSImage*)image forTagIndicatorViewTagStyle:(TagIndicatorViewTagStyle)style
+{
+  NSImage* copiedImage;
+  switch(style)
+  {
+    case TagIndicatorViewTagStyleNormal:
+      copiedImage = [[self class] colorImage:image withTint:[NSColor greenColor]];
+      break;
+    case TagIndicatorViewTagStyleWarning:
+      copiedImage = [[self class] colorImage:image withTint:[NSColor orangeColor]];
+      break;
+    case TagIndicatorViewTagStyleError:
+      copiedImage = [[self class] colorImage:image withTint:[NSColor redColor]];
+      break;
+    default:
+      copiedImage = [[self class] colorImage:image withTint:[NSColor blueColor]];
+      break;
+  }
+  
+  return copiedImage;
+}
+
+
++ (NSImage *)colorImage:(NSImage*)image withTint:(NSColor *)tint
+{
+  NSSize size = [image size];
+  NSRect imageBounds = NSMakeRect(0, 0, size.width, size.height);
+  
+  NSImage *copiedImage = [image copy];
+  
+  [copiedImage lockFocus];
+  
+  [tint set];
+  NSRectFillUsingOperation(imageBounds, NSCompositeSourceAtop);
+  
+  [copiedImage unlockFocus];
+  
+  return copiedImage;
 }
 
 

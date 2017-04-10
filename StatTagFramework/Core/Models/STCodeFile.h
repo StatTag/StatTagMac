@@ -36,6 +36,7 @@
 @property (copy, nonatomic) NSDate *LastCached;
 @property (strong, nonatomic) NSMutableArray<STTag *> *Tags;
 
+
 @property (strong, nonatomic) NSMutableArray<NSString *> *Content;
 @property (copy, nonatomic) NSString* ContentString;
 
@@ -62,6 +63,7 @@
 +(instancetype)codeFileWithFilePath:(NSString*)filePath andTags:(NSArray<STTag*>*)tags;
 
 -(NSString*)FileName;
+-(NSString*)DirectoryPathString;
 
 
 - (NSUInteger)hash;

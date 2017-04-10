@@ -17,8 +17,6 @@
 		380A67A51D106FBB0045B72B /* STCommandResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 380A67A31D106FBB0045B72B /* STCommandResult.m */; };
 		380A67A71D1077490045B72B /* STConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 380A67A61D1077490045B72B /* STConstants.m */; };
 		380A67AA1D107A820045B72B /* StatTagModelConstantsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 380A67A91D107A820045B72B /* StatTagModelConstantsTests.m */; };
-		380CBD441E89C272006E92D1 /* TagIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 380CBD421E89C272006E92D1 /* TagIndicatorView.m */; };
-		380CBD451E89C272006E92D1 /* TagIndicatorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 380CBD431E89C272006E92D1 /* TagIndicatorView.xib */; };
 		381FD33F1D19F00700DB4B12 /* STConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 380A67A81D1077550045B72B /* STConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3824439E1DBE567D00EF0048 /* StatTagScriptSupport.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 3824439D1DBE567D00EF0048 /* StatTagScriptSupport.scpt */; };
 		382443A01DBE6D0E00EF0048 /* StatTagMacroInstallationScript.sh in Resources */ = {isa = PBXBuildFile; fileRef = 3824439F1DBE612800EF0048 /* StatTagMacroInstallationScript.sh */; };
@@ -127,6 +125,10 @@
 		385FDD431D35681400AE0FE2 /* STFieldGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 385FDD411D35681400AE0FE2 /* STFieldGenerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		385FDD441D35681400AE0FE2 /* STFieldGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 385FDD421D35681400AE0FE2 /* STFieldGenerator.m */; };
 		386652E91E6C5F0300F3150E /* MacroInstallerUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 386652E81E6C5F0300F3150E /* MacroInstallerUtility.m */; };
+		3866894C1E9BC6EC00A5A1CB /* DuplicateTagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3866894A1E9BC6EC00A5A1CB /* DuplicateTagsViewController.m */; };
+		3866894D1E9BC6EC00A5A1CB /* DuplicateTagsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3866894B1E9BC6EC00A5A1CB /* DuplicateTagsViewController.xib */; };
+		386689561E9BD37D00A5A1CB /* DocumentBrowserDocumentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 386689541E9BD37D00A5A1CB /* DocumentBrowserDocumentViewController.m */; };
+		386689571E9BD37D00A5A1CB /* DocumentBrowserDocumentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 386689551E9BD37D00A5A1CB /* DocumentBrowserDocumentViewController.xib */; };
 		386992C91DB6B6A200852B6E /* FileMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 386992C81DB6B6A200852B6E /* FileMonitor.m */; };
 		386992CC1DB6C72300852B6E /* STCodeFile+FileMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 386992CB1DB6C72300852B6E /* STCodeFile+FileMonitor.m */; };
 		386992CF1DB6CE2A00852B6E /* STDocumentManager+FileMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 386992CE1DB6CE2A00852B6E /* STDocumentManager+FileMonitor.m */; };
@@ -487,6 +489,12 @@
 		385FDD421D35681400AE0FE2 /* STFieldGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STFieldGenerator.m; sourceTree = "<group>"; };
 		386652E71E6C5F0300F3150E /* MacroInstallerUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacroInstallerUtility.h; sourceTree = "<group>"; };
 		386652E81E6C5F0300F3150E /* MacroInstallerUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MacroInstallerUtility.m; sourceTree = "<group>"; };
+		386689491E9BC6EC00A5A1CB /* DuplicateTagsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DuplicateTagsViewController.h; sourceTree = "<group>"; };
+		3866894A1E9BC6EC00A5A1CB /* DuplicateTagsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DuplicateTagsViewController.m; sourceTree = "<group>"; };
+		3866894B1E9BC6EC00A5A1CB /* DuplicateTagsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DuplicateTagsViewController.xib; sourceTree = "<group>"; };
+		386689531E9BD37D00A5A1CB /* DocumentBrowserDocumentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentBrowserDocumentViewController.h; sourceTree = "<group>"; };
+		386689541E9BD37D00A5A1CB /* DocumentBrowserDocumentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentBrowserDocumentViewController.m; sourceTree = "<group>"; };
+		386689551E9BD37D00A5A1CB /* DocumentBrowserDocumentViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DocumentBrowserDocumentViewController.xib; sourceTree = "<group>"; };
 		386992C71DB6B6A200852B6E /* FileMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileMonitor.h; sourceTree = "<group>"; };
 		386992C81DB6B6A200852B6E /* FileMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileMonitor.m; sourceTree = "<group>"; };
 		386992CA1DB6C72300852B6E /* STCodeFile+FileMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "STCodeFile+FileMonitor.h"; sourceTree = "<group>"; };
@@ -722,6 +730,9 @@
 				38ACBA231E8A981C0052636E /* DocumentBrowserCodeFilesViewController.h */,
 				38ACBA241E8A981C0052636E /* DocumentBrowserCodeFilesViewController.m */,
 				38ACBA251E8A981C0052636E /* DocumentBrowserCodeFilesViewController.xib */,
+				386689531E9BD37D00A5A1CB /* DocumentBrowserDocumentViewController.h */,
+				386689541E9BD37D00A5A1CB /* DocumentBrowserDocumentViewController.m */,
+				386689551E9BD37D00A5A1CB /* DocumentBrowserDocumentViewController.xib */,
 				389591B31E8A991F003FE9E3 /* DocumentBrowserTagSummary.h */,
 				389591B41E8A991F003FE9E3 /* DocumentBrowserTagSummary.m */,
 				38FACC7F1E894E3200E3BB82 /* DocumentBrowserViewController.h */,
@@ -1008,6 +1019,9 @@
 				38FFDD211E8D5C3F004D92C3 /* UnlinkedTagsViewController.h */,
 				38FFDD221E8D5C3F004D92C3 /* UnlinkedTagsViewController.m */,
 				38FFDD231E8D5C3F004D92C3 /* UnlinkedTagsViewController.xib */,
+				386689491E9BC6EC00A5A1CB /* DuplicateTagsViewController.h */,
+				3866894A1E9BC6EC00A5A1CB /* DuplicateTagsViewController.m */,
+				3866894B1E9BC6EC00A5A1CB /* DuplicateTagsViewController.xib */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -1730,6 +1744,7 @@
 				3836F57D1D92C8EA00BF0DD4 /* StatTag.sdef in Resources */,
 				38FFDD251E8D5C3F004D92C3 /* UnlinkedTagsViewController.xib in Resources */,
 				3876323F1DA7D6FA00680898 /* PercentagePropertiesController.xib in Resources */,
+				386689571E9BD37D00A5A1CB /* DocumentBrowserDocumentViewController.xib in Resources */,
 				385EF1421D95D53C005768C7 /* StatTagMacros.dotm in Resources */,
 				3836F5561D92C89900BF0DD4 /* Assets.xcassets in Resources */,
 				38D8B1C31D9586D200BF878A /* UpdateOutputViewController.xib in Resources */,
@@ -1745,8 +1760,8 @@
 				38F803661D9DCB8900C8F1EA /* ValuePropertiesController.xib in Resources */,
 				387632501DA83B6C00680898 /* StatTagNeedsWordViewController.xib in Resources */,
 				38FFDD1B1E8C7CB6004D92C3 /* AboutViewController.xib in Resources */,
-				380CBD451E89C272006E92D1 /* TagIndicatorView.xib in Resources */,
 				382443A01DBE6D0E00EF0048 /* StatTagMacroInstallationScript.sh in Resources */,
+				3866894D1E9BC6EC00A5A1CB /* DuplicateTagsViewController.xib in Resources */,
 				38FFDD1D1E8C8ED1004D92C3 /* Credits.rtf in Resources */,
 				38AB418E1DA1BC2900EA464C /* TagBasicPropertiesController.xib in Resources */,
 				383F3B991DA679AE0069C78E /* TagPreviewController.xib in Resources */,
@@ -1930,7 +1945,6 @@
 				3836F5AD1D92ED9D00BF0DD4 /* STAppleScript_LoadSettings.m in Sources */,
 				38FFDD241E8D5C3F004D92C3 /* UnlinkedTagsViewController.m in Sources */,
 				3836F5511D92C89900BF0DD4 /* main.m in Sources */,
-				380CBD441E89C272006E92D1 /* TagIndicatorView.m in Sources */,
 				3876324F1DA83B6C00680898 /* StatTagNeedsWordViewController.m in Sources */,
 				3836F54E1D92C89900BF0DD4 /* AppDelegate.m in Sources */,
 				38B53A1F1E8A9D3E00F29A7C /* DocumentBrowserCodeFilesViewController.m in Sources */,
@@ -1938,6 +1952,7 @@
 				386992C91DB6B6A200852B6E /* FileMonitor.m in Sources */,
 				389591B51E8A991F003FE9E3 /* DocumentBrowserTagSummary.m in Sources */,
 				38F803431D9C4B9A00C8F1EA /* SCHelpers.m in Sources */,
+				3866894C1E9BC6EC00A5A1CB /* DuplicateTagsViewController.m in Sources */,
 				385221C91DAE90CF005E804B /* SCMarker.mm in Sources */,
 				386992D21DB8E6F500852B6E /* STCodeFile+FileAttributes.m in Sources */,
 				38F803461D9C4CEB00C8F1EA /* SCMarkerHandle.mm in Sources */,
@@ -1950,6 +1965,7 @@
 				384764B01DA52D6400FCDABE /* TablePropertiesController.m in Sources */,
 				38FACC821E894E3200E3BB82 /* DocumentBrowserViewController.m in Sources */,
 				387632461DA7E2AC00680898 /* DateTimePropertiesController.m in Sources */,
+				386689561E9BD37D00A5A1CB /* DocumentBrowserDocumentViewController.m in Sources */,
 				38C3CC761DA428E700CEA70C /* DisclosureViewController.m in Sources */,
 				3876324B1DA8383900680898 /* AppEventListener.m in Sources */,
 				38D8B1C71D95872A00BF878A /* UpdateOutputProgressViewController.m in Sources */,

@@ -158,6 +158,8 @@ BOOL breakLoop = YES;
   NSArray *filteredArray = [[onDemandTags arrangedObjects] filteredArrayUsingPredicate:predicate];
   tag =  filteredArray.count > 0 ? filteredArray.firstObject : nil;
   
+
+  
   if(tag != nil)
   {
     NSInteger tagIndex=[[onDemandTags arrangedObjects] indexOfObject:tag];
@@ -388,5 +390,13 @@ BOOL breakLoop = YES;
   return @"hello";
 }
 
+-(void)tableView:(NSTableView *)tableView sortDescriptorsDidChange: (NSArray *)oldDescriptors
+{
+  NSArray *newDescriptors = [tableView sortDescriptors];
+  //[[[self onDemandTags] arrangedObjects] sortUsingDescriptors:newDescriptors];
+  [[self onDemandTags] setSortDescriptors:newDescriptors];
+  //"results" is my NSMutableArray which is set to be the data source for the NSTableView object.
+//  [tableView reloadData];
+}
 
 @end

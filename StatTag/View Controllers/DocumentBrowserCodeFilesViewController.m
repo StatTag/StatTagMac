@@ -12,7 +12,7 @@
 #import "StatTagShared.h"
 #import "STDocumentManager+FileMonitor.h"
 #import "DocumentBrowserTagSummary.h"
-#import "TagIndicatorView.h"
+//#import "TagIndicatorView.h"
 
 @interface DocumentBrowserCodeFilesViewController ()
 
@@ -28,6 +28,45 @@
 
 
 
+//MARK: storyboard / nib setup
+- (NSString *)nibName
+{
+  return @"DocumentBrowserCodeFilesViewController";
+}
+
+-(id)init {
+  self = [super init];
+  if(self) {
+    [[NSBundle mainBundle] loadNibNamed:[self nibName] owner:self topLevelObjects:nil];
+  }
+  return self;
+}
+
+-(id) initWithCoder:(NSCoder *)coder {
+  self = [super initWithCoder:coder];
+  if(self) {
+    [[NSBundle mainBundle] loadNibNamed:[self nibName] owner:self topLevelObjects:nil];
+  }
+  return self;
+}
+- (void)awakeFromNib {
+   [[self fileTableView] setDoubleAction:@selector(doubleClick:)];
+}
+
+//MARK: view controller events
+
+-(void)viewDidAppear
+{
+  [self startMonitoringCodeFiles];
+}
+
+-(void)viewWillDisappear {
+  [self stopMonitoringCodeFiles];
+}
+
+-(void)viewWillAppear {
+  
+}
 
 - (void)viewDidLoad {
   [super viewDidLoad];
@@ -59,9 +98,8 @@
   [self updateTagSummary];
 }
 
--(void)viewWillAppear {
-  
-}
+
+
 
 -(void)updateTagSummary
 {
@@ -77,32 +115,26 @@
   NSArray<STTag*>* tags = [[self documentManager] GetTags];
   NSLog(@"document [%@] has %ld tags", [[[self documentManager] activeDocument] name], (unsigned long)[tags count]);
   NSDictionary<NSString*, NSArray<STTag*>*>* unlinkedTags = [[self documentManager] FindAllUnlinkedTags];
+  STDuplicateTagResults* duplicateTags = [[[self documentManager] TagManager] FindAllDuplicateTags];
 
   numGoodTags = [tags count];
   numUnlinkedTags = [unlinkedTags count];
+  numDuplicateTags = [duplicateTags count];
 
   [[tagSummaryArrayController content] removeAllObjects];
-  [tagSummaryArrayController addObject:[[DocumentBrowserTagSummary alloc] initWithTitle:[NSString stringWithFormat:@"%@", @"All Tags"] andType:TagIndicatorViewTagTypeNormal andCount:numGoodTags]];
+  [tagSummaryArrayController addObject:[[DocumentBrowserTagSummary alloc] initWithTitle:[NSString stringWithFormat:@"%@", @"All Tags"] andStyle:TagIndicatorViewTagStyleNormal withFocus:TagIndicatorViewTagFocusAllTags andCount:numGoodTags]];
   
   if(numDuplicateTags > 0)
   {
-    [tagSummaryArrayController addObject:[[DocumentBrowserTagSummary alloc] initWithTitle:@"Duplicate Tags" andType:TagIndicatorViewTagTypeWarning andCount:numDuplicateTags]];
+    [tagSummaryArrayController addObject:[[DocumentBrowserTagSummary alloc] initWithTitle:@"Duplicate Tags" andStyle:TagIndicatorViewTagStyleWarning withFocus:TagIndicatorViewTagFocusDuplicateTags andCount:numDuplicateTags]];
   }
   if(numUnlinkedTags > 0)
   {
-    [tagSummaryArrayController addObject:[[DocumentBrowserTagSummary alloc] initWithTitle:@"Unlinked Tags" andType:TagIndicatorViewTagTypeError andCount:numUnlinkedTags]];
+    [tagSummaryArrayController addObject:[[DocumentBrowserTagSummary alloc] initWithTitle:@"Unlinked Tags" andStyle:TagIndicatorViewTagStyleError withFocus:TagIndicatorViewTagFocusUnlinkedTags andCount:numUnlinkedTags]];
   }
   
 }
 
--(void)viewDidAppear
-{
-  [self startMonitoringCodeFiles];
-}
-
--(void)viewWillDisappear {
-  [self stopMonitoringCodeFiles];
-}
 
 -(void)startMonitoringCodeFiles
 {
@@ -115,8 +147,10 @@
 }
 
 
-- (void)awakeFromNib {
-}
+
+
+
+
 
 -(void)codeFileEdited:(NSNotification *)notification
 {
@@ -145,34 +179,38 @@
 
 }
 
-- (void)selectedCodeFileDidChange:(DocumentBrowserCodeFilesViewController*)controller {
-  if([[self delegate] respondsToSelector:@selector(selectedCodeFileDidChange:)]) {
-    [[self delegate] selectedCodeFileDidChange:controller];
-  }
-}
-
-- (NSString *)nibName
+-(void)codeFilesSetFocusOnTags:(DocumentBrowserCodeFilesViewController*)controller
 {
-  return @"DocumentBrowserCodeFilesViewController";
-}
-
-
--(id)init {
-  self = [super init];
-  if(self) {
-    [[NSBundle mainBundle] loadNibNamed:[self nibName] owner:self topLevelObjects:nil];
+  if([[self delegate] respondsToSelector:@selector(codeFilesSetFocusOnTags:)]) {
+    [[self delegate] codeFilesSetFocusOnTags:controller];
   }
-  return self;
 }
-
-
--(id) initWithCoder:(NSCoder *)coder {
-  self = [super initWithCoder:coder];
-  if(self) {
-    [[NSBundle mainBundle] loadNibNamed:[self nibName] owner:self topLevelObjects:nil];
+-(void)codeFilesSetFocusOnDuplicateTags:(DocumentBrowserCodeFilesViewController*)controller
+{
+  if([[self delegate] respondsToSelector:@selector(codeFilesSetFocusOnDuplicateTags:)]) {
+    [[self delegate] codeFilesSetFocusOnDuplicateTags:controller];
   }
-  return self;
 }
+-(void)codeFilesSetFocusOnUnlinkedTags:(DocumentBrowserCodeFilesViewController*)controller
+{
+  if([[self delegate] respondsToSelector:@selector(codeFilesSetFocusOnDuplicateTags:)]) {
+    [[self delegate] codeFilesSetFocusOnDuplicateTags:controller];
+  }
+}
+
+
+//- (void)selectedCodeFileDidChange:(DocumentBrowserCodeFilesViewController*)controller {
+//  if([[self delegate] respondsToSelector:@selector(selectedCodeFileDidChange:)]) {
+//    [[self delegate] selectedCodeFileDidChange:controller];
+//  }
+//}
+//
+//- (void)selectedTagSummaryDidChange:(DocumentBrowserCodeFilesViewController*)controller {
+//  if([[self delegate] respondsToSelector:@selector(selectedTagSummaryDidChange:)]) {
+//    [[self delegate] selectedTagSummaryDidChange:controller];
+//  }
+//}
+
 
 - (void)insertObject:(STCodeFile *)cf inCodeFilesAtIndex:(NSUInteger)index {
   [_documentManager AddCodeFile:[cf FilePath]];
@@ -260,6 +298,18 @@
   
 }
 
+- (void)doubleClick:(id)sender {
+  
+  NSInteger row = [[self fileTableView] clickedRow];
+  STCodeFile* cf = [[arrayController arrangedObjects] objectAtIndex:row];
+  if(cf != nil)
+  {
+    //NSURL* filePathURL = [[_codeFiles objectAtIndex:row] FilePathURL];
+    NSURL* filePathURL = [cf FilePathURL];
+    [[NSWorkspace sharedWorkspace] selectFile:[filePathURL path] inFileViewerRootedAtPath:[filePathURL path]];
+  }
+}
+
 -(NSView*)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
   
@@ -269,7 +319,6 @@
 
   if(tableColumn != nil)
   {
-    
     if([[tableColumn identifier] isEqualToString:@"tagIndicatorColumn"])
     {
       //the visual "tag" indicator in the top tag list table
@@ -279,7 +328,7 @@
       {
         cell.textField.stringValue = [NSString stringWithFormat:@"%ld", (long)[summary tagCount]];
         //NSImage* img = [TagIndicatorView colorImage:cell.imageView.image  withTint:NSColor.yellowColor];
-        NSImage* img = [TagIndicatorView colorImage:cell.imageView.image forTagIndicatorViewTagType:[summary tagType]];
+        NSImage* img = [DocumentBrowserTagSummary colorImage:cell.imageView.image forTagIndicatorViewTagStyle:[summary tagStyle]];
         cell.imageView.image = img;
         //cell.imageView.image = [NSImage imageNamed:@"tag_button"];
       }
@@ -314,10 +363,10 @@
 {
   if([[[self tagSummaryArrayController] arrangedObjects] count] > 0)
   {
-    //TagIndicatorViewTagTypeNormal
+    //TagIndicatorViewTagStyleNormal
     for(DocumentBrowserTagSummary* t in [[self tagSummaryArrayController] arrangedObjects])
     {
-      if([t tagType] == TagIndicatorViewTagTypeNormal)
+      if([t tagStyle] == TagIndicatorViewTagStyleNormal)
       {
         [[self tagSummaryArrayController] setSelectedObjects:[NSArray arrayWithObject:t]];
         break;
@@ -325,6 +374,7 @@
     }
   }
 }
+
 /*
 -(void)viewTagWithName:(NSString*)tagName
 {
@@ -350,6 +400,7 @@
   {
     if([[[notification object] identifier] isEqualToString:@"tagSummaryTable"])
     {
+      
       NSInteger row = [self.tagSummaryTableView selectedRow];
       if(row == -1) {
         row = [[self tagSummaryTableView] clickedRow];
@@ -357,8 +408,25 @@
       if(row != -1)
       {
         //summary was selected, so we want to remove the code file selections
-        //[[self fileTableView] deselectAll:nil];
+        //All Tags
+        //Duplicate Tags
+        //Unlinked Tags
+
+        //deselect all of the code file selections
         [[self arrayController] setSelectedObjects:[NSArray array]];
+        DocumentBrowserTagSummary* tagSummary = [[[self tagSummaryArrayController] arrangedObjects]objectAtIndex:row];
+        switch([tagSummary tagFocus])
+        {
+          case TagIndicatorViewTagFocusDuplicateTags:
+            [self codeFilesSetFocusOnDuplicateTags:self];
+            break;
+          case TagIndicatorViewTagFocusUnlinkedTags:
+            [self codeFilesSetFocusOnUnlinkedTags:self];
+            break;
+          default:
+            [self codeFilesSetFocusOnTags:self];
+            break;
+        }
       }
     } else if([[[notification object] identifier] isEqualToString:@"fileTableView"])
     {
@@ -375,8 +443,8 @@
       
       //since interaction with EITHER of these two tables impacts the other table,
       // only fire for the file table view
-      [self selectedCodeFileDidChange:self];
-
+      [self codeFilesSetFocusOnTags:self];
+      //[self selectedCodeFileDidChange:self];
     }
   }
   
