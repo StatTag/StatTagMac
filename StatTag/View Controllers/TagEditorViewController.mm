@@ -633,6 +633,10 @@ static void *TagTypeContext = &TagTypeContext;
   
   scintillaHelper = [[SCScintilla alloc] initWithScintillaView:_sourceEditor];
   
+  [ViewUtils fillView:[self sourceView] withView:[self sourceEditor]];
+
+  /*
+  
   [_sourceView addSubview: _sourceEditor];
   
   _sourceEditor.translatesAutoresizingMaskIntoConstraints = NO;
@@ -678,7 +682,7 @@ static void *TagTypeContext = &TagTypeContext;
   [_sourceView addConstraint:bottom];
   [_sourceView addConstraint:leading];
   [_sourceView addConstraint:top];
-  
+  */
   
   [self setupSourceViewEditor];
   

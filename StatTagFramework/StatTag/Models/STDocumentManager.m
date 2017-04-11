@@ -1042,7 +1042,7 @@ Insert an StatTag field at the currently specified document range.
     {
       // Now that the code file has been updated, we need to add the tag.  This may
       // be a new tag, or an updated one.
-      [codeFile AddTag:tag oldTag:existingTag];
+      [codeFile AddTag:tag oldTag:existingTag matchWithPosition:YES];
       [codeFile Save:&error];
     }
   }

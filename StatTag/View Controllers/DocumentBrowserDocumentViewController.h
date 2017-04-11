@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "DocumentBrowserCodeFilesViewController.h"
+#import <StatTagFramework/STDuplicateTagResults.h>
 
 @class STMSWord2011Document;
 @class STDocumentManager;
@@ -16,7 +17,6 @@
 @class UnlinkedTagsViewController;
 @class DuplicateTagsViewController;
 @class STTag;
-@class STDuplicateTagResults;
 
 @interface DocumentBrowserDocumentViewController : NSViewController <DocumentBrowserCodeFilesDelegate>
 {

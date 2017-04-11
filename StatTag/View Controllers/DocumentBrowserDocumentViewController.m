@@ -67,6 +67,7 @@
   _documentManager = documentManager;
   self.codeFilesViewController.documentManager = _documentManager;
   self.tagListViewController.documentManager = _documentManager;
+  self.duplicateTagsViewController.documentManager = _documentManager;
 }
 -(STDocumentManager*)documentManager
 {
@@ -100,6 +101,8 @@
     [self.focusView setAutoresizesSubviews:YES];
     [self.focusView addSubview:fView];
   }
+  
+  [[self duplicateTagsViewController] setDuplicateTags:[self duplicateTags]];
 }
 
 -(void)focusOnTags
@@ -180,6 +183,8 @@
 -(void)codeFilesSetFocusOnDuplicateTags:(DocumentBrowserCodeFilesViewController*)controller;
 {
   NSLog(@"focusing on duplicate tags");
+  //duplicateTags
+  [self setDuplicateTags:[controller duplicateTags]];
   [self focusOnDuplicateTags];
 }
 

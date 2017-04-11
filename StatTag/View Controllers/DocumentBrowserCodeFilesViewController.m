@@ -50,7 +50,7 @@
   return self;
 }
 - (void)awakeFromNib {
-   [[self fileTableView] setDoubleAction:@selector(doubleClick:)];
+   [[self fileTableView] setDoubleAction:@selector(doubleClickCodeFile:)];
 }
 
 //MARK: view controller events
@@ -115,11 +115,12 @@
   NSArray<STTag*>* tags = [[self documentManager] GetTags];
   NSLog(@"document [%@] has %ld tags", [[[self documentManager] activeDocument] name], (unsigned long)[tags count]);
   NSDictionary<NSString*, NSArray<STTag*>*>* unlinkedTags = [[self documentManager] FindAllUnlinkedTags];
-  STDuplicateTagResults* duplicateTags = [[[self documentManager] TagManager] FindAllDuplicateTags];
+  //STDuplicateTagResults* duplicateTags = [[[self documentManager] TagManager] FindAllDuplicateTags];
+  [self setDuplicateTags: [[[self documentManager] TagManager] FindAllDuplicateTags]];
 
   numGoodTags = [tags count];
   numUnlinkedTags = [unlinkedTags count];
-  numDuplicateTags = [duplicateTags count];
+  numDuplicateTags = [[self duplicateTags] count];
 
   [[tagSummaryArrayController content] removeAllObjects];
   [tagSummaryArrayController addObject:[[DocumentBrowserTagSummary alloc] initWithTitle:[NSString stringWithFormat:@"%@", @"All Tags"] andStyle:TagIndicatorViewTagStyleNormal withFocus:TagIndicatorViewTagFocusAllTags andCount:numGoodTags]];
@@ -298,13 +299,12 @@
   
 }
 
-- (void)doubleClick:(id)sender {
+- (void)doubleClickCodeFile:(id)sender {
   
   NSInteger row = [[self fileTableView] clickedRow];
   STCodeFile* cf = [[arrayController arrangedObjects] objectAtIndex:row];
   if(cf != nil)
   {
-    //NSURL* filePathURL = [[_codeFiles objectAtIndex:row] FilePathURL];
     NSURL* filePathURL = [cf FilePathURL];
     [[NSWorkspace sharedWorkspace] selectFile:[filePathURL path] inFileViewerRootedAtPath:[filePathURL path]];
   }

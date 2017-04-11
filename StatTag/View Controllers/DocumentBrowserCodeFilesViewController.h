@@ -7,6 +7,8 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <StatTagFramework/STDuplicateTagResults.h>
+
 @class STCodeFile;
 @class STDocumentManager;
 @class STMSWord2011Document;
@@ -42,6 +44,8 @@ static NSString* const allowedExtensions_CodeFiles = @"do/DO";
 
 
 @property (nonatomic, weak) id<DocumentBrowserCodeFilesDelegate> delegate;
+
+@property (strong, nonatomic)STDuplicateTagResults* duplicateTags;
 
 
 -(void)configure;

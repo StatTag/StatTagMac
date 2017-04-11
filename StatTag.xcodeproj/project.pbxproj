@@ -21,6 +21,9 @@
 		3824439E1DBE567D00EF0048 /* StatTagScriptSupport.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 3824439D1DBE567D00EF0048 /* StatTagScriptSupport.scpt */; };
 		382443A01DBE6D0E00EF0048 /* StatTagMacroInstallationScript.sh in Resources */ = {isa = PBXBuildFile; fileRef = 3824439F1DBE612800EF0048 /* StatTagMacroInstallationScript.sh */; };
 		382443A31DBE8E7200EF0048 /* STCodeFile+TagInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 382443A21DBE8E7200EF0048 /* STCodeFile+TagInfo.m */; };
+		3828C8131E9CF82E000A4159 /* DuplicateTagGroupRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3828C8121E9CF82E000A4159 /* DuplicateTagGroupRowView.m */; };
+		3828C8161E9D0AB8000A4159 /* DuplicateTagDetailRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3828C8151E9D0AB8000A4159 /* DuplicateTagDetailRowView.m */; };
+		3828C8191E9D12AD000A4159 /* STTag+TagContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 3828C8181E9D12AD000A4159 /* STTag+TagContent.m */; };
 		382C284E1D1202D400697D6F /* STBaseParameterParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 382C284C1D1202D400697D6F /* STBaseParameterParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		382C284F1D1202D400697D6F /* STBaseParameterParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 382C284D1D1202D400697D6F /* STBaseParameterParser.m */; };
 		382C28511D13247800697D6F /* StatTagObjCPortingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 382C28501D13247700697D6F /* StatTagObjCPortingTests.m */; };
@@ -129,6 +132,7 @@
 		3866894D1E9BC6EC00A5A1CB /* DuplicateTagsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3866894B1E9BC6EC00A5A1CB /* DuplicateTagsViewController.xib */; };
 		386689561E9BD37D00A5A1CB /* DocumentBrowserDocumentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 386689541E9BD37D00A5A1CB /* DocumentBrowserDocumentViewController.m */; };
 		386689571E9BD37D00A5A1CB /* DocumentBrowserDocumentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 386689551E9BD37D00A5A1CB /* DocumentBrowserDocumentViewController.xib */; };
+		3866895A1E9C2EF500A5A1CB /* DuplicateTagGroupEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 386689591E9C2EF400A5A1CB /* DuplicateTagGroupEntry.m */; };
 		386992C91DB6B6A200852B6E /* FileMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 386992C81DB6B6A200852B6E /* FileMonitor.m */; };
 		386992CC1DB6C72300852B6E /* STCodeFile+FileMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 386992CB1DB6C72300852B6E /* STCodeFile+FileMonitor.m */; };
 		386992CF1DB6CE2A00852B6E /* STDocumentManager+FileMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 386992CE1DB6CE2A00852B6E /* STDocumentManager+FileMonitor.m */; };
@@ -231,6 +235,10 @@
 		38E20E011E09EC5700B524CE /* fake-file.do in Resources */ = {isa = PBXBuildFile; fileRef = 38E20DFE1E09EC5700B524CE /* fake-file.do */; };
 		38E20E021E09EC5700B524CE /* simple-macro-test-2.do in Resources */ = {isa = PBXBuildFile; fileRef = 38E20DFF1E09EC5700B524CE /* simple-macro-test-2.do */; };
 		38E20E031E09EC5700B524CE /* simple-macro-test.do in Resources */ = {isa = PBXBuildFile; fileRef = 38E20E001E09EC5700B524CE /* simple-macro-test.do */; };
+		38E22ABA1E9D4388005DFFE9 /* TagCodePeekViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 38E22AB81E9D4388005DFFE9 /* TagCodePeekViewController.mm */; };
+		38E22ABB1E9D4388005DFFE9 /* TagCodePeekViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38E22AB91E9D4388005DFFE9 /* TagCodePeekViewController.xib */; };
+		38E22ABF1E9D5FBC005DFFE9 /* ScintillaEmbeddedViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 38E22ABD1E9D5FBC005DFFE9 /* ScintillaEmbeddedViewController.mm */; };
+		38E22AC01E9D5FBC005DFFE9 /* ScintillaEmbeddedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38E22ABE1E9D5FBC005DFFE9 /* ScintillaEmbeddedViewController.xib */; };
 		38E9CB101E1473A9006B3571 /* TableValueFilterFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 38E9CB0F1E1473A9006B3571 /* TableValueFilterFormatter.m */; };
 		38EDF0271D2BFFD800ACD77B /* STStata.h in Headers */ = {isa = PBXBuildFile; fileRef = 38EDF0261D2BFFD800ACD77B /* STStata.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38EDF02A1D2C002A00ACD77B /* STStataAutomation.h in Headers */ = {isa = PBXBuildFile; fileRef = 38EDF0281D2C002A00ACD77B /* STStataAutomation.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -357,6 +365,12 @@
 		3824439F1DBE612800EF0048 /* StatTagMacroInstallationScript.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = StatTagMacroInstallationScript.sh; sourceTree = "<group>"; };
 		382443A11DBE8E7200EF0048 /* STCodeFile+TagInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "STCodeFile+TagInfo.h"; sourceTree = "<group>"; };
 		382443A21DBE8E7200EF0048 /* STCodeFile+TagInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "STCodeFile+TagInfo.m"; sourceTree = "<group>"; };
+		3828C8111E9CF82E000A4159 /* DuplicateTagGroupRowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DuplicateTagGroupRowView.h; sourceTree = "<group>"; };
+		3828C8121E9CF82E000A4159 /* DuplicateTagGroupRowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DuplicateTagGroupRowView.m; sourceTree = "<group>"; };
+		3828C8141E9D0AB8000A4159 /* DuplicateTagDetailRowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DuplicateTagDetailRowView.h; sourceTree = "<group>"; };
+		3828C8151E9D0AB8000A4159 /* DuplicateTagDetailRowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DuplicateTagDetailRowView.m; sourceTree = "<group>"; };
+		3828C8171E9D12AD000A4159 /* STTag+TagContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "STTag+TagContent.h"; sourceTree = "<group>"; };
+		3828C8181E9D12AD000A4159 /* STTag+TagContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "STTag+TagContent.m"; sourceTree = "<group>"; };
 		382C284C1D1202D400697D6F /* STBaseParameterParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STBaseParameterParser.h; sourceTree = "<group>"; };
 		382C284D1D1202D400697D6F /* STBaseParameterParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STBaseParameterParser.m; sourceTree = "<group>"; };
 		382C28501D13247700697D6F /* StatTagObjCPortingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagObjCPortingTests.m; sourceTree = "<group>"; };
@@ -495,6 +509,8 @@
 		386689531E9BD37D00A5A1CB /* DocumentBrowserDocumentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentBrowserDocumentViewController.h; sourceTree = "<group>"; };
 		386689541E9BD37D00A5A1CB /* DocumentBrowserDocumentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentBrowserDocumentViewController.m; sourceTree = "<group>"; };
 		386689551E9BD37D00A5A1CB /* DocumentBrowserDocumentViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DocumentBrowserDocumentViewController.xib; sourceTree = "<group>"; };
+		386689581E9C2EF400A5A1CB /* DuplicateTagGroupEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DuplicateTagGroupEntry.h; sourceTree = "<group>"; };
+		386689591E9C2EF400A5A1CB /* DuplicateTagGroupEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DuplicateTagGroupEntry.m; sourceTree = "<group>"; };
 		386992C71DB6B6A200852B6E /* FileMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileMonitor.h; sourceTree = "<group>"; };
 		386992C81DB6B6A200852B6E /* FileMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileMonitor.m; sourceTree = "<group>"; };
 		386992CA1DB6C72300852B6E /* STCodeFile+FileMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "STCodeFile+FileMonitor.h"; sourceTree = "<group>"; };
@@ -617,6 +633,12 @@
 		38E20DFE1E09EC5700B524CE /* fake-file.do */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "fake-file.do"; sourceTree = "<group>"; };
 		38E20DFF1E09EC5700B524CE /* simple-macro-test-2.do */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "simple-macro-test-2.do"; sourceTree = "<group>"; };
 		38E20E001E09EC5700B524CE /* simple-macro-test.do */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "simple-macro-test.do"; sourceTree = "<group>"; };
+		38E22AB71E9D4388005DFFE9 /* TagCodePeekViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagCodePeekViewController.h; sourceTree = "<group>"; };
+		38E22AB81E9D4388005DFFE9 /* TagCodePeekViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TagCodePeekViewController.mm; sourceTree = "<group>"; };
+		38E22AB91E9D4388005DFFE9 /* TagCodePeekViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TagCodePeekViewController.xib; sourceTree = "<group>"; };
+		38E22ABC1E9D5FBC005DFFE9 /* ScintillaEmbeddedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScintillaEmbeddedViewController.h; sourceTree = "<group>"; };
+		38E22ABD1E9D5FBC005DFFE9 /* ScintillaEmbeddedViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ScintillaEmbeddedViewController.mm; sourceTree = "<group>"; };
+		38E22ABE1E9D5FBC005DFFE9 /* ScintillaEmbeddedViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScintillaEmbeddedViewController.xib; sourceTree = "<group>"; };
 		38E9CB0E1E1473A9006B3571 /* TableValueFilterFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableValueFilterFormatter.h; sourceTree = "<group>"; };
 		38E9CB0F1E1473A9006B3571 /* TableValueFilterFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableValueFilterFormatter.m; sourceTree = "<group>"; };
 		38EDF0261D2BFFD800ACD77B /* STStata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STStata.h; sourceTree = "<group>"; };
@@ -1019,9 +1041,13 @@
 				38FFDD211E8D5C3F004D92C3 /* UnlinkedTagsViewController.h */,
 				38FFDD221E8D5C3F004D92C3 /* UnlinkedTagsViewController.m */,
 				38FFDD231E8D5C3F004D92C3 /* UnlinkedTagsViewController.xib */,
-				386689491E9BC6EC00A5A1CB /* DuplicateTagsViewController.h */,
-				3866894A1E9BC6EC00A5A1CB /* DuplicateTagsViewController.m */,
-				3866894B1E9BC6EC00A5A1CB /* DuplicateTagsViewController.xib */,
+				386689611E9CF58C00A5A1CB /* DuplicateTags */,
+				38E22AB71E9D4388005DFFE9 /* TagCodePeekViewController.h */,
+				38E22AB81E9D4388005DFFE9 /* TagCodePeekViewController.mm */,
+				38E22AB91E9D4388005DFFE9 /* TagCodePeekViewController.xib */,
+				38E22ABC1E9D5FBC005DFFE9 /* ScintillaEmbeddedViewController.h */,
+				38E22ABD1E9D5FBC005DFFE9 /* ScintillaEmbeddedViewController.mm */,
+				38E22ABE1E9D5FBC005DFFE9 /* ScintillaEmbeddedViewController.xib */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -1135,6 +1161,22 @@
 			name = Classes;
 			sourceTree = "<group>";
 		};
+		386689611E9CF58C00A5A1CB /* DuplicateTags */ = {
+			isa = PBXGroup;
+			children = (
+				386689581E9C2EF400A5A1CB /* DuplicateTagGroupEntry.h */,
+				386689591E9C2EF400A5A1CB /* DuplicateTagGroupEntry.m */,
+				386689491E9BC6EC00A5A1CB /* DuplicateTagsViewController.h */,
+				3866894A1E9BC6EC00A5A1CB /* DuplicateTagsViewController.m */,
+				3866894B1E9BC6EC00A5A1CB /* DuplicateTagsViewController.xib */,
+				3828C8111E9CF82E000A4159 /* DuplicateTagGroupRowView.h */,
+				3828C8121E9CF82E000A4159 /* DuplicateTagGroupRowView.m */,
+				3828C8141E9D0AB8000A4159 /* DuplicateTagDetailRowView.h */,
+				3828C8151E9D0AB8000A4159 /* DuplicateTagDetailRowView.m */,
+			);
+			name = DuplicateTags;
+			sourceTree = "<group>";
+		};
 		386992D31DBD10B000852B6E /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -1170,6 +1212,8 @@
 				382443A21DBE8E7200EF0048 /* STCodeFile+TagInfo.m */,
 				38FFDD1E1E8C9813004D92C3 /* NSAttributedString+Hyperlink.h */,
 				38FFDD1F1E8C9813004D92C3 /* NSAttributedString+Hyperlink.m */,
+				3828C8171E9D12AD000A4159 /* STTag+TagContent.h */,
+				3828C8181E9D12AD000A4159 /* STTag+TagContent.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -1741,6 +1785,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				38E22AC01E9D5FBC005DFFE9 /* ScintillaEmbeddedViewController.xib in Resources */,
 				3836F57D1D92C8EA00BF0DD4 /* StatTag.sdef in Resources */,
 				38FFDD251E8D5C3F004D92C3 /* UnlinkedTagsViewController.xib in Resources */,
 				3876323F1DA7D6FA00680898 /* PercentagePropertiesController.xib in Resources */,
@@ -1757,6 +1802,7 @@
 				3879D5EB1E6DD09C00BF1964 /* StatTagMacroInstallText.rtf in Resources */,
 				38FACC831E894E3200E3BB82 /* DocumentBrowserViewController.xib in Resources */,
 				387632471DA7E2AC00680898 /* DateTimePropertiesController.xib in Resources */,
+				38E22ABB1E9D4388005DFFE9 /* TagCodePeekViewController.xib in Resources */,
 				38F803661D9DCB8900C8F1EA /* ValuePropertiesController.xib in Resources */,
 				387632501DA83B6C00680898 /* StatTagNeedsWordViewController.xib in Resources */,
 				38FFDD1B1E8C7CB6004D92C3 /* AboutViewController.xib in Resources */,
@@ -1937,14 +1983,18 @@
 				3836F5A51D92D07700BF0DD4 /* ManageCodeFilesViewController.m in Sources */,
 				38E9CB101E1473A9006B3571 /* TableValueFilterFormatter.m in Sources */,
 				38FFDD1A1E8C7CB6004D92C3 /* AboutViewController.m in Sources */,
+				3866895A1E9C2EF500A5A1CB /* DuplicateTagGroupEntry.m in Sources */,
 				383F3B9C1DA684390069C78E /* TagGridView.m in Sources */,
 				38D8B1C21D9586D200BF878A /* UpdateOutputViewController.m in Sources */,
 				3846CC3D1DA49B840066D186 /* FlippedClipView.m in Sources */,
 				388ABF881DA5B1F600F08956 /* ViewUtils.m in Sources */,
+				38E22ABF1E9D5FBC005DFFE9 /* ScintillaEmbeddedViewController.mm in Sources */,
+				3828C8191E9D12AD000A4159 /* STTag+TagContent.m in Sources */,
 				3879D5E81E6DA86F00BF1964 /* AlertDisclosureTextView.m in Sources */,
 				3836F5AD1D92ED9D00BF0DD4 /* STAppleScript_LoadSettings.m in Sources */,
 				38FFDD241E8D5C3F004D92C3 /* UnlinkedTagsViewController.m in Sources */,
 				3836F5511D92C89900BF0DD4 /* main.m in Sources */,
+				3828C8131E9CF82E000A4159 /* DuplicateTagGroupRowView.m in Sources */,
 				3876324F1DA83B6C00680898 /* StatTagNeedsWordViewController.m in Sources */,
 				3836F54E1D92C89900BF0DD4 /* AppDelegate.m in Sources */,
 				38B53A1F1E8A9D3E00F29A7C /* DocumentBrowserCodeFilesViewController.m in Sources */,
@@ -1962,6 +2012,7 @@
 				386992CF1DB6CE2A00852B6E /* STDocumentManager+FileMonitor.m in Sources */,
 				382443A31DBE8E7200EF0048 /* STCodeFile+TagInfo.m in Sources */,
 				386992CC1DB6C72300852B6E /* STCodeFile+FileMonitor.m in Sources */,
+				38E22ABA1E9D4388005DFFE9 /* TagCodePeekViewController.mm in Sources */,
 				384764B01DA52D6400FCDABE /* TablePropertiesController.m in Sources */,
 				38FACC821E894E3200E3BB82 /* DocumentBrowserViewController.m in Sources */,
 				387632461DA7E2AC00680898 /* DateTimePropertiesController.m in Sources */,
@@ -1972,6 +2023,7 @@
 				38EF1A671D99544F008EA9B0 /* readme.md in Sources */,
 				385221CC1DAE98CB005E804B /* SCMarkerCollection.mm in Sources */,
 				38A843A31D9B051100357727 /* readme.md in Sources */,
+				3828C8161E9D0AB8000A4159 /* DuplicateTagDetailRowView.m in Sources */,
 				38F803531D9DAF7800C8F1EA /* UIUtility.m in Sources */,
 				383F3B981DA679AE0069C78E /* TagPreviewController.m in Sources */,
 				3836F5A91D92EBCB00BF0DD4 /* MainTabViewController.m in Sources */,
