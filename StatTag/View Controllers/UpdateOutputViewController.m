@@ -373,6 +373,11 @@ BOOL breakLoop = YES;
   [self presentViewControllerAsSheet:tagEditorController];
 }
 
+- (IBAction)deleteTag:(id)sender {
+}
+
+
+
 - (void)dismissTagEditorController:(TagEditorViewController *)controller withReturnCode:(StatTagResponseState)returnCode {
   //FIXME: need to handle errors from worker sheet
   [self dismissViewController:controller];

@@ -50,6 +50,9 @@
 }
 - (void)awakeFromNib {
    [[self fileTableView] setDoubleAction:@selector(doubleClickCodeFile:)];
+  
+  [[self fileTableView] registerForDraggedTypes:[NSArray arrayWithObject:NSFilenamesPboardType]];
+  
 }
 
 //MARK: view controller events
@@ -256,33 +259,61 @@
   if ( [openPanel runModal] == NSOKButton )
   {
     NSArray<NSURL*>* files = [openPanel URLs];
-    
-    for( NSInteger i = 0; i < [files count]; i++ )
-    {
-      NSURL* url = [files objectAtIndex:i];
-      //      if ([fileManager fileExistsAtPath:[url path] isDirectory:&isDir] && isDir) {
-      //        url = [url URLByAppendingPathComponent:defaultLogFileName];
-      //      }
-      
-      //      [[self labelFilePath] setStringValue:[url path]];
-      STCodeFile* cf = [[STCodeFile alloc] init];
-      cf.FilePathURL = url;
-      
-      //add to array controller
-      [arrayController addObject:cf];
-      
-      //re-sort in case the user has sorteda column
-      [arrayController rearrangeObjects];
-      
-    }
+    [self addCodeFilesByURL:files];
   }
   
 }
 
+-(void)addCodeFilesByURL:(NSArray<NSURL*>*)files
+{
+  NSMutableArray<STCodeFile*>* codefiles = [[NSMutableArray alloc] initWithArray:[[self arrayController] arrangedObjects]];
+  NSLog(@"codefiles = %@", codefiles);
+  NSLog(@"allowed extensions : %@", [allowedExtensions_CodeFiles pathComponents]);
+  for( NSInteger i = 0; i < [files count]; i++ )
+  {
+    NSURL* url = [files objectAtIndex:i];
+    //      if ([fileManager fileExistsAtPath:[url path] isDirectory:&isDir] && isDir) {
+    //        url = [url URLByAppendingPathComponent:defaultLogFileName];
+    //      }
+    
+    //      [[self labelFilePath] setStringValue:[url path]];
+    NSLog(@"path extension : %@", [url pathExtension]);
+    
+    if([[allowedExtensions_CodeFiles pathComponents] containsObject:[url pathExtension]])
+    {
+      STCodeFile* cf = [[STCodeFile alloc] init];
+      cf.FilePathURL = url;
+      [codefiles addObject:cf];
+    }
+  }
+  //remove duplicates
+  [codefiles setArray:[[NSSet setWithArray:codefiles] allObjects]];
+  NSLog(@"codefiles = %@", codefiles);
+  for(STCodeFile* cf in codefiles)
+  {
+    if(![[arrayController arrangedObjects] containsObject:cf])
+    {
+      [arrayController addObject:cf];
+    }
+  }
+  //add to array controller
+  // leaving this here so you know I did this initially, but things weren't persisting
+  // will circle back and evaluate later
+  //[arrayController setContent:codefiles];
+  
+  NSLog(@"arrayController content = %@", [arrayController content]);
+  
+  //re-sort in case the user has sorteda column
+  [arrayController rearrangeObjects];
+
+}
+
 - (IBAction)removeFiles:(id)sender {
+    
   NSIndexSet* selectedFiles = [arrayController selectionIndexes];
   [arrayController removeObjectsAtArrangedObjectIndexes:selectedFiles];
   [arrayController rearrangeObjects];
+  
 
 
 //  [_documentManager SaveCodeFileListToDocument:nil];
@@ -425,27 +456,60 @@
       [self codeFilesSetFocusOnTags:self];
     }
   }
-  
-  
-  
-//  NSInteger row = [self.documentsTableView selectedRow];
-//  
-//  if(row == -1) {
-//    //row = [[self tableViewOnDemand] clickedRow];
-//    row = [[self documentsTableView] clickedRow];
-//  }
-//  if(row > -1) {
-//    NSString* doc_name = [[_documentsArrayController arrangedObjects] objectAtIndex:row];
-//    if(doc_name != nil) {
-//      [WordHelpers setActiveDocumentByDocName:doc_name];
-//      [[self codeFilesViewController] configure];
-//      //[[self codeFilesViewController] updateTagSummary];
-//    }
-//    //STMSWord2011Document* doc = [[_documentsArrayController arrangedObjects] objectAtIndex:row];
-//    //if(doc != nil) {
-//    //  [WordHelpers setActiveDocumentByDocName:[doc name]];
-//    //}
-//  }
 }
+
+
+//best example of this: http://stackoverflow.com/questions/10308008/nstableview-and-drag-and-drop-from-finder
+-(NSDragOperation)tableView:(NSTableView *)aTableView validateDrop:(id < NSDraggingInfo >)info proposedRow:(NSInteger)row proposedDropOperation:(NSTableViewDropOperation)operation
+{
+  //get the file URLs from the pasteboard
+  NSPasteboard* pb = info.draggingPasteboard;
+  
+  //list the file type UTIs we want to accept
+  //EWW: full list of types here
+  // https://developer.apple.com/library/content/documentation/Miscellaneous/Reference/UTIRef/Articles/System-DeclaredUniformTypeIdentifiers.html
+  //more: https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/DragandDrop/Tasks/acceptingdrags.html#//apple_ref/doc/uid/20000993-BABHHIHC
+  NSArray* acceptedTypes = [NSArray arrayWithObject:(NSString*)kUTTypeText];
+  
+  NSArray* urls = [pb readObjectsForClasses:[NSArray arrayWithObject:[NSURL class]]
+                                    options:[NSDictionary dictionaryWithObjectsAndKeys:
+                                             [NSNumber numberWithBool:YES],NSPasteboardURLReadingFileURLsOnlyKey,
+                                             acceptedTypes, NSPasteboardURLReadingContentsConformToTypesKey,
+                                             nil]];
+  
+  return NSDragOperationCopy;
+}
+
+- (BOOL)tableView:(NSTableView *)tableView
+       acceptDrop:(id<NSDraggingInfo>)info
+              row:(NSInteger)row
+    dropOperation:(NSTableViewDropOperation)dropOperation
+{
+  
+  if(tableView == fileTableView)
+  {
+    NSLog(@"on this table");
+    NSArray* filenames = [[info draggingPasteboard] propertyListForType:NSFilenamesPboardType];
+    //we're ignoring positioning for this
+    //NSData *data = [[info draggingPasteboard] dataForType:NSFilenamesPboardType];
+    //NSIndexSet *rowIndexes = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    
+    NSMutableArray<NSURL*>*urls = [[NSMutableArray<NSURL*> alloc] init];
+    for(NSString* filename in filenames)
+    {
+      NSURL* url = [NSURL fileURLWithPath:filename ];
+      if(url != nil)
+      {
+        [urls addObject:url];
+      }
+    }
+    [self addCodeFilesByURL:urls];
+    
+    return YES;
+  }
+  
+  return NO;
+}
+
 
 @end

@@ -121,6 +121,7 @@
   }
   
   //[[self duplicateTagsViewController] setDuplicateTags:[self duplicateTags]];
+  [[self unlinkedTagsViewController] setUnlinkedTags:[[self documentManager] FindAllUnlinkedTags]];
   [[self codeFilesViewController] focusOnTags:TagIndicatorViewTagFocusUnlinkedTags];
 }
 

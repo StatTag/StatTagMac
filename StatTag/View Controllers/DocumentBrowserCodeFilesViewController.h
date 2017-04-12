@@ -27,7 +27,7 @@
 
 static NSString* const allowedExtensions_CodeFiles = @"do/DO";
 
-@interface DocumentBrowserCodeFilesViewController : NSViewController <NSTableViewDelegate> {
+@interface DocumentBrowserCodeFilesViewController : NSViewController <NSTableViewDelegate, NSTableViewDataSource> {
   NSArrayController *arrayController;
   __weak NSTableView *fileTableView;
   

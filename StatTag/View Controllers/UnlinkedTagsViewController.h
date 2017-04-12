@@ -8,6 +8,25 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface UnlinkedTagsViewController : NSViewController
+@class STTag;
+@class STDocumentManager;
+
+@interface UnlinkedTagsViewController : NSViewController <NSTableViewDelegate, NSTableViewDataSource>
+{
+  NSMutableArray<STTag*>* _unlinkedTagsArray;
+  NSDictionary<NSString*, NSArray<STTag*>*>* _unlinkedTags;
+}
+
+
+@property (strong) IBOutlet NSArrayController *unlinkedTagsArrayController;
+
+@property (weak) IBOutlet NSTableView *unlinkedTagsTableView;
+
+
+
+@property (strong, nonatomic) NSDictionary<NSString*, NSArray<STTag*>*>* unlinkedTags;
+@property (strong, nonatomic) NSMutableArray<STTag*>* unlinkedTagsArray;
+
+
 
 @end

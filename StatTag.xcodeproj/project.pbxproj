@@ -139,6 +139,7 @@
 		386992D21DB8E6F500852B6E /* STCodeFile+FileAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 386992D11DB8E6F500852B6E /* STCodeFile+FileAttributes.m */; };
 		386992D61DBD10D400852B6E /* STUIUtility.h in Headers */ = {isa = PBXBuildFile; fileRef = 386992D41DBD10D400852B6E /* STUIUtility.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		386992D71DBD10D400852B6E /* STUIUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 386992D51DBD10D400852B6E /* STUIUtility.m */; };
+		3871BA6A1E9E919600B00C22 /* UnlinkedTagsDetailRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3871BA691E9E919600B00C22 /* UnlinkedTagsDetailRowView.m */; };
 		3876323F1DA7D6FA00680898 /* PercentagePropertiesController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3876323E1DA7D6FA00680898 /* PercentagePropertiesController.xib */; };
 		387632411DA7D70500680898 /* PercentagePropertiesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 387632401DA7D70500680898 /* PercentagePropertiesController.m */; };
 		387632461DA7E2AC00680898 /* DateTimePropertiesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 387632441DA7E2AC00680898 /* DateTimePropertiesController.m */; };
@@ -521,6 +522,8 @@
 		386992D11DB8E6F500852B6E /* STCodeFile+FileAttributes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "STCodeFile+FileAttributes.m"; sourceTree = "<group>"; };
 		386992D41DBD10D400852B6E /* STUIUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STUIUtility.h; sourceTree = "<group>"; };
 		386992D51DBD10D400852B6E /* STUIUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STUIUtility.m; sourceTree = "<group>"; };
+		3871BA681E9E919600B00C22 /* UnlinkedTagsDetailRowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnlinkedTagsDetailRowView.h; sourceTree = "<group>"; };
+		3871BA691E9E919600B00C22 /* UnlinkedTagsDetailRowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnlinkedTagsDetailRowView.m; sourceTree = "<group>"; };
 		3876323E1DA7D6FA00680898 /* PercentagePropertiesController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PercentagePropertiesController.xib; sourceTree = "<group>"; };
 		387632401DA7D70500680898 /* PercentagePropertiesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PercentagePropertiesController.m; sourceTree = "<group>"; };
 		387632421DA7D70E00680898 /* PercentagePropertiesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PercentagePropertiesController.h; sourceTree = "<group>"; };
@@ -1038,9 +1041,7 @@
 				38FFDD181E8C7CB6004D92C3 /* AboutViewController.m */,
 				38FFDD191E8C7CB6004D92C3 /* AboutViewController.xib */,
 				380CBD401E89C141006E92D1 /* DocumentBrowser */,
-				38FFDD211E8D5C3F004D92C3 /* UnlinkedTagsViewController.h */,
-				38FFDD221E8D5C3F004D92C3 /* UnlinkedTagsViewController.m */,
-				38FFDD231E8D5C3F004D92C3 /* UnlinkedTagsViewController.xib */,
+				3871BA671E9E912100B00C22 /* UnlinkedTags */,
 				386689611E9CF58C00A5A1CB /* DuplicateTags */,
 				38E22AB71E9D4388005DFFE9 /* TagCodePeekViewController.h */,
 				38E22AB81E9D4388005DFFE9 /* TagCodePeekViewController.m */,
@@ -1184,6 +1185,18 @@
 				386992D51DBD10D400852B6E /* STUIUtility.m */,
 			);
 			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		3871BA671E9E912100B00C22 /* UnlinkedTags */ = {
+			isa = PBXGroup;
+			children = (
+				38FFDD211E8D5C3F004D92C3 /* UnlinkedTagsViewController.h */,
+				38FFDD221E8D5C3F004D92C3 /* UnlinkedTagsViewController.m */,
+				38FFDD231E8D5C3F004D92C3 /* UnlinkedTagsViewController.xib */,
+				3871BA681E9E919600B00C22 /* UnlinkedTagsDetailRowView.h */,
+				3871BA691E9E919600B00C22 /* UnlinkedTagsDetailRowView.m */,
+			);
+			name = UnlinkedTags;
 			sourceTree = "<group>";
 		};
 		387632481DA837FF00680898 /* AppEventListener */ = {
@@ -2031,6 +2044,7 @@
 				387632541DA9402500680898 /* STTag+Preview.m in Sources */,
 				38F803491D9C50C000C8F1EA /* SCLine.mm in Sources */,
 				384764B51DA5683100FCDABE /* NumericValuePropertiesController.m in Sources */,
+				3871BA6A1E9E919600B00C22 /* UnlinkedTagsDetailRowView.m in Sources */,
 				38F8034C1D9C579000C8F1EA /* SCLineCollection.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

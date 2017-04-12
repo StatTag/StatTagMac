@@ -3,32 +3,182 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12118"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+        <capability name="system font weights other than Regular or Bold" minToolsVersion="7.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="UnlinkedTagsViewController">
             <connections>
+                <outlet property="unlinkedTagsArrayController" destination="9au-Au-TJt" id="MyQ-f2-ly6"/>
+                <outlet property="unlinkedTagsTableView" destination="Mjy-1n-0Ii" id="gBq-gK-G5w"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView id="Hz6-mo-xeY">
-            <rect key="frame" x="0.0" y="0.0" width="480" height="272"/>
+            <rect key="frame" x="0.0" y="0.0" width="724" height="272"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b1S-3W-3wU">
-                    <rect key="frame" x="130" y="117" width="221" height="39"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Unlinked Tags" id="HgN-9V-z97">
-                        <font key="font" metaFont="systemBold" size="32"/>
-                        <color key="textColor" name="gridColor" catalog="System" colorSpace="catalog"/>
+                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oUD-xx-cdj">
+                    <rect key="frame" x="18" y="218" width="688" height="34"/>
+                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" id="Gqf-CY-YH0">
+                        <font key="font" metaFont="system"/>
+                        <string key="title">There are tags in the current Word document that reference code files that are not linked. Please select the appropriate action to take.</string>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <scrollView autohidesScrollers="YES" horizontalLineScroll="38" horizontalPageScroll="10" verticalLineScroll="38" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v75-DW-HFm">
+                    <rect key="frame" x="20" y="20" width="684" height="131"/>
+                    <clipView key="contentView" id="akz-PZ-by0">
+                        <rect key="frame" x="1" y="1" width="682" height="129"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="36" rowSizeStyle="automatic" viewBased="YES" id="Mjy-1n-0Ii">
+                                <rect key="frame" x="0.0" y="0.0" width="682" height="129"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <size key="intercellSpacing" width="3" height="2"/>
+                                <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
+                                <tableColumns>
+                                    <tableColumn width="679" minWidth="40" maxWidth="1000" id="Mr4-AJ-Phw">
+                                        <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Code File">
+                                            <font key="font" metaFont="smallSystem"/>
+                                            <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
+                                        </tableHeaderCell>
+                                        <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" title="Text Cell" id="ydM-Wh-ufh">
+                                            <font key="font" metaFont="system"/>
+                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                        <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                        <prototypeCellViews>
+                                            <tableCellView identifier="unlinkedTagDetailRow" id="869-PY-0y3" customClass="UnlinkedTagsDetailRowView">
+                                                <rect key="frame" x="1" y="1" width="679" height="36"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <subviews>
+                                                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="63n-ZR-sPk" userLabel="Stat Package Image View">
+                                                        <rect key="frame" x="4" y="2" width="32" height="32"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="stattag_tag_purple" id="VuC-9o-WQm"/>
+                                                    </imageView>
+                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JtX-if-fCA" userLabel="Code File Name">
+                                                        <rect key="frame" x="42" y="19" width="213" height="17"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                                        <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="0zi-RS-u7f">
+                                                            <font key="font" metaFont="systemSemibold" size="13"/>
+                                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                    </textField>
+                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TbP-lf-ig1" userLabel="Code File Path">
+                                                        <rect key="frame" x="42" y="2" width="218" height="17"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                                        <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="le8-Jd-hiR">
+                                                            <font key="font" metaFont="smallSystem"/>
+                                                            <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                    </textField>
+                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZTw-8g-15A" userLabel="Tag Name">
+                                                        <rect key="frame" x="264" y="19" width="191" height="17"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                                        <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="Kqc-Bd-O4N">
+                                                            <font key="font" metaFont="system"/>
+                                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                    </textField>
+                                                    <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bw5-Qn-Vet" userLabel="Action PopUp">
+                                                        <rect key="frame" x="459" y="9" width="220" height="26"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <popUpButtonCell key="cell" type="push" title="(Choose an Action)" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="LOY-pM-7g6" id="7jD-e6-ibu">
+                                                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                                            <font key="font" metaFont="menu"/>
+                                                            <menu key="menu" id="dz8-Dj-Rk9">
+                                                                <items>
+                                                                    <menuItem title="(Choose an Action)" state="on" id="LOY-pM-7g6"/>
+                                                                    <menuItem title="Link Tag to Existing Code File" id="hDk-N2-5nd"/>
+                                                                    <menuItem title="Remove Tag from Document" id="YOf-vS-sKT"/>
+                                                                    <menuItem title="Link Missing Code File" id="kmu-sl-sP6"/>
+                                                                </items>
+                                                            </menu>
+                                                        </popUpButtonCell>
+                                                    </popUpButton>
+                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QEG-1n-IBz" userLabel="Tag Type">
+                                                        <rect key="frame" x="264" y="2" width="191" height="17"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                                        <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="0xH-3o-nME">
+                                                            <font key="font" metaFont="smallSystem"/>
+                                                            <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                    </textField>
+                                                </subviews>
+                                                <connections>
+                                                    <outlet property="codeFileActionPopUpList" destination="bw5-Qn-Vet" id="BxE-Gi-Asf"/>
+                                                    <outlet property="codeFileName" destination="JtX-if-fCA" id="YQ0-hJ-yRe"/>
+                                                    <outlet property="codeFilePath" destination="TbP-lf-ig1" id="vsF-E0-GvU"/>
+                                                    <outlet property="imageView" destination="63n-ZR-sPk" id="lXf-qr-pCf"/>
+                                                    <outlet property="tagName" destination="ZTw-8g-15A" id="aTQ-sb-5w0"/>
+                                                    <outlet property="tagType" destination="QEG-1n-IBz" id="5MN-yY-S3H"/>
+                                                </connections>
+                                            </tableCellView>
+                                        </prototypeCellViews>
+                                    </tableColumn>
+                                </tableColumns>
+                                <connections>
+                                    <binding destination="9au-Au-TJt" name="selectionIndexes" keyPath="selectionIndexes" id="nDx-wJ-q8E"/>
+                                    <outlet property="dataSource" destination="-2" id="d88-RK-r3h"/>
+                                    <outlet property="delegate" destination="-2" id="ypB-LA-G5x"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                    </clipView>
+                    <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="qS8-ag-yF6">
+                        <rect key="frame" x="1" y="174" width="438" height="15"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </scroller>
+                    <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="y9j-lE-Fjj">
+                        <rect key="frame" x="224" y="17" width="15" height="102"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </scroller>
+                </scrollView>
+                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gN7-hJ-emP">
+                    <rect key="frame" x="18" y="159" width="688" height="51"/>
+                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" id="tGh-zt-6Qf">
+                        <font key="font" metaFont="system"/>
+                        <string key="title">(1) Link the tag to a code file currently linked to the Word document
+(2) Remove the tag from the document    
+(3) Link the missing code file</string>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
             </subviews>
             <constraints>
-                <constraint firstItem="b1S-3W-3wU" firstAttribute="centerY" secondItem="Hz6-mo-xeY" secondAttribute="centerY" id="dZZ-IM-ynJ"/>
-                <constraint firstItem="b1S-3W-3wU" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="roe-mO-Eqw"/>
+                <constraint firstItem="v75-DW-HFm" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="20" id="1D6-TN-eAb"/>
+                <constraint firstAttribute="trailing" secondItem="oUD-xx-cdj" secondAttribute="trailing" constant="20" id="7T5-b9-ljn"/>
+                <constraint firstAttribute="trailing" secondItem="gN7-hJ-emP" secondAttribute="trailing" constant="20" id="Fuz-sv-C3h"/>
+                <constraint firstAttribute="bottom" secondItem="v75-DW-HFm" secondAttribute="bottom" constant="20" id="IsC-Sa-kaQ"/>
+                <constraint firstAttribute="trailing" secondItem="v75-DW-HFm" secondAttribute="trailing" constant="20" id="Uye-7h-BDo"/>
+                <constraint firstItem="v75-DW-HFm" firstAttribute="top" secondItem="gN7-hJ-emP" secondAttribute="bottom" constant="8" id="Wsb-4U-dP1"/>
+                <constraint firstItem="gN7-hJ-emP" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="20" id="ZHc-kE-cpE"/>
+                <constraint firstItem="oUD-xx-cdj" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" constant="20" id="akt-Jr-gdE"/>
+                <constraint firstItem="gN7-hJ-emP" firstAttribute="top" secondItem="oUD-xx-cdj" secondAttribute="bottom" constant="8" id="cea-82-8lO"/>
+                <constraint firstItem="oUD-xx-cdj" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="20" id="vsA-N6-Evd"/>
             </constraints>
+            <point key="canvasLocation" x="244" y="153"/>
         </customView>
+        <arrayController id="9au-Au-TJt">
+            <connections>
+                <binding destination="-2" name="contentArray" keyPath="self.unlinkedTagsArray" id="BjK-u2-lAg"/>
+            </connections>
+        </arrayController>
+        <userDefaultsController representsSharedInstance="YES" id="pnj-U0-6Xq"/>
     </objects>
+    <resources>
+        <image name="stattag_tag_purple" width="512" height="512"/>
+    </resources>
 </document>
