@@ -8,10 +8,15 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class SCNotification;
-@protocol ScintillaNotificationProtocol
-- (void)notification: (SCNotification*)notification;
-@end
+//#import "Scintilla/Scintilla.h"
+#import "Scintilla/ScintillaView.h"
+//#import "Scintilla/InfoBar.h"
+
+
+//@class SCNotification;
+//@protocol ScintillaNotificationProtocol
+//- (void)notification: (SCNotification*)notification;
+//@end
 
 @class ScintillaView;
 @class SCLine;

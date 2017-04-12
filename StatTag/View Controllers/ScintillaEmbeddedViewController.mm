@@ -8,9 +8,10 @@
 
 #import "ScintillaEmbeddedViewController.h"
 
-#import "Scintilla/ScintillaView.h"
+//#import "Scintilla/ScintillaView.h"
 #import "Scintilla/InfoBar.h"
 #import "Scintilla/Scintilla.h"
+
 #import "ScintillaNET.h"
 
 #import "ViewUtils.h"
@@ -349,7 +350,7 @@ static NSString* PACKAGE_R = @"R";
 //DO NOT MODIFY the parameter type
 //ignore the type mismatch - I can't seem to figure out how to get the namespace to work in the header,
 // so we're just saying "SCNotification" there - but the fully namespaced notification here
-- (void)notification:(Scintilla::SCNotification*)notification {
+- (void)notification:(SCNotification*)notification {
   //2013 -> Scintilla.h -> #define for each
   if(notification->nmhdr.code != SCN_PAINTED) {
     //#define SCN_CHARADDED 2001
@@ -395,7 +396,7 @@ static NSString* PACKAGE_R = @"R";
   //https://groups.google.com/forum/#!topic/scintilla-interest/5kVw7Vizgns
 }
 
--(void)marginClick:(Scintilla::SCNotification*)notification
+-(void)marginClick:(SCNotification*)notification
 {
   if(notification->margin == TagMargin)
   {

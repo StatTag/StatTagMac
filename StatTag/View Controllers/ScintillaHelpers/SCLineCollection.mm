@@ -360,7 +360,7 @@ NSInteger stepLength;
   //FIXME: deal with this...
   // Fake an insert notification
   //  var scn = new NativeMethods.SCNotification();
-  Scintilla::SCNotification scn = {};// = [[Scintilla::SCNotification alloc] init];
+  SCNotification scn = {};// = [[Scintilla::SCNotification alloc] init];
   scn.linesAdded = (int)[ScintillaView directCall:[_scintilla scintillaView] message:SCI_GETLINECOUNT wParam:0 lParam:0];
   scn.position = 0;
   scn.length = (int)[ScintillaView directCall:[_scintilla scintillaView] message:SCI_GETLENGTH wParam:0 lParam:0];
@@ -371,7 +371,7 @@ NSInteger stepLength;
 }
 
 
--(void) TrackInsertText:(Scintilla::SCNotification)scn
+-(void) TrackInsertText:(SCNotification)scn
 {
   NSInteger startLine = [ScintillaView directCall:[_scintilla scintillaView] message:SCI_LINEFROMPOSITION wParam:scn.position lParam:0];
   
