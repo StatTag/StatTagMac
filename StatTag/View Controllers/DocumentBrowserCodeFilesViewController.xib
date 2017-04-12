@@ -23,13 +23,13 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="42" horizontalPageScroll="10" verticalLineScroll="42" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fep-eZ-Lfn" userLabel="Scroll View - Code Files">
-                    <rect key="frame" x="0.0" y="19" width="232" height="224"/>
+                    <rect key="frame" x="0.0" y="19" width="232" height="208"/>
                     <clipView key="contentView" id="5ib-Aa-Xio">
-                        <rect key="frame" x="0.0" y="0.0" width="232" height="224"/>
+                        <rect key="frame" x="0.0" y="0.0" width="232" height="208"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView identifier="fileTableView" verticalHuggingPriority="750" tag="2" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnSelection="YES" autosaveColumns="NO" rowHeight="40" rowSizeStyle="automatic" viewBased="YES" id="WqB-pS-IU6">
-                                <rect key="frame" x="0.0" y="0.0" width="232" height="224"/>
+                                <rect key="frame" x="0.0" y="0.0" width="232" height="208"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <size key="intercellSpacing" width="3" height="2"/>
                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -128,7 +128,7 @@
                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                         <prototypeCellViews>
                                             <tableCellView id="Zv0-K9-Ktq">
-                                                <rect key="frame" x="206" y="1" width="23" height="40"/>
+                                                <rect key="frame" x="206" y="1" width="24" height="40"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SJg-u2-VoB">
@@ -215,16 +215,16 @@
                     </constraints>
                     <color key="borderColor" name="scrollBarColor" catalog="System" colorSpace="catalog"/>
                 </box>
-                <scrollView wantsLayer="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="22" horizontalPageScroll="10" verticalLineScroll="22" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7FJ-6j-toJ" userLabel="Scroll View - Summary">
-                    <rect key="frame" x="0.0" y="263" width="232" height="64"/>
+                <scrollView wantsLayer="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="23" horizontalPageScroll="10" verticalLineScroll="23" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7FJ-6j-toJ" userLabel="Scroll View - Summary">
+                    <rect key="frame" x="0.0" y="247" width="232" height="80"/>
                     <clipView key="contentView" id="1Za-vp-oQP">
-                        <rect key="frame" x="0.0" y="0.0" width="232" height="64"/>
+                        <rect key="frame" x="0.0" y="0.0" width="232" height="80"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView identifier="tagSummaryTable" verticalHuggingPriority="750" tag="1" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" id="NqN-TR-2EJ">
-                                <rect key="frame" x="0.0" y="0.0" width="232" height="64"/>
+                                <rect key="frame" x="0.0" y="0.0" width="232" height="80"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <size key="intercellSpacing" width="3" height="5"/>
+                                <size key="intercellSpacing" width="3" height="6"/>
                                 <color key="backgroundColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                 <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                 <tableColumns>
@@ -242,7 +242,7 @@
                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                         <prototypeCellViews>
                                             <tableCellView id="fY4-JU-rfs">
-                                                <rect key="frame" x="1" y="2" width="175" height="17"/>
+                                                <rect key="frame" x="1" y="3" width="175" height="17"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ree-VA-AzC">
@@ -277,7 +277,7 @@
                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                         <prototypeCellViews>
                                             <tableCellView identifier="tagIndicatorCellView" id="u2B-OV-RXf">
-                                                <rect key="frame" x="179" y="2" width="51" height="17"/>
+                                                <rect key="frame" x="179" y="3" width="51" height="17"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Nte-v7-AVI">
@@ -310,7 +310,7 @@
                         </subviews>
                     </clipView>
                     <constraints>
-                        <constraint firstAttribute="height" constant="64" id="jJi-00-OZc"/>
+                        <constraint firstAttribute="height" constant="80" id="jJi-00-OZc"/>
                     </constraints>
                     <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="vfV-jl-ZDL">
                         <rect key="frame" x="1" y="48" width="259" height="15"/>
@@ -346,7 +346,7 @@
                     <color key="fillColor" red="0.29803922770000002" green="0.29803922770000002" blue="0.29803922770000002" alpha="1" colorSpace="calibratedRGB"/>
                 </box>
                 <box boxType="custom" borderType="line" borderWidth="0.0" title="Code Files Box" translatesAutoresizingMaskIntoConstraints="NO" id="f5a-Yv-2yg">
-                    <rect key="frame" x="0.0" y="243" width="232" height="20"/>
+                    <rect key="frame" x="0.0" y="227" width="232" height="20"/>
                     <view key="contentView" id="Zab-Ey-MIS">
                         <rect key="frame" x="0.0" y="0.0" width="232" height="20"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
