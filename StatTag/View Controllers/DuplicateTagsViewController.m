@@ -276,16 +276,6 @@ static NSEvent *popoverTransiencyMonitor;
 }
 
 
-//- (IBAction)tblvwDoubleClick:(id)sender {
-//  NSInteger row = [_tableViewMain selectedRow];
-//  if (row != -1) {
-//    ATDesktopEntity *entity = [self _entityForRow:row];
-//    [[NSWorkspace sharedWorkspace] selectFile:[entity.fileURL path] inFileViewerRootedAtPath:nil];
-//  }
-//}
-
-
-
 
 - (IBAction)editTag:(id)sender {
   if (duplicateTagEditorController == nil)
@@ -320,6 +310,7 @@ static NSEvent *popoverTransiencyMonitor;
     //no errors - so refresh the list of tags because we changed things
     //[self loadAllTags];
     //call out to parent to refresh our tag list
+    [self duplicateTagsDidChange:self];
   } else if (returnCode == Cancel) {
     //[self loadAllTags];
   } else {
@@ -327,6 +318,13 @@ static NSEvent *popoverTransiencyMonitor;
   }
 }
 
+
+-(void)duplicateTagsDidChange:(DuplicateTagsViewController*)controller
+{
+  if([[self delegate] respondsToSelector:@selector(duplicateTagsDidChange:)]) {
+    [[self delegate] duplicateTagsDidChange:controller];
+  }
+}
 
 
 @end

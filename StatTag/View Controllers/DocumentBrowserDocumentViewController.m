@@ -17,6 +17,7 @@
 #import "DuplicateTagsViewController.h"
 
 
+
 @interface DocumentBrowserDocumentViewController ()
 
 @end
@@ -68,6 +69,7 @@
   self.codeFilesViewController.documentManager = _documentManager;
   self.tagListViewController.documentManager = _documentManager;
   self.duplicateTagsViewController.documentManager = _documentManager;
+  self.duplicateTagsViewController.delegate = self;
 }
 -(STDocumentManager*)documentManager
 {
@@ -82,7 +84,6 @@
   [[self codeFilesViewController] configure];
   //FIXME: removed
   [self focusOnTags];
-
 }
 -(STMSWord2011Document*)document
 {
@@ -191,6 +192,13 @@
 -(void)codeFilesSetFocusOnUnlinkedTags:(DocumentBrowserCodeFilesViewController*)controller;
 {
   NSLog(@"focusing on unlinked tags");
+}
+
+
+-(void)duplicateTagsDidChange:(DuplicateTagsViewController*)controller
+{
+  //our tags changed
+  [[self codeFilesViewController] configure];
 }
 
 

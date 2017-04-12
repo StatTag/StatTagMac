@@ -15,6 +15,11 @@
 @class STTag;
 @class TagCodePeekViewController;
 
+@class DuplicateTagsViewController;
+@protocol DuplicateTagManagerDelegate <NSObject>
+-(void)duplicateTagsDidChange:(DuplicateTagsViewController*)controller;
+@end
+
 @interface DuplicateTagsViewController : NSViewController <NSTableViewDelegate, NSTableViewDataSource, TagEditorViewControllerDelegate, NSPopoverDelegate>
 {
   STDocumentManager* _documentManager;
@@ -22,6 +27,9 @@
   NSArray<DuplicateTagGroupEntry*>* _tagGroupEntries;
   NSString* _peekTitle;
 }
+
+
+@property (nonatomic, weak) id<DuplicateTagManagerDelegate> delegate;
 
 @property (strong, nonatomic) STDocumentManager* documentManager;
 

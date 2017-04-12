@@ -10,6 +10,7 @@
 #import "DocumentBrowserCodeFilesViewController.h"
 #import <StatTagFramework/STDuplicateTagResults.h>
 
+
 @class STMSWord2011Document;
 @class STDocumentManager;
 @class STCodeFile;
@@ -17,8 +18,9 @@
 @class UnlinkedTagsViewController;
 @class DuplicateTagsViewController;
 @class STTag;
+@protocol DuplicateTagManagerDelegate;
 
-@interface DocumentBrowserDocumentViewController : NSViewController <DocumentBrowserCodeFilesDelegate>
+@interface DocumentBrowserDocumentViewController : NSViewController <DocumentBrowserCodeFilesDelegate, DuplicateTagManagerDelegate>
 {
   STMSWord2011Document* _document;
   STDocumentManager* _documentManager;

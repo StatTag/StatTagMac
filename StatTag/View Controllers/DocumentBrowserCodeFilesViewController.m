@@ -96,6 +96,7 @@
   //  [_documentManager LoadCodeFileListFromDocument:[[StatTagShared sharedInstance] doc]];
   
   [self updateTagSummary];
+  [self viewAllTags];
 }
 
 
@@ -123,12 +124,14 @@
   numDuplicateTags = [[self duplicateTags] count];
 
   [[tagSummaryArrayController content] removeAllObjects];
-  [tagSummaryArrayController addObject:[[DocumentBrowserTagSummary alloc] initWithTitle:[NSString stringWithFormat:@"%@", @"All Tags"] andStyle:TagIndicatorViewTagStyleNormal withFocus:TagIndicatorViewTagFocusAllTags andCount:numGoodTags]];
   
+  [tagSummaryArrayController addObject:[[DocumentBrowserTagSummary alloc] initWithTitle:[NSString stringWithFormat:@"%@", @"All Tags"] andStyle:TagIndicatorViewTagStyleNormal withFocus:TagIndicatorViewTagFocusAllTags andCount:numGoodTags]];
+
   if(numDuplicateTags > 0)
   {
     [tagSummaryArrayController addObject:[[DocumentBrowserTagSummary alloc] initWithTitle:@"Duplicate Tags" andStyle:TagIndicatorViewTagStyleWarning withFocus:TagIndicatorViewTagFocusDuplicateTags andCount:numDuplicateTags]];
   }
+  
   if(numUnlinkedTags > 0)
   {
     [tagSummaryArrayController addObject:[[DocumentBrowserTagSummary alloc] initWithTitle:@"Unlinked Tags" andStyle:TagIndicatorViewTagStyleError withFocus:TagIndicatorViewTagFocusUnlinkedTags andCount:numUnlinkedTags]];
@@ -366,7 +369,7 @@
     //TagIndicatorViewTagStyleNormal
     for(DocumentBrowserTagSummary* t in [[self tagSummaryArrayController] arrangedObjects])
     {
-      if([t tagStyle] == TagIndicatorViewTagStyleNormal)
+      if([t tagFocus] == TagIndicatorViewTagFocusAllTags)
       {
         [[self tagSummaryArrayController] setSelectedObjects:[NSArray arrayWithObject:t]];
         break;
