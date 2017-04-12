@@ -374,8 +374,45 @@ BOOL breakLoop = YES;
 }
 
 - (IBAction)deleteTag:(id)sender {
+  //no tag deletion yet
+  NSAlert *alert = [[NSAlert alloc] init];
+  [alert setAlertStyle:NSAlertStyleWarning];
+  [alert setMessageText:@"Do you wish to remove the selected tags from your project?"];
+  [alert setInformativeText:@"Removing a tag will not materially change your code file. StatTag will remove references to the tag within the file, but leave the code itself intact."];
+  [alert addButtonWithTitle:@"Remove Tag"];
+  [alert addButtonWithTitle:@"Cancel"];
+  
+  [alert beginSheetModalForWindow:[[NSApplication sharedApplication] mainWindow] completionHandler:^(NSModalResponse returnCode) {
+    if (returnCode == NSAlertFirstButtonReturn) {
+      NSLog(@"tag deletion not yet implemented");
+    } else if (returnCode == NSAlertSecondButtonReturn) {
+    }
+  }];
+
+
 }
 
+- (void)keyDown:(NSEvent *)theEvent
+{
+  if((id)[self tableViewOnDemand] == [(id)[NSApp keyWindow] firstResponder])
+  {
+    if([theEvent keyCode] == 51)
+    {
+      //delete
+      [self deleteTag:tableViewOnDemand];
+    }
+  }
+}
+
+- (BOOL)tableView:(NSTableView *)tableView shouldEditTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
+  if(tableView == tableViewOnDemand)
+  {
+    NSEvent *e = [NSApp currentEvent];
+    if (e.type == NSKeyDown && e.keyCode == 48) return NO;
+    return YES;
+  }
+  return NO;
+}
 
 
 - (void)dismissTagEditorController:(TagEditorViewController *)controller withReturnCode:(StatTagResponseState)returnCode {

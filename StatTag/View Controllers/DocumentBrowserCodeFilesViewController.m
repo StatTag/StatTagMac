@@ -11,6 +11,7 @@
 #import "FileMonitor.h"
 #import "StatTagShared.h"
 #import "STDocumentManager+FileMonitor.h"
+
 //#import "TagIndicatorView.h"
 
 @interface DocumentBrowserCodeFilesViewController ()
@@ -121,8 +122,16 @@
   [self setDuplicateTags: [[[self documentManager] TagManager] FindAllDuplicateTags]];
 
   numGoodTags = [tags count];
-  numUnlinkedTags = [unlinkedTags count];
-  numDuplicateTags = [[self duplicateTags] count];
+  //numUnlinkedTags = [unlinkedTags count];
+  //numDuplicateTags = [[self duplicateTags] count];
+  for(STTag* t in [self duplicateTags])
+  {
+    numDuplicateTags += [[[self duplicateTags] objectForKey:t] count] + 1; //we need to include the parent tag as a duplicate
+  }
+  for(NSString* filepath in unlinkedTags)
+  {
+    numUnlinkedTags += [[unlinkedTags objectForKey:filepath] count];
+  }
 
   NSMutableArray<DocumentBrowserTagSummary*>* objs = [[NSMutableArray<DocumentBrowserTagSummary*> alloc] init];
 
@@ -204,6 +213,19 @@
 {
   if([[self delegate] respondsToSelector:@selector(codeFilesSetFocusOnDuplicateTags:)]) {
     [[self delegate] codeFilesSetFocusOnUnlinkedTags:controller];
+  }
+}
+
+
+- (void)keyDown:(NSEvent *)theEvent
+{
+  if((id)[self fileTableView] == [(id)[NSApp keyWindow] firstResponder])
+  {
+    if([theEvent keyCode] == 51)
+    {
+      //delete
+      [self removeFiles:fileTableView];
+    }
   }
 }
 
@@ -309,11 +331,21 @@
 }
 
 - (IBAction)removeFiles:(id)sender {
-    
-  NSIndexSet* selectedFiles = [arrayController selectionIndexes];
-  [arrayController removeObjectsAtArrangedObjectIndexes:selectedFiles];
-  [arrayController rearrangeObjects];
   
+  NSAlert *alert = [[NSAlert alloc] init];
+  [alert setAlertStyle:NSAlertStyleWarning];
+  [alert setMessageText:@"Do you wish to remove the selected code files from your project?"];
+  [alert addButtonWithTitle:@"Remove Code File"];
+  [alert addButtonWithTitle:@"Cancel"];
+  
+  [alert beginSheetModalForWindow:[[NSApplication sharedApplication] mainWindow] completionHandler:^(NSModalResponse returnCode) {
+    if (returnCode == NSAlertFirstButtonReturn) {
+      NSIndexSet* selectedFiles = [arrayController selectionIndexes];
+      [arrayController removeObjectsAtArrangedObjectIndexes:selectedFiles];
+      [arrayController rearrangeObjects];
+    } else if (returnCode == NSAlertSecondButtonReturn) {
+    }
+  }];
 
 
 //  [_documentManager SaveCodeFileListToDocument:nil];
