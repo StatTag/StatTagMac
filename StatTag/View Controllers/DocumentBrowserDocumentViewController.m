@@ -84,6 +84,7 @@
   [[self codeFilesViewController] configure];
   //FIXME: removed
   [self focusOnTags];
+  [[self codeFilesViewController] focusOnTags:TagIndicatorViewTagFocusAllTags];
 }
 -(STMSWord2011Document*)document
 {
@@ -104,7 +105,25 @@
   }
   
   [[self duplicateTagsViewController] setDuplicateTags:[self duplicateTags]];
+  [[self codeFilesViewController] focusOnTags:TagIndicatorViewTagFocusDuplicateTags];
 }
+
+-(void)focusOnUnlinkedTags
+{
+  if(![[[self focusView] subviews] containsObject:[[self unlinkedTagsViewController] view]])
+  {
+    [[self focusView] setSubviews:[NSArray array]];
+    NSView *fView = self.unlinkedTagsViewController.view;
+    fView.frame = self.focusView.bounds;
+    fView.autoresizingMask = (NSViewWidthSizable | NSViewHeightSizable);
+    [self.focusView setAutoresizesSubviews:YES];
+    [self.focusView addSubview:fView];
+  }
+  
+  //[[self duplicateTagsViewController] setDuplicateTags:[self duplicateTags]];
+  [[self codeFilesViewController] focusOnTags:TagIndicatorViewTagFocusUnlinkedTags];
+}
+
 
 -(void)focusOnTags
 {
@@ -146,7 +165,7 @@
     
     if(tag == nil)
     {
-      [[self codeFilesViewController] viewAllTags];
+      [[self codeFilesViewController] focusOnTags:TagIndicatorViewTagFocusAllTags];
       //the tag isn't found on the ones currently on screen, so load the whole tag list and check them all
       // we're going to also force the list back to "all" for this (easier, but not terribly efficient)
       tag = [[self tagListViewController] selectTagWithName:tagName];
@@ -192,6 +211,7 @@
 -(void)codeFilesSetFocusOnUnlinkedTags:(DocumentBrowserCodeFilesViewController*)controller;
 {
   NSLog(@"focusing on unlinked tags");
+  [self focusOnUnlinkedTags];
 }
 
 
@@ -199,6 +219,8 @@
 {
   //our tags changed
   [[self codeFilesViewController] configure];
+  //[self setDuplicateTags:[controller duplicateTags]];
+  [self focusOnDuplicateTags];
 }
 
 

@@ -8,6 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 #import <StatTagFramework/STDuplicateTagResults.h>
+#import "DocumentBrowserTagSummary.h"
+
 
 @class STCodeFile;
 @class STDocumentManager;
@@ -50,6 +52,6 @@ static NSString* const allowedExtensions_CodeFiles = @"do/DO";
 
 -(void)configure;
 -(void)updateTagSummary;
--(void)viewAllTags;
+-(void)focusOnTags:(TagIndicatorViewTagFocus)tagFocus;
 
 @end

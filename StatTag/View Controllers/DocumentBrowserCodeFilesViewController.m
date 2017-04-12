@@ -11,7 +11,6 @@
 #import "FileMonitor.h"
 #import "StatTagShared.h"
 #import "STDocumentManager+FileMonitor.h"
-#import "DocumentBrowserTagSummary.h"
 //#import "TagIndicatorView.h"
 
 @interface DocumentBrowserCodeFilesViewController ()
@@ -96,7 +95,6 @@
   //  [_documentManager LoadCodeFileListFromDocument:[[StatTagShared sharedInstance] doc]];
   
   [self updateTagSummary];
-  [self viewAllTags];
 }
 
 
@@ -123,19 +121,23 @@
   numUnlinkedTags = [unlinkedTags count];
   numDuplicateTags = [[self duplicateTags] count];
 
-  [[tagSummaryArrayController content] removeAllObjects];
+  NSMutableArray<DocumentBrowserTagSummary*>* objs = [[NSMutableArray<DocumentBrowserTagSummary*> alloc] init];
+
+  //[[tagSummaryArrayController content] removeAllObjects];
   
-  [tagSummaryArrayController addObject:[[DocumentBrowserTagSummary alloc] initWithTitle:[NSString stringWithFormat:@"%@", @"All Tags"] andStyle:TagIndicatorViewTagStyleNormal withFocus:TagIndicatorViewTagFocusAllTags andCount:numGoodTags]];
+  [objs addObject:[[DocumentBrowserTagSummary alloc] initWithTitle:[NSString stringWithFormat:@"%@", @"All Tags"] andStyle:TagIndicatorViewTagStyleNormal withFocus:TagIndicatorViewTagFocusAllTags andCount:numGoodTags]];
 
   if(numDuplicateTags > 0)
   {
-    [tagSummaryArrayController addObject:[[DocumentBrowserTagSummary alloc] initWithTitle:@"Duplicate Tags" andStyle:TagIndicatorViewTagStyleWarning withFocus:TagIndicatorViewTagFocusDuplicateTags andCount:numDuplicateTags]];
+    [objs addObject:[[DocumentBrowserTagSummary alloc] initWithTitle:@"Duplicate Tags" andStyle:TagIndicatorViewTagStyleWarning withFocus:TagIndicatorViewTagFocusDuplicateTags andCount:numDuplicateTags]];
   }
   
   if(numUnlinkedTags > 0)
   {
-    [tagSummaryArrayController addObject:[[DocumentBrowserTagSummary alloc] initWithTitle:@"Unlinked Tags" andStyle:TagIndicatorViewTagStyleError withFocus:TagIndicatorViewTagFocusUnlinkedTags andCount:numUnlinkedTags]];
+    [objs addObject:[[DocumentBrowserTagSummary alloc] initWithTitle:@"Unlinked Tags" andStyle:TagIndicatorViewTagStyleError withFocus:TagIndicatorViewTagFocusUnlinkedTags andCount:numUnlinkedTags]];
   }
+  
+  [tagSummaryArrayController setContent:objs];
   
 }
 
@@ -198,7 +200,7 @@
 -(void)codeFilesSetFocusOnUnlinkedTags:(DocumentBrowserCodeFilesViewController*)controller
 {
   if([[self delegate] respondsToSelector:@selector(codeFilesSetFocusOnDuplicateTags:)]) {
-    [[self delegate] codeFilesSetFocusOnDuplicateTags:controller];
+    [[self delegate] codeFilesSetFocusOnUnlinkedTags:controller];
   }
 }
 
@@ -316,8 +318,6 @@
 -(NSView*)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
   
-  //http://stackoverflow.com/questions/28112787/create-a-custom-cell-in-a-nstableview
-  
   NSTableCellView *cell = [tableView makeViewWithIdentifier:[tableColumn identifier] owner:NULL];
 
   if(tableColumn != nil)
@@ -330,46 +330,27 @@
       if(summary)
       {
         cell.textField.stringValue = [NSString stringWithFormat:@"%ld", (long)[summary tagCount]];
-        //NSImage* img = [TagIndicatorView colorImage:cell.imageView.image  withTint:NSColor.yellowColor];
         NSImage* img = [DocumentBrowserTagSummary colorImage:cell.imageView.image forTagIndicatorViewTagStyle:[summary tagStyle]];
         cell.imageView.image = img;
-        //cell.imageView.image = [NSImage imageNamed:@"tag_button"];
       }
     }
     else if([[tableColumn identifier] isEqualToString:@"tagIndicatorColumn"])
     {
       //our stat package icon
+      // this is handled by bindings
     }
-    
-    
   }
-  //tagSummaryCellView
-//  var viewIdentifier = "StandardTableCellView"
-//  
-//  if let column = tableColumn {
-//    
-//    switch column.identifier {
-//      
-//    case "nameColumn":
-//      viewIdentifier = "nameCellView"
-//      
-//    default: break
-//      
-//    }
-//  }
-//return tableView.makeViewWithIdentifier(viewIdentifier, owner: self) as? NSView
   
   return cell;
 }
 
--(void)viewAllTags
+-(void)focusOnTags:(TagIndicatorViewTagFocus)tagFocus
 {
   if([[[self tagSummaryArrayController] arrangedObjects] count] > 0)
   {
-    //TagIndicatorViewTagStyleNormal
     for(DocumentBrowserTagSummary* t in [[self tagSummaryArrayController] arrangedObjects])
     {
-      if([t tagFocus] == TagIndicatorViewTagFocusAllTags)
+      if([t tagFocus] == tagFocus)
       {
         [[self tagSummaryArrayController] setSelectedObjects:[NSArray arrayWithObject:t]];
         break;
@@ -377,6 +358,7 @@
     }
   }
 }
+
 
 /*
 -(void)viewTagWithName:(NSString*)tagName
@@ -393,28 +375,21 @@
 
 -(void)tableViewSelectionDidChange:(NSNotification *)notification
 {
-  
-  //[[aNotification object] identifier] 
-  
   //ONLY listen for changes to our two tables
-  //otherwise you're going to get a bunch of bad recursive events as we change other tables
-  
   if([[[notification object] identifier] isEqualToString:@"tagSummaryTable"] || [[[notification object] identifier] isEqualToString:@"fileTableView"])
   {
     if([[[notification object] identifier] isEqualToString:@"tagSummaryTable"])
     {
-      
+
+      NSLog(@"tableViewSelectionDidChange - tagSummaryTable - table changed");
       NSInteger row = [self.tagSummaryTableView selectedRow];
       if(row == -1) {
         row = [[self tagSummaryTableView] clickedRow];
       }
       if(row != -1)
       {
+        NSLog(@"tableViewSelectionDidChange - tagSummaryTable - selection is : %ld", row);
         //summary was selected, so we want to remove the code file selections
-        //All Tags
-        //Duplicate Tags
-        //Unlinked Tags
-
         //deselect all of the code file selections
         [[self arrayController] setSelectedObjects:[NSArray array]];
         DocumentBrowserTagSummary* tagSummary = [[[self tagSummaryArrayController] arrangedObjects]objectAtIndex:row];
@@ -434,20 +409,20 @@
     } else if([[[notification object] identifier] isEqualToString:@"fileTableView"])
     {
       NSInteger row = [self.fileTableView selectedRow];
+      NSLog(@"tableViewSelectionDidChange - fileTableView - table changed");
       if(row == -1) {
         row = [[self fileTableView] clickedRow];
       }
       if(row != -1)
       {
         //code file was selected, so we want to remove the summary file selections
-        //[[self tagSummaryTableView] deselectAll:nil];
         [[self tagSummaryArrayController] setSelectedObjects:[NSArray array]];
       }
+      NSLog(@"tableViewSelectionDidChange - fileTableView - selection is : %ld", row);
       
       //since interaction with EITHER of these two tables impacts the other table,
       // only fire for the file table view
       [self codeFilesSetFocusOnTags:self];
-      //[self selectedCodeFileDidChange:self];
     }
   }
   
