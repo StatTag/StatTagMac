@@ -193,7 +193,7 @@
 		38BE59AC1D52AA1000FF9E99 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38C91F4A1D37AC710048A95E /* Cocoa.framework */; };
 		38C3CC761DA428E700CEA70C /* DisclosureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C3CC741DA428E700CEA70C /* DisclosureViewController.m */; };
 		38C3CC771DA428E700CEA70C /* DisclosureViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38C3CC751DA428E700CEA70C /* DisclosureViewController.xib */; };
-		38C3CC7A1DA4298E00CEA70C /* TagEditorViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 38C3CC791DA4298E00CEA70C /* TagEditorViewController.mm */; };
+		38C3CC7A1DA4298E00CEA70C /* TagEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C3CC791DA4298E00CEA70C /* TagEditorViewController.m */; };
 		38C91F361D366AD70048A95E /* NSMutableArray+Stack.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C91F341D366AD70048A95E /* NSMutableArray+Stack.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38C91F371D366AD70048A95E /* NSMutableArray+Stack.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C91F351D366AD70048A95E /* NSMutableArray+Stack.m */; };
 		38C91F3F1D36D1970048A95E /* WordHelpers.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C91F3D1D36D1970048A95E /* WordHelpers.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -235,7 +235,7 @@
 		38E20E011E09EC5700B524CE /* fake-file.do in Resources */ = {isa = PBXBuildFile; fileRef = 38E20DFE1E09EC5700B524CE /* fake-file.do */; };
 		38E20E021E09EC5700B524CE /* simple-macro-test-2.do in Resources */ = {isa = PBXBuildFile; fileRef = 38E20DFF1E09EC5700B524CE /* simple-macro-test-2.do */; };
 		38E20E031E09EC5700B524CE /* simple-macro-test.do in Resources */ = {isa = PBXBuildFile; fileRef = 38E20E001E09EC5700B524CE /* simple-macro-test.do */; };
-		38E22ABA1E9D4388005DFFE9 /* TagCodePeekViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 38E22AB81E9D4388005DFFE9 /* TagCodePeekViewController.mm */; };
+		38E22ABA1E9D4388005DFFE9 /* TagCodePeekViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38E22AB81E9D4388005DFFE9 /* TagCodePeekViewController.m */; };
 		38E22ABB1E9D4388005DFFE9 /* TagCodePeekViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38E22AB91E9D4388005DFFE9 /* TagCodePeekViewController.xib */; };
 		38E22ABF1E9D5FBC005DFFE9 /* ScintillaEmbeddedViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 38E22ABD1E9D5FBC005DFFE9 /* ScintillaEmbeddedViewController.mm */; };
 		38E22AC01E9D5FBC005DFFE9 /* ScintillaEmbeddedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38E22ABE1E9D5FBC005DFFE9 /* ScintillaEmbeddedViewController.xib */; };
@@ -588,7 +588,7 @@
 		38C3CC741DA428E700CEA70C /* DisclosureViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DisclosureViewController.m; sourceTree = "<group>"; };
 		38C3CC751DA428E700CEA70C /* DisclosureViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DisclosureViewController.xib; sourceTree = "<group>"; };
 		38C3CC781DA4298E00CEA70C /* TagEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagEditorViewController.h; sourceTree = "<group>"; };
-		38C3CC791DA4298E00CEA70C /* TagEditorViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TagEditorViewController.mm; sourceTree = "<group>"; };
+		38C3CC791DA4298E00CEA70C /* TagEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagEditorViewController.m; sourceTree = "<group>"; };
 		38C91F341D366AD70048A95E /* NSMutableArray+Stack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+Stack.h"; sourceTree = "<group>"; };
 		38C91F351D366AD70048A95E /* NSMutableArray+Stack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+Stack.m"; sourceTree = "<group>"; };
 		38C91F381D36A9860048A95E /* SBObject+StatTagExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SBObject+StatTagExtensions.h"; sourceTree = "<group>"; };
@@ -634,7 +634,7 @@
 		38E20DFF1E09EC5700B524CE /* simple-macro-test-2.do */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "simple-macro-test-2.do"; sourceTree = "<group>"; };
 		38E20E001E09EC5700B524CE /* simple-macro-test.do */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "simple-macro-test.do"; sourceTree = "<group>"; };
 		38E22AB71E9D4388005DFFE9 /* TagCodePeekViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagCodePeekViewController.h; sourceTree = "<group>"; };
-		38E22AB81E9D4388005DFFE9 /* TagCodePeekViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TagCodePeekViewController.mm; sourceTree = "<group>"; };
+		38E22AB81E9D4388005DFFE9 /* TagCodePeekViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagCodePeekViewController.m; sourceTree = "<group>"; };
 		38E22AB91E9D4388005DFFE9 /* TagCodePeekViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TagCodePeekViewController.xib; sourceTree = "<group>"; };
 		38E22ABC1E9D5FBC005DFFE9 /* ScintillaEmbeddedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScintillaEmbeddedViewController.h; sourceTree = "<group>"; };
 		38E22ABD1E9D5FBC005DFFE9 /* ScintillaEmbeddedViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ScintillaEmbeddedViewController.mm; sourceTree = "<group>"; };
@@ -1029,7 +1029,7 @@
 				38D8B1C51D95872A00BF878A /* UpdateOutputProgressViewController.m */,
 				38D8B1C61D95872A00BF878A /* UpdateOutputProgressViewController.xib */,
 				38C3CC781DA4298E00CEA70C /* TagEditorViewController.h */,
-				38C3CC791DA4298E00CEA70C /* TagEditorViewController.mm */,
+				38C3CC791DA4298E00CEA70C /* TagEditorViewController.m */,
 				38AB41831DA1564C00EA464C /* TagEditorViewController.xib */,
 				3876324C1DA83B6C00680898 /* StatTagNeedsWordViewController.h */,
 				3876324D1DA83B6C00680898 /* StatTagNeedsWordViewController.m */,
@@ -1043,7 +1043,7 @@
 				38FFDD231E8D5C3F004D92C3 /* UnlinkedTagsViewController.xib */,
 				386689611E9CF58C00A5A1CB /* DuplicateTags */,
 				38E22AB71E9D4388005DFFE9 /* TagCodePeekViewController.h */,
-				38E22AB81E9D4388005DFFE9 /* TagCodePeekViewController.mm */,
+				38E22AB81E9D4388005DFFE9 /* TagCodePeekViewController.m */,
 				38E22AB91E9D4388005DFFE9 /* TagCodePeekViewController.xib */,
 				38E22ABC1E9D5FBC005DFFE9 /* ScintillaEmbeddedViewController.h */,
 				38E22ABD1E9D5FBC005DFFE9 /* ScintillaEmbeddedViewController.mm */,
@@ -2006,13 +2006,13 @@
 				385221C91DAE90CF005E804B /* SCMarker.mm in Sources */,
 				386992D21DB8E6F500852B6E /* STCodeFile+FileAttributes.m in Sources */,
 				38F803461D9C4CEB00C8F1EA /* SCMarkerHandle.mm in Sources */,
-				38C3CC7A1DA4298E00CEA70C /* TagEditorViewController.mm in Sources */,
+				38C3CC7A1DA4298E00CEA70C /* TagEditorViewController.m in Sources */,
 				387632411DA7D70500680898 /* PercentagePropertiesController.m in Sources */,
 				38FFDD161E8C3937004D92C3 /* STCodeFile+PackageIcon.m in Sources */,
 				386992CF1DB6CE2A00852B6E /* STDocumentManager+FileMonitor.m in Sources */,
 				382443A31DBE8E7200EF0048 /* STCodeFile+TagInfo.m in Sources */,
 				386992CC1DB6C72300852B6E /* STCodeFile+FileMonitor.m in Sources */,
-				38E22ABA1E9D4388005DFFE9 /* TagCodePeekViewController.mm in Sources */,
+				38E22ABA1E9D4388005DFFE9 /* TagCodePeekViewController.m in Sources */,
 				384764B01DA52D6400FCDABE /* TablePropertiesController.m in Sources */,
 				38FACC821E894E3200E3BB82 /* DocumentBrowserViewController.m in Sources */,
 				387632461DA7E2AC00680898 /* DateTimePropertiesController.m in Sources */,

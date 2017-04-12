@@ -232,11 +232,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StatTag/View Controllers/TagEditorViewController.mm"
-            timestampString = "512601809.261409"
+            timestampString = "513639876.829501"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "444"
-            endingLineNumber = "444"
+            startingLineNumber = "400"
+            endingLineNumber = "400"
             landmarkName = "-save:"
             landmarkType = "7">
          </BreakpointContent>
@@ -424,11 +424,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StatTag/View Controllers/TagEditorViewController.mm"
-            timestampString = "508092218.647692"
+            timestampString = "513639876.829501"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "132"
-            endingLineNumber = "132"
+            startingLineNumber = "105"
+            endingLineNumber = "105"
             landmarkName = "-initializeStackView"
             landmarkType = "7">
          </BreakpointContent>
@@ -440,11 +440,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StatTag/View Controllers/TagEditorViewController.mm"
-            timestampString = "512597363.971773"
+            timestampString = "513639876.829501"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "189"
-            endingLineNumber = "189"
+            startingLineNumber = "159"
+            endingLineNumber = "159"
             landmarkName = "-viewDidAppear"
             landmarkType = "7">
          </BreakpointContent>
@@ -2626,43 +2626,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StatTag/View Controllers/TagEditorViewController.mm"
-            timestampString = "513632691.788848"
+            timestampString = "513639876.829501"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1017"
-            endingLineNumber = "1017"
-            landmarkName = "-marginClick:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "StatTag/View Controllers/TagEditorViewController.mm"
-            timestampString = "513632691.788848"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1044"
-            endingLineNumber = "1044"
-            landmarkName = "-marginClick:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "StatTag/View Controllers/TagEditorViewController.mm"
-            timestampString = "512597426.551073"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "185"
-            endingLineNumber = "185"
+            startingLineNumber = "155"
+            endingLineNumber = "155"
             landmarkName = "-viewDidAppear"
             landmarkType = "7">
          </BreakpointContent>
@@ -2674,11 +2642,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StatTag/View Controllers/TagEditorViewController.mm"
-            timestampString = "512601809.261409"
+            timestampString = "513639876.829501"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "452"
-            endingLineNumber = "452"
+            startingLineNumber = "408"
+            endingLineNumber = "408"
             landmarkName = "-save:"
             landmarkType = "7">
          </BreakpointContent>
@@ -2690,11 +2658,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StatTag/View Controllers/TagEditorViewController.mm"
-            timestampString = "512601809.261409"
+            timestampString = "513639876.829501"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "484"
-            endingLineNumber = "484"
+            startingLineNumber = "440"
+            endingLineNumber = "440"
             landmarkName = "-saveAndClose"
             landmarkType = "7">
          </BreakpointContent>
@@ -2706,11 +2674,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StatTag/View Controllers/TagEditorViewController.mm"
-            timestampString = "512601809.261409"
+            timestampString = "513639876.829501"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "483"
-            endingLineNumber = "483"
+            startingLineNumber = "439"
+            endingLineNumber = "439"
             landmarkName = "-saveAndClose"
             landmarkType = "7">
          </BreakpointContent>
@@ -2770,124 +2738,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StatTag/View Controllers/TagEditorViewController.mm"
-            timestampString = "512601697.352931"
+            timestampString = "513639876.829501"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "370"
-            endingLineNumber = "370"
+            startingLineNumber = "326"
+            endingLineNumber = "326"
             landmarkName = "-save:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "StatTag/View Controllers/TagEditorViewController.mm"
-            timestampString = "513632691.788848"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "961"
-            endingLineNumber = "961"
-            landmarkName = "-marginClick:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "StatTag/View Controllers/TagEditorViewController.mm"
-            timestampString = "513632691.788848"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "968"
-            endingLineNumber = "968"
-            landmarkName = "-marginClick:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "StatTag/View Controllers/TagEditorViewController.mm"
-            timestampString = "513632691.788848"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "915"
-            endingLineNumber = "915"
-            landmarkName = "-notification:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "StatTag/View Controllers/TagEditorViewController.mm"
-            timestampString = "513632691.788848"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "934"
-            endingLineNumber = "934"
-            landmarkName = "-notification:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "StatTag/View Controllers/TagEditorViewController.mm"
-            timestampString = "513632691.788848"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "971"
-            endingLineNumber = "971"
-            landmarkName = "-marginClick:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "StatTag/View Controllers/TagEditorViewController.mm"
-            timestampString = "513632691.788848"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1010"
-            endingLineNumber = "1010"
-            landmarkName = "-marginClick:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "StatTag/View Controllers/TagEditorViewController.mm"
-            timestampString = "513632691.788848"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1014"
-            endingLineNumber = "1014"
-            landmarkName = "-marginClick:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -3106,11 +2962,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StatTag/View Controllers/DuplicateTagsViewController.m"
-            timestampString = "513624920.009193"
+            timestampString = "513646375.349699"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "86"
-            endingLineNumber = "86"
+            startingLineNumber = "89"
+            endingLineNumber = "89"
             landmarkName = "-tableView:isGroupRow:"
             landmarkType = "7">
          </BreakpointContent>
@@ -3122,11 +2978,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StatTag/View Controllers/DuplicateTagsViewController.m"
-            timestampString = "513624920.009193"
+            timestampString = "513646375.349699"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "68"
-            endingLineNumber = "68"
+            startingLineNumber = "71"
+            endingLineNumber = "71"
             landmarkName = "-setDuplicateTags:"
             landmarkType = "7">
          </BreakpointContent>
@@ -3154,11 +3010,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StatTag/View Controllers/DuplicateTagsViewController.m"
-            timestampString = "513624920.009193"
+            timestampString = "513646375.349699"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "107"
-            endingLineNumber = "107"
+            startingLineNumber = "110"
+            endingLineNumber = "110"
             landmarkName = "-tableView:viewForTableColumn:row:"
             landmarkType = "7">
          </BreakpointContent>
@@ -3170,11 +3026,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StatTag/View Controllers/DuplicateTagsViewController.m"
-            timestampString = "513624920.009193"
+            timestampString = "513646375.349699"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "81"
-            endingLineNumber = "81"
+            startingLineNumber = "84"
+            endingLineNumber = "84"
             landmarkName = "-numberOfRowsInTableView:"
             landmarkType = "7">
          </BreakpointContent>
@@ -3186,11 +3042,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StatTag/View Controllers/DuplicateTagsViewController.m"
-            timestampString = "513624920.009193"
+            timestampString = "513646375.349699"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "162"
-            endingLineNumber = "162"
+            startingLineNumber = "165"
+            endingLineNumber = "165"
             landmarkName = "-tableView:heightOfRow:"
             landmarkType = "7">
          </BreakpointContent>
@@ -3202,11 +3058,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StatTag/View Controllers/DuplicateTagsViewController.m"
-            timestampString = "513624920.009193"
+            timestampString = "513646375.349699"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "111"
-            endingLineNumber = "111"
+            startingLineNumber = "114"
+            endingLineNumber = "114"
             landmarkName = "-tableView:viewForTableColumn:row:"
             landmarkType = "7">
          </BreakpointContent>
@@ -3218,11 +3074,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StatTag/View Controllers/DuplicateTagsViewController.m"
-            timestampString = "513628401.553578"
+            timestampString = "513646375.349699"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "317"
-            endingLineNumber = "317"
+            startingLineNumber = "305"
+            endingLineNumber = "305"
             landmarkName = "-editTag:"
             landmarkType = "7">
          </BreakpointContent>
@@ -3234,11 +3090,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StatTag/View Controllers/TagEditorViewController.mm"
-            timestampString = "513621731.751211"
+            timestampString = "513639876.829501"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "428"
-            endingLineNumber = "428"
+            startingLineNumber = "384"
+            endingLineNumber = "384"
             landmarkName = "-save:"
             landmarkType = "7">
          </BreakpointContent>
@@ -3250,11 +3106,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StatTag/View Controllers/TagEditorViewController.mm"
-            timestampString = "513621733.288028"
+            timestampString = "513639876.829501"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "434"
-            endingLineNumber = "434"
+            startingLineNumber = "390"
+            endingLineNumber = "390"
             landmarkName = "-save:"
             landmarkType = "7">
          </BreakpointContent>
@@ -3330,11 +3186,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StatTag/View Controllers/DuplicateTagsViewController.m"
-            timestampString = "513628401.553578"
+            timestampString = "513646375.349699"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "230"
-            endingLineNumber = "230"
+            startingLineNumber = "219"
+            endingLineNumber = "219"
             landmarkName = "-createPopover"
             landmarkType = "7">
          </BreakpointContent>
@@ -3346,11 +3202,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StatTag/View Controllers/TagCodePeekViewController.m"
-            timestampString = "513627066.131118"
+            timestampString = "513641530.225357"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "61"
-            endingLineNumber = "61"
+            startingLineNumber = "81"
+            endingLineNumber = "81"
             landmarkName = "-setTag:"
             landmarkType = "7">
          </BreakpointContent>
@@ -3362,11 +3218,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StatTag/View Controllers/ScintillaEmbeddedViewController.mm"
-            timestampString = "513637217.909086"
+            timestampString = "513640148.014376"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "94"
-            endingLineNumber = "94"
+            startingLineNumber = "95"
+            endingLineNumber = "95"
             landmarkName = "-addSourceViewEditor"
             landmarkType = "7">
          </BreakpointContent>
@@ -3378,11 +3234,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StatTag/View Controllers/ScintillaEmbeddedViewController.mm"
-            timestampString = "513637217.909086"
+            timestampString = "513640148.014376"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "149"
-            endingLineNumber = "149"
+            startingLineNumber = "102"
+            endingLineNumber = "102"
             landmarkName = "-addSourceViewEditor"
             landmarkType = "7">
          </BreakpointContent>
@@ -3394,11 +3250,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StatTag/View Controllers/ScintillaEmbeddedViewController.mm"
-            timestampString = "513637217.909086"
+            timestampString = "513640148.014376"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "86"
-            endingLineNumber = "86"
+            startingLineNumber = "87"
+            endingLineNumber = "87"
             landmarkName = "-viewDidAppear"
             landmarkType = "7">
          </BreakpointContent>
@@ -3452,11 +3308,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StatTag/View Controllers/ScintillaEmbeddedViewController.mm"
-            timestampString = "513637217.909086"
+            timestampString = "513640148.014376"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "66"
-            endingLineNumber = "66"
+            startingLineNumber = "67"
+            endingLineNumber = "67"
             landmarkName = "-awakeFromNib"
             landmarkType = "7">
          </BreakpointContent>
@@ -3490,6 +3346,118 @@
             startingLineNumber = "61"
             endingLineNumber = "61"
             landmarkName = "-viewDidLoad"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "StatTag/View Controllers/TagEditorViewController.m"
+            timestampString = "513640279.343725"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "184"
+            endingLineNumber = "184"
+            landmarkName = "-viewDidAppear"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "StatTag/View Controllers/TagEditorViewController.m"
+            timestampString = "513640280.444117"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "186"
+            endingLineNumber = "186"
+            landmarkName = "-viewDidAppear"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "StatTag/View Controllers/TagEditorViewController.m"
+            timestampString = "513640753.593426"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "341"
+            endingLineNumber = "341"
+            landmarkName = "-save:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "StatTag/View Controllers/DuplicateTagsViewController.m"
+            timestampString = "513646375.349699"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "185"
+            endingLineNumber = "185"
+            landmarkName = "-peekAtCode:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "StatTag/View Controllers/DuplicateTagsViewController.m"
+            timestampString = "513646375.349699"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "192"
+            endingLineNumber = "192"
+            landmarkName = "-peekAtCode:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "StatTag/View Controllers/DuplicateTagsViewController.m"
+            timestampString = "513646375.349699"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "256"
+            endingLineNumber = "256"
+            landmarkName = "-popoverWillClose:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "StatTag/View Controllers/DuplicateTagsViewController.m"
+            timestampString = "513646375.349699"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "267"
+            endingLineNumber = "267"
+            landmarkName = "-popoverDidClose:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

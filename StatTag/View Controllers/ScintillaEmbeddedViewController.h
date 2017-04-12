@@ -14,6 +14,7 @@
 @end
 
 @class ScintillaView;
+@class SCLine;
 
 @interface ScintillaEmbeddedViewController : NSViewController <ScintillaNotificationProtocol>
 {
@@ -29,8 +30,15 @@
 
 -(void)loadSource:(NSString*)source withPackageIdentifier:(NSString*)packageType;
 
+-(void)SetLineMarker:(SCLine*)line andMark:(BOOL)mark;
 -(NSArray<NSString*>*)GetSelectedText;
 -(NSArray<NSNumber*>*)GetSelectedIndices;
 -(void)EmptyUndoBuffer;
+-(NSArray<SCLine*>*)GetSelectedLines;
+-(NSString*)string;
+
+-(void)setLinMarkerAtIndex:(NSInteger)index;
+-(void)scrollToLine:(NSInteger)startIndex;
+
 
 @end

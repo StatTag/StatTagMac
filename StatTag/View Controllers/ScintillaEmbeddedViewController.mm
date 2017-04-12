@@ -63,6 +63,8 @@ static NSString* PACKAGE_R = @"R";
   return self;
 }
 - (void)awakeFromNib {
+  [self setEditable:YES];
+  [self setUsesInfoBar:YES];
   [self addSourceViewEditor];
   
   commentColor = [StatTagShared colorFromRGBRed:0.0f green:127.0f blue:0.0f alpha: 1.0]; //0x00, 0x7F, 0x00
@@ -71,7 +73,6 @@ static NSString* PACKAGE_R = @"R";
   macroKeywordColor = [StatTagShared colorFromRGBRed:0.0f green:0.0f blue:127.0f alpha:1.0f];    //0x00, 0x00, 0x7F
   blockKeywordColor = [StatTagShared colorFromRGBRed:0.0f green:0.0f blue:127.0f alpha:1.0f];    //0x00, 0x00, 0x7F
   
-  [self setUsesInfoBar:YES];
   
 }
 
@@ -483,6 +484,11 @@ static NSString* PACKAGE_R = @"R";
   }
 }
 
+-(NSString*)string
+{
+  return [[self sourceEditor] string];
+}
+
 -(NSArray<NSString*>*)GetSelectedText
 {
   NSArray<NSString*>* lines = [[self GetSelectedLines] valueForKeyPath:@"Text"];
@@ -509,6 +515,14 @@ static NSString* PACKAGE_R = @"R";
     nextLineIndex = [[[[scintillaHelper Lines] Lines ] objectAtIndex:(nextLineIndex + 1)] MarkerNext:(1 << TagMarker)];
   }
   return (NSArray<SCLine*>*)lines;
+}
+-(void)setLinMarkerAtIndex:(NSInteger)index
+{
+  [self SetLineMarker:[[[scintillaHelper Lines] Lines] objectAtIndex: index ] andMark:YES];
+}
+-(void)scrollToLine:(NSInteger)startIndex
+{
+  [scintillaHelper LineScroll:startIndex columns:0];
 }
 
 

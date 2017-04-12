@@ -20,7 +20,7 @@
   STDocumentManager* _documentManager;
   STDuplicateTagResults* _duplicateTags;
   NSArray<DuplicateTagGroupEntry*>* _tagGroupEntries;
-  
+  NSString* _peekTitle;
 }
 
 @property (strong, nonatomic) STDocumentManager* documentManager;
@@ -36,6 +36,8 @@
 
 @property (strong) IBOutlet NSPopover *popoverView;
 
+
+@property (strong, nonatomic) NSString* peekTitle;
 
 
 @end

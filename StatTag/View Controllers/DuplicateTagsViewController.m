@@ -24,8 +24,11 @@
 
 @synthesize tagGroupEntries = _tagGroupEntries;
 @synthesize duplicateTags = _duplicateTags;
+@synthesize peekTitle = _peekTitle;
 
 TagEditorViewController* duplicateTagEditorController;
+
+static NSEvent *popoverTransiencyMonitor;
 
 //MARK: storyboard / nib setup
 - (NSString *)nibName
@@ -59,7 +62,7 @@ TagEditorViewController* duplicateTagEditorController;
   
   _popoverViewController = [[TagCodePeekViewController alloc] init];
 
-  
+  _peekTitle = @"Peek";
 }
 
 -(void)setDuplicateTags:(STDuplicateTagResults *)duplicateTags
@@ -166,7 +169,7 @@ TagEditorViewController* duplicateTagEditorController;
     {
       return 36;
     }
-    return 80;
+    return 32;
   }
   return [tableView rowHeight];
 }
@@ -186,7 +189,8 @@ TagEditorViewController* duplicateTagEditorController;
   // configure the preferred position of the popover
   NSRectEdge prefEdge = 1;
 
-  NSInteger row = [[self duplicateTagTableView] selectedRow];
+  //NSInteger row = [[self duplicateTagTableView] selectedRow];
+  NSInteger row = [[self duplicateTagTableView] rowForView:sender];
   if(row > -1)
   {
     DuplicateTagGroupEntry* entry = [[self tagGroupEntries] objectAtIndex:row];
@@ -197,32 +201,17 @@ TagEditorViewController* duplicateTagEditorController;
       
       NSRect r = [[self duplicateTagTableView] frameOfCellAtColumn:0 row:[[self duplicateTagTableView] selectedRow]];
       
-      [[self popoverView] showRelativeToRect:r ofView:sender preferredEdge:prefEdge];
+      //[[self popoverView] showRelativeToRect:r ofView:sender preferredEdge:prefEdge];
+      [[self popoverView] showRelativeToRect:[sender bounds] ofView:sender preferredEdge:NSMaxYEdge];
     }
     else
     {
       [[self popoverView] close];
-      
     }
   } else {
     [[self popoverView] close];
   }
 
-  
-//  // Create popover
-//  NSPopover *entryPopover = [[NSPopover alloc] init];
-//  [entryPopover setContentSize:NSMakeSize(200.0, 200.0)];
-//  [entryPopover setBehavior:NSPopoverBehaviorTransient];
-//  [entryPopover setAnimates:YES];
-//  [entryPopover setContentViewController:_popoverViewController];
-//
-//  // Convert point to main window coordinates
-//  NSRect entryRect = [sender convertRect:[sender view].bounds
-//                                  toView:[[NSApp mainWindow] contentView]];
-//  // Show popover
-//  [entryPopover showRelativeToRect:entryRect
-//                            ofView:[[NSApp mainWindow] contentView]
-//                     preferredEdge:NSMinYEdge];
 }
 
 - (void)createPopover
@@ -243,10 +232,9 @@ TagEditorViewController* duplicateTagEditorController;
     
     // so we can be notified when the popover appears or closes
     self.popoverView.delegate = self;
+    
   }
 }
-
-
 
 //MARK: popover delegate
 
@@ -338,6 +326,7 @@ TagEditorViewController* duplicateTagEditorController;
     //could be cancel, could be error
   }
 }
+
 
 
 @end
