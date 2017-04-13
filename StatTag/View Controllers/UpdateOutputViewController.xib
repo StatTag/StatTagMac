@@ -90,9 +90,6 @@
                                                         </connections>
                                                     </imageView>
                                                 </subviews>
-                                                <connections>
-                                                    <outlet property="imageView" destination="cgv-GN-xa6" id="uHU-vt-wh9"/>
-                                                </connections>
                                             </tableCellView>
                                         </prototypeCellViews>
                                         <connections>
@@ -142,9 +139,6 @@
                                                         </connections>
                                                     </textField>
                                                 </subviews>
-                                                <connections>
-                                                    <outlet property="textField" destination="3nS-Ra-r5G" id="chR-jh-p8x"/>
-                                                </connections>
                                             </tableCellView>
                                         </prototypeCellViews>
                                         <connections>
@@ -214,9 +208,6 @@
                                                         </connections>
                                                     </imageView>
                                                 </subviews>
-                                                <connections>
-                                                    <outlet property="textField" destination="URm-2q-nUy" id="Zk1-xx-kF5"/>
-                                                </connections>
                                             </tableCellView>
                                         </prototypeCellViews>
                                         <connections>
@@ -254,9 +245,6 @@
                                                         </connections>
                                                     </textField>
                                                 </subviews>
-                                                <connections>
-                                                    <outlet property="textField" destination="nJf-3f-FQT" id="grC-Yo-t6v"/>
-                                                </connections>
                                             </tableCellView>
                                         </prototypeCellViews>
                                         <connections>
