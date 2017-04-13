@@ -140,6 +140,7 @@
 		386992D61DBD10D400852B6E /* STUIUtility.h in Headers */ = {isa = PBXBuildFile; fileRef = 386992D41DBD10D400852B6E /* STUIUtility.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		386992D71DBD10D400852B6E /* STUIUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 386992D51DBD10D400852B6E /* STUIUtility.m */; };
 		3871BA6A1E9E919600B00C22 /* UnlinkedTagsDetailRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3871BA691E9E919600B00C22 /* UnlinkedTagsDetailRowView.m */; };
+		3871BA6D1E9EE87900B00C22 /* STDocumentManager+TagUsage.m in Sources */ = {isa = PBXBuildFile; fileRef = 3871BA6C1E9EE87900B00C22 /* STDocumentManager+TagUsage.m */; };
 		3876323F1DA7D6FA00680898 /* PercentagePropertiesController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3876323E1DA7D6FA00680898 /* PercentagePropertiesController.xib */; };
 		387632411DA7D70500680898 /* PercentagePropertiesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 387632401DA7D70500680898 /* PercentagePropertiesController.m */; };
 		387632461DA7E2AC00680898 /* DateTimePropertiesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 387632441DA7E2AC00680898 /* DateTimePropertiesController.m */; };
@@ -524,6 +525,8 @@
 		386992D51DBD10D400852B6E /* STUIUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STUIUtility.m; sourceTree = "<group>"; };
 		3871BA681E9E919600B00C22 /* UnlinkedTagsDetailRowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnlinkedTagsDetailRowView.h; sourceTree = "<group>"; };
 		3871BA691E9E919600B00C22 /* UnlinkedTagsDetailRowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnlinkedTagsDetailRowView.m; sourceTree = "<group>"; };
+		3871BA6B1E9EE87900B00C22 /* STDocumentManager+TagUsage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "STDocumentManager+TagUsage.h"; sourceTree = "<group>"; };
+		3871BA6C1E9EE87900B00C22 /* STDocumentManager+TagUsage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "STDocumentManager+TagUsage.m"; sourceTree = "<group>"; };
 		3876323E1DA7D6FA00680898 /* PercentagePropertiesController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PercentagePropertiesController.xib; sourceTree = "<group>"; };
 		387632401DA7D70500680898 /* PercentagePropertiesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PercentagePropertiesController.m; sourceTree = "<group>"; };
 		387632421DA7D70E00680898 /* PercentagePropertiesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PercentagePropertiesController.h; sourceTree = "<group>"; };
@@ -1227,6 +1230,8 @@
 				38FFDD1F1E8C9813004D92C3 /* NSAttributedString+Hyperlink.m */,
 				3828C8171E9D12AD000A4159 /* STTag+TagContent.h */,
 				3828C8181E9D12AD000A4159 /* STTag+TagContent.m */,
+				3871BA6B1E9EE87900B00C22 /* STDocumentManager+TagUsage.h */,
+				3871BA6C1E9EE87900B00C22 /* STDocumentManager+TagUsage.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -1995,6 +2000,7 @@
 				386652E91E6C5F0300F3150E /* MacroInstallerUtility.m in Sources */,
 				3836F5A51D92D07700BF0DD4 /* ManageCodeFilesViewController.m in Sources */,
 				38E9CB101E1473A9006B3571 /* TableValueFilterFormatter.m in Sources */,
+				3871BA6D1E9EE87900B00C22 /* STDocumentManager+TagUsage.m in Sources */,
 				38FFDD1A1E8C7CB6004D92C3 /* AboutViewController.m in Sources */,
 				3866895A1E9C2EF500A5A1CB /* DuplicateTagGroupEntry.m in Sources */,
 				383F3B9C1DA684390069C78E /* TagGridView.m in Sources */,

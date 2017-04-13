@@ -139,6 +139,7 @@ BOOL breakLoop = YES;
   }
   
   [self setDocumentTags:[[NSMutableArray<STTag*> alloc] initWithArray:[_documentManager GetTags]]];
+  
 }
 
 -(void)getTags {
