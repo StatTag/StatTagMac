@@ -70,7 +70,7 @@ static NSEvent *popoverTransiencyMonitor;
   _duplicateTags = duplicateTags;
   NSArray<DuplicateTagGroupEntry*>* t = [DuplicateTagGroupEntry initWithDuplicateTagResults:duplicateTags];
   [self setTagGroupEntries:t];
-  NSLog(@"%@", t);
+  //NSLog(@"%@", t);
   [[self duplicateTagTableView] reloadData];
 }
 -(STDuplicateTagResults*)duplicateTags
@@ -80,7 +80,7 @@ static NSEvent *popoverTransiencyMonitor;
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
-  NSLog(@"tagGroupEntries count : %ld", [[self tagGroupEntries] count]);
+  //NSLog(@"tagGroupEntries count : %ld", [[self tagGroupEntries] count]);
   return [[self tagGroupEntries] count];
 }
 

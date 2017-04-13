@@ -129,10 +129,10 @@ const NSInteger ShowStata = 3;
     [self Show];
   }
   @catch (NSException* exception) {
-    NSLog(@"%@", exception.reason);
-    NSLog(@"method: %@, line : %d", NSStringFromSelector(_cmd), __LINE__);
-    NSLog(@"%@", [NSThread callStackSymbols]);
-    NSLog(@"Exception Initialize %@: %@", NSStringFromClass([self class]), [exception description]);
+    //NSLog(@"%@", exception.reason);
+    //NSLog(@"method: %@, line : %d", NSStringFromSelector(_cmd), __LINE__);
+    //NSLog(@"%@", [NSThread callStackSymbols]);
+    //NSLog(@"Exception Initialize %@: %@", NSStringFromClass([self class]), [exception description]);
     return false;
   }
   @finally {
@@ -177,11 +177,11 @@ const NSInteger ShowStata = 3;
     // If we catch an exception, the script is going to stop operating.  So we will check to see
     // if any log files are open, and close them for the user.  Otherwise the log will remain
     // open.
-    NSLog(@"%@", exception.reason);
-    NSLog(@"method: %@, line : %d", NSStringFromSelector(_cmd), __LINE__);
-    NSLog(@"%@", [NSThread callStackSymbols]);
+    //NSLog(@"%@", exception.reason);
+    //NSLog(@"method: %@, line : %d", NSStringFromSelector(_cmd), __LINE__);
+    //NSLog(@"%@", [NSThread callStackSymbols]);
     
-    NSLog(@"Exception Initialize %@: %@", NSStringFromClass([self class]), [exception description]);
+    //NSLog(@"Exception Initialize %@: %@", NSStringFromClass([self class]), [exception description]);
     for(NSString* openLog in OpenLogs) {
       [self RunCommand:[NSString stringWithFormat:@"%@ close", openLog]];
     }
@@ -338,7 +338,7 @@ const NSInteger ShowStata = 3;
   }
   
   NSInteger stataErrorCode = [Application UtilStataErrorCode];
-  NSLog(@"stataErrorCode : %ld", stataErrorCode);
+  //NSLog(@"stataErrorCode : %ld", stataErrorCode);
 
   if([Parser IsImageExport:command]) {
     

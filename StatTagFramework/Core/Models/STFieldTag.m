@@ -75,16 +75,16 @@
 -(instancetype)initWithTag:(STTag*)tag andFieldTag:(STFieldTag*)fieldTag{
   if(tag != nil) {
     self = [super initWithTag:tag];
-    NSLog(@"initWithTag: using STTag");
+    //NSLog(@"initWithTag: using STTag");
   } else {
     self = [super initWithTag:fieldTag];
-    NSLog(@"initWithTag: using STFieldTag");
+    //NSLog(@"initWithTag: using STFieldTag");
   }
   if(self){
     _TableCellIndex = [fieldTag TableCellIndex];
     [self setCodeFilePath:[fieldTag CodeFilePath]]; //= [fieldTag CodeFilePath];
     [self SetCachedValue];
-    NSLog(@"initWithTag:andFieldTag: - FormattedResult : %@", [self FormattedResult]);
+    //NSLog(@"initWithTag:andFieldTag: - FormattedResult : %@", [self FormattedResult]);
   }
   return self;
 }
@@ -207,7 +207,7 @@
   
   for (NSString* key in dict) {
 //    if([key isEqualToString:@"CodeFile"]) {
-//      //NSLog(@"STTag - attempting to recover CodeFile with value %@", [dict valueForKey:key]);
+//      ////NSLog(@"STTag - attempting to recover CodeFile with value %@", [dict valueForKey:key]);
 //      id aValue = [dict valueForKey:key];
 //      NSDictionary *objDict = aValue;
 //      if(objDict != nil) {
@@ -233,7 +233,7 @@
  */
 +(instancetype)Deserialize:(NSString*)json withFiles:(NSArray<STCodeFile*>*)files error:(NSError**)outError
 {
-  NSLog(@"STFieldTag -> Deserialize json : %@", json);
+  //NSLog(@"STFieldTag -> Deserialize json : %@", json);
   NSError* error;
   STFieldTag* tag = (STFieldTag*)[super Deserialize:json error:&error];
   //tag.Name = [[self class] NormalizeName:[tag Name]]; //should be in the parent

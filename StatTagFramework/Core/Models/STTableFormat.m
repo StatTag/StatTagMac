@@ -99,9 +99,9 @@
    Leaving this in here for reference
    not exactly sure why we can't update the string object directly if it's a pointer to the item in the array
       for (NSString* fr __strong in formattedResults) {
-        NSLog(@"fr: %@", fr);
+        //NSLog(@"fr: %@", fr);
         fr = [valueFormatter Finalize:fr];
-        NSLog(@"fr (finalized): %@", fr);
+        //NSLog(@"fr (finalized): %@", fr);
       }  
    */
 //  for(NSInteger i = 0; i < [formattedResults count]; i++) {

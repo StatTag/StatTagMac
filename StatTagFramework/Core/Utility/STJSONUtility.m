@@ -175,9 +175,9 @@
                                       code:[error code]
                                   userInfo:@{NSUnderlyingErrorKey: error}];
     }
-    NSLog(@"error: %@", [error localizedDescription]);
+    //NSLog(@"error: %@", [error localizedDescription]);
   } else {
-    NSLog(@"invalid json");
+    //NSLog(@"invalid json");
     *outError = [NSError errorWithDomain:STStatTagErrorDomain
                                     code:-1
                                 userInfo:@{NSLocalizedDescriptionKey: @"Invalid JSON"}];

@@ -80,8 +80,8 @@
         }
       }
       @catch (NSException *exception) {
-        NSLog(@"Unable to set '%@' value for key '%@'", [self className], key);
-        NSLog(@"%@", exception.reason);
+        //NSLog(@"Unable to set '%@' value for key '%@'", [self className], key);
+        //NSLog(@"%@", exception.reason);
       }
     }
   }

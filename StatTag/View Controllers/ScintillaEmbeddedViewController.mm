@@ -213,7 +213,7 @@ static NSString* PACKAGE_R = @"R";
   
   //yeah - I know - it's not smart to do this with hardcoded comparisons
   //  - but I'm just working through it for now
-  //NSLog(@"%@", [scintillaHelper Lines]);
+  ////NSLog(@"%@", [scintillaHelper Lines]);
   
   if([packageType isEqualToString:PACKAGE_STATA]) {
     
@@ -361,34 +361,34 @@ static NSString* PACKAGE_R = @"R";
     
     switch (notification->nmhdr.code) {
       case SCN_KEY: //2005
-        //NSLog(@"clicked on a key");
+        ////NSLog(@"clicked on a key");
         break;
       case SCN_DOUBLECLICK: //2006
-        //NSLog(@"double-clicked on something");
+        ////NSLog(@"double-clicked on something");
         break;
       case SCN_UPDATEUI: //2007
-        //NSLog(@"some sort of UI update");
+        ////NSLog(@"some sort of UI update");
         break;
       case SCN_MODIFIED: //2008
-        //NSLog(@"modified");
-        //NSLog(@"notification : %d", notification->modificationType);
+        ////NSLog(@"modified");
+        ////NSLog(@"notification : %d", notification->modificationType);
         break;
       case SCN_MARGINCLICK: //2010
         //margin -> margin array. 1 = our "gutter" between line #'s and the text block
         //position -> x coordiante - NOT the line #
-        //NSLog(@"margin clicked : margin[%d], position[%d]", notification->margin, notification->position);
+        ////NSLog(@"margin clicked : margin[%d], position[%d]", notification->margin, notification->position);
         [self marginClick:notification];
         //NSInteger lineIndex = [scintillaHelper LineFromPosition:notification->position];
-        //NSLog(@"line : %ld", (long)lineIndex);
+        ////NSLog(@"line : %ld", (long)lineIndex);
         break;
       case SCN_FOCUSIN: //2028
-        //NSLog(@"focus in");
+        ////NSLog(@"focus in");
         break;
       case SCN_FOCUSOUT: //2029
-        //NSLog(@"focus out");
+        ////NSLog(@"focus out");
         break;
       default:
-        //NSLog(@"SCNotification (unknown) : code: %d", notification->nmhdr.code);
+        ////NSLog(@"SCNotification (unknown) : code: %d", notification->nmhdr.code);
         break;
     }
   }
@@ -409,7 +409,7 @@ static NSString* PACKAGE_R = @"R";
     [[scintillaHelper Lines] RebuildLineData];
     
     NSInteger lineIndex = [scintillaHelper LineFromPosition:notification->position];
-    //NSLog(@"margin [%ld] was clicked on line : %ld, modifiers: %d", (long)notification->margin, (long)lineIndex, notification->modifiers);
+    ////NSLog(@"margin [%ld] was clicked on line : %ld, modifiers: %d", (long)notification->margin, (long)lineIndex, notification->modifiers);
     
     SCLine* line = [[[scintillaHelper Lines] Lines] objectAtIndex:lineIndex];
     
@@ -477,9 +477,9 @@ static NSString* PACKAGE_R = @"R";
       }
     }
     
-    //NSLog(@"TagMask = %u", TagMask);
+    ////NSLog(@"TagMask = %u", TagMask);
     // Toggle based on the line's current marker status.
-    //NSLog(@"[line MarkerGet] & TagMask = %u", [line MarkerGet] & TagMask);
+    ////NSLog(@"[line MarkerGet] & TagMask = %u", [line MarkerGet] & TagMask);
     
     [self SetLineMarker:line andMark:(([line MarkerGet] & TagMask) <= 0)];
   }

@@ -101,7 +101,7 @@
     if(firstMatch.location != NSNotFound)
     {
       NSString* foundModel = [*partialStringPtr substringWithRange:firstMatch];
-      NSLog(@"found : '%@'", foundModel);
+      //NSLog(@"found : '%@'", foundModel);
       
       if(_invalidEntryError != nil)
       {

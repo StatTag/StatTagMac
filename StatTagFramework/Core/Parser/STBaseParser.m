@@ -53,13 +53,13 @@
   if(_StartTagRegEx == nil){
     _StartTagRegEx = [NSRegularExpression regularExpressionWithPattern:[NSString stringWithFormat:@"\\s*[\\%@]{2,}\\s*%@\\s*%@(.*)", [self CommentCharacter], [STConstantsTagTags StartTag], [STConstantsTagTags TagPrefix]] options:0 error:&error] ;
     if(error != nil){
-      NSLog(@"%@ - StartTagRegEx: %@", NSStringFromSelector(_cmd), error);
+      //NSLog(@"%@ - StartTagRegEx: %@", NSStringFromSelector(_cmd), error);
     }
   }
   if(_EndTagRegEx == nil){
     _EndTagRegEx = [NSRegularExpression regularExpressionWithPattern:[NSString stringWithFormat:@"\\s*[\\%@]{2,}\\s*%@", [self CommentCharacter], [STConstantsTagTags EndTag]] options:0 error:&error] ;
     if(error != nil){
-      NSLog(@"%@ - EndTagRegEx: %@", NSStringFromSelector(_cmd), error);
+      //NSLog(@"%@ - EndTagRegEx: %@", NSStringFromSelector(_cmd), error);
     }
   }
 }
@@ -285,7 +285,7 @@
 //                               };
 //    //*error = [NSError errorWithDomain:STStatTagErrorDomain code:NSURLErrorFileDoesNotExist userInfo:userInfo];
 //    error = [NSError errorWithDomain:STStatTagErrorDomain code:NSURLErrorFileDoesNotExist userInfo:userInfo];
-    NSLog(@"Invalid tag '%@' found in ProcessTag (%@)", tagText, [self class]);
+    //NSLog(@"Invalid tag '%@' found in ProcessTag (%@)", tagText, [self class]);
   }
 
 }

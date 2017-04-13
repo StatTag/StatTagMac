@@ -243,7 +243,7 @@ return attrArray;
 }
 
 
-NSLog(@"%@", [self attributesOfProp:key ofObj:self]);
+//NSLog(@"%@", [self attributesOfProp:key ofObj:self]);
 
 
 

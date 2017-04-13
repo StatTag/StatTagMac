@@ -77,12 +77,12 @@
     for (NSInteger index = 0; index < [ranges count] ; index++) {
       STMSWord2011TextRange* range = [ranges objectAtIndex:index];
       if(([range endOfContent] - removeEnd) > 0 && [range startOfContent] != [range endOfContent]) {
-        //NSLog(@"OFFSETTING range -> ( %ld, %ld) content : %@", (long)[range startOfContent], (long)[range endOfContent], [range content]);
-        //NSLog(@"trying to set end to %d", [range endOfContent] - removeEnd);
+        ////NSLog(@"OFFSETTING range -> ( %ld, %ld) content : %@", (long)[range startOfContent], (long)[range endOfContent], [range content]);
+        ////NSLog(@"trying to set end to %d", [range endOfContent] - removeEnd);
         [WordHelpers setRange:&range Start:[range startOfContent] end:([range endOfContent] - removeEnd)];
         [ranges replaceObjectAtIndex:index withObject:range];
         
-        //NSLog(@"OFFSETTING range -> ( %ld, %ld) content : %@", (long)[range startOfContent], (long)[range endOfContent], [range content]);
+        ////NSLog(@"OFFSETTING range -> ( %ld, %ld) content : %@", (long)[range startOfContent], (long)[range endOfContent], [range content]);
       }
     }
   }
@@ -317,7 +317,7 @@ Adds a new empty Word.Field to the specified Word.Range.
     
     STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
     [app createNewFieldTextRange:range fieldType:type fieldText:text preserveFormatting:preserveFormatting];
-    NSLog(@"AddFieldToRange - range(%ld, %ld)", [range startOfContent], [range endOfContent]);
+    //NSLog(@"AddFieldToRange - range(%ld, %ld)", [range startOfContent], [range endOfContent]);
     
     return [[range fields] lastObject];
     
@@ -403,7 +403,7 @@ Adds a new empty Word.Field to the specified Word.Range.
    we would ideally have done someting like this...
    -----
      STMSWord2011EFRt resultWorked = [result executeFindFindText:text matchCase:true matchWholeWord:false matchWildcards:false matchSoundsLike:false matchAllWordForms:false matchForward:true wrapFind:STMSWord2011E265FindStop findFormat:false replaceWith:@"" replace:STMSWord2011E273ReplaceNone];
-     NSLog(@"CreateFind : returned %u for range: %@ and text: '%@'", resultWorked, range, text);
+     //NSLog(@"CreateFind : returned %u for range: %@ and text: '%@'", resultWorked, range, text);
 
    So that's a bummer.
    

@@ -50,8 +50,8 @@
 
 -(void)viewWillAppear
 {
-  NSLog(@"appearing");
-  NSLog(@"count : %ld", [[self unlinkedTagsArray] count]);
+  //NSLog(@"appearing");
+  //NSLog(@"count : %ld", [[self unlinkedTagsArray] count]);
 }
 
 -(void)setUnlinkedTags:(NSDictionary<NSString*, NSArray<STTag*>*>*)unlinkedTags
@@ -69,22 +69,22 @@
   [[self unlinkedTagsArrayController] setContent:[self unlinkedTagsArray]];
   //[self didChangeValueForKey:@"unlinkedTagsArray"];
   
-  //NSLog(@"count : %ld", [[self unlinkedTagsArray] count]);
-  //NSLog(@"count : %ld", [tagList count]);
+  ////NSLog(@"count : %ld", [[self unlinkedTagsArray] count]);
+  ////NSLog(@"count : %ld", [tagList count]);
   
 //  [[self unlinkedTagsArrayController] setContent:tagList];
 //  [[self unlinkedTagsArrayController] rearrangeObjects];
 
   [[self unlinkedTagsTableView] reloadData];
   
-//  NSLog(@"stop here");
+//  //NSLog(@"stop here");
   
 //  [self willChangeValueForKey:@"unlinkedTagsArrayController"];
 //  [self didChangeValueForKey:@"unlinkedTagsArrayController"];
 
 //  NSArray<DuplicateTagGroupEntry*>* t = [DuplicateTagGroupEntry initWithDuplicateTagResults:duplicateTags];
 //  [self setTagGroupEntries:t];
-//  NSLog(@"%@", t);
+//  //NSLog(@"%@", t);
 //  [[self duplicateTagTableView] reloadData];
 }
 -(NSDictionary<NSString*, NSArray<STTag*>*>*)unlinkedTags
@@ -100,7 +100,7 @@
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
-  NSLog(@"tagGroupEntries count : %ld", [[self unlinkedTagsArray] count]);
+  //NSLog(@"tagGroupEntries count : %ld", [[self unlinkedTagsArray] count]);
   return [[self unlinkedTagsArray] count];
 }
 -(NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {

@@ -40,7 +40,7 @@
     url = [NSURL fileURLWithPath:[self FilePath]];
   }
   @catch (NSException * e) {
-    NSLog(@"Exception creating URL (%@): %@", NSStringFromClass([self class]), [self FilePath]);
+    //NSLog(@"Exception creating URL (%@): %@", NSStringFromClass([self class]), [self FilePath]);
   }
   @finally {
   }
@@ -136,7 +136,7 @@ NSObject<STIFileHandler>* _FileHandler;
 -(void)initialize:(NSObject<STIFileHandler>*)handler {
   _Tags = [[NSMutableArray<STTag*> alloc] init];
   _FileHandler = handler ? handler :[[STFileHandler alloc] init];
-  NSLog(@"_FileHandler : %@", _FileHandler);
+  //NSLog(@"_FileHandler : %@", _FileHandler);
 }
 
 //MARK: copying
@@ -311,7 +311,7 @@ the cached results in another tag.
       [self setValue:[dict valueForKey:key] forKey:key];
     } else if([key isEqualToString:@"LastCached"]) {
       [self setValue:[STJSONUtility dateFromString:[dict valueForKey:key]] forKey:key];
-      //NSLog(@"LastCached : %@", [self LastCached]);
+      ////NSLog(@"LastCached : %@", [self LastCached]);
     } else {
       [self setValue:[dict valueForKey:key] forKey:key];
     }

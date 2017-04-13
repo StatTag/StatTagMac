@@ -179,7 +179,6 @@
 		38A7CE991D4FDFB600B06AFF /* STGridDataItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A7CE971D4FDFB600B06AFF /* STGridDataItem.m */; };
 		38A7CE9C1D4FE29400B06AFF /* STPropertiesManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 38A7CE9A1D4FE29400B06AFF /* STPropertiesManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38A7CE9D1D4FE29400B06AFF /* STPropertiesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A7CE9B1D4FE29400B06AFF /* STPropertiesManager.m */; };
-		38A843A31D9B051100357727 /* readme.md in Sources */ = {isa = PBXBuildFile; fileRef = 38A843A21D9B051100357727 /* readme.md */; };
 		38A877CD1D9AEEA7002F37DA /* Scintilla.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38A877CB1D9AEEA0002F37DA /* Scintilla.framework */; };
 		38A877CE1D9AEEA7002F37DA /* Scintilla.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 38A877CB1D9AEEA0002F37DA /* Scintilla.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		38AB41841DA1564C00EA464C /* TagEditorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38AB41831DA1564C00EA464C /* TagEditorViewController.xib */; };
@@ -250,7 +249,6 @@
 		38EDF0321D2C2E6900ACD77B /* STCocoaUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 38EDF0301D2C2E6900ACD77B /* STCocoaUtil.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38EDF0331D2C2E6900ACD77B /* STCocoaUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EDF0311D2C2E6900ACD77B /* STCocoaUtil.m */; };
 		38EDF0351D2C2FC200ACD77B /* StatTagStataAutomationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EDF0341D2C2FC200ACD77B /* StatTagStataAutomationTests.m */; };
-		38EF1A671D99544F008EA9B0 /* readme.md in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1A661D99544F008EA9B0 /* readme.md */; };
 		38F803431D9C4B9A00C8F1EA /* SCHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F803421D9C4B9A00C8F1EA /* SCHelpers.m */; };
 		38F803461D9C4CEB00C8F1EA /* SCMarkerHandle.mm in Sources */ = {isa = PBXBuildFile; fileRef = 38F803451D9C4CEB00C8F1EA /* SCMarkerHandle.mm */; };
 		38F803491D9C50C000C8F1EA /* SCLine.mm in Sources */ = {isa = PBXBuildFile; fileRef = 38F803481D9C50C000C8F1EA /* SCLine.mm */; };
@@ -2039,9 +2037,7 @@
 				38C3CC761DA428E700CEA70C /* DisclosureViewController.m in Sources */,
 				3876324B1DA8383900680898 /* AppEventListener.m in Sources */,
 				38D8B1C71D95872A00BF878A /* UpdateOutputProgressViewController.m in Sources */,
-				38EF1A671D99544F008EA9B0 /* readme.md in Sources */,
 				385221CC1DAE98CB005E804B /* SCMarkerCollection.mm in Sources */,
-				38A843A31D9B051100357727 /* readme.md in Sources */,
 				3828C8161E9D0AB8000A4159 /* DuplicateTagDetailRowView.m in Sources */,
 				38F803531D9DAF7800C8F1EA /* UIUtility.m in Sources */,
 				383F3B981DA679AE0069C78E /* TagPreviewController.m in Sources */,

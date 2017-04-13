@@ -73,7 +73,7 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  //NSLog(@"DocumentBrowserCodeFilesViewController.h loaded");
+  ////NSLog(@"DocumentBrowserCodeFilesViewController.h loaded");
 
   [[NSNotificationCenter defaultCenter] addObserver:self
                                            selector:@selector(codeFileEdited:)
@@ -112,11 +112,11 @@
   
   for(STCodeFile* file in [self codeFiles]) {
     [file LoadTagsFromContent];
-    NSLog(@"Loading code file: '%@' for doc: '%@'", [file FileName], [[[StatTagShared sharedInstance] doc] name]);
+    //NSLog(@"Loading code file: '%@' for doc: '%@'", [file FileName], [[[StatTagShared sharedInstance] doc] name]);
   }
 
   NSArray<STTag*>* tags = [[self documentManager] GetTags];
-  NSLog(@"document [%@] has %ld tags", [[[self documentManager] activeDocument] name], (unsigned long)[tags count]);
+  //NSLog(@"document [%@] has %ld tags", [[[self documentManager] activeDocument] name], (unsigned long)[tags count]);
   NSDictionary<NSString*, NSArray<STTag*>*>* unlinkedTags = [[self documentManager] FindAllUnlinkedTags];
   //STDuplicateTagResults* duplicateTags = [[[self documentManager] TagManager] FindAllDuplicateTags];
   [self setDuplicateTags: [[[self documentManager] TagManager] FindAllDuplicateTags]];
@@ -278,7 +278,7 @@
   //BOOL isDir;
   //NSFileManager* fileManager = [NSFileManager defaultManager];
   
-  if ( [openPanel runModal] == NSOKButton )
+  if ( [openPanel runModal] == NSModalResponseOK )
   {
     NSArray<NSURL*>* files = [openPanel URLs];
     [self addCodeFilesByURL:files];
@@ -289,8 +289,8 @@
 -(void)addCodeFilesByURL:(NSArray<NSURL*>*)files
 {
   NSMutableArray<STCodeFile*>* codefiles = [[NSMutableArray alloc] initWithArray:[[self arrayController] arrangedObjects]];
-  NSLog(@"codefiles = %@", codefiles);
-  NSLog(@"allowed extensions : %@", [allowedExtensions_CodeFiles pathComponents]);
+  //NSLog(@"codefiles = %@", codefiles);
+  //NSLog(@"allowed extensions : %@", [allowedExtensions_CodeFiles pathComponents]);
   for( NSInteger i = 0; i < [files count]; i++ )
   {
     NSURL* url = [files objectAtIndex:i];
@@ -299,7 +299,7 @@
     //      }
     
     //      [[self labelFilePath] setStringValue:[url path]];
-    NSLog(@"path extension : %@", [url pathExtension]);
+    //NSLog(@"path extension : %@", [url pathExtension]);
     
     if([[allowedExtensions_CodeFiles pathComponents] containsObject:[url pathExtension]])
     {
@@ -310,7 +310,7 @@
   }
   //remove duplicates
   [codefiles setArray:[[NSSet setWithArray:codefiles] allObjects]];
-  NSLog(@"codefiles = %@", codefiles);
+  //NSLog(@"codefiles = %@", codefiles);
   for(STCodeFile* cf in codefiles)
   {
     if(![[arrayController arrangedObjects] containsObject:cf])
@@ -323,7 +323,7 @@
   // will circle back and evaluate later
   //[arrayController setContent:codefiles];
   
-  NSLog(@"arrayController content = %@", [arrayController content]);
+  //NSLog(@"arrayController content = %@", [arrayController content]);
   
   //re-sort in case the user has sorteda column
   [arrayController rearrangeObjects];
@@ -444,14 +444,14 @@
     if([[[notification object] identifier] isEqualToString:@"tagSummaryTable"])
     {
 
-      NSLog(@"tableViewSelectionDidChange - tagSummaryTable - table changed");
+      //NSLog(@"tableViewSelectionDidChange - tagSummaryTable - table changed");
       NSInteger row = [self.tagSummaryTableView selectedRow];
       if(row == -1) {
         row = [[self tagSummaryTableView] clickedRow];
       }
       if(row != -1)
       {
-        NSLog(@"tableViewSelectionDidChange - tagSummaryTable - selection is : %ld", row);
+        //NSLog(@"tableViewSelectionDidChange - tagSummaryTable - selection is : %ld", row);
         //summary was selected, so we want to remove the code file selections
         //deselect all of the code file selections
         [[self arrayController] setSelectedObjects:[NSArray array]];
@@ -472,7 +472,7 @@
     } else if([[[notification object] identifier] isEqualToString:@"fileTableView"])
     {
       NSInteger row = [self.fileTableView selectedRow];
-      NSLog(@"tableViewSelectionDidChange - fileTableView - table changed");
+      //NSLog(@"tableViewSelectionDidChange - fileTableView - table changed");
       if(row == -1) {
         row = [[self fileTableView] clickedRow];
       }
@@ -481,7 +481,7 @@
         //code file was selected, so we want to remove the summary file selections
         [[self tagSummaryArrayController] setSelectedObjects:[NSArray array]];
       }
-      NSLog(@"tableViewSelectionDidChange - fileTableView - selection is : %ld", row);
+      //NSLog(@"tableViewSelectionDidChange - fileTableView - selection is : %ld", row);
       
       //since interaction with EITHER of these two tables impacts the other table,
       // only fire for the file table view
@@ -520,7 +520,7 @@
   
   if(tableView == fileTableView)
   {
-    NSLog(@"on this table");
+    //NSLog(@"on this table");
     NSArray* filenames = [[info draggingPasteboard] propertyListForType:NSFilenamesPboardType];
     //we're ignoring positioning for this
     //NSData *data = [[info draggingPasteboard] dataForType:NSFilenamesPboardType];

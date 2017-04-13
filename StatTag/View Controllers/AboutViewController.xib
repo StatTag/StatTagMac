@@ -4,7 +4,6 @@
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12118"/>
         <capability name="box content view" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
-        <capability name="system font weights other than Regular or Bold" minToolsVersion="7.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="AboutViewController">
@@ -50,7 +49,7 @@
                                                 <constraint firstAttribute="width" constant="185" id="iO5-7g-96e"/>
                                             </constraints>
                                             <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Learn More" id="wqS-2b-MIP">
-                                                <font key="font" metaFont="systemHeavy" size="24"/>
+                                                <font key="font" metaFont="systemBold" size="24"/>
                                                 <color key="textColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>

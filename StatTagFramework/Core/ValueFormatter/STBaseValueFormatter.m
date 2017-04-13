@@ -15,7 +15,7 @@
 }
 
 -(NSString*)GetMissingValue {
-  NSLog(@"GetMissingValue for class: %@", [self class]);
+  //NSLog(@"GetMissingValue for class: %@", [self class]);
   return [[self class] MissingValue];
 }
 

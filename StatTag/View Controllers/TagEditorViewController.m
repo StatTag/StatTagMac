@@ -176,11 +176,11 @@ static void *TagTypeContext = &TagTypeContext;
         int startIndex = MAX(0, [[_tag LineStart] intValue] );
         startIndex = MIN(startIndex, maxIndex);
         int endIndex = MIN([[_tag LineEnd] intValue], maxIndex);
-        //NSLog(@"[[_tag LineStart] intValue] : %d", [[_tag LineStart] intValue]);
-        //NSLog(@"[[_tag LineEnd] intValue] : %d", [[_tag LineEnd] intValue]);
+        ////NSLog(@"[[_tag LineStart] intValue] : %d", [[_tag LineStart] intValue]);
+        ////NSLog(@"[[_tag LineEnd] intValue] : %d", [[_tag LineEnd] intValue]);
         for (int index = startIndex; index <= endIndex; index++)
         {
-          //NSLog(@"trying to add line at index: %d", index);
+          ////NSLog(@"trying to add line at index: %d", index);
           [_sourceEditor setLinMarkerAtIndex:index];
         }
         [_sourceEditor scrollToLine:startIndex];
@@ -232,8 +232,8 @@ static void *TagTypeContext = &TagTypeContext;
       //      }
     }
     
-    //NSLog(@"view did appear stackview count = %lu", (unsigned long)[[_propertiesStackView views] count]);
-    //NSLog(@"tag from properties view : %@", [_tagBasicProperties tag]);
+    ////NSLog(@"view did appear stackview count = %lu", (unsigned long)[[_propertiesStackView views] count]);
+    ////NSLog(@"tag from properties view : %@", [_tagBasicProperties tag]);
     [self updateTagTypeInformation:[[self tag] Type]];
     [self configureStackView];
   }

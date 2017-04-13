@@ -72,13 +72,13 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   
   @try {
     NSString* value = [variable variableValue];
-    NSLog(@"DocumentVariableExists: variable: %@ has value: %@", [variable name], value);
+    //NSLog(@"DocumentVariableExists: variable: %@ has value: %@", [variable name], value);
     return true;
   }
   @catch (NSException *exception) {
-    NSLog(@"%@", exception.reason);
-    NSLog(@"method: %@, line : %d", NSStringFromSelector(_cmd), __LINE__);
-    NSLog(@"%@", [NSThread callStackSymbols]);
+    //NSLog(@"%@", exception.reason);
+    //NSLog(@"method: %@, line : %d", NSStringFromSelector(_cmd), __LINE__);
+    //NSLog(@"%@", [NSThread callStackSymbols]);
   }
   @finally {
   }
@@ -96,7 +96,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
     document = [[[STGlobals sharedInstance] ThisAddIn] SafeGetActiveDocument];
   }
   
-  NSLog(@"SaveCodeFileListToDocument - Started");
+  //NSLog(@"SaveCodeFileListToDocument - Started");
   SBElementArray<STMSWord2011Variable*>* variables = [document variables];
   STMSWord2011Variable* variable = [variables objectWithName:ConfigurationAttribute];
 
@@ -107,34 +107,34 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
     if(![self DocumentVariableExists:variable]) {
       if (hasCodeFiles)
       {
-        NSLog(@"%@", [NSString stringWithFormat:@"Document variable does not exist.  Adding attribute value of %@", attribute]);
+        //NSLog(@"%@", [NSString stringWithFormat:@"Document variable does not exist.  Adding attribute value of %@", attribute]);
         [WordHelpers createOrUpdateDocumentVariableWithName:ConfigurationAttribute andValue:attribute];
       }
       else
       {
-        NSLog(@"There are no code files to add.");
+        //NSLog(@"There are no code files to add.");
       }
     } else {
       if (hasCodeFiles)
       {
-        NSLog(@"%@", [NSString stringWithFormat:@"Document variable already exists.  Updating attribute value to %@", attribute]);
+        //NSLog(@"%@", [NSString stringWithFormat:@"Document variable already exists.  Updating attribute value to %@", attribute]);
         variable.variableValue = attribute;
       }
       else {
-        NSLog(@"There are no code files - removing existing variable");
+        //NSLog(@"There are no code files - removing existing variable");
         [variables removeObject:variable]; //can we do this?
       }
     }
   }
   @catch (NSException *exception) {
-    NSLog(@"%@", exception.reason);
-    NSLog(@"method: %@, line : %d", NSStringFromSelector(_cmd), __LINE__);
-    NSLog(@"%@", [NSThread callStackSymbols]);
+    //NSLog(@"%@", exception.reason);
+    //NSLog(@"method: %@, line : %d", NSStringFromSelector(_cmd), __LINE__);
+    //NSLog(@"%@", [NSThread callStackSymbols]);
   }
   @finally {
     
   }
-  NSLog(@"SaveCodeFileListToDocument - Finished");
+  //NSLog(@"SaveCodeFileListToDocument - Finished");
 }
 
 
@@ -143,14 +143,14 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   @param document: The Word document of interest
 */
 -(void)LoadCodeFileListFromDocument:(STMSWord2011Document*)document {
-  NSLog(@"LoadCodeFileListFromDocument - Started for doc at path %@", [document fullName]);
+  //NSLog(@"LoadCodeFileListFromDocument - Started for doc at path %@", [document fullName]);
 
-  NSLog(@"variables : count: %lu", (unsigned long)[[document variables] count]);
+  //NSLog(@"variables : count: %lu", (unsigned long)[[document variables] count]);
   
   NSArray<STMSWord2011Variable*>* variables = [document variables];
   STMSWord2011Variable* variable;
   for(STMSWord2011Variable* var in variables) {
-    NSLog(@"variable name: %@ with value : %@", [var name], [var variableValue]);
+    //NSLog(@"variable name: %@ with value : %@", [var name], [var variableValue]);
     if([[var name] isEqualToString:ConfigurationAttribute]) {
       variable = var;
     }
@@ -158,28 +158,28 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   
   @try {
     if([self DocumentVariableExists:variable]) {
-      NSLog(@"variable : %@ has value : %@", [variable name], [variable variableValue]);
+      //NSLog(@"variable : %@ has value : %@", [variable name], [variable variableValue]);
       NSMutableArray<STCodeFile*>* list = [[NSMutableArray<STCodeFile*> alloc] initWithArray:[STCodeFile DeserializeList:[variable variableValue] error:nil]];
       [DocumentCodeFiles setObject:list forKey:[document fullName]];
-      NSLog(@"Document variable existed, loaded %lu code files", (unsigned long)[list count]);
+      //NSLog(@"Document variable existed, loaded %lu code files", (unsigned long)[list count]);
     } else {
       [DocumentCodeFiles setObject:[[NSMutableArray<STCodeFile*> alloc] init] forKey:[document fullName]];
-      NSLog(@"Document variable does not exist, no code files loaded");
+      //NSLog(@"Document variable does not exist, no code files loaded");
     }
     NSString* value = [variable variableValue];
-    NSLog(@"DocumentVariableExists: variable: %@ has value: %@", [variable name], value);
+    //NSLog(@"DocumentVariableExists: variable: %@ has value: %@", [variable name], value);
   }
   @catch (NSException *exception) {
-    NSLog(@"%@", exception.reason);
-    NSLog(@"method: %@, line : %d", NSStringFromSelector(_cmd), __LINE__);
-    NSLog(@"%@", [NSThread callStackSymbols]);
+    //NSLog(@"%@", exception.reason);
+    //NSLog(@"method: %@, line : %d", NSStringFromSelector(_cmd), __LINE__);
+    //NSLog(@"%@", [NSThread callStackSymbols]);
   }
   @finally {
     //Marshal.ReleaseComObject(variable);
     //Marshal.ReleaseComObject(variables);
   }
 
-  NSLog(@"LoadCodeFileListFromDocument - Finished");
+  //NSLog(@"LoadCodeFileListFromDocument - Finished");
 }
 
 
@@ -189,23 +189,23 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
 -(void) InsertImage:(STTag*) tag {
   //[NSException raise:@"InsertImage not implemented" format:@"InsertImage not implemented"];
   
-  NSLog(@"InsertImage - Started");
+  //NSLog(@"InsertImage - Started");
   if (tag == nil)
   {
-    NSLog(@"The tag is null, no action will be taken");
+    //NSLog(@"The tag is null, no action will be taken");
     return;
   }
 
   if ([tag CachedResult] == nil || [[tag CachedResult] count] == 0)
   {
-    NSLog(@"The tag has no cached results - unable to insert image");
+    //NSLog(@"The tag has no cached results - unable to insert image");
     return;
   }
 
   NSString* fileName = [[[tag CachedResult] firstObject] FigureResult];
   [WordHelpers insertImageAtPath:fileName];
   
-  NSLog(@"InsertImage - Finished");
+  //NSLog(@"InsertImage - Finished");
   
 }
 
@@ -223,8 +223,8 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
     return false;
   }
   
-  //NSLog(@"IsTableTagChangingDimensions [tagUpdatePair New] className: %@", [[tagUpdatePair New] className]);
-  //NSLog(@"IsTableTagChangingDimensions [tagUpdatePair New] className: %@", [[tagUpdatePair Old] className]);
+  ////NSLog(@"IsTableTagChangingDimensions [tagUpdatePair New] className: %@", [[tagUpdatePair New] className]);
+  ////NSLog(@"IsTableTagChangingDimensions [tagUpdatePair New] className: %@", [[tagUpdatePair Old] className]);
   
   if (![[tagUpdatePair Old] IsTableTag] || ![[tagUpdatePair New]IsTableTag])
   {
@@ -235,14 +235,14 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
 //  if (tagUpdatePair.Old.TableFormat.IncludeColumnNames != tagUpdatePair.New.TableFormat.IncludeColumnNames
 //      || tagUpdatePair.Old.TableFormat.IncludeRowNames != tagUpdatePair.New.TableFormat.IncludeRowNames)
 //  {
-//    NSLog(@"Table dimensions have changed based on header settings");
+//    //NSLog(@"Table dimensions have changed based on header settings");
 //    return true;
 //  }
   
   if (![tagUpdatePair.Old.TableFormat.ColumnFilter isEqual:tagUpdatePair.New.TableFormat.ColumnFilter]
     || ![tagUpdatePair.Old.TableFormat.RowFilter isEqual:tagUpdatePair.New.TableFormat.RowFilter])
   {
-    NSLog(@"Table dimensions have changed based on filter settings");
+    //NSLog(@"Table dimensions have changed based on filter settings");
     return true;
   }
 
@@ -259,7 +259,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   //[NSException raise:@"RefreshTableTagFields not implemented" format:@"RefreshTableTagFields not implemented"];
 
 
-  NSLog(@"RefreshTableTagFields - Started");
+  //NSLog(@"RefreshTableTagFields - Started");
   SBElementArray<STMSWord2011Field*>* fields = [document fields];
   NSInteger fieldsCount = [fields count];
   bool tableRefreshed = false;
@@ -267,13 +267,13 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
   
   // Fields is a 1-based index
-  NSLog(@"Preparing to process %ld} fields", fieldsCount);
+  //NSLog(@"Preparing to process %ld} fields", fieldsCount);
   for (NSInteger index = fieldsCount - 1; index >= 0; index--)
   {
     STMSWord2011Field* field = fields[index];
     if (field == nil)
     {
-      NSLog(@"Null field detected at index %ld", index);
+      //NSLog(@"Null field detected at index %ld", index);
       continue;
     }
     
@@ -285,11 +285,11 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
     }
 
 
-    NSLog(@"Processing StatTag field");
+    //NSLog(@"Processing StatTag field");
     STFieldTag* fieldTag = [_TagManager GetFieldTag:field];
     if (fieldTag == nil)
     {
-      NSLog(@"The field tag is null or could not be found");
+      //NSLog(@"The field tag is null or could not be found");
       continue;
     }
     
@@ -305,7 +305,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
         
         firstFieldLocation = [selection selectionStart]; //selection.Range.Start;
         
-        NSLog(@"First table cell found at position %ld", firstFieldLocation);
+        //NSLog(@"First table cell found at position %ld", firstFieldLocation);
       }
       
       [field delete]; //does this work?
@@ -315,7 +315,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
         [app selection].selectionStart = firstFieldLocation;
         [app selection].selectionEnd = firstFieldLocation;
         
-        NSLog(@"Set position, attempting to insert table");
+        //NSLog(@"Set position, attempting to insert table");
         [self InsertField:tag];
         tableRefreshed = true;
       }
@@ -325,7 +325,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   
   //[WordHelpers toggleAllFieldCodes];
   
-  NSLog(@"RefreshTableTagFields - Finished, Returning %d", tableRefreshed);
+  //NSLog(@"RefreshTableTagFields - Finished, Returning %d", tableRefreshed);
   return tableRefreshed;
 
 }
@@ -378,14 +378,14 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
       STMSWord2011LinkFormat* linkFormat = [shape linkFormat];
       if (linkFormat != nil)
       {
-        NSLog(@"linkFormat : autoUpdate : %hhd for path : %@", [linkFormat autoUpdate], [linkFormat sourceFullName]);
+        //NSLog(@"linkFormat : autoUpdate : %hhd for path : %@", [linkFormat autoUpdate], [linkFormat sourceFullName]);
         
         if([WordHelpers imageExistsAtPath:[linkFormat sourceFullName]]) {
           linkFormat.sourceFullName = [linkFormat sourceFullName];
           linkFormat.sourceFullName = [linkFormat sourceFullName];
-          NSLog(@"updating shape[%ld] with file path : '%@'", shapeIndex, [linkFormat sourceFullName]);
+          //NSLog(@"updating shape[%ld] with file path : '%@'", shapeIndex, [linkFormat sourceFullName]);
         } else {
-          NSLog(@"UpdateInlineShapes tried to update a file and can't find image at requested path - '%@'", [linkFormat sourceFullName]);
+          //NSLog(@"UpdateInlineShapes tried to update a file and can't find image at requested path - '%@'", [linkFormat sourceFullName]);
         }
         // see thread - http://stackoverflow.com/questions/38621644/word-applescript-update-link-format-working-with-inline-shapes
         //linkFormat.Update(); //so this doesn't exist in any useful way - so we have to "update" by setting the full source path - _twice_.  First time just breaks things. Second time - it sticks.
@@ -413,10 +413,10 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
 //public void UpdateFields(UpdatePair<Tag> tagUpdatePair = null, bool matchOnPosition = false)
 -(void)UpdateFields:(STUpdatePair<STTag*>*)tagUpdatePair matchOnPosition:(BOOL)matchOnPosition {
   
-  NSLog(@"UpdateFields - Started");
+  //NSLog(@"UpdateFields - Started");
   
   STMSWord2011Application* application = [[[STGlobals sharedInstance] ThisAddIn] Application];
-  NSLog(@"Application (%@) : %@", [application name], application );
+  //NSLog(@"Application (%@) : %@", [application name], application );
   STMSWord2011Document* document = [application activeDocument];
   
   //[[application settings] setAnimateScreenMovements:NO]; //nope...
@@ -441,25 +441,25 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
     BOOL tableDimensionChange = [self IsTableTagChangingDimensions:tagUpdatePair];
     if (tableDimensionChange)
     {
-      NSLog(@"Attempting to refresh table with tag name: %@", tagUpdatePair.New.Name);
+      //NSLog(@"Attempting to refresh table with tag name: %@", tagUpdatePair.New.Name);
       [self setValue:@"Updating Table Fields" forKey:@"wordFieldUpdateStatus"];
       if ([self RefreshTableTagFields:[tagUpdatePair New] document:document])
       {
-        NSLog(@"Completed refreshing table - leaving UpdateFields");
+        //NSLog(@"Completed refreshing table - leaving UpdateFields");
         return;
       }
     }
     
     //Moved below
-//    NSLog(@"before UpdateInlineShapes");
+//    //NSLog(@"before UpdateInlineShapes");
 //    [self setValue:@"Updating Inline Shapes" forKey:@"wordFieldUpdateStatus"];
 //    [self UpdateInlineShapes:document];
-//    NSLog(@"after UpdateInlineShapes");
+//    //NSLog(@"after UpdateInlineShapes");
     
     SBElementArray<STMSWord2011Field*>* fields = [document fields];
     NSInteger fieldsCount = [fields count];
     // Fields is a 1-based index
-    NSLog(@"Preparing to process %ld fields", fieldsCount);
+    //NSLog(@"Preparing to process %ld fields", fieldsCount);
 
     [self setValue:@"Updating Fields" forKey:@"wordFieldUpdateStatus"];
     
@@ -470,7 +470,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
       STMSWord2011Field* field = fields[index];
       if (field == nil)
       {
-        NSLog(@"Null field detected at index %ld", index);
+        //NSLog(@"Null field detected at index %ld", index);
         continue;
       }
       
@@ -480,17 +480,17 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
         continue;
       }
       
-      NSLog(@"Processing StatTag field");
-      NSLog(@"RefreshTableTagFields -> found field : %@ and json : %@", [[field fieldCode] content], [field fieldText]);
+      //NSLog(@"Processing StatTag field");
+      //NSLog(@"RefreshTableTagFields -> found field : %@ and json : %@", [[field fieldCode] content], [field fieldText]);
       
       STFieldTag* tag = [_TagManager GetFieldTag:field];
       
-      NSLog(@"after tag generation");
-      NSLog(@"tag has FormattedResult : %@", [tag FormattedResult]);
+      //NSLog(@"after tag generation");
+      //NSLog(@"tag has FormattedResult : %@", [tag FormattedResult]);
       
       if (tag == nil)
       {
-        NSLog(@"The field tag is null or could not be found");
+        //NSLog(@"The field tag is null or could not be found");
         continue;
       }
       
@@ -505,12 +505,12 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
           continue;
         }
         
-        NSLog(@"Processing only a specific tag with label: %@", tagUpdatePair.New.Name);
+        //NSLog(@"Processing only a specific tag with label: %@", tagUpdatePair.New.Name);
         tag = [[STFieldTag alloc] initWithTag:[tagUpdatePair New] andFieldTag:tag];
         [_TagManager UpdateTagFieldData:field tag:tag];
       }
       
-      NSLog(@"Inserting field for tag: %@", tag.Name);
+      //NSLog(@"Inserting field for tag: %@", tag.Name);
       [WordHelpers select:field];
       [self InsertField:tag];
       
@@ -524,19 +524,19 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
     //also adding in a really quick check for "only do this to figures"
     if([[[tagUpdatePair Old] Type] isEqualToString:[STConstantsTagType Figure]] || [[[tagUpdatePair New] Type] isEqualToString:[STConstantsTagType Figure]])
     {
-      NSLog(@"before UpdateInlineShapes");
+      //NSLog(@"before UpdateInlineShapes");
       [self setValue:@"Updating Inline Shapes" forKey:@"wordFieldUpdateStatus"];
       [self UpdateInlineShapes:document];
-      NSLog(@"after UpdateInlineShapes");
+      //NSLog(@"after UpdateInlineShapes");
     
     }
 
     
   }
   @catch (NSException *exception) {
-    NSLog(@"%@", exception.reason);
-    NSLog(@"method: %@, line : %d", NSStringFromSelector(_cmd), __LINE__);
-    NSLog(@"%@", [NSThread callStackSymbols]);
+    //NSLog(@"%@", exception.reason);
+    //NSLog(@"method: %@, line : %d", NSStringFromSelector(_cmd), __LINE__);
+    //NSLog(@"%@", [NSThread callStackSymbols]);
   }
   @finally
   {
@@ -549,7 +549,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   //[WordHelpers toggleAllFieldCodes];
   //[[application settings] setAnimateScreenMovements:YES]; //Nope...
   
-  NSLog(@"UpdateFields - Finished");
+  //NSLog(@"UpdateFields - Finished");
   
   
 }
@@ -569,9 +569,9 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
     return [selection cells];
   }
   @catch (NSException *exception) {
-    NSLog(@"%@", exception.reason);
-    NSLog(@"method: %@, line : %d", NSStringFromSelector(_cmd), __LINE__);
-    NSLog(@"%@", [NSThread callStackSymbols]);
+    //NSLog(@"%@", exception.reason);
+    //NSLog(@"method: %@, line : %d", NSStringFromSelector(_cmd), __LINE__);
+    //NSLog(@"%@", [NSThread callStackSymbols]);
   }
   return nil;
 }
@@ -589,9 +589,9 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   NSInteger endColumn = MIN([columns count], [selectedCell columnIndex] + [[dimensions objectAtIndex:[STConstantsDimensionIndex Columns]] integerValue] - 1);
   NSInteger endRow = MIN([rows count], [selectedCell rowIndex] + [[dimensions objectAtIndex:[STConstantsDimensionIndex Rows]] integerValue] - 1);
   
-  NSLog(@"Selecting in existing to row %ld, column %ld", (long)endRow, (long)endColumn);
-  NSLog(@"Selected table has %ld rows and %ld columns", (long)[rows count], (long)[columns count]);
-  NSLog(@"Table to insert has dimensions %ld by %ld", [dimensions[0] integerValue], [dimensions[1] integerValue]);
+  //NSLog(@"Selecting in existing to row %ld, column %ld", (long)endRow, (long)endColumn);
+  //NSLog(@"Selected table has %ld rows and %ld columns", (long)[rows count], (long)[columns count]);
+  //NSLog(@"Table to insert has dimensions %ld by %ld", [dimensions[0] integerValue], [dimensions[1] integerValue]);
 
   STMSWord2011Cell* endCell = [table getCellFromTableRow:endRow column:endColumn];
   
@@ -614,11 +614,11 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
  */
 -(void)InsertTable:(STMSWord2011SelectionObject*)selection tag:(STTag*)tag {
 
-  NSLog(@"InsertTable - Started");
+  //NSLog(@"InsertTable - Started");
   
   if (tag == nil)
   {
-    NSLog(@"Unable to insert the table because the tag is nil");
+    //NSLog(@"Unable to insert the table because the tag is nil");
     return;
   }
   
@@ -626,7 +626,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   {
     STMSWord2011TextRange* selectionRange = [selection textObject];
     [self CreateTagField:selectionRange tagIdentifier:[tag Id] displayValue:[STConstantsPlaceholders EmptyField] tag:tag];
-    NSLog(@"Unable to insert the table because there are no cached results for the tag");
+    //NSLog(@"Unable to insert the table because there are no cached results for the tag");
     return;
   }
   
@@ -641,7 +641,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   // Insert a new table if there is none selected.
   if (cellsCount == 0)
   {
-    NSLog(@"No cells selected, creating a new table");
+    //NSLog(@"No cells selected, creating a new table");
     [self CreateWordTableForTableResult:selection table:table format:[tag TableFormat] dimensions:dimensions];
     
     // The table will be the size we need.  Update these tracking variables with the cells and
@@ -654,7 +654,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   // fill in that table.
   else if (cellsCount == 1 && [[selection textObject] startOfContent] == [[selection textObject] endOfContent])
   {
-    NSLog(@"Cursor is in a single table cell, selecting table");
+    //NSLog(@"Cursor is in a single table cell, selecting table");
     cells = [self SelectExistingTableRange:[cells firstObject] table:[[selection tables] firstObject] dimensions:dimensions];
     //cells = SelectExistingTableRange(cells.OfType<Cell>().First(), selection.Tables[1], dimensions);
     cellsCount = [cells count];
@@ -673,7 +673,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   
   if (cells == nil)
   {
-    NSLog(@"Unable to insert the table because the cells collection came back as nil.");
+    //NSLog(@"Unable to insert the table because the cells collection came back as nil.");
     return;
   }
 
@@ -705,7 +705,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
     point.x = [cell rowIndex];
     point.y = [cell columnIndex];
     [cellPoints addObject:[NSValue valueWithPoint:point]];
-    NSLog(@"cell (%ld,%ld)", [cell rowIndex], [cell columnIndex]);
+    //NSLog(@"cell (%ld,%ld)", [cell rowIndex], [cell columnIndex]);
   }
   
   STMSWord2011Cell* findCell = [cells firstObject];
@@ -722,7 +722,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
     }
   }
   
-  NSLog(@"cell Points : %@", cellPoints);
+  //NSLog(@"cell Points : %@", cellPoints);
 
   // Wait, why aren't I using a for (NSInteger index = 0...) loop instead of this foreach?
   // There is some weird issue with the Cells collection that was crashing when I used
@@ -738,7 +738,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
     
     if (index >= [displayData count])
     {
-      NSLog(@"Index %ld is beyond result cell length of %ld", index, [displayData count]);
+      //NSLog(@"Index %ld is beyond result cell length of %ld", index, [displayData count]);
       break;
     }
     
@@ -770,7 +770,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   [self InsertNewLineAndMoveDown:tableSelection];
   //Marshal.ReleaseComObject(tableSelection);
   
-  NSLog(@"InsertTable - Finished");
+  //NSLog(@"InsertTable - Finished");
 }
 
 
@@ -793,7 +793,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
  */
 -(void)CreateWordTableForTableResult:(STMSWord2011SelectionObject*)selection table:(STTable*)table format:(STTableFormat*)format dimensions:(NSArray<NSNumber*>*)dimensions {
  
-  NSLog(@"CreateWordTableForTableResult - Started");
+  //NSLog(@"CreateWordTableForTableResult - Started");
 
   STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
   STMSWord2011Document* __unused doc = [app activeDocument];
@@ -804,7 +804,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
     //    NSInteger rowCount = (format.IncludeColumnNames) ? (table.RowSize + 1) : (table.RowSize);
     //    NSInteger columnCount = (format.IncludeRowNames) ? (table.ColumnSize + 1) : (table.ColumnSize);
 
-    NSLog(@"Table dimensions r=%ld, c=%ld", rowCount, columnCount);
+    //NSLog(@"Table dimensions r=%ld, c=%ld", rowCount, columnCount);
 
     
     STMSWord2011Table* wordTable = [WordHelpers createTableAtRange:[[app selection] textObject] withRows:rowCount andCols:columnCount];
@@ -816,14 +816,14 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
     //borders.outsideLineStyle = STMSWord2011E167LineStyleSingle; //for some reason this is yellow...
   }
   @catch (NSException *exception) {
-    NSLog(@"%@", exception.reason);
-    NSLog(@"method: %@, line : %d", NSStringFromSelector(_cmd), __LINE__);
-    NSLog(@"%@", [NSThread callStackSymbols]);
+    //NSLog(@"%@", exception.reason);
+    //NSLog(@"method: %@, line : %d", NSStringFromSelector(_cmd), __LINE__);
+    //NSLog(@"%@", [NSThread callStackSymbols]);
   }
   @finally {
   }
   
-  NSLog(@"CreateWordTableForTableResult - Finished");
+  //NSLog(@"CreateWordTableForTableResult - Finished");
 
 }
 
@@ -855,7 +855,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
  @remark This method assumes the tag result is already refreshed.  It does not attempt to refresh or recalculate it.
  */
 -(void) InsertField:(id)tag {
-  NSLog(@"InsertField for Tag");
+  //NSLog(@"InsertField for Tag");
   if([tag isKindOfClass:[STFieldTag class]]) {
     [self InsertFieldWithFieldTag:tag];
   } else if ([tag isKindOfClass:[STTag class]]) {
@@ -869,10 +869,10 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
  @remark This method assumes the tag result is already refreshed.  It does not attempt to refresh or recalculate it.
  */
 -(void) InsertFieldWithFieldTag:(STFieldTag*)tag {
-  NSLog(@"InsertField - Started");
+  //NSLog(@"InsertField - Started");
 
   if(tag == nil) {
-    NSLog(@"The tag is null");
+    //NSLog(@"The tag is null");
     return;
   }
 
@@ -881,7 +881,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   });
   
   if([[tag Type] isEqualToString:[STConstantsTagType Figure]]) {
-    NSLog(@"Detected a Figure tag");
+    //NSLog(@"Detected a Figure tag");
     [self InsertImage:tag];
     return;
   }
@@ -892,7 +892,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   @try {
     STMSWord2011SelectionObject* selection = [app selection];
     if(selection == nil) {
-      NSLog(@"There is no active selection");
+      //NSLog(@"There is no active selection");
       return;
     }
 
@@ -900,10 +900,10 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
     // table into the document.  Otherwise, we are able to just insert a single table cell.
     if([tag IsTableTag] && [tag TableCellIndex] == nil) {
       // if (tag.IsTableTag() && !tag.TableCellIndex.HasValue)
-      NSLog(@"Inserting a new table tag");
+      //NSLog(@"Inserting a new table tag");
       [self InsertTable:selection tag:tag];
     } else {
-      NSLog(@"Inserting a single tag field");
+      //NSLog(@"Inserting a single tag field");
       STMSWord2011TextRange* range = [selection textObject];
       [self CreateTagField:range tagIdentifier:[tag Name] displayValue:[tag FormattedResult] tag:tag];
       //Marshal.ReleaseComObject(range);
@@ -911,15 +911,15 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
     //Marshal.ReleaseComObject(selection);
   }
   @catch (NSException *exception) {
-    NSLog(@"%@", exception.reason);
-    NSLog(@"method: %@, line : %d", NSStringFromSelector(_cmd), __LINE__);
-    NSLog(@"%@", [NSThread callStackSymbols]);
+    //NSLog(@"%@", exception.reason);
+    //NSLog(@"method: %@, line : %d", NSStringFromSelector(_cmd), __LINE__);
+    //NSLog(@"%@", [NSThread callStackSymbols]);
   }
   @finally {
     //Marshal.ReleaseComObject(document);
   }
 
-  NSLog(@"InsertField - Finished");
+  //NSLog(@"InsertField - Finished");
 
 }
 
@@ -933,8 +933,8 @@ Insert an StatTag field at the currently specified document range.
 @param tag: The tag to be inserted
  */
 -(void)CreateTagField:(STMSWord2011TextRange*)range tagIdentifier:(NSString*)tagIdentifier displayValue:(NSString*)displayValue tag:(STTag*)tag {
-  NSLog(@"CreateTagField - Started");
-  NSLog(@"Creating tag with range : (%ld,%ld) and tagIdentifier: %@ and displayValue : %@ with tag : %@", [range startOfContent], [range endOfContent], tagIdentifier, displayValue, tag);
+  //NSLog(@"CreateTagField - Started");
+  //NSLog(@"Creating tag with range : (%ld,%ld) and tagIdentifier: %@ and displayValue : %@ with tag : %@", [range startOfContent], [range endOfContent], tagIdentifier, displayValue, tag);
   //C# - XML - can't use it as we don't have support for InsertXML
   //  range.InsertXML(OpenXmlGenerator.GenerateField(tagIdentifier, displayValue, tag));
   
@@ -970,7 +970,7 @@ Insert an StatTag field at the currently specified document range.
   [STGlobals activateDocument];
   dataField.fieldText = [tag Serialize:nil];
   
-  NSLog(@"CreateTagField - Finished");
+  //NSLog(@"CreateTagField - Finished");
 }
 
 
@@ -981,7 +981,7 @@ Insert an StatTag field at the currently specified document range.
 */
 -(BOOL)EditTag:(STTag*)tag existingTag:(STTag*)existingTag
 {
-  NSLog(@"EditTag - Started");
+  //NSLog(@"EditTag - Started");
   
   @try
   {
@@ -1012,14 +1012,14 @@ Insert an StatTag field at the currently specified document range.
   }
   @catch (NSException* exception)
   {
-    NSLog(@"An exception was caught while trying to edit an tag");
-    NSLog(@"%@", exception.reason);
-    NSLog(@"method: %@, line : %d", NSStringFromSelector(_cmd), __LINE__);
-    NSLog(@"%@", [NSThread callStackSymbols]);
+    //NSLog(@"An exception was caught while trying to edit an tag");
+    //NSLog(@"%@", exception.reason);
+    //NSLog(@"method: %@, line : %d", NSStringFromSelector(_cmd), __LINE__);
+    //NSLog(@"%@", [NSThread callStackSymbols]);
     [self LogException:exception];
   }
   
-  NSLog(@"EditTag - Finished (no action)");
+  //NSLog(@"EditTag - Finished (no action)");
   return false;
 }
 
@@ -1141,9 +1141,9 @@ Insert an StatTag field at the currently specified document range.
   }
   @catch (NSException* exception)
   {
-    NSLog(@"%@", exception.reason);
-    NSLog(@"method: %@, line : %d", NSStringFromSelector(_cmd), __LINE__);
-    NSLog(@"%@", [NSThread callStackSymbols]);
+    //NSLog(@"%@", exception.reason);
+    //NSLog(@"method: %@, line : %d", NSStringFromSelector(_cmd), __LINE__);
+    //NSLog(@"%@", [NSThread callStackSymbols]);
     [STUIUtility ReportException:exception userMessage:@"There was an unexpected error when trying to insert the tag output into the Word document." logger:[self Logger]];
   }
   @finally
@@ -1261,7 +1261,7 @@ Insert an StatTag field at the currently specified document range.
   //FIXME: if this is a copy of the array, then this won't add anything...
   // which makes me wonder if this is supposed to return a pointer to the actual array instead...
   [files addObject:file];
-  NSLog(@"Added code file %@", fileName);
+  //NSLog(@"Added code file %@", fileName);
   
 }
 -(void)AddCodeFile:(NSString*)fileName {
@@ -1306,20 +1306,20 @@ Insert an StatTag field at the currently specified document range.
 
 -(NSMutableArray<STCodeFile*>*)GetCodeFileList:(STMSWord2011Document*)document {
   if(document == nil) {
-    NSLog(@"No document specified, so fetching code file list for active document.");
+    //NSLog(@"No document specified, so fetching code file list for active document.");
     document = [[[STGlobals sharedInstance] ThisAddIn] SafeGetActiveDocument];
   }
   if(document == nil) {
-    NSLog(@"Attempted to access code files for a null document.  Returning empty collection.");
+    //NSLog(@"Attempted to access code files for a null document.  Returning empty collection.");
     return [[NSMutableArray<STCodeFile*> alloc] init];
   }
   
   NSString* fullName = [document fullName];
   if([DocumentCodeFiles objectForKey:fullName] == nil) {
-    NSLog(@"Code file list for %@ is not yet cached.", fullName);
+    //NSLog(@"Code file list for %@ is not yet cached.", fullName);
     [DocumentCodeFiles setValue:[[NSMutableArray<STCodeFile*> alloc] init] forKey:fullName];
     [self LoadCodeFileListFromDocument:document];
-    //NSLog(@"Loaded %@ code files from document", DocumentCodeFiles[fullName].Count);
+    ////NSLog(@"Loaded %@ code files from document", DocumentCodeFiles[fullName].Count);
   }
   
   return DocumentCodeFiles[fullName];
@@ -1334,11 +1334,11 @@ Insert an StatTag field at the currently specified document range.
 
 -(void)SetCodeFileList:(NSArray<STCodeFile*>*)files document:(STMSWord2011Document*)document {
   if(document == nil) {
-    NSLog(@"No document specified, so getting a reference to the active document.");
+    //NSLog(@"No document specified, so getting a reference to the active document.");
     document = [[[STGlobals sharedInstance] ThisAddIn] SafeGetActiveDocument];
   }
   if(document == nil) {
-    NSLog(@"Attempted to set the code files for a null document.  Throwing exception.");
+    //NSLog(@"Attempted to set the code files for a null document.  Throwing exception.");
     [NSException raise:@"The Word document must be specified." format:@"The Word document must be specified."];
   }
   [DocumentCodeFiles setValue:[[NSMutableArray<STCodeFile*> alloc] initWithArray: files ] forKey:[document fullName]];

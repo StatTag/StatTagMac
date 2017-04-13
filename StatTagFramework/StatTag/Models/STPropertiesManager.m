@@ -60,7 +60,7 @@ NSString* const RunCodeOnOpenKey = @"Autorun Code";
 */
 -(void)Load
 {
-  NSLog(@"[STCocoaUtil currentBundleIdentifier] : %@", [STCocoaUtil currentBundleIdentifier]);
+  //NSLog(@"[STCocoaUtil currentBundleIdentifier] : %@", [STCocoaUtil currentBundleIdentifier]);
   NSDictionary* prefsDict = [[NSUserDefaults standardUserDefaults] persistentDomainForName:[STCocoaUtil currentBundleIdentifier]];
   _Properties.StataLocation = [prefsDict valueForKey:StataLocationKey];
   _Properties.LogLocation = [prefsDict valueForKey:LogLocationKey];

@@ -46,7 +46,7 @@
   //NSMutableDictionary<STTag*, NSArray<STTag*>*>
   //enumerateKeysAndObjectsUsingBlock:(void (^)(id key, id obj, BOOL *stop))
   for (STTag* t in [duplicateTags allKeys]) {
-    //NSLog(@"%@ - %@",key,[d objectForKey:key]);
+    ////NSLog(@"%@ - %@",key,[d objectForKey:key]);
     [tags addObject:[[DuplicateTagGroupEntry alloc] initWithTitle:[t Name] andTag:t isGroup:YES]];
     //apparently we're also using the first tag as the key - and all subsequent tags are the children
     // so - if you have 2 duplicates, one is the key and one is the child

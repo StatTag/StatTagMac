@@ -180,7 +180,7 @@
 }
 
 //- (void)selectedCodeFileDidChange:(DocumentBrowserCodeFilesViewController*)controller {
-//  NSLog(@"code file changed selection");
+//  //NSLog(@"code file changed selection");
 //  //This needs attention
 //  // if the code file selection changed, we could have one of a few things:
 //  // 1) a specific code / group of code filess were selected - we want to focus on tags
@@ -193,17 +193,17 @@
 //
 //-(void)selectedTagSummaryDidChange:(DocumentBrowserCodeFilesViewController*)controller;
 //{
-//  NSLog(@"tag summary changed selection");
+//  //NSLog(@"tag summary changed selection");
 //}
 
 - (void)codeFilesSetFocusOnTags:(DocumentBrowserCodeFilesViewController*)controller {
-  NSLog(@"code file changed selection");
+  //NSLog(@"code file changed selection");
   [self focusOnTags];
 }
 
 -(void)codeFilesSetFocusOnDuplicateTags:(DocumentBrowserCodeFilesViewController*)controller;
 {
-  NSLog(@"focusing on duplicate tags");
+  //NSLog(@"focusing on duplicate tags");
   //duplicateTags
   [self setDuplicateTags:[controller duplicateTags]];
   [self focusOnDuplicateTags];
@@ -211,7 +211,7 @@
 
 -(void)codeFilesSetFocusOnUnlinkedTags:(DocumentBrowserCodeFilesViewController*)controller;
 {
-  NSLog(@"focusing on unlinked tags");
+  //NSLog(@"focusing on unlinked tags");
   [self focusOnUnlinkedTags];
 }
 

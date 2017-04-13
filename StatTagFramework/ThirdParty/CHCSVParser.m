@@ -195,7 +195,7 @@ NSString *const CHCSVErrorDomain = @"com.davedelong.csv";
             if (bufferAsUTF8 != nil) {
                 encoding = NSUTF8StringEncoding;
             } else {
-                NSLog(@"unable to determine stream encoding; assuming MacOSRoman");
+                //NSLog(@"unable to determine stream encoding; assuming MacOSRoman");
                 encoding = NSMacOSRomanStringEncoding;
             }
         }

@@ -78,15 +78,15 @@ the DocumentManager instance that contains it.
 */
 -(STTag*)FindTagByID:(NSString*)tagID {
   
-  NSLog(@"Executing FindTagByID:%@", tagID);
+  //NSLog(@"Executing FindTagByID:%@", tagID);
   
   NSArray<STCodeFile*>* files = [_DocumentManager GetCodeFileList];
 
   if(files == nil) {
-    NSLog(@"Unable to find a tag because the files collection is null");
+    //NSLog(@"Unable to find a tag because the files collection is null");
     return nil;
   } else {
-    NSLog(@"FindTagByID - found (%lu) files", (unsigned long)[files count]);
+    //NSLog(@"FindTagByID - found (%lu) files", (unsigned long)[files count]);
   }
   
   //return files.SelectMany(file => file.Tags).FirstOrDefault(tag => tag.Id.Equals(id));
@@ -154,22 +154,22 @@ the DocumentManager instance that contains it.
     
     NSArray<STCodeFile*>* files = [_DocumentManager GetCodeFileList];
 
-    NSLog(@"DeserializeFieldTag -> files : %@", files);
+    //NSLog(@"DeserializeFieldTag -> files : %@", files);
     //FIXME: we should fix his to be a hard crash - debugging...
 
     STMSWord2011TextRange* code = [field fieldCode];
-    NSLog(@"DeserializeFieldTag -> code : (%ld,%ld)", [code startOfContent], [code endOfContent]);
+    //NSLog(@"DeserializeFieldTag -> code : (%ld,%ld)", [code startOfContent], [code endOfContent]);
     STMSWord2011Field* nestedField = [[code fields] firstObject];//[code fields][1];
     
     //[STGlobals activateDocument];
     NSString* nestedFieldText = [NSString stringWithString:[nestedField fieldText]];//[[nestedField fieldText] copy];
     //[STGlobals activateDocument];
     
-    NSLog(@"DeserializeFieldTag -> nestedField : %@", nestedField);
-    NSLog(@"DeserializeFieldTag -> nestedField field type: %d", [nestedField fieldType]);
-    NSLog(@"DeserializeFieldTag -> nestedField field entry_index: %ld", [nestedField entry_index]);
+    //NSLog(@"DeserializeFieldTag -> nestedField : %@", nestedField);
+    //NSLog(@"DeserializeFieldTag -> nestedField field type: %d", [nestedField fieldType]);
+    //NSLog(@"DeserializeFieldTag -> nestedField field entry_index: %ld", [nestedField entry_index]);
     
-    NSLog(@"DeserializeFieldTag -> nestedField fieldText : %@", nestedFieldText);
+    //NSLog(@"DeserializeFieldTag -> nestedField fieldText : %@", nestedFieldText);
     //FIXME: very, very unsure of this.. original c# used "Data" and we're using fieldText - which seems to be the closest approximation...
     //  var fieldTag = FieldTag.Deserialize(nestedField.Data.ToString(CultureInfo.InvariantCulture),
     //                                      files);
@@ -192,23 +192,23 @@ the DocumentManager instance that contains it.
     [STGlobals activateDocument];
     
     STFieldTag* fieldTag = [self DeserializeFieldTag:field];
-    NSLog(@"GetFieldTag -> fieldTag : %@", [fieldTag description]);
+    //NSLog(@"GetFieldTag -> fieldTag : %@", [fieldTag description]);
     STTag* tag = [self FindTagByTag:fieldTag];
-    NSLog(@"GetFieldTag -> tag : %@", [tag description]);
+    //NSLog(@"GetFieldTag -> tag : %@", [tag description]);
     
-    NSLog(@"");
-    NSLog(@"GetFieldTag");
-    NSLog(@"================");
-    NSLog(@"fieldTag is nil : %d", fieldTag == nil);
-    NSLog(@"FormattedResult : %@", [fieldTag FormattedResult]);
-    NSLog(@"Type : %@", [fieldTag Type]);
-    NSLog(@"CachedResult : %@", [fieldTag CachedResult]);
+    //NSLog(@"");
+    //NSLog(@"GetFieldTag");
+    //NSLog(@"================");
+    //NSLog(@"fieldTag is nil : %d", fieldTag == nil);
+    //NSLog(@"FormattedResult : %@", [fieldTag FormattedResult]);
+    //NSLog(@"Type : %@", [fieldTag Type]);
+    //NSLog(@"CachedResult : %@", [fieldTag CachedResult]);
     
-    NSLog(@"tag is nil : %d", tag == nil);
-    NSLog(@"FormattedResult : %@", [tag FormattedResult]);
-    NSLog(@"Type : %@", [tag Type]);
-    NSLog(@"CachedResult : %@", [tag CachedResult]);
-    NSLog(@"--------------");
+    //NSLog(@"tag is nil : %d", tag == nil);
+    //NSLog(@"FormattedResult : %@", [tag FormattedResult]);
+    //NSLog(@"Type : %@", [tag Type]);
+    //NSLog(@"CachedResult : %@", [tag CachedResult]);
+    //NSLog(@"--------------");
     
     // The result of FindTag is going to be a document-level tag, not a
     // cell specific one that exists as a field.  We need to re-set the cell index
@@ -239,7 +239,7 @@ the DocumentManager instance that contains it.
  code file is linked to this document, and report those that are not.
  */
 -(NSDictionary<NSString*, NSArray<STTag*>*>*) FindAllUnlinkedTags {
-  NSLog(@"FindAllUnlinkedTags - Started");
+  //NSLog(@"FindAllUnlinkedTags - Started");
   NSMutableDictionary<NSString*, NSMutableArray<STTag*>*>* results = [[NSMutableDictionary<NSString*, NSMutableArray<STTag*>*> alloc] init];
   @autoreleasepool {
 
@@ -253,11 +253,11 @@ the DocumentManager instance that contains it.
     // -- EWW -> above is from the original c# - will be interesting to see if this is the case for the Mac version
     //FIXME: check later to see if Fields is 1-based index
     NSArray<STCodeFile*>* files = [_DocumentManager GetCodeFileList];
-    NSLog(@"Preparing to process %ld fields", fieldsCount);
+    //NSLog(@"Preparing to process %ld fields", fieldsCount);
     for (NSInteger index = fieldsCount; index >= 1; index--) {
       STMSWord2011Field* field = fields[index];
       if(field == nil) {
-        NSLog(@"Null field detected at index %ld", index);
+        //NSLog(@"Null field detected at index %ld", index);
         continue;
       }
 
@@ -265,10 +265,10 @@ the DocumentManager instance that contains it.
         continue;
       }
 
-      NSLog(@"Processing StatTag field");
+      //NSLog(@"Processing StatTag field");
       STFieldTag* tag = [self GetFieldTag:field];
       if(tag == nil) {
-        NSLog(@"The field tag is null or could not be found");
+        //NSLog(@"The field tag is null or could not be found");
         continue;
       }
 
@@ -287,7 +287,7 @@ the DocumentManager instance that contains it.
       }
     }
     
-    NSLog(@"FindAllUnlinkedTags - Finished");
+    //NSLog(@"FindAllUnlinkedTags - Finished");
     return results;
   }
 }
@@ -300,7 +300,7 @@ the DocumentManager instance that contains it.
  @param configuration: A set of configuration information specific to the function
  */
 -(void)ProcessStatTagFields:(NSString*)aFunction configuration:(id)configuration {
-  NSLog(@"ProcessStatTagFields - Started");
+  //NSLog(@"ProcessStatTagFields - Started");
  
   @autoreleasepool {
 
@@ -311,22 +311,22 @@ the DocumentManager instance that contains it.
     NSInteger fieldsCount = [fields count];
 
     // Fields is a 1-based index
-    NSLog(@"Preparing to process %ld fields", fieldsCount);
+    //NSLog(@"Preparing to process %ld fields", fieldsCount);
     for (NSInteger index = fieldsCount; index >= 1; index--) {
       
       STMSWord2011Field* field = fields[index];
       if(field == nil) {
-        NSLog(@"Null field detected at index %ld", index);
+        //NSLog(@"Null field detected at index %ld", index);
         continue;
       }
       if(![self IsStatTagField:field]) {
         //Marshal.ReleaseComObject(field);
         continue;
       }
-      NSLog(@"Processing StatTag field");
+      //NSLog(@"Processing StatTag field");
       STFieldTag* tag = [self GetFieldTag:field];
       if(tag == nil) {
-        NSLog(@"The field tag is null or could not be found");
+        //NSLog(@"The field tag is null or could not be found");
         //Marshal.ReleaseComObject(field);
         continue;
       }
@@ -368,7 +368,7 @@ the DocumentManager instance that contains it.
     }
     
     //Marshal.ReleaseComObject(document);
-    NSLog(@"ProcessStatTagFields - Finished");
+    //NSLog(@"ProcessStatTagFields - Finished");
   }
 }
 
@@ -402,14 +402,14 @@ the DocumentManager instance that contains it.
   
   NSDictionary<NSString*, STCodeFileAction*>* actions = (NSDictionary<NSString*, STCodeFileAction*>*)configuration;
   if(actions == nil && [actions isKindOfClass:[NSDictionary class]]) {
-    NSLog(@"The list of actions to perform is null or of the wrong type");
+    //NSLog(@"The list of actions to perform is null or of the wrong type");
     return;
   }
   
   // If there is no action specified for this field, we will exit.  This should happen when we have fields that
   // are still linked in a document.
   if([actions objectForKey:[tag CodeFilePath]] == nil) {
-    NSLog(@"No action is needed for tag in file %@", [tag CodeFilePath]);
+    //NSLog(@"No action is needed for tag in file %@", [tag CodeFilePath]);
     return;
   }
   
@@ -417,7 +417,7 @@ the DocumentManager instance that contains it.
   // with doing anything.
   STCodeFileAction* action = [actions objectForKey:[tag CodeFilePath]];
   if(action == nil) {
-    NSLog(@"No action was specified - exiting");
+    //NSLog(@"No action was specified - exiting");
     return;
   }
 
@@ -425,12 +425,12 @@ the DocumentManager instance that contains it.
   STCodeFile* codeFile = (STCodeFile*)[action Parameter];
   if(codeFile != nil && [codeFile isKindOfClass:[STCodeFile class]]) {
     if([action Action] == [STConstantsCodeFileActionTask ChangeFile]) {
-      NSLog(@"Changing tag %@ from %@ to %@", [tag Name], [tag CodeFilePath], [codeFile FilePath]);
+      //NSLog(@"Changing tag %@ from %@ to %@", [tag Name], [tag CodeFilePath], [codeFile FilePath]);
       tag.CodeFile = codeFile;
       [_DocumentManager AddCodeFile:[tag CodeFilePath]];
       [self UpdateTagFieldData:field tag:tag];
     } else if ([action Action] == [STConstantsCodeFileActionTask RemoveTags]) {
-      NSLog(@"Removing %@", [tag Name]);
+      //NSLog(@"Removing %@", [tag Name]);
       [WordHelpers select:field];
 
       STMSWord2011Application* application = [[[STGlobals sharedInstance] ThisAddIn] Application];
@@ -439,10 +439,10 @@ the DocumentManager instance that contains it.
       // original c# - should be the same enum
       // application.Selection.Range.HighlightColorIndex = WdColorIndex.wdYellow;
     } else if ([action Action] == [STConstantsCodeFileActionTask ReAddFile]) {
-      NSLog(@"Linking code file %@", [tag CodeFilePath]);
+      //NSLog(@"Linking code file %@", [tag CodeFilePath]);
       [_DocumentManager AddCodeFile:[tag CodeFilePath]];
     } else {
-      NSLog(@"The action task of %ld is not known and will be skipped", (long)[action Action]);
+      //NSLog(@"The action task of %ld is not known and will be skipped", (long)[action Action]);
     }
   }
   
@@ -458,14 +458,14 @@ the DocumentManager instance that contains it.
   @autoreleasepool {
     NSDictionary<NSString*, STCodeFileAction*>* actions = (NSDictionary<NSString*, STCodeFileAction*>*)configuration;
     if(actions == nil && [actions isKindOfClass:[NSDictionary class]]) {
-      NSLog(@"The list of actions to perform is null or of the wrong type");
+      //NSLog(@"The list of actions to perform is null or of the wrong type");
       return;
     }
     
     // If there is no action specified for this field, we will exit.  This should happen when we have fields that
     // are still linked in a document.
     if([actions objectForKey:[tag Id]] == nil) {
-      NSLog(@"No action is needed for tag in file %@", [tag Id]);
+      //NSLog(@"No action is needed for tag in file %@", [tag Id]);
       return;
     }
 
@@ -473,7 +473,7 @@ the DocumentManager instance that contains it.
     // with doing anything.
     STCodeFileAction* action = [actions objectForKey:[tag Id]];
     if(action == nil) {
-      NSLog(@"No action was specified - exiting");
+      //NSLog(@"No action was specified - exiting");
       return;
     }
 
@@ -481,12 +481,12 @@ the DocumentManager instance that contains it.
     STCodeFile* codeFile = (STCodeFile*)[action Parameter];
     if(codeFile != nil && [codeFile isKindOfClass:[STCodeFile class]]) {
       if([action Action] == [STConstantsCodeFileActionTask ChangeFile]) {
-        NSLog(@"Changing tag %@ from %@ to %@", [tag Name], [tag CodeFilePath], [codeFile FilePath]);
+        //NSLog(@"Changing tag %@ from %@ to %@", [tag Name], [tag CodeFilePath], [codeFile FilePath]);
         tag.CodeFile = codeFile;
         [_DocumentManager AddCodeFile:[tag CodeFilePath]];
         [self UpdateTagFieldData:field tag:tag];
       } else if ([action Action] == [STConstantsCodeFileActionTask RemoveTags]) {
-        NSLog(@"Removing %@", [tag Name]);
+        //NSLog(@"Removing %@", [tag Name]);
         //[field select];
         [WordHelpers select:field];
 
@@ -496,10 +496,10 @@ the DocumentManager instance that contains it.
         // original c# - should be the same enum
         // application.Selection.Range.HighlightColorIndex = WdColorIndex.wdYellow;
       } else if ([action Action] == [STConstantsCodeFileActionTask ReAddFile]) {
-        NSLog(@"Linking code file %@", [tag CodeFilePath]);
+        //NSLog(@"Linking code file %@", [tag CodeFilePath]);
         [_DocumentManager AddCodeFile:[tag CodeFilePath]];
       } else {
-        NSLog(@"The action task of %ld is not known and will be skipped", [action Action]);
+        //NSLog(@"The action task of %ld is not known and will be skipped", [action Action]);
       }
     }
   }

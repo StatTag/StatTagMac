@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "STJSONable.h"
+#import "STJSONAble.h"
 
 
 @interface STFigureFormat : NSObject <NSCopying, STJSONAble>

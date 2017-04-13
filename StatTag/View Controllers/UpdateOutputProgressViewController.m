@@ -74,7 +74,7 @@
   } else {
     [progressText setStringValue:[NSString stringWithFormat:@"Updating tags..."]];
   }
-  //NSLog(@"%lu tags", (unsigned long)[_tagsToProcess count]);
+  ////NSLog(@"%lu tags", (unsigned long)[_tagsToProcess count]);
   
   dispatch_async(dispatch_get_global_queue(0, 0), ^{
     
@@ -106,7 +106,7 @@
         });
 
         for(STCodeFile* cf in [_documentManager GetCodeFileList]) {
-          //NSLog(@"found codefile %@", [cf FilePath]);
+          ////NSLog(@"found codefile %@", [cf FilePath]);
           
           
           STStatsManagerExecuteResult* result = [stats ExecuteStatPackage:cf
@@ -165,7 +165,7 @@
     NSString* tagName = [[notification userInfo] valueForKey:@"tagName"];
     NSString* codeFileName = [[notification userInfo] valueForKey:@"codeFileName"];
     NSString* type = [[notification userInfo] valueForKey:@"type"];
-    NSLog(@"tagUpdateStart complete => tag: %@", tagName);
+    //NSLog(@"tagUpdateStart complete => tag: %@", tagName);
 
     if([type isEqualToString:@"tag"])
     {
@@ -175,7 +175,7 @@
     {
       [[self progressText] setStringValue:[NSString stringWithFormat:@"%@ %@ for tag '%@'", [self insert] ? @"Inserting" : @"Updating", type, tagName]];
     }
-    //NSLog(@"tag update start (%@/%@): %@", [self numTagsCompleted], [self numTagsToProcess], tagName);
+    ////NSLog(@"tag update start (%@/%@): %@", [self numTagsCompleted], [self numTagsToProcess], tagName);
     [[self progressCountLabel] setStringValue:[NSString stringWithFormat:@"(%@/%@)", [self numTagsCompleted], [self numTagsToProcess]]];
   });
 }
@@ -186,12 +186,12 @@
 
     NSString* tagName = [[notification userInfo] valueForKey:@"tagName"];
     NSString* tagID = [[notification userInfo] valueForKey:@"tagID"];
-    NSLog(@"tagUpdateComplete complete => tag: %@", tagName);
+    //NSLog(@"tagUpdateComplete complete => tag: %@", tagName);
     bool no_result = [(NSNumber*)[[notification userInfo] valueForKey:@"no_result"] boolValue];
     //@"no_result" : [NSNumber numberWithBool:no_result]}
     if(no_result)
     {
-      NSLog(@"tagUpdateComplete - Failed to process tag : '%@' Id:(%@)", tagName, tagID);
+      //NSLog(@"tagUpdateComplete - Failed to process tag : '%@' Id:(%@)", tagName, tagID);
       //find our tag from the ID
       for(STTag* t in [self tagsToProcess])
       {

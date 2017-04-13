@@ -84,7 +84,7 @@ const NSInteger RefreshStepInterval = 5;
 -(STStatsManagerExecuteResult*) ExecuteStatPackage:(STCodeFile*)file filterMode:(NSInteger)filterMode tagsToRun:(NSArray<STTag*>*)tagsToRun {
   
   dispatch_async(dispatch_get_main_queue(), ^{
-    NSLog(@"ExecuteStatPackage preparing to execute %ld tags", (unsigned long)[tagsToRun count]);
+    //NSLog(@"ExecuteStatPackage preparing to execute %ld tags", (unsigned long)[tagsToRun count]);
   });
   
   STStatsManagerExecuteResult* result = [[STStatsManagerExecuteResult alloc] init];
@@ -161,9 +161,9 @@ const NSInteger RefreshStepInterval = 5;
       STTag* tag = [[self Manager] FindTag:[[step Tag] Id]];
 
       
-      NSLog(@"results count : %lu", (unsigned long)[results count]);
+      //NSLog(@"results count : %lu", (unsigned long)[results count]);
       for(STCommandResult* r in results) {
-        NSLog(@"results result : %@", [r ToString]);
+        //NSLog(@"results result : %@", [r ToString]);
       }
 
 
@@ -176,13 +176,13 @@ const NSInteger RefreshStepInterval = 5;
         // original c#
         //bool resultsChanged = (tag.CachedResult != null && !resultList.SequenceEqual(tag.CachedResult));
         
-        NSLog(@"OLD count : %lu", (unsigned long)[[tag CachedResult] count]);
+        //NSLog(@"OLD count : %lu", (unsigned long)[[tag CachedResult] count]);
         for(STCommandResult* r in [tag CachedResult]) {
-          NSLog(@"OLD result : %@", [r ToString]);
+          //NSLog(@"OLD result : %@", [r ToString]);
         }
-        NSLog(@"new count : %lu", (unsigned long)[resultList count]);
+        //NSLog(@"new count : %lu", (unsigned long)[resultList count]);
         for(STCommandResult* r in resultList) {
-          NSLog(@"new result : %@", [r ToString]);
+          //NSLog(@"new result : %@", [r ToString]);
         }
         
         
@@ -190,10 +190,10 @@ const NSInteger RefreshStepInterval = 5;
         
         // If the results did change, we need to sweep the document and update all of the results
         if(resultsChanged) {
-          NSLog(@"results changed");
+          //NSLog(@"results changed");
           // For all table tags, update the formatted cells collection
           if([tag IsTableTag]) {
-            NSLog(@"is a table tag");
+            //NSLog(@"is a table tag");
             //original c#
                 //tag.CachedResult.FindAll(x => x.TableResult != null).ForEach(
                   //x =>
@@ -211,9 +211,9 @@ const NSInteger RefreshStepInterval = 5;
             }
           }
           
-          NSLog(@"ExecuteStatPackage (%d) - result? %@", __LINE__, result);
-          NSLog(@"ExecuteStatPackage (%d) - [result UpdatedTags] %@", __LINE__, [result UpdatedTags]);
-          NSLog(@"ExecuteStatPackage (%d) - tag? %@", __LINE__, tag);
+          //NSLog(@"ExecuteStatPackage (%d) - result? %@", __LINE__, result);
+          //NSLog(@"ExecuteStatPackage (%d) - [result UpdatedTags] %@", __LINE__, [result UpdatedTags]);
+          //NSLog(@"ExecuteStatPackage (%d) - tag? %@", __LINE__, tag);
           [[result UpdatedTags] addObject:tag];
 
         }
@@ -240,11 +240,11 @@ const NSInteger RefreshStepInterval = 5;
   }
   @catch (NSException* exception) {
     //FIXME: return an NSError?
-    NSLog(@"%@", exception.reason);
-    NSLog(@"method: %@, line : %d", NSStringFromSelector(_cmd), __LINE__);
-    NSLog(@"%@", [NSThread callStackSymbols]);
+    //NSLog(@"%@", exception.reason);
+    //NSLog(@"method: %@, line : %d", NSStringFromSelector(_cmd), __LINE__);
+    //NSLog(@"%@", [NSThread callStackSymbols]);
 
-    NSLog(@"Exception Initialize %@: %@", NSStringFromClass([self class]), [exception description]);
+    //NSLog(@"Exception Initialize %@: %@", NSStringFromClass([self class]), [exception description]);
     /*
      MessageBox.Show(exc.Message, UIUtility.GetAddInName(), MessageBoxButtons.OK, MessageBoxIcon.Error);
      */

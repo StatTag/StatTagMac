@@ -46,7 +46,7 @@ NSString* const defaultLogFileName = @"StatTag.log";
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  //NSLog(@"SettingsViewController loaded");
+  ////NSLog(@"SettingsViewController loaded");
 }
 
 -(void)viewWillAppear {
@@ -117,7 +117,7 @@ NSString* const defaultLogFileName = @"StatTag.log";
   BOOL isDir;
   NSFileManager* fileManager = [NSFileManager defaultManager];
   
-  if ( [openPanel runModal] == NSOKButton )
+  if ( [openPanel runModal] == NSModalResponseOK )
   {
     NSArray<NSURL*>* files = [openPanel URLs];
     

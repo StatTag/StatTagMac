@@ -68,10 +68,10 @@
 //  //if a tag argument was sent in...
 //  //let's now see if we can find the tag by name/id and open it
 //  NSDictionary<NSString*, id>* args = [self evaluatedArguments];
-//  NSLog(@"UpdateOutput: num args -> %ld", [args count]);
+//  //NSLog(@"UpdateOutput: num args -> %ld", [args count]);
 //  NSString* keys = [[args allKeys] componentsJoinedByString:@","];
-//  NSLog(@"UpdateOutput: keys ->%@", keys);
-//  //NSLog(@"UpdateOutput: keys ->%@", [args allKeys]);
+//  //NSLog(@"UpdateOutput: keys ->%@", keys);
+//  ////NSLog(@"UpdateOutput: keys ->%@", [args allKeys]);
 //  
 //  //1) detect the tags in the current document
 //  //2) match the tag (if possible)
@@ -79,13 +79,13 @@
 //  //4) open the UI for the tag editor
 //  NSString* tagName = [[self evaluatedArguments] valueForKey:@"TagName"];
 //  STTag* tag = [[[StatTagShared sharedInstance] tagsViewController] selectTagWithName:tagName];
-//  NSLog(@"tag name : %@", [tag Name]);
+//  //NSLog(@"tag name : %@", [tag Name]);
 //  if(tag != nil)
 //  {
 //    [[[StatTagShared sharedInstance] tagsViewController] editTag:nil];
 //  }
 //  
-//  NSLog(@"%@", args);
+//  //NSLog(@"%@", args);
 //  
 //  return nil;
 //}
@@ -146,10 +146,10 @@
   //if a tag argument was sent in...
   //let's now see if we can find the tag by name/id and open it
   NSDictionary<NSString*, id>* args = [self evaluatedArguments];
-  NSLog(@"UpdateOutput: num args -> %ld", [args count]);
+  //NSLog(@"UpdateOutput: num args -> %ld", [args count]);
   NSString* keys = [[args allKeys] componentsJoinedByString:@","];
-  NSLog(@"UpdateOutput: keys ->%@", keys);
-  //NSLog(@"UpdateOutput: keys ->%@", [args allKeys]);
+  //NSLog(@"UpdateOutput: keys ->%@", keys);
+  ////NSLog(@"UpdateOutput: keys ->%@", [args allKeys]);
   
   //1) detect the tags in the current document
   //2) match the tag (if possible)

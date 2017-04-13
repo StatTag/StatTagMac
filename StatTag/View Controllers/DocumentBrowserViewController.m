@@ -200,17 +200,17 @@
   {
     //FIXME: we should be using tag ID and not name - there can be multiple tags w/ the same name
     [[self documentBrowserDocumentViewController] openTagForEditing:tagName];
-    NSLog(@"told to focus on tag '%@' with id: '%@'", tagName, tagID);
+    //NSLog(@"told to focus on tag '%@' with id: '%@'", tagName, tagID);
   }
   
 //  STTag* tag = [[[StatTagShared sharedInstance] tagsViewController] selectTagWithName:tagName];
-//  NSLog(@"tag name : %@", [tag Name]);
+//  //NSLog(@"tag name : %@", [tag Name]);
 //  if(tag != nil)
 //  {
 //    [[[StatTagShared sharedInstance] tagsViewController] editTag:nil];
 //  }
 //  
-//  NSLog(@"%@", args);
+//  //NSLog(@"%@", args);
 
 }
 
@@ -336,8 +336,8 @@
   NSArray<NSString*> *removed_docs = [[_documentsArrayController arrangedObjects] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"NOT self IN %@", current_word_doc_names]];
   NSArray<NSString*> *new_docs = [current_word_doc_names filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"NOT self IN %@", [_documentsArrayController arrangedObjects]]];
   
-  //NSLog(@"Added docs : %@", new_docs);
-  //NSLog(@"Removed docs : %@", removed_docs);
+  ////NSLog(@"Added docs : %@", new_docs);
+  ////NSLog(@"Removed docs : %@", removed_docs);
   
   //  [[_documentsArrayController content] removeAllObjects];
   //  [_documentsArrayController addObjects:current_word_doc_names];

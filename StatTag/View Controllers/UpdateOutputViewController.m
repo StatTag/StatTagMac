@@ -165,7 +165,7 @@ BOOL breakLoop = YES;
   {
     NSInteger tagIndex=[[onDemandTags arrangedObjects] indexOfObject:tag];
     if(NSNotFound == tagIndex) {
-      NSLog(@"selectTagWithName couldn't find tag '%@' in onDemandTags", [tag Name]);
+      //NSLog(@"selectTagWithName couldn't find tag '%@' in onDemandTags", [tag Name]);
     } else {
       [onDemandTags setSelectionIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(tagIndex, 1)]];
       return tag;
@@ -189,7 +189,7 @@ BOOL breakLoop = YES;
   {
     NSInteger tagIndex=[[onDemandTags arrangedObjects] indexOfObject:tag];
     if(NSNotFound == tagIndex) {
-      NSLog(@"selectTagWithID couldn't find tag '%@' in onDemandTags", [tag Name]);
+      //NSLog(@"selectTagWithID couldn't find tag '%@' in onDemandTags", [tag Name]);
     } else {
       [onDemandTags setSelectionIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(tagIndex, 1)]];
       return tag;
@@ -249,7 +249,7 @@ BOOL breakLoop = YES;
 -(void)alertUserToFailedTags:(NSArray<STTag*>*)failedTags
 {
   //we should really fix how this all works
-  NSLog(@"failed tags : %@", failedTags);
+  //NSLog(@"failed tags : %@", failedTags);
   
   NSAlert *alert = [[NSAlert alloc] init];
   [alert setMessageText:@"Not All Tags Could be Processed"];
@@ -300,8 +300,8 @@ BOOL breakLoop = YES;
   
   //need to figure out where we do this on a single tag within StatTag - doing this for all tags is expensive
 //  for(STMSWord2011Field* field in [[[StatTagShared sharedInstance] doc] fields]) {
-//    NSLog(@"fieldText : %@", [field fieldText]);
-//    NSLog(@"fieldCode : %@", [[field fieldCode] content]);
+//    //NSLog(@"fieldText : %@", [field fieldText]);
+//    //NSLog(@"fieldCode : %@", [[field fieldCode] content]);
 //    
 //    field.showCodes = ![field showCodes];
 //    field.showCodes = ![field showCodes];
@@ -385,7 +385,7 @@ BOOL breakLoop = YES;
   
   [alert beginSheetModalForWindow:[[NSApplication sharedApplication] mainWindow] completionHandler:^(NSModalResponse returnCode) {
     if (returnCode == NSAlertFirstButtonReturn) {
-      NSLog(@"tag deletion not yet implemented");
+      //NSLog(@"tag deletion not yet implemented");
     } else if (returnCode == NSAlertSecondButtonReturn) {
     }
   }];

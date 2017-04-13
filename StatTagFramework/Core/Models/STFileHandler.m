@@ -66,7 +66,7 @@
 }
 
 - (BOOL) Exists:(NSURL*)filePath error:(NSError**)error {
-  NSLog(@"%@ path = %@", NSStringFromSelector(_cmd), [filePath path]);
+  //NSLog(@"%@ path = %@", NSStringFromSelector(_cmd), [filePath path]);
   
   BOOL isDir;
   BOOL exists = [[NSFileManager defaultManager] fileExistsAtPath:[filePath path] isDirectory:&isDir];
@@ -142,7 +142,7 @@
   NSError *err;
   if (![manager removeItemAtURL:tempDir error:&err])
   {
-    NSLog(@"Failed to remove temp directory after atomic copy: %@", err);
+    //NSLog(@"Failed to remove temp directory after atomic copy: %@", err);
   }
   
   //return result;
@@ -150,16 +150,16 @@
 }
 
 - (void) WriteAllLines:(NSURL*)filePath withContent: (NSArray*)content error:(NSError**)error {
-  NSLog(@"writing to path... %@", [filePath path]);
+  //NSLog(@"writing to path... %@", [filePath path]);
   NSString *contentString = [content componentsJoinedByString:@"\n"];
   
-  NSLog(@"contentString now : %@", contentString);
+  //NSLog(@"contentString now : %@", contentString);
   BOOL success = [contentString
                   writeToFile:[filePath path]
                   atomically:YES
                   encoding:NSUTF8StringEncoding
                   error:nil];
-  NSLog(@"%@ success = %hhd",NSStringFromSelector(_cmd), success);
+  //NSLog(@"%@ success = %hhd",NSStringFromSelector(_cmd), success);
 }
 
 - (void) WriteAllText:(NSURL*)filePath withContent: (NSString*)content error:(NSError**)error {
@@ -167,7 +167,7 @@
             atomically:YES
             encoding:NSStringEncodingConversionAllowLossy
             error:error];
-  NSLog(@"%@ success = %hhd", NSStringFromSelector(_cmd), success);
+  //NSLog(@"%@ success = %hhd", NSStringFromSelector(_cmd), success);
 }
 
 
