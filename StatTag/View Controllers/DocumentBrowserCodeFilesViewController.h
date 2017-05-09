@@ -24,8 +24,8 @@
 -(void)codeFilesSetFocusOnUnlinkedTags:(DocumentBrowserCodeFilesViewController*)controller;
 @end
 
-
-static NSString* const allowedExtensions_CodeFiles = @"do/DO";
+//FIXME: this is a global... we should move this somewhere else managed by the framework
+//static NSString* const allowedExtensions_CodeFiles = @"do/DO";
 
 @interface DocumentBrowserCodeFilesViewController : NSViewController <NSTableViewDelegate, NSTableViewDataSource> {
   NSArrayController *arrayController;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12118"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12120"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -27,13 +27,13 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
-                <scrollView autohidesScrollers="YES" horizontalLineScroll="38" horizontalPageScroll="10" verticalLineScroll="38" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v75-DW-HFm">
+                <scrollView autohidesScrollers="YES" horizontalLineScroll="45" horizontalPageScroll="10" verticalLineScroll="45" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v75-DW-HFm">
                     <rect key="frame" x="20" y="20" width="684" height="131"/>
                     <clipView key="contentView" id="akz-PZ-by0">
                         <rect key="frame" x="1" y="1" width="682" height="129"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="36" rowSizeStyle="automatic" viewBased="YES" id="Mjy-1n-0Ii">
+                            <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="43" rowSizeStyle="automatic" viewBased="YES" id="Mjy-1n-0Ii">
                                 <rect key="frame" x="0.0" y="0.0" width="682" height="129"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <size key="intercellSpacing" width="3" height="2"/>
@@ -53,73 +53,130 @@
                                         </textFieldCell>
                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                         <prototypeCellViews>
-                                            <tableCellView identifier="unlinkedTagDetailRow" id="869-PY-0y3" customClass="UnlinkedTagsDetailRowView">
-                                                <rect key="frame" x="1" y="1" width="679" height="36"/>
+                                            <tableCellView identifier="unlinkedTagGroupRow" misplaced="YES" id="WHC-96-PUQ" customClass="UnlinkedTagsGroupRowView">
+                                                <rect key="frame" x="1" y="1" width="679" height="43"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
-                                                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="63n-ZR-sPk" userLabel="Stat Package Image View">
-                                                        <rect key="frame" x="4" y="2" width="32" height="32"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="stattag_tag_purple" id="VuC-9o-WQm"/>
+                                                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hvk-hq-RLL" userLabel="Stat Package Image View">
+                                                        <rect key="frame" x="4" y="5" width="32" height="32"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="32" id="eAO-7N-r4Y"/>
+                                                            <constraint firstAttribute="width" constant="32" id="xP3-sq-Z3z"/>
+                                                        </constraints>
+                                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="stattag_tag_purple" id="7uX-cI-82D"/>
                                                     </imageView>
-                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JtX-if-fCA" userLabel="Code File Name">
-                                                        <rect key="frame" x="42" y="19" width="213" height="17"/>
-                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                                        <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="0zi-RS-u7f">
+                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qSY-8x-LrS" userLabel="Code File Name">
+                                                        <rect key="frame" x="42" y="20" width="363" height="17"/>
+                                                        <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="PJq-wY-aPS">
                                                             <font key="font" metaFont="systemBold"/>
                                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                         </textFieldCell>
                                                     </textField>
-                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TbP-lf-ig1" userLabel="Code File Path">
-                                                        <rect key="frame" x="42" y="2" width="218" height="17"/>
-                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                                        <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="le8-Jd-hiR">
+                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vFp-4g-xMM" userLabel="Code File Path">
+                                                        <rect key="frame" x="42" y="4" width="363" height="14"/>
+                                                        <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="Za3-b2-2NI">
                                                             <font key="font" metaFont="smallSystem"/>
                                                             <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
                                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                         </textFieldCell>
                                                     </textField>
-                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZTw-8g-15A" userLabel="Tag Name">
-                                                        <rect key="frame" x="264" y="19" width="191" height="17"/>
-                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                                    <popUpButton identifier="actionCodeFile" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="JgB-YW-agp" userLabel="Action PopUp">
+                                                        <rect key="frame" x="419" y="9" width="255" height="26"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="250" id="QQj-DG-llu"/>
+                                                        </constraints>
+                                                        <popUpButtonCell key="cell" type="push" title="(Choose an Action)" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="mixed" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="H3z-TF-qzc" id="X9H-Lq-rUu">
+                                                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                                            <font key="font" metaFont="menu"/>
+                                                            <menu key="menu" id="lQF-v7-dTR">
+                                                                <items>
+                                                                    <menuItem title="(Choose an Action)" state="mixed" id="H3z-TF-qzc"/>
+                                                                    <menuItem title="Link to Different Code File" tag="1" id="QVE-ye-LOT"/>
+                                                                    <menuItem title="Remove Missing Tags From Document" tag="2" id="PJR-lG-TPS" userLabel="Remove all Tags in this Code File"/>
+                                                                </items>
+                                                            </menu>
+                                                        </popUpButtonCell>
+                                                        <connections>
+                                                            <action selector="takeActionOnCodeFile:" target="-2" id="Om5-59-Vwl"/>
+                                                        </connections>
+                                                    </popUpButton>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstItem="vFp-4g-xMM" firstAttribute="leading" secondItem="qSY-8x-LrS" secondAttribute="leading" id="03X-cp-QI3"/>
+                                                    <constraint firstItem="vFp-4g-xMM" firstAttribute="top" secondItem="qSY-8x-LrS" secondAttribute="bottom" constant="2" id="2GX-dH-cHf"/>
+                                                    <constraint firstItem="JgB-YW-agp" firstAttribute="leading" secondItem="qSY-8x-LrS" secondAttribute="trailing" constant="18" id="Mxs-z7-guX"/>
+                                                    <constraint firstItem="hvk-hq-RLL" firstAttribute="top" secondItem="WHC-96-PUQ" secondAttribute="top" constant="4" id="SJy-Hm-cCo"/>
+                                                    <constraint firstAttribute="bottom" secondItem="vFp-4g-xMM" secondAttribute="bottom" constant="4" id="WI6-Jz-RuB"/>
+                                                    <constraint firstItem="vFp-4g-xMM" firstAttribute="width" secondItem="qSY-8x-LrS" secondAttribute="width" id="gyh-0o-6Bp"/>
+                                                    <constraint firstItem="hvk-hq-RLL" firstAttribute="leading" secondItem="WHC-96-PUQ" secondAttribute="leading" constant="4" id="h5x-Pn-4QB"/>
+                                                    <constraint firstItem="JgB-YW-agp" firstAttribute="top" secondItem="WHC-96-PUQ" secondAttribute="top" constant="8" id="hJb-yY-iYS"/>
+                                                    <constraint firstAttribute="trailing" secondItem="JgB-YW-agp" secondAttribute="trailing" constant="8" id="lVQ-WC-w2W"/>
+                                                    <constraint firstItem="qSY-8x-LrS" firstAttribute="leading" secondItem="hvk-hq-RLL" secondAttribute="trailing" constant="8" id="rDg-EG-2cx"/>
+                                                    <constraint firstItem="hvk-hq-RLL" firstAttribute="leading" secondItem="WHC-96-PUQ" secondAttribute="leading" constant="4" id="vYy-Ge-Ogy"/>
+                                                    <constraint firstItem="qSY-8x-LrS" firstAttribute="top" secondItem="WHC-96-PUQ" secondAttribute="top" constant="4" id="vo4-8d-FFV"/>
+                                                </constraints>
+                                                <connections>
+                                                    <outlet property="codeFileActionPopUpList" destination="JgB-YW-agp" id="nCf-tN-be7"/>
+                                                    <outlet property="codeFileName" destination="qSY-8x-LrS" id="2Gx-sm-IYl"/>
+                                                    <outlet property="codeFilePath" destination="vFp-4g-xMM" id="EB4-ss-rL8"/>
+                                                    <outlet property="codeFilePopUpWidth" destination="QQj-DG-llu" id="VD7-We-exk"/>
+                                                    <outlet property="imageView" destination="hvk-hq-RLL" id="gSp-S0-QuJ"/>
+                                                </connections>
+                                            </tableCellView>
+                                            <tableCellView identifier="unlinkedTagDetailRow" id="869-PY-0y3" customClass="UnlinkedTagsDetailRowView">
+                                                <rect key="frame" x="1" y="46" width="679" height="36"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <subviews>
+                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZTw-8g-15A" userLabel="Tag Name">
+                                                        <rect key="frame" x="88" y="15" width="347" height="17"/>
                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="Kqc-Bd-O4N">
                                                             <font key="font" metaFont="system"/>
                                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                         </textFieldCell>
                                                     </textField>
-                                                    <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bw5-Qn-Vet" userLabel="Action PopUp">
-                                                        <rect key="frame" x="459" y="9" width="220" height="26"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                        <popUpButtonCell key="cell" type="push" title="(Choose an Action)" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="LOY-pM-7g6" id="7jD-e6-ibu">
-                                                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                                            <font key="font" metaFont="menu"/>
-                                                            <menu key="menu" id="dz8-Dj-Rk9">
-                                                                <items>
-                                                                    <menuItem title="(Choose an Action)" state="on" id="LOY-pM-7g6"/>
-                                                                    <menuItem title="Link Tag to Existing Code File" id="hDk-N2-5nd"/>
-                                                                    <menuItem title="Remove Tag from Document" id="YOf-vS-sKT"/>
-                                                                    <menuItem title="Link Missing Code File" id="kmu-sl-sP6"/>
-                                                                </items>
-                                                            </menu>
-                                                        </popUpButtonCell>
-                                                    </popUpButton>
-                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QEG-1n-IBz" userLabel="Tag Type">
-                                                        <rect key="frame" x="264" y="2" width="191" height="17"/>
-                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QEG-1n-IBz" userLabel="Tag Type">
+                                                        <rect key="frame" x="88" y="-1" width="347" height="14"/>
                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="0xH-3o-nME">
                                                             <font key="font" metaFont="smallSystem"/>
                                                             <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
                                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                         </textFieldCell>
                                                     </textField>
+                                                    <popUpButton identifier="actionTag" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bw5-Qn-Vet" userLabel="Action PopUp">
+                                                        <rect key="frame" x="449" y="4" width="225" height="26"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="220" id="oKT-g2-UVP"/>
+                                                        </constraints>
+                                                        <popUpButtonCell key="cell" type="push" title="(Choose an Action)" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="LOY-pM-7g6" id="7jD-e6-ibu">
+                                                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                                            <font key="font" metaFont="menu"/>
+                                                            <menu key="menu" id="dz8-Dj-Rk9">
+                                                                <items>
+                                                                    <menuItem title="(Choose an Action)" state="on" identifier="doNothing" id="LOY-pM-7g6"/>
+                                                                    <menuItem title="Link to Different Code File" tag="1" hidden="YES" enabled="NO" identifier="linkToExistingCodeFile" id="hDk-N2-5nd"/>
+                                                                    <menuItem title="Remove Tag from Document" tag="2" identifier="removeTagFromDocument" id="YOf-vS-sKT"/>
+                                                                </items>
+                                                            </menu>
+                                                        </popUpButtonCell>
+                                                        <connections>
+                                                            <action selector="takeActionOnTag:" target="-2" id="hDU-NC-xNS"/>
+                                                        </connections>
+                                                    </popUpButton>
                                                 </subviews>
+                                                <constraints>
+                                                    <constraint firstItem="QEG-1n-IBz" firstAttribute="width" secondItem="ZTw-8g-15A" secondAttribute="width" id="5IG-uy-bUP"/>
+                                                    <constraint firstItem="ZTw-8g-15A" firstAttribute="top" secondItem="869-PY-0y3" secondAttribute="top" constant="4" id="JVb-OR-DJn"/>
+                                                    <constraint firstAttribute="trailing" secondItem="bw5-Qn-Vet" secondAttribute="trailing" constant="8" id="Lx0-hf-QOB"/>
+                                                    <constraint firstItem="QEG-1n-IBz" firstAttribute="leading" secondItem="ZTw-8g-15A" secondAttribute="leading" id="TQU-sS-BXp"/>
+                                                    <constraint firstItem="bw5-Qn-Vet" firstAttribute="top" secondItem="869-PY-0y3" secondAttribute="top" constant="8" id="fX5-hl-yaK"/>
+                                                    <constraint firstItem="QEG-1n-IBz" firstAttribute="top" secondItem="ZTw-8g-15A" secondAttribute="bottom" constant="2" id="pIu-1J-IOP"/>
+                                                    <constraint firstItem="ZTw-8g-15A" firstAttribute="leading" secondItem="869-PY-0y3" secondAttribute="leading" constant="90" id="rqC-Sc-XZ7"/>
+                                                    <constraint firstItem="bw5-Qn-Vet" firstAttribute="leading" secondItem="ZTw-8g-15A" secondAttribute="trailing" constant="18" id="tQm-dT-uqF"/>
+                                                </constraints>
                                                 <connections>
-                                                    <outlet property="codeFileActionPopUpList" destination="bw5-Qn-Vet" id="BxE-Gi-Asf"/>
-                                                    <outlet property="codeFileName" destination="JtX-if-fCA" id="YQ0-hJ-yRe"/>
-                                                    <outlet property="codeFilePath" destination="TbP-lf-ig1" id="vsF-E0-GvU"/>
-                                                    <outlet property="imageView" destination="63n-ZR-sPk" id="lXf-qr-pCf"/>
+                                                    <outlet property="tagActionPopUpList" destination="bw5-Qn-Vet" id="I8X-6H-Rvh"/>
                                                     <outlet property="tagName" destination="ZTw-8g-15A" id="aTQ-sb-5w0"/>
                                                     <outlet property="tagType" destination="QEG-1n-IBz" id="5MN-yY-S3H"/>
                                                 </connections>

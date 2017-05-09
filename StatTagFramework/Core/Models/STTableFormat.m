@@ -143,7 +143,14 @@
   }
 
   for (NSString* key in dict) {
-    [self setValue:[dict valueForKey:key] forKey:key];
+    if([key isEqualToString:@"RowFilter"] || [key isEqualToString:@"ColumnFilter"]) {
+      NSDictionary *objDict = (NSDictionary*)[dict valueForKey:key];
+      if(objDict != nil) {
+        [self setValue:[[STFilterFormat alloc] initWithDictionary:objDict] forKey:key];
+      }
+    } else {
+      [self setValue:[dict valueForKey:key] forKey:key];
+    }
   }
 }
 

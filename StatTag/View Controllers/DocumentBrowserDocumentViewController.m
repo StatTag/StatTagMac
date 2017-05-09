@@ -70,6 +70,8 @@
   self.tagListViewController.documentManager = _documentManager;
   self.duplicateTagsViewController.documentManager = _documentManager;
   self.duplicateTagsViewController.delegate = self;
+  self.unlinkedTagsViewController.documentManager = _documentManager;
+  self.unlinkedTagsViewController.delegate = self;
 }
 -(STDocumentManager*)documentManager
 {
@@ -121,10 +123,23 @@
   }
   
   //[[self duplicateTagsViewController] setDuplicateTags:[self duplicateTags]];
+  //[[self unlinkedTagsViewController] setDocumentManager:[self documentManager]];
   [[self unlinkedTagsViewController] setUnlinkedTags:[[self documentManager] FindAllUnlinkedTags]];
   [[self codeFilesViewController] focusOnTags:TagIndicatorViewTagFocusUnlinkedTags];
 }
 
+-(void)unlinkedTagsDidChange:(UnlinkedTagsViewController*)unlinkedTagsViewController
+{
+  //our unlinked tags changed
+  [[self codeFilesViewController] configure];
+  [[self unlinkedTagsViewController] setUnlinkedTags:[[self documentManager] FindAllUnlinkedTags]];
+  if([[unlinkedTagsViewController unlinkedTags] count] > 0)
+  {
+    [self focusOnUnlinkedTags];
+  } else {
+    [self focusOnTags];
+  }
+}
 
 -(void)focusOnTags
 {

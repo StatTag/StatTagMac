@@ -179,7 +179,7 @@
   }
   [dict setValue:_LineStart forKey:@"LineStart"];
   [dict setValue:_LineEnd forKey:@"LineEnd"];
-  [dict setValue:[self Id] forKey:@"Id"]; //this is a read only item
+  //[dict setValue:[self Id] forKey:@"Id"]; //this is a read only item
   [dict setValue:[self FormattedResult] forKey:@"FormattedResult"];
   
   return dict;

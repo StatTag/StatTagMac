@@ -1213,7 +1213,10 @@ Insert an StatTag field at the currently specified document range.
  */
 -(void)UpdateUnlinkedTagsByCodeFile:(NSDictionary<NSString*, STCodeFileAction*>*)actions
 {
-  [[self TagManager] ProcessStatTagFields:@"UpdateUnlinkedTagsByCodeFile" configuration:actions];
+//  [[self TagManager] ProcessStatTagFields:[[self TagManager] UpdateUnlinkedTagsByCodeFile] configuration:actions];
+  [[self TagManager] ProcessStatTagFields:^void(STMSWord2011Field* field, STFieldTag* fieldTag, id configuration){
+    [[self TagManager] UpdateUnlinkedTagsByCodeFile:field tag:fieldTag configuration:configuration];
+  } configuration:actions];
 }
 
 /**
@@ -1230,7 +1233,12 @@ Insert an StatTag field at the currently specified document range.
 -(void)UpdateUnlinkedTagsByTag:(NSDictionary<NSString*, STCodeFileAction*>*)actions
 {
   //[[self TagManager] ProcessStatTagFields:<#^(STMSWord2011Field *, STFieldTag *, id)aFunction#> configuration:<#(id)#>
-  [[self TagManager] ProcessStatTagFields:@"UpdateUnLinkedTagsByTag" configuration:actions];
+
+  [[self TagManager] ProcessStatTagFields:^void(STMSWord2011Field* field, STFieldTag* fieldTag, id configuration){
+    [[self TagManager] UpdateUnlinkedTagsByTag:field tag:fieldTag configuration:configuration];
+  } configuration:actions];
+
+  //[[self TagManager] ProcessStatTagFields:[[self TagManager] UpdateUnlinkedTagsByTag] configuration:actions];
   //TagManager.ProcessStatTagFields(TagManager.UpdateUnlinkedTagsByTag, actions);
 }
 
@@ -1258,9 +1266,15 @@ Insert an StatTag field at the currently specified document range.
   file.StatisticalPackage = package;
   [file LoadTagsFromContent];
   [file SaveBackup:nil];
-  //FIXME: if this is a copy of the array, then this won't add anything...
-  // which makes me wonder if this is supposed to return a pointer to the actual array instead...
-  [files addObject:file];
+
+  //EWW: deviations from C#
+  //let's not double-add existing paths
+  if(![[self GetCodeFileList] containsObject:file])
+  {
+    [files addObject:file];
+    [self SaveCodeFileListToDocument:nil];//this isn't in the C#, but we can't get our code files to "stick" without it
+  }
+  
   //NSLog(@"Added code file %@", fileName);
   
 }

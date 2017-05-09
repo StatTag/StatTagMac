@@ -61,6 +61,7 @@ extern NSString *const STStatTagErrorDomain;
 +(NSString*)SupportedLabel;
 +(NSString*)SupportedFileFilters;
 +(NSString*)FormatForOpenFileDialog;
++(NSArray<NSString*>*)SupportedFileFiltersArray;
 @end
 
 @interface STConstantsFileExtensions : NSObject

@@ -19,8 +19,9 @@
 @class DuplicateTagsViewController;
 @class STTag;
 @protocol DuplicateTagManagerDelegate;
+@protocol UnlinkedTagsManagerDelegate;
 
-@interface DocumentBrowserDocumentViewController : NSViewController <DocumentBrowserCodeFilesDelegate, DuplicateTagManagerDelegate>
+@interface DocumentBrowserDocumentViewController : NSViewController <DocumentBrowserCodeFilesDelegate, DuplicateTagManagerDelegate, UnlinkedTagsManagerDelegate>
 {
   STMSWord2011Document* _document;
   STDocumentManager* _documentManager;

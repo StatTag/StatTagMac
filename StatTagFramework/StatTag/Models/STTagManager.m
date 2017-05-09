@@ -237,6 +237,10 @@ the DocumentManager instance that contains it.
 /** 
  Search the active Word document and find all inserted tags.  Determine if the tag's
  code file is linked to this document, and report those that are not.
+ 
+ We have two scenarios we're looking for
+ 1) (Code file missing) Tag exists in document, but referenced code file does not
+ 2) (Tag no longer in code file) Tag exists in document, referenced code file exists, but tag no longer in code file
  */
 -(NSDictionary<NSString*, NSArray<STTag*>*>*) FindAllUnlinkedTags {
   //NSLog(@"FindAllUnlinkedTags - Started");
@@ -254,7 +258,11 @@ the DocumentManager instance that contains it.
     //FIXME: check later to see if Fields is 1-based index
     NSArray<STCodeFile*>* files = [_DocumentManager GetCodeFileList];
     //NSLog(@"Preparing to process %ld fields", fieldsCount);
-    for (NSInteger index = fieldsCount; index >= 1; index--) {
+    //counting backwards
+    
+    NSArray<STTag*>* allTags = [self GetTags];
+    
+    for (NSInteger index = fieldsCount - 1; index >= 0; index--) {
       STMSWord2011Field* field = fields[index];
       if(field == nil) {
         //NSLog(@"Null field detected at index %ld", index);
@@ -278,11 +286,12 @@ the DocumentManager instance that contains it.
           hasFilePath = true;
         }
       }
-      if(!hasFilePath) {
+      if(!hasFilePath || ![allTags containsObject:tag]) {
+        //!hasFilePath => this tag refers to an invalid code file path
+        //![allTags containsObject:tag] => we have a file path that's valid, but now let's check to see if the tag we're looking at is actually found in the code file(s)
         if([results objectForKey:[tag CodeFilePath]] == nil) {
           [results setObject:[[NSMutableArray<STTag*> alloc] init] forKey:[tag CodeFilePath]];
         }
-        //FIXME: does this return a copy or the reference?
         [[results objectForKey:[tag CodeFilePath]] addObject:tag];
       }
     }
@@ -292,14 +301,18 @@ the DocumentManager instance that contains it.
   }
 }
 
+//FIXME: EWW - This method is completely wrong - we need to look at the "function" argument and fix this
 /**
  A generic method that will iterate over the fields in the active document, and apply a function to
  each StatTag field.
 
- @param function: The function to apply to each relevant field
+ @param function: The function to apply to each relevant field. Original argument from C# was "Action<Field, FieldTag, object>". We're going to use a typedef to represent it for simplicity.
  @param configuration: A set of configuration information specific to the function
+ 
+ It looks like the "configuration" object could be any number of things depending on the function argument that's sent in. EX: could be a tag. Could be a dictionary of code files and tags. Totally depends on the function.
  */
--(void)ProcessStatTagFields:(NSString*)aFunction configuration:(id)configuration {
+-(void)ProcessStatTagFields:(CodeFileActionType)aFunction configuration:(id)configuration {
+//-(void)ProcessStatTagFields:(SEL)aFunction configuration:(id)configuration {
   //NSLog(@"ProcessStatTagFields - Started");
  
   @autoreleasepool {
@@ -312,7 +325,7 @@ the DocumentManager instance that contains it.
 
     // Fields is a 1-based index
     //NSLog(@"Preparing to process %ld fields", fieldsCount);
-    for (NSInteger index = fieldsCount; index >= 1; index--) {
+    for (NSInteger index = fieldsCount - 1; index >= 0; index--) {
       
       STMSWord2011Field* field = fields[index];
       if(field == nil) {
@@ -348,9 +361,13 @@ the DocumentManager instance that contains it.
 
       //option 2 - succinct, but we hae trouble with our arguments list
   //    IMP methodImpl = [STTagManager instanceMethodForSelector:aFunction];
-      SEL selector = NSSelectorFromString(aFunction);
-      IMP method = [self methodForSelector: selector];    
-      ((void (*) (id, SEL, STMSWord2011Field*, STFieldTag*, id))method)(self,selector,field,tag,configuration);
+  //    SEL selector = NSSelectorFromString(aFunction);
+//      IMP method = [self methodForSelector: selector];    
+//      ((void (*) (id, SEL, STMSWord2011Field*, STFieldTag*, id))method)(self,selector,field,tag,configuration);
+
+      // function(field, tag, configuration);
+      aFunction(field, tag, configuration);
+      
   //    id result = methodImpl( self,
   //                     aFunction,
   //                     field,
@@ -385,7 +402,7 @@ the DocumentManager instance that contains it.
 -(void)UpdateTagFieldData:(STMSWord2011Field*)field tag:(STFieldTag*)tag {
   @autoreleasepool {
     STMSWord2011TextRange* code = [field fieldCode];
-    STMSWord2011Field* nestedField = [code fields][1];
+    STMSWord2011Field* nestedField = [code fields][0];
     nestedField.fieldText = [tag Serialize:nil];
   }
 }
@@ -431,13 +448,7 @@ the DocumentManager instance that contains it.
       [self UpdateTagFieldData:field tag:tag];
     } else if ([action Action] == [STConstantsCodeFileActionTask RemoveTags]) {
       //NSLog(@"Removing %@", [tag Name]);
-      [WordHelpers select:field];
-
-      STMSWord2011Application* application = [[[STGlobals sharedInstance] ThisAddIn] Application];
-      [[application selection] textObject].content = [STConstantsPlaceholders RemovedField];
-      [[application selection] textObject].highlightColorIndex = STMSWord2011E110Yellow;
-      // original c# - should be the same enum
-      // application.Selection.Range.HighlightColorIndex = WdColorIndex.wdYellow;
+      [self replaceAndHighlightField:field replaceWithString:[STConstantsPlaceholders RemovedField] andHighlight:STMSWord2011E110Yellow];
     } else if ([action Action] == [STConstantsCodeFileActionTask ReAddFile]) {
       //NSLog(@"Linking code file %@", [tag CodeFilePath]);
       [_DocumentManager AddCodeFile:[tag CodeFilePath]];
@@ -488,13 +499,7 @@ the DocumentManager instance that contains it.
       } else if ([action Action] == [STConstantsCodeFileActionTask RemoveTags]) {
         //NSLog(@"Removing %@", [tag Name]);
         //[field select];
-        [WordHelpers select:field];
-
-        STMSWord2011Application* application = [[[STGlobals sharedInstance] ThisAddIn] Application];
-        [[application selection] textObject].content = [STConstantsPlaceholders RemovedField];
-        [[application selection] textObject].highlightColorIndex = STMSWord2011E110Yellow;
-        // original c# - should be the same enum
-        // application.Selection.Range.HighlightColorIndex = WdColorIndex.wdYellow;
+        [self replaceAndHighlightField:field replaceWithString:[STConstantsPlaceholders RemovedField] andHighlight:STMSWord2011E110Yellow];
       } else if ([action Action] == [STConstantsCodeFileActionTask ReAddFile]) {
         //NSLog(@"Linking code file %@", [tag CodeFilePath]);
         [_DocumentManager AddCodeFile:[tag CodeFilePath]];
@@ -502,6 +507,21 @@ the DocumentManager instance that contains it.
         //NSLog(@"The action task of %ld is not known and will be skipped", [action Action]);
       }
     }
+  }
+}
+
+-(void)replaceAndHighlightField:(STMSWord2011Field*)field replaceWithString:(NSString*)replacement andHighlight:(STMSWord2011E110)highlight
+{
+  if(field != nil && replacement != nil)
+  {
+    [WordHelpers select:field];
+    STMSWord2011Application* application = [[[STGlobals sharedInstance] ThisAddIn] Application];
+    //NOTE: Unlike Windows, when we change the content we BREAK the selection we're going to need to go back and create a new selection so we can include the text we just inserted
+    NSInteger start = [[[application selection] textObject] startOfContent];
+    NSInteger end = start + [replacement length];
+    [[application selection] textObject].content = [STConstantsPlaceholders RemovedField];
+    [WordHelpers selectTextAtRangeStart:start andEnd:end];
+    [[[application selection] textObject] setHighlightColorIndex: highlight];
   }
 }
 

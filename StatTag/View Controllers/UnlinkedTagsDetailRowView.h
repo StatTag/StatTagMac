@@ -13,9 +13,7 @@
 
 @property (assign) IBOutlet NSTextField *tagName;
 @property (assign) IBOutlet NSTextField *tagType;
-@property (assign) IBOutlet NSTextField *codeFileName;
-@property (assign) IBOutlet NSTextField *codeFilePath;
-@property (assign) IBOutlet NSPopUpButton *codeFileActionPopUpList;
+@property (assign) IBOutlet NSPopUpButton *tagActionPopUpList;
 
 
 

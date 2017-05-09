@@ -11,6 +11,8 @@
 #import "FileMonitor.h"
 #import "StatTagShared.h"
 #import "STDocumentManager+FileMonitor.h"
+#import <StatTagFramework/STConstants.h>
+#import "STCodeFile+FileHelper.h"
 
 //#import "TagIndicatorView.h"
 
@@ -272,8 +274,7 @@
   [openPanel setAllowsMultipleSelection:YES];
   
   
-  NSArray<NSString*>* types = [allowedExtensions_CodeFiles pathComponents];
-  [openPanel setAllowedFileTypes:types];
+  [openPanel setAllowedFileTypes:[STConstantsFileFilters SupportedFileFiltersArray]];
   
   //BOOL isDir;
   //NSFileManager* fileManager = [NSFileManager defaultManager];
@@ -301,7 +302,8 @@
     //      [[self labelFilePath] setStringValue:[url path]];
     //NSLog(@"path extension : %@", [url pathExtension]);
     
-    if([[allowedExtensions_CodeFiles pathComponents] containsObject:[url pathExtension]])
+    //if([[STConstantsFileFilters SupportedFileFiltersArray] containsObject:[url pathExtension]])
+    if([STCodeFile fileIsSupported:url])
     {
       STCodeFile* cf = [[STCodeFile alloc] init];
       cf.FilePathURL = url;

@@ -74,7 +74,7 @@
   _StatisticalPackage = StatisticalPackage;
 }
 -(NSString*)StatisticalPackage {
-  if(_StatisticalPackage == nil) {
+  if(_StatisticalPackage == nil || [_StatisticalPackage length] <= 0) {
     _StatisticalPackage = [STCodeFile GuessStatisticalPackage:[self FilePath]];
   }
   return _StatisticalPackage;

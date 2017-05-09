@@ -192,6 +192,9 @@
 		38B53A1E1E8A9D3700F29A7C /* DocumentBrowserCodeFilesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38ACBA251E8A981C0052636E /* DocumentBrowserCodeFilesViewController.xib */; };
 		38B53A1F1E8A9D3E00F29A7C /* DocumentBrowserCodeFilesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38ACBA241E8A981C0052636E /* DocumentBrowserCodeFilesViewController.m */; };
 		38BE59AC1D52AA1000FF9E99 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38C91F4A1D37AC710048A95E /* Cocoa.framework */; };
+		38C2C44D1EB25BB500B95EEA /* UnlinkedTagsGroupRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C2C44C1EB25BB500B95EEA /* UnlinkedTagsGroupRowView.m */; };
+		38C2C4501EB25F7500B95EEA /* UnlinkedTagGroupEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C2C44F1EB25F7500B95EEA /* UnlinkedTagGroupEntry.m */; };
+		38C2C4531EB2907600B95EEA /* STCodeFile+FileHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C2C4521EB2907600B95EEA /* STCodeFile+FileHelper.m */; };
 		38C3CC761DA428E700CEA70C /* DisclosureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C3CC741DA428E700CEA70C /* DisclosureViewController.m */; };
 		38C3CC771DA428E700CEA70C /* DisclosureViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38C3CC751DA428E700CEA70C /* DisclosureViewController.xib */; };
 		38C3CC7A1DA4298E00CEA70C /* TagEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C3CC791DA4298E00CEA70C /* TagEditorViewController.m */; };
@@ -588,6 +591,12 @@
 		38B04FCB1DF607270070BD2E /* StatTagModelFilterFormatTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagModelFilterFormatTests.m; sourceTree = "<group>"; };
 		38B04FCD1DF61ED50070BD2E /* STTableData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STTableData.h; sourceTree = "<group>"; };
 		38B04FCE1DF61ED50070BD2E /* STTableData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STTableData.m; sourceTree = "<group>"; };
+		38C2C44B1EB25BB500B95EEA /* UnlinkedTagsGroupRowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnlinkedTagsGroupRowView.h; sourceTree = "<group>"; };
+		38C2C44C1EB25BB500B95EEA /* UnlinkedTagsGroupRowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnlinkedTagsGroupRowView.m; sourceTree = "<group>"; };
+		38C2C44E1EB25F7500B95EEA /* UnlinkedTagGroupEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnlinkedTagGroupEntry.h; sourceTree = "<group>"; };
+		38C2C44F1EB25F7500B95EEA /* UnlinkedTagGroupEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnlinkedTagGroupEntry.m; sourceTree = "<group>"; };
+		38C2C4511EB2907600B95EEA /* STCodeFile+FileHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "STCodeFile+FileHelper.h"; sourceTree = "<group>"; };
+		38C2C4521EB2907600B95EEA /* STCodeFile+FileHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "STCodeFile+FileHelper.m"; sourceTree = "<group>"; };
 		38C3CC731DA428E700CEA70C /* DisclosureViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DisclosureViewController.h; sourceTree = "<group>"; };
 		38C3CC741DA428E700CEA70C /* DisclosureViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DisclosureViewController.m; sourceTree = "<group>"; };
 		38C3CC751DA428E700CEA70C /* DisclosureViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DisclosureViewController.xib; sourceTree = "<group>"; };
@@ -1166,15 +1175,15 @@
 		386689611E9CF58C00A5A1CB /* DuplicateTags */ = {
 			isa = PBXGroup;
 			children = (
+				3828C8141E9D0AB8000A4159 /* DuplicateTagDetailRowView.h */,
+				3828C8151E9D0AB8000A4159 /* DuplicateTagDetailRowView.m */,
 				386689581E9C2EF400A5A1CB /* DuplicateTagGroupEntry.h */,
 				386689591E9C2EF400A5A1CB /* DuplicateTagGroupEntry.m */,
+				3828C8111E9CF82E000A4159 /* DuplicateTagGroupRowView.h */,
+				3828C8121E9CF82E000A4159 /* DuplicateTagGroupRowView.m */,
 				386689491E9BC6EC00A5A1CB /* DuplicateTagsViewController.h */,
 				3866894A1E9BC6EC00A5A1CB /* DuplicateTagsViewController.m */,
 				3866894B1E9BC6EC00A5A1CB /* DuplicateTagsViewController.xib */,
-				3828C8111E9CF82E000A4159 /* DuplicateTagGroupRowView.h */,
-				3828C8121E9CF82E000A4159 /* DuplicateTagGroupRowView.m */,
-				3828C8141E9D0AB8000A4159 /* DuplicateTagDetailRowView.h */,
-				3828C8151E9D0AB8000A4159 /* DuplicateTagDetailRowView.m */,
 			);
 			name = DuplicateTags;
 			sourceTree = "<group>";
@@ -1191,11 +1200,15 @@
 		3871BA671E9E912100B00C22 /* UnlinkedTags */ = {
 			isa = PBXGroup;
 			children = (
+				38C2C44E1EB25F7500B95EEA /* UnlinkedTagGroupEntry.h */,
+				38C2C44F1EB25F7500B95EEA /* UnlinkedTagGroupEntry.m */,
+				3871BA681E9E919600B00C22 /* UnlinkedTagsDetailRowView.h */,
+				3871BA691E9E919600B00C22 /* UnlinkedTagsDetailRowView.m */,
+				38C2C44B1EB25BB500B95EEA /* UnlinkedTagsGroupRowView.h */,
+				38C2C44C1EB25BB500B95EEA /* UnlinkedTagsGroupRowView.m */,
 				38FFDD211E8D5C3F004D92C3 /* UnlinkedTagsViewController.h */,
 				38FFDD221E8D5C3F004D92C3 /* UnlinkedTagsViewController.m */,
 				38FFDD231E8D5C3F004D92C3 /* UnlinkedTagsViewController.xib */,
-				3871BA681E9E919600B00C22 /* UnlinkedTagsDetailRowView.h */,
-				3871BA691E9E919600B00C22 /* UnlinkedTagsDetailRowView.m */,
 			);
 			name = UnlinkedTags;
 			sourceTree = "<group>";
@@ -1230,6 +1243,8 @@
 				3828C8181E9D12AD000A4159 /* STTag+TagContent.m */,
 				3871BA6B1E9EE87900B00C22 /* STDocumentManager+TagUsage.h */,
 				3871BA6C1E9EE87900B00C22 /* STDocumentManager+TagUsage.m */,
+				38C2C4511EB2907600B95EEA /* STCodeFile+FileHelper.h */,
+				38C2C4521EB2907600B95EEA /* STCodeFile+FileHelper.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -2016,8 +2031,10 @@
 				3836F54E1D92C89900BF0DD4 /* AppDelegate.m in Sources */,
 				38B53A1F1E8A9D3E00F29A7C /* DocumentBrowserCodeFilesViewController.m in Sources */,
 				3836F5A01D92D03D00BF0DD4 /* SettingsViewController.m in Sources */,
+				38C2C44D1EB25BB500B95EEA /* UnlinkedTagsGroupRowView.m in Sources */,
 				386992C91DB6B6A200852B6E /* FileMonitor.m in Sources */,
 				389591B51E8A991F003FE9E3 /* DocumentBrowserTagSummary.m in Sources */,
+				38C2C4501EB25F7500B95EEA /* UnlinkedTagGroupEntry.m in Sources */,
 				38F803431D9C4B9A00C8F1EA /* SCHelpers.m in Sources */,
 				3866894C1E9BC6EC00A5A1CB /* DuplicateTagsViewController.m in Sources */,
 				385221C91DAE90CF005E804B /* SCMarker.mm in Sources */,
@@ -2047,6 +2064,7 @@
 				38F803491D9C50C000C8F1EA /* SCLine.mm in Sources */,
 				384764B51DA5683100FCDABE /* NumericValuePropertiesController.m in Sources */,
 				3871BA6A1E9E919600B00C22 /* UnlinkedTagsDetailRowView.m in Sources */,
+				38C2C4531EB2907600B95EEA /* STCodeFile+FileHelper.m in Sources */,
 				38F8034C1D9C579000C8F1EA /* SCLineCollection.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
