@@ -1283,6 +1283,30 @@ Insert an StatTag field at the currently specified document range.
 }
 
 
+-(void)RemoveCodeFile:(NSString*)fileName document:(STMSWord2011Document*)document {
+  
+  NSMutableArray<STCodeFile*>* files = [self GetCodeFileList:document];
+  NSMutableArray<STCodeFile*>* discardFiles = [[NSMutableArray<STCodeFile*> alloc] init];
+  
+  for(STCodeFile* cf in files)
+  {
+    if([[cf FilePath] isEqualToString: fileName])
+    {
+      //found the one we want to remove
+      [discardFiles addObject:cf];
+    }
+  }
+  
+  [files removeObjectsInArray:discardFiles];
+  [self SaveCodeFileListToDocument:nil];//store
+
+}
+-(void)RemoveCodeFile:(NSString*)fileName {
+  [self RemoveCodeFile:fileName document:nil];
+}
+
+
+
 -(void) UpdateRenamedTags:(NSArray<STUpdatePair<STTag*>*>*) updates
 {
   NSMutableArray<STCodeFile*>* affectedCodeFiles = [[NSMutableArray<STCodeFile*> alloc] init];

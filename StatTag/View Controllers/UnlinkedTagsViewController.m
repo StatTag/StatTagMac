@@ -95,9 +95,12 @@
         [cfa setParameter:cf];
         [cfa setLabel:@"Link to New Code File"];//this doesn't matter for us, but adding for debugging
         //let's try re-linking...
+        NSString* oldCodeFilePath = [[t CodeFile] FilePath];
         NSDictionary<NSString *,STCodeFileAction *>* actions = [[NSDictionary<NSString *,STCodeFileAction *> alloc] initWithObjectsAndKeys:cfa, [[t CodeFile] FilePath], nil];
         [[self documentManager] UpdateUnlinkedTagsByCodeFile:actions];
         [btn selectItemAtIndex:0];
+        //this is risky... we don't entirely know for sure that the code file remapping worked, but we're going to continue to clean up after adding the new code file - by removing the old code file reference
+        [[self documentManager] RemoveCodeFile:oldCodeFilePath];
         [self unlinkedTagsDidChange:self];
         //the above handles all of the code file and tag relinking
       }
@@ -161,6 +164,23 @@
     // if this is true (DocumentManager.cs) : "some of the actions may in fact affect multiple tags.  For example, re-linking the code file to the document for a single tag has the effect of re-linking it for all related tags."
     // then there's no point in having tag-level re-linking - because that's going to impact the _entire_ code file
     // so we're actually better off saying "just re-link the code file" since that's a more accurate depiction of what's going on here
+    NSURL* filePath = [self getCodeFileFromUser:[t CodeFile]];
+    if(filePath != nil)
+    {
+      STCodeFile* cf = [[STCodeFile alloc] init];
+      [cf setFilePathURL:filePath];
+      STCodeFileAction* cfa = [[STCodeFileAction alloc] init];
+      [cfa setAction:[STConstantsCodeFileActionTask ChangeFile]];
+      [cfa setParameter:cf];
+      [cfa setLabel:@"Link to New Code File"];//this doesn't matter for us, but adding for debugging
+      //let's try re-linking...
+      NSDictionary<NSString *,STCodeFileAction *>* actions = [[NSDictionary<NSString *,STCodeFileAction *> alloc] initWithObjectsAndKeys:cfa, [t Id], nil];
+      [[self documentManager] UpdateUnlinkedTagsByTag:actions];
+      [btn selectItemAtIndex:0];
+      [self unlinkedTagsDidChange:self];
+      //the above handles all of the code file and tag relinking
+    }
+   
   } else if ([[btn selectedItem] tag] == 2)
   {
     //tag 2 = remove INDIVIDUAL tag from document
