@@ -395,6 +395,8 @@ static WordHelpers* sharedInstance = nil;
           if(start > 0) {
             start = start - 1;
           }
+          //NSLog(@"WordHelpers - select: (MicrosoftWordField) tr (%ld,%ld)", [tr startOfContent], [tr endOfContent]);
+
           [WordHelpers selectTextAtRangeStart:start andEnd:end];
         }
       } else if ([woClass isEqualToString:@"MicrosoftWordTable"]) {
@@ -405,6 +407,8 @@ static WordHelpers* sharedInstance = nil;
       } else if ([woClass isEqualToString:@"MicrosoftWordTextRange"]) {
         //text range
         STMSWord2011TextRange* tr = (STMSWord2011TextRange*)wordObject;
+
+        //NSLog(@"WordHelpers - select: (MicrosoftWordTextRange) tr (%ld,%ld)", [tr startOfContent], [tr endOfContent]);
         [WordHelpers selectTextInRange:tr];
       }
     }

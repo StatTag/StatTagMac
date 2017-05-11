@@ -239,18 +239,28 @@
      so we're going to do something else...
      */
     @autoreleasepool {
+      //NSLog(@"STFieldGenerator - insertField: Touching spaceRange");
       STMSWord2011TextRange* spaceRange = [WordHelpers DuplicateRange:fieldRange];
       [WordHelpers setRange:&spaceRange Start:[spaceRange endOfContent]+2 end:[spaceRange endOfContent]+3];
       [WordHelpers select:spaceRange];
+      //NSLog(@"STFieldGenerator - insertField: spacerange (%ld,%ld)", [spaceRange startOfContent], [spaceRange endOfContent]);
       
       STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
       STMSWord2011SelectionObject* selection = [app selection];
-      [selection typeBackspace];
+      //NSLog(@"STFieldGenerator - insertField: selection (%ld,%ld)", [[selection textObject] startOfContent], [[selection textObject] endOfContent]);
+      //NSLog(@"STFieldGenerator - insertField: selection (BEFORE typeBackspace) - '%@' (%hu), length: %ld", [selection content], [[selection content] characterAtIndex:0], [[selection content] length]);
+      //      [selection typeBackspace]; //EWW - for whatever reason this was not consistently working, so we're going to explicitly replace the content in the range instead (which may or may not result in the same intended behavior if we change how this works later - for now it's OK)
+      [selection setContent:@""];
+      //NSLog(@"STFieldGenerator - insertField: selection (AFTER typeBackspace) - '%@'", [selection content]);
       
       
       // Move the current selection after all inserted fields.
       NSInteger newPos = [fieldRange endOfContent] + [[fieldRange fields] count] + 1;
+      //NSLog(@"STFieldGenerator - insertField: newPos (%ld)", newPos);
+
+      //NSLog(@"STFieldGenerator - insertField: fieldRange BEFORE (%ld,%ld)", [fieldRange startOfContent], [fieldRange endOfContent]);
       [WordHelpers setRange:&fieldRange Start:newPos end:newPos];
+      //NSLog(@"STFieldGenerator - insertField: fieldRange AFTER (%ld,%ld)", [fieldRange startOfContent], [fieldRange endOfContent]);
       
       [WordHelpers select:fieldRange];
     }

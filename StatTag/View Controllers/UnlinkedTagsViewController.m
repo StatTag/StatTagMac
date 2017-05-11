@@ -158,7 +158,7 @@
   {
     //tag 1 = link to existing code file
     //OK - per the docs for "UpdateUnlinkedTagsByTag" - we really don't need this.
-    // if this is true : "ome of the actions may in fact affect multiple tags.  For example, re-linking the code file to the document for a single tag has the effect of re-linking it for all related tags."
+    // if this is true (DocumentManager.cs) : "some of the actions may in fact affect multiple tags.  For example, re-linking the code file to the document for a single tag has the effect of re-linking it for all related tags."
     // then there's no point in having tag-level re-linking - because that's going to impact the _entire_ code file
     // so we're actually better off saying "just re-link the code file" since that's a more accurate depiction of what's going on here
   } else if ([[btn selectedItem] tag] == 2)
