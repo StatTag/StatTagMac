@@ -22,5 +22,13 @@
       <cocoa class="STAppleScript_OpenSettings"/>
       <result type="boolean" description="Did launch UI and complete"/>
     </command>
+    <command name="openHelp" code="STOPNHLP" description="Open Help">
+      <cocoa class="STAppleScript_OpenHelp"/>
+      <result type="boolean" description="Did launch UI and complete"/>
+    </command>
+    <command name="openAbout" code="STOPNABT" description="Open About">
+      <cocoa class="STAppleScript_OpenAbout"/>
+      <result type="boolean" description="Did launch UI and complete"/>
+    </command>
   </suite>
 </dictionary>

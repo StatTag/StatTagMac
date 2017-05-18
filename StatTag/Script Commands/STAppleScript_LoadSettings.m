@@ -114,6 +114,17 @@
 }
 @end
 
+@implementation STAppleScript_OpenHelp
+
+-(id)performDefaultImplementation {
+  
+  //AppDelegate* appDelegate = (AppDelegate*)[[NSApplication sharedApplication] delegate];
+  //[appDelegate openAboutWindow];
+  
+  return nil;
+}
+@end
+
 
 @implementation STAppleScript_OpenManageCodeFiles
 
