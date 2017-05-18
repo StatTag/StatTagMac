@@ -479,6 +479,9 @@ the cached results in another tag.
       otherTag.LineEnd = [NSNumber numberWithInteger:_lineEnd];
     }
   }
+  
+  [self setContent:ContentCache];
+  
 }
 
 

@@ -36,6 +36,7 @@
   return [NSString stringWithFormat:@"%@--%@", (_Name == nil ? @"" : _Name), (_CodeFile == nil || [_CodeFile FilePath] == nil ? @"" : [_CodeFile FilePath])];
 }
 
+
 @synthesize FormattedResult = _FormattedResult;
 - (NSString*) FormattedResult {
   if (_CachedResult == nil || [_CachedResult count] == 0)

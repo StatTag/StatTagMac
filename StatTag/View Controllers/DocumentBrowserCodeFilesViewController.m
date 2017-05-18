@@ -10,9 +10,10 @@
 #import "StatTagFramework.h"
 #import "FileMonitor.h"
 #import "StatTagShared.h"
-#import "STDocumentManager+FileMonitor.h"
 #import <StatTagFramework/STConstants.h>
 #import "STCodeFile+FileHelper.h"
+#import "DocumentBrowserDocumentViewController.h"
+
 
 //#import "TagIndicatorView.h"
 
@@ -62,11 +63,9 @@
 
 -(void)viewDidAppear
 {
-  [self startMonitoringCodeFiles];
 }
 
 -(void)viewWillDisappear {
-  [self stopMonitoringCodeFiles];
 }
 
 -(void)viewWillAppear {
@@ -77,15 +76,6 @@
   [super viewDidLoad];
   ////NSLog(@"DocumentBrowserCodeFilesViewController.h loaded");
 
-  [[NSNotificationCenter defaultCenter] addObserver:self
-                                           selector:@selector(codeFileEdited:)
-                                               name:@"codeFileEdited"
-                                             object:nil];
-
-  [[NSNotificationCenter defaultCenter] addObserver:self
-                                           selector:@selector(codeFileRenamed:)
-                                               name:@"codeFileRenamed"
-                                             object:nil];
 
   _documentManager = [[StatTagShared sharedInstance] docManager];
 }
@@ -156,48 +146,23 @@
 }
 
 
--(void)startMonitoringCodeFiles
-{
-  [[self documentManager] startMonitoringCodeFiles];
-}
-
--(void)stopMonitoringCodeFiles
-{
-  [[self documentManager] stopMonitoringCodeFiles];
-}
 
 
+//-(void)startMonitoringCodeFiles
+//{
+//  if([[self documentBrowserDelegate] respondsToSelector:@selector(startMonitoringCodeFiles)]) {
+//    [[self documentBrowserDelegate] startMonitoringCodeFiles];
+//  }
+//}
+//
+//-(void)stopMonitoringCodeFiles
+//{
+//  if([[self documentBrowserDelegate] respondsToSelector:@selector(stopMonitoringCodeFiles)]) {
+//    [[self documentBrowserDelegate] stopMonitoringCodeFiles];
+//  }
+//}
 
 
-
-
-
--(void)codeFileEdited:(NSNotification *)notification
-{
-  //FIXME: go back and do this as an alert sheet
-  // http://pinkstone.co.uk/how-to-create-an-alert-view-in-cocoa/
-
-  NSString* filePathString = [[notification userInfo] valueForKey:@"originalFilePath"];
-  NSURL* filePath = [NSURL fileURLWithPath:filePathString];
-  NSAlert *alert = [[NSAlert alloc] init];
-  [alert addButtonWithTitle:@"OK"];
-  [alert setMessageText:[NSString stringWithFormat:@"The following code file was just changed outside of StatTag:\r\n\r\n%@", [filePath path]]];
-  [alert runModal];
-}
-
--(void)codeFileRenamed:(NSNotification *)notification
-{
-  NSString* filePathString = [[notification userInfo] valueForKey:@"originalFilePath"];
-  NSURL* filePath = [NSURL fileURLWithPath:filePathString];
-  
-  NSString* newFilePathString = [[notification userInfo] valueForKey:@"newFilePath"];
-  NSURL* newFilePath = [NSURL fileURLWithPath:newFilePathString];
-  NSAlert *alert = [[NSAlert alloc] init];
-  [alert addButtonWithTitle:@"OK"];
-  [alert setMessageText:[NSString stringWithFormat:@"The following code file was just changed outside of StatTag:\r\n\r\n%@\r\n\r\nis now located at\r\n\r\n%@", [filePath path], [newFilePath path]]];
-  [alert runModal];
-
-}
 
 -(void)codeFilesSetFocusOnTags:(DocumentBrowserCodeFilesViewController*)controller
 {

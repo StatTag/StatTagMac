@@ -20,8 +20,16 @@
 @class STTag;
 @protocol DuplicateTagManagerDelegate;
 @protocol UnlinkedTagsManagerDelegate;
+@protocol AllTagsDelegate;
 
-@interface DocumentBrowserDocumentViewController : NSViewController <DocumentBrowserCodeFilesDelegate, DuplicateTagManagerDelegate, UnlinkedTagsManagerDelegate>
+//@class DocumentBrowserDocumentViewController;
+//@protocol DocumentBrowserDocumentDelegate <NSObject>
+//-(void)startMonitoringCodeFiles;
+//-(void)stopMonitoringCodeFiles;
+//@end
+
+
+@interface DocumentBrowserDocumentViewController : NSViewController <DocumentBrowserCodeFilesDelegate, DuplicateTagManagerDelegate, UnlinkedTagsManagerDelegate, AllTagsDelegate>
 {
   STMSWord2011Document* _document;
   STDocumentManager* _documentManager;
@@ -47,11 +55,13 @@
 @property (strong, nonatomic)STDuplicateTagResults* duplicateTags;
 @property (strong, nonatomic)NSDictionary<NSString*, NSArray<STTag*>*>* unlinkedTags;
 
+-(void)startMonitoringCodeFiles;
+-(void)stopMonitoringCodeFiles;
 
 -(void)focusOnTags;
 
 /**
  Used by AppleScript to edit the identified tag
  */
--(void)openTagForEditing:(NSString*)tagName;
+-(void)openTagForEditingByName:(NSString*)tagName orID:(NSString*)tagID;
 @end

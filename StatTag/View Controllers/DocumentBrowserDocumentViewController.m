@@ -16,7 +16,7 @@
 #import "DocumentBrowserDocumentViewController.h"
 #import "DuplicateTagsViewController.h"
 
-
+#import "STDocumentManager+FileMonitor.h"
 
 @interface DocumentBrowserDocumentViewController ()
 
@@ -47,6 +47,11 @@
   return self;
 }
 
+-(void)dealloc
+{
+  [self stopObservingNotifications];
+}
+
 //MARK: view events
 - (void)viewDidLoad {
   [super viewDidLoad];
@@ -61,13 +66,18 @@
   
   self.codeFilesViewController.delegate = self;
   
+  [self beginObservingCodeFileMonitoringNotifications];
+  [self startMonitoringCodeFiles];
 }
 
 -(void)setDocumentManager:(STDocumentManager *)documentManager
 {
   _documentManager = documentManager;
   self.codeFilesViewController.documentManager = _documentManager;
+  //self.codeFilesViewController.documentBrowserDelegate = self;
+  
   self.tagListViewController.documentManager = _documentManager;
+  self.tagListViewController.delegate = self;
   self.duplicateTagsViewController.documentManager = _documentManager;
   self.duplicateTagsViewController.delegate = self;
   self.unlinkedTagsViewController.documentManager = _documentManager;
@@ -170,21 +180,21 @@
 /**
  Used by AppleScript to edit the identified tag
  */
--(void)openTagForEditing:(NSString*)tagName
+-(void)openTagForEditingByName:(NSString*)tagName orID:(NSString*)tagID
 {
   //FIXME: we should be using tag ID and not name - there can be multiple tags w/ the same name
   [self focusOnTags];
   if([self tagListViewController] != nil)
   {
     //FIXME: we should be using tag ID and not name - there can be multiple tags w/ the same name
-    STTag* tag = [[self tagListViewController] selectTagWithName:tagName];
+    STTag* tag = [[self tagListViewController] selectTagWithName:tagName orID:tagID];
     
     if(tag == nil)
     {
       [[self codeFilesViewController] focusOnTags:TagIndicatorViewTagFocusAllTags];
       //the tag isn't found on the ones currently on screen, so load the whole tag list and check them all
       // we're going to also force the list back to "all" for this (easier, but not terribly efficient)
-      tag = [[self tagListViewController] selectTagWithName:tagName];
+      tag = [[self tagListViewController] selectTagWithName:tagName orID:tagID];
     }
     
     if(tag != nil)
@@ -237,6 +247,74 @@
   [[self codeFilesViewController] configure];
   //[self setDuplicateTags:[controller duplicateTags]];
   [self focusOnDuplicateTags];
+}
+
+-(void)allTagsDidChange:(UpdateOutputViewController*)controller
+{
+  //our tags changed
+  [[self codeFilesViewController] configure];
+  //[self setDuplicateTags:[controller duplicateTags]];
+  [self focusOnTags];
+}
+
+
+
+//MARK: Code File Monitoring
+
+-(void)beginObservingCodeFileMonitoringNotifications
+{
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(codeFileEdited:)
+                                               name:@"codeFileEdited"
+                                             object:nil];
+  
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(codeFileRenamed:)
+                                               name:@"codeFileRenamed"
+                                             object:nil];
+}
+
+-(void)stopObservingNotifications
+{
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+
+-(void)startMonitoringCodeFiles
+{
+  [[self documentManager] startMonitoringCodeFiles];
+}
+
+-(void)stopMonitoringCodeFiles
+{
+  [[self documentManager] stopMonitoringCodeFiles];
+}
+
+-(void)codeFileEdited:(NSNotification *)notification
+{
+  //FIXME: go back and do this as an alert sheet
+  // http://pinkstone.co.uk/how-to-create-an-alert-view-in-cocoa/
+  
+  NSString* filePathString = [[notification userInfo] valueForKey:@"originalFilePath"];
+  NSURL* filePath = [NSURL fileURLWithPath:filePathString];
+  NSAlert *alert = [[NSAlert alloc] init];
+  [alert addButtonWithTitle:@"OK"];
+  [alert setMessageText:[NSString stringWithFormat:@"The following code file was just changed outside of StatTag:\r\n\r\n%@", [filePath path]]];
+  [alert runModal];
+}
+
+-(void)codeFileRenamed:(NSNotification *)notification
+{
+  NSString* filePathString = [[notification userInfo] valueForKey:@"originalFilePath"];
+  NSURL* filePath = [NSURL fileURLWithPath:filePathString];
+  
+  NSString* newFilePathString = [[notification userInfo] valueForKey:@"newFilePath"];
+  NSURL* newFilePath = [NSURL fileURLWithPath:newFilePathString];
+  NSAlert *alert = [[NSAlert alloc] init];
+  [alert addButtonWithTitle:@"OK"];
+  [alert setMessageText:[NSString stringWithFormat:@"The following code file was just changed outside of StatTag:\r\n\r\n%@\r\n\r\nis now located at\r\n\r\n%@", [filePath path], [newFilePath path]]];
+  [alert runModal];
+  
 }
 
 

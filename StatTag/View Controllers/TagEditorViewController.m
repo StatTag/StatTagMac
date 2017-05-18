@@ -34,6 +34,9 @@
 
 #import "ScintillaEmbeddedViewController.h"
 
+#import "STCodeFile+FileAttributes.h"
+
+
 @interface TagEditorViewController ()
 
 @end
@@ -146,7 +149,20 @@ static void *TagTypeContext = &TagTypeContext;
   if(_documentManager != nil) {
     //every time this view appears we need to completely refresh all code files
     [_codeFileList removeObjects:[_codeFileList arrangedObjects]];
-    [_codeFileList addObjects: [_documentManager GetCodeFileList]];
+
+    //add the code files - but only the accessible code files
+    
+    //NSPredicate* predicate = [NSPredicate predicateWithFormat:@"fileAccessibleAtPath == %@", @"YES"];
+    //NSArray<STCodeFile*>* filterArray = [[_documentManager GetCodeFileList] filteredArrayUsingPredicate:predicate];
+    
+    for(STCodeFile* cf in [_documentManager GetCodeFileList])
+    {
+      if([cf fileAccessibleAtPath])
+      {
+        [_codeFileList addObject: cf];
+      }
+    }
+    
     
     //in either case - we're going to default to the top-most object in the code file list
     [self setCodeFile:nil];

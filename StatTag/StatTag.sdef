@@ -6,15 +6,12 @@
     <command name="updateFields" code="STTGUPDT" description="Manage Tags">
       <cocoa class="STAppleScript_UpdateFields"/>
       <parameter name="tagname" code="tgNm" type="text" optional="yes"
-        description="the selected tag.">
+        description="the selected tag name.">
         <cocoa key="TagName"/>
       </parameter>
-      <!--
-      <parameter name="prose" code="Pros" type="text" optional="yes"
-        description="a text parameter.">
-        <cocoa key="ProseText"/>
+      <parameter name="tagfieldid" code="tgId" type="text" optional="yes" description="the selected tag field ID.">
+        <cocoa key="TagFieldID"/>
       </parameter>
-       -->
       <result type="boolean" description="Did update fields"/>
     </command>
     <command name="manageCodeFiles" code="STMNGCFL" description="Manage Code Files">

@@ -146,23 +146,29 @@
   //if a tag argument was sent in...
   //let's now see if we can find the tag by name/id and open it
   NSDictionary<NSString*, id>* args = [self evaluatedArguments];
-  //NSLog(@"UpdateOutput: num args -> %ld", [args count]);
   NSString* keys = [[args allKeys] componentsJoinedByString:@","];
-  //NSLog(@"UpdateOutput: keys ->%@", keys);
-  ////NSLog(@"UpdateOutput: keys ->%@", [args allKeys]);
   
   //1) detect the tags in the current document
   //2) match the tag (if possible)
   //3) if the tag is matched, select it in the table
   //4) open the UI for the tag editor
-  NSString* tagName = [[self evaluatedArguments] valueForKey:@"TagName"];
-  NSString* tagID = [[self evaluatedArguments] valueForKey:@"TagID"];
+  //NSString* tagName = [[self evaluatedArguments] valueForKey:@"TagName"];
+  //NSString* tagID = [[self evaluatedArguments] valueForKey:@"TagID"];
   
-  NSDictionary* userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:tagName, @"TagName", tagID, @"TagID", nil];
-  
-  if(tagName != nil)
+  //Change in plan. We're now just sending the index of the field
+  // we're doing this because it's easier for us to reconstitute the required elements to properly identify a complete tag - the tag name and the code file path
+  NSString* tagFieldIDString = [[self evaluatedArguments] valueForKey:@"TagFieldID"];
+  if(tagFieldIDString != nil)
   {
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"activeTagDidChange" object:self userInfo:userInfo];
+    NSNumber* fieldID = [NSNumber numberWithInteger:[[[self evaluatedArguments] valueForKey:@"TagFieldID"] integerValue]];
+    
+    //NSDictionary* userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:tagName, @"TagName", tagID, @"TagID", fieldID, @"TagFieldID", nil];
+    NSDictionary* userInfo = [[NSDictionary alloc] initWithObjectsAndKeys: fieldID, @"TagFieldID", nil];
+    
+    //if(tagName != nil)
+    //{
+      [[NSNotificationCenter defaultCenter] postNotificationName:@"activeTagDidChange" object:self userInfo:userInfo];
+    //}
   }
   
   return nil;

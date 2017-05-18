@@ -47,7 +47,6 @@
   self.documentBrowserDocumentViewController.documentManager = _documentManager;
 }
 
-
 - (void)viewDidLoad {
   [super viewDidLoad];
 
@@ -150,6 +149,7 @@
 {
   [self loadDocsAndContent];
   [self setup];
+
   //self.codeFilesView = _codeFilesViewController.view;
   
   //go read up on this post for why we're not able to connect the view outlet to the controller directly
@@ -196,10 +196,45 @@
   [self setActiveDocument];
   NSString* tagName = [[notification userInfo] objectForKey:@"TagName"];
   NSString* tagID = [[notification userInfo] objectForKey:@"TagID"];
-  if(tagName != nil)
+  NSInteger tagFieldID = [[[notification userInfo] objectForKey:@"TagFieldID"] integerValue];
+
+  //get the tag data from our document field (by ID)
+  //for(STMSWord2011Field* fld in [[[[StatTagShared sharedInstance] documentManager] activeDocument] fields])
+  //{
+  //  if([fld field] == tagFieldID)
+  //  {
+  //
+  //  }
+  //}
+  STMSWord2011Field* fld = [[[[self documentManager] activeDocument] fields] objectAtIndex:tagFieldID];
+  
+  if(fld != nil)
+  {
+
+    NSString* jsonData = [fld fieldText];
+    NSError *error = nil;
+    NSData *JSONData = [jsonData dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *JSONDictionary = [NSJSONSerialization JSONObjectWithData:JSONData options:0 error:&error];
+    
+    if (!error && JSONDictionary) {
+      tagName = [JSONDictionary valueForKey:@"Name"];
+      NSString* codeFilePath = [JSONDictionary valueForKey:@"CodeFilePath"];
+      
+      if(tagName != nil && codeFilePath != nil)
+      {
+        tagID = [NSString stringWithFormat:@"%@--%@", tagName, codeFilePath];
+      }
+      //return [NSString stringWithFormat:@"%@--%@", (_Name == nil ? @"" : _Name), (_CodeFile == nil || [_CodeFile FilePath] == nil ? @"" : [_CodeFile FilePath])];
+    }
+    //STMSWord2011Field* dataField = [fields firstObject];
+    //dataField.fieldText = [tag Serialize:nil];
+
+  }
+  
+  if(tagName != nil || tagID != nil)
   {
     //FIXME: we should be using tag ID and not name - there can be multiple tags w/ the same name
-    [[self documentBrowserDocumentViewController] openTagForEditing:tagName];
+    [[self documentBrowserDocumentViewController] openTagForEditingByName:tagName orID:tagID];
     //NSLog(@"told to focus on tag '%@' with id: '%@'", tagName, tagID);
   }
   
@@ -352,6 +387,9 @@
   {
     [_documentsArrayController rearrangeObjects];
   }
+  
+  [self setActiveDocument];
+
 }
 
 @end

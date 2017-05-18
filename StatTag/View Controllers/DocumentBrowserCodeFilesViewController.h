@@ -15,6 +15,8 @@
 @class STDocumentManager;
 @class STMSWord2011Document;
 
+@protocol DocumentBrowserDocumentDelegate;
+
 @class DocumentBrowserCodeFilesViewController;
 @protocol DocumentBrowserCodeFilesDelegate <NSObject>
 //- (void)selectedCodeFileDidChange:(DocumentBrowserCodeFilesViewController*)controller;
@@ -46,6 +48,8 @@
 
 
 @property (nonatomic, weak) id<DocumentBrowserCodeFilesDelegate> delegate;
+//@property (nonatomic, weak) id<DocumentBrowserDocumentDelegate> documentBrowserDelegate;
+
 
 @property (strong, nonatomic)STDuplicateTagResults* duplicateTags;
 
