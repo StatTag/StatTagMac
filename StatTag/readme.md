@@ -34,3 +34,26 @@ Combine these
 
 
 ******/
+
+#Generating AppleHelp#
+
+##Converting from Word to Markdown##
+
+To generate AppleHelp, we first take the supporting "Welcome to StatTag.docx" file and convert it to markdown.
+
+* Install pandoc `brew install pandoc` (http://pandoc.org)
+* Convert from Word to markdown `pandoc -s Welcome\ to\ StatTag\ for\ macOS\ \(Beta\ 1\).docx -t markdown -o stattag_help.md` (http://pandoc.org/demos.html)
+* Make sure your original art files are accessible, as the images will not be extracted
+
+##Converting from Markdown to AppleHelp##
+
+Once your markdown exists, you'll need to break it up into the separate files that represent the individual sections of your document. Alternatively, you can leave the entire document as one markdown file and have one single page of help.
+
+We're using a fork `https://github.com/dbrisinda/jekyll-apple-help` or Jekyll Apple Help (originally from `https://github.com/chuckhoupt/jekyll-apple-help`) to help us convert from Markdown to AppleHelp.
+
+* Organize your project files as specified by Jekyll Apple Help.
+* Replace the files in the AppleHelp project
+* Adjust navigation as required
+
+
+

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12118"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12120"/>
         <capability name="box content view" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -102,7 +102,7 @@
                                 <rect key="frame" x="216" y="172" width="389" height="42"/>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" id="lMl-LF-THN">
                                     <font key="font" metaFont="smallSystem"/>
-                                    <string key="title">Welty, L.J., Rasmussen, L.V., &amp; Baldridge, A.S. (2016). StatTag. Chicago, Illinois, United States: Galter Health Sciences Library. doi:10.18131/G36K76</string>
+                                    <string key="title">Welty, L.J., Rasmussen, L.V., &amp; Baldridge, A.S., &amp; Whitley E. (2016). StatTag. Chicago, Illinois, United States: Galter Health Sciences Library. doi:10.18131/G36K76</string>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>

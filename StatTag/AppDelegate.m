@@ -192,6 +192,21 @@
 
 }
 
+- (IBAction)openSamplesInstallerWindow:(id)sender {
+
+  // get a reference to the storyboard
+  NSStoryboard *storyBoard = [NSStoryboard storyboardWithName:@"Main" bundle:nil];
+
+  // instantiate your window controller
+  self.samplesWindowController = [storyBoard instantiateControllerWithIdentifier:@"samplesWindowController"];
+  [[self samplesWindowController] contentViewController];
+  
+  // show the window
+  [[self samplesWindowController] showWindow:self];
+
+}
+
+
 - (IBAction)installWordMacros:(id)sender {
   [MacroInstallerUtility installMacros];
 }

@@ -7,7 +7,7 @@
 		<key>StatTag.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>3</integer>
+			<integer>2</integer>
 		</dict>
 		<key>StatTagFramework.xcscheme</key>
 		<dict>
@@ -19,9 +19,19 @@
 			<key>orderHint</key>
 			<integer>1</integer>
 		</dict>
+		<key>StatTagHelp.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>3</integer>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>3816ABF51ED5C1B10045390E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>38245DE81D63940A00CB1C87</key>
 		<dict>
 			<key>primary</key>
@@ -78,6 +88,11 @@
 			<true/>
 		</dict>
 		<key>38BE599A1D529A7E00FF9E99</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>38CFC6511ED30741005A0DBF</key>
 		<dict>
 			<key>primary</key>
 			<true/>
