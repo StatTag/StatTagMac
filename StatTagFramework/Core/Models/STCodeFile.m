@@ -40,7 +40,7 @@
     url = [NSURL fileURLWithPath:[self FilePath]];
   }
   @catch (NSException * e) {
-    NSLog(@"Exception creating URL (%@): %@", NSStringFromClass([self class]), [self FilePath]);
+    //NSLog(@"Exception creating URL (%@): %@", NSStringFromClass([self class]), [self FilePath]);
   }
   @finally {
   }
@@ -48,14 +48,33 @@
 }
 
 -(NSString*)FileName {
-  return [[self FilePathURL] lastPathComponent];
+  NSString* fileName = [[self FilePath] lastPathComponent];
+  if([fileName isEqualToString:[self FilePath]])
+  {
+    //may be a Windows path
+    // I get valid URLs back from these, but can't pluck out just the file name
+    // It's flagged as a valid file URL, but the file name can't be pulled out
+    // can't determine the best way to approach this, so I'm going to try a quick work-around
+    fileName = [[[self FilePath] componentsSeparatedByString:@"\\"] lastObject];
+  }
+  return fileName;
 }
+
+-(NSString*)DirectoryPathString {
+  NSString* folderPath = [self FilePath];
+  NSRange lastFileNamePosition = [[self FilePath] rangeOfString:[self FileName] options:NSBackwardsSearch];
+  if(lastFileNamePosition.location != NSNotFound) {
+    folderPath = [folderPath stringByReplacingCharactersInRange:lastFileNamePosition withString:@""];
+  }
+  return folderPath;
+}
+
 
 -(void)setStatisticalPackage:(NSString *)StatisticalPackage {
   _StatisticalPackage = StatisticalPackage;
 }
 -(NSString*)StatisticalPackage {
-  if(_StatisticalPackage == nil) {
+  if(_StatisticalPackage == nil || [_StatisticalPackage length] <= 0) {
     _StatisticalPackage = [STCodeFile GuessStatisticalPackage:[self FilePath]];
   }
   return _StatisticalPackage;
@@ -117,7 +136,7 @@ NSObject<STIFileHandler>* _FileHandler;
 -(void)initialize:(NSObject<STIFileHandler>*)handler {
   _Tags = [[NSMutableArray<STTag*> alloc] init];
   _FileHandler = handler ? handler :[[STFileHandler alloc] init];
-  NSLog(@"_FileHandler : %@", _FileHandler);
+  //NSLog(@"_FileHandler : %@", _FileHandler);
 }
 
 //MARK: copying
@@ -292,7 +311,7 @@ the cached results in another tag.
       [self setValue:[dict valueForKey:key] forKey:key];
     } else if([key isEqualToString:@"LastCached"]) {
       [self setValue:[STJSONUtility dateFromString:[dict valueForKey:key]] forKey:key];
-      //NSLog(@"LastCached : %@", [self LastCached]);
+      ////NSLog(@"LastCached : %@", [self LastCached]);
     } else {
       [self setValue:[dict valueForKey:key] forKey:key];
     }
@@ -460,6 +479,9 @@ the cached results in another tag.
       otherTag.LineEnd = [NSNumber numberWithInteger:_lineEnd];
     }
   }
+  
+  [self setContent:ContentCache];
+  
 }
 
 

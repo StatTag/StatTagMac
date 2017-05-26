@@ -16,11 +16,11 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  //NSLog(@"mainTabViewController loaded");
+  ////NSLog(@"mainTabViewController loaded");
 }
 
 -(void)viewWillAppear {
-  //NSLog(@"tab view - viewWillAppear");
+  ////NSLog(@"tab view - viewWillAppear");
 }
 
 @end

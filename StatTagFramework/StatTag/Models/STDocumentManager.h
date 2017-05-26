@@ -82,6 +82,9 @@
 -(void)AddCodeFile:(NSString*)fileName;
 -(void)AddCodeFile:(NSString*)fileName document:(STMSWord2011Document*)document;
 
+-(void)RemoveCodeFile:(NSString*)fileName document:(STMSWord2011Document*)document;
+-(void)RemoveCodeFile:(NSString*)fileName;
+
 -(NSMutableArray<STCodeFile*>*)GetCodeFileList;
 -(NSMutableArray<STCodeFile*>*)GetCodeFileList:(STMSWord2011Document*)document;
 -(void)SetCodeFileList:(NSArray<STCodeFile*>*)files;

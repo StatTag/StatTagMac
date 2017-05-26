@@ -41,8 +41,8 @@ NSString* const calcChars = @"*/-+";
           options:0
           error:&error];
   if(error){
-    NSLog(@"Stata - ValueKeywordRegex : %@", [error localizedDescription]);
-    NSLog(@"Stata - [[self class] ValueCommand] : %@", [[self class] ValueCommands]);
+    //NSLog(@"Stata - ValueKeywordRegex : %@", [error localizedDescription]);
+    //NSLog(@"Stata - [[self class] ValueCommand] : %@", [[self class] ValueCommands]);
   }
   return regex;
 }
@@ -60,8 +60,8 @@ NSString* const calcChars = @"*/-+";
           options:0
           error:&error];
   if(error){
-    NSLog(@"Stata - ValueKeywordRegex : %@", [error localizedDescription]);
-    NSLog(@"Stata - [[self class] ValueCommand] : %@", [[self class] ValueCommands]);
+    //NSLog(@"Stata - ValueKeywordRegex : %@", [error localizedDescription]);
+    //NSLog(@"Stata - [[self class] ValueCommand] : %@", [[self class] ValueCommands]);
   }
   return regex;
 }
@@ -76,8 +76,8 @@ NSString* const calcChars = @"*/-+";
                                                           options:0
                                                             error:&error];
   if(error){
-    NSLog(@"Stata - ValueKeywordRegex : %@", [error localizedDescription]);
-    NSLog(@"Stata - [[self class] ValueCommand] : %@", [[self class] ValueCommands]);
+    //NSLog(@"Stata - ValueKeywordRegex : %@", [error localizedDescription]);
+    //NSLog(@"Stata - [[self class] ValueCommand] : %@", [[self class] ValueCommands]);
   }
   return regex;
 }
@@ -88,8 +88,8 @@ NSString* const calcChars = @"*/-+";
           options:0
           error:&error];
   if(error){
-    NSLog(@"Stata - ValueKeywordRegex : %@", [error localizedDescription]);
-    NSLog(@"Stata - [[self class] ValueCommand] : %@", [[self class] ValueCommands]);
+    //NSLog(@"Stata - ValueKeywordRegex : %@", [error localizedDescription]);
+    //NSLog(@"Stata - [[self class] ValueCommand] : %@", [[self class] ValueCommands]);
   }
   return regex;
 }
@@ -262,7 +262,7 @@ This is used to test/extract a macro display value.
       if(range.location != NSNotFound) {
         NSCharacterSet *ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
         matchString = [[command substringWithRange:range] stringByTrimmingCharactersInSet:ws];
-        //NSLog(@"position: %d, match.range : %@, current_range: %@, command: %@, matchString: %@",j,  NSStringFromRange(last_match.range), NSStringFromRange(range), command, matchString);
+        ////NSLog(@"position: %d, match.range : %@, current_range: %@, command: %@, matchString: %@",j,  NSStringFromRange(last_match.range), NSStringFromRange(range), command, matchString);
       }
     }
   }

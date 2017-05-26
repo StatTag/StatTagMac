@@ -30,8 +30,8 @@
                                   options:0
                                   error:&error];
   if(error){
-    NSLog(@"R - FigureRexec : %@", [error localizedDescription]);
-    NSLog(@"R - [[self class] FigureCommand] : %@", [[self class] FigureCommands]);
+    //NSLog(@"R - FigureRexec : %@", [error localizedDescription]);
+    //NSLog(@"R - [[self class] FigureCommand] : %@", [[self class] FigureCommands]);
   }
   return regex;
 }
@@ -43,8 +43,8 @@
                                   options:NSRegularExpressionDotMatchesLineSeparators
                                   error:&error];
   if(error){
-    NSLog(@"R - FigureParameterRegex : %@", [error localizedDescription]);
-    NSLog(@"R - [[self class] FigureCommand] : %@", [[self class] FigureCommands]);
+    //NSLog(@"R - FigureParameterRegex : %@", [error localizedDescription]);
+    //NSLog(@"R - [[self class] FigureCommand] : %@", [[self class] FigureCommands]);
   }
   return regex;
 }

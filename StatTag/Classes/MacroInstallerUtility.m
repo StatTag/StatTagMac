@@ -89,7 +89,7 @@
       //we're just going to do this in a simple, brute synchronous way
       NSData* error = [[errorPipe fileHandleForReading] readDataToEndOfFile];
       NSString* err_result = [[NSString alloc] initWithData:error encoding:NSUTF8StringEncoding];
-      NSLog(@"%@", err_result);
+      //NSLog(@"%@", err_result);
       
       if([task terminationStatus] != 0 || [err_result length] > 0)
       {

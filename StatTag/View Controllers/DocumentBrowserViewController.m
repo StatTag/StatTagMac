@@ -12,6 +12,7 @@
 #import "DocumentBrowserCodeFilesViewController.h"
 #import "UpdateOutputViewController.h"
 #import "UnlinkedTagsViewController.h"
+#import "DocumentBrowserDocumentViewController.h"
 
 #import <QuartzCore/CALayer.h>
 
@@ -43,16 +44,14 @@
 -(void)setup
 {
   _documentManager = [[StatTagShared sharedInstance] docManager];
-  self.codeFilesViewController.documentManager = _documentManager;
-  self.codeFilesViewController.delegate = self;
-  
-  self.tagListViewController.documentManager = _documentManager;
-
+  self.documentBrowserDocumentViewController.documentManager = _documentManager;
 }
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-    // Do view setup here.
+
+  [self setup];
+
   //we're goig to attach to the default notification center so we can force-reload changed documents
   // when the window regains focus
 
@@ -61,12 +60,21 @@
   [self startObservingAppleScriptUpdates];
   [self startObservingTagChanges];
   [self startObservingAppFocus];
+
+//  [self setup];
+
+  NSView *docView = self.documentBrowserDocumentViewController.view;
+  docView.frame = self.documentBrowserDocumentView.bounds;
+  docView.autoresizingMask = (NSViewWidthSizable | NSViewHeightSizable);
+  [self.documentBrowserDocumentView setAutoresizesSubviews:YES];
+  [self.documentBrowserDocumentView addSubview:docView];
+
   
-  NSView *cfView = self.codeFilesViewController.view;
-  cfView.frame = self.codeFilesView.bounds;
-  cfView.autoresizingMask = (NSViewWidthSizable | NSViewHeightSizable);
-  [self.codeFilesView setAutoresizesSubviews:YES];
-  [self.codeFilesView addSubview:cfView];
+//  NSView *cfView = self.codeFilesViewController.view;
+//  cfView.frame = self.codeFilesView.bounds;
+//  cfView.autoresizingMask = (NSViewWidthSizable | NSViewHeightSizable);
+//  [self.codeFilesView setAutoresizesSubviews:YES];
+//  [self.codeFilesView addSubview:cfView];
 
 }
 
@@ -113,6 +121,7 @@
 //                                            object:nil];
 }
 
+
 -(void)tagInsertRefreshStarted
 {
   [self stopObservingAppFocus];
@@ -139,9 +148,8 @@
 -(void)viewDidAppear
 {
   [self loadDocsAndContent];
-  
-  
   [self setup];
+
   //self.codeFilesView = _codeFilesViewController.view;
   
   //go read up on this post for why we're not able to connect the view outlet to the controller directly
@@ -170,12 +178,16 @@
     }
   } else {
     //if it's already selected, select "all tags"
-    [[self codeFilesViewController] viewAllTags];
+    //FIXME: disabled
+    //do we really want to reload all tags? maybe?
+    //[[self documentBrowserDocumentViewController] focusOnTags];
   }
 
 }
 
-
+/**
+ Used by AppleScript to edit the identified tag
+ */
 -(void)setActiveTag:(NSNotification*)notification
 {
   
@@ -184,41 +196,67 @@
   [self setActiveDocument];
   NSString* tagName = [[notification userInfo] objectForKey:@"TagName"];
   NSString* tagID = [[notification userInfo] objectForKey:@"TagID"];
-  if(tagName != nil)
+  NSInteger tagFieldID = [[[notification userInfo] objectForKey:@"TagFieldID"] integerValue];
+
+  //get the tag data from our document field (by ID)
+  //for(STMSWord2011Field* fld in [[[[StatTagShared sharedInstance] documentManager] activeDocument] fields])
+  //{
+  //  if([fld field] == tagFieldID)
+  //  {
+  //
+  //  }
+  //}
+  STMSWord2011Field* fld = [[[[self documentManager] activeDocument] fields] objectAtIndex:tagFieldID];
+  
+  if(fld != nil)
   {
-    if([self tagListViewController] != nil)
-    {
-      //FIXME: we should be using tag ID and not name - there can be multiple tags w/ the same name
-      STTag* tag = [[self tagListViewController] selectTagWithName:tagName];
-      if(tag != nil)
+
+    NSString* jsonData = [fld fieldText];
+    NSError *error = nil;
+    NSData *JSONData = [jsonData dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *JSONDictionary = [NSJSONSerialization JSONObjectWithData:JSONData options:0 error:&error];
+    
+    if (!error && JSONDictionary) {
+      tagName = [JSONDictionary valueForKey:@"Name"];
+      NSString* codeFilePath = [JSONDictionary valueForKey:@"CodeFilePath"];
+      
+      if(tagName != nil && codeFilePath != nil)
       {
-        //    [[[StatTagShared sharedInstance] tagsViewController] editTag:nil];
-        [[self tagListViewController] editTag:tag];
+        tagID = [NSString stringWithFormat:@"%@--%@", tagName, codeFilePath];
       }
+      //return [NSString stringWithFormat:@"%@--%@", (_Name == nil ? @"" : _Name), (_CodeFile == nil || [_CodeFile FilePath] == nil ? @"" : [_CodeFile FilePath])];
     }
-    NSLog(@"told to focus on tag '%@' with id: '%@'", tagName, tagID);
+    //STMSWord2011Field* dataField = [fields firstObject];
+    //dataField.fieldText = [tag Serialize:nil];
+
+  }
+  
+  if(tagName != nil || tagID != nil)
+  {
+    //FIXME: we should be using tag ID and not name - there can be multiple tags w/ the same name
+    [[self documentBrowserDocumentViewController] openTagForEditingByName:tagName orID:tagID];
+    //NSLog(@"told to focus on tag '%@' with id: '%@'", tagName, tagID);
   }
   
 //  STTag* tag = [[[StatTagShared sharedInstance] tagsViewController] selectTagWithName:tagName];
-//  NSLog(@"tag name : %@", [tag Name]);
+//  //NSLog(@"tag name : %@", [tag Name]);
 //  if(tag != nil)
 //  {
 //    [[[StatTagShared sharedInstance] tagsViewController] editTag:nil];
 //  }
 //  
-//  NSLog(@"%@", args);
+//  //NSLog(@"%@", args);
 
-  
 }
 
 
--(NSView*)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
-{
-  
-  //http://stackoverflow.com/questions/28112787/create-a-custom-cell-in-a-nstableview
-  
-  NSTableCellView *cell = [tableView makeViewWithIdentifier:[tableColumn identifier] owner:NULL];
-  
+//-(NSView*)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
+//{
+//  
+//  //http://stackoverflow.com/questions/28112787/create-a-custom-cell-in-a-nstableview
+//  
+//  NSTableCellView *cell = [tableView makeViewWithIdentifier:[tableColumn identifier] owner:NULL];
+
 //  docListTable
 //  docListColumn
 //  docListTableCellView
@@ -261,15 +299,15 @@
 //      {
 //        cell.textField.stringValue = [NSString stringWithFormat:@"%ld", (long)[summary tagCount]];
 //        //NSImage* img = [TagIndicatorView colorImage:cell.imageView.image  withTint:NSColor.yellowColor];
-//        NSImage* img = [TagIndicatorView colorImage:cell.imageView.image forTagIndicatorViewTagType:[summary tagType]];
+//        NSImage* img = [TagIndicatorView colorImage:cell.imageView.image forTagIndicatorViewTagStyle:[summary tagType]];
 //        cell.imageView.image = img;
 //        //cell.imageView.image = [NSImage imageNamed:@"tag_button"];
 //      }
     
   }
    */
-  return cell;
-}
+//  return cell;
+//}
 
 -(void)tableViewSelectionDidChange:(NSNotification *)notification
 {
@@ -286,8 +324,13 @@
       NSString* doc_name = [[_documentsArrayController arrangedObjects] objectAtIndex:row];
       if(doc_name != nil) {
         [WordHelpers setActiveDocumentByDocName:doc_name];
-        [[self codeFilesViewController] configure];
-        [self focusOnTags];
+        STMSWord2011Document* doc = [[StatTagShared sharedInstance] doc];
+        [[self documentBrowserDocumentViewController] setDocument:doc];
+        //FIXME: removed
+        //[[self codeFilesViewController] configure];
+        //FIXME: removed
+        //[self focusOnTags];
+
         //[[self codeFilesViewController] updateTagSummary];
       }
       //STMSWord2011Document* doc = [[_documentsArrayController arrangedObjects] objectAtIndex:row];
@@ -297,34 +340,6 @@
     }
   }
 
-}
-
-
--(void)focusOnTags
-{
-  //remove all subviews first
-  [[self focusView] setSubviews:[NSArray array]];
-  NSView *fView = self.tagListViewController.view;
-  fView.frame = self.focusView.bounds;
-  fView.autoresizingMask = (NSViewWidthSizable | NSViewHeightSizable);
-  [self.focusView setAutoresizesSubviews:YES];
-  [self.focusView addSubview:fView];
-  
-  //-(void)loadTagsForCodeFiles:(NSArray<STCodeFile*>*)codeFiles
-  //NSIndexSet* selectedFiles = [[[self codeFilesViewController] fileTableView] selectedRowIndexes];
-  NSArray<STCodeFile*>* files = [NSMutableArray arrayWithArray:[[[self codeFilesViewController]arrayController] selectedObjects]];
-  if([files count] > 0)
-  {
-    [[self tagListViewController] loadTagsForCodeFiles:files];
-  } else {
-    //for now - just load all
-    [[self tagListViewController] loadAllTags];
-  }
-}
-
-- (void)selectedCodeFileDidChange:(DocumentBrowserCodeFilesViewController*)controller {
-  NSLog(@"code file changed selection");
-  [self focusOnTags];
 }
 
 
@@ -356,8 +371,8 @@
   NSArray<NSString*> *removed_docs = [[_documentsArrayController arrangedObjects] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"NOT self IN %@", current_word_doc_names]];
   NSArray<NSString*> *new_docs = [current_word_doc_names filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"NOT self IN %@", [_documentsArrayController arrangedObjects]]];
   
-  //NSLog(@"Added docs : %@", new_docs);
-  //NSLog(@"Removed docs : %@", removed_docs);
+  ////NSLog(@"Added docs : %@", new_docs);
+  ////NSLog(@"Removed docs : %@", removed_docs);
   
   //  [[_documentsArrayController content] removeAllObjects];
   //  [_documentsArrayController addObjects:current_word_doc_names];
@@ -372,6 +387,9 @@
   {
     [_documentsArrayController rearrangeObjects];
   }
+  
+  [self setActiveDocument];
+
 }
 
 @end

@@ -30,8 +30,8 @@
           options:NSRegularExpressionCaseInsensitive
           error:&error];
   if(error){
-    NSLog(@"SAS - ValueKeywordRegex : %@", [error localizedDescription]);
-    NSLog(@"SAS - [[self class] ValueCommand] : %@", [[self class] ValueCommands]);
+    //NSLog(@"SAS - ValueKeywordRegex : %@", [error localizedDescription]);
+    //NSLog(@"SAS - [[self class] ValueCommand] : %@", [[self class] ValueCommands]);
   }
   return regex;
 }
@@ -48,8 +48,8 @@
           options:0
           error:&error];
   if(error){
-    NSLog(@"Stata - ValueKeywordRegex : %@", [error localizedDescription]);
-    NSLog(@"Stata - [[self class] ValueCommand] : %@", [[self class] ValueCommands]);
+    //NSLog(@"Stata - ValueKeywordRegex : %@", [error localizedDescription]);
+    //NSLog(@"Stata - [[self class] ValueCommand] : %@", [[self class] ValueCommands]);
   }
   return regex;
 }
@@ -64,8 +64,8 @@
                                   options:NSRegularExpressionCaseInsensitive
                                   error:&error];
   if(error){
-    NSLog(@"Stata - ValueKeywordRegex : %@", [error localizedDescription]);
-    NSLog(@"Stata - [[self class] FigureCommand] : %@", [[self class] FigureCommands]);
+    //NSLog(@"Stata - ValueKeywordRegex : %@", [error localizedDescription]);
+    //NSLog(@"Stata - [[self class] FigureCommand] : %@", [[self class] FigureCommands]);
   }
   return regex;
 }
@@ -76,8 +76,8 @@
                                   options:NSRegularExpressionCaseInsensitive
                                   error:&error];
   if(error){
-    NSLog(@"Stata - FigureRexec : %@", [error localizedDescription]);
-    NSLog(@"Stata - [[self class] FigureCommand] : %@", [[self class] FigureCommands]);
+    //NSLog(@"Stata - FigureRexec : %@", [error localizedDescription]);
+    //NSLog(@"Stata - [[self class] FigureCommand] : %@", [[self class] FigureCommands]);
   }
   return regex;
 }
@@ -94,8 +94,8 @@
                                                           options:NSRegularExpressionCaseInsensitive
                                                             error:&error];
   if(error){
-    NSLog(@"Stata - ValueKeywordRegex : %@", [error localizedDescription]);
-    NSLog(@"Stata - [[self class] ValueCommand] : %@", [[self class] ValueCommands]);
+    //NSLog(@"Stata - ValueKeywordRegex : %@", [error localizedDescription]);
+    //NSLog(@"Stata - [[self class] ValueCommand] : %@", [[self class] ValueCommands]);
   }
   return regex;
 }
@@ -106,8 +106,8 @@
           options:NSRegularExpressionCaseInsensitive
           error:&error];
   if(error){
-    NSLog(@"Stata - ValueKeywordRegex : %@", [error localizedDescription]);
-    NSLog(@"Stata - [[self class] ValueCommand] : %@", [[self class] ValueCommands]);
+    //NSLog(@"Stata - ValueKeywordRegex : %@", [error localizedDescription]);
+    //NSLog(@"Stata - [[self class] ValueCommand] : %@", [[self class] ValueCommands]);
   }
   return regex;
 }

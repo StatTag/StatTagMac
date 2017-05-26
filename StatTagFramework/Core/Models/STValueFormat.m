@@ -178,7 +178,7 @@
   NSString *timeSeparator = @"";
   //NOTE: difference from c#. Our date/time formatting isn't going to allow empty spaces in the string, so we want to set up a 'separator' and only populate it and use it if we have both a date and a time
   
-  //NSLog(@"DateFormat = %@", DateFormat);
+  ////NSLog(@"DateFormat = %@", DateFormat);
   NSCharacterSet *ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
   if (!([[_DateFormat stringByTrimmingCharactersInSet: ws] length] == 0)){
     if ([_DateFormat isEqualToString:[STConstantsDateFormats MMDDYYYY]]
@@ -207,7 +207,7 @@
   }
 
 
-  NSLog(@"Date: %@", dateValue);
+  //NSLog(@"Date: %@", dateValue);
   
   //FIXME: date formatter should be moved to a shared global property
   NSDateFormatter *formatter = [[NSDateFormatter alloc] init];

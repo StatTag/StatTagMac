@@ -33,14 +33,14 @@
     switch(result)
     {
       case noErr:
-        //NSLog(@"the app's URL is: %@",appURL);
+        ////NSLog(@"the app's URL is: %@",appURL);
         url = (__bridge NSURL *)appURL;
         break;
       case kLSApplicationNotFoundErr:
-        NSLog(@"app not found");
+        //NSLog(@"app not found");
         break;
       default:
-        NSLog(@"an error occurred: %ld",(long)result);
+        //NSLog(@"an error occurred: %ld",(long)result);
         break;
     }
     

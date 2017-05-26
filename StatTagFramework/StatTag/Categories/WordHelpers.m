@@ -29,7 +29,7 @@ static WordHelpers* sharedInstance = nil;
   if (self = [super init]) {
     NSBundle *frameworkBundle = [NSBundle bundleForClass:[self class]];
     [frameworkBundle loadAppleScriptObjectiveCScripts];
-    NSLog(@"just set our bundle shared instance");
+    //NSLog(@"just set our bundle shared instance");
   }
   return self;
 }
@@ -127,7 +127,7 @@ static WordHelpers* sharedInstance = nil;
     BOOL exists = [[NSFileManager defaultManager] fileExistsAtPath:filePath isDirectory:&isDir];
     BOOL readable = [[NSFileManager defaultManager] isReadableFileAtPath:filePath];
     if (!exists || isDir || !readable) {
-      NSLog(@"Couldn't insert image at path. isDir : %hhd, exists : %hhd, readable : %hhd", isDir, exists, readable);
+      //NSLog(@"Couldn't insert image at path. isDir : %hhd, exists : %hhd, readable : %hhd", isDir, exists, readable);
       return false;
     } else {
       NSURL* theFileURL = [NSURL fileURLWithPath:filePath];
@@ -140,7 +140,7 @@ static WordHelpers* sharedInstance = nil;
       }
       //we need a better way of logging this - the entire approach to logging needs to be reviewed
       [[STLogManager sharedInstance] WriteException:[NSString stringWithFormat:@"Couldn't insert image at path. NSImage can't read file : %@", theFileURL]];
-      NSLog(@"Couldn't insert image at path. NSImage can't read file : %@", theFileURL);
+      //NSLog(@"Couldn't insert image at path. NSImage can't read file : %@", theFileURL);
       return false;
 
 //      NSString *loweredExtension = [[theFileURL pathExtension] lowercaseString];
@@ -148,7 +148,7 @@ static WordHelpers* sharedInstance = nil;
 //      if ([validImageExtensions containsObject:loweredExtension]) {
 //        return true;
 //      } else {
-//        NSLog(@"Couldn't insert image at path. NSImage does not support extension : %@", loweredExtension);
+//        //NSLog(@"Couldn't insert image at path. NSImage does not support extension : %@", loweredExtension);
 //        return false;
 //      }
     }
@@ -185,7 +185,7 @@ static WordHelpers* sharedInstance = nil;
 //    //applescript wants file paths separators as ":" instead of "/"
 //    NSURL* theFileURL = [NSURL fileURLWithPath:filePath];
 //
-//    NSLog(@"reading file path %@", filePath);
+//    //NSLog(@"reading file path %@", filePath);
 //    
 //    BOOL isDir;
 //    BOOL exists = [[NSFileManager defaultManager] fileExistsAtPath:filePath isDirectory:&isDir];
@@ -195,7 +195,7 @@ static WordHelpers* sharedInstance = nil;
 //      // 1) We can't specify a directory
 //      // 2) File should exist
 //      // 3) File should be readable
-//      NSLog(@"Couldn't insert image at path. isDir : %hhd, exists : %hhd, readable : %hhd", isDir, exists, readable);
+//      //NSLog(@"Couldn't insert image at path. isDir : %hhd, exists : %hhd, readable : %hhd", isDir, exists, readable);
 //    } else {
 //      //great example - http://stackoverflow.com/questions/12044450/case-insensitive-checking-of-suffix-of-nsstring
 //      NSString *loweredExtension = [[theFileURL pathExtension] lowercaseString];
@@ -205,7 +205,7 @@ static WordHelpers* sharedInstance = nil;
 //        [asoc insertImageAtPath:hfsPath];
 //      } else {
 //        //format not supported - throw error
-//        NSLog(@"Couldn't insert image at path. NSImage does not support extension : %@", loweredExtension);
+//        //NSLog(@"Couldn't insert image at path. NSImage does not support extension : %@", loweredExtension);
 //      }
 //    }
 //    
@@ -300,7 +300,7 @@ static WordHelpers* sharedInstance = nil;
   //  NSData *data = [result data];
   //  STMSWord2011Table* myTable;
   //  [data getBytes:&myTable length:[data length]];
-  //  NSLog(@"table class kind : %@", NSStringFromClass([table class]));
+  //  //NSLog(@"table class kind : %@", NSStringFromClass([table class]));
   
   
   
@@ -318,8 +318,8 @@ static WordHelpers* sharedInstance = nil;
 //                                                  nil]];
 //  if(table) {
 //    [[doc tables] addObject:table];
-////    NSLog(@"test string something %d", [[[table rows] get] count]);
-////    NSLog(@"table has rows : %d, columns : %d", [[table rows] count], [[table columns] count]);
+////    //NSLog(@"test string something %d", [[[table rows] get] count]);
+////    //NSLog(@"table has rows : %d, columns : %d", [[table rows] count], [[table columns] count]);
 //    //STMSWord2011Table *thisTable = [[[doc tables] lastObject] get];
 //    
 //    //return thisTable;
@@ -356,12 +356,12 @@ static WordHelpers* sharedInstance = nil;
       if ([wordObject respondsToSelector:@selector(fieldCode)]) {
         STMSWord2011Field* field = (STMSWord2011Field*)wordObject;
         STMSWord2011TextRange* tr = [field fieldCode];
-        NSLog(@"WordHelpers - select (%ld,%ld)", [tr startOfContent], [tr endOfContent]);
+        //NSLog(@"WordHelpers - select (%ld,%ld)", [tr startOfContent], [tr endOfContent]);
       }
       [wordObject select];
       
       STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
-      NSLog(@"WordHelpers - selection (%ld,%ld)", [[app selection] selectionStart], [[app selection] selectionEnd]);
+      //NSLog(@"WordHelpers - selection (%ld,%ld)", [[app selection] selectionStart], [[app selection] selectionEnd]);
     }
     else {
       // 2016...
@@ -380,7 +380,7 @@ static WordHelpers* sharedInstance = nil;
       //
       // There may be a better way to do this with Obj-C. Not clear to me if that's the case.
       NSString* woClass = NSStringFromClass([wordObject class]);
-      //NSLog(@"className : %@", woClass);
+      ////NSLog(@"className : %@", woClass);
       
       if([woClass isEqualToString:@"MicrosoftWordField"]) {
         //field requires we offset the start/end character positions because they use escape sequences
@@ -388,13 +388,15 @@ static WordHelpers* sharedInstance = nil;
         // aren't included
         STMSWord2011Field* field = (STMSWord2011Field*)wordObject;
         STMSWord2011TextRange* tr = [field fieldCode];
-        NSLog(@"WordHelpers - select (%ld,%ld)", [tr startOfContent], [tr endOfContent]);
+        //NSLog(@"WordHelpers - select (%ld,%ld)", [tr startOfContent], [tr endOfContent]);
         if(tr != nil) {
           NSInteger start = [tr startOfContent];
           NSInteger end = [tr endOfContent] + 1;
           if(start > 0) {
             start = start - 1;
           }
+          //NSLog(@"WordHelpers - select: (MicrosoftWordField) tr (%ld,%ld)", [tr startOfContent], [tr endOfContent]);
+
           [WordHelpers selectTextAtRangeStart:start andEnd:end];
         }
       } else if ([woClass isEqualToString:@"MicrosoftWordTable"]) {
@@ -405,6 +407,8 @@ static WordHelpers* sharedInstance = nil;
       } else if ([woClass isEqualToString:@"MicrosoftWordTextRange"]) {
         //text range
         STMSWord2011TextRange* tr = (STMSWord2011TextRange*)wordObject;
+
+        //NSLog(@"WordHelpers - select: (MicrosoftWordTextRange) tr (%ld,%ld)", [tr startOfContent], [tr endOfContent]);
         [WordHelpers selectTextInRange:tr];
       }
     }

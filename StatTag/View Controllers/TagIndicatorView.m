@@ -31,38 +31,38 @@
   return self;
 }
 
--(instancetype)initWithType:(TagIndicatorViewTagType)tagType andLabel:(NSString*)label
+-(instancetype)initWithType:(TagIndicatorViewTagStyle)tagStyle andLabel:(NSString*)label
 {
   self = [super init];
   if(self){
-    [self setTagType:tagType];
+    [self setTagStyle:tagStyle];
     [[self tagLabel] setStringValue:label];
   }
   return self;
 }
 
 
--(void)setTagType:(TagIndicatorViewTagType)tagType
+-(void)setTagStyle:(TagIndicatorViewTagStyle)tagStyle
 {
-  _tagType = tagType;
+  _tagStyle = tagStyle;
   [self setTagFormat];
 }
--(TagIndicatorViewTagType)tagType
+-(TagIndicatorViewTagStyle)tagStyle
 {
-  return _tagType;
+  return _tagStyle;
 }
 
 -(void)setTagFormat
 {
-  switch(_tagType)
+  switch(_tagStyle)
   {
-    case TagIndicatorViewTagTypeNormal:
+    case TagIndicatorViewTagStyleNormal:
       [[self tagImageView] setImage:[[self class] colorImage:[[self tagImageView] image] withTint:[NSColor blueColor]]];
       break;
-    case TagIndicatorViewTagTypeWarning:
+    case TagIndicatorViewTagStyleWarning:
       [[self tagImageView] setImage:[[self class] colorImage:[[self tagImageView] image] withTint:[NSColor orangeColor]]];
       break;
-    case TagIndicatorViewTagTypeError:
+    case TagIndicatorViewTagStyleError:
       [[self tagImageView] setImage:[[self class] colorImage:[[self tagImageView] image] withTint:[NSColor redColor]]];
       break;
     default:
@@ -72,18 +72,18 @@
 }
 
 //tinting
-+ (NSImage *)colorImage:(NSImage*)image forTagIndicatorViewTagType:(TagIndicatorViewTagType)type
++ (NSImage *)colorImage:(NSImage*)image forTagIndicatorViewTagStyle:(TagIndicatorViewTagStyle)style
 {
   NSImage* copiedImage;
-  switch(type)
+  switch(style)
   {
-    case TagIndicatorViewTagTypeNormal:
+    case TagIndicatorViewTagStyleNormal:
       copiedImage = [[self class] colorImage:image withTint:[NSColor greenColor]];
       break;
-    case TagIndicatorViewTagTypeWarning:
+    case TagIndicatorViewTagStyleWarning:
       copiedImage = [[self class] colorImage:image withTint:[NSColor orangeColor]];
       break;
-    case TagIndicatorViewTagTypeError:
+    case TagIndicatorViewTagStyleError:
       copiedImage = [[self class] colorImage:image withTint:[NSColor redColor]];
       break;
     default:

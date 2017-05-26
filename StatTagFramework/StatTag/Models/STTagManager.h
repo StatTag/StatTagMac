@@ -13,6 +13,8 @@
 @class STMSWord2011Field;
 @class STFieldTag;
 
+typedef void (^CodeFileActionType)(STMSWord2011Field*, STFieldTag*, id);
+
 @interface STTagManager : NSObject {
   STDocumentManager* _DocumentManager;
 }
@@ -34,7 +36,8 @@
 -(STDuplicateTagResults*)FindAllDuplicateTags;
 -(NSDictionary<NSString*, NSArray<STTag*>*>*) FindAllUnlinkedTags;
 
--(void)ProcessStatTagFields:(NSString*)aFunction configuration:(id)configuration;
+-(void)ProcessStatTagFields:(CodeFileActionType)aFunction configuration:(id)configuration;
+//-(void)ProcessStatTagFields:(SEL)aFunction configuration:(id)configuration;
 -(void)UpdateTagFieldData:(STMSWord2011Field*)field tag:(STFieldTag*)tag;
 -(void) UpdateUnlinkedTagsByCodeFile:(STMSWord2011Field*)field tag:(STFieldTag*)tag configuration:(id)configuration;
 -(void) UpdateUnlinkedTagsByTag:(STMSWord2011Field*)field tag:(STFieldTag*)tag configuration:(id)configuration;

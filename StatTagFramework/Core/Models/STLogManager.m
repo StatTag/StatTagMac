@@ -37,7 +37,7 @@ static STLogManager *sharedInstance = nil;
     [self setLogFilePath:url];
   }
   @catch (NSException * e) {
-    NSLog(@"Exception creating URL (%@): %@", NSStringFromClass([self class]), p);
+    //NSLog(@"Exception creating URL (%@): %@", NSStringFromClass([self class]), p);
   }
   @finally {
   }
@@ -126,8 +126,8 @@ static STLogManager *sharedInstance = nil;
 //                                                 usedEncoding:&encoding
 //                                                        error:&error];
 //
-//  NSLog(@"logFilePath : %@", logFilePath);
-//  NSLog(@"error : %@", [error localizedDescription]);
+//  //NSLog(@"logFilePath : %@", logFilePath);
+//  //NSLog(@"error : %@", [error localizedDescription]);
 //  
 //  if(fileContents != nil) {
 //    //this returns YES for some invalid paths... ex: "my awesome file" (not a path) so we should probably review
@@ -185,7 +185,7 @@ static STLogManager *sharedInstance = nil;
 
     //                FileHandler.AppendAllText(LogFilePath, string.Format("{0} - {1}\r\n", DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss.fff"), text));
 
-    NSLog(@"Log Message: %@", text);
+    //NSLog(@"Log Message: %@", text);
     NSError* err;
     [[self FileHandler] AppendAllText:[self LogFilePath] withContent:[NSString stringWithFormat:@"%@ - %@\r\n", [dateFormatter stringFromDate:[NSDate date]], text] error:&err];
     
@@ -205,7 +205,7 @@ static STLogManager *sharedInstance = nil;
 */
 -(void)WriteException:(id) exc
 {
-//  NSLog(@"Log Exception: %@", [exc description]);
+//  //NSLog(@"Log Exception: %@", [exc description]);
 //  NSArray* stackTrace = [exc callStackSymbols];
 //  [self WriteMessage:[NSString stringWithFormat:@"Error: %@\r\nmacOS: %@\r\nHardware: %@\r\nStack trace: %@", [exc description], [STCocoaUtil macOSVersion], [STCocoaUtil machineModel], stackTrace]];
 
@@ -227,7 +227,7 @@ static STLogManager *sharedInstance = nil;
     errorDescription = exc;
   }
   
-  NSLog(@"Log Exception: %@", [exc description]);
+  //NSLog(@"Log Exception: %@", [exc description]);
   [self WriteMessage:[NSString stringWithFormat:@"Error: %@, macOS: %@, Hardware: %@, Stack trace: %@", errorDescription, [STCocoaUtil macOSVersion], [STCocoaUtil machineModel], stackTrace]];
 
 }

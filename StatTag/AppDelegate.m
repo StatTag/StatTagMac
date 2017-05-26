@@ -172,7 +172,7 @@
   [[self preferencesWindowController] showWindow:self]; // show the window
   
   
-  NSLog(@"open preferences");
+  //NSLog(@"open preferences");
 }
 
 
@@ -188,7 +188,7 @@
   
   [[self aboutWindowController] showWindow:self]; // show the window
   
-  NSLog(@"open about");
+  //NSLog(@"open about");
 
 }
 

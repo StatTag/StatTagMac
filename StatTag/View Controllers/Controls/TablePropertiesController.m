@@ -53,7 +53,7 @@
 }
 
 - (void)decimalPlacesDidChange:(NumericValuePropertiesController*)controller {
-  NSLog(@"decimal places changed");
+  //NSLog(@"decimal places changed");
   [[[self tag] ValueFormat] setDecimalPlaces:[controller decimalPlaces]];
   if([[self delegate] respondsToSelector:@selector(decimalPlacesDidChange:)]) {
     [[self delegate] decimalPlacesDidChange:self];

@@ -17,6 +17,7 @@
 
 -(void)startMonitoringCodeFiles
 {
+  [self stopMonitoringCodeFiles];
   for(STCodeFile* cf in [self GetCodeFileList]) {
     FileMonitor* fm = [[FileMonitor alloc] init];
     [fm setFilePath:[cf FilePathURL]];

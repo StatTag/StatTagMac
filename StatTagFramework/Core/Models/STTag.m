@@ -36,6 +36,7 @@
   return [NSString stringWithFormat:@"%@--%@", (_Name == nil ? @"" : _Name), (_CodeFile == nil || [_CodeFile FilePath] == nil ? @"" : [_CodeFile FilePath])];
 }
 
+
 @synthesize FormattedResult = _FormattedResult;
 - (NSString*) FormattedResult {
   if (_CachedResult == nil || [_CachedResult count] == 0)
@@ -92,9 +93,9 @@
     self.LineStart = [[tag LineStart ] copy];
     self.LineEnd = [[tag LineEnd] copy];
     self.CachedResult = [[tag CachedResult] copy];
-    NSLog(@"tag CachedResult = %@", [tag CachedResult]);
-    NSLog(@"self CachedResult = %@", [self CachedResult]);
-    NSLog(@"tag(self) FormattedResult : %@", [self FormattedResult]);
+    //NSLog(@"tag CachedResult = %@", [tag CachedResult]);
+    //NSLog(@"self CachedResult = %@", [self CachedResult]);
+    //NSLog(@"tag(self) FormattedResult : %@", [self FormattedResult]);
   }
   //fix any missing members
   if(self.Name == nil) {
@@ -129,7 +130,7 @@
 
 -(id)copyWithZone:(NSZone *)zone
 {
-  NSLog(@"tag - copyWithZone");
+  //NSLog(@"tag - copyWithZone");
 
   STTag *tag = [[[self class] allocWithZone:zone] init];
 
@@ -179,7 +180,7 @@
   }
   [dict setValue:_LineStart forKey:@"LineStart"];
   [dict setValue:_LineEnd forKey:@"LineEnd"];
-  [dict setValue:[self Id] forKey:@"Id"]; //this is a read only item
+  //[dict setValue:[self Id] forKey:@"Id"]; //this is a read only item
   [dict setValue:[self FormattedResult] forKey:@"FormattedResult"];
   
   return dict;
@@ -201,19 +202,19 @@
     } else if([key isEqualToString:@"CodeFilePath"] || [key isEqualToString:@"TableCellIndex"] ) {
       //skip the properties from fieldtag
     } else if([key isEqualToString:@"CodeFile"]) {
-      //NSLog(@"STTag - attempting to recover CodeFile with value %@", [dict valueForKey:key]);
+      ////NSLog(@"STTag - attempting to recover CodeFile with value %@", [dict valueForKey:key]);
       id aValue = [dict valueForKey:key];
       NSDictionary *objDict = aValue;
       if(objDict != nil) {
         [self setValue:[[STCodeFile alloc] initWithDictionary:objDict] forKey:key];
       }
     } else if([key isEqualToString:@"Name"]) {
-      //NSLog(@"STTag - attempting to recover normalized Name with value %@, normalized value: %@", [dict valueForKey:key], [STTag NormalizeName:[dict valueForKey:key]]);
+      ////NSLog(@"STTag - attempting to recover normalized Name with value %@, normalized value: %@", [dict valueForKey:key], [STTag NormalizeName:[dict valueForKey:key]]);
       [self setValue:[[self class] NormalizeName:[dict valueForKey:key]] forKey:key];
     } else if([key isEqualToString:@"CachedResult"]) {
       //[self setValue:[[self class] Deserialize:[dict valueForKey:key] error:&error] forKey:key];
       [self setValue:[STCommandResult DeserializeList:[dict valueForKey:key] error:&error] forKey:key];
-      NSLog(@"NSError: %@", [error localizedDescription]);
+      //NSLog(@"NSError: %@", [error localizedDescription]);
     } else if([key isEqualToString:@"FigureFormat"]) {
       [self setValue:[[STFigureFormat alloc] initWithDictionary:[dict valueForKey:key]] forKey:key];
     } else if([key isEqualToString:@"ValueFormat"]) {

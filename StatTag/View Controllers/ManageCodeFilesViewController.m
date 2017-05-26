@@ -28,7 +28,7 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  NSLog(@"ManageCodeFilesViewController loaded");
+  //NSLog(@"ManageCodeFilesViewController loaded");
 
   [[NSNotificationCenter defaultCenter] addObserver:self
                                            selector:@selector(codeFileEdited:)
@@ -133,7 +133,7 @@
   //BOOL isDir;
   //NSFileManager* fileManager = [NSFileManager defaultManager];
   
-  if ( [openPanel runModal] == NSOKButton )
+  if ( [openPanel runModal] == NSModalResponseOK )
   {
     NSArray<NSURL*>* files = [openPanel URLs];
     
