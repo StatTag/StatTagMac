@@ -668,7 +668,7 @@
                                                 <action selector="showHelp:" target="Ady-hI-5gd" id="y7X-2Q-9no"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Download StatTag Samples" id="Nib-Mw-zeR">
+                                        <menuItem title="Download Latest StatTag Samples" id="Nib-Mw-zeR">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="openSamplesInstallerWindow:" target="Voe-Tx-rLC" id="e1c-Yp-svp"/>

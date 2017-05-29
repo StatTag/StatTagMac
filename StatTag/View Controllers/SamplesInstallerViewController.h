@@ -7,12 +7,19 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "SamplesDownloadProgressViewController.h"
 
-@interface SamplesInstallerViewController : NSViewController
-  @property (weak) IBOutlet NSPopUpButton *downloadPathPopUp;
+@interface SamplesInstallerViewController : NSViewController <SamplesDownloadProgressDelegate> {
+}
+
   @property (weak) IBOutlet NSButton *startDownloadButton;
 
   @property (strong, nonatomic) NSURL* fileSourceURI;
   @property (strong, nonatomic) NSURL* defaultDownloadFolderURI;
-  
+
+
+@property (weak) IBOutlet NSTextField *downloadPathTextField;
+
+@property (strong, nonatomic) SamplesDownloadProgressViewController* downloadProgressViewConroller;
+
 @end

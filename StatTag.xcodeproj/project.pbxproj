@@ -30,6 +30,9 @@
 		3828C8131E9CF82E000A4159 /* DuplicateTagGroupRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3828C8121E9CF82E000A4159 /* DuplicateTagGroupRowView.m */; };
 		3828C8161E9D0AB8000A4159 /* DuplicateTagDetailRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3828C8151E9D0AB8000A4159 /* DuplicateTagDetailRowView.m */; };
 		3828C8191E9D12AD000A4159 /* STTag+TagContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 3828C8181E9D12AD000A4159 /* STTag+TagContent.m */; };
+		3828F3361ED9CC6D00DABA43 /* NSURL+FileAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = 3828F3351ED9CC6D00DABA43 /* NSURL+FileAccess.m */; };
+		3828F33A1EDB209B00DABA43 /* SamplesDownloadProgressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3828F3381EDB209B00DABA43 /* SamplesDownloadProgressViewController.m */; };
+		3828F33B1EDB209B00DABA43 /* SamplesDownloadProgressViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3828F3391EDB209B00DABA43 /* SamplesDownloadProgressViewController.xib */; };
 		382C284E1D1202D400697D6F /* STBaseParameterParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 382C284C1D1202D400697D6F /* STBaseParameterParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		382C284F1D1202D400697D6F /* STBaseParameterParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 382C284D1D1202D400697D6F /* STBaseParameterParser.m */; };
 		382C28511D13247800697D6F /* StatTagObjCPortingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 382C28501D13247700697D6F /* StatTagObjCPortingTests.m */; };
@@ -395,6 +398,11 @@
 		3828C8151E9D0AB8000A4159 /* DuplicateTagDetailRowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DuplicateTagDetailRowView.m; sourceTree = "<group>"; };
 		3828C8171E9D12AD000A4159 /* STTag+TagContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "STTag+TagContent.h"; sourceTree = "<group>"; };
 		3828C8181E9D12AD000A4159 /* STTag+TagContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "STTag+TagContent.m"; sourceTree = "<group>"; };
+		3828F3341ED9CC6D00DABA43 /* NSURL+FileAccess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+FileAccess.h"; sourceTree = "<group>"; };
+		3828F3351ED9CC6D00DABA43 /* NSURL+FileAccess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+FileAccess.m"; sourceTree = "<group>"; };
+		3828F3371EDB209B00DABA43 /* SamplesDownloadProgressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SamplesDownloadProgressViewController.h; sourceTree = "<group>"; };
+		3828F3381EDB209B00DABA43 /* SamplesDownloadProgressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SamplesDownloadProgressViewController.m; sourceTree = "<group>"; };
+		3828F3391EDB209B00DABA43 /* SamplesDownloadProgressViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SamplesDownloadProgressViewController.xib; sourceTree = "<group>"; };
 		382C284C1D1202D400697D6F /* STBaseParameterParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STBaseParameterParser.h; sourceTree = "<group>"; };
 		382C284D1D1202D400697D6F /* STBaseParameterParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STBaseParameterParser.m; sourceTree = "<group>"; };
 		382C28501D13247700697D6F /* StatTagObjCPortingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagObjCPortingTests.m; sourceTree = "<group>"; };
@@ -819,6 +827,32 @@
 			path = StatTagHelp;
 			sourceTree = "<group>";
 		};
+		3828F33C1EDB20A300DABA43 /* SamplesInstaller */ = {
+			isa = PBXGroup;
+			children = (
+				3816AC0E1ED846670045390E /* SamplesInstallerViewController.h */,
+				3816AC0F1ED846670045390E /* SamplesInstallerViewController.m */,
+				3816AC101ED846670045390E /* SamplesInstallerViewController.xib */,
+				3828F3371EDB209B00DABA43 /* SamplesDownloadProgressViewController.h */,
+				3828F3381EDB209B00DABA43 /* SamplesDownloadProgressViewController.m */,
+				3828F3391EDB209B00DABA43 /* SamplesDownloadProgressViewController.xib */,
+			);
+			name = SamplesInstaller;
+			sourceTree = "<group>";
+		};
+		3828F33D1EDB20B600DABA43 /* ScintillaViews */ = {
+			isa = PBXGroup;
+			children = (
+				38E22AB71E9D4388005DFFE9 /* TagCodePeekViewController.h */,
+				38E22AB81E9D4388005DFFE9 /* TagCodePeekViewController.m */,
+				38E22AB91E9D4388005DFFE9 /* TagCodePeekViewController.xib */,
+				38E22ABC1E9D5FBC005DFFE9 /* ScintillaEmbeddedViewController.h */,
+				38E22ABD1E9D5FBC005DFFE9 /* ScintillaEmbeddedViewController.mm */,
+				38E22ABE1E9D5FBC005DFFE9 /* ScintillaEmbeddedViewController.xib */,
+			);
+			name = ScintillaViews;
+			sourceTree = "<group>";
+		};
 		382C8D191D0F672F00FE6878 = {
 			isa = PBXGroup;
 			children = (
@@ -1095,15 +1129,8 @@
 				380CBD401E89C141006E92D1 /* DocumentBrowser */,
 				3871BA671E9E912100B00C22 /* UnlinkedTags */,
 				386689611E9CF58C00A5A1CB /* DuplicateTags */,
-				38E22AB71E9D4388005DFFE9 /* TagCodePeekViewController.h */,
-				38E22AB81E9D4388005DFFE9 /* TagCodePeekViewController.m */,
-				38E22AB91E9D4388005DFFE9 /* TagCodePeekViewController.xib */,
-				38E22ABC1E9D5FBC005DFFE9 /* ScintillaEmbeddedViewController.h */,
-				38E22ABD1E9D5FBC005DFFE9 /* ScintillaEmbeddedViewController.mm */,
-				38E22ABE1E9D5FBC005DFFE9 /* ScintillaEmbeddedViewController.xib */,
-				3816AC0E1ED846670045390E /* SamplesInstallerViewController.h */,
-				3816AC0F1ED846670045390E /* SamplesInstallerViewController.m */,
-				3816AC101ED846670045390E /* SamplesInstallerViewController.xib */,
+				3828F33D1EDB20B600DABA43 /* ScintillaViews */,
+				3828F33C1EDB20A300DABA43 /* SamplesInstaller */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -1290,6 +1317,8 @@
 				3871BA6C1E9EE87900B00C22 /* STDocumentManager+TagUsage.m */,
 				38C2C4511EB2907600B95EEA /* STCodeFile+FileHelper.h */,
 				38C2C4521EB2907600B95EEA /* STCodeFile+FileHelper.m */,
+				3828F3341ED9CC6D00DABA43 /* NSURL+FileAccess.h */,
+				3828F3351ED9CC6D00DABA43 /* NSURL+FileAccess.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -1910,6 +1939,7 @@
 				385EF1421D95D53C005768C7 /* StatTagMacros.dotm in Resources */,
 				3836F5561D92C89900BF0DD4 /* Assets.xcassets in Resources */,
 				38D8B1C31D9586D200BF878A /* UpdateOutputViewController.xib in Resources */,
+				3828F33B1EDB209B00DABA43 /* SamplesDownloadProgressViewController.xib in Resources */,
 				3836F5591D92C89900BF0DD4 /* Main.storyboard in Resources */,
 				3824439E1DBE567D00EF0048 /* StatTagScriptSupport.scpt in Resources */,
 				38D8B1C81D95872A00BF878A /* UpdateOutputProgressViewController.xib in Resources */,
@@ -2104,6 +2134,7 @@
 				38FFDD201E8C9813004D92C3 /* NSAttributedString+Hyperlink.m in Sources */,
 				384764B91DA56B8300FCDABE /* IntegerOnlyNumberFormatter.m in Sources */,
 				38F8034F1D9C5C1800C8F1EA /* SCScintilla.mm in Sources */,
+				3828F33A1EDB209B00DABA43 /* SamplesDownloadProgressViewController.m in Sources */,
 				386652E91E6C5F0300F3150E /* MacroInstallerUtility.m in Sources */,
 				3836F5A51D92D07700BF0DD4 /* ManageCodeFilesViewController.m in Sources */,
 				38E9CB101E1473A9006B3571 /* TableValueFilterFormatter.m in Sources */,
@@ -2139,6 +2170,7 @@
 				38FFDD161E8C3937004D92C3 /* STCodeFile+PackageIcon.m in Sources */,
 				386992CF1DB6CE2A00852B6E /* STDocumentManager+FileMonitor.m in Sources */,
 				382443A31DBE8E7200EF0048 /* STCodeFile+TagInfo.m in Sources */,
+				3828F3361ED9CC6D00DABA43 /* NSURL+FileAccess.m in Sources */,
 				386992CC1DB6C72300852B6E /* STCodeFile+FileMonitor.m in Sources */,
 				38E22ABA1E9D4388005DFFE9 /* TagCodePeekViewController.m in Sources */,
 				384764B01DA52D6400FCDABE /* TablePropertiesController.m in Sources */,
