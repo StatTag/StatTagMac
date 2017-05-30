@@ -1,4 +1,46 @@
 
+# StatTag for macOS #
+
+# How StatTag is Structured #
+
+We designed StatTag for macOS with a few key principles in mind:
+
+* Ensure document compatibility between platforms.
+* Ensure core feature parity across platforms.
+* Mimic the Windows C# version's core framework as closely as possible in order to make it easier to keep the separate sources synced. It's very likely that a feature or enhancement in one could then be more easily developed, tested, and released.
+* For user interaction, provide a consistent approach to the core concepts, but leverage platform-specific technologies where advantageous. 
+
+What you'll find on macOS is that StatTag is composed of a few sub-projects:
+
+* The **StatTag framework** - a fairly direct Objective-C port of the C# Windows framework
+    * ***Models*** and associated components for the StatTag objects (Code Files, Tags, etc.)
+    * ***Parsers*** for commands used by supported statistical programs like Sata, SAS, and R (EX: knowing how to interpret the command `display x` and transform the result to a specific type of StatTag response)
+    * ***Integration with Microsoft Word*** for management of document content (such as embedding the results of statistical output into fields in Microsoft Word)
+    * ***Integration with (Statistical Package)*** for communication with programs such as Stat, R, and SAS. We leverage public APIs where available and then incorporate them into a consistent interface / protocol for integration into StatTag.
+* **The StatTag application** - The macOS application that provides user's the ability to interact with StatTag, statistical programs, and Word documents. *For end-users, this is StatTag.*
+* **StatTag Help** - The AppleHelp project presented by the StatTag application.
+* **Word Support Files** -  Files used by Microsoft Word 2011 and 2016 to help provide the StatTag toolbars.
+
+# How We Got Here #
+
+StatTag as you see it is the product of a circuitous route. We wanted to deliver an experience identical to the Windows version, but quickly realized that was neither technically feasible nor "Mac-like" enough to suit our goals.
+
+## The Add-in ##
+
+Microsoft provides no formal, supported way of developing a full-fledged add-in for macOS as they do for Windows. The new JavaScript-based add-in API does not provide the capabilities StatTag needs. Following some [fantastic examples](https://www.codeproject.com/Articles/810282/Microsoft-Office-VBA-to-the-Macs) we tried to create a framework library that could be made accessible to Word via VBA. The prototype worked, but had some challenges.
+
+Word 2011 (the initial target) is a 32-bit application. For reasons beyond our level of knowledge, certain pieces of key functionality (ex: getting a list of Word fields) simply failed to work when run in Word through the 32-bit framework. They worked when run in a 32-bit test app, but when the library was referenced by Word 2011, they failed to work as expected. In Word 2016 (32 bit), these same functions worked.
+
+There was no reliable way to launch the UI within Word and properly gain focus. We utilized standard macOS programming conventions to launch windows, but consistently struggled with gaining focus such that text boxes could receive key events.
+
+We then focused our attentions on Word 2016 and resolved nearly all of the issues we encountered, but then encountered a new challenge - the Apple Sandbox. Given the core focus of StatTag is to broker communication with a range of third-party applications, the Sandbox presented a serious challenge - we could no longer message those applications if we ran StatTag as a framework embedded in Word. Microsoft very graciously offered to work with us to help whitelist specific tools, but we didn't want to impose upon their generosity as we continued to roll out support for more applications. *Huge "thank you" to the Office for Mac team for being so willing to work with us.*
+
+
+## The Full-Fledged Application ##
+
+We then had an epiphany - "we need to change how we approach this." We realized by trying to mimic the Windows version we were failing to take advantage of macOS. When we looked at the situation from that point of view, it became apparent that we needed to deploy StatTag as a full application and simply interface with Word in a much more loosely coupled way.
+
+From that point on, things rapidly progressed. We resolved the technical challenges and were also free to really think about bringing a macOS "feel" to the application.
 
 # Project Settings #
 
