@@ -124,7 +124,6 @@
       
       //move the C# "balance data" approach into the STTableData class - "balanceData" selector
 
-      
       [table setRowSize:[[dimensions objectAtIndex:0] integerValue]];
       [table setColumnSize:[[dimensions objectAtIndex:1] integerValue]];
       [table setData:data];

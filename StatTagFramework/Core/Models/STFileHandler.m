@@ -92,10 +92,10 @@
 /**
  @brief Copies an existing file to a new file.
  https://msdn.microsoft.com/en-us/library/system.io.file.copy%28v=vs.110%29.aspx?f=255&MSPPError=-2147217396
+ http://mikeabdullah.net/atomically-copying-a-file.html
  */
 - (void) Copy:(NSURL*)sourceFile toDestinationFile: (NSURL*)destinationFile error:(NSError**)error {
 
-  //http://mikeabdullah.net/atomically-copying-a-file.html
   
   //it's possible we've got a URL w/o a file scheme (since we're setting so much with string vs. URL) - so we're going to see and try to set a file URL (which sets scheme)
   sourceFile = [NSURL fileURLWithPath:[sourceFile path]];
@@ -145,8 +145,6 @@
     //NSLog(@"Failed to remove temp directory after atomic copy: %@", err);
   }
   
-  //return result;
-
 }
 
 - (void) WriteAllLines:(NSURL*)filePath withContent: (NSArray*)content error:(NSError**)error {

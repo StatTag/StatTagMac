@@ -133,9 +133,6 @@
   }
   
   return @"";
-  //  NSInteger columns = [self numColumns];
-  //  return [self valueAtRow:(index / columns) andColumn:(index % columns)];
-  //  return [[[data Data] objectAtIndex:(index / columns)] objectAtIndex:(index % columns)];
 }
 
 
