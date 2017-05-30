@@ -118,7 +118,12 @@
 
 -(id)performDefaultImplementation {
   
-  //AppDelegate* appDelegate = (AppDelegate*)[[NSApplication sharedApplication] delegate];
+//  AppDelegate* appDelegate = (AppDelegate*)[[NSApplication sharedApplication] delegate];
+  
+  NSURL * helpFile = [[NSBundle mainBundle] URLForResource:@"StatTagHelp" withExtension:@"help"];
+  [[NSWorkspace sharedWorkspace] openURL:helpFile];
+  
+//  [appDelegate showHelp];
   //[appDelegate openAboutWindow];
   
   return nil;

@@ -164,7 +164,7 @@
   else {
     //unknown target length - show bytes received and change progess bar to indeterminate
     [[self progressIndicator] setIndeterminate:YES];
-    [self setProgressText:[NSString stringWithFormat:@"%ld kb received", (long)[self bytesReceived]]];
+    [self setProgressText:[NSString stringWithFormat:@"%ld kb received", (long)([self bytesReceived]/1024)]];
   }
 }
 

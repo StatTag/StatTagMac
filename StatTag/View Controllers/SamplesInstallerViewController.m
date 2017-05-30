@@ -46,22 +46,21 @@ static NSString* StatTagSampleDefaultUserPathKey = @"StatTag Samples Location";
 {
   if([self fileSourceURI] == nil)
   {
-    //_fileSourceURI = [[NSURL alloc] initWithString:@"https://github.com/StatTag/Simple-Code-Examples/archive/master.zip"];
     [self setFileSourceURI:[[NSURL alloc] initWithString:@"https://github.com/StatTag/Simple-Code-Examples/archive/master.zip"]];
   }
 
   self.downloadProgressViewConroller = [[SamplesDownloadProgressViewController alloc] init];
   [[self downloadProgressViewConroller] setDelegate:self];
   
-  //https://github.com/StatTag/Simple-Code-Examples
-  
-  //[[self downloadPathTextField] setStringValue:[_defaultDownloadFolderURI path]];
+  // leaving the info here on how to get access to the custom "downloads" folder icon
+  // leaving this in here as an example in case we want to change this later - wasn't easy to find
+  // originally had a dropdown with the default "downloads" directory - then "other..." as an option
+  // changed this for the time being
 
   //apple restricted icons located at
   // /System/Library/CoreServices/CoreTypes.bundle/Contents/Resources
   // you can't really use these
   // to get a handle on the folder icon, you need to pull it from the workspace
-  // leaving this in here as an example in case we want to change this later - wasn't easy to find
 
   //  NSMenuItem* item = [[[self downloadPathPopUp] menu] itemWithTag:1];
   //  //fix our download folder icon
