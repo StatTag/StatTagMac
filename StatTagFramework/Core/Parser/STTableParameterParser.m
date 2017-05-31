@@ -64,11 +64,7 @@ NSString* const RowNames = @"RowNames";
 
   [[self class] BuildFilter:[STConstantsFilterPrefix Column] filter:[[tag TableFormat] ColumnFilter] tagText:tagText];
   [[self class] BuildFilter:[STConstantsFilterPrefix Row] filter:[[tag TableFormat] RowFilter] tagText:tagText];
-  
-  
-//  [tag TableFormat].IncludeColumnNames = [STTableParameterParser GetBoolParameter:[STConstantsTableParameters ColumnNames] text:tagText defaultValue:[STConstantsTableParameterDefaults ColumnNames]];
-//  [tag TableFormat].IncludeRowNames = [STTableParameterParser GetBoolParameter:[STConstantsTableParameters RowNames] text:tagText defaultValue:[STConstantsTableParameterDefaults RowNames]];
-  
+    
 }
 
 

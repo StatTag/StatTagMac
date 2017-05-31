@@ -113,9 +113,6 @@
   }
   
   NSNumber *startIndex;
-  //http://stackoverflow.com/questions/895495/how-do-i-test-if-a-primitive-in-objective-c-is-nil
-  //NSNumber *num = [NSNumber numberWithInteger:0];
-  //[num intValue]
   
   STTag *tag;
   for (NSInteger index = 0; index < [lines count]; index++) {

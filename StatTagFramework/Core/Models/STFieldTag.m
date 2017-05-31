@@ -197,30 +197,11 @@
   }
 
   [super setWithDictionary:dict];
-//  for (NSString* key in dict) {
-//    if([key isEqualToString:@"FilePath"]) {
-//      [dict setObject:_TableCellIndex forKey:@"TableCellIndex"];
-//    } else if([key isEqualToString:@"LastCached"]) {
-//      [dict setObject:[[self CodeFilePath] path] forKey:@"CodeFilePath"];
-//    }
-//  }
-  
   for (NSString* key in dict) {
-//    if([key isEqualToString:@"CodeFile"]) {
-//      ////NSLog(@"STTag - attempting to recover CodeFile with value %@", [dict valueForKey:key]);
-//      id aValue = [dict valueForKey:key];
-//      NSDictionary *objDict = aValue;
-//      if(objDict != nil) {
-//        [self setValue:[[STCodeFile alloc] initWithDictionary:objDict] forKey:key];
-//      }
-//    } else
     if([key isEqualToString:@"CodeFilePath"]) {
       [self setValue:[dict valueForKey:key] forKey:key];
-      //[self setValue:[[NSURL alloc] initWithString:[dict valueForKey:key]] forKey:key];
     } else if([key isEqualToString:@"TableCellIndex"]) {
         [self setValue:[dict valueForKey:key] forKey:key];
-    //    } else {
-//      [self setValue:[dict valueForKey:key] forKey:key];
     }
   }
 

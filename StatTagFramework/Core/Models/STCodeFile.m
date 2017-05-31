@@ -34,9 +34,6 @@
     return url;
   }
   @try {
-    //URL CHANGE
-    //url = [[NSURL alloc] initWithString:[[self FilePath] stringByAddingPercentEncodingWithAllowedCharacters: [NSCharacterSet URLHostAllowedCharacterSet]]];//append path at the end so we can deal with spaces, etc.
-    
     url = [NSURL fileURLWithPath:[self FilePath]];
   }
   @catch (NSException * e) {
@@ -142,7 +139,7 @@ NSObject<STIFileHandler>* _FileHandler;
 //MARK: copying
 -(id)copyWithZone:(NSZone *)zone
 {
-  STCodeFile *codeFile = [[[self class] allocWithZone:zone] init];//[[STCodeFile alloc] init];
+  STCodeFile *codeFile = [[[self class] allocWithZone:zone] init];
 
   codeFile.StatisticalPackage = [_StatisticalPackage copyWithZone:zone];
   codeFile.FilePath = [_FilePath copyWithZone:zone];
@@ -275,12 +272,7 @@ the cached results in another tag.
  user needs to restore it.
 */
 -(void)SaveBackup:(NSError**)error {
-
-  //URL CHANGE
-  //NSURL *backupFile = [[NSURL alloc] initWithString:[[NSString stringWithFormat:@"%@.%@", [[self FilePathURL] path], [STConstantsFileExtensions Backup]]  stringByAddingPercentEncodingWithAllowedCharacters: [NSCharacterSet URLHostAllowedCharacterSet]] ];
-
   NSURL *backupFile = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@.%@", [[self FilePathURL] path], [STConstantsFileExtensions Backup]]];
-
   
   if (![_FileHandler Exists:backupFile error:error])
   {
@@ -510,10 +502,6 @@ the cached results in another tag.
   #pragma unused(content) //touching this just forces things to work - ignore the variable not being used
 
   if(oldTag != nil) {
-    //var refreshedOldTag = (matchWithPosition ? Tags.FirstOrDefault(tag => oldTag.EqualsWithPosition(tag)) : Tags.FirstOrDefault(tag => oldTag.Equals(tag)));
-
-    //this is all wrong
-    //STTag* refreshedOldTag = _Tags.FirstOrDefault(tag => oldTag.Equals(tag, matchWithPosition));
     NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(STTag *aTag, NSDictionary *bindings) {
       //return [aTag isEqual:oldTag];
       return [aTag Equals:oldTag usePosition:matchWithPosition];
@@ -626,14 +614,10 @@ the cached results in another tag.
       if([duplicates objectForKey:[distinct objectForKey:searchLabel]] == nil)
       {
         [duplicates setObject:[[NSMutableArray<STTag*> alloc] init] forKey:[distinct objectForKey:searchLabel]];
-        //duplicates.Add(distinct[searchLabel], new List<Tag>());
       }
-      //http://stackoverflow.com/questions/5526941/nsdictionary-containing-an-nsarray
-      //apparently the array reference is a pointer so we can just add things to it... should check this.
       NSMutableArray<STTag*>* someTags = [duplicates objectForKey:[distinct objectForKey:searchLabel]];
       [someTags addObject:tag];
       [duplicates setObject:someTags forKey:[distinct objectForKey:searchLabel]];
-      //duplicates[distinct[searchLabel]].Add(tag);
     }
     else
     {

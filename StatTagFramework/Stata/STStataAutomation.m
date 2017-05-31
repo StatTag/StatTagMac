@@ -237,12 +237,6 @@ const NSInteger ShowStata = 3;
   if([Parser IsMacroDisplayValue:command]) {
     name = [Parser GetMacroValueName:command];
     return [self GetMacroValue:name];
-//    NSString* result = [Application MacroValue:name];
-//    // If we get an empty string, try it with the prefix for local macros
-//    if(result == nil || [result length] == 0) {
-//      result = [Application MacroValue:[NSString stringWithFormat:@"%@%@", LocalMacroPrefix, name]];
-//    }
-//    return result;
   }
   
   name = [Parser GetValueName:command];
@@ -299,9 +293,6 @@ const NSInteger ShowStata = 3;
   NSMutableArray<NSString*>* cleanedData = [[NSMutableArray<NSString*> alloc] initWithCapacity:[data count]];
   double missingValue = [Application UtilGetStMissingValue];
   for(NSInteger index = 0; index < [data count]; index++) {
-    //[cleanedData addObject:([data[index]doubleValue] >= missingValue) ? [NSNull null] : [NSString stringWithFormat:@"%@", data[index]]];
-//    [cleanedData addObject:(NSString*)[NSNull null]];
-    
     [cleanedData addObject:([data[index]doubleValue] >= missingValue) ? (NSString*)[NSNull null] : [NSString stringWithFormat:@"%@", data[index]]];
   }
   return cleanedData;

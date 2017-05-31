@@ -223,7 +223,7 @@
     
     NSString* alertText = [NSString stringWithFormat:@"The following source code files were referenced by this document, but could not be found on this device:\r\n\r\n%@", [[filesNotFound valueForKey:@"FilePath"] componentsJoinedByString:@"\r\n"]];
     NSAlert *alert = [[NSAlert alloc] init];
-    [alert setMessageText:@"StatTag fan't find some code files"];
+    [alert setMessageText:@"StatTag can't find some code files"];
     [alert setInformativeText:alertText];
     [alert setAlertStyle:NSWarningAlertStyle];
     [alert addButtonWithTitle:@"Ok"];

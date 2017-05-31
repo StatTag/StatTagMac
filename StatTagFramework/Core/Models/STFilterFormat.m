@@ -112,11 +112,6 @@ NSString* const InvalidFilterExceptionMessage = @"The filter value is invalid.  
     return nil;
   }
   
-//  NSRange r = [[self Value] rangeOfCharacterFromSet:ws];
-//  if (r.location != NSNotFound) {
-//    return nil;
-//  }
-  
   NSArray<NSString*>* components = [[self Value] componentsSeparatedByString:[STConstantsReservedCharacters ListDelimiter]];
 
   if([components count] == 0)
@@ -124,7 +119,6 @@ NSString* const InvalidFilterExceptionMessage = @"The filter value is invalid.  
     return nil;
   }
   
-  //NSMutableSet<NSNumber*>* valueList = [[NSMutableSet<NSNumber*> alloc] init];
   NSMutableArray<NSNumber*>* valueList = [[NSMutableArray<NSNumber*> alloc] init];
   
   for(NSString* component in components)

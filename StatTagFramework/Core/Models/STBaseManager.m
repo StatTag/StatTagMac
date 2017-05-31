@@ -17,7 +17,7 @@
 -(instancetype)init {
   self = [super init];
   if(self){
-    self.Logger = [STLogManager sharedInstance];//[[STLogManager alloc] init];
+    self.Logger = [STLogManager sharedInstance];
   }
   return self;
 }

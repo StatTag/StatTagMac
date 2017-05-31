@@ -23,16 +23,9 @@
 
 
 
-
-
-
-
 //MARK: JSON
 -(NSDictionary *)toDictionary {
   NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
-//  [dict setValue:[self Label] forKey:@"Label"];
-//  [dict setValue:[NSNumber numberWithInteger:[self Action]] forKey:@"Action"];
-//  [dict setValue:[self Parameter] forKey:@"Parameter"]; //this might be a problem
   return dict;
 }
 

@@ -459,37 +459,11 @@ row labels are included.
   }
   
   STTable* tableData = [[_CachedResult firstObject] TableResult];
-//  NSInteger dimensions[2];
-//  dimensions[0] = [tableData RowSize];
-//  dimensions[1] = [tableData ColumnSize];
-  
-  //NSMutableArray<NSNumber*>* dimensions = [[NSMutableArray alloc] initWithObjects:[NSNumber numberWithInteger:[tableData RowSize]], [NSNumber numberWithInteger:[tableData ColumnSize]], nil];
 
-  //NSMutableArray<NSNumber*>* dimensions = [[NSMutableArray alloc] init];
   NSNumber* r = [NSNumber numberWithInteger:[self GetDisplayDimension:[tableData RowSize] filter:_TableFormat.RowFilter]];
   NSNumber* c = [NSNumber numberWithInteger:[self GetDisplayDimension:[tableData ColumnSize] filter:_TableFormat.ColumnFilter]];
   
   NSMutableArray<NSNumber*>* dimensions = [[NSMutableArray alloc] initWithObjects:r, c, nil];
-  
-//  GetDisplayDimension(tableData.RowSize, TableFormat.RowFilter),
-//  GetDisplayDimension(tableData.ColumnSize, TableFormat.ColumnFilter)
-
-  
-  /*
-  if ([_TableFormat IncludeColumnNames] && [tableData ColumnNames] != nil)
-  {
-    dimensions[STConstantsDimensionIndex.Rows] = [NSNumber numberWithInteger:[dimensions[STConstantsDimensionIndex.Rows] integerValue] + 1];
-    //dimensions[STConstantsDimensionIndex.Rows]++;
-  }
-
-  if ([_TableFormat IncludeRowNames] && [tableData RowNames] != nil)
-  {
-    dimensions[STConstantsDimensionIndex.Columns] = [NSNumber numberWithInteger:[dimensions[STConstantsDimensionIndex.Columns] integerValue] + 1];
-    //dimensions[STConstantsDimensionIndex.Columns]++;
-  }
-   */
-  
-  //[dimensions setObject:[self GetDisplayDimension:[tableData RowSize] filter:[STTableFormat RowFilter]] atIndexedSubscript:0];
   
   return dimensions;
 }
