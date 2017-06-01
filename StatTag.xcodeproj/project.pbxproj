@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3500D5CD1EE066DA006AA0ED /* RCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3500D5CC1EE066DA006AA0ED /* RCocoa.framework */; };
+		3500D5CF1EE066F7006AA0ED /* R.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3500D5CE1EE066F7006AA0ED /* R.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		35C112AE1EE09A9A00C9CC7F /* RCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3500D5CC1EE066DA006AA0ED /* RCocoa.framework */; };
+		35C112AF1EE09A9A00C9CC7F /* RCocoa.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3500D5CC1EE066DA006AA0ED /* RCocoa.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		380A67971D102FFA0045B72B /* TestDestinationTextFile.txt in Resources */ = {isa = PBXBuildFile; fileRef = 380A67961D102FFA0045B72B /* TestDestinationTextFile.txt */; };
 		380A679A1D1061110045B72B /* STTable.h in Headers */ = {isa = PBXBuildFile; fileRef = 380A67981D1061100045B72B /* STTable.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		380A679B1D1061110045B72B /* STTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 380A67991D1061100045B72B /* STTable.m */; };
@@ -358,6 +362,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				38D8B1B31D9496C300BF878A /* StatTagFramework.framework in Embed Frameworks */,
+				35C112AF1EE09A9A00C9CC7F /* RCocoa.framework in Embed Frameworks */,
 				38A877CE1D9AEEA7002F37DA /* Scintilla.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -366,6 +371,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3500D5CC1EE066DA006AA0ED /* RCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RCocoa.framework; sourceTree = "<group>"; };
+		3500D5CE1EE066F7006AA0ED /* R.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = R.framework; path = ../../../../Library/Frameworks/R.framework; sourceTree = "<group>"; };
 		380A67961D102FFA0045B72B /* TestDestinationTextFile.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TestDestinationTextFile.txt; sourceTree = "<group>"; };
 		380A67981D1061100045B72B /* STTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STTable.h; sourceTree = "<group>"; };
 		380A67991D1061100045B72B /* STTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STTable.m; sourceTree = "<group>"; };
@@ -761,6 +768,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3500D5CF1EE066F7006AA0ED /* R.framework in Frameworks */,
+				3500D5CD1EE066DA006AA0ED /* RCocoa.framework in Frameworks */,
 				38BE59AC1D52AA1000FF9E99 /* Cocoa.framework in Frameworks */,
 				38C91F461D36FC8A0048A95E /* AppleScriptObjC.framework in Frameworks */,
 				382C28711D180CB900697D6F /* SystemConfiguration.framework in Frameworks */,
@@ -782,6 +791,7 @@
 			files = (
 				38D8B1B21D9496C300BF878A /* StatTagFramework.framework in Frameworks */,
 				38A877CD1D9AEEA7002F37DA /* Scintilla.framework in Frameworks */,
+				35C112AE1EE09A9A00C9CC7F /* RCocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -795,6 +805,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3500D5CB1EE066DA006AA0ED /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3500D5CE1EE066F7006AA0ED /* R.framework */,
+				3500D5CC1EE066DA006AA0ED /* RCocoa.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		380CBD401E89C141006E92D1 /* DocumentBrowser */ = {
 			isa = PBXGroup;
 			children = (
@@ -867,6 +886,7 @@
 				3836F5621D92C89900BF0DD4 /* StatTagTests */,
 				3816ABF71ED5C1B10045390E /* StatTagHelp */,
 				382C8D241D0F672F00FE6878 /* Products */,
+				3500D5CB1EE066DA006AA0ED /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -2362,6 +2382,7 @@
 		382C8D2C1D0F672F00FE6878 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
@@ -2371,8 +2392,10 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 				);
 				FRAMEWORK_VERSION = A;
+				HEADER_SEARCH_PATHS = "$(LOCAL_LIBRARY_DIR)/Frameworks/R.framework/Headers";
 				INFOPLIST_FILE = "$(SRCROOT)/StatTagFramework/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
@@ -2389,6 +2412,7 @@
 		382C8D2D1D0F672F00FE6878 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
@@ -2399,8 +2423,10 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 				);
 				FRAMEWORK_VERSION = A;
+				HEADER_SEARCH_PATHS = "$(LOCAL_LIBRARY_DIR)/Frameworks/R.framework/Headers";
 				INFOPLIST_FILE = "$(SRCROOT)/StatTagFramework/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
@@ -2456,7 +2482,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
-				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = ZRBJAU296F;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2487,7 +2513,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
-				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = ZRBJAU296F;
 				FRAMEWORK_SEARCH_PATHS = (

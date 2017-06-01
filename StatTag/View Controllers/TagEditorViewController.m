@@ -459,15 +459,15 @@ static void *TagTypeContext = &TagTypeContext;
     [NSApp presentError:saveError];
     return;
   }
-  
-  if(edited == YES)
+
+  NSMutableDictionary *errorDetail = [NSMutableDictionary dictionary];
+  if(edited == YES || [errorDetail count] == 0)
   {
     [_delegate dismissTagEditorController:self withReturnCode:(StatTagResponseState)OK];
     return;
   }
   
   //something bad happened... we should probably have better error handling...
-  NSMutableDictionary *errorDetail = [NSMutableDictionary dictionary];
   [errorDetail setValue:[NSString stringWithFormat:@"StatTag was not able to save changes"] forKey:NSLocalizedDescriptionKey];
   saveError = [NSError errorWithDomain:@"com.stattag.StatTag" code:100 userInfo:errorDetail];
   [NSApp presentError:saveError];

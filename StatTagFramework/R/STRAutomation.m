@@ -10,6 +10,7 @@
 #import "STRParser.h"
 #import "STCommandResult.h"
 #import "STTag.h"
+#import <RCocoa/RCocoa.h>
 
 @implementation STRAutomation
 
@@ -90,6 +91,10 @@
 
 -(STCommandResult*)RunCommand:(NSString*)command tag:(STTag*)tag
 {
+    @autoreleasepool {
+        RCSymbolicExpression* result = [[RCEngine mainEngine] Evaluate:command];
+    }
+    
 //  var result = Engine.Evaluate(command);
 //  if (result == null || result.IsInvalid)
 //  {
