@@ -9,7 +9,8 @@
 #import <Cocoa/Cocoa.h>
 #import <StatTagFramework/STDuplicateTagResults.h>
 #import "DuplicateTagGroupEntry.h"
-#import "TagEditorViewController.h"
+#import "DuplicateTagRenameViewController.h"
+
 //#import "STDuplicateTagResults.h"
 @class STDocumentManager;
 @class STTag;
@@ -20,7 +21,7 @@
 -(void)duplicateTagsDidChange:(DuplicateTagsViewController*)controller;
 @end
 
-@interface DuplicateTagsViewController : NSViewController <NSTableViewDelegate, NSTableViewDataSource, TagEditorViewControllerDelegate, NSPopoverDelegate>
+@interface DuplicateTagsViewController : NSViewController <NSTableViewDelegate, NSTableViewDataSource, DuplicateTagRenameViewControllerDelegate, NSPopoverDelegate>
 {
   STDocumentManager* _documentManager;
   STDuplicateTagResults* _duplicateTags;

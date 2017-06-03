@@ -44,6 +44,16 @@
   return url;
 }
 
+//we're using custom setters/getters because there are places where we are overwriting the tag data as an immutable array - we want to avoid that as it breaks some of our updates
+-(NSMutableArray<STTag*>*)Tags
+{
+  return _Tags;
+}
+-(void)setTags:(NSArray<STTag*>*)tags
+{
+  _Tags = [[NSMutableArray<STTag*> alloc] initWithArray:tags];
+}
+
 -(NSString*)FileName {
   NSString* fileName = [[self FilePath] lastPathComponent];
   if([fileName isEqualToString:[self FilePath]])

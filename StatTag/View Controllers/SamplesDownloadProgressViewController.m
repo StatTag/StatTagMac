@@ -66,7 +66,7 @@
       state = (StatTagResponseState)Error;
     }
     
-    [[self delegate] dismissSamplesDownloadProgressViewController:self withReturnCode:(StatTagResponseState)OK andMessage:@"" andError:processError];
+    [[self delegate] dismissSamplesDownloadProgressViewController:self withReturnCode:state andMessage:@"" andError:processError];
   }
 }
 

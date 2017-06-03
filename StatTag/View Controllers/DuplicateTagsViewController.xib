@@ -90,18 +90,19 @@
                                                 <rect key="frame" x="1" y="39" width="633" height="32"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
-                                                    <textField identifier="tagName" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="esq-fl-igm">
+                                                    <textField identifier="tagName" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="esq-fl-igm">
                                                         <rect key="frame" x="138" y="15" width="184" height="17"/>
-                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="180" id="90u-Ir-Y5D"/>
+                                                        </constraints>
                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="OeZ-Rz-Jck">
                                                             <font key="font" metaFont="system"/>
                                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                         </textFieldCell>
                                                     </textField>
-                                                    <textField identifier="tagType" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="25T-0U-DkO">
-                                                        <rect key="frame" x="138" y="-2" width="154" height="17"/>
-                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                                    <textField identifier="tagType" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="25T-0U-DkO">
+                                                        <rect key="frame" x="138" y="1" width="184" height="14"/>
                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="FRo-Lu-JsT">
                                                             <font key="font" metaFont="smallSystem"/>
                                                             <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
@@ -120,7 +121,7 @@
                                                     <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zZb-RS-Tt7">
                                                         <rect key="frame" x="409" y="11" width="20" height="20"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="Image001" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="agB-Cc-7IF">
+                                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSQuickLookTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="agB-Cc-7IF">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                             <font key="font" metaFont="system"/>
                                                         </buttonCell>
@@ -130,6 +131,13 @@
                                                         </connections>
                                                     </button>
                                                 </subviews>
+                                                <constraints>
+                                                    <constraint firstItem="esq-fl-igm" firstAttribute="leading" secondItem="36M-rZ-Bhd" secondAttribute="leading" constant="140" id="4ba-Xu-853"/>
+                                                    <constraint firstItem="25T-0U-DkO" firstAttribute="leading" secondItem="esq-fl-igm" secondAttribute="leading" id="4va-2B-zoV"/>
+                                                    <constraint firstItem="25T-0U-DkO" firstAttribute="top" secondItem="esq-fl-igm" secondAttribute="bottom" id="53a-D0-D7E"/>
+                                                    <constraint firstItem="25T-0U-DkO" firstAttribute="width" secondItem="esq-fl-igm" secondAttribute="width" id="Ux1-F9-3Df"/>
+                                                    <constraint firstItem="esq-fl-igm" firstAttribute="top" secondItem="36M-rZ-Bhd" secondAttribute="top" id="dmQ-33-OqG"/>
+                                                </constraints>
                                                 <connections>
                                                     <outlet property="tagLines" destination="b9d-58-FLz" id="9SF-Re-oFz"/>
                                                     <outlet property="tagName" destination="esq-fl-igm" id="e2V-cI-T9X"/>
@@ -196,7 +204,7 @@
         </popover>
     </objects>
     <resources>
-        <image name="Image001" width="128" height="128"/>
+        <image name="NSQuickLookTemplate" width="19" height="12"/>
         <image name="stattag_tag_purple" width="512" height="512"/>
     </resources>
 </document>
