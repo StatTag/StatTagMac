@@ -485,4 +485,22 @@ the DocumentManager instance that contains it.
   }
 }
 
+/// <summary>
+/// Is this possibly a StatTag shape?  This is somewhat of a weak check as we are just
+/// able to look for the presence of a name field, but if it can reduce overhead in
+/// processing shapes we'll take it.
+/// </summary>
+/// <param name="shape"></param>
+/// <returns></returns>
++(bool)IsStatTagShape:(STMSWord2011Shape*)shape
+{
+  
+  NSCharacterSet *ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+  return (shape != nil
+          && !([[[shape name] stringByTrimmingCharactersInSet:ws] length] == 0));
+
+  //return (shape != nil
+  //        && !String.IsNullOrWhiteSpace(shape.Name));
+}
+
 @end

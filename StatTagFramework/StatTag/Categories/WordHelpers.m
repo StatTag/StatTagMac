@@ -449,4 +449,11 @@ static WordHelpers* sharedInstance = nil;
 }
 
 
++(void)insertTextboxAtRangeStart:(NSInteger)theRangeStart andRangeEnd:(NSInteger)theRangeEnd forShapeName:(NSString*)shapeName withShapetext:(NSString*)shapeText andFontSize:(double)fontSize andFontFace:(NSString*)fontFace
+{
+  [[self class] sharedInstance];
+  WordASOC *asoc = [[NSClassFromString(@"WordASOC") alloc] init];
+  [asoc insertTextboxAtRangeStart:[NSNumber numberWithInteger:theRangeStart] andRangeEnd:[NSNumber numberWithInteger:theRangeEnd] forShapeName:shapeName withShapetext:shapeText andFontSize:[NSNumber numberWithDouble:fontSize] andFontFace:fontFace];
+}
+
 @end

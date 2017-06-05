@@ -31,8 +31,9 @@ NSString *const STStatTagErrorDomain = @"StatTagErrorDomain";
 +(NSString*)Value { return @"Value";}
 +(NSString*)Figure { return @"Figure";}
 +(NSString*)Table { return @"Table";}
++(NSString*)Verbatim { return @"Verbatim";}
 +(NSArray<NSString *>*)GetList {
-  return [[NSArray alloc] initWithObjects:[STConstantsTagType Value], [STConstantsTagType Figure], [STConstantsTagType Table], nil];
+  return [[NSArray alloc] initWithObjects:[STConstantsTagType Value], [STConstantsTagType Figure], [STConstantsTagType Table], [STConstantsTagType Verbatim], nil];
 }
 @end
 

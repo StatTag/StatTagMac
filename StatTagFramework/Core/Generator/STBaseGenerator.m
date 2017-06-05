@@ -12,6 +12,7 @@
 #import "STValueParameterGenerator.h"
 #import "STTableParameterGenerator.h"
 #import "STFigureGenerator.h"
+#import "STVerbatimGenerator.h"
 
 
 @implementation STBaseGenerator
@@ -67,6 +68,17 @@
        [STConstantsTagTags ParamStart],
        //[tableGenerator CreateParameters:tag],
        [self CombineValueAndTableParameters:tag],
+       [STConstantsTagTags ParamEnd]
+       ];
+    }
+    
+    else if ([[tag Type] isEqualToString:[STConstantsTagType Verbatim]])
+    {
+      STVerbatimGenerator* verbatimGenerator = [[STVerbatimGenerator alloc] init];
+      [openBase appendFormat:@"%@%@%@%@",
+       [STConstantsTagType Verbatim],
+       [STConstantsTagTags ParamStart],
+       [verbatimGenerator CreateParameters:tag],
        [STConstantsTagTags ParamEnd]
        ];
     }

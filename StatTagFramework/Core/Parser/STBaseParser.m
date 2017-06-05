@@ -13,6 +13,7 @@
 #import "STValueParameterParser.h"
 #import "STTableParameterParser.h"
 #import "STFigureParameterParser.h"
+#import "STVerbatimParameterParser.h"
 
 @implementation STBaseParser
 
@@ -166,6 +167,27 @@
 }
 
 
+-(bool)IsTagStart:(NSString*)line
+{
+  NSArray* matches = [_StartTagRegEx matchesInString:line options:0 range: NSMakeRange(0, line.length)];
+  if([matches count] > 0)
+  {
+    return YES;
+  }
+  return NO;
+}
+
+-(bool)IsTagEnd:(NSString*)line
+{
+  NSArray* matches = [_EndTagRegEx matchesInString:line options:0 range: NSMakeRange(0, line.length)];
+  if([matches count] > 0)
+  {
+    return YES;
+  }
+  return NO;
+}
+
+
 -(NSArray<STExecutionStep*>*)GetExecutionSteps:(STCodeFile*)file{
   return [self GetExecutionSteps:file filterMode:[STConstantsParserFilterMode IncludeAll] tagsToRun:nil];
 }
@@ -271,6 +293,9 @@
     tag.Type = [STConstantsTagType Table];
     [STTableParameterParser Parse:tagText tag:tag];
     [STValueParameterParser Parse:tagText tag:tag];
+  } else if([tagText hasPrefix:[STConstantsTagType Verbatim]]) {
+    tag.Type = [STConstantsTagType Verbatim];
+    [STVerbatimParameterParser Parse:tagText tag:tag];
   } else {
     //FIXME: go back and fix the whole issue with passing errors in and pointer references, etc.
     //populate error

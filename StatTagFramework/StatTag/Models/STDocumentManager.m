@@ -397,6 +397,62 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
 }
 
 
+
+/// <summary>
+/// Processes all content controls within the document, which may include verbatim output.
+/// Handles renaming of tags as well, if applicable.
+/// </summary>
+/// <param name="document">The current document to process</param>
+/// <param name="tagUpdatePair"></param>
+-(void)UpdateVerbatimEntries:(STMSWord2011Document*)document tagUpdatePair:(STUpdatePair<STTag*>*)tagUpdatePair
+{
+  NSArray<STMSWord2011Shape*>* shapes = [document shapes];
+  if([shapes count] == 0)
+  {
+    return;
+  }
+  
+  STTagManager* tm = [[STTagManager alloc] init];
+  
+  NSInteger shapeCount = [shapes count];
+  for (NSInteger index = 0; index <= shapeCount; index++)
+  {
+    STMSWord2011Shape* shape = [shapes objectAtIndex:index];
+    if (shape != nil)
+    {
+      if ([STTagManager IsStatTagShape:shape])
+      {
+        STTag* tag = [tm FindTag:[shape name]];
+        if (tag == nil)
+        {
+          [self Log:[NSString stringWithFormat:@"No tag was found for the control with ID: %@", [shape name]]];
+          continue;
+        }
+        
+        if ([tag Type] != [STConstantsTagType Verbatim])
+        {
+          [self Log:[NSString stringWithFormat:@"The tag (%@) was inserted as verbatim but is now a different type.  We are unable to update it.", [tag Id]]];
+        }
+        
+        // If the tag update pair is set, it will be in response to renaming.  Make sure
+        // we apply the new tag name to the control
+        if (tagUpdatePair != nil && [[tagUpdatePair Old] isEqual:tag])
+        {
+          [shape setName:[[tagUpdatePair New] Id]];
+        }
+
+        [[[shape textFrame] textRange] setContent:[tag FormattedResult]];
+      }
+    }
+  }
+  
+}
+
+-(void)UpdateVerbatimEntries:(STMSWord2011Document*)document
+{
+  [self UpdateVerbatimEntries:document tagUpdatePair:nil];
+}
+
 /**
  Update all of the field values in the current document.
 
@@ -605,6 +661,34 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   return cells;
 }
 
+
+
+/// <summary>
+/// Inserts a rich text edit control
+/// </summary>
+/// <param name="selection"></param>
+/// <param name="tag"></param>
+-(void)InsertVerbatim:(STMSWord2011SelectionObject*)selection tag:(STTag*)tag
+{
+  [self Log:@"InsertVerbatim - Started"];
+  
+  if (tag == nil)
+  {
+    [self Log:@"Unable to insert the verbatim output because the tag is null"];
+    return;
+  }
+  
+  STCommandResult* result = [[tag CachedResult] firstObject];
+  if (result != nil)
+  {
+    STMSWord2011TextRange* range = [selection formattedText];//unclear if this is what we want to use
+
+    //we have to offload this directly to AppleScript so we can do what we need to
+    [WordHelpers insertTextboxAtRangeStart:[range startOfContent] andRangeEnd:[range endOfContent] forShapeName:[tag Id] withShapetext:[result VerbatimResult] andFontSize:9.0 andFontFace:@"Courier New"];
+  }
+  
+  [self Log:@"InsertVerbatim - Finished"];
+}
 
 
 /**

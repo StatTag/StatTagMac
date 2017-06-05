@@ -298,4 +298,66 @@ script WordASOC
   end setActiveDocumentByDocName:
 
 
+
+
+on insertTextboxAtRangeStart:theRangeStart andRangeEnd:theRangeEnd forShapeName:shapeName withShapetext: shapeText andFontSize:fontSize andFontFace:fontFace
+  
+  set theRangeStart to theRangeStart as integer
+  set theRangeEnd to theRangeEnd as integer
+  
+  set shapeName to shapeName as string
+  set shapeText to shapeText as string
+  
+  set fontSize to fontSize as real
+  set fontFace to fontFace as string
+  
+  
+  tell application "Microsoft Word"
+    
+    set theRange to create range active document start theRangeStart end theRangeEnd
+    set selection start of selection to theRangeStart
+    set selection end of selection to theRangeEnd
+    
+    
+    set xOffset to (get selection information selection information type (horizontal position relative to page))
+    set yOffset to (get selection information selection information type (vertical position relative to page))
+    
+    set tMargin to top margin of page setup of active document
+    set lMargin to left margin of page setup of active document
+    
+    set yOffset to (yOffset - tMargin + 20)
+    set xOffset to (xOffset + lMargin)
+    
+    set myShape to make new shape at active document with properties {shape type:shape type text box, anchor:theRange, top:yOffset, left position:xOffset, width:300, height:100, name:shapeName, relative horizontal position:relative horizontal position column, relative vertical position:relative vertical position top margin}
+    
+    set fore color of fill format of myShape to ({65535, 65535, 65535} as RGB color)
+    set transparency of fill format of myShape to 1.0
+    set transparency of line format of myShape to 1.0
+    
+    set content of text range of text frame of myShape to shapeText
+    set alignment of paragraph format of text range of text frame of myShape to align paragraph left
+    set space after of paragraph format of text range of text frame of myShape to 0
+    set space before of paragraph format of text range of text frame of myShape to 0
+    
+    --WdWrapType.wdWrapInline
+    --https://msdn.microsoft.com/en-us/library/bb214041%28v=office.12%29.aspx?f=255&MSPPError=-2147217396
+    -- 7 is the equivalent for the enum "wrap inline" which is not exposed as a constant through AppleScript
+    set wrap type of wrap format of myShape to 7
+    set allow overlap of wrap format of myShape to false
+    
+    --we need to compute the size of the shape and then resize to fit the contents
+    set fontMultiplier to 1.3 as real
+    
+    set name of font object of text range of text frame of myShape to fontFace
+    set font size of font object of text range of text frame of myShape to fontSize
+    set color of font object of text range of text frame of myShape to ({0, 0, 0} as RGB color)
+    
+    set lineCount to compute text range statistics text range of text frame of myShape statistic statistic lines
+    
+    set height of myShape to lineCount * (fontSize * fontMultiplier)
+    
+  end tell
+end insertTextboxAtRangeStart:andRangeEnd:forShapeName:withShapetext:andFontSize:andFontFace:
+
+
 end script

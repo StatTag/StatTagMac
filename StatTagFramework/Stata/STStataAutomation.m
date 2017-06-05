@@ -16,11 +16,18 @@
 @implementation STStataAutomation
 
 
-NSString *const LocalMacroPrefix = @"_";
-NSString *const StatTagTempMacroName = @"__st_tmp_display_value";
-NSString *const DisablePagingCommand = @"set more off";
-NSString *const RegisterParameter = @"/Register";
-NSString *const UnregisterParameter = @"/Unregister";
+NSString* const LocalMacroPrefix = @"_";
+NSString* const StatTagTempMacroName = @"__st_tmp_display_value";
+NSString* const DisablePagingCommand = @"set more off";
+NSString* const RegisterParameter = @"/Register";
+NSString* const UnregisterParameter = @"/Unregister";
+
+NSString* const StatTagVerbatimLogName = @"__stattag_verbatim_log_tmp.log";
+NSString* const StatTagVerbatimLogIdentifier = @"stattag-verbatim";
+
+NSString* const EndLoggingCommand = @"log close";
+
+
 //NSString* StaticAppBundleIdentifier;// = @"com.stata.stata14";
 @synthesize AppBundleIdentifier = _AppBundleIdentifier;
 
@@ -65,7 +72,8 @@ const NSInteger ShowStata = 3;
   if(self) {
     //id Application;
     Parser = [[STStataParser alloc] init];
-    OpenLogs = [[NSMutableArray<NSString*> alloc] init];
+    OpenLogs = [[NSMutableArray<STStataParserLog*> alloc] init];
+    IsTrackingVerbatim = false;
     _AppBundleIdentifier = [[self class] determineInstalledAppBundleIdentifier];
     if([[self class] IsAppInstalled]){
       @autoreleasepool {
@@ -118,7 +126,7 @@ const NSInteger ShowStata = 3;
 
 -(BOOL)Initialize {
   @try {
-    OpenLogs = [[NSMutableArray<NSString*> alloc] init];
+    OpenLogs = [[NSMutableArray<STStataParserLog*> alloc] init];
     _AppBundleIdentifier = [[self class] determineInstalledAppBundleIdentifier];
     if([[self class] IsAppInstalled]){
       @autoreleasepool {
@@ -159,17 +167,125 @@ const NSInteger ShowStata = 3;
 //  return [self RunCommands:[NSArray<NSString*> arrayWithObjects:combinedCommand, nil]];
 //}
 
+-(void)EnsureLoggingForVerbatim:(STTag*)tag
+{
+  // If there is no open log, we will start one
+  
+  //FIXME: this will probably fail - figure out how to test this
+  //  if (OpenLogs.Find(x => x.LogType.Equals("log", StringComparison.CurrentCultureIgnoreCase)) == null)
+  NSPredicate* predLog = [NSPredicate predicateWithFormat:@"LogType == [c]", @"SELF", @"log"];
+  STStataParserLog* stLog = [[OpenLogs filteredArrayUsingPredicate: predLog] firstObject];
+
+  //![[OpenLogs valueForKey:@"LogType.lowercaseString"] containsObject:[@"log" lowercaseString]]
+  if (stLog != nil)
+  {
+    NSString* verbatimLogFile = [StatTagVerbatimLogName copy];
+
+    NSCharacterSet *ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+    
+    //if ([[result stringByTrimmingCharactersInSet:ws] length] == 0)
+    if ([tag CodeFile] != nil && [[[[tag CodeFile] FilePath] stringByTrimmingCharactersInSet:ws] length] == 0)
+    {
+      //verbatimLogFile = Path.Combine(Path.GetDirectoryName(tag.CodeFile.FilePath), StatTagVerbatimLogName);
+      verbatimLogFile = [[[[[tag CodeFile] FilePathURL] absoluteString] stringByDeletingLastPathComponent] stringByAppendingPathComponent:StatTagVerbatimLogName];
+    }
+    [self RunCommand:[NSString stringWithFormat:@"log using \"%@\", text replace", verbatimLogFile]];
+
+    // We use a special identifier so we know it is a StatTag initiated log during processing, and that
+    // it can be closed.  Otherwise we may confuse it with a log the user started.
+    STStataParserLog* spl = [[STStataParserLog alloc] init];
+    [spl setLogType:StatTagVerbatimLogIdentifier];
+    [spl setLogPath:verbatimLogFile];
+    [OpenLogs addObject:spl];
+  }
+}
+
+
 -(NSArray<STCommandResult*>*)RunCommands:(NSArray<NSString*>*)commands tag:(STTag*)tag {
   @try {
     NSMutableArray<STCommandResult*>* commandResults = [[NSMutableArray<STCommandResult*> alloc] init];
+    IsTrackingVerbatim = (tag != nil && [[tag Type] isEqualToString: [STConstantsTagType Verbatim]]);
+    NSString* startingVerbatimCommand = @"";   // Tracks in the log where we begin pulling verbatim output from
     for(NSString* command in commands) {
       if([Parser IsStartingLog:command]) {
-        [OpenLogs addObjectsFromArray:[Parser GetLogType:command]];
+        [OpenLogs addObjectsFromArray:[Parser GetLogs:command]];
       }
+      
+      // Ensure logging is taking place if the user has identified this as verbatim output.
+      if ([Parser IsTagStart:command] && IsTrackingVerbatim)
+      {
+        startingVerbatimCommand = command;
+        [self EnsureLoggingForVerbatim:tag];
+      }
+      
       STCommandResult* result = [self RunCommand:command];
-      if(result != nil && ![result IsEmpty]) {
+      if(result != nil && ![result IsEmpty] && !IsTrackingVerbatim) {
         [commandResults addObject:result];
       }
+      
+      else if ([Parser IsTagEnd:command] && IsTrackingVerbatim)
+      {
+        // Log management can get tricky.  If the user has established their own log file as part of their do file, we have
+        // to manage closing and reopening the log when we need to access content.  Otherwise Stata will keep the log file
+        // locked and we can't access it.
+        STStataParserLog* logToRead = nil;
+
+        //var verbatimLog = OpenLogs.Find(x => x.LogType.Equals(StatTagVerbatimLogIdentifier,
+        //                                                      StringComparison.CurrentCultureIgnoreCase));
+        NSPredicate* predVerbatimLog = [NSPredicate predicateWithFormat:@"LogType == [c]", @"SELF", StatTagVerbatimLogIdentifier];
+        STStataParserLog* verbatimLog = [[OpenLogs filteredArrayUsingPredicate: predVerbatimLog] firstObject];
+
+        //var regularLog = OpenLogs.Find(x => x.LogType.Equals("log",
+        //                                                     StringComparison.CurrentCultureIgnoreCase));
+        NSPredicate* predLog = [NSPredicate predicateWithFormat:@"LogType == [c]", @"SELF", @"log"];
+        STStataParserLog* regularLog = [[OpenLogs filteredArrayUsingPredicate:predLog] firstObject];
+
+        if (verbatimLog != nil)
+        {
+          [self RunCommand: EndLoggingCommand];
+          logToRead = verbatimLog;
+        }
+        else if (regularLog != nil)
+        {
+          logToRead = regularLog;
+          [self RunCommand: EndLoggingCommand];
+        }
+        
+        // If we don't have a log for some reason, just continue on (with no verbatim output).
+        if (logToRead == nil)
+        {
+          continue;
+        }
+        
+        // Pull the text and parse out the relevant lines that we want
+        //        var verbatimOutput = CreateVerbatimOutputFromLog(logToRead, startingVerbatimCommand, command);
+        NSString* verbatimOutput = [self CreateVerbatimOutputFromLog:logToRead startingVerbatimCommand:startingVerbatimCommand endingVerbatimCommand:command];
+        
+        //        commandResults.Add(new CommandResult() { VerbatimResult = verbatimOutput });
+        STCommandResult* r = [[STCommandResult alloc] init];
+        [r setVerbatimResult:verbatimOutput];
+        [commandResults addObject:r];
+        
+        // Now that we have the output, we have to perform some cleanup for the log.  If we have a verbatim
+        // log that we created, we will clean it up.  Otherwise we need to re-enable the logging for the
+        // user-defined log.
+        if (verbatimLog != nil)
+        {
+          //          OpenLogs.Remove(verbatimLog);
+          [OpenLogs removeObject:verbatimLog];
+          
+          //          File.Delete(verbatimLog.LogPath);
+          NSError* error;
+          [[NSFileManager defaultManager] removeItemAtPath:[[verbatimLog LogPath] stringByExpandingTildeInPath] error:&error];
+        }
+        else
+        {
+          //RunCommand(string.Format("log using \"{0}\"", logToRead.LogPath));
+          [self RunCommand:[NSString stringWithFormat:@"log using \"%@\"", [logToRead LogPath]]];
+        }
+      }
+      
+      
     }
     return commandResults;
   }
@@ -182,17 +298,88 @@ const NSInteger ShowStata = 3;
     //NSLog(@"%@", [NSThread callStackSymbols]);
     
     //NSLog(@"Exception Initialize %@: %@", NSStringFromClass([self class]), [exception description]);
-    for(NSString* openLog in OpenLogs) {
-      [self RunCommand:[NSString stringWithFormat:@"%@ close", openLog]];
+    for(STStataParserLog* openLog in OpenLogs) {
+      
+      // We have a special log type identifier we use for tracking verbatim output.  The Replace call
+      // for each log command is a cheat to make sure that type is converted to log (instead of if/elses).
+      
+      
+      //RunCommand(string.Format("{0} close", openLog.LogType.Replace(StatTagVerbatimLogIdentifier, "log")));
+      [self RunCommand:[NSString stringWithFormat:@"%@ close", [[openLog LogType] stringByReplacingOccurrencesOfString:StatTagVerbatimLogIdentifier withString:@"log"] ]];
+      //[self RunCommand:[NSString stringWithFormat:@"%@ close", openLog]];
     }
     // Since we have closed all logs, clear the list we were tracking.
     [OpenLogs removeAllObjects];
+    
+    IsTrackingVerbatim = false;
+    
     @throw exception; //... eh.... this isn't a very Cocoa thing to do
   }
   @finally {
   }
 }
+
+
+/// <summary>
+/// Given an internal reference that StatTag maintains to a log file, pull out the relevant log lines (excluding
+/// the commands that would be written there too).  This returns a string with newlines represented as \r\n.s
+/// </summary>
+/// <param name="logToRead"></param>
+/// <param name="startingVerbatimCommand"></param>
+/// <param name="endingVerbatimCommand"></param>
+/// <returns></returns>
+-(NSString*)CreateVerbatimOutputFromLog:(STStataParserLog*)logToRead startingVerbatimCommand:(NSString*)startingVerbatimCommand endingVerbatimCommand:(NSString*)endingVerbatimCommand
+{
+  //STFileHandler
+  NSError* error;
+  if([STFileHandler Exists:[NSURL fileURLWithPath:[logToRead LogPath]] error:&error])
+  {
+    STFileHandler* fh = [[STFileHandler alloc] init];
+    NSString* text = [[fh ReadAllLines:[NSURL fileURLWithPath:[logToRead LogPath]] error:&error] componentsJoinedByString:@"\r"];
+    //var text = File.ReadAllText(logToRead.LogPath).Replace("\r\n", "\r");
+    NSInteger startIndex = [text rangeOfString:startingVerbatimCommand].location;
+    //int startIndex = text.IndexOf(startingVerbatimCommand, StringComparison.CurrentCulture);
+    NSInteger endIndex = [text rangeOfString:endingVerbatimCommand].location;
+    //int endIndex = text.IndexOf(endingVerbatimCommand, startIndex, StringComparison.CurrentCulture);
+    
+    if (startIndex == NSNotFound || endIndex == NSNotFound)
+    {
+      return text;
+    }
+    
+    NSInteger additionalOffset = 1;
+    startIndex += [startingVerbatimCommand length] + additionalOffset;
+    //if (text[startIndex] == '\r')
+    if ([[text substringWithRange:NSMakeRange(startIndex, 1)] isEqualToString:@"\r"])
+    {
+      additionalOffset++;
+      startIndex++;
+    }
+    //    var substring = text.Substring(startIndex, endIndex - startIndex - additionalOffset).TrimEnd('\r').Split(new char[] { '\r' });
+
+    NSString* substringS = [text substringWithRange:NSMakeRange(startIndex, endIndex - startIndex - additionalOffset)];
+    if([[substringS substringWithRange:NSMakeRange(endIndex - 1, endIndex)] isEqualToString:@"\r"])
+    {
+      substringS = [substringS substringToIndex:(endIndex - 1)];
+    }
+    NSArray<NSString*>* substring = [substringS componentsSeparatedByString:@"\r"];
+    
+    //    var finalLines = substring.Where(line => !line.StartsWith(". ")).ToList();
+    NSPredicate* predLine = [NSPredicate predicateWithFormat:@"SELF BEGINSWITH[c] %@", @"SELF", @"log"];
+    NSArray<NSString*>* finalLines = [substring filteredArrayUsingPredicate:predLine];
+    
+    //    return string.Join("\r\n", finalLines);
+    return [finalLines componentsJoinedByString:@"\r\n"];
+    
+  }
   
+  return nil;
+  
+}
+
+
+
+
 /**
  Run a collection of commands and provide all applicable results.
 */
@@ -305,16 +492,21 @@ const NSInteger ShowStata = 3;
 */
 -(STCommandResult*)RunCommand:(NSString*) command
 {
-  if([Parser IsValueDisplay:command]) {
-    STCommandResult* result = [[STCommandResult alloc] init];
-    result.ValueResult = [self GetDisplayResult:command];
-    return result;
+  if(!IsTrackingVerbatim)
+  {
+    if([Parser IsValueDisplay:command]) {
+      STCommandResult* result = [[STCommandResult alloc] init];
+      result.ValueResult = [self GetDisplayResult:command];
+      return result;
+    }
+    if([Parser IsTableResult:command]) {
+      STCommandResult* result = [[STCommandResult alloc] init];
+      result.TableResult = [self GetTableResult:command];
+      return result;
+    }
   }
-  if([Parser IsTableResult:command]) {
-    STCommandResult* result = [[STCommandResult alloc] init];
-    result.TableResult = [self GetTableResult:command];
-    return result;
-  }
+  
+  
   
   NSInteger returnCode = [Application DoCommandAsync:command];
   if(returnCode != 0) {
@@ -331,7 +523,7 @@ const NSInteger ShowStata = 3;
   NSInteger stataErrorCode = [Application UtilStataErrorCode];
   //NSLog(@"stataErrorCode : %ld", stataErrorCode);
 
-  if([Parser IsImageExport:command]) {
+  if([Parser IsImageExport:command] && !IsTrackingVerbatim) {
     
     NSString* imageLocation = [Parser GetImageSaveLocation:command];
     if([imageLocation containsString:[[STStataParser MacroDelimitersCharacters] firstObject]])

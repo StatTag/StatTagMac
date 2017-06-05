@@ -12,6 +12,7 @@
 @class STTag;
 @class STMSWord2011Field;
 @class STFieldTag;
+@class STMSWord2011Shape;
 
 typedef void (^CodeFileActionType)(STMSWord2011Field*, STFieldTag*, id);
 
@@ -41,5 +42,7 @@ typedef void (^CodeFileActionType)(STMSWord2011Field*, STFieldTag*, id);
 -(void)UpdateTagFieldData:(STMSWord2011Field*)field tag:(STFieldTag*)tag;
 -(void) UpdateUnlinkedTagsByCodeFile:(STMSWord2011Field*)field tag:(STFieldTag*)tag configuration:(id)configuration;
 -(void) UpdateUnlinkedTagsByTag:(STMSWord2011Field*)field tag:(STFieldTag*)tag configuration:(id)configuration;
+
++(bool)IsStatTagShape:(STMSWord2011Shape*)shape;
 
 @end

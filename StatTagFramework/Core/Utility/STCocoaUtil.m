@@ -112,6 +112,13 @@
 +(NSString*)currentBundleIdentifier {
   
   NSString *bundleName = [[NSBundle mainBundle] bundleIdentifier];
+  
+  if(bundleName == nil)
+  {
+    NSBundle* bundle = [NSBundle bundleForClass:[self class]];
+    bundleName = [bundle bundleIdentifier];
+  }
+  
   /*
    //originall had this so we could better test the app, but when we do this we get the framework bundle and not
    // the app bundle (when running)
