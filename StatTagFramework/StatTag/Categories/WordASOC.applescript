@@ -325,10 +325,13 @@ on insertTextboxAtRangeStart:theRangeStart andRangeEnd:theRangeEnd forShapeName:
     set tMargin to top margin of page setup of active document
     set lMargin to left margin of page setup of active document
     
+    set pageWidth to page width of page setup of active document
+    set pageWidth to (pageWidth - (2 * lMargin))
+
     set yOffset to (yOffset - tMargin + 20)
     set xOffset to (xOffset + lMargin)
     
-    set myShape to make new shape at active document with properties {shape type:shape type text box, anchor:theRange, top:yOffset, left position:xOffset, width:300, height:100, name:shapeName, relative horizontal position:relative horizontal position column, relative vertical position:relative vertical position top margin}
+    set myShape to make new shape at active document with properties {shape type:shape type text box, anchor:theRange, top:yOffset, left position:xOffset, width:pageWidth, height:100, name:shapeName, relative horizontal position:relative horizontal position column, relative vertical position:relative vertical position top margin}
     
     set fore color of fill format of myShape to ({65535, 65535, 65535} as RGB color)
     set transparency of fill format of myShape to 1.0

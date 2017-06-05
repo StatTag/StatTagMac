@@ -982,7 +982,13 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
 
     // If the tag is a table, and the cell index is not set, it means we are inserting the entire
     // table into the document.  Otherwise, we are able to just insert a single table cell.
-    if([tag IsTableTag] && [tag TableCellIndex] == nil) {
+    
+    if ([[tag Type] isEqualToString: [STConstantsTagType Verbatim]])
+    {
+      [self Log:@"Inserting verbatim output"];
+      [self InsertVerbatim:selection tag:tag];
+    }
+    else if([tag IsTableTag] && [tag TableCellIndex] == nil) {
       // if (tag.IsTableTag() && !tag.TableCellIndex.HasValue)
       //NSLog(@"Inserting a new table tag");
       [self InsertTable:selection tag:tag];

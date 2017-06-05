@@ -162,9 +162,9 @@ const NSInteger RefreshStepInterval = 5;
 
       
       //NSLog(@"results count : %lu", (unsigned long)[results count]);
-      for(STCommandResult* r in results) {
+      //for(STCommandResult* r in results) {
         //NSLog(@"results result : %@", [r ToString]);
-      }
+      //}
 
 
       if(tag != nil) {

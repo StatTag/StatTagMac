@@ -173,21 +173,21 @@ const NSInteger ShowStata = 3;
   
   //FIXME: this will probably fail - figure out how to test this
   //  if (OpenLogs.Find(x => x.LogType.Equals("log", StringComparison.CurrentCultureIgnoreCase)) == null)
-  NSPredicate* predLog = [NSPredicate predicateWithFormat:@"LogType == [c]", @"SELF", @"log"];
+  NSPredicate* predLog = [NSPredicate predicateWithFormat:@"LogType == [c] %@", @"log"];
   STStataParserLog* stLog = [[OpenLogs filteredArrayUsingPredicate: predLog] firstObject];
 
   //![[OpenLogs valueForKey:@"LogType.lowercaseString"] containsObject:[@"log" lowercaseString]]
-  if (stLog != nil)
+  if (stLog == nil)
   {
     NSString* verbatimLogFile = [StatTagVerbatimLogName copy];
 
     NSCharacterSet *ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
     
     //if ([[result stringByTrimmingCharactersInSet:ws] length] == 0)
-    if ([tag CodeFile] != nil && [[[[tag CodeFile] FilePath] stringByTrimmingCharactersInSet:ws] length] == 0)
+    if ([tag CodeFile] != nil && [[[[tag CodeFile] FilePath] stringByTrimmingCharactersInSet:ws] length] > 0)
     {
       //verbatimLogFile = Path.Combine(Path.GetDirectoryName(tag.CodeFile.FilePath), StatTagVerbatimLogName);
-      verbatimLogFile = [[[[[tag CodeFile] FilePathURL] absoluteString] stringByDeletingLastPathComponent] stringByAppendingPathComponent:StatTagVerbatimLogName];
+      verbatimLogFile = [[[[[tag CodeFile] FilePathURL] path] stringByDeletingLastPathComponent] stringByAppendingPathComponent:StatTagVerbatimLogName];
     }
     [self RunCommand:[NSString stringWithFormat:@"log using \"%@\", text replace", verbatimLogFile]];
 
@@ -232,12 +232,12 @@ const NSInteger ShowStata = 3;
 
         //var verbatimLog = OpenLogs.Find(x => x.LogType.Equals(StatTagVerbatimLogIdentifier,
         //                                                      StringComparison.CurrentCultureIgnoreCase));
-        NSPredicate* predVerbatimLog = [NSPredicate predicateWithFormat:@"LogType == [c]", @"SELF", StatTagVerbatimLogIdentifier];
+        NSPredicate* predVerbatimLog = [NSPredicate predicateWithFormat:@"LogType == [c] %@",StatTagVerbatimLogIdentifier];
         STStataParserLog* verbatimLog = [[OpenLogs filteredArrayUsingPredicate: predVerbatimLog] firstObject];
 
         //var regularLog = OpenLogs.Find(x => x.LogType.Equals("log",
         //                                                     StringComparison.CurrentCultureIgnoreCase));
-        NSPredicate* predLog = [NSPredicate predicateWithFormat:@"LogType == [c]", @"SELF", @"log"];
+        NSPredicate* predLog = [NSPredicate predicateWithFormat:@"LogType == [c] %@", @"log"];
         STStataParserLog* regularLog = [[OpenLogs filteredArrayUsingPredicate:predLog] firstObject];
 
         if (verbatimLog != nil)
@@ -357,15 +357,19 @@ const NSInteger ShowStata = 3;
     }
     //    var substring = text.Substring(startIndex, endIndex - startIndex - additionalOffset).TrimEnd('\r').Split(new char[] { '\r' });
 
+    //            var substring = text.Substring(startIndex, endIndex - startIndex - additionalOffset).TrimEnd('\r').Split(new char[] { '\r' });
+    
     NSString* substringS = [text substringWithRange:NSMakeRange(startIndex, endIndex - startIndex - additionalOffset)];
-    if([[substringS substringWithRange:NSMakeRange(endIndex - 1, endIndex)] isEqualToString:@"\r"])
+    startIndex = 0;
+    endIndex = [substringS length];
+    if([[substringS substringToIndex:endIndex - 1] isEqualToString:@"\r"])
     {
       substringS = [substringS substringToIndex:(endIndex - 1)];
     }
     NSArray<NSString*>* substring = [substringS componentsSeparatedByString:@"\r"];
     
     //    var finalLines = substring.Where(line => !line.StartsWith(". ")).ToList();
-    NSPredicate* predLine = [NSPredicate predicateWithFormat:@"SELF BEGINSWITH[c] %@", @"SELF", @"log"];
+    NSPredicate* predLine = [NSPredicate predicateWithFormat:@"NOT SELF BEGINSWITH[c] %@", @". "];
     NSArray<NSString*>* finalLines = [substring filteredArrayUsingPredicate:predLine];
     
     //    return string.Join("\r\n", finalLines);
