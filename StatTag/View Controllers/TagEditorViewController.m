@@ -413,6 +413,7 @@ static void *TagTypeContext = &TagTypeContext;
     if([[[self tag] Type] isEqualToString:[STConstantsTagType Value]]) {
     } else if([[[self tag] Type] isEqualToString:[STConstantsTagType Table]]) {
     } else if([[[self tag] Type] isEqualToString:[STConstantsTagType Figure]]) {
+    } else if([[[self tag] Type] isEqualToString:[STConstantsTagType Verbatim]]) {
     } else {
       NSMutableDictionary *errorDetail;
       errorDetail = [NSMutableDictionary dictionary];

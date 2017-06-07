@@ -412,7 +412,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
     return;
   }
   
-  STTagManager* tm = [[STTagManager alloc] init];
+  STTagManager* tm = [self TagManager];
   
   NSInteger shapeCount = [shapes count];
   for (NSInteger index = 0; index <= shapeCount; index++)
@@ -584,7 +584,15 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
       [self setValue:@"Updating Inline Shapes" forKey:@"wordFieldUpdateStatus"];
       [self UpdateInlineShapes:document];
       //NSLog(@"after UpdateInlineShapes");
-    
+    }
+
+    if([[[tagUpdatePair Old] Type] isEqualToString:[STConstantsTagType Verbatim]] || [[[tagUpdatePair New] Type] isEqualToString:[STConstantsTagType Verbatim]])
+    {
+      //NSLog(@"before UpdateVerbatimEntries");
+      [self setValue:@"Updating Verbatim Field" forKey:@"wordFieldUpdateStatus"];
+      [self UpdateVerbatimEntries:document tagUpdatePair:tagUpdatePair];
+      //NSLog(@"after UpdateVerbatimEntries");
+      
     }
 
     
@@ -1308,6 +1316,12 @@ Insert an StatTag field at the currently specified document range.
   [[self TagManager] ProcessStatTagFields:^void(STMSWord2011Field* field, STFieldTag* fieldTag, id configuration){
     [[self TagManager] UpdateUnlinkedTagsByCodeFile:field tag:fieldTag configuration:configuration];
   } configuration:actions];
+  
+  //now process the shapes
+  [[self TagManager] ProcessStatTagShapes:^void(STMSWord2011Shape* shape, STTag* tag, id configuration){
+    [[self TagManager] UpdateUnlinkedTagsByCodeFile:shape tag:tag configuration:configuration];
+  } configuration:actions];
+
 }
 
 /**
@@ -1327,6 +1341,11 @@ Insert an StatTag field at the currently specified document range.
 
   [[self TagManager] ProcessStatTagFields:^void(STMSWord2011Field* field, STFieldTag* fieldTag, id configuration){
     [[self TagManager] UpdateUnlinkedTagsByTag:field tag:fieldTag configuration:configuration];
+  } configuration:actions];
+
+  //now process the shapes
+  [[self TagManager] ProcessStatTagShapes:^void(STMSWord2011Shape* shape, STTag* tag, id configuration){
+    [[self TagManager] UpdateUnlinkedTagsByTag:shape tag:tag configuration:configuration];
   } configuration:actions];
 
   //[[self TagManager] ProcessStatTagFields:[[self TagManager] UpdateUnlinkedTagsByTag] configuration:actions];

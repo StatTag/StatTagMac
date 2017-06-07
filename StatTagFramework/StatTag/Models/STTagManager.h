@@ -15,6 +15,7 @@
 @class STMSWord2011Shape;
 
 typedef void (^CodeFileActionType)(STMSWord2011Field*, STFieldTag*, id);
+typedef void (^CodeFileActionTypeShape)(STMSWord2011Shape*, STTag*, id);
 
 @interface STTagManager : NSObject {
   STDocumentManager* _DocumentManager;
@@ -40,9 +41,14 @@ typedef void (^CodeFileActionType)(STMSWord2011Field*, STFieldTag*, id);
 -(void)ProcessStatTagFields:(CodeFileActionType)aFunction configuration:(id)configuration;
 //-(void)ProcessStatTagFields:(SEL)aFunction configuration:(id)configuration;
 -(void)UpdateTagFieldData:(STMSWord2011Field*)field tag:(STFieldTag*)tag;
--(void) UpdateUnlinkedTagsByCodeFile:(STMSWord2011Field*)field tag:(STFieldTag*)tag configuration:(id)configuration;
--(void) UpdateUnlinkedTagsByTag:(STMSWord2011Field*)field tag:(STFieldTag*)tag configuration:(id)configuration;
+//-(void) UpdateUnlinkedTagsByCodeFile:(STMSWord2011Field*)field tag:(STFieldTag*)tag configuration:(id)configuration;
+-(void) UpdateUnlinkedTagsByCodeFile:(id)field tag:(STTag*)tag configuration:(id)configuration;
+//-(void) UpdateUnlinkedTagsByTag:(STMSWord2011Field*)field tag:(STFieldTag*)tag configuration:(id)configuration;
+-(void) UpdateUnlinkedTagsByTag:(id)field tag:(STTag*)tag configuration:(id)configuration;
 
 +(bool)IsStatTagShape:(STMSWord2011Shape*)shape;
+
+
+-(void)ProcessStatTagShapes:(CodeFileActionTypeShape)aFunction configuration:(id)configuration;
 
 @end

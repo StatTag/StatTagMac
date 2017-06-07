@@ -249,19 +249,23 @@ the DocumentManager instance that contains it.
 
     STMSWord2011Application* application = [[[STGlobals sharedInstance] ThisAddIn] Application];
     STMSWord2011Document* document = [application activeDocument];
-    
-    NSArray<STMSWord2011Field*>* fields = [document fields];
-    NSInteger fieldsCount = [fields count];
 
+    
     // Fields is a 1-based index
     // -- EWW -> above is from the original c# - will be interesting to see if this is the case for the Mac version
     //FIXME: check later to see if Fields is 1-based index
     NSArray<STCodeFile*>* files = [_DocumentManager GetCodeFileList];
     //NSLog(@"Preparing to process %ld fields", fieldsCount);
-    //counting backwards
     
     NSArray<STTag*>* allTags = [self GetTags];
-    
+
+    //==========================================================
+    // FIELDS
+    //==========================================================
+    NSArray<STMSWord2011Field*>* fields = [document fields];
+    NSInteger fieldsCount = [fields count];
+
+    //counting backwards
     for (NSInteger index = fieldsCount - 1; index >= 0; index--) {
       STMSWord2011Field* field = fields[index];
       if(field == nil) {
@@ -294,6 +298,63 @@ the DocumentManager instance that contains it.
         }
         [[results objectForKey:[tag CodeFilePath]] addObject:tag];
       }
+    }
+    
+    
+    //==========================================================
+    // SHAPES
+    //==========================================================
+    // we have to approach this one a bit differently
+    
+    
+    //if the shape type is "image"...
+    // we have a figure tag
+
+    NSMutableArray* allShapes = [[NSMutableArray alloc] init];
+
+    
+    //[allShapes addObjectsFromArray:[document inlineShapes]]; //no reason to use these - they're not real tags
+    [allShapes addObjectsFromArray:[document shapes]];
+    
+    NSInteger shapesCount = [allShapes count];
+    
+    
+    for (NSInteger index = shapesCount - 1; index >= 0; index--) {
+      //STMSWord2011Shape* shape = allShapes[index];
+      STMSWord2011Shape* shape = allShapes[index];
+
+      if(shape == nil) {
+        //NSLog(@"Null field detected at index %ld", index);
+        continue;
+      }
+      
+      
+      
+      //go through all the tags
+      // if we find one which matches then we can ignore
+      // if we don't, then we have an issue
+      
+      //STTag* tag = [self FindTagByID:[shape name]];
+      STTag* tag = [self restoreUnlinkedTagFromShape:shape];
+      if(tag != nil)
+      {
+        BOOL hasFilePath = false;
+        for(STCodeFile* cf in files) {
+          if([[cf FilePath] isEqualToString:[[tag CodeFile] FilePath]]) {
+            hasFilePath = true;
+          }
+        }
+        if(!hasFilePath || ![allTags containsObject:tag]) {
+          //!hasFilePath => this tag refers to an invalid code file path
+          //![allTags containsObject:tag] => we have a file path that's valid, but now let's check to see if the tag we're looking at is actually found in the code file(s)
+          if([results objectForKey:[[tag CodeFile] FilePath]] == nil) {
+            [results setObject:[[NSMutableArray<STTag*> alloc] init] forKey:[[tag CodeFile] FilePath]];
+          }
+          [[results objectForKey:[[tag CodeFile] FilePath]] addObject:tag];
+        }
+      }
+        
+      
     }
     
     //NSLog(@"FindAllUnlinkedTags - Finished");
@@ -349,7 +410,6 @@ the DocumentManager instance that contains it.
 }
 
 
-
 /**
   Update the tag data in a field.
 
@@ -374,7 +434,18 @@ the DocumentManager instance that contains it.
   @param tag: The tag that will be updated
   @param configuration: A collection of the actions to apply (of type Dictionary<string, CodeFileAction>)
  */
--(void) UpdateUnlinkedTagsByCodeFile:(STMSWord2011Field*)field tag:(STFieldTag*)tag configuration:(id)configuration {
+//-(void) UpdateUnlinkedTagsByCodeFile:(STMSWord2011Field*)field tag:(STFieldTag*)tag configuration:(id)configuration {
+//EWW changed field types to handle shapes for verbatim
+-(void) UpdateUnlinkedTagsByCodeFile:(id)field tag:(STTag*)tag configuration:(id)configuration {
+
+  //we can handle one of two items:
+  //MicrosoftWordField
+  //MicrosoftWordShape
+  NSString* fieldClass = NSStringFromClass([field class]);
+  if(![fieldClass isEqualToString:@"MicrosoftWordField"] && ![fieldClass isEqualToString:@"MicrosoftWordShape"])
+  {
+    return;
+  }
   
   NSDictionary<NSString*, STCodeFileAction*>* actions = (NSDictionary<NSString*, STCodeFileAction*>*)configuration;
   if(actions == nil && [actions isKindOfClass:[NSDictionary class]]) {
@@ -404,10 +475,22 @@ the DocumentManager instance that contains it.
       //NSLog(@"Changing tag %@ from %@ to %@", [tag Name], [tag CodeFilePath], [codeFile FilePath]);
       tag.CodeFile = codeFile;
       [_DocumentManager AddCodeFile:[tag CodeFilePath]];
-      [self UpdateTagFieldData:field tag:tag];
+      if([fieldClass isEqualToString:@"MicrosoftWordField"])
+      {
+        [self UpdateTagFieldData:field tag:(STFieldTag*)tag];
+      } else if([fieldClass isEqualToString:@"MicrosoftWordShape"])
+      {
+        [self UpdateTagShapeData:field tag:tag];
+      }
     } else if ([action Action] == [STConstantsCodeFileActionTask RemoveTags]) {
       //NSLog(@"Removing %@", [tag Name]);
-      [self replaceAndHighlightField:field replaceWithString:[STConstantsPlaceholders RemovedField] andHighlight:STMSWord2011E110Yellow];
+      if([fieldClass isEqualToString:@"MicrosoftWordField"])
+      {
+        [self replaceAndHighlightField:field replaceWithString:[STConstantsPlaceholders RemovedField] andHighlight:STMSWord2011E110Yellow];
+      } else if([fieldClass isEqualToString:@"MicrosoftWordShape"])
+      {
+        [self replaceAndHighlightShape:field replaceWithString:[STConstantsPlaceholders RemovedField] andHighlight:STMSWord2011E110Yellow];
+      }
     } else if ([action Action] == [STConstantsCodeFileActionTask ReAddFile]) {
       //NSLog(@"Linking code file %@", [tag CodeFilePath]);
       [_DocumentManager AddCodeFile:[tag CodeFilePath]];
@@ -424,8 +507,20 @@ the DocumentManager instance that contains it.
  @param tag: The tag that will be updated
  @param configuration: A collection of the actions to apply (of type Dictionary<string, CodeFileAction>)
  */
--(void) UpdateUnlinkedTagsByTag:(STMSWord2011Field*)field tag:(STFieldTag*)tag configuration:(id)configuration {
+//-(void) UpdateUnlinkedTagsByTag:(STMSWord2011Field*)field tag:(STFieldTag*)tag configuration:(id)configuration {
+-(void) UpdateUnlinkedTagsByTag:(id)field tag:(STTag*)tag configuration:(id)configuration {
   @autoreleasepool {
+    
+    //we can handle one of two items:
+    //MicrosoftWordField
+    //MicrosoftWordShape
+    NSString* fieldClass = NSStringFromClass([field class]);
+    if(![fieldClass isEqualToString:@"MicrosoftWordField"] && ![fieldClass isEqualToString:@"MicrosoftWordShape"])
+    {
+      return;
+    }
+
+    
     NSDictionary<NSString*, STCodeFileAction*>* actions = (NSDictionary<NSString*, STCodeFileAction*>*)configuration;
     if(actions == nil && [actions isKindOfClass:[NSDictionary class]]) {
       //NSLog(@"The list of actions to perform is null or of the wrong type");
@@ -454,12 +549,24 @@ the DocumentManager instance that contains it.
         //NSLog(@"Changing tag %@ from %@ to %@", [tag Name], [tag CodeFilePath], [codeFile FilePath]);
         tag.CodeFile = codeFile;
         [_DocumentManager AddCodeFile:[tag CodeFilePath]];
-        [self UpdateTagFieldData:field tag:tag];
         
+        if([fieldClass isEqualToString:@"MicrosoftWordField"])
+        {
+          [self UpdateTagFieldData:field tag:(STFieldTag*)tag];
+        } else if([fieldClass isEqualToString:@"MicrosoftWordShape"])
+        {
+          [self UpdateTagShapeData:field tag:tag];
+        }
       } else if ([action Action] == [STConstantsCodeFileActionTask RemoveTags]) {
         //NSLog(@"Removing %@", [tag Name]);
         //[field select];
-        [self replaceAndHighlightField:field replaceWithString:[STConstantsPlaceholders RemovedField] andHighlight:STMSWord2011E110Yellow];
+        if([fieldClass isEqualToString:@"MicrosoftWordField"])
+        {
+          [self replaceAndHighlightField:field replaceWithString:[STConstantsPlaceholders RemovedField] andHighlight:STMSWord2011E110Yellow];
+        } else if([fieldClass isEqualToString:@"MicrosoftWordShape"])
+        {
+          [self replaceAndHighlightShape:field replaceWithString:[STConstantsPlaceholders RemovedField] andHighlight:STMSWord2011E110Yellow];
+        }
       } else if ([action Action] == [STConstantsCodeFileActionTask ReAddFile]) {
         //NSLog(@"Linking code file %@", [tag CodeFilePath]);
         [_DocumentManager AddCodeFile:[tag CodeFilePath]];
@@ -485,6 +592,21 @@ the DocumentManager instance that contains it.
   }
 }
 
+-(void)replaceAndHighlightShape:(STMSWord2011Shape*)shape replaceWithString:(NSString*)replacement andHighlight:(STMSWord2011E110)highlight
+{
+  //on the mac we can't select shapes... so we can't delete them...
+  // instead, we're going to leave the shape in place
+  // replace the text
+  // remove the shape name
+  if(shape != nil && replacement != nil)
+  {
+    [[[shape textFrame] textRange] setContent:replacement];
+    [shape setName:@""];
+    [[[shape textFrame] textRange] setHighlightColorIndex:highlight];
+  }
+}
+
+
 /// <summary>
 /// Is this possibly a StatTag shape?  This is somewhat of a weak check as we are just
 /// able to look for the presence of a name field, but if it can reduce overhead in
@@ -498,9 +620,127 @@ the DocumentManager instance that contains it.
   NSCharacterSet *ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
   return (shape != nil
           && !([[[shape name] stringByTrimmingCharactersInSet:ws] length] == 0));
+}
 
-  //return (shape != nil
-  //        && !String.IsNullOrWhiteSpace(shape.Name));
+
+
+
+//MARK: EWW -> added extra stattag shape handlers for unlinked tags
+
+-(STTag*)restoreUnlinkedTagFromShape:(id)aShape
+{
+  
+  
+  STTag* tag;
+  NSString* shapeClass = NSStringFromClass([aShape class]);
+
+  //MicrosoftWordInlineShape
+  if ([shapeClass isEqualToString:@"MicrosoftWordShape"])
+  {
+    STMSWord2011Shape* shape = (STMSWord2011Shape*)aShape;
+    if(shape != nil)
+    {
+      tag = [self FindTag:[shape name]];
+      if(tag != nil)
+      {
+        return tag;
+      }
+
+      NSRange r = [[shape name] rangeOfString:@"--"];
+      if (r.location != NSNotFound)
+      {
+        NSString* originShapeName;
+        NSInteger shapeType = -1;
+        tag = [[STTag alloc] init];
+        
+        //because of the scripting bridge we can't use isKindOfClass, so we have to use...
+        
+        //  [tag setType:[STConstantsTagType Figure]];
+        originShapeName = [shape name];
+        shapeType = [shape shapeType];
+        //if the shape type is textbox...
+        //we have a verbatim tag
+        if(shapeType == STMSWord2011MShpShapeTypeTextBox)
+        {
+          NSLog(@"found a text box");
+          [tag setType:[STConstantsTagType Verbatim]];
+        }
+        
+        NSString* shapeName = [originShapeName substringToIndex:r.location];
+        NSString* shapeFilePath = [originShapeName substringFromIndex:r.location + r.length];
+        
+        NSLog(@"shapeName = '%@'", shapeName);
+        NSLog(@"shapeFilePath = '%@'", shapeFilePath);
+        NSLog(@"shapeType = '%ld'", shapeType);
+        
+        [tag setName:shapeName];
+        STCodeFile* cf = [[STCodeFile alloc] init];
+        [cf setFilePath:shapeFilePath];
+        [tag setCodeFile:cf];
+        
+      }
+
+    }
+
+  }
+  
+
+  
+  return tag;
+  
+}
+
+
+
+-(void)ProcessStatTagShapes:(CodeFileActionTypeShape)aFunction configuration:(id)configuration {
+  //-(void)ProcessStatTagFields:(SEL)aFunction configuration:(id)configuration {
+  //NSLog(@"ProcessStatTagFields - Started");
+  
+  @autoreleasepool {
+    
+    STMSWord2011Application* application = [[[STGlobals sharedInstance] ThisAddIn] Application];
+    STMSWord2011Document* document = [application activeDocument];
+    
+    NSArray<STMSWord2011Shape*>* shapes = [document shapes];
+    NSInteger shapesCount = [shapes count];
+    
+    // Fields is a 1-based index
+    //NSLog(@"Preparing to process %ld fields", fieldsCount);
+    for (NSInteger index = shapesCount - 1; index >= 0; index--) {
+      
+      STMSWord2011Shape* shape = shapes[index];
+      if(shape == nil) {
+        //NSLog(@"Null field detected at index %ld", index);
+        continue;
+      }
+      if(![STTagManager IsStatTagShape:shape]) {
+        //Marshal.ReleaseComObject(field);
+        continue;
+      }
+      //NSLog(@"Processing StatTag field");
+      STTag* tag = [self restoreUnlinkedTagFromShape:shape];
+      if(tag == nil) {
+        //NSLog(@"The field tag is null or could not be found");
+        continue;
+      }
+      
+      aFunction(shape, tag, configuration);
+    }
+  }
+}
+
+/**
+ Update the tag data in a field.
+ 
+ @remark Assumes that the field parameter is known to be an tag field
+ 
+ @param field: The field to update.  This is the outermost layer of the tag field.
+ @param tag: The tag to be updated.
+ */
+-(void)UpdateTagShapeData:(STMSWord2011Shape*)shape tag:(STTag*)tag {
+  @autoreleasepool {
+    [shape setName:[tag Id]];
+  }
 }
 
 @end
