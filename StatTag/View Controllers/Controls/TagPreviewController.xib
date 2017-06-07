@@ -65,7 +65,6 @@
                             <rect key="frame" x="0.0" y="0.0" width="200" height="150"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="150" id="5Ck-8f-Yv8"/>
-                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="175" id="uko-0a-EMn"/>
                             </constraints>
                             <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="ldD-Qz-VlF"/>
                             <connections>
