@@ -33,7 +33,9 @@ NSString* const EndLoggingCommand = @"log close";
 
 +(NSArray<NSString*>*) StataProcessNames {
   return [NSArray arrayWithObjects:
+          @"com.stata.stata15",
           @"com.stata.stata14",
+          @"com.stata.stata13",
           nil];
 }
 
