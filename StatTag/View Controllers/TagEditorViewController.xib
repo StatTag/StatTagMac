@@ -21,7 +21,6 @@
                 <outlet property="tagBasicProperties" destination="qi8-eH-f6G" id="qiB-si-JRX"/>
                 <outlet property="tagBasicPropertiesDisclosure" destination="tD5-YR-IPS" id="t2W-Ic-gqS"/>
                 <outlet property="tagBasicPropertiesView" destination="Ynp-E8-QQE" id="gNj-xR-Xhg"/>
-                <outlet property="tagFrequency" destination="t2H-fw-Wr8" id="QKu-3s-plw"/>
                 <outlet property="tagPreviewController" destination="2DR-e2-hcN" id="C5T-gQ-eFb"/>
                 <outlet property="tagPreviewDisclosureController" destination="22w-xs-BC6" id="HDP-BB-k5H"/>
                 <outlet property="tagPreviewView" destination="9oi-ab-Odp" id="hpm-oo-YRh"/>
