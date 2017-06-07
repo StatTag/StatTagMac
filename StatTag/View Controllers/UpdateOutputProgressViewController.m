@@ -184,7 +184,7 @@
 {
   dispatch_async(dispatch_get_main_queue(), ^{
 
-    NSString* tagName = [[notification userInfo] valueForKey:@"tagName"];
+    //NSString* tagName = [[notification userInfo] valueForKey:@"tagName"];
     NSString* tagID = [[notification userInfo] valueForKey:@"tagID"];
     //NSLog(@"tagUpdateComplete complete => tag: %@", tagName);
     bool no_result = [(NSNumber*)[[notification userInfo] valueForKey:@"no_result"] boolValue];

@@ -64,7 +64,7 @@ static BOOL valuePreviewsEnabled = NO;
             context:TagTableFormatContext];
   
   [self addObserver:self
-         forKeyPath:@"tag.TableFormat.RowFilter.Enabled"
+         forKeyPath:@"tag.TableFormat.ColumnFilter.Enabled"
             options:(NSKeyValueObservingOptionNew |
                      NSKeyValueObservingOptionOld)
             context:TagTableFormatContext];

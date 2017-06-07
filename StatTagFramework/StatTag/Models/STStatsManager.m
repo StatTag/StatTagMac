@@ -177,13 +177,13 @@ const NSInteger RefreshStepInterval = 5;
         //bool resultsChanged = (tag.CachedResult != null && !resultList.SequenceEqual(tag.CachedResult));
         
         //NSLog(@"OLD count : %lu", (unsigned long)[[tag CachedResult] count]);
-        for(STCommandResult* r in [tag CachedResult]) {
+        //for(STCommandResult* r in [tag CachedResult]) {
           //NSLog(@"OLD result : %@", [r ToString]);
-        }
+        //}
         //NSLog(@"new count : %lu", (unsigned long)[resultList count]);
-        for(STCommandResult* r in resultList) {
+        //for(STCommandResult* r in resultList) {
           //NSLog(@"new result : %@", [r ToString]);
-        }
+        //}
         
         
         tag.CachedResult = [NSMutableArray<STCommandResult*> arrayWithArray:results];

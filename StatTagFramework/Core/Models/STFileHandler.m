@@ -157,6 +157,8 @@
                   atomically:YES
                   encoding:NSUTF8StringEncoding
                   error:nil];
+  #pragma unused(success)
+
   //NSLog(@"%@ success = %hhd",NSStringFromSelector(_cmd), success);
 }
 
@@ -165,6 +167,7 @@
             atomically:YES
             encoding:NSStringEncodingConversionAllowLossy
             error:error];
+  #pragma unused(success)
   //NSLog(@"%@ success = %hhd", NSStringFromSelector(_cmd), success);
 }
 

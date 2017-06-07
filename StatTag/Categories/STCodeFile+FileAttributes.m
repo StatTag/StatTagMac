@@ -11,6 +11,9 @@
 
 @implementation STCodeFile (FileAttributes)
 
+@dynamic modificationDate;
+@dynamic creationDate;
+
 
 -(NSDate*)modificationDate
 {

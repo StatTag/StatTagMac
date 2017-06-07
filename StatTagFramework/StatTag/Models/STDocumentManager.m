@@ -72,6 +72,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   
   @try {
     NSString* value = [variable variableValue];
+    #pragma unused(value)
     //NSLog(@"DocumentVariableExists: variable: %@ has value: %@", [variable name], value);
     return true;
   }
@@ -167,6 +168,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
       //NSLog(@"Document variable does not exist, no code files loaded");
     }
     NSString* value = [variable variableValue];
+    #pragma unused(value)
     //NSLog(@"DocumentVariableExists: variable: %@ has value: %@", [variable name], value);
   }
   @catch (NSException *exception) {

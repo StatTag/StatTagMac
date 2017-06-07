@@ -353,14 +353,14 @@ static WordHelpers* sharedInstance = nil;
     //Word 2011 supports the "select" method - 2016 does NOT - it was removed
     if([wordObject respondsToSelector:@selector(select)]){
       // 2011...
-      if ([wordObject respondsToSelector:@selector(fieldCode)]) {
-        STMSWord2011Field* field = (STMSWord2011Field*)wordObject;
-        STMSWord2011TextRange* tr = [field fieldCode];
+      //if ([wordObject respondsToSelector:@selector(fieldCode)]) {
+      //  STMSWord2011Field* field = (STMSWord2011Field*)wordObject;
+        //STMSWord2011TextRange* tr = [field fieldCode];
         //NSLog(@"WordHelpers - select (%ld,%ld)", [tr startOfContent], [tr endOfContent]);
-      }
+      //}
       [wordObject select];
       
-      STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
+      //STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
       //NSLog(@"WordHelpers - selection (%ld,%ld)", [[app selection] selectionStart], [[app selection] selectionEnd]);
     }
     else {

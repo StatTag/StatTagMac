@@ -46,9 +46,24 @@
 
 -(void)viewDidAppear
 {
+  //#if __MAC_OS_X_VERSION_MAX_ALLOWED > 101100
+  //
+  //#endif
   [self setInstructionalText:@"Downloading file..."];
   [self downloadAndUnzipFile];
 }
+
+-(void)viewWillLayout
+{
+  //these are multiline labels
+  // "preferred width automatic" was introduced in 10.11
+  // since we're targeting 10.10, we need to calculate the max layout width ourselves
+  // since we're using autolayout we can use the generated width from the frame and then pass it to max layout width for the text line wrapping
+  // refer to: //http://www.brightec.co.uk/ideas/preferredmaxlayoutwidth
+  [[self instructionalTextField] setPreferredMaxLayoutWidth:self.instructionalTextField.frame.size.width];
+  [[self progressTextField] setPreferredMaxLayoutWidth:self.progressTextField.frame.size.width];
+}
+
 
 //MARK: main view methods
 -(void)downloadAndUnzipFile
@@ -108,7 +123,7 @@
   NSData *errorData = [[errorPipe fileHandleForReading] readDataToEndOfFile];
   NSString *errorString = [[NSString alloc] initWithData:errorData encoding:NSUTF8StringEncoding];
   
-  if(errorString != nil)
+  if(errorString != nil && [errorString length] > 0)
   {
     NSDictionary *userInfo = @{
                                NSLocalizedDescriptionKey: NSLocalizedString(@"Error unzipping file.", nil),

@@ -187,7 +187,7 @@ static NSEvent *popoverTransiencyMonitor;
   //NSTableView *targetButton = (NSTableView *)sender;
   
   // configure the preferred position of the popover
-  NSRectEdge prefEdge = 1;
+  //NSRectEdge prefEdge = 1;
 
   //NSInteger row = [[self duplicateTagTableView] selectedRow];
   NSInteger row = [[self duplicateTagTableView] rowForView:sender];
@@ -199,7 +199,8 @@ static NSEvent *popoverTransiencyMonitor;
       [[self popoverViewController] setTag:[entry tag]];
       self.popoverView.contentViewController = [self popoverViewController]; //not sure why we have to rebind this
       
-      NSRect r = [[self duplicateTagTableView] frameOfCellAtColumn:0 row:[[self duplicateTagTableView] selectedRow]];
+      //NSRect r = [[self duplicateTagTableView] frameOfCellAtColumn:0 row:[[self duplicateTagTableView] selectedRow]];
+      
       
       //[[self popoverView] showRelativeToRect:r ofView:sender preferredEdge:prefEdge];
       [[self popoverView] showRelativeToRect:[sender bounds] ofView:sender preferredEdge:NSMaxYEdge];

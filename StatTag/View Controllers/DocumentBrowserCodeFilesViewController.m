@@ -475,7 +475,7 @@
                                              [NSNumber numberWithBool:YES],NSPasteboardURLReadingFileURLsOnlyKey,
                                              acceptedTypes, NSPasteboardURLReadingContentsConformToTypesKey,
                                              nil]];
-  
+  #pragma unused(urls)
   return NSDragOperationCopy;
 }
 

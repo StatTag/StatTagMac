@@ -527,6 +527,8 @@ const NSInteger ShowStata = 3;
   }
   
   NSInteger stataErrorCode = [Application UtilStataErrorCode];
+  #pragma unused(stataErrorCode)
+
   //NSLog(@"stataErrorCode : %ld", stataErrorCode);
 
   if([Parser IsImageExport:command] && !IsTrackingVerbatim) {

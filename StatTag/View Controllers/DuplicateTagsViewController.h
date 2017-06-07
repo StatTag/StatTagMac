@@ -18,7 +18,7 @@
 
 @class DuplicateTagsViewController;
 @protocol DuplicateTagManagerDelegate <NSObject>
--(void)duplicateTagsDidChange:(DuplicateTagsViewController*)controller;
+-(void)duplicateTagsDidChange:(nonnull DuplicateTagsViewController*)controller;
 @end
 
 @interface DuplicateTagsViewController : NSViewController <NSTableViewDelegate, NSTableViewDataSource, DuplicateTagRenameViewControllerDelegate, NSPopoverDelegate>
@@ -30,23 +30,20 @@
 }
 
 
-@property (nonatomic, weak) id<DuplicateTagManagerDelegate> delegate;
+@property (nonatomic, weak, nullable) id<DuplicateTagManagerDelegate> delegate;
 
-@property (strong, nonatomic) STDocumentManager* documentManager;
+@property (strong, nonatomic, nonnull) STDocumentManager* documentManager;
 
-@property (strong, nonatomic)STDuplicateTagResults* duplicateTags;
+@property (strong, nonatomic, nonnull)STDuplicateTagResults* duplicateTags;
 @property (strong, nonnull)NSArray<DuplicateTagGroupEntry*>* tagGroupEntries;
 
-@property (weak) IBOutlet NSTableView* duplicateTagTableView;
+@property (weak, nullable) IBOutlet NSTableView* duplicateTagTableView;
 
 
 
-@property (strong) IBOutlet TagCodePeekViewController *popoverViewController;
-
-@property (strong) IBOutlet NSPopover *popoverView;
-
-
-@property (strong, nonatomic) NSString* peekTitle;
+@property (strong, nonnull) IBOutlet TagCodePeekViewController *popoverViewController;
+@property (strong, nonnull) IBOutlet NSPopover *popoverView;
+@property (strong, nonatomic, nonnull) NSString* peekTitle;
 
 
 @end
