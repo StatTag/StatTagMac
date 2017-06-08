@@ -397,7 +397,7 @@ Given a command string, extract all macros that are present.  This will remove m
   
   NSString* originalText = [originalContent componentsJoinedByString:@"\r\n"];
   //because we're not able to explicitly create a stata session (and then close it) per batch of commands, we must (should) first clear the command list before running. This will get rid of any of the existing data that we might have. We want to do this because Stata will complain about "changed" data (and refuse to change it) if we redefine any of the data sets or related variables within the code file between executions.
-  NSString* modifiedText = [@"clear\r\n" stringByAppendingString:originalText];
+  NSString* modifiedText = [@"clear all\r\n" stringByAppendingString:originalText];
 
   for(NSRegularExpression* regex in [[self class]MultiLineIndicators])
   {

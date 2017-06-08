@@ -527,6 +527,11 @@ const NSInteger ShowStata = 3;
   }
   
   NSInteger stataErrorCode = [Application UtilStataErrorCode];
+  if(stataErrorCode != 0) {
+    @throw [NSException exceptionWithName:NSGenericException
+                                   reason:[NSString stringWithFormat:@"There was an error while executing the Stata command: %@ (error code %ld)", command, stataErrorCode]
+                                 userInfo:nil];
+  }
   #pragma unused(stataErrorCode)
 
   //NSLog(@"stataErrorCode : %ld", stataErrorCode);

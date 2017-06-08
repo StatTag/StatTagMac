@@ -1245,7 +1245,11 @@ Insert an StatTag field at the currently specified document range.
     //NSLog(@"%@", exception.reason);
     //NSLog(@"method: %@, line : %d", NSStringFromSelector(_cmd), __LINE__);
     //NSLog(@"%@", [NSThread callStackSymbols]);
-    [STUIUtility ReportException:exception userMessage:@"There was an unexpected error when trying to insert the tag output into the Word document." logger:[self Logger]];
+    @throw exception;
+    [[self Logger] WriteException:exception];
+//    dispatch_async(dispatch_get_main_queue(), ^{
+//      [STUIUtility ReportException:exception userMessage:@"There was an unexpected error when trying to insert the tag output into the Word document." logger:[self Logger]];
+//    });
   }
   @finally
   {

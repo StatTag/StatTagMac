@@ -83,9 +83,9 @@ const NSInteger RefreshStepInterval = 5;
 */
 -(STStatsManagerExecuteResult*) ExecuteStatPackage:(STCodeFile*)file filterMode:(NSInteger)filterMode tagsToRun:(NSArray<STTag*>*)tagsToRun {
   
-  dispatch_async(dispatch_get_main_queue(), ^{
+  //dispatch_async(dispatch_get_main_queue(), ^{
     //NSLog(@"ExecuteStatPackage preparing to execute %ld tags", (unsigned long)[tagsToRun count]);
-  });
+  //});
   
   STStatsManagerExecuteResult* result = [[STStatsManagerExecuteResult alloc] init];
   result.Success = false;
@@ -110,6 +110,7 @@ const NSInteger RefreshStepInterval = 5;
 
   NSString* previousTagName;
   NSString* currentTagName;
+  STTag* activeTag;
   
   @try {
     // Get all of the commands in the code file that should be executed given the current filter
@@ -159,7 +160,7 @@ const NSInteger RefreshStepInterval = 5;
       
       NSArray<STCommandResult*>* results = [automation RunCommands:[step Code] tag:[step Tag]];
       STTag* tag = [[self Manager] FindTag:[[step Tag] Id]];
-
+      activeTag = tag;
       
       //NSLog(@"results count : %lu", (unsigned long)[results count]);
       //for(STCommandResult* r in results) {
@@ -215,7 +216,6 @@ const NSInteger RefreshStepInterval = 5;
           //NSLog(@"ExecuteStatPackage (%d) - [result UpdatedTags] %@", __LINE__, [result UpdatedTags]);
           //NSLog(@"ExecuteStatPackage (%d) - tag? %@", __LINE__, tag);
           [[result UpdatedTags] addObject:tag];
-
         }
       }
       //send a notification that we're completing a tag
@@ -248,8 +248,21 @@ const NSInteger RefreshStepInterval = 5;
     /*
      MessageBox.Show(exc.Message, UIUtility.GetAddInName(), MessageBoxButtons.OK, MessageBoxIcon.Error);
      */
-    
-    return result;
+    //if we failed on a specific tag, then let's try to list that
+    //in some situations (code blocks before tags) we might fail _before_ we get to a tag
+    //in that case we're going to just proceed to the exception and not notify re: which tag failed
+    if(activeTag != nil)
+    {
+      dispatch_async(dispatch_get_main_queue(), ^{
+          [[NSNotificationCenter defaultCenter] postNotificationName:@"tagUpdateComplete" object:self userInfo:@{@"tagName":[activeTag Name], @"tagID":[activeTag Id], @"codeFileName":[[activeTag CodeFile] FileName], @"type" : @"tag", @"no_result" : [NSNumber numberWithBool:YES]}];
+      });
+    }
+
+//    result.Success = false;
+//    return result;
+    @throw exception;
+    //result.Success = false;
+    //return result;
   }
   @finally {
   }
