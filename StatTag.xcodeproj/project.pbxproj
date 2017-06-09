@@ -1120,7 +1120,7 @@
 			isa = PBXGroup;
 			children = (
 				38C3CC721DA428D100CEA70C /* DisclosureView */,
-				38F803611D9DCB5800C8F1EA /* Controls */,
+				38F803611D9DCB5800C8F1EA /* TagEditorControlViews */,
 				38F8033D1D9C4B3500C8F1EA /* ScintillaHelpers */,
 				3836F59D1D92D03D00BF0DD4 /* SettingsViewController.h */,
 				3836F59E1D92D03D00BF0DD4 /* SettingsViewController.m */,
@@ -1619,7 +1619,7 @@
 			path = R;
 			sourceTree = "<group>";
 		};
-		38F803611D9DCB5800C8F1EA /* Controls */ = {
+		38F803611D9DCB5800C8F1EA /* TagEditorControlViews */ = {
 			isa = PBXGroup;
 			children = (
 				387632431DA7E2AC00680898 /* DateTimePropertiesController.h */,
@@ -1656,6 +1656,7 @@
 				388ABF861DA5B1F500F08956 /* ViewUtils.h */,
 				388ABF871DA5B1F500F08956 /* ViewUtils.m */,
 			);
+			name = TagEditorControlViews;
 			path = Controls;
 			sourceTree = "<group>";
 		};

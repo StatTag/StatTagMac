@@ -299,7 +299,9 @@ script WordASOC
 
 
 
-
+(*
+ #older unused version - leaving this in here for reference to demonstrate another option we tried
+ #this was awkward to do and caused issues after insertion of the first box - the subsequent boxes weren't formatted or positioned correctly
 on insertTextboxAtRangeStart:theRangeStart andRangeEnd:theRangeEnd forShapeName:shapeName withShapetext: shapeText andFontSize:fontSize andFontFace:fontFace
   
   set theRangeStart to theRangeStart as integer
@@ -361,6 +363,91 @@ on insertTextboxAtRangeStart:theRangeStart andRangeEnd:theRangeEnd forShapeName:
     
   end tell
 end insertTextboxAtRangeStart:andRangeEnd:forShapeName:withShapetext:andFontSize:andFontFace:
+*)
 
+on insertTextboxAtRangeStart:theRangeStart andRangeEnd:theRangeEnd forShapeName:shapeName withShapetext: shapeText andFontSize:fontSize andFontFace:fontFace
+
+  set theRangeStart to theRangeStart as integer
+  set theRangeEnd to theRangeEnd as integer
+
+  set shapeName to shapeName as string
+  set shapeText to shapeText as string
+
+  set fontSize to fontSize as real
+  set fontFace to fontFace as string
+
+  tell application "Microsoft Word"
+      
+      set originalShapes to (get shapes of active document)
+      
+      #we're going to create a range and populate it with the text we sent in
+      set myDoc to active document
+      set myRange to create range myDoc start (theRangeStart) end (theRangeEnd)
+      set content of myRange to shapeText
+      
+      #we now need to offset the range end to account for the length of the text (it's not automatic)
+      set theRangeEnd to (theRangeStart + (count (shapeText)))
+      
+      #now re-make our selection
+      set selection start of selection to theRangeStart
+      set selection end of selection to theRangeEnd
+      
+      #create the textbox - NOTE you can't store the reference to the created object from here - why? no idea!
+      create textbox selection
+      
+      #get and store our new list of shapes so we can compare to the original and find the new one
+      set updatedShapes to (get shapes of active document)
+      
+      #let's find that new textbox because we can't get a handle on it from the 'create' method
+      #https://apple.stackexchange.com/questions/22206/how-can-i-find-the-intersection-of-two-lists-in-applescript
+      local newShapes, aShape
+      set newShapes to {}
+      repeat with aShape in updatedShapes
+        set aShape to contents of aShape
+        if {aShape} is not in originalShapes then set end of newShapes to aShape
+      end repeat
+      
+      #we need to set the box width because we can't auto-size on the mac version of Word
+      set lMargin to left margin of page setup of active document
+      set pageWidth to page width of page setup of active document
+      set pageWidth to (pageWidth - (2 * lMargin))
+      
+      
+      repeat with myShape in newShapes
+        #	display dialog (name of aShape as string)
+        set name of myShape to shapeName
+        #display dialog (name of myShape as string)
+        
+        set width of myShape to pageWidth
+        
+        set alignment of paragraph format of text range of text frame of myShape to align paragraph left
+        set space after of paragraph format of text range of text frame of myShape to 0
+        set space before of paragraph format of text range of text frame of myShape to 0
+        
+        --WdWrapType.wdWrapInline
+        --https://msdn.microsoft.com/en-us/library/bb214041%28v=office.12%29.aspx?f=255&MSPPError=-2147217396
+        set wrap type of wrap format of myShape to 7
+        set allow overlap of wrap format of myShape to false
+        
+        --we need to compute the size of the shape and then resize to fit the contents
+        set fontMultiplier to 1.25 as real
+        
+        set name of font object of text range of text frame of myShape to fontFace
+        set font size of font object of text range of text frame of myShape to fontSize
+        
+        #now we need to calculate the # of lines in the newly widened text frame and then expand the height to fit the contents based on that width and # of lines
+        set lineCount to compute text range statistics text range of text frame of myShape statistic statistic lines
+        set height of myShape to lineCount * (fontSize * fontMultiplier)
+        
+        
+        #reset our selection so we don't have issues with textboxes trying to insert into textboxes
+        set selection start of selection to theRangeEnd
+        set selection end of selection to theRangeEnd
+        
+      end repeat
+      
+  end tell
+
+end insertTextboxAtRangeStart:andRangeEnd:forShapeName:withShapetext:andFontSize:andFontFace:
 
 end script
