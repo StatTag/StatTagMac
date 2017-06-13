@@ -23,6 +23,9 @@
 -(NSArray<STTag*>*)Parse:(STCodeFile*)file filterMode:(NSInteger)filterMode;
 -(NSArray<STTag*>*)Parse:(STCodeFile*)file;
 
+-(bool)IsTagStart:(NSString*)line;
+-(bool)IsTagEnd:(NSString*)line;
+
 -(NSArray<STExecutionStep*>*)GetExecutionSteps:(STCodeFile*)file filterMode:(NSInteger)filterMode tagsToRun:(NSArray<STTag*>*)tagsToRun;
 -(NSArray<STExecutionStep*>*)GetExecutionSteps:(STCodeFile*)file filterMode:(NSInteger)filterMode;
 -(NSArray<STExecutionStep*>*)GetExecutionSteps:(STCodeFile*)file;

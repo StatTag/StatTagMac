@@ -34,6 +34,7 @@
   ////NSLog(@"view is... %@", [[self view] className]);
   
   NSView* v = [self view];
+  #pragma unused(v)//this activates the view
   
   if (self != nil)
   {

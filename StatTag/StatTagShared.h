@@ -35,20 +35,20 @@
   //  NSWindow* _mainWindow;
 }
 
-+ (id)sharedInstance;
++ (nullable id)sharedInstance;
 
 //StatTag objects
-@property (strong, nonatomic) STMSWord2011Application* app;
-@property (strong, nonatomic) STMSWord2011Document* doc;
-@property (strong, nonatomic) STDocumentManager* docManager;
-@property (strong, nonatomic) STPropertiesManager* propertiesManager;
-@property (strong, nonatomic) STLogManager* logManager;
-@property (strong, nonatomic) StatTagNeedsWordViewController* needsWordController;
-@property (strong, nonatomic) ManageCodeFilesViewController* codeFilesViewController;
-@property (strong, nonatomic) SettingsViewController* settingsViewController;
-@property (strong, nonatomic) UpdateOutputViewController* tagsViewController;
+@property (strong, nonatomic, nullable) STMSWord2011Application* app;
+@property (strong, nonatomic, nullable) STMSWord2011Document* doc;
+@property (strong, nonatomic, nullable) STDocumentManager* docManager;
+@property (strong, nonatomic, nullable) STPropertiesManager* propertiesManager;
+@property (strong, nonatomic, nullable) STLogManager* logManager;
+@property (strong, nonatomic, nullable) StatTagNeedsWordViewController* needsWordController;
+@property (strong, nonatomic, nullable) ManageCodeFilesViewController* codeFilesViewController;
+@property (strong, nonatomic, nullable) SettingsViewController* settingsViewController;
+@property (strong, nonatomic, nullable) UpdateOutputViewController* tagsViewController;
 
-@property (strong, nonatomic) NSString* lastLaunchedAppVersion;
+@property (strong, nonatomic, nullable) NSString* lastLaunchedAppVersion;
 -(BOOL)isFirstLaunch;
 -(BOOL)isNewVersion;
 
@@ -57,13 +57,13 @@
 @property BOOL wordAccessible;
 
 //view controller accessors
-@property (strong, nonatomic) MainTabViewController* mainVC; //weak?
+@property (strong, nonatomic, nullable) MainTabViewController* mainVC; //weak?
 
-+ (NSColor*)colorFromRGBRed:(CGFloat)r  green:(CGFloat)g blue:(CGFloat)b alpha:(CGFloat)a;
++ (nonnull NSColor*)colorFromRGBRed:(CGFloat)r  green:(CGFloat)g blue:(CGFloat)b alpha:(CGFloat)a;
 
-@property (weak, nonatomic) NSWindow* window;
+@property (weak, nonatomic, nullable) NSWindow* window;
 
-@property (strong, nonatomic) NSMutableArray<FileMonitor*>* fileMonitors;
+@property (strong, nonatomic, nullable) NSMutableArray<FileMonitor*>* fileMonitors;
 
 -(void)initializeWordViews;
 -(void)configureBasicProperties;
@@ -86,7 +86,7 @@ typedef enum {
 } StatTagResponseState;
 
 
-extern NSString* const kStatTagErrorDomain = @"STErrorDomain";
+extern NSString* _Nonnull const kStatTagErrorDomain;
 
 -(void)logAppStartup;
 

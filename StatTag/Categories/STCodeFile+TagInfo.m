@@ -10,6 +10,8 @@
 
 @implementation STCodeFile (TagInfo)
 
+@dynamic numberOfTags;
+
 
 -(NSInteger) numberOfTags
 {

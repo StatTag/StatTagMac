@@ -100,17 +100,42 @@
 }
 */
 
+-(void)controlTextDidChange:(NSNotification *)obj
+{
+}
+
+//https://lists.apple.com/archives/cocoa-dev/2010/Mar/msg00314.html
+
+-(void)controlTextDidEndEditing:(NSNotification *)obj
+{
+  if ([obj object] == [self columnFilterTextField] || [obj object] == [self rowFilterTextField]) {
+    NSLog(@"editing ended");
+  }
+  /*
+  NSTextField *textField = [notification object];
+  NSView *nextKeyView = [textField nextKeyView];
+  NSUInteger whyEnd = [[[notification userInfo] objectForKey:@"NSTextMovement"] unsignedIntValue];
+  BOOL returnKeyPressed = (whyEnd == NSReturnTextMovement);
+  BOOL tabOrBacktabToSelf = ((whyEnd == NSTabTextMovement || whyEnd == NSBacktabTextMovement) && (nextKeyView == nil || nextKeyView == textField));
+  if (returnKeyPressed || tabOrBacktabToSelf)
+    NSLog(@"focus stays");
+  else
+    NSLog(@"focus leaves");
+   */
+}
+
 -(void)control:(NSControl*)control didFailToValidatePartialString:(nonnull NSString *)string errorDescription:(nullable NSString *)error
 {
   NSAlert *alert = [[NSAlert alloc] init];
   [alert setAlertStyle:NSAlertStyleWarning];
   if(control == [self columnFilterTextField] || control == [self rowFilterTextField])
   {
-    [alert setMessageText:@"Invalid filter"];
+    [alert setMessageText:@"Invalid table filter"];
   }
   [alert setInformativeText:error];
   [alert addButtonWithTitle:@"Ok"];
   [alert runModal];
 }
+
 
 @end

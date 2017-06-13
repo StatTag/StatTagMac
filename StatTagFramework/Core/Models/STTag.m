@@ -61,6 +61,11 @@
   [STConstantsPlaceholders EmptyField] : formattedValue;
 }
 
+-(NSString*)CodeFilePath
+{
+  return [[self CodeFile] FilePath];
+}
+
 
 -(instancetype)init{
   self = [super init];

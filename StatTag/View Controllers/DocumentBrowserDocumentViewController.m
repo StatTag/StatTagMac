@@ -11,10 +11,7 @@
 #import "StatTagShared.h"
 #import "StatTagFramework.h"
 #import "DocumentBrowserCodeFilesViewController.h"
-#import "UpdateOutputViewController.h"
-#import "UnlinkedTagsViewController.h"
 #import "DocumentBrowserDocumentViewController.h"
-#import "DuplicateTagsViewController.h"
 
 #import "STDocumentManager+FileMonitor.h"
 

@@ -72,6 +72,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   
   @try {
     NSString* value = [variable variableValue];
+    #pragma unused(value)
     //NSLog(@"DocumentVariableExists: variable: %@ has value: %@", [variable name], value);
     return true;
   }
@@ -167,6 +168,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
       //NSLog(@"Document variable does not exist, no code files loaded");
     }
     NSString* value = [variable variableValue];
+    #pragma unused(value)
     //NSLog(@"DocumentVariableExists: variable: %@ has value: %@", [variable name], value);
   }
   @catch (NSException *exception) {
@@ -397,6 +399,62 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
 }
 
 
+
+/// <summary>
+/// Processes all content controls within the document, which may include verbatim output.
+/// Handles renaming of tags as well, if applicable.
+/// </summary>
+/// <param name="document">The current document to process</param>
+/// <param name="tagUpdatePair"></param>
+-(void)UpdateVerbatimEntries:(STMSWord2011Document*)document tagUpdatePair:(STUpdatePair<STTag*>*)tagUpdatePair
+{
+  NSArray<STMSWord2011Shape*>* shapes = [document shapes];
+  if([shapes count] == 0)
+  {
+    return;
+  }
+  
+  STTagManager* tm = [self TagManager];
+  
+  NSInteger shapeCount = [shapes count];
+  for (NSInteger index = 0; index <= shapeCount; index++)
+  {
+    STMSWord2011Shape* shape = [shapes objectAtIndex:index];
+    if (shape != nil)
+    {
+      if ([STTagManager IsStatTagShape:shape])
+      {
+        STTag* tag = [tm FindTag:[shape name]];
+        if (tag == nil)
+        {
+          [self Log:[NSString stringWithFormat:@"No tag was found for the control with ID: %@", [shape name]]];
+          continue;
+        }
+        
+        if ([tag Type] != [STConstantsTagType Verbatim])
+        {
+          [self Log:[NSString stringWithFormat:@"The tag (%@) was inserted as verbatim but is now a different type.  We are unable to update it.", [tag Id]]];
+        }
+        
+        // If the tag update pair is set, it will be in response to renaming.  Make sure
+        // we apply the new tag name to the control
+        if (tagUpdatePair != nil && [[tagUpdatePair Old] isEqual:tag])
+        {
+          [shape setName:[[tagUpdatePair New] Id]];
+        }
+
+        [[[shape textFrame] textRange] setContent:[tag FormattedResult]];
+      }
+    }
+  }
+  
+}
+
+-(void)UpdateVerbatimEntries:(STMSWord2011Document*)document
+{
+  [self UpdateVerbatimEntries:document tagUpdatePair:nil];
+}
+
 /**
  Update all of the field values in the current document.
 
@@ -528,7 +586,15 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
       [self setValue:@"Updating Inline Shapes" forKey:@"wordFieldUpdateStatus"];
       [self UpdateInlineShapes:document];
       //NSLog(@"after UpdateInlineShapes");
-    
+    }
+
+    if([[[tagUpdatePair Old] Type] isEqualToString:[STConstantsTagType Verbatim]] || [[[tagUpdatePair New] Type] isEqualToString:[STConstantsTagType Verbatim]])
+    {
+      //NSLog(@"before UpdateVerbatimEntries");
+      [self setValue:@"Updating Verbatim Field" forKey:@"wordFieldUpdateStatus"];
+      [self UpdateVerbatimEntries:document tagUpdatePair:tagUpdatePair];
+      //NSLog(@"after UpdateVerbatimEntries");
+      
     }
 
     
@@ -605,6 +671,34 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   return cells;
 }
 
+
+
+/// <summary>
+/// Inserts a rich text edit control
+/// </summary>
+/// <param name="selection"></param>
+/// <param name="tag"></param>
+-(void)InsertVerbatim:(STMSWord2011SelectionObject*)selection tag:(STTag*)tag
+{
+  [self Log:@"InsertVerbatim - Started"];
+  
+  if (tag == nil)
+  {
+    [self Log:@"Unable to insert the verbatim output because the tag is null"];
+    return;
+  }
+  
+  STCommandResult* result = [[tag CachedResult] firstObject];
+  if (result != nil)
+  {
+    STMSWord2011TextRange* range = [selection formattedText];//unclear if this is what we want to use
+
+    //we have to offload this directly to AppleScript so we can do what we need to
+    [WordHelpers insertTextboxAtRangeStart:[range startOfContent] andRangeEnd:[range endOfContent] forShapeName:[tag Id] withShapetext:[result VerbatimResult] andFontSize:9.0 andFontFace:@"Courier New"];
+  }
+  
+  [self Log:@"InsertVerbatim - Finished"];
+}
 
 
 /**
@@ -898,7 +992,13 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
 
     // If the tag is a table, and the cell index is not set, it means we are inserting the entire
     // table into the document.  Otherwise, we are able to just insert a single table cell.
-    if([tag IsTableTag] && [tag TableCellIndex] == nil) {
+    
+    if ([[tag Type] isEqualToString: [STConstantsTagType Verbatim]])
+    {
+      [self Log:@"Inserting verbatim output"];
+      [self InsertVerbatim:selection tag:tag];
+    }
+    else if([tag IsTableTag] && [tag TableCellIndex] == nil) {
       // if (tag.IsTableTag() && !tag.TableCellIndex.HasValue)
       //NSLog(@"Inserting a new table tag");
       [self InsertTable:selection tag:tag];
@@ -1042,7 +1142,8 @@ Insert an StatTag field at the currently specified document range.
     {
       // Now that the code file has been updated, we need to add the tag.  This may
       // be a new tag, or an updated one.
-      [codeFile AddTag:tag oldTag:existingTag matchWithPosition:YES];
+      [codeFile AddTag:tag oldTag:existingTag matchWithPosition:NO];
+      // Do NOT set position matching to YES. We do NOT want to match by position for general updates or we'll have issues where people modify lines above the tag position
       [codeFile Save:&error];
     }
   }
@@ -1144,7 +1245,11 @@ Insert an StatTag field at the currently specified document range.
     //NSLog(@"%@", exception.reason);
     //NSLog(@"method: %@, line : %d", NSStringFromSelector(_cmd), __LINE__);
     //NSLog(@"%@", [NSThread callStackSymbols]);
-    [STUIUtility ReportException:exception userMessage:@"There was an unexpected error when trying to insert the tag output into the Word document." logger:[self Logger]];
+    @throw exception;
+    [[self Logger] WriteException:exception];
+//    dispatch_async(dispatch_get_main_queue(), ^{
+//      [STUIUtility ReportException:exception userMessage:@"There was an unexpected error when trying to insert the tag output into the Word document." logger:[self Logger]];
+//    });
   }
   @finally
   {
@@ -1217,6 +1322,12 @@ Insert an StatTag field at the currently specified document range.
   [[self TagManager] ProcessStatTagFields:^void(STMSWord2011Field* field, STFieldTag* fieldTag, id configuration){
     [[self TagManager] UpdateUnlinkedTagsByCodeFile:field tag:fieldTag configuration:configuration];
   } configuration:actions];
+  
+  //now process the shapes
+  [[self TagManager] ProcessStatTagShapes:^void(STMSWord2011Shape* shape, STTag* tag, id configuration){
+    [[self TagManager] UpdateUnlinkedTagsByCodeFile:shape tag:tag configuration:configuration];
+  } configuration:actions];
+
 }
 
 /**
@@ -1236,6 +1347,11 @@ Insert an StatTag field at the currently specified document range.
 
   [[self TagManager] ProcessStatTagFields:^void(STMSWord2011Field* field, STFieldTag* fieldTag, id configuration){
     [[self TagManager] UpdateUnlinkedTagsByTag:field tag:fieldTag configuration:configuration];
+  } configuration:actions];
+
+  //now process the shapes
+  [[self TagManager] ProcessStatTagShapes:^void(STMSWord2011Shape* shape, STTag* tag, id configuration){
+    [[self TagManager] UpdateUnlinkedTagsByTag:shape tag:tag configuration:configuration];
   } configuration:actions];
 
   //[[self TagManager] ProcessStatTagFields:[[self TagManager] UpdateUnlinkedTagsByTag] configuration:actions];

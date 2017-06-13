@@ -85,6 +85,8 @@
 -(void)RemoveCodeFile:(NSString*)fileName document:(STMSWord2011Document*)document;
 -(void)RemoveCodeFile:(NSString*)fileName;
 
+-(void) UpdateRenamedTags:(NSArray<STUpdatePair<STTag*>*>*) updates;
+
 -(NSMutableArray<STCodeFile*>*)GetCodeFileList;
 -(NSMutableArray<STCodeFile*>*)GetCodeFileList:(STMSWord2011Document*)document;
 -(void)SetCodeFileList:(NSArray<STCodeFile*>*)files;

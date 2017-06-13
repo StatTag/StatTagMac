@@ -9,6 +9,15 @@
 #import "STStataParser.h"
 #import "STCocoaUtil.h"
 
+
+@implementation STStataParserLog
+
+@synthesize LogType = _LogType;
+@synthesize LogPath = _LogPath;
+@synthesize LiteralLogEntry = _LiteralLogEntry;
+@end
+
+
 @implementation STStataParser
 
 NSString* const macroChars = @"`'";
@@ -225,6 +234,51 @@ This is used to test/extract a macro display value.
   return [self GlobalMatchRegexReturnGroup:command regex:[[self class] LogKeywordRegex] groupNum:1];
 }
 
+-(NSArray<NSString*>*) GetLogFile:(NSString*)command
+{
+  return [self GlobalMatchRegexReturnGroup:command regex:[[self class] LogKeywordRegex] groupNum:2];
+}
+
+-(NSArray<STStataParserLog*>*)GetLogs:(NSString*)command
+{
+  NSMutableArray<STStataParserLog*>* logs = [[NSMutableArray<STStataParserLog*> alloc] init];
+  NSArray* textMatches = [[[self class] LogKeywordRegex] matchesInString:command options:0 range:NSMakeRange(0, command.length)];
+  
+  if ([textMatches count] == 0)
+  {
+    return nil;
+  }
+
+  NSCharacterSet *ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+
+  //NSMutableArray<NSString*>* matches = [[NSMutableArray<NSString*> alloc] init];
+  if ([textMatches count] > 0)
+  {
+    for (int index = 0; index < [textMatches count]; index++)
+    {
+      //macroNames.Add(matches[index].Groups[1].Value);
+      STStataParserLog* spl = [[STStataParserLog alloc] init];
+      [spl setLogType: [[command substringWithRange:[[textMatches objectAtIndex:index] rangeAtIndex:1]] stringByTrimmingCharactersInSet:ws]];
+      NSString* logPath = [command substringWithRange:[[textMatches objectAtIndex:index] rangeAtIndex:2]];
+      logPath = [[logPath stringByReplacingOccurrencesOfString:@"\\" withString:@""] stringByTrimmingCharactersInSet:ws];
+      
+      [spl setLiteralLogEntry: [command substringWithRange:[[textMatches objectAtIndex:index] rangeAtIndex:2]]];
+    }
+  }
+
+  
+  return logs;
+
+   /*
+   matches.OfType<Match>().Select(match => new Log()
+                             {
+                               LogType = match.Groups[1].Value.Trim(),
+                               LogPath = match.Groups[2].Value.Replace("\"", "").Trim(),
+                               LiteralLogEntry = match.Groups[2].Value
+                             }).ToArray();
+    */
+}
+
 /**
  Returns the file path where an image exported from the statistical package
  is being saved.
@@ -342,7 +396,8 @@ Given a command string, extract all macros that are present.  This will remove m
   }
   
   NSString* originalText = [originalContent componentsJoinedByString:@"\r\n"];
-  NSString* modifiedText = [NSString stringWithString:originalText];
+  //because we're not able to explicitly create a stata session (and then close it) per batch of commands, we must (should) first clear the command list before running. This will get rid of any of the existing data that we might have. We want to do this because Stata will complain about "changed" data (and refuse to change it) if we redefine any of the data sets or related variables within the code file between executions.
+  NSString* modifiedText = [@"clear all\r\n" stringByAppendingString:originalText];
 
   for(NSRegularExpression* regex in [[self class]MultiLineIndicators])
   {

@@ -35,6 +35,10 @@
 -(NSObject<STIResultCommandList>*)TableResultCommands {
   return [[STStataCommandsTableCommands alloc] init];
 }
+-(NSObject<STIResultCommandList>*)VerbatimResultCommands {
+  return [[STStataVerbatimCommands alloc] init];
+}
+
 @end
 
 //MARK: "nested" classes for Stata Commands
@@ -74,5 +78,11 @@
 //  return [NSArray arrayWithObjects:
 //          [self MatrixList]
 //          , nil];
+}
+@end
+
+@implementation STStataVerbatimCommands
+-(NSArray<NSString*>*)GetCommands {
+  return [NSArray<NSString*> arrayWithObject:@"(Any command)"];
 }
 @end

@@ -240,13 +240,13 @@ BOOL breakLoop = YES;
 - (void)dismissUpdateOutputProgressController:(UpdateOutputProgressViewController *)controller withReturnCode:(StatTagResponseState)returnCode andFailedTags:(NSArray<STTag *> *)failedTags {
   //FIXME: need to handle errors from worker sheet
   [self dismissViewController:controller];
-  if(returnCode == OK) {
+  if(returnCode == OK && [failedTags count] <= 0) {
     //reload the tag list
     [self willChangeValueForKey:@"documentTags"];
     [self didChangeValueForKey:@"documentTags"];
   }
   
-  if([failedTags count] > 0)
+  if(returnCode == Error || [failedTags count] > 0)
   {
     [self alertUserToFailedTags:failedTags];
   }
@@ -259,13 +259,25 @@ BOOL breakLoop = YES;
   //we should really fix how this all works
   //NSLog(@"failed tags : %@", failedTags);
   
+  if(failedTags == nil)
+  {
+    failedTags = [[NSArray<STTag*> alloc] init];
+  }
+  
   NSAlert *alert = [[NSAlert alloc] init];
   [alert setMessageText:@"Not All Tags Could be Processed"];
-  
-  NSMutableString* content = [[NSMutableString alloc] initWithString:@"StatTag could not run the following tags\n"];
-  for(STTag* t in failedTags)
+
+  NSMutableString* content = [[NSMutableString alloc] init];
+  if(failedTags == nil || [failedTags count] <= 0)
   {
-    [content appendString:[NSString stringWithFormat:@"•\t%@ (%@)\n", [t Name], [[t CodeFile] FileName] ]];
+    //it's possible we have generalized failures not directly related to a tag
+    [content appendString:@"StatTag encountered an error and could not continue processing the requested tag(s).\n"];
+  } else {
+    [content appendString:@"StatTag could not run the following tags\n"];
+    for(STTag* t in failedTags)
+    {
+      [content appendString:[NSString stringWithFormat:@"•\t%@ (%@)\n", [t Name], [[t CodeFile] FileName] ]];
+    }
   }
   [content appendString:@"\nPlease try running your code file(s) directly in their respective statistical programs. Look for any warnings or errors that might prevent successful completion."];
  

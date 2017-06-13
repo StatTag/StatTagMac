@@ -46,6 +46,7 @@
                                            selector:@selector(tagUpdateComplete:)
                                                name:@"tagUpdateComplete"
                                              object:nil];
+
 }
 
 -(void)viewDidAppear {
@@ -149,7 +150,9 @@
         
     }
     @catch (NSException* exc) {
-      [_delegate dismissUpdateOutputProgressController:self withReturnCode:(StatTagResponseState)Error andFailedTags:[self failedTags]];
+      dispatch_async(dispatch_get_main_queue(), ^{
+        [_delegate dismissUpdateOutputProgressController:self withReturnCode:(StatTagResponseState)Error andFailedTags:[self failedTags]];
+      });
     }
   });
   
@@ -184,7 +187,7 @@
 {
   dispatch_async(dispatch_get_main_queue(), ^{
 
-    NSString* tagName = [[notification userInfo] valueForKey:@"tagName"];
+    //NSString* tagName = [[notification userInfo] valueForKey:@"tagName"];
     NSString* tagID = [[notification userInfo] valueForKey:@"tagID"];
     //NSLog(@"tagUpdateComplete complete => tag: %@", tagName);
     bool no_result = [(NSNumber*)[[notification userInfo] valueForKey:@"no_result"] boolValue];

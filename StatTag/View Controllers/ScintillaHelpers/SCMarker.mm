@@ -11,7 +11,7 @@
 #import "Scintilla/Scintilla.h"
 #import "Scintilla/ScintillaView.h"
 
-#import "SCSCintilla.h"
+#import "SCScintilla.h"
 #import "SCHelpers.h"
 
 

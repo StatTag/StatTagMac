@@ -161,8 +161,8 @@
 -(id)performDefaultImplementation {
   //if a tag argument was sent in...
   //let's now see if we can find the tag by name/id and open it
-  NSDictionary<NSString*, id>* args = [self evaluatedArguments];
-  NSString* keys = [[args allKeys] componentsJoinedByString:@","];
+  //NSDictionary<NSString*, id>* args = [self evaluatedArguments];
+  //NSString* keys = [[args allKeys] componentsJoinedByString:@","];
   
   //1) detect the tags in the current document
   //2) match the tag (if possible)
