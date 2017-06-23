@@ -109,10 +109,11 @@ static NSString* const MATRIX_DIMENSION_NAMES_ATTRIBUTE = @"dimnames";
         // Image comes next, because everything else we will count as a value type.
         if ([Parser IsImageExport:command]) {
             STTag* tmpTag = [[STTag alloc] init];
-            tmpTag.Type = [STConstantsTagType Figure];
+            tmpTag.Type = [STConstantsTagType Value];
             STCommandResult* imageLocation = [self RunCommand:[Parser GetImageSaveLocation:command] tag:tmpTag];
             STCommandResult* commandResult = [[STCommandResult alloc] init];
             commandResult.FigureResult = imageLocation.ValueResult;
+            return commandResult;
         }
 
         // If we have a value command, we will pull out the last relevant line from the output.
