@@ -16,6 +16,10 @@
 #include "RCIntegerMatrix.h"
 #include "RCRealMatrix.h"
 #include "RCDataFrame.h"
+#include "RCFunction.h"
+#include "RCClosure.h"
+#include "RCBuiltinFunction.h"
+#include "RCSpecialFunction.h"
 
 //! Project version number for RCocoa.
 FOUNDATION_EXPORT double RCocoaVersionNumber;

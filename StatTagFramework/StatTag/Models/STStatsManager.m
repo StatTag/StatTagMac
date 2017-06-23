@@ -68,6 +68,10 @@ const NSInteger RefreshStepInterval = 5;
     {
       return [[STStataParser alloc] init];
     }
+    if([[file StatisticalPackage] isEqualToString:[STConstantsStatisticalPackages R]])
+    {
+      return [[STRParser alloc] init];
+    }
   }
   
   return nil;

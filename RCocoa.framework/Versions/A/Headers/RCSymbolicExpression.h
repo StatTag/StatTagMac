@@ -22,6 +22,11 @@
 @class RCIntegerMatrix;
 @class RCRealMatrix;
 @class RCDataFrame;
+@class RCVector;
+@class RCFunction;
+@class RCClosure;
+@class RCBuiltinFunction;
+@class RCSpecialFunction;
 
 @interface RCSymbolicExpression : NSObject
 {
@@ -29,6 +34,8 @@
     RCEngine* _engine;
     bool isProtected;
 }
+
++(RCFunction*) _getAsListFunction;
 
 -(id) initWithEngineAndExpression: (RCEngine*)eng expression: (SEXP)sexp;
 
@@ -61,12 +68,13 @@
 -(BOOL) IsFactor;
 -(BOOL) IsMatrix;
 -(BOOL) IsDataFrame;
+-(BOOL) IsList;
 //-(BOOL) IsS4;
 //-(BOOL) IsEnvironment;
 //-(BOOL) IsExpression;
 //-(BOOL) IsSymbol;
 //-(BOOL) IsLanguage;
-//-(BOOL) IsFunction;
+-(BOOL) IsFunction;
 //-(BOOL) IsFactor;
 
 // Vector conversion methods methods
@@ -78,9 +86,8 @@
 //(NSArray*) AsComplex;
 
 // Other conversion methods
-//(NSArray*) AsList;
+-(RCVector*) AsList;
 -(RCDataFrame*) AsDataFrame;
-//(NSArray*) AsDataFrame;
 //(NSArray*) AsS4;
 //(NSArray*) AsVector;
 //(NSArray*) AsRaw;
@@ -88,7 +95,7 @@
 //(NSArray*) AsExpression;
 //(NSArray*) AsSymbol;
 //(NSArray*) AsLanguage;
-//(NSArray*) AsFunction;
+-(RCFunction*) AsFunction;
 //(NSArray*) AsFactor;
 
 // Matrix conversion methods

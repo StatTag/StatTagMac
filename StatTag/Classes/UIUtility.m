@@ -23,6 +23,7 @@
     } else if([[file StatisticalPackage] isEqualToString:[STConstantsStatisticalPackages SAS]]) {
       formatter = [[STSASCommands alloc] init];
     } else if([[file StatisticalPackage] isEqualToString:[STConstantsStatisticalPackages R]]) {
+        formatter = [[STRCommands alloc] init];
     }
     
     if(formatter != nil) {

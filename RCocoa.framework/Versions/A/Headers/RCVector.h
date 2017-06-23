@@ -20,6 +20,8 @@
 -(id) initWithEngineAndExpressionAndLength: (RCEngine*)eng expression: (SEXP)sexp length: (int)len;
 -(void) SetVector: (NSArray<ObjectType>*) values;
 -(NSArray<NSString*>*) Names;
+-(R_xlen_t) Length;
+-(ObjectType) ElementAt: (int)index;
 
 @end
 

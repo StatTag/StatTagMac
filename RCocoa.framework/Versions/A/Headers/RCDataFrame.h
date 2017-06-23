@@ -21,6 +21,9 @@
 -(NSArray<NSString*>*) RowNames;
 -(NSArray<NSString*>*) ColumnNames;
 
+-(int) RowCount;
+-(int) ColumnCount;
+
 @end
 
 #endif /* RCDataFrame_h */

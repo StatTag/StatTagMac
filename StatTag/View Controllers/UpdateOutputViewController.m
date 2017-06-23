@@ -294,7 +294,7 @@ BOOL breakLoop = YES;
 - (IBAction)insertTagIntoDocument:(id)sender {
   
   
- // [_documentManager InsertTagsInDocument:[onDemandTags selectedObjects]];
+  [_documentManager InsertTagsInDocument:[onDemandTags selectedObjects]];
 
   /*
   for(STTag* tag in [onDemandTags selectedObjects]) {

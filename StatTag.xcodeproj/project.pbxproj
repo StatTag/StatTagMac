@@ -11,6 +11,8 @@
 		3500D5CF1EE066F7006AA0ED /* R.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3500D5CE1EE066F7006AA0ED /* R.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		35C112AE1EE09A9A00C9CC7F /* RCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3500D5CC1EE066DA006AA0ED /* RCocoa.framework */; };
 		35C112AF1EE09A9A00C9CC7F /* RCocoa.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3500D5CC1EE066DA006AA0ED /* RCocoa.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		35F2E7321EE1A93E0086F9D0 /* STRBaseValueFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 35F2E7311EE1A93E0086F9D0 /* STRBaseValueFormatter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		35F2E7341EE1A94A0086F9D0 /* STRBaseValueFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F2E7331EE1A94A0086F9D0 /* STRBaseValueFormatter.m */; };
 		380A67971D102FFA0045B72B /* TestDestinationTextFile.txt in Resources */ = {isa = PBXBuildFile; fileRef = 380A67961D102FFA0045B72B /* TestDestinationTextFile.txt */; };
 		380A679A1D1061110045B72B /* STTable.h in Headers */ = {isa = PBXBuildFile; fileRef = 380A67981D1061100045B72B /* STTable.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		380A679B1D1061110045B72B /* STTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 380A67991D1061100045B72B /* STTable.m */; };
@@ -285,7 +287,7 @@
 		38F803661D9DCB8900C8F1EA /* ValuePropertiesController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38F803641D9DCB8900C8F1EA /* ValuePropertiesController.xib */; };
 		38FACC821E894E3200E3BB82 /* DocumentBrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38FACC801E894E3200E3BB82 /* DocumentBrowserViewController.m */; };
 		38FACC831E894E3200E3BB82 /* DocumentBrowserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38FACC811E894E3200E3BB82 /* DocumentBrowserViewController.xib */; };
-		38FF470C1DFEEBC000A65893 /* STRBaseGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 38FF470A1DFEEBC000A65893 /* STRBaseGenerator.h */; };
+		38FF470C1DFEEBC000A65893 /* STRBaseGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 38FF470A1DFEEBC000A65893 /* STRBaseGenerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38FF470D1DFEEBC000A65893 /* STRBaseGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 38FF470B1DFEEBC000A65893 /* STRBaseGenerator.m */; };
 		38FF47101DFEEC1D00A65893 /* STSASBaseGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 38FF470E1DFEEC1D00A65893 /* STSASBaseGenerator.h */; };
 		38FF47111DFEEC1D00A65893 /* STSASBaseGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 38FF470F1DFEEC1D00A65893 /* STSASBaseGenerator.m */; };
@@ -297,7 +299,7 @@
 		38FF47221DFF18D200A65893 /* STBaseManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 38516FC41DF5AF06006989BC /* STBaseManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38FF47251DFF19A000A65893 /* STProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 38FF47231DFF19A000A65893 /* STProperties.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38FF47261DFF19A000A65893 /* STProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 38FF47241DFF19A000A65893 /* STProperties.m */; };
-		38FF472C1DFF490000A65893 /* STRParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 38FF47281DFF490000A65893 /* STRParser.h */; };
+		38FF472C1DFF490000A65893 /* STRParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 38FF47281DFF490000A65893 /* STRParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38FF472D1DFF490000A65893 /* STRParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 38FF47291DFF490000A65893 /* STRParser.m */; };
 		38FF472E1DFF490000A65893 /* STSASParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 38FF472A1DFF490000A65893 /* STSASParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38FF472F1DFF490000A65893 /* STSASParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 38FF472B1DFF490000A65893 /* STSASParser.m */; };
@@ -379,6 +381,8 @@
 /* Begin PBXFileReference section */
 		3500D5CC1EE066DA006AA0ED /* RCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RCocoa.framework; sourceTree = "<group>"; };
 		3500D5CE1EE066F7006AA0ED /* R.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = R.framework; path = ../../../../Library/Frameworks/R.framework; sourceTree = "<group>"; };
+		35F2E7311EE1A93E0086F9D0 /* STRBaseValueFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STRBaseValueFormatter.h; sourceTree = "<group>"; };
+		35F2E7331EE1A94A0086F9D0 /* STRBaseValueFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STRBaseValueFormatter.m; sourceTree = "<group>"; };
 		380A67961D102FFA0045B72B /* TestDestinationTextFile.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TestDestinationTextFile.txt; sourceTree = "<group>"; };
 		380A67981D1061100045B72B /* STTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STTable.h; sourceTree = "<group>"; };
 		380A67991D1061100045B72B /* STTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STTable.m; sourceTree = "<group>"; };
@@ -1074,7 +1078,9 @@
 				38C9B2071D109F6B003B571E /* STBaseValueFormatter.m */,
 				38C9B20A1D109FA8003B571E /* STIValueFormatter.h */,
 				38C9B20C1D10A2B2003B571E /* STStataBaseValueFormatter.h */,
+				35F2E7311EE1A93E0086F9D0 /* STRBaseValueFormatter.h */,
 				38C9B20D1D10A2B2003B571E /* STStataBaseValueFormatter.m */,
+				35F2E7331EE1A94A0086F9D0 /* STRBaseValueFormatter.m */,
 			);
 			path = ValueFormatter;
 			sourceTree = "<group>";
@@ -1735,7 +1741,6 @@
 				380A67A01D106E090045B72B /* STCodeFileAction.h in Headers */,
 				382C28C01D199F9A00697D6F /* STStataBaseGenerator.h in Headers */,
 				38F803581D9DB2B300C8F1EA /* STSASAutomation.h in Headers */,
-				38FF472C1DFF490000A65893 /* STRParser.h in Headers */,
 				38FF473B1E08674F00A65893 /* STRCommands.h in Headers */,
 				38FF47201DFF185100A65893 /* STLogManager.h in Headers */,
 				38EDC0611EE3101100A7BFD2 /* STVerbatimGenerator.h in Headers */,
@@ -1749,7 +1754,6 @@
 				38516FCF1DF5C751006989BC /* CHCSVParser.h in Headers */,
 				38A7CE9C1D4FE29400B06AFF /* STPropertiesManager.h in Headers */,
 				38516FCA1DF5B279006989BC /* STCSVToTable.h in Headers */,
-				38FF470C1DFEEBC000A65893 /* STRBaseGenerator.h in Headers */,
 				382C28621D1454D900697D6F /* STIResultCommandFormatter.h in Headers */,
 				382C28C71D19A23100697D6F /* STValueParameterGenerator.h in Headers */,
 				38FF472E1DFF490000A65893 /* STSASParser.h in Headers */,
@@ -1774,8 +1778,11 @@
 				382C28561D13306400697D6F /* STTableFormat.h in Headers */,
 				382C284E1D1202D400697D6F /* STBaseParameterParser.h in Headers */,
 				382C28671D14880900697D6F /* STFactories.h in Headers */,
+				38FF470C1DFEEBC000A65893 /* STRBaseGenerator.h in Headers */,
 				38C9B2181D10A8CF003B571E /* STTag.h in Headers */,
+				35F2E7321EE1A93E0086F9D0 /* STRBaseValueFormatter.h in Headers */,
 				382C286A1D1488F200697D6F /* STIGenerator.h in Headers */,
+				38FF472C1DFF490000A65893 /* STRParser.h in Headers */,
 				385FDD2C1D32F70100AE0FE2 /* STDocumentManager.h in Headers */,
 				38788F941D30100F00299789 /* STStatsManager.h in Headers */,
 				38C91F361D366AD70048A95E /* NSMutableArray+Stack.h in Headers */,
@@ -2085,6 +2092,7 @@
 				386992D71DBD10D400852B6E /* STUIUtility.m in Sources */,
 				382C28AD1D195C2500697D6F /* STFieldTag.m in Sources */,
 				382C28C91D19A24200697D6F /* STValueParameterGenerator.m in Sources */,
+				35F2E7341EE1A94A0086F9D0 /* STRBaseValueFormatter.m in Sources */,
 				38516FCB1DF5B279006989BC /* STCSVToTable.m in Sources */,
 				382C28D21D19C5DC00697D6F /* STGeneralUtil.m in Sources */,
 				38516FD01DF5C751006989BC /* CHCSVParser.m in Sources */,

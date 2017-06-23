@@ -86,7 +86,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
           [progressText setStringValue:@"Starting to insert tags..."];
         });
-        [_documentManager InsertTagsInDocument:[self tagsToProcess]];
+        //[_documentManager InsertTagsInDocument:[self tagsToProcess]];
         dispatch_async(dispatch_get_main_queue(), ^{
           [progressIndicator setIndeterminate:YES];
           [progressIndicator stopAnimation:nil];
@@ -110,11 +110,11 @@
           ////NSLog(@"found codefile %@", [cf FilePath]);
           
           
-          STStatsManagerExecuteResult* result = [stats ExecuteStatPackage:cf
-                                                               filterMode:[STConstantsParserFilterMode TagList]
-                                                                tagsToRun:_tagsToProcess
-                                                 ];
-          #pragma unused (result)
+//          STStatsManagerExecuteResult* result = [stats ExecuteStatPackage:cf
+//                                                               filterMode:[STConstantsParserFilterMode TagList]
+//                                                                tagsToRun:_tagsToProcess
+//                                                 ];
+          //#pragma unused (result)
           
         }
         
