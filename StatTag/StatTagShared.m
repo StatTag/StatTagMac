@@ -34,6 +34,9 @@
 
 static StatTagShared *sharedInstance = nil;
 
+NSString* const kStatTagErrorDomain = @"STErrorDomain";
+
+
 + (StatTagShared*)sharedInstance {
   if (sharedInstance == nil) {
     sharedInstance = [[super allocWithZone:NULL] init];

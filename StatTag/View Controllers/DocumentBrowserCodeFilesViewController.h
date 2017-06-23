@@ -52,7 +52,7 @@
 
 
 @property (strong, nonatomic)STDuplicateTagResults* duplicateTags;
-
+@property (strong, nonatomic)NSDictionary<NSString*, NSArray<STTag*>*>* unlinkedTags;
 
 -(void)configure;
 -(void)updateTagSummary;

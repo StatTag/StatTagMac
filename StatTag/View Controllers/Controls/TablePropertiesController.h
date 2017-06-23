@@ -23,7 +23,7 @@
 @end
 
 
-@interface TablePropertiesController : NSViewController <NumericValuePropertiesControllerDelegate> {
+@interface TablePropertiesController : NSViewController <NumericValuePropertiesControllerDelegate, NSTextDelegate> {
 }
 
 @property (strong) STTag* tag;

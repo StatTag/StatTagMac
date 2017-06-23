@@ -109,7 +109,10 @@
 
   NSArray<STTag*>* tags = [[self documentManager] GetTags];
   //NSLog(@"document [%@] has %ld tags", [[[self documentManager] activeDocument] name], (unsigned long)[tags count]);
-  NSDictionary<NSString*, NSArray<STTag*>*>* unlinkedTags = [[self documentManager] FindAllUnlinkedTags];
+  
+  //NSDictionary<NSString*, NSArray<STTag*>*>* unlinkedTags = [[self documentManager] FindAllUnlinkedTags];
+  [self setUnlinkedTags:[[self documentManager] FindAllUnlinkedTags]];
+  
   //STDuplicateTagResults* duplicateTags = [[[self documentManager] TagManager] FindAllDuplicateTags];
   [self setDuplicateTags: [[[self documentManager] TagManager] FindAllDuplicateTags]];
 
@@ -120,9 +123,9 @@
   {
     numDuplicateTags += [[[self duplicateTags] objectForKey:t] count] + 1; //we need to include the parent tag as a duplicate
   }
-  for(NSString* filepath in unlinkedTags)
+  for(NSString* filepath in [self unlinkedTags])
   {
-    numUnlinkedTags += [[unlinkedTags objectForKey:filepath] count];
+    numUnlinkedTags += [[[self unlinkedTags] objectForKey:filepath] count];
   }
 
   NSMutableArray<DocumentBrowserTagSummary*>* objs = [[NSMutableArray<DocumentBrowserTagSummary*> alloc] init];
@@ -452,7 +455,19 @@
       
       //since interaction with EITHER of these two tables impacts the other table,
       // only fire for the file table view
-      [self codeFilesSetFocusOnTags:self];
+      
+      
+      //we have a user behavior where people want to select code files that are currently unlinked. If we have a selection that contains ONLY unlinked tags, let's load the unlinked tags UI
+      NSPredicate* unlinkedCodeFilePredicate = [NSPredicate predicateWithFormat:@"fileAccessibleAtPath = NO"];
+      NSArray<STCodeFile*>* missingSelectedCodeFiles = [[[self arrayController] selectedObjects] filteredArrayUsingPredicate:unlinkedCodeFilePredicate];
+      if([missingSelectedCodeFiles count] > 0)
+      {
+        //did we have ANY unlinked code files selected? If so, force the unlinked tags UI
+        //NOTE: yes - this is a bit goofy. It deselects the selected code file and selects the "unlinked tags" tag from the summary view - this is a placeholder behavior for now so we can test this out
+        [self codeFilesSetFocusOnUnlinkedTags:self];
+      } else {
+        [self codeFilesSetFocusOnTags:self];
+      }
     }
   }
 }
@@ -475,7 +490,7 @@
                                              [NSNumber numberWithBool:YES],NSPasteboardURLReadingFileURLsOnlyKey,
                                              acceptedTypes, NSPasteboardURLReadingContentsConformToTypesKey,
                                              nil]];
-  
+  #pragma unused(urls)
   return NSDragOperationCopy;
 }
 

@@ -20,6 +20,7 @@
 @property (copy, nonatomic) NSString* ValueResult;
 @property (copy, nonatomic) NSString* FigureResult;
 @property (strong, nonatomic) STTable* TableResult;
+@property (strong, nonatomic) NSString* VerbatimResult;
 
 
 /**

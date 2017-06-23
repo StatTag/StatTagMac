@@ -13,11 +13,13 @@
 @class STStataParser;
 @class STCommandResult;
 @class STTable;
+@class STStataParserLog;
 
 @interface STStataAutomation : NSObject <STIStatAutomation> {
   STStataApplication* Application;
   STStataParser* Parser;
-  NSMutableArray<NSString*>* OpenLogs;
+  NSMutableArray<STStataParserLog*>* OpenLogs;
+  bool IsTrackingVerbatim;
   
   const NSInteger StataHidden;
   const NSInteger MinimizeStata;
@@ -30,15 +32,20 @@
 
 //+ (instancetype)sharedInstance;
 
-extern NSString *const LocalMacroPrefix;
+extern NSString* const LocalMacroPrefix;
 /**
   This is a special local macro name that is being used within StatTag.
 */
-extern NSString *const StatTagTempMacroName;
-extern NSString *const DisablePagingCommand;
+extern NSString* const StatTagTempMacroName;
+extern NSString* const DisablePagingCommand;
 // The following are constants used to manage the Stata Automation API
-extern NSString *const RegisterParameter;
-extern NSString *const UnregisterParameter;
+extern NSString* const RegisterParameter;
+extern NSString* const UnregisterParameter;
+
+extern NSString* const StatTagVerbatimLogName;
+extern NSString* const StatTagVerbatimLogIdentifier;
+
+extern NSString* const EndLoggingCommand;
 
 /**
  Our list of Cocoa bundle identifiers

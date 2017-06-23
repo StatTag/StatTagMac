@@ -57,4 +57,7 @@
 +(void)setActiveDocumentByDocName:(NSString*)theName;
 +(NSString*)getActiveDocumentName;
 
+
++(void)insertTextboxAtRangeStart:(NSInteger)theRangeStart andRangeEnd:(NSInteger)theRangeEnd forShapeName:(NSString*)shapeName withShapetext:(NSString*)shapeText andFontSize:(double)fontSize andFontFace:(NSString*)fontFace;
+
 @end

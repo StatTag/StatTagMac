@@ -64,7 +64,7 @@ static BOOL valuePreviewsEnabled = NO;
             context:TagTableFormatContext];
   
   [self addObserver:self
-         forKeyPath:@"tag.TableFormat.RowFilter.Enabled"
+         forKeyPath:@"tag.TableFormat.ColumnFilter.Enabled"
             options:(NSKeyValueObservingOptionNew |
                      NSKeyValueObservingOptionOld)
             context:TagTableFormatContext];
@@ -161,7 +161,10 @@ static BOOL valuePreviewsEnabled = NO;
   
   NSString* previewText;
   
-  if([[[tag ValueFormat] FormatType] isEqualToString:[STConstantsValueFormatType Numeric]] ) {
+  if([[tag Type] isEqualToString:[STConstantsTagType Verbatim]])
+  {
+    previewText = @"(Exactly as Generated)";
+  } else if([[[tag ValueFormat] FormatType] isEqualToString:[STConstantsValueFormatType Numeric]] ) {
     NSString* result;
     if(valuePreviewsEnabled == YES)
     {

@@ -11,6 +11,11 @@
 #import <StatTagFramework/STDuplicateTagResults.h>
 
 
+#import "DuplicateTagsViewController.h"
+#import "UpdateOutputViewController.h"
+#import "UnlinkedTagsViewController.h"
+
+
 @class STMSWord2011Document;
 @class STDocumentManager;
 @class STCodeFile;
@@ -18,9 +23,9 @@
 @class UnlinkedTagsViewController;
 @class DuplicateTagsViewController;
 @class STTag;
-@protocol DuplicateTagManagerDelegate;
-@protocol UnlinkedTagsManagerDelegate;
-@protocol AllTagsDelegate;
+//@protocol DuplicateTagManagerDelegate;
+//@protocol UnlinkedTagsManagerDelegate;
+//@protocol AllTagsDelegate;
 
 //@class DocumentBrowserDocumentViewController;
 //@protocol DocumentBrowserDocumentDelegate <NSObject>

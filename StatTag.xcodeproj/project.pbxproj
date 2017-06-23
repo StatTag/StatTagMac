@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3500D5CD1EE066DA006AA0ED /* RCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3500D5CC1EE066DA006AA0ED /* RCocoa.framework */; };
+		3500D5CF1EE066F7006AA0ED /* R.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3500D5CE1EE066F7006AA0ED /* R.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		35C112AE1EE09A9A00C9CC7F /* RCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3500D5CC1EE066DA006AA0ED /* RCocoa.framework */; };
+		35C112AF1EE09A9A00C9CC7F /* RCocoa.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3500D5CC1EE066DA006AA0ED /* RCocoa.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		35F2E7321EE1A93E0086F9D0 /* STRBaseValueFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 35F2E7311EE1A93E0086F9D0 /* STRBaseValueFormatter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		35F2E7341EE1A94A0086F9D0 /* STRBaseValueFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F2E7331EE1A94A0086F9D0 /* STRBaseValueFormatter.m */; };
 		380A67971D102FFA0045B72B /* TestDestinationTextFile.txt in Resources */ = {isa = PBXBuildFile; fileRef = 380A67961D102FFA0045B72B /* TestDestinationTextFile.txt */; };
 		380A679A1D1061110045B72B /* STTable.h in Headers */ = {isa = PBXBuildFile; fileRef = 380A67981D1061100045B72B /* STTable.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		380A679B1D1061110045B72B /* STTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 380A67991D1061100045B72B /* STTable.m */; };
@@ -253,6 +259,12 @@
 		38E22ABF1E9D5FBC005DFFE9 /* ScintillaEmbeddedViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 38E22ABD1E9D5FBC005DFFE9 /* ScintillaEmbeddedViewController.mm */; };
 		38E22AC01E9D5FBC005DFFE9 /* ScintillaEmbeddedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38E22ABE1E9D5FBC005DFFE9 /* ScintillaEmbeddedViewController.xib */; };
 		38E9CB101E1473A9006B3571 /* TableValueFilterFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 38E9CB0F1E1473A9006B3571 /* TableValueFilterFormatter.m */; };
+		38EDC05C1EE0EF2200A7BFD2 /* DuplicateTagRenameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EDC05A1EE0EF2200A7BFD2 /* DuplicateTagRenameViewController.m */; };
+		38EDC05D1EE0EF2200A7BFD2 /* DuplicateTagRenameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38EDC05B1EE0EF2200A7BFD2 /* DuplicateTagRenameViewController.xib */; };
+		38EDC0611EE3101100A7BFD2 /* STVerbatimGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 38EDC0601EE3101100A7BFD2 /* STVerbatimGenerator.h */; };
+		38EDC0631EE3101E00A7BFD2 /* STVerbatimGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EDC0621EE3101E00A7BFD2 /* STVerbatimGenerator.m */; };
+		38EDC0651EE313F400A7BFD2 /* STVerbatimParameterParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 38EDC0641EE313F400A7BFD2 /* STVerbatimParameterParser.h */; };
+		38EDC0671EE313FD00A7BFD2 /* STVerbatimParameterParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EDC0661EE313FD00A7BFD2 /* STVerbatimParameterParser.m */; };
 		38EDF0271D2BFFD800ACD77B /* STStata.h in Headers */ = {isa = PBXBuildFile; fileRef = 38EDF0261D2BFFD800ACD77B /* STStata.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38EDF02A1D2C002A00ACD77B /* STStataAutomation.h in Headers */ = {isa = PBXBuildFile; fileRef = 38EDF0281D2C002A00ACD77B /* STStataAutomation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38EDF02B1D2C002A00ACD77B /* STStataAutomation.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EDF0291D2C002A00ACD77B /* STStataAutomation.m */; };
@@ -275,7 +287,7 @@
 		38F803661D9DCB8900C8F1EA /* ValuePropertiesController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38F803641D9DCB8900C8F1EA /* ValuePropertiesController.xib */; };
 		38FACC821E894E3200E3BB82 /* DocumentBrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38FACC801E894E3200E3BB82 /* DocumentBrowserViewController.m */; };
 		38FACC831E894E3200E3BB82 /* DocumentBrowserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38FACC811E894E3200E3BB82 /* DocumentBrowserViewController.xib */; };
-		38FF470C1DFEEBC000A65893 /* STRBaseGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 38FF470A1DFEEBC000A65893 /* STRBaseGenerator.h */; };
+		38FF470C1DFEEBC000A65893 /* STRBaseGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 38FF470A1DFEEBC000A65893 /* STRBaseGenerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38FF470D1DFEEBC000A65893 /* STRBaseGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 38FF470B1DFEEBC000A65893 /* STRBaseGenerator.m */; };
 		38FF47101DFEEC1D00A65893 /* STSASBaseGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 38FF470E1DFEEC1D00A65893 /* STSASBaseGenerator.h */; };
 		38FF47111DFEEC1D00A65893 /* STSASBaseGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 38FF470F1DFEEC1D00A65893 /* STSASBaseGenerator.m */; };
@@ -287,7 +299,7 @@
 		38FF47221DFF18D200A65893 /* STBaseManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 38516FC41DF5AF06006989BC /* STBaseManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38FF47251DFF19A000A65893 /* STProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 38FF47231DFF19A000A65893 /* STProperties.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38FF47261DFF19A000A65893 /* STProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 38FF47241DFF19A000A65893 /* STProperties.m */; };
-		38FF472C1DFF490000A65893 /* STRParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 38FF47281DFF490000A65893 /* STRParser.h */; };
+		38FF472C1DFF490000A65893 /* STRParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 38FF47281DFF490000A65893 /* STRParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38FF472D1DFF490000A65893 /* STRParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 38FF47291DFF490000A65893 /* STRParser.m */; };
 		38FF472E1DFF490000A65893 /* STSASParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 38FF472A1DFF490000A65893 /* STSASParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38FF472F1DFF490000A65893 /* STSASParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 38FF472B1DFF490000A65893 /* STSASParser.m */; };
@@ -358,6 +370,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				38D8B1B31D9496C300BF878A /* StatTagFramework.framework in Embed Frameworks */,
+				35C112AF1EE09A9A00C9CC7F /* RCocoa.framework in Embed Frameworks */,
 				38A877CE1D9AEEA7002F37DA /* Scintilla.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -366,6 +379,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3500D5CC1EE066DA006AA0ED /* RCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RCocoa.framework; sourceTree = "<group>"; };
+		3500D5CE1EE066F7006AA0ED /* R.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = R.framework; path = ../../../../Library/Frameworks/R.framework; sourceTree = "<group>"; };
+		35F2E7311EE1A93E0086F9D0 /* STRBaseValueFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STRBaseValueFormatter.h; sourceTree = "<group>"; };
+		35F2E7331EE1A94A0086F9D0 /* STRBaseValueFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STRBaseValueFormatter.m; sourceTree = "<group>"; };
 		380A67961D102FFA0045B72B /* TestDestinationTextFile.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TestDestinationTextFile.txt; sourceTree = "<group>"; };
 		380A67981D1061100045B72B /* STTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STTable.h; sourceTree = "<group>"; };
 		380A67991D1061100045B72B /* STTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STTable.m; sourceTree = "<group>"; };
@@ -683,6 +700,13 @@
 		38E22ABE1E9D5FBC005DFFE9 /* ScintillaEmbeddedViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScintillaEmbeddedViewController.xib; sourceTree = "<group>"; };
 		38E9CB0E1E1473A9006B3571 /* TableValueFilterFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableValueFilterFormatter.h; sourceTree = "<group>"; };
 		38E9CB0F1E1473A9006B3571 /* TableValueFilterFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableValueFilterFormatter.m; sourceTree = "<group>"; };
+		38EDC0591EE0EF2200A7BFD2 /* DuplicateTagRenameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DuplicateTagRenameViewController.h; sourceTree = "<group>"; };
+		38EDC05A1EE0EF2200A7BFD2 /* DuplicateTagRenameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DuplicateTagRenameViewController.m; sourceTree = "<group>"; };
+		38EDC05B1EE0EF2200A7BFD2 /* DuplicateTagRenameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DuplicateTagRenameViewController.xib; sourceTree = "<group>"; };
+		38EDC0601EE3101100A7BFD2 /* STVerbatimGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STVerbatimGenerator.h; sourceTree = "<group>"; };
+		38EDC0621EE3101E00A7BFD2 /* STVerbatimGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STVerbatimGenerator.m; sourceTree = "<group>"; };
+		38EDC0641EE313F400A7BFD2 /* STVerbatimParameterParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STVerbatimParameterParser.h; sourceTree = "<group>"; };
+		38EDC0661EE313FD00A7BFD2 /* STVerbatimParameterParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STVerbatimParameterParser.m; sourceTree = "<group>"; };
 		38EDF0261D2BFFD800ACD77B /* STStata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STStata.h; sourceTree = "<group>"; };
 		38EDF0281D2C002A00ACD77B /* STStataAutomation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STStataAutomation.h; sourceTree = "<group>"; };
 		38EDF0291D2C002A00ACD77B /* STStataAutomation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STStataAutomation.m; sourceTree = "<group>"; };
@@ -761,6 +785,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3500D5CF1EE066F7006AA0ED /* R.framework in Frameworks */,
+				3500D5CD1EE066DA006AA0ED /* RCocoa.framework in Frameworks */,
 				38BE59AC1D52AA1000FF9E99 /* Cocoa.framework in Frameworks */,
 				38C91F461D36FC8A0048A95E /* AppleScriptObjC.framework in Frameworks */,
 				382C28711D180CB900697D6F /* SystemConfiguration.framework in Frameworks */,
@@ -782,6 +808,7 @@
 			files = (
 				38D8B1B21D9496C300BF878A /* StatTagFramework.framework in Frameworks */,
 				38A877CD1D9AEEA7002F37DA /* Scintilla.framework in Frameworks */,
+				35C112AE1EE09A9A00C9CC7F /* RCocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -795,6 +822,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3500D5CB1EE066DA006AA0ED /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3500D5CE1EE066F7006AA0ED /* R.framework */,
+				3500D5CC1EE066DA006AA0ED /* RCocoa.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		380CBD401E89C141006E92D1 /* DocumentBrowser */ = {
 			isa = PBXGroup;
 			children = (
@@ -867,6 +903,7 @@
 				3836F5621D92C89900BF0DD4 /* StatTagTests */,
 				3816ABF71ED5C1B10045390E /* StatTagHelp */,
 				382C8D241D0F672F00FE6878 /* Products */,
+				3500D5CB1EE066DA006AA0ED /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -993,6 +1030,8 @@
 				382C28C31D19A00D00697D6F /* STTableParameterGenerator.m */,
 				382C28C61D19A23100697D6F /* STValueParameterGenerator.h */,
 				382C28C81D19A24200697D6F /* STValueParameterGenerator.m */,
+				38EDC0601EE3101100A7BFD2 /* STVerbatimGenerator.h */,
+				38EDC0621EE3101E00A7BFD2 /* STVerbatimGenerator.m */,
 			);
 			path = Generator;
 			sourceTree = "<group>";
@@ -1000,15 +1039,17 @@
 		382C8D321D0F680200FE6878 /* Parser */ = {
 			isa = PBXGroup;
 			children = (
+				38FF47301DFF490C00A65893 /* PlatformParsers */,
 				382C284C1D1202D400697D6F /* STBaseParameterParser.h */,
 				382C284D1D1202D400697D6F /* STBaseParameterParser.m */,
 				382C28D31D19D8E900697D6F /* STFigureParameterParser.h */,
 				382C28D41D19D8E900697D6F /* STFigureParameterParser.m */,
-				38FF47301DFF490C00A65893 /* PlatformParsers */,
 				382C28D71D19DACC00697D6F /* STTableParameterParser.h */,
 				382C28D91D19DAD500697D6F /* STTableParameterParser.m */,
 				3884513A1D19DCB3004C2B40 /* STValueParameterParser.h */,
 				3884513B1D19DCB3004C2B40 /* STValueParameterParser.m */,
+				38EDC0641EE313F400A7BFD2 /* STVerbatimParameterParser.h */,
+				38EDC0661EE313FD00A7BFD2 /* STVerbatimParameterParser.m */,
 			);
 			path = Parser;
 			sourceTree = "<group>";
@@ -1037,7 +1078,9 @@
 				38C9B2071D109F6B003B571E /* STBaseValueFormatter.m */,
 				38C9B20A1D109FA8003B571E /* STIValueFormatter.h */,
 				38C9B20C1D10A2B2003B571E /* STStataBaseValueFormatter.h */,
+				35F2E7311EE1A93E0086F9D0 /* STRBaseValueFormatter.h */,
 				38C9B20D1D10A2B2003B571E /* STStataBaseValueFormatter.m */,
+				35F2E7331EE1A94A0086F9D0 /* STRBaseValueFormatter.m */,
 			);
 			path = ValueFormatter;
 			sourceTree = "<group>";
@@ -1103,7 +1146,7 @@
 			isa = PBXGroup;
 			children = (
 				38C3CC721DA428D100CEA70C /* DisclosureView */,
-				38F803611D9DCB5800C8F1EA /* Controls */,
+				38F803611D9DCB5800C8F1EA /* TagEditorControlViews */,
 				38F8033D1D9C4B3500C8F1EA /* ScintillaHelpers */,
 				3836F59D1D92D03D00BF0DD4 /* SettingsViewController.h */,
 				3836F59E1D92D03D00BF0DD4 /* SettingsViewController.m */,
@@ -1256,6 +1299,9 @@
 				386689491E9BC6EC00A5A1CB /* DuplicateTagsViewController.h */,
 				3866894A1E9BC6EC00A5A1CB /* DuplicateTagsViewController.m */,
 				3866894B1E9BC6EC00A5A1CB /* DuplicateTagsViewController.xib */,
+				38EDC0591EE0EF2200A7BFD2 /* DuplicateTagRenameViewController.h */,
+				38EDC05A1EE0EF2200A7BFD2 /* DuplicateTagRenameViewController.m */,
+				38EDC05B1EE0EF2200A7BFD2 /* DuplicateTagRenameViewController.xib */,
 			);
 			name = DuplicateTags;
 			sourceTree = "<group>";
@@ -1599,7 +1645,7 @@
 			path = R;
 			sourceTree = "<group>";
 		};
-		38F803611D9DCB5800C8F1EA /* Controls */ = {
+		38F803611D9DCB5800C8F1EA /* TagEditorControlViews */ = {
 			isa = PBXGroup;
 			children = (
 				387632431DA7E2AC00680898 /* DateTimePropertiesController.h */,
@@ -1636,6 +1682,7 @@
 				388ABF861DA5B1F500F08956 /* ViewUtils.h */,
 				388ABF871DA5B1F500F08956 /* ViewUtils.m */,
 			);
+			name = TagEditorControlViews;
 			path = Controls;
 			sourceTree = "<group>";
 		};
@@ -1683,6 +1730,7 @@
 				382C8D371D0F68B200FE6878 /* STCodeFile.h in Headers */,
 				382C28AC1D195C2500697D6F /* STFieldTag.h in Headers */,
 				382C285B1D133BCD00697D6F /* STValueFormat.h in Headers */,
+				38EDC0651EE313F400A7BFD2 /* STVerbatimParameterParser.h in Headers */,
 				38C9B21C1D10AA55003B571E /* STBaseParser.h in Headers */,
 				38FF47221DFF18D200A65893 /* STBaseManager.h in Headers */,
 				385FDD281D32F6DD00AE0FE2 /* STTagManager.h in Headers */,
@@ -1693,9 +1741,9 @@
 				380A67A01D106E090045B72B /* STCodeFileAction.h in Headers */,
 				382C28C01D199F9A00697D6F /* STStataBaseGenerator.h in Headers */,
 				38F803581D9DB2B300C8F1EA /* STSASAutomation.h in Headers */,
-				38FF472C1DFF490000A65893 /* STRParser.h in Headers */,
 				38FF473B1E08674F00A65893 /* STRCommands.h in Headers */,
 				38FF47201DFF185100A65893 /* STLogManager.h in Headers */,
+				38EDC0611EE3101100A7BFD2 /* STVerbatimGenerator.h in Headers */,
 				38FF471C1DFF058900A65893 /* STTableUtil.h in Headers */,
 				382C28C41D19A00D00697D6F /* STTableParameterGenerator.h in Headers */,
 				38FF47181DFF021800A65893 /* STIStatAutomation.h in Headers */,
@@ -1706,7 +1754,6 @@
 				38516FCF1DF5C751006989BC /* CHCSVParser.h in Headers */,
 				38A7CE9C1D4FE29400B06AFF /* STPropertiesManager.h in Headers */,
 				38516FCA1DF5B279006989BC /* STCSVToTable.h in Headers */,
-				38FF470C1DFEEBC000A65893 /* STRBaseGenerator.h in Headers */,
 				382C28621D1454D900697D6F /* STIResultCommandFormatter.h in Headers */,
 				382C28C71D19A23100697D6F /* STValueParameterGenerator.h in Headers */,
 				38FF472E1DFF490000A65893 /* STSASParser.h in Headers */,
@@ -1731,8 +1778,11 @@
 				382C28561D13306400697D6F /* STTableFormat.h in Headers */,
 				382C284E1D1202D400697D6F /* STBaseParameterParser.h in Headers */,
 				382C28671D14880900697D6F /* STFactories.h in Headers */,
+				38FF470C1DFEEBC000A65893 /* STRBaseGenerator.h in Headers */,
 				38C9B2181D10A8CF003B571E /* STTag.h in Headers */,
+				35F2E7321EE1A93E0086F9D0 /* STRBaseValueFormatter.h in Headers */,
 				382C286A1D1488F200697D6F /* STIGenerator.h in Headers */,
+				38FF472C1DFF490000A65893 /* STRParser.h in Headers */,
 				385FDD2C1D32F70100AE0FE2 /* STDocumentManager.h in Headers */,
 				38788F941D30100F00299789 /* STStatsManager.h in Headers */,
 				38C91F361D366AD70048A95E /* NSMutableArray+Stack.h in Headers */,
@@ -1957,6 +2007,7 @@
 				3866894D1E9BC6EC00A5A1CB /* DuplicateTagsViewController.xib in Resources */,
 				38FFDD1D1E8C8ED1004D92C3 /* Credits.rtf in Resources */,
 				38AB418E1DA1BC2900EA464C /* TagBasicPropertiesController.xib in Resources */,
+				38EDC05D1EE0EF2200A7BFD2 /* DuplicateTagRenameViewController.xib in Resources */,
 				383F3B991DA679AE0069C78E /* TagPreviewController.xib in Resources */,
 				3816AC121ED846670045390E /* SamplesInstallerViewController.xib in Resources */,
 				3836F5A11D92D03D00BF0DD4 /* SettingsViewController.xib in Resources */,
@@ -2041,6 +2092,7 @@
 				386992D71DBD10D400852B6E /* STUIUtility.m in Sources */,
 				382C28AD1D195C2500697D6F /* STFieldTag.m in Sources */,
 				382C28C91D19A24200697D6F /* STValueParameterGenerator.m in Sources */,
+				35F2E7341EE1A94A0086F9D0 /* STRBaseValueFormatter.m in Sources */,
 				38516FCB1DF5B279006989BC /* STCSVToTable.m in Sources */,
 				382C28D21D19C5DC00697D6F /* STGeneralUtil.m in Sources */,
 				38516FD01DF5C751006989BC /* CHCSVParser.m in Sources */,
@@ -2049,6 +2101,7 @@
 				38EDF0331D2C2E6900ACD77B /* STCocoaUtil.m in Sources */,
 				38A7CE991D4FDFB600B06AFF /* STGridDataItem.m in Sources */,
 				382C28B51D1994DE00697D6F /* STBaseGenerator.m in Sources */,
+				38EDC0671EE313FD00A7BFD2 /* STVerbatimParameterParser.m in Sources */,
 				38FF47211DFF185100A65893 /* STLogManager.m in Sources */,
 				382C28C11D199F9A00697D6F /* STStataBaseGenerator.m in Sources */,
 				382C28C51D19A00D00697D6F /* STTableParameterGenerator.m in Sources */,
@@ -2074,6 +2127,7 @@
 				385FDD2D1D32F70100AE0FE2 /* STDocumentManager.m in Sources */,
 				387A0E261D22BC5F00F1FE9C /* STStataParser.m in Sources */,
 				382C28CD1D19ADA000697D6F /* STTagUtil.m in Sources */,
+				38EDC0631EE3101E00A7BFD2 /* STVerbatimGenerator.m in Sources */,
 				38C91F401D36D1970048A95E /* WordHelpers.m in Sources */,
 				382C8D3C1D0F9E1D00FE6878 /* STFileHandler.m in Sources */,
 				38FF471D1DFF058900A65893 /* STTableUtil.m in Sources */,
@@ -2177,6 +2231,7 @@
 				38FACC821E894E3200E3BB82 /* DocumentBrowserViewController.m in Sources */,
 				387632461DA7E2AC00680898 /* DateTimePropertiesController.m in Sources */,
 				386689561E9BD37D00A5A1CB /* DocumentBrowserDocumentViewController.m in Sources */,
+				38EDC05C1EE0EF2200A7BFD2 /* DuplicateTagRenameViewController.m in Sources */,
 				38C3CC761DA428E700CEA70C /* DisclosureViewController.m in Sources */,
 				3876324B1DA8383900680898 /* AppEventListener.m in Sources */,
 				38D8B1C71D95872A00BF878A /* UpdateOutputProgressViewController.m in Sources */,
@@ -2362,6 +2417,7 @@
 		382C8D2C1D0F672F00FE6878 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
@@ -2371,8 +2427,10 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 				);
 				FRAMEWORK_VERSION = A;
+				HEADER_SEARCH_PATHS = "$(LOCAL_LIBRARY_DIR)/Frameworks/R.framework/Headers";
 				INFOPLIST_FILE = "$(SRCROOT)/StatTagFramework/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
@@ -2389,6 +2447,7 @@
 		382C8D2D1D0F672F00FE6878 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
@@ -2399,8 +2458,10 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 				);
 				FRAMEWORK_VERSION = A;
+				HEADER_SEARCH_PATHS = "$(LOCAL_LIBRARY_DIR)/Frameworks/R.framework/Headers";
 				INFOPLIST_FILE = "$(SRCROOT)/StatTagFramework/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
@@ -2456,7 +2517,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
-				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = ZRBJAU296F;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2487,7 +2548,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
-				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = ZRBJAU296F;
 				FRAMEWORK_SEARCH_PATHS = (

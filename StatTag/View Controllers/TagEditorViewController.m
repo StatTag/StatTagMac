@@ -208,6 +208,8 @@ static void *TagTypeContext = &TagTypeContext;
         [self UpdateForType:[[self tag]Type]];
       } else if([[[self tag] Type] isEqualToString: [STConstantsTagType Table]] ){
         [self UpdateForType:[[self tag] Type]];
+      } else if([[[self tag] Type] isEqualToString: [STConstantsTagType Verbatim]] ){
+        [self UpdateForType:[[self tag] Type]];
       }
       
       
@@ -413,6 +415,7 @@ static void *TagTypeContext = &TagTypeContext;
     if([[[self tag] Type] isEqualToString:[STConstantsTagType Value]]) {
     } else if([[[self tag] Type] isEqualToString:[STConstantsTagType Table]]) {
     } else if([[[self tag] Type] isEqualToString:[STConstantsTagType Figure]]) {
+    } else if([[[self tag] Type] isEqualToString:[STConstantsTagType Verbatim]]) {
     } else {
       NSMutableDictionary *errorDetail;
       errorDetail = [NSMutableDictionary dictionary];
@@ -459,15 +462,15 @@ static void *TagTypeContext = &TagTypeContext;
     [NSApp presentError:saveError];
     return;
   }
-  
-  if(edited == YES)
+
+  NSMutableDictionary *errorDetail = [NSMutableDictionary dictionary];
+  if(edited == YES || [errorDetail count] == 0)
   {
     [_delegate dismissTagEditorController:self withReturnCode:(StatTagResponseState)OK];
     return;
   }
   
   //something bad happened... we should probably have better error handling...
-  NSMutableDictionary *errorDetail = [NSMutableDictionary dictionary];
   [errorDetail setValue:[NSString stringWithFormat:@"StatTag was not able to save changes"] forKey:NSLocalizedDescriptionKey];
   saveError = [NSError errorWithDomain:@"com.stattag.StatTag" code:100 userInfo:errorDetail];
   [NSApp presentError:saveError];
@@ -534,9 +537,9 @@ static void *TagTypeContext = &TagTypeContext;
         [[self tagTablePropertiesView] setHidden:YES];
       }
     #else
-      if([[_propertiesStackView subviews] containsObject:[self tagValuePropertiesView]])
+      if([[_propertiesStackView subviews] containsObject:[self tagTablePropertiesView]])
       {
-        [_propertiesStackView setVisibilityPriority:NSStackViewVisibilityPriorityMustHold forView:[self tagValuePropertiesView]];
+        [_propertiesStackView setVisibilityPriority:NSStackViewVisibilityPriorityNotVisible forView:[self tagTablePropertiesView]];
       }
     #endif
   }

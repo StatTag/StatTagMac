@@ -35,6 +35,8 @@
 
 -(void)setActiveDocumentByDocName:(NSString*)theName;
 
+-(void)insertTextboxAtRangeStart:(NSNumber*)theRangeStart andRangeEnd:(NSNumber*)theRangeEnd forShapeName:(NSString*)shapeName withShapetext:(NSString*)shapeText andFontSize:(NSNumber*)fontSize andFontFace:(NSString*)fontFace;
+
 //-(void)disableScreenUpdates;
 //-(void)enableScreenUpdates;
 

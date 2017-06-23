@@ -26,7 +26,7 @@
 @synthesize duplicateTags = _duplicateTags;
 @synthesize peekTitle = _peekTitle;
 
-TagEditorViewController* duplicateTagEditorController;
+DuplicateTagRenameViewController* duplicateTagRenameController;
 
 static NSEvent *popoverTransiencyMonitor;
 
@@ -187,7 +187,7 @@ static NSEvent *popoverTransiencyMonitor;
   //NSTableView *targetButton = (NSTableView *)sender;
   
   // configure the preferred position of the popover
-  NSRectEdge prefEdge = 1;
+  //NSRectEdge prefEdge = 1;
 
   //NSInteger row = [[self duplicateTagTableView] selectedRow];
   NSInteger row = [[self duplicateTagTableView] rowForView:sender];
@@ -199,7 +199,8 @@ static NSEvent *popoverTransiencyMonitor;
       [[self popoverViewController] setTag:[entry tag]];
       self.popoverView.contentViewController = [self popoverViewController]; //not sure why we have to rebind this
       
-      NSRect r = [[self duplicateTagTableView] frameOfCellAtColumn:0 row:[[self duplicateTagTableView] selectedRow]];
+      //NSRect r = [[self duplicateTagTableView] frameOfCellAtColumn:0 row:[[self duplicateTagTableView] selectedRow]];
+      
       
       //[[self popoverView] showRelativeToRect:r ofView:sender preferredEdge:prefEdge];
       [[self popoverView] showRelativeToRect:[sender bounds] ofView:sender preferredEdge:NSMaxYEdge];
@@ -278,9 +279,9 @@ static NSEvent *popoverTransiencyMonitor;
 
 
 - (IBAction)editTag:(id)sender {
-  if (duplicateTagEditorController == nil)
+  if (duplicateTagRenameController == nil)
   {
-    duplicateTagEditorController = [[TagEditorViewController alloc] init];
+    duplicateTagRenameController = [[DuplicateTagRenameViewController alloc] init];
   }
   
   //NSInteger row = [[self tableViewOnDemand] rowForView:sender];
@@ -294,16 +295,16 @@ static NSEvent *popoverTransiencyMonitor;
       //only let clicking happen for detail / tag rows - not groups
       STTag* selectedTag = [[[self tagGroupEntries] objectAtIndex:row] tag];
       if(selectedTag != nil) {
-        duplicateTagEditorController.documentManager = _documentManager;
-        duplicateTagEditorController.tag = selectedTag;
-        duplicateTagEditorController.delegate = self;
-        [self presentViewControllerAsSheet:duplicateTagEditorController];
+        duplicateTagRenameController.documentManager = _documentManager;
+        duplicateTagRenameController.duplicateTag = selectedTag;
+        duplicateTagRenameController.delegate = self;
+        [self presentViewControllerAsSheet:duplicateTagRenameController];
       }
     }
   }
 }
 
-- (void)dismissTagEditorController:(TagEditorViewController *)controller withReturnCode:(StatTagResponseState)returnCode {
+- (void)dismissTagRenameController:(DuplicateTagRenameViewController *)controller withReturnCode:(StatTagResponseState)returnCode {
   //FIXME: need to handle errors from worker sheet
   [self dismissViewController:controller];
   if(returnCode == OK) {

@@ -32,6 +32,7 @@ extern NSString *const STStatTagErrorDomain;
 +(NSString*)Value;
 +(NSString*)Figure;
 +(NSString*)Table;
++(NSString*)Verbatim;
 +(NSArray<NSString *>*)GetList;
 @end
 
