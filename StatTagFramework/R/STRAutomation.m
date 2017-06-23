@@ -106,17 +106,15 @@ static NSString* const MATRIX_DIMENSION_NAMES_ATTRIBUTE = @"dimnames";
             return commandResult;
         }
 
+        // Image comes next, because everything else we will count as a value type.
+        if ([Parser IsImageExport:command]) {
+            STTag* tmpTag = [[STTag alloc] init];
+            tmpTag.Type = [STConstantsTagType Figure];
+            STCommandResult* imageLocation = [self RunCommand:[Parser GetImageSaveLocation:command] tag:tmpTag];
+            STCommandResult* commandResult = [[STCommandResult alloc] init];
+            commandResult.FigureResult = imageLocation.ValueResult;
+        }
 
-//  
-//  // Image comes next, because everything else we will count as a value type.
-//  if (Parser.IsImageExport(command))
-//  {
-//    var imageLocation = RunCommand(Parser.GetImageSaveLocation(command), new Tag() { Type = Constants.TagType.Value });
-//    return new CommandResult() { FigureResult = imageLocation.ValueResult };
-//  }
-//  
-
-    
         // If we have a value command, we will pull out the last relevant line from the output.
         // Because we treat every type of output as a possible value result, we are only going
         // to capture the result if it's flagged as a tag.
