@@ -213,6 +213,7 @@
     
     if(step == nil){
       step = [[STExecutionStep alloc]init];
+      //[step setLineStart:(index + 1)];
     }
     
     NSArray* matches = [_StartTagRegEx matchesInString:line options:0 range: NSMakeRange(0, line.length)];
@@ -220,6 +221,7 @@
     if([matches count] > 0){
       // If the previous code block had content, save it off and create a new one
       if([[step Code] count] > 0){
+        //[step setLineEnd:([step lineStart] + [[step Code] count] - 1)];
         [executionSteps addObject:step];
         step = [[STExecutionStep alloc] init];
       }

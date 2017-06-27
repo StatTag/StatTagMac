@@ -237,7 +237,7 @@ BOOL breakLoop = YES;
   [self presentViewControllerAsSheet:tagUpdateProgressController];
 }
 
-- (void)dismissUpdateOutputProgressController:(UpdateOutputProgressViewController *)controller withReturnCode:(StatTagResponseState)returnCode andFailedTags:(NSArray<STTag *> *)failedTags {
+- (void)dismissUpdateOutputProgressController:(UpdateOutputProgressViewController *)controller withReturnCode:(StatTagResponseState)returnCode andFailedTags:(NSArray<STTag *> *)failedTags withErrors:(NSDictionary<STTag*, NSException*>*)failedTagErrors{
   //FIXME: need to handle errors from worker sheet
   [self dismissViewController:controller];
   if(returnCode == OK && [failedTags count] <= 0) {
@@ -248,13 +248,13 @@ BOOL breakLoop = YES;
   
   if(returnCode == Error || [failedTags count] > 0)
   {
-    [self alertUserToFailedTags:failedTags];
+    [self alertUserToFailedTags:failedTags withErrors:failedTagErrors];
   }
   
   [[NSNotificationCenter defaultCenter] postNotificationName:@"tagInsertRefreshCompleted" object:self userInfo:nil];
 }
 
--(void)alertUserToFailedTags:(NSArray<STTag*>*)failedTags
+-(void)alertUserToFailedTags:(NSArray<STTag*>*)failedTags withErrors:(NSDictionary<STTag*, NSException*>*)failedTagErrors
 {
   //we should really fix how this all works
   //NSLog(@"failed tags : %@", failedTags);
@@ -276,7 +276,19 @@ BOOL breakLoop = YES;
     [content appendString:@"StatTag could not run the following tags\n"];
     for(STTag* t in failedTags)
     {
-      [content appendString:[NSString stringWithFormat:@"•\t%@ (%@)\n", [t Name], [[t CodeFile] FileName] ]];
+      NSString* errorDetail = @"";
+      if(failedTagErrors != nil)
+      {
+        NSException* ex = [failedTagErrors objectForKey:t];
+        if(ex != nil && [ex userInfo] != nil)
+        {
+          NSString* errorStatisticalPackage = [[ex userInfo] valueForKey:@"StatisticalPackage"];
+          NSString* errorCode = [[ex userInfo] valueForKey:@"ErrorCode"];
+          NSString* errorDescription = [[ex userInfo] valueForKey:@"ErrorDescription"];
+          errorDetail = [NSString stringWithFormat:@" %@ - %@ - %@", errorStatisticalPackage, errorCode, errorDescription];
+        }
+      }
+      [content appendString:[NSString stringWithFormat:@"•\t%@ (%@%@)\n", [t Name], [[t CodeFile] FileName], errorDetail ]];
     }
   }
   [content appendString:@"\nPlease try running your code file(s) directly in their respective statistical programs. Look for any warnings or errors that might prevent successful completion."];
@@ -294,7 +306,7 @@ BOOL breakLoop = YES;
 - (IBAction)insertTagIntoDocument:(id)sender {
   
   
-  [_documentManager InsertTagsInDocument:[onDemandTags selectedObjects]];
+  //[_documentManager InsertTagsInDocument:[onDemandTags selectedObjects]];
 
   /*
   for(STTag* tag in [onDemandTags selectedObjects]) {

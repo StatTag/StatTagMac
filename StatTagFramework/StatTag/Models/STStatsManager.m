@@ -116,6 +116,9 @@ const NSInteger RefreshStepInterval = 5;
   NSString* currentTagName;
   STTag* activeTag;
   
+//  NSInteger lineStart = 1;
+//  NSInteger lineEnd = lineStart;
+  
   @try {
     // Get all of the commands in the code file that should be executed given the current filter
     NSArray<STExecutionStep*>* steps = [parser GetExecutionSteps:file filterMode:filterMode tagsToRun:tagsToRun];
@@ -125,6 +128,17 @@ const NSInteger RefreshStepInterval = 5;
     for (NSInteger index = 0; index < [steps count]; index++) {
       
       STExecutionStep* step = steps[index];
+//      lineStart = lineEnd;
+//      lineEnd = lineStart + ([[step Code] count] > 0 ? [[step Code] count] - 1 : 0);
+
+      //NSLog(@"step lines (%ld,%ld)", [step lineStart], [step lineEnd]);
+      
+//      if([[file StatisticalPackage] isEqualToString:[STConstantsStatisticalPackages Stata]] && lineEnd > 1)
+//      {
+        //for Stata we're sending in "clear all" on the first line
+        // no - this isn't an ideal way to address this
+//        lineEnd = lineEnd - 1;
+//      }
       
       // Every few steps, we will allow the screen to update, otherwise the UI looks like it's
       // completely hung up.  Note that we will only do this if screen updating is disabled when
@@ -162,9 +176,9 @@ const NSInteger RefreshStepInterval = 5;
         continue;
       }
       
-      NSArray<STCommandResult*>* results = [automation RunCommands:[step Code] tag:[step Tag]];
       STTag* tag = [[self Manager] FindTag:[[step Tag] Id]];
       activeTag = tag;
+      NSArray<STCommandResult*>* results = [automation RunCommands:[step Code] tag:[step Tag]];
       
       //NSLog(@"results count : %lu", (unsigned long)[results count]);
       //for(STCommandResult* r in results) {
@@ -258,13 +272,17 @@ const NSInteger RefreshStepInterval = 5;
     if(activeTag != nil)
     {
       dispatch_async(dispatch_get_main_queue(), ^{
-          [[NSNotificationCenter defaultCenter] postNotificationName:@"tagUpdateComplete" object:self userInfo:@{@"tagName":[activeTag Name], @"tagID":[activeTag Id], @"codeFileName":[[activeTag CodeFile] FileName], @"type" : @"tag", @"no_result" : [NSNumber numberWithBool:YES]}];
+          [[NSNotificationCenter defaultCenter] postNotificationName:@"tagUpdateComplete" object:self userInfo:@{@"tagName":[activeTag Name], @"tagID":[activeTag Id], @"codeFileName":[[activeTag CodeFile] FileName], @"type" : @"tag", @"no_result" : [NSNumber numberWithBool:YES], @"exception":exception}];
       });
+    } else {
+      @throw exception;
     }
 
+  //    errorInfo = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInteger:returnCode], @"ErrorCode", [STConstantsStatisticalPackages Stata], @"StatisticalPackage", [self getStataErrorDescription:returnCode], @"ErrorDescription", nil];
+
+    
 //    result.Success = false;
 //    return result;
-    @throw exception;
     //result.Success = false;
     //return result;
   }

@@ -22,7 +22,8 @@
 @property (strong, nonatomic) NSMutableArray<NSString*>* Code;
 @property (strong, nonatomic) NSMutableArray<NSString*>* Result;
 @property (strong, nonatomic) STTag *Tag;
-
+@property NSInteger lineStart;
+@property NSInteger lineEnd;
 
 //MARK: JSON
 -(NSDictionary *)toDictionary;

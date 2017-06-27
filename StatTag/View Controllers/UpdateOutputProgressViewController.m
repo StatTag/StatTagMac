@@ -8,6 +8,7 @@
 
 #import "UpdateOutputProgressViewController.h"
 #import "StatTagFramework.h"
+#import "STTag+StatisticalPackage.h"
 
 @interface UpdateOutputProgressViewController ()
 
@@ -21,6 +22,7 @@
 @synthesize documentManager = _documentManager;
 @synthesize tagsToProcess = _tagsToProcess;
 @synthesize failedTags = _failedTags;
+@synthesize failedTagErrors = _failedTagErrors;
 
 @synthesize insert = _insert;
 
@@ -54,6 +56,7 @@
   [self setNumTagsCompleted:@0];
   [self setNumTagsToProcess:@0];
   _failedTags = [[NSMutableArray<STTag*> alloc] init];
+  _failedTagErrors = [[NSMutableDictionary<STTag*, NSException*> alloc] init];
   
   [self refreshTagsAsync];
 //  [self refreshTags];
@@ -86,12 +89,25 @@
         dispatch_async(dispatch_get_main_queue(), ^{
           [progressText setStringValue:@"Starting to insert tags..."];
         });
+        
+        //FIXME: BAD hack to work around issues with R
+        //we're going to process the Stata tags normally n the background thread - but the R tags on the main thread - until we can figure our why R blows up when run on the background thread
+        //leaving this example VERY verbose so it's clear what we're doing
+        NSPredicate *tagsTypeR = [NSPredicate predicateWithFormat:@"StatisticalPackage = %@", [STConstantsStatisticalPackages R]];
+        NSPredicate *tagsTypeNotR = [NSPredicate predicateWithFormat:@"StatisticalPackage != %@", [STConstantsStatisticalPackages R]];
+        NSArray<STTag*> *RTags = [[self tagsToProcess] filteredArrayUsingPredicate:tagsTypeR];
+        NSArray<STTag*> *NotRTags = [[self tagsToProcess] filteredArrayUsingPredicate:tagsTypeNotR];
+        //NSLog(@"R Tags = %@", RTags);
+        //NSLog(@"NOT R Tags = %@", NotRTags);
+        
         //[_documentManager InsertTagsInDocument:[self tagsToProcess]];
+        [_documentManager InsertTagsInDocument:NotRTags];
         dispatch_async(dispatch_get_main_queue(), ^{
+          [_documentManager InsertTagsInDocument:RTags];
           [progressIndicator setIndeterminate:YES];
           [progressIndicator stopAnimation:nil];
           [progressText setStringValue:@"Insert complete"];
-          [_delegate dismissUpdateOutputProgressController:self withReturnCode:(StatTagResponseState)OK andFailedTags:[self failedTags]];
+          [_delegate dismissUpdateOutputProgressController:self withReturnCode:(StatTagResponseState)OK andFailedTags:[self failedTags] withErrors:[self failedTagErrors]];
           return;
         });
       }
@@ -99,24 +115,25 @@
       {
   
         STStatsManager* stats = [[STStatsManager alloc] init:_documentManager];
+        #pragma unused (stats)
         
         dispatch_async(dispatch_get_main_queue(), ^{
           [progressText setStringValue:@"Starting to update tags..."];
           [self setProgressCountText:[NSString stringWithFormat:@"%@/%ld", [self numTagsCompleted], [[self tagsToProcess] count]]];
           [[self progressCountLabel] setStringValue:[NSString stringWithFormat:@"(%@/%@)", [self numTagsCompleted], [self numTagsToProcess]]];
         });
-
+        /*
         for(STCodeFile* cf in [_documentManager GetCodeFileList]) {
           ////NSLog(@"found codefile %@", [cf FilePath]);
-          
-          
-//          STStatsManagerExecuteResult* result = [stats ExecuteStatPackage:cf
-//                                                               filterMode:[STConstantsParserFilterMode TagList]
-//                                                                tagsToRun:_tagsToProcess
-//                                                 ];
-          //#pragma unused (result)
+                    
+          STStatsManagerExecuteResult* result = [stats ExecuteStatPackage:cf
+                                                               filterMode:[STConstantsParserFilterMode TagList]
+                                                                tagsToRun:_tagsToProcess
+                                                 ];
+          #pragma unused (result)
           
         }
+         */
         
         dispatch_async(dispatch_get_main_queue(), ^{
           
@@ -139,7 +156,7 @@
           
           [progressText setStringValue:@"Updates complete"];
           
-          [_delegate dismissUpdateOutputProgressController:self withReturnCode:(StatTagResponseState)OK  andFailedTags:[self failedTags]];
+          [_delegate dismissUpdateOutputProgressController:self withReturnCode:(StatTagResponseState)OK  andFailedTags:[self failedTags] withErrors:[self failedTagErrors]];
         });
       
       }
@@ -151,7 +168,7 @@
     }
     @catch (NSException* exc) {
       dispatch_async(dispatch_get_main_queue(), ^{
-        [_delegate dismissUpdateOutputProgressController:self withReturnCode:(StatTagResponseState)Error andFailedTags:[self failedTags]];
+        [_delegate dismissUpdateOutputProgressController:self withReturnCode:(StatTagResponseState)Error andFailedTags:[self failedTags] withErrors:[self failedTagErrors]];
       });
     }
   });
@@ -191,6 +208,7 @@
     NSString* tagID = [[notification userInfo] valueForKey:@"tagID"];
     //NSLog(@"tagUpdateComplete complete => tag: %@", tagName);
     bool no_result = [(NSNumber*)[[notification userInfo] valueForKey:@"no_result"] boolValue];
+    NSException* ex = (NSException*)[[notification userInfo] valueForKey:@"exception"];
     //@"no_result" : [NSNumber numberWithBool:no_result]}
     if(no_result)
     {
@@ -201,6 +219,10 @@
         if([[t Id] isEqualToString:tagID])
         {
           [[self failedTags] addObject:t];
+          if(ex != nil)
+          {
+            [[self failedTagErrors] setObject:ex forKey:t];
+          }
         }
       }
     }

@@ -68,6 +68,14 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 
+  #if !defined(MAC_OS_X_VERSION_10_12_2) || MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_12_2
+    if ([[NSApplication sharedApplication] respondsToSelector:@selector(isAutomaticCustomizeTouchBarMenuItemEnabled)])
+    {
+      [NSApplication sharedApplication].automaticCustomizeTouchBarMenuItemEnabled = YES;
+    }
+  #endif
+
+  
 //  [self runStatTagWithDocumentBrowser];
 
 /*

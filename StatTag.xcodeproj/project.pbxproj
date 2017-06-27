@@ -29,6 +29,7 @@
 		3816AC0D1ED5CDCC0045390E /* SharedGlobalArt in Resources */ = {isa = PBXBuildFile; fileRef = 3816AC081ED5CDCC0045390E /* SharedGlobalArt */; };
 		3816AC111ED846670045390E /* SamplesInstallerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3816AC0F1ED846670045390E /* SamplesInstallerViewController.m */; };
 		3816AC121ED846670045390E /* SamplesInstallerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3816AC101ED846670045390E /* SamplesInstallerViewController.xib */; };
+		381CC7641EFFFF8D00CC220E /* STTag+StatisticalPackage.m in Sources */ = {isa = PBXBuildFile; fileRef = 381CC7631EFFFF8D00CC220E /* STTag+StatisticalPackage.m */; };
 		381FD33F1D19F00700DB4B12 /* STConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 380A67A81D1077550045B72B /* STConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3824439E1DBE567D00EF0048 /* StatTagScriptSupport.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 3824439D1DBE567D00EF0048 /* StatTagScriptSupport.scpt */; };
 		382443A01DBE6D0E00EF0048 /* StatTagMacroInstallationScript.sh in Resources */ = {isa = PBXBuildFile; fileRef = 3824439F1DBE612800EF0048 /* StatTagMacroInstallationScript.sh */; };
@@ -405,6 +406,8 @@
 		3816AC0E1ED846670045390E /* SamplesInstallerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SamplesInstallerViewController.h; sourceTree = "<group>"; };
 		3816AC0F1ED846670045390E /* SamplesInstallerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SamplesInstallerViewController.m; sourceTree = "<group>"; };
 		3816AC101ED846670045390E /* SamplesInstallerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SamplesInstallerViewController.xib; sourceTree = "<group>"; };
+		381CC7621EFFFF8D00CC220E /* STTag+StatisticalPackage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "STTag+StatisticalPackage.h"; sourceTree = "<group>"; };
+		381CC7631EFFFF8D00CC220E /* STTag+StatisticalPackage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "STTag+StatisticalPackage.m"; sourceTree = "<group>"; };
 		3824439D1DBE567D00EF0048 /* StatTagScriptSupport.scpt */ = {isa = PBXFileReference; lastKnownFileType = file; path = StatTagScriptSupport.scpt; sourceTree = "<group>"; };
 		3824439F1DBE612800EF0048 /* StatTagMacroInstallationScript.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = StatTagMacroInstallationScript.sh; sourceTree = "<group>"; };
 		382443A11DBE8E7200EF0048 /* STCodeFile+TagInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "STCodeFile+TagInfo.h"; sourceTree = "<group>"; };
@@ -1365,6 +1368,8 @@
 				38C2C4521EB2907600B95EEA /* STCodeFile+FileHelper.m */,
 				3828F3341ED9CC6D00DABA43 /* NSURL+FileAccess.h */,
 				3828F3351ED9CC6D00DABA43 /* NSURL+FileAccess.m */,
+				381CC7621EFFFF8D00CC220E /* STTag+StatisticalPackage.h */,
+				381CC7631EFFFF8D00CC220E /* STTag+StatisticalPackage.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -2225,6 +2230,7 @@
 				386992CF1DB6CE2A00852B6E /* STDocumentManager+FileMonitor.m in Sources */,
 				382443A31DBE8E7200EF0048 /* STCodeFile+TagInfo.m in Sources */,
 				3828F3361ED9CC6D00DABA43 /* NSURL+FileAccess.m in Sources */,
+				381CC7641EFFFF8D00CC220E /* STTag+StatisticalPackage.m in Sources */,
 				386992CC1DB6C72300852B6E /* STCodeFile+FileMonitor.m in Sources */,
 				38E22ABA1E9D4388005DFFE9 /* TagCodePeekViewController.m in Sources */,
 				384764B01DA52D6400FCDABE /* TablePropertiesController.m in Sources */,
@@ -2537,7 +2543,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = org.stattag.StatTag;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx10.11;
+				SDKROOT = macosx10.12;
 			};
 			name = Debug;
 		};
@@ -2567,7 +2573,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = org.stattag.StatTag;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx10.11;
+				SDKROOT = macosx10.12;
 			};
 			name = Release;
 		};

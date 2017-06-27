@@ -19,6 +19,7 @@
 
 @interface DocumentBrowserCodeFilesViewController ()
 
+
 @end
 
 @implementation DocumentBrowserCodeFilesViewController
@@ -524,6 +525,8 @@
   
   return NO;
 }
+
+
 
 
 @end
