@@ -1197,10 +1197,15 @@ Insert an StatTag field at the currently specified document range.
 /**
   Performs the insertion of tags into a document as fields.
 */
--(void)InsertTagsInDocument:(NSArray<STTag*>*)tags
+-(STStatsManagerExecuteResult*)InsertTagsInDocument:(NSArray<STTag*>*)tags
 {
 //  Cursor.Current = Cursors.WaitCursor;
 //  Globals.ThisAddIn.Application.ScreenUpdating = false;
+  
+  //NSInteger responseStatus = 0;
+  STStatsManagerExecuteResult* allResults = [[STStatsManagerExecuteResult alloc] init];
+  allResults.Success = true;
+  
   @try
   {
     NSMutableArray<STTag*>* updatedTags = [[NSMutableArray<STTag*> alloc] init];
@@ -1210,9 +1215,13 @@ Insert an StatTag field at the currently specified document range.
       if(![refreshedFiles containsObject:[tag CodeFile]])
       {
         STStatsManagerExecuteResult* result = [_StatsManager ExecuteStatPackage:[tag CodeFile] filterMode:[STConstantsParserFilterMode TagList] tagsToRun:tags];
+        [[allResults UpdatedTags] addObjectsFromArray:[result UpdatedTags]];
+        [[allResults FailedTags] addObjectsFromArray:[result FailedTags]];
         if (!result.Success)
         {
-          break;
+          //responseStatus = 1; //error
+          allResults.Success = false;
+          //break; //let's not break - let's tell them about all of the broken items across all code files
         }
         
         [updatedTags addObjectsFromArray:[result UpdatedTags]];
@@ -1242,11 +1251,13 @@ Insert an StatTag field at the currently specified document range.
   }
   @catch (NSException* exception)
   {
+//    responseStatus = 1; //error
+//    [[NSNotificationCenter defaultCenter] postNotificationName:@"allTagUpdatesComplete" object:self userInfo:@{@"responseState":[NSNumber numberWithInteger:responseStatus]}];
     //NSLog(@"%@", exception.reason);
     //NSLog(@"method: %@, line : %d", NSStringFromSelector(_cmd), __LINE__);
     //NSLog(@"%@", [NSThread callStackSymbols]);
-    @throw exception;
     [[self Logger] WriteException:exception];
+    @throw exception;
 //    dispatch_async(dispatch_get_main_queue(), ^{
 //      [STUIUtility ReportException:exception userMessage:@"There was an unexpected error when trying to insert the tag output into the Word document." logger:[self Logger]];
 //    });
@@ -1256,6 +1267,9 @@ Insert an StatTag field at the currently specified document range.
 //    Globals.ThisAddIn.Application.ScreenUpdating = true;
 //    Cursor.Current = Cursors.Default;
   }
+//  [[NSNotificationCenter defaultCenter] postNotificationName:@"allTagUpdatesComplete" object:self userInfo:@{@"responseState":[NSNumber numberWithInteger:responseStatus]}];
+  return allResults;
+
 }
 
 

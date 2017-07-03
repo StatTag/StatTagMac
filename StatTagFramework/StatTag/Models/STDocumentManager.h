@@ -23,6 +23,7 @@
 @class STMSWord2011SelectionObject;
 @class STMSWord2011Variable;
 @class STMSWord2011Document;
+@class STStatsManagerExecuteResult;
 
 @interface STDocumentManager : STBaseManager {
   NSMutableDictionary<NSString*, NSMutableArray<STCodeFile*>*>* DocumentCodeFiles;
@@ -99,7 +100,7 @@
 
 -(void) InsertField:(id)tag;
 
--(void)InsertTagsInDocument:(NSArray<STTag*>*)tags;
+-(STStatsManagerExecuteResult*)InsertTagsInDocument:(NSArray<STTag*>*)tags;
 
 -(BOOL)EditTag:(STTag*)tag existingTag:(STTag*)existingTag;
 

@@ -17,6 +17,20 @@ BOOL Globals_Application_ScreenUpdating = true;
 @implementation STStatsManagerExecuteResult
 @synthesize Success = _Success;
 @synthesize UpdatedTags = UpdatedTags;
+@synthesize FailedTags = FailedTags;
+
+-(instancetype)init
+{
+  self = [super init];
+  if(self)
+  {
+    self.Success = false;
+    self.UpdatedTags = [[NSMutableArray<STTag*> alloc] init];
+    self.FailedTags = [[NSMutableArray<STTag*> alloc] init];
+  }
+  return self;
+}
+
 @end
 
 
@@ -92,8 +106,9 @@ const NSInteger RefreshStepInterval = 5;
   //});
   
   STStatsManagerExecuteResult* result = [[STStatsManagerExecuteResult alloc] init];
-  result.Success = false;
-  result.UpdatedTags = [[NSMutableArray<STTag*> alloc] init];
+//  result.Success = false;
+//  result.UpdatedTags = [[NSMutableArray<STTag*> alloc] init];
+//  result.FailedTags = [[NSMutableArray<STTag*> alloc] init];
   
   //STStataAutomation* automation = [[STStataAutomation alloc] init];
   NSObject<STIStatAutomation>* automation = [[self class] GetStatAutomation:file];
@@ -116,7 +131,7 @@ const NSInteger RefreshStepInterval = 5;
   NSString* currentTagName;
   STTag* activeTag;
 
-  NSInteger responseState = 0;
+//  NSInteger responseState = 0;
   
 //  NSInteger lineStart = 1;
 //  NSInteger lineEnd = lineStart;
@@ -281,11 +296,12 @@ const NSInteger RefreshStepInterval = 5;
     //if we failed on a specific tag, then let's try to list that
     //in some situations (code blocks before tags) we might fail _before_ we get to a tag
     //in that case we're going to just proceed to the exception and not notify re: which tag failed
-    responseState = 1;
+    //responseState = 1;
     
     if(activeTag != nil)
     {
       //dispatch_async(dispatch_get_main_queue(), ^{
+      [result.FailedTags addObject:activeTag];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"tagUpdateComplete" object:self userInfo:@{@"tagName":[activeTag Name], @"tagID":[activeTag Id], @"codeFileName":[[activeTag CodeFile] FileName], @"type" : @"tag", @"no_result" : [NSNumber numberWithBool:YES], @"exception":exception}];
 
 //        NSNotification *nTagUpdateCompleteError = [NSNotification notificationWithName:@"tagUpdateComplete" object:self userInfo:@{@"tagName":[activeTag Name], @"tagID":[activeTag Id], @"codeFileName":[[activeTag CodeFile] FileName], @"type" : @"tag", @"no_result" : [NSNumber numberWithBool:YES], @"exception":exception}];
@@ -293,7 +309,7 @@ const NSInteger RefreshStepInterval = 5;
 
       //});
     } else {
-      [[NSNotificationCenter defaultCenter] postNotificationName:@"allTagUpdatesComplete" object:self userInfo:@{@"responseState":[NSNumber numberWithInteger:responseState]}];
+//      [[NSNotificationCenter defaultCenter] postNotificationName:@"allTagUpdatesComplete" object:self userInfo:@{@"responseState":[NSNumber numberWithInteger:responseState]}];
       @throw exception;
     }
 
@@ -308,7 +324,7 @@ const NSInteger RefreshStepInterval = 5;
   @finally {
   }
   
-  [[NSNotificationCenter defaultCenter] postNotificationName:@"allTagUpdatesComplete" object:self userInfo:@{@"responseState":[NSNumber numberWithInteger:responseState]}];
+//  [[NSNotificationCenter defaultCenter] postNotificationName:@"allTagUpdatesComplete" object:self userInfo:@{@"responseState":[NSNumber numberWithInteger:responseState]}];
 
   
   return result;

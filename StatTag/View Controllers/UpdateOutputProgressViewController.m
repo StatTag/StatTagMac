@@ -91,7 +91,7 @@
   }
   ////NSLog(@"%lu tags", (unsigned long)[_tagsToProcess count]);
   
-  //__block StatTagResponseState responseState;
+  __block StatTagResponseState responseState;
   
   dispatch_async(dispatch_get_global_queue(0, 0), ^{
     
@@ -106,22 +106,25 @@
         //FIXME: BAD hack to work around issues with R
         //we're going to process the Stata tags normally n the background thread - but the R tags on the main thread - until we can figure our why R blows up when run on the background thread
         //leaving this example VERY verbose so it's clear what we're doing
-        NSPredicate *tagsTypeR = [NSPredicate predicateWithFormat:@"StatisticalPackage = %@", [STConstantsStatisticalPackages R]];
-        NSPredicate *tagsTypeNotR = [NSPredicate predicateWithFormat:@"StatisticalPackage != %@", [STConstantsStatisticalPackages R]];
-        NSArray<STTag*> *RTags = [[self tagsToProcess] filteredArrayUsingPredicate:tagsTypeR];
-        NSArray<STTag*> *NotRTags = [[self tagsToProcess] filteredArrayUsingPredicate:tagsTypeNotR];
+//        NSPredicate *tagsTypeR = [NSPredicate predicateWithFormat:@"StatisticalPackage = %@", [STConstantsStatisticalPackages R]];
+//        NSPredicate *tagsTypeNotR = [NSPredicate predicateWithFormat:@"StatisticalPackage != %@", [STConstantsStatisticalPackages R]];
+//        NSArray<STTag*> *RTags = [[self tagsToProcess] filteredArrayUsingPredicate:tagsTypeR];
+//        NSArray<STTag*> *NotRTags = [[self tagsToProcess] filteredArrayUsingPredicate:tagsTypeNotR];
         //NSLog(@"R Tags = %@", RTags);
         //NSLog(@"NOT R Tags = %@", NotRTags);
         
         //[_documentManager InsertTagsInDocument:[self tagsToProcess]];
-        [_documentManager InsertTagsInDocument:NotRTags];
+        //[_documentManager InsertTagsInDocument:NotRTags];
         dispatch_async(dispatch_get_main_queue(), ^{
-          [_documentManager InsertTagsInDocument:RTags];
+          //[_documentManager InsertTagsInDocument:RTags];
+          STStatsManagerExecuteResult* result = [_documentManager InsertTagsInDocument:[self tagsToProcess]];
+          
           [progressIndicator setIndeterminate:YES];
           [progressIndicator stopAnimation:nil];
           [progressText setStringValue:@"Insert complete"];
-          //responseState = OK;
-          //[[NSNotificationCenter defaultCenter] postNotificationName:@"tagProcessingComplete" object:self userInfo:@{@"responseState":[NSNumber numberWithInteger:responseState]}];
+          
+          responseState = [result Success] == true ? OK : Error;
+          [[NSNotificationCenter defaultCenter] postNotificationName:@"allTagUpdatesComplete" object:self userInfo:@{@"responseState":[NSNumber numberWithInteger:responseState], @"failedTags":[result FailedTags]}];
           //[_delegate dismissUpdateOutputProgressController:self withReturnCode:responseState andFailedTags:[self failedTags] withErrors:[self failedTagErrors]];
           //return;
         });
@@ -138,18 +141,21 @@
           [self setProgressCountText:[NSString stringWithFormat:@"%@/%ld", [self numTagsCompleted], [[self tagsToProcess] count]]];
           [[self progressCountLabel] setStringValue:[NSString stringWithFormat:@"(%@/%@)", [self numTagsCompleted], [self numTagsToProcess]]];
         });
-        /*
-        for(STCodeFile* cf in [_documentManager GetCodeFileList]) {
-          ////NSLog(@"found codefile %@", [cf FilePath]);
-                    
-          STStatsManagerExecuteResult* result = [stats ExecuteStatPackage:cf
-                                                               filterMode:[STConstantsParserFilterMode TagList]
-                                                                tagsToRun:_tagsToProcess
-                                                 ];
-          #pragma unused (result)
-          
-        }
-         */
+
+        STStatsManagerExecuteResult* allResults = [[STStatsManagerExecuteResult alloc] init];
+        [allResults setSuccess:true];
+        dispatch_async(dispatch_get_main_queue(), ^{
+          for(STCodeFile* cf in [_documentManager GetCodeFileList]) {
+            STStatsManagerExecuteResult* result = [stats ExecuteStatPackage:cf
+                                                                 filterMode:[STConstantsParserFilterMode TagList]
+                                                                  tagsToRun:_tagsToProcess
+                                                   ];
+            [[allResults FailedTags] addObjectsFromArray:[result FailedTags]];
+            [[allResults UpdatedTags] addObjectsFromArray:[result UpdatedTags]];
+            [allResults setSuccess:([result Success] == true && [allResults Success] == true ? OK : Error)];
+            #pragma unused (result)
+          }
+        });
         
         dispatch_async(dispatch_get_main_queue(), ^{
 
@@ -172,8 +178,11 @@
           
           [progressText setStringValue:@"Updates complete"];
           //responseState = OK;
-          //[[NSNotificationCenter defaultCenter] postNotificationName:@"tagProcessingComplete" object:self userInfo:@{@"responseState":[NSNumber numberWithInteger:responseState]}];
+          //[[NSNotificationCenter defaultCenter] postNotificationName:@"allTagUpdatesComplete" object:self userInfo:@{@"responseState":[NSNumber numberWithInteger:responseState]}];
           //[_delegate dismissUpdateOutputProgressController:self withReturnCode:responseState  andFailedTags:[self failedTags] withErrors:[self failedTagErrors]];
+          responseState = [allResults Success] == true ? OK : Error;
+          [[NSNotificationCenter defaultCenter] postNotificationName:@"allTagUpdatesComplete" object:self userInfo:@{@"responseState":[NSNumber numberWithInteger:responseState], @"failedTags":[allResults FailedTags]}];
+
         });
       
       }
@@ -186,7 +195,7 @@
     @catch (NSException* exc) {
       //dispatch_async(dispatch_get_main_queue(), ^{
         //responseState = Error;
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"tagProcessingComplete" object:self userInfo:@{@"responseState":[NSNumber numberWithInteger:Error]}];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"allTagUpdatesComplete" object:self userInfo:@{@"responseState":[NSNumber numberWithInteger:Error]}];
         //[_delegate dismissUpdateOutputProgressController:self withReturnCode:responseState andFailedTags:[self failedTags] withErrors:[self failedTagErrors]];
         
       //});
@@ -198,10 +207,10 @@
   });
 
   
-  //[[NSNotificationCenter defaultCenter] postNotificationName:@"tagProcessingComplete" object:self userInfo:@{@"responseState":[NSNumber numberWithInteger:responseState]}];
+  //[[NSNotificationCenter defaultCenter] postNotificationName:@"allTagUpdatesComplete" object:self userInfo:@{@"responseState":[NSNumber numberWithInteger:responseState]}];
   
 //  dispatch_sync(serialQ, ^{
-//    [[NSNotificationCenter defaultCenter] postNotificationName:@"tagProcessingComplete" object:self userInfo:@{@"responseState":[NSNumber numberWithInteger:responseState]}];
+//    [[NSNotificationCenter defaultCenter] postNotificationName:@"allTagUpdatesComplete" object:self userInfo:@{@"responseState":[NSNumber numberWithInteger:responseState]}];
 //    //[_delegate dismissUpdateOutputProgressController:self withReturnCode:(StatTagResponseState)responseState andFailedTags:[self failedTags] withErrors:[self failedTagErrors]];
 //  });
 
