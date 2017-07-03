@@ -26,6 +26,7 @@
 
 @synthesize insert = _insert;
 
+
 -(id) initWithCoder:(NSCoder *)coder {
   self = [super initWithCoder:coder];
   if(self) {
@@ -49,6 +50,12 @@
                                                name:@"tagUpdateComplete"
                                              object:nil];
 
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(allTagUpdatesComplete:)
+                                               name:@"allTagUpdatesComplete"
+                                             object:nil];
+  
+  
 }
 
 -(void)viewDidAppear {
@@ -57,8 +64,12 @@
   [self setNumTagsToProcess:@0];
   _failedTags = [[NSMutableArray<STTag*> alloc] init];
   _failedTagErrors = [[NSMutableDictionary<STTag*, NSException*> alloc] init];
-  
+
   [self refreshTagsAsync];
+  
+  //StatTagResponseState responseState = [self refreshTagsAsync];
+  //[_delegate dismissUpdateOutputProgressController:self withReturnCode:responseState andFailedTags:[self failedTags] withErrors:[self failedTagErrors]];
+
 //  [self refreshTags];
 }
 
@@ -79,6 +90,8 @@
     [progressText setStringValue:[NSString stringWithFormat:@"Updating tags..."]];
   }
   ////NSLog(@"%lu tags", (unsigned long)[_tagsToProcess count]);
+  
+  //__block StatTagResponseState responseState;
   
   dispatch_async(dispatch_get_global_queue(0, 0), ^{
     
@@ -107,9 +120,12 @@
           [progressIndicator setIndeterminate:YES];
           [progressIndicator stopAnimation:nil];
           [progressText setStringValue:@"Insert complete"];
-          [_delegate dismissUpdateOutputProgressController:self withReturnCode:(StatTagResponseState)OK andFailedTags:[self failedTags] withErrors:[self failedTagErrors]];
-          return;
+          //responseState = OK;
+          //[[NSNotificationCenter defaultCenter] postNotificationName:@"tagProcessingComplete" object:self userInfo:@{@"responseState":[NSNumber numberWithInteger:responseState]}];
+          //[_delegate dismissUpdateOutputProgressController:self withReturnCode:responseState andFailedTags:[self failedTags] withErrors:[self failedTagErrors]];
+          //return;
         });
+
       }
       else
       {
@@ -136,7 +152,7 @@
          */
         
         dispatch_async(dispatch_get_main_queue(), ^{
-          
+
           [progressText setStringValue:@"Updating Fields in Microsoft Word..."];
           
           //can we move this to a background thread?
@@ -155,8 +171,9 @@
           [progressIndicator stopAnimation:nil];
           
           [progressText setStringValue:@"Updates complete"];
-          
-          [_delegate dismissUpdateOutputProgressController:self withReturnCode:(StatTagResponseState)OK  andFailedTags:[self failedTags] withErrors:[self failedTagErrors]];
+          //responseState = OK;
+          //[[NSNotificationCenter defaultCenter] postNotificationName:@"tagProcessingComplete" object:self userInfo:@{@"responseState":[NSNumber numberWithInteger:responseState]}];
+          //[_delegate dismissUpdateOutputProgressController:self withReturnCode:responseState  andFailedTags:[self failedTags] withErrors:[self failedTagErrors]];
         });
       
       }
@@ -167,13 +184,32 @@
         
     }
     @catch (NSException* exc) {
-      dispatch_async(dispatch_get_main_queue(), ^{
-        [_delegate dismissUpdateOutputProgressController:self withReturnCode:(StatTagResponseState)Error andFailedTags:[self failedTags] withErrors:[self failedTagErrors]];
-      });
+      //dispatch_async(dispatch_get_main_queue(), ^{
+        //responseState = Error;
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"tagProcessingComplete" object:self userInfo:@{@"responseState":[NSNumber numberWithInteger:Error]}];
+        //[_delegate dismissUpdateOutputProgressController:self withReturnCode:responseState andFailedTags:[self failedTags] withErrors:[self failedTagErrors]];
+        
+      //});
+
     }
+
+
+    
   });
+
   
+  //[[NSNotificationCenter defaultCenter] postNotificationName:@"tagProcessingComplete" object:self userInfo:@{@"responseState":[NSNumber numberWithInteger:responseState]}];
+  
+//  dispatch_sync(serialQ, ^{
+//    [[NSNotificationCenter defaultCenter] postNotificationName:@"tagProcessingComplete" object:self userInfo:@{@"responseState":[NSNumber numberWithInteger:responseState]}];
+//    //[_delegate dismissUpdateOutputProgressController:self withReturnCode:(StatTagResponseState)responseState andFailedTags:[self failedTags] withErrors:[self failedTagErrors]];
+//  });
+
+//  return responseState;
+
 }
+
+
 
 - (IBAction)cancelOperation:(id)sender {
 }
@@ -238,6 +274,15 @@
   });
 }
 
+-(void)allTagUpdatesComplete:(NSNotification*)notification
+{
+  NSNumber* responseStateNum = [[notification userInfo] valueForKey:@"responseState"];
+  StatTagResponseState responseState = (StatTagResponseState)[responseStateNum integerValue];
+  
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [_delegate dismissUpdateOutputProgressController:self withReturnCode:(StatTagResponseState)responseState andFailedTags:[self failedTags] withErrors:[self failedTagErrors]];
+  });
+}
 
 
 

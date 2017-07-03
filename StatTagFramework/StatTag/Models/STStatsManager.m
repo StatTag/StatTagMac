@@ -115,10 +115,12 @@ const NSInteger RefreshStepInterval = 5;
   NSString* previousTagName;
   NSString* currentTagName;
   STTag* activeTag;
+
+  NSInteger responseState = 0;
   
 //  NSInteger lineStart = 1;
 //  NSInteger lineEnd = lineStart;
-  
+    
   @try {
     // Get all of the commands in the code file that should be executed given the current filter
     NSArray<STExecutionStep*>* steps = [parser GetExecutionSteps:file filterMode:filterMode tagsToRun:tagsToRun];
@@ -160,9 +162,14 @@ const NSInteger RefreshStepInterval = 5;
         {
           //we changed tags, so update the name and fire off a notification
           currentTagName = [NSString stringWithString:[[step Tag] Name]];
-          dispatch_async(dispatch_get_main_queue(), ^{
+          
+          //dispatch_async(dispatch_get_main_queue(), ^{
             [[NSNotificationCenter defaultCenter] postNotificationName:@"tagUpdateStart" object:self userInfo:@{@"tagName":currentTagName, @"codeFileName":[[[step Tag] CodeFile] FileName], @"type" : @"tag"}];
-          });
+            
+//            NSNotification *nTagUpdateStart = [NSNotification notificationWithName:@"tagUpdateStart" object:self userInfo:@{@"tagName":currentTagName, @"codeFileName":[[[step Tag] CodeFile] FileName], @"type" : @"tag"}];
+//            [[NSNotificationQueue defaultQueue] enqueueNotification:nTagUpdateStart postingStyle:NSPostNow];
+
+          //});
         }
       }
       
@@ -243,9 +250,13 @@ const NSInteger RefreshStepInterval = 5;
         {
           bool no_result = [[tag FormattedResult] isEqualToString:[STConstantsPlaceholders EmptyField]];
           
-          dispatch_async(dispatch_get_main_queue(), ^{
+          //dispatch_async(dispatch_get_main_queue(), ^{
             [[NSNotificationCenter defaultCenter] postNotificationName:@"tagUpdateComplete" object:self userInfo:@{@"tagName":currentTagName, @"tagID":[[step Tag] Id], @"codeFileName":[[[step Tag] CodeFile] FileName], @"type" : @"tag", @"no_result" : [NSNumber numberWithBool:no_result]}];
-          });
+            
+//            NSNotification *nTagUpdateComplete = [NSNotification notificationWithName:@"tagUpdateComplete" object:self userInfo:@{@"tagName":currentTagName, @"tagID":[[step Tag] Id], @"codeFileName":[[[step Tag] CodeFile] FileName], @"type" : @"tag", @"no_result" : [NSNumber numberWithBool:no_result]}];
+//            [[NSNotificationQueue defaultQueue] enqueueNotification:nTagUpdateComplete postingStyle:NSPostNow];
+            
+          //});
           previousTagName = [NSString stringWithString:currentTagName];
           
           //currentTagName = [[step Tag] Name];
@@ -255,6 +266,7 @@ const NSInteger RefreshStepInterval = 5;
     }
 
     result.Success = true;
+
   }
   @catch (NSException* exception) {
     //FIXME: return an NSError?
@@ -269,12 +281,19 @@ const NSInteger RefreshStepInterval = 5;
     //if we failed on a specific tag, then let's try to list that
     //in some situations (code blocks before tags) we might fail _before_ we get to a tag
     //in that case we're going to just proceed to the exception and not notify re: which tag failed
+    responseState = 1;
+    
     if(activeTag != nil)
     {
-      dispatch_async(dispatch_get_main_queue(), ^{
-          [[NSNotificationCenter defaultCenter] postNotificationName:@"tagUpdateComplete" object:self userInfo:@{@"tagName":[activeTag Name], @"tagID":[activeTag Id], @"codeFileName":[[activeTag CodeFile] FileName], @"type" : @"tag", @"no_result" : [NSNumber numberWithBool:YES], @"exception":exception}];
-      });
+      //dispatch_async(dispatch_get_main_queue(), ^{
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"tagUpdateComplete" object:self userInfo:@{@"tagName":[activeTag Name], @"tagID":[activeTag Id], @"codeFileName":[[activeTag CodeFile] FileName], @"type" : @"tag", @"no_result" : [NSNumber numberWithBool:YES], @"exception":exception}];
+
+//        NSNotification *nTagUpdateCompleteError = [NSNotification notificationWithName:@"tagUpdateComplete" object:self userInfo:@{@"tagName":[activeTag Name], @"tagID":[activeTag Id], @"codeFileName":[[activeTag CodeFile] FileName], @"type" : @"tag", @"no_result" : [NSNumber numberWithBool:YES], @"exception":exception}];
+//        [[NSNotificationQueue defaultQueue] enqueueNotification:nTagUpdateCompleteError postingStyle:NSPostNow];
+
+      //});
     } else {
+      [[NSNotificationCenter defaultCenter] postNotificationName:@"allTagUpdatesComplete" object:self userInfo:@{@"responseState":[NSNumber numberWithInteger:responseState]}];
       @throw exception;
     }
 
@@ -289,6 +308,8 @@ const NSInteger RefreshStepInterval = 5;
   @finally {
   }
   
+  [[NSNotificationCenter defaultCenter] postNotificationName:@"allTagUpdatesComplete" object:self userInfo:@{@"responseState":[NSNumber numberWithInteger:responseState]}];
+
   
   return result;
   
