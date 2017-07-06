@@ -43,6 +43,10 @@
   {
     [[[[self tag] TableFormat] ColumnFilter] setType:[STConstantsFilterType Exclude]];
   }
+
+  // Tables will have rows and columns, and so we will allow non-numeric types to flow
+  // through when inserting results into the document.
+  [[self tag] ValueFormat].AllowInvalidTypes = YES;
   
   self.numericPropertiesViewController.decimalPlaces = [[[self tag] ValueFormat] DecimalPlaces];
   self.numericPropertiesViewController.useThousands = [[[self tag] ValueFormat] UseThousands];
