@@ -14,24 +14,24 @@
 -(NSObject<STIResultCommandList>*)ValueResultCommands;
 -(NSObject<STIResultCommandList>*)FigureResultCommands;
 -(NSObject<STIResultCommandList>*)TableResultCommands;
+-(NSObject<STIResultCommandList>*)VerbatimResultCommands;
 
 @end
 
 
 @interface STSASCommandsValueCommands : NSObject<STIResultCommandList>
--(NSString*)Display;
 -(NSArray<NSString*>*)GetCommands;
 @end
 
 @interface STSASCommandsFigureCommands : NSObject<STIResultCommandList>
--(NSString*)GraphExport;
 -(NSArray<NSString*>*)GetCommands;
 @end
 
 
 @interface STSASCommandsTableCommands : NSObject<STIResultCommandList>
-//extern NSString *const MatrixList;
--(NSString*)MatrixList;
 -(NSArray<NSString*>*)GetCommands;
 @end
 
+@interface STSASCommandsVerbatimCommands : NSObject<STIResultCommandList>
+-(NSArray<NSString*>*)GetCommands;
+@end

@@ -44,40 +44,21 @@
 //MARK: "nested" classes for Stata Commands
 
 @implementation STStataCommandsValueCommands
-//-(NSString*)Display {
-//  return @"display";
-//}
 -(NSArray<NSString*>*)GetCommands {
   return [STStataParser ValueCommands];
-//  return [NSArray arrayWithObjects:
-//          [self Display]
-//          , nil];
 }
 @end
 
 @implementation STStataCommandsFigureCommands
-//-(NSString*)GraphExport {
-// return @"graph export";
-//}
 -(NSArray<NSString*>*)GetCommands {
   return [STStataCommands CleanUpRegexArray:[STStataParser GraphCommands]];
-//  return [NSArray arrayWithObjects:
-//          [self GraphExport]
-//          , nil];
 }
 @end
 
 
 @implementation STStataCommandsTableCommands
-//-(NSString*)MatrixList {
-// return @"matrix list";
-//}
 -(NSArray<NSString*>*)GetCommands {
   return [STStataCommands CleanUpRegexArray:[STStataParser TableCommands]];
-
-//  return [NSArray arrayWithObjects:
-//          [self MatrixList]
-//          , nil];
 }
 @end
 

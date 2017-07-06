@@ -15,24 +15,25 @@
 
 +(NSObject<STIResultCommandList>*)GetResultCommandList:(STCodeFile*)file resultType:(NSString*)resultType
 {
-  
-  if(file!=nil) {
+  if (file != nil) {
     NSObject<STIResultCommandFormatter>* formatter = nil;
     if([[file StatisticalPackage] isEqualToString:[STConstantsStatisticalPackages Stata]]) {
       formatter = [[STStataCommands alloc] init];
     } else if([[file StatisticalPackage] isEqualToString:[STConstantsStatisticalPackages SAS]]) {
       formatter = [[STSASCommands alloc] init];
     } else if([[file StatisticalPackage] isEqualToString:[STConstantsStatisticalPackages R]]) {
-        formatter = [[STRCommands alloc] init];
+      formatter = [[STRCommands alloc] init];
     }
     
     if(formatter != nil) {
       if([resultType isEqualToString:[STConstantsTagType Value]]) {
         return [formatter ValueResultCommands];
-      } else if([resultType isEqualToString:[STConstantsTagType Value]]) {
+      } else if([resultType isEqualToString:[STConstantsTagType Figure]]) {
         return [formatter FigureResultCommands];
-      } else if([resultType isEqualToString:[STConstantsTagType Value]]) {
+      } else if([resultType isEqualToString:[STConstantsTagType Table]]) {
         return [formatter TableResultCommands];
+      } else if([resultType isEqualToString:[STConstantsTagType Verbatim]]) {
+        return [formatter VerbatimResultCommands];
       }
     }
   }
