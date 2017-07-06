@@ -102,22 +102,8 @@
         dispatch_async(dispatch_get_main_queue(), ^{
           [progressText setStringValue:@"Starting to insert tags..."];
         });
-        
-        //FIXME: BAD hack to work around issues with R
-        //we're going to process the Stata tags normally n the background thread - but the R tags on the main thread - until we can figure our why R blows up when run on the background thread
-        //leaving this example VERY verbose so it's clear what we're doing
-//        NSPredicate *tagsTypeR = [NSPredicate predicateWithFormat:@"StatisticalPackage = %@", [STConstantsStatisticalPackages R]];
-//        NSPredicate *tagsTypeNotR = [NSPredicate predicateWithFormat:@"StatisticalPackage != %@", [STConstantsStatisticalPackages R]];
-//        NSArray<STTag*> *RTags = [[self tagsToProcess] filteredArrayUsingPredicate:tagsTypeR];
-//        NSArray<STTag*> *NotRTags = [[self tagsToProcess] filteredArrayUsingPredicate:tagsTypeNotR];
-        //NSLog(@"R Tags = %@", RTags);
-        //NSLog(@"NOT R Tags = %@", NotRTags);
-        
-        //[_documentManager InsertTagsInDocument:[self tagsToProcess]];
-        //[_documentManager InsertTagsInDocument:NotRTags];
+        STStatsManagerExecuteResult* result = [_documentManager InsertTagsInDocument:[self tagsToProcess]];
         dispatch_async(dispatch_get_main_queue(), ^{
-          //[_documentManager InsertTagsInDocument:RTags];
-          STStatsManagerExecuteResult* result = [_documentManager InsertTagsInDocument:[self tagsToProcess]];
           
           [progressIndicator setIndeterminate:YES];
           [progressIndicator stopAnimation:nil];
@@ -144,7 +130,7 @@
 
         STStatsManagerExecuteResult* allResults = [[STStatsManagerExecuteResult alloc] init];
         [allResults setSuccess:true];
-        dispatch_async(dispatch_get_main_queue(), ^{
+        //dispatch_async(dispatch_get_main_queue(), ^{
           for(STCodeFile* cf in [_documentManager GetCodeFileList]) {
             STStatsManagerExecuteResult* result = [stats ExecuteStatPackage:cf
                                                                  filterMode:[STConstantsParserFilterMode TagList]
@@ -155,7 +141,7 @@
             [allResults setSuccess:([result Success] == true && [allResults Success] == true ? OK : Error)];
             #pragma unused (result)
           }
-        });
+        //});
         
         dispatch_async(dispatch_get_main_queue(), ^{
 

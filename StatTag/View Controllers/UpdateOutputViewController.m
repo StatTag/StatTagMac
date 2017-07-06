@@ -273,7 +273,7 @@ BOOL breakLoop = YES;
     //it's possible we have generalized failures not directly related to a tag
     [content appendString:@"StatTag encountered an error and could not continue processing the requested tag(s).\n"];
   } else {
-    [content appendString:@"StatTag could not run the following tags\n"];
+    [content appendString:@"StatTag could not run the following tags\n\n"];
     for(STTag* t in failedTags)
     {
       NSString* errorDetail = @"";
@@ -288,7 +288,7 @@ BOOL breakLoop = YES;
           errorDetail = [NSString stringWithFormat:@" %@ - %@ - %@", errorStatisticalPackage, errorCode, errorDescription];
         }
       }
-      [content appendString:[NSString stringWithFormat:@"•\t%@ (%@%@)\n", [t Name], [[t CodeFile] FileName], errorDetail ]];
+      [content appendString:[NSString stringWithFormat:@"•  %@ (%@%@)\n", [t Name], [[t CodeFile] FileName], errorDetail ]];
     }
   }
   [content appendString:@"\nPlease try running your code file(s) directly in their respective statistical programs. Look for any warnings or errors that might prevent successful completion."];
