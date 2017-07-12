@@ -13,34 +13,29 @@
 #import <RCocoa/RCocoa.h>
 #import "STTable.h"
 #import "STTableUtil.h"
+#import "STRVerbatimDevice.h"
 
 @implementation STRAutomation
 
-
 static NSString* const MATRIX_DIMENSION_NAMES_ATTRIBUTE = @"dimnames";
-
-//private REngine Engine = null;
-//protected RParser Parser { get; set; }
-
 
 -(instancetype)init
 {
   self = [super init];
-  if(self)
-  {
+  if(self) {
     Parser = [[STRParser alloc] init];
+    VerbatimLog = [STRVerbatimDevice GetInstance];
   }
   return self;
 }
 
 -(BOOL)Initialize
 {
-    [[RCEngine mainEngine] activate];
-    if ([RCEngine mainEngine] == nil) {
-        return NO;
-    }
+  if (Engine == nil) {
+    Engine = [RCEngine GetInstance:VerbatimLog];
+  }
 
-    return YES; //FIXME: hardcoded for "no, it won't work"
+  return (Engine != nil);
 }
 -(void)dealloc
 {
@@ -71,15 +66,23 @@ static NSString* const MATRIX_DIMENSION_NAMES_ATTRIBUTE = @"dimnames";
 -(NSArray<STCommandResult*>*)RunCommands:(NSArray<NSString*>*)commands tag:(STTag*)tag
 {
   NSMutableArray<STCommandResult*>* commandResults = [[NSMutableArray<STCommandResult*> alloc] init];
-  for(NSString* command in commands)
-  {
-    
+  BOOL isVerbatimTag = (tag != nil && [[tag Type] isEqualToString:[STConstantsTagType Verbatim]]);
+  for (NSString* command in commands) {
+    // Start the verbatim logging cache, if that's what the user wants for this output
+    if ([Parser IsTagStart:command] && isVerbatimTag) {
+      [VerbatimLog StartCache];
+    }
+
     STCommandResult* result = [self RunCommand:command tag:tag];
-    if (result != nil && ![result IsEmpty])
-    {
+    if (result != nil && ![result IsEmpty] && !isVerbatimTag) {
       [commandResults addObject:result];
     }
-    
+    else if ([Parser IsTagEnd:command] && isVerbatimTag) {
+      [VerbatimLog StopCache];
+      STCommandResult* verbatimResult = [[STCommandResult alloc] init];
+      verbatimResult.VerbatimResult = [[VerbatimLog GetCache] componentsJoinedByString:@""];
+      [commandResults addObject:verbatimResult];
+    }
   }
   
   return commandResults;
@@ -93,7 +96,8 @@ static NSString* const MATRIX_DIMENSION_NAMES_ATTRIBUTE = @"dimnames";
 -(STCommandResult*)RunCommand:(NSString*)command tag:(STTag*)tag
 {
     @autoreleasepool {
-        RCSymbolicExpression* result = [[RCEngine mainEngine] Evaluate:command];
+        RCSymbolicExpression* result = [Engine Evaluate:command];
+        //RCSymbolicExpression* result = [[RCEngine mainEngine] Evaluate:command];
         if (result == nil) {
             return nil;
         }

@@ -20,6 +20,9 @@
 #include "RCClosure.h"
 #include "RCBuiltinFunction.h"
 #include "RCSpecialFunction.h"
+#include "RCICharacterDevice.h"
+#include "RCCharacterDeviceAdapter.h"
+#include "RCDefaultDevice.h"
 
 //! Project version number for RCocoa.
 FOUNDATION_EXPORT double RCocoaVersionNumber;
