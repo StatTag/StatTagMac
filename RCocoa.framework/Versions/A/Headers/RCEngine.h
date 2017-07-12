@@ -61,6 +61,8 @@ extern "C" {
 #import <R/R.h>
 #import "RSEXP.h"
 #import "RCSymbolicExpression.h"
+#import "RCCharacterDeviceAdapter.h"
+#import "RCICharacterDevice.h"
 
 /* since R 2.0 parse is mapped to Rf_parse which is deadly ... 
    therefore RCEngine.h must be included *after* R headers */
@@ -78,9 +80,6 @@ extern BOOL preventReentrance;
 	/* set to NO if the engine is initialized but activate was not called yet - that is R was not really initialized yet */
 	BOOL active;
 
-	/* set to YES if R REPL is running */
-	BOOL loopRunning;
-
 	BOOL protectedMode;
 	
 	/* last error string */
@@ -89,22 +88,28 @@ extern BOOL preventReentrance;
 	/* if >0 ProcessEvents doesn't call the event handler */
 	int maskEvents;
 
+  // Automatically print out results after evaluating
+  BOOL autoPrint;
+
 	/* initial arguments used by activate to initialize R */
 	int  argc;
 	char **argv;
 	
 	/* SaveAction (yes/no/ask - anything else is treated as ask) */
 	NSString *saveAction;
+
+    RCCharacterDeviceAdapter* adapter;
 }
 
-+ (RCEngine*) mainEngine;
+//+ (RCEngine*) mainEngine;
 + (void) shutdown;
++ (RCEngine*) GetInstance;
++ (RCEngine*) GetInstance:(RCICharacterDevice*) device;
 
 - (id) init;
 - (id) initWithArgs: (char**) args;
-- (BOOL) activate;
+- (BOOL) activate:(RCICharacterDevice*) device;
 
-- (BOOL) isLoopRunning;
 - (BOOL) isActive;
 
 - (NSString*) lastError;

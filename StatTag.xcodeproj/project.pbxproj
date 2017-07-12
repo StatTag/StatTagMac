@@ -11,6 +11,7 @@
 		3500D5CF1EE066F7006AA0ED /* R.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3500D5CE1EE066F7006AA0ED /* R.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		35C112AE1EE09A9A00C9CC7F /* RCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3500D5CC1EE066DA006AA0ED /* RCocoa.framework */; };
 		35C112AF1EE09A9A00C9CC7F /* RCocoa.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3500D5CC1EE066DA006AA0ED /* RCocoa.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		35CE4F9C1F141EBF00B1221B /* STRVerbatimDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 35CE4F9B1F141EBF00B1221B /* STRVerbatimDevice.m */; };
 		35F2E7321EE1A93E0086F9D0 /* STRBaseValueFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 35F2E7311EE1A93E0086F9D0 /* STRBaseValueFormatter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		35F2E7341EE1A94A0086F9D0 /* STRBaseValueFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F2E7331EE1A94A0086F9D0 /* STRBaseValueFormatter.m */; };
 		380A67971D102FFA0045B72B /* TestDestinationTextFile.txt in Resources */ = {isa = PBXBuildFile; fileRef = 380A67961D102FFA0045B72B /* TestDestinationTextFile.txt */; };
@@ -382,6 +383,8 @@
 /* Begin PBXFileReference section */
 		3500D5CC1EE066DA006AA0ED /* RCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RCocoa.framework; sourceTree = "<group>"; };
 		3500D5CE1EE066F7006AA0ED /* R.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = R.framework; path = ../../../../Library/Frameworks/R.framework; sourceTree = "<group>"; };
+		35CE4F9A1F141EAF00B1221B /* STRVerbatimDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = STRVerbatimDevice.h; sourceTree = "<group>"; };
+		35CE4F9B1F141EBF00B1221B /* STRVerbatimDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STRVerbatimDevice.m; sourceTree = "<group>"; };
 		35F2E7311EE1A93E0086F9D0 /* STRBaseValueFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STRBaseValueFormatter.h; sourceTree = "<group>"; };
 		35F2E7331EE1A94A0086F9D0 /* STRBaseValueFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STRBaseValueFormatter.m; sourceTree = "<group>"; };
 		380A67961D102FFA0045B72B /* TestDestinationTextFile.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TestDestinationTextFile.txt; sourceTree = "<group>"; };
@@ -1646,6 +1649,8 @@
 				38FF47361E08673F00A65893 /* STRAutomation.m */,
 				38FF47391E08674F00A65893 /* STRCommands.h */,
 				38FF473A1E08674F00A65893 /* STRCommands.m */,
+				35CE4F9A1F141EAF00B1221B /* STRVerbatimDevice.h */,
+				35CE4F9B1F141EBF00B1221B /* STRVerbatimDevice.m */,
 			);
 			path = R;
 			sourceTree = "<group>";
@@ -2130,6 +2135,7 @@
 				3884513D1D19DCB3004C2B40 /* STValueParameterParser.m in Sources */,
 				382C28DA1D19DAD500697D6F /* STTableParameterParser.m in Sources */,
 				385FDD2D1D32F70100AE0FE2 /* STDocumentManager.m in Sources */,
+				35CE4F9C1F141EBF00B1221B /* STRVerbatimDevice.m in Sources */,
 				387A0E261D22BC5F00F1FE9C /* STStataParser.m in Sources */,
 				382C28CD1D19ADA000697D6F /* STTagUtil.m in Sources */,
 				38EDC0631EE3101E00A7BFD2 /* STVerbatimGenerator.m in Sources */,
