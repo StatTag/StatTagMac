@@ -6,6 +6,10 @@
 	<string>en</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleHelpBookFolder</key>
+	<string>StatTagHelp.help</string>
+	<key>CFBundleHelpBookName</key>
+	<string>org.stattag.StatTagHelp.help</string>
 	<key>CFBundleIconFile</key>
 	<string></string>
 	<key>CFBundleIdentifier</key>
@@ -19,7 +23,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
-	<string>Beta 1</string>
+	<string>Beta 5</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>$(MACOSX_DEPLOYMENT_TARGET)</string>
 	<key>NSAppleScriptEnabled</key>
@@ -32,31 +36,5 @@
 	<string>NSApplication</string>
 	<key>OSAScriptingDefinition</key>
 	<string>StatTag.sdef</string>
-  
-  <key>CFBundleHelpBookFolder</key>
-  <string>StatTagHelp.help</string>
-  <key>CFBundleHelpBookName</key>
-  <string>org.stattag.StatTagHelp.help</string>
-
-  <!--
-   WORKS
-	<key>CFBundleHelpBookFolder</key>
-	<string>StatTagHelp</string>
-  <key>CFBundleHelpBookName</key>
-  <string>StatTag Help</string>
-   -->
-   <!--
-    EXTRAS
-    <key>HPDBookTitle</key>
-    <string>StatTag Help</string>
-    <key>CFAppleHelpAnchor</key>
-    <string>index.html</string>
-  <key>HPDBookTitle</key>
-  <key>StatTag Help</key>
-  <key>HPDBookAccessPath</key>
-  <string>index.html</string>
-  <key>HPDBookType</key>
-  <string>3</string>
-    -->
 </dict>
 </plist>

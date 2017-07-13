@@ -36,7 +36,7 @@
 
 +(void)UpdateLinkFormat:(STMSWord2011LinkFormat*)linkFormat;
 +(BOOL)imageExistsAtPath:(NSString*)filePath;
-+(void)insertImageAtPath:(NSString*)filePath;
++(BOOL)insertImageAtPath:(NSString*)filePath;
 +(void)UpdateAllImageLinks;
 //+(void)disableScreenUpdates;
 //+(void)enableScreenUpdates;

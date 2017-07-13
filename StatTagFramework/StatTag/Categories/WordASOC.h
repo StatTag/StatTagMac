@@ -27,7 +27,7 @@
 -(void)createOrUpdateDocumentVariableWithName:(NSString*)variableName andValue:(NSString*)variableValue;
 
 -(void)UpdateLinkFormat:(STMSWord2011LinkFormat*)linkFormat;
--(void)insertImageAtPath:(NSString*)filePath;
+-(NSNumber*)insertImageAtPath:(NSString*)filePath;
 -(void)UpdateAllImageLinks;
 -(NSNumber*)createTableAtRangeStart:(NSNumber*)rangeStart andRangeEnd:(NSNumber*)rangeEnd withRows:(NSNumber*)rows andCols:(NSNumber*)cols;
 -(NSNumber*)insertParagraphAtRangeStart:(NSNumber*)rangeStart andRangeEnd:(NSNumber*)rangeEnd;

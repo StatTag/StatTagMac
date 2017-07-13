@@ -156,7 +156,7 @@ static WordHelpers* sharedInstance = nil;
   return false;
 }
 
-+(void)insertImageAtPath:(NSString*)filePath {
++(BOOL)insertImageAtPath:(NSString*)filePath {
   //@autoreleasepool {
     //FIXME: we need some better error handling, etc. for all of this
     [[self class] sharedInstance];
@@ -176,8 +176,10 @@ static WordHelpers* sharedInstance = nil;
        
        We should probably go back and change the AppleScript, then circle back and fix this
        */
-      [asoc insertImageAtPath:hfsPath];
+      BOOL inserted = [[asoc insertImageAtPath:hfsPath] boolValue];
+      return inserted;//[[asoc insertImageAtPath:hfsPath] boolValue];
     }
+  return false;
   //}
   
 //  if(filePath != nil) {

@@ -285,7 +285,7 @@ BOOL breakLoop = YES;
           NSString* errorStatisticalPackage = [[ex userInfo] valueForKey:@"StatisticalPackage"];
           NSString* errorCode = [[ex userInfo] valueForKey:@"ErrorCode"];
           NSString* errorDescription = [[ex userInfo] valueForKey:@"ErrorDescription"];
-          errorDetail = [NSString stringWithFormat:@" %@ - %@ - %@", errorStatisticalPackage, errorCode, errorDescription];
+          errorDetail = [NSString stringWithFormat:@" %@ - %@ - %@", errorStatisticalPackage == nil ? @"" : errorStatisticalPackage, errorCode == nil ? @"" : errorCode, errorDescription == nil ? @"" : errorDescription];
         }
       }
       [content appendString:[NSString stringWithFormat:@"•  %@ (%@%@)\n", [t Name], [[t CodeFile] FileName], errorDetail ]];

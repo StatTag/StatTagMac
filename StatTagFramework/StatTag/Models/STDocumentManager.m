@@ -205,8 +205,15 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   }
 
   NSString* fileName = [[[tag CachedResult] firstObject] FigureResult];
-  [WordHelpers insertImageAtPath:fileName];
-  
+  BOOL inserted = [WordHelpers insertImageAtPath:fileName];
+  if(inserted == NO)
+  {
+    NSDictionary* errorInfo = [[NSDictionary alloc] initWithObjectsAndKeys:[[tag CodeFile] StatisticalPackage], @"StatisticalPackage", [NSString stringWithFormat:@"Unable to insert image at path '%@'", fileName], @"ErrorDescription", nil];
+
+    @throw [NSException exceptionWithName:NSGenericException
+                                   reason:[NSString stringWithFormat:@"There was an error while inserting the image: %@", [fileName lastPathComponent]]
+                                 userInfo:errorInfo];
+  }
   //NSLog(@"InsertImage - Finished");
   
 }
@@ -680,7 +687,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
 /// <param name="tag"></param>
 -(void)InsertVerbatim:(STMSWord2011SelectionObject*)selection tag:(STTag*)tag
 {
-  [self Log:@"InsertVerbatim - Started"];
+  //[self Log:@"InsertVerbatim - Started"];
   
   if (tag == nil)
   {
@@ -697,7 +704,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
     [WordHelpers insertTextboxAtRangeStart:[range startOfContent] andRangeEnd:[range endOfContent] forShapeName:[tag Id] withShapetext:[result VerbatimResult] andFontSize:9.0 andFontFace:@"Courier New"];
   }
   
-  [self Log:@"InsertVerbatim - Finished"];
+  //[self Log:@"InsertVerbatim - Finished"];
 }
 
 
@@ -1228,7 +1235,16 @@ Insert an StatTag field at the currently specified document range.
         [refreshedFiles addObject:[tag CodeFile]];
       }
       
-      [self InsertField:tag];
+      @try
+      {
+        [self InsertField:tag];
+      }
+      @catch (NSException* exception)
+      {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"tagUpdateComplete" object:self userInfo:@{@"tagName":[tag Name], @"tagID":[tag Id], @"codeFileName":[[tag CodeFile] FileName], @"type" : @"tag", @"no_result" : [NSNumber numberWithBool:YES], @"exception":exception}];
+        allResults.Success = false;
+        [[allResults FailedTags] addObject:tag];
+      }
     }
     
     // Now that all of the fields have been inserted, sweep through and update any existing
