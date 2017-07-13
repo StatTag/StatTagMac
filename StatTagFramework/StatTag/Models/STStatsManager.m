@@ -113,7 +113,7 @@ const NSInteger RefreshStepInterval = 5;
   //STStataAutomation* automation = [[STStataAutomation alloc] init];
   NSObject<STIStatAutomation>* automation = [[self class] GetStatAutomation:file];
   
-  if(! [automation Initialize]){
+  if(! [automation Initialize:file]){
     //FIXME: we should probably do something w/ NSError here?
     /*
      MessageBox.Show(automation.GetInitializationErrorMessage(), UIUtility.GetAddInName());

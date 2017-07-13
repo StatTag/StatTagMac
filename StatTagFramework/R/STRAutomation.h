@@ -21,6 +21,7 @@
   STRVerbatimDevice* VerbatimLog;
 }
 
+-(BOOL)Initialize:(STCodeFile*)codeFile;
 -(NSString*)GetInitializationErrorMessage;
 
 @end

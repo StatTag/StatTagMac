@@ -29,10 +29,21 @@ static NSString* const MATRIX_DIMENSION_NAMES_ATTRIBUTE = @"dimnames";
   return self;
 }
 
--(BOOL)Initialize
+-(BOOL)Initialize:(STCodeFile*)codeFile;
 {
   if (Engine == nil) {
     Engine = [RCEngine GetInstance:VerbatimLog];
+  }
+
+  if (Engine != nil && codeFile != nil) {
+    // If a code file is provided, we will attempt to set the working directory in
+    // R to the same directory as the file.  This is done to avoid issues where,
+    // because we're executing R from an app, it uses the working directory as the
+    // app bundle directory (which users would not have rights to).
+    // Since Initialize is called once per file execution, we want to make sure this
+    // is called here so any subsequent code execution where the working directory
+    // is changed is respected and we don't overwrite it.
+    [self RunCommand:[NSString stringWithFormat:@"setwd(dirname('%@'))", codeFile.FilePath]];
   }
 
   return (Engine != nil);

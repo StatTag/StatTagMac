@@ -126,7 +126,7 @@ const NSInteger ShowStata = 3;
   }
 }
 
--(BOOL)Initialize {
+-(BOOL)Initialize:(STCodeFile*)codeFile {
   @try {
     OpenLogs = [[NSMutableArray<STStataParserLog*> alloc] init];
     _AppBundleIdentifier = [[self class] determineInstalledAppBundleIdentifier];
