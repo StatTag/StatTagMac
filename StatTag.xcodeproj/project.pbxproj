@@ -1866,6 +1866,7 @@
 				3836F5471D92C89900BF0DD4 /* Frameworks */,
 				3836F5481D92C89900BF0DD4 /* Resources */,
 				38D8B1B61D9496C300BF878A /* Embed Frameworks */,
+				357B7D391F1D31150009C543 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1917,7 +1918,6 @@
 					};
 					3836F5491D92C89900BF0DD4 = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = ZRBJAU296F;
 						ProvisioningStyle = Manual;
 					};
 					3836F55E1D92C89900BF0DD4 = {
@@ -2039,6 +2039,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		357B7D391F1D31150009C543 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd $BUILT_PRODUCTS_DIR\n\ninstall_name_tool -change /Library/Frameworks/R.framework/Versions/3.1/Resources/lib/libR.dylib /Library/Frameworks/R.framework/Versions/Current/Resources/lib/libR.dylib StatTag.app/Contents/Frameworks/RCocoa.framework/RCocoa\n\ninstall_name_tool -change /Library/Frameworks/R.framework/Versions/3.1/Resources/lib/libR.dylib /Library/Frameworks/R.framework/Versions/Current/Resources/lib/libR.dylib StatTag.app/Contents/Frameworks/RCocoa.framework/Versions/A/RCocoa\n\ninstall_name_tool -change /Library/Frameworks/R.framework/Versions/3.1/Resources/lib/libR.dylib /Library/Frameworks/R.framework/Versions/Current/Resources/lib/libR.dylib StatTag.app/Contents/Frameworks/RCocoa.framework/Versions/Current/RCocoa\n\ninstall_name_tool -change /Library/Frameworks/R.framework/Versions/3.1/Resources/lib/libR.dylib /Library/Frameworks/R.framework/Versions/Current/Resources/lib/libR.dylib StatTag.app/Contents/Frameworks/StatTagFramework.framework/StatTagFramework\n\ninstall_name_tool -change /Library/Frameworks/R.framework/Versions/3.1/Resources/lib/libR.dylib /Library/Frameworks/R.framework/Versions/Current/Resources/lib/libR.dylib StatTag.app/Contents/Frameworks/StatTagFramework.framework/Versions/A/StatTagFramework\n\ninstall_name_tool -change /Library/Frameworks/R.framework/Versions/3.1/Resources/lib/libR.dylib /Library/Frameworks/R.framework/Versions/Current/Resources/lib/libR.dylib StatTag.app/Contents/Frameworks/StatTagFramework.framework/Versions/Current/StatTagFramework\n";
+		};
 		383A27941E8005A6009379F1 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2529,9 +2542,9 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = ZRBJAU296F;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -2545,7 +2558,7 @@
 					"DEBUG=1",
 				);
 				INFOPLIST_FILE = StatTag/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks /Library/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = org.stattag.StatTag;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2561,9 +2574,9 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = ZRBJAU296F;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -2576,7 +2589,7 @@
 					SCI_LEXER,
 				);
 				INFOPLIST_FILE = StatTag/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks /Library/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = org.stattag.StatTag;
 				PRODUCT_NAME = "$(TARGET_NAME)";
