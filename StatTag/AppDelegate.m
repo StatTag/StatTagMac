@@ -75,7 +75,11 @@
     }
   #endif
 
-  
+  if([[StatTagShared sharedInstance] isFirstLaunch])
+  {
+    [MacroInstallerUtility installMacros];
+  }
+
 //  [self runStatTagWithDocumentBrowser];
 
 /*

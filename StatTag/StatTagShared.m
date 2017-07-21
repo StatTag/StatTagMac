@@ -258,6 +258,7 @@ NSString* const kStatTagErrorDomain = @"STErrorDomain";
   NSString *currentAppVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
   
   if ([self lastLaunchedAppVersion] != nil) {
+    [self setLastLaunchedAppVersion:currentAppVersion];
     return NO;
   }
   
