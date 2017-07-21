@@ -15,8 +15,6 @@
 
 @property (weak) IBOutlet NSTextField *gitHubLinkField;
 
-
-
 @property (weak) IBOutlet NSTextField *buildTextField;
 
 @end

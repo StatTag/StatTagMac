@@ -69,7 +69,9 @@
     }
   }
   
-  [alert beginSheetModalForWindow:[[NSApplication sharedApplication] mainWindow] completionHandler:^(NSModalResponse returnCode) {
+  NSModalResponse returnCode = [alert runModal];
+  
+//  [alert beginSheetModalForWindow:[[NSApplication sharedApplication] mainWindow] completionHandler:^(NSModalResponse returnCode) {
     if (returnCode == NSAlertFirstButtonReturn) {
       
       NSTask *task = [[NSTask alloc] init];
@@ -103,7 +105,7 @@
       
     } else if (returnCode == NSAlertSecondButtonReturn) {
     }
-  }];
+//  }];
   
 }
 
@@ -119,9 +121,10 @@
   }
   [alert setMessageText:message];
   [alert addButtonWithTitle:@"OK"];
-  
-  [alert beginSheetModalForWindow:[[NSApplication sharedApplication] mainWindow] completionHandler:^(NSModalResponse returnCode) {
-  }];
+
+  [alert runModal];
+//  [alert beginSheetModalForWindow:[[NSApplication sharedApplication] mainWindow] completionHandler:^(NSModalResponse returnCode) {
+//  }];
   
 }
 
