@@ -419,7 +419,18 @@ static WordHelpers* sharedInstance = nil;
 
 +(void)selectTextAtRangeStart:(NSInteger)rangeStart andEnd:(NSInteger)rangeEnd {
   @autoreleasepool {
-    STMSWord2011SelectionObject* selection = [[[[STGlobals sharedInstance] ThisAddIn] Application] selection];//.activeWindow.selection;
+    STMSWord2011SelectionObject* selection = [[[[STGlobals sharedInstance] ThisAddIn] Application] selection];
+    // Because of an issue/quirk with Word (we have not determined the actual root cause, just
+    // observed the behavior), if the cursor is in a table cell that is not the table cell where
+    // the selection range is located, the changes to the selection range end up causing the
+    // entire table cell content to be selected and replaced.  Our method to address this is
+    // to detect if we are in a table cell.  If so we will set the selection twice.  Again, not
+    // sure what's wrong or why this works, but it works.
+    if ([[selection cells] count] > 0) {
+      selection.selectionStart = rangeStart;
+      selection.selectionEnd = rangeEnd;
+      selection = [[[[STGlobals sharedInstance] ThisAddIn] Application] selection];
+    }
     selection.selectionStart = rangeStart;
     selection.selectionEnd = rangeEnd;
   }
@@ -428,9 +439,10 @@ static WordHelpers* sharedInstance = nil;
 +(void)selectTextInRange:(STMSWord2011TextRange*)textRange {
   @autoreleasepool {
     if(textRange != nil) {
-      STMSWord2011SelectionObject* selection = [[[[STGlobals sharedInstance] ThisAddIn] Application] selection];//.activeWindow.selection;
-      selection.selectionStart = [textRange startOfContent];
-      selection.selectionEnd = [textRange endOfContent];
+      [self selectTextAtRangeStart:[textRange startOfContent] andEnd:[textRange endOfContent]];
+      //STMSWord2011SelectionObject* selection = [[[[STGlobals sharedInstance] ThisAddIn] Application] selection];
+      //selection.selectionStart = [textRange startOfContent];
+      //selection.selectionEnd = [textRange endOfContent];
     }
   }
 }
