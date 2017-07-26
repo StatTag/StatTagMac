@@ -342,6 +342,11 @@
 
 }
 
+-(void)doubleClickedDocumentRow
+{
+  
+}
+
 
 -(void)loadDocsAndContent
 {

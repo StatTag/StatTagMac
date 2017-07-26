@@ -287,22 +287,29 @@ script WordASOC
 
   on setActiveDocumentByDocName:theName
     set theName to theName as string
-    --display dialog theName
-    --activate application "Microsoft Word"
     tell application "Microsoft Word"
-      --set names to name of windows
-      --repeat with currentName in names
-      --  set aDocument to document named currentName
-      --  set thisDocName to name of aDocument
-      --  if ((currentName as string) is equal to thisDocName) then
+      set docNames to name of documents
+      set windowNames to name of windows
+      repeat with aName in docNames
+        if (aName as string) is equal to theName then
           activate object document theName
-      --    return
-      --  end if
-      --end repeat
+          set theDoc to document theName
+          repeat with aWindow in windowNames
+            set thisWindow to window aWindow
+            set windowDocument to ((name of document of thisWindow) as string)
+            if windowDocument is equal to (name of theDoc as string) then
+              activate object window ((name of thisWindow) as string)
+              set index of thisWindow to 1
+              --this still isn't working
+              --we'd need to use system events and AXRaise
+              --that's not ideal as it requires accessibility user approval
+            end if
+          end repeat
+          exit repeat
+        end if
+      end repeat
     end tell
   end setActiveDocumentByDocName:
-
-
 
 (*
  #older unused version - leaving this in here for reference to demonstrate another option we tried
