@@ -260,6 +260,7 @@
 		38E22ABB1E9D4388005DFFE9 /* TagCodePeekViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38E22AB91E9D4388005DFFE9 /* TagCodePeekViewController.xib */; };
 		38E22ABF1E9D5FBC005DFFE9 /* ScintillaEmbeddedViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 38E22ABD1E9D5FBC005DFFE9 /* ScintillaEmbeddedViewController.mm */; };
 		38E22AC01E9D5FBC005DFFE9 /* ScintillaEmbeddedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38E22ABE1E9D5FBC005DFFE9 /* ScintillaEmbeddedViewController.xib */; };
+		38E96E8D1F29589A00DF9B85 /* RestorableWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38E96E8C1F29589A00DF9B85 /* RestorableWindowController.m */; };
 		38E9CB101E1473A9006B3571 /* TableValueFilterFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 38E9CB0F1E1473A9006B3571 /* TableValueFilterFormatter.m */; };
 		38EDC05C1EE0EF2200A7BFD2 /* DuplicateTagRenameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EDC05A1EE0EF2200A7BFD2 /* DuplicateTagRenameViewController.m */; };
 		38EDC05D1EE0EF2200A7BFD2 /* DuplicateTagRenameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38EDC05B1EE0EF2200A7BFD2 /* DuplicateTagRenameViewController.xib */; };
@@ -704,6 +705,8 @@
 		38E22ABC1E9D5FBC005DFFE9 /* ScintillaEmbeddedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScintillaEmbeddedViewController.h; sourceTree = "<group>"; };
 		38E22ABD1E9D5FBC005DFFE9 /* ScintillaEmbeddedViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ScintillaEmbeddedViewController.mm; sourceTree = "<group>"; };
 		38E22ABE1E9D5FBC005DFFE9 /* ScintillaEmbeddedViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScintillaEmbeddedViewController.xib; sourceTree = "<group>"; };
+		38E96E8B1F29589A00DF9B85 /* RestorableWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestorableWindowController.h; sourceTree = "<group>"; };
+		38E96E8C1F29589A00DF9B85 /* RestorableWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestorableWindowController.m; sourceTree = "<group>"; };
 		38E9CB0E1E1473A9006B3571 /* TableValueFilterFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableValueFilterFormatter.h; sourceTree = "<group>"; };
 		38E9CB0F1E1473A9006B3571 /* TableValueFilterFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableValueFilterFormatter.m; sourceTree = "<group>"; };
 		38EDC0591EE0EF2200A7BFD2 /* DuplicateTagRenameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DuplicateTagRenameViewController.h; sourceTree = "<group>"; };
@@ -1113,6 +1116,8 @@
 				38F803501D9DAF5500C8F1EA /* Classes */,
 				3836F55A1D92C89900BF0DD4 /* Info.plist */,
 				3836F5571D92C89900BF0DD4 /* Main.storyboard */,
+				38E96E8B1F29589A00DF9B85 /* RestorableWindowController.h */,
+				38E96E8C1F29589A00DF9B85 /* RestorableWindowController.m */,
 				3836F5A71D92EBCB00BF0DD4 /* MainTabViewController.h */,
 				3836F5A81D92EBCB00BF0DD4 /* MainTabViewController.m */,
 				38A843A21D9B051100357727 /* readme.md */,
@@ -2226,6 +2231,7 @@
 				388ABF881DA5B1F600F08956 /* ViewUtils.m in Sources */,
 				38E22ABF1E9D5FBC005DFFE9 /* ScintillaEmbeddedViewController.mm in Sources */,
 				3828C8191E9D12AD000A4159 /* STTag+TagContent.m in Sources */,
+				38E96E8D1F29589A00DF9B85 /* RestorableWindowController.m in Sources */,
 				3879D5E81E6DA86F00BF1964 /* AlertDisclosureTextView.m in Sources */,
 				3836F5AD1D92ED9D00BF0DD4 /* STAppleScript_LoadSettings.m in Sources */,
 				38FFDD241E8D5C3F004D92C3 /* UnlinkedTagsViewController.m in Sources */,

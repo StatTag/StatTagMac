@@ -793,12 +793,15 @@
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">
             <objects>
-                <windowController storyboardIdentifier="mainWindowController" id="B8D-0N-5wS" sceneMemberID="viewController">
+                <windowController storyboardIdentifier="mainWindowController" id="B8D-0N-5wS" customClass="RestorableWindowController" sceneMemberID="viewController">
                     <window key="window" title="StatTag" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="MainWindow" animationBehavior="default" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-                        <rect key="contentRect" x="196" y="240" width="480" height="270"/>
+                        <rect key="contentRect" x="196" y="240" width="800" height="600"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
+                        <connections>
+                            <outlet property="delegate" destination="B8D-0N-5wS" id="0ol-s5-w63"/>
+                        </connections>
                     </window>
                     <connections>
                         <segue destination="orG-Tx-oXQ" kind="relationship" relationship="window.shadowedContentViewController" id="h3g-b8-ixH"/>
@@ -806,7 +809,7 @@
                 </windowController>
                 <customObject id="Oky-zY-oP4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="66" y="246"/>
+            <point key="canvasLocation" x="244" y="298"/>
         </scene>
         <!--Main Tab View Controller-->
         <scene sceneID="mf0-Dv-ps6">
@@ -834,7 +837,7 @@
                 </tabViewController>
                 <customObject id="43s-Bz-SoD" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="707"/>
+            <point key="canvasLocation" x="69" y="1100"/>
         </scene>
         <!--Document Browser View Controller-->
         <scene sceneID="5MY-Gi-C9b">
@@ -847,7 +850,7 @@
                 </viewController>
                 <customObject id="Mul-a9-Apt" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="632" y="345"/>
+            <point key="canvasLocation" x="984" y="291"/>
         </scene>
         <!--Stat Tag Needs Word View Controller-->
         <scene sceneID="drC-66-AVK">
@@ -860,7 +863,7 @@
                 </viewController>
                 <customObject id="b80-DQ-Qdr" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="564" y="707"/>
+            <point key="canvasLocation" x="564" y="1100"/>
         </scene>
         <!--Settings View Controller-->
         <scene sceneID="1RD-ZK-BIx">
@@ -884,7 +887,7 @@
                 </viewController>
                 <customObject id="HYD-hq-8cd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-199" y="1183"/>
+            <point key="canvasLocation" x="-167" y="1546"/>
         </scene>
         <!--Manage Code Files View Controller-->
         <scene sceneID="ffM-D5-daC">
@@ -908,7 +911,7 @@
                 </viewController>
                 <customObject id="pDO-si-G9J" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="319" y="1183"/>
+            <point key="canvasLocation" x="350" y="1546"/>
         </scene>
         <!--Update Output View Controller-->
         <scene sceneID="hR8-5X-Xcl">
@@ -921,7 +924,7 @@
                 </viewController>
                 <customObject id="f3o-Zj-qNo" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="841" y="1183"/>
+            <point key="canvasLocation" x="849" y="1546"/>
         </scene>
         <!--Updating Tags-->
         <scene sceneID="BfN-SS-AO9">
