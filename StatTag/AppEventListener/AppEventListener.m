@@ -29,7 +29,7 @@
 {
   NSNotificationCenter *  center;
   
-  NSLog(@"-[AppDelegate testNSWorkspace:]");
+  //NSLog(@"-[AppDelegate testNSWorkspace:]");
   
   // Get the custom notification center.
   center = [[NSWorkspace sharedWorkspace] notificationCenter];
@@ -90,13 +90,13 @@
 
 + (void)appLaunched:(NSNotification *)note
 {
-  NSLog(@"launched %@\n", [[note userInfo] objectForKey:@"NSApplicationName"]);
-  NSLog(@"launched %@\n", [[note userInfo] objectForKey:@"NSApplicationBundleIdentifier"]);
+  //NSLog(@"launched %@\n", [[note userInfo] objectForKey:@"NSApplicationName"]);
+  //NSLog(@"launched %@\n", [[note userInfo] objectForKey:@"NSApplicationBundleIdentifier"]);
   
   NSString* bundleID = [[note userInfo] objectForKey:@"NSApplicationBundleIdentifier"];
   if([[STThisAddIn ProcessNames] containsObject:bundleID]) {
     //Word did something
-    //NSLog(@"Caught Word Exit");
+    ////NSLog(@"Caught Word Exit");
     [[self class] wordIsOK];
   }
   
@@ -105,13 +105,13 @@
 
 + (void)appTerminated:(NSNotification *)note
 {
-  //NSLog(@"terminated %@\n", [[note userInfo] objectForKey:@"NSApplicationName"]);
-  //NSLog(@"terminated %@\n", [[note userInfo] objectForKey:@"NSApplicationBundleIdentifier"]);
+  ////NSLog(@"terminated %@\n", [[note userInfo] objectForKey:@"NSApplicationName"]);
+  ////NSLog(@"terminated %@\n", [[note userInfo] objectForKey:@"NSApplicationBundleIdentifier"]);
   
   NSString* bundleID = [[note userInfo] objectForKey:@"NSApplicationBundleIdentifier"];
   if([[STThisAddIn ProcessNames] containsObject:bundleID]) {
     //Word did something
-    //NSLog(@"Caught Word Exit");
+    ////NSLog(@"Caught Word Exit");
     [[self class] wordIsOK];
   }
 }

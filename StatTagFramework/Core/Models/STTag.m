@@ -36,6 +36,7 @@
   return [NSString stringWithFormat:@"%@--%@", (_Name == nil ? @"" : _Name), (_CodeFile == nil || [_CodeFile FilePath] == nil ? @"" : [_CodeFile FilePath])];
 }
 
+
 @synthesize FormattedResult = _FormattedResult;
 - (NSString*) FormattedResult {
   if (_CachedResult == nil || [_CachedResult count] == 0)
@@ -58,6 +59,11 @@
   // be empty cells at some point, so we will not correct those like we do for individual values.  
   return (![self IsTableTag ] && [[formattedValue stringByTrimmingCharactersInSet: ws] length] == 0) ?
   [STConstantsPlaceholders EmptyField] : formattedValue;
+}
+
+-(NSString*)CodeFilePath
+{
+  return [[self CodeFile] FilePath];
 }
 
 
@@ -92,9 +98,9 @@
     self.LineStart = [[tag LineStart ] copy];
     self.LineEnd = [[tag LineEnd] copy];
     self.CachedResult = [[tag CachedResult] copy];
-    NSLog(@"tag CachedResult = %@", [tag CachedResult]);
-    NSLog(@"self CachedResult = %@", [self CachedResult]);
-    NSLog(@"tag(self) FormattedResult : %@", [self FormattedResult]);
+    //NSLog(@"tag CachedResult = %@", [tag CachedResult]);
+    //NSLog(@"self CachedResult = %@", [self CachedResult]);
+    //NSLog(@"tag(self) FormattedResult : %@", [self FormattedResult]);
   }
   //fix any missing members
   if(self.Name == nil) {
@@ -129,7 +135,7 @@
 
 -(id)copyWithZone:(NSZone *)zone
 {
-  NSLog(@"tag - copyWithZone");
+  //NSLog(@"tag - copyWithZone");
 
   STTag *tag = [[[self class] allocWithZone:zone] init];
 
@@ -179,7 +185,7 @@
   }
   [dict setValue:_LineStart forKey:@"LineStart"];
   [dict setValue:_LineEnd forKey:@"LineEnd"];
-  [dict setValue:[self Id] forKey:@"Id"]; //this is a read only item
+  //[dict setValue:[self Id] forKey:@"Id"]; //this is a read only item
   [dict setValue:[self FormattedResult] forKey:@"FormattedResult"];
   
   return dict;
@@ -201,19 +207,19 @@
     } else if([key isEqualToString:@"CodeFilePath"] || [key isEqualToString:@"TableCellIndex"] ) {
       //skip the properties from fieldtag
     } else if([key isEqualToString:@"CodeFile"]) {
-      //NSLog(@"STTag - attempting to recover CodeFile with value %@", [dict valueForKey:key]);
+      ////NSLog(@"STTag - attempting to recover CodeFile with value %@", [dict valueForKey:key]);
       id aValue = [dict valueForKey:key];
       NSDictionary *objDict = aValue;
       if(objDict != nil) {
         [self setValue:[[STCodeFile alloc] initWithDictionary:objDict] forKey:key];
       }
     } else if([key isEqualToString:@"Name"]) {
-      //NSLog(@"STTag - attempting to recover normalized Name with value %@, normalized value: %@", [dict valueForKey:key], [STTag NormalizeName:[dict valueForKey:key]]);
+      ////NSLog(@"STTag - attempting to recover normalized Name with value %@, normalized value: %@", [dict valueForKey:key], [STTag NormalizeName:[dict valueForKey:key]]);
       [self setValue:[[self class] NormalizeName:[dict valueForKey:key]] forKey:key];
     } else if([key isEqualToString:@"CachedResult"]) {
       //[self setValue:[[self class] Deserialize:[dict valueForKey:key] error:&error] forKey:key];
       [self setValue:[STCommandResult DeserializeList:[dict valueForKey:key] error:&error] forKey:key];
-      NSLog(@"NSError: %@", [error localizedDescription]);
+      //NSLog(@"NSError: %@", [error localizedDescription]);
     } else if([key isEqualToString:@"FigureFormat"]) {
       [self setValue:[[STFigureFormat alloc] initWithDictionary:[dict valueForKey:key]] forKey:key];
     } else if([key isEqualToString:@"ValueFormat"]) {
@@ -458,37 +464,11 @@ row labels are included.
   }
   
   STTable* tableData = [[_CachedResult firstObject] TableResult];
-//  NSInteger dimensions[2];
-//  dimensions[0] = [tableData RowSize];
-//  dimensions[1] = [tableData ColumnSize];
-  
-  //NSMutableArray<NSNumber*>* dimensions = [[NSMutableArray alloc] initWithObjects:[NSNumber numberWithInteger:[tableData RowSize]], [NSNumber numberWithInteger:[tableData ColumnSize]], nil];
 
-  //NSMutableArray<NSNumber*>* dimensions = [[NSMutableArray alloc] init];
   NSNumber* r = [NSNumber numberWithInteger:[self GetDisplayDimension:[tableData RowSize] filter:_TableFormat.RowFilter]];
   NSNumber* c = [NSNumber numberWithInteger:[self GetDisplayDimension:[tableData ColumnSize] filter:_TableFormat.ColumnFilter]];
   
   NSMutableArray<NSNumber*>* dimensions = [[NSMutableArray alloc] initWithObjects:r, c, nil];
-  
-//  GetDisplayDimension(tableData.RowSize, TableFormat.RowFilter),
-//  GetDisplayDimension(tableData.ColumnSize, TableFormat.ColumnFilter)
-
-  
-  /*
-  if ([_TableFormat IncludeColumnNames] && [tableData ColumnNames] != nil)
-  {
-    dimensions[STConstantsDimensionIndex.Rows] = [NSNumber numberWithInteger:[dimensions[STConstantsDimensionIndex.Rows] integerValue] + 1];
-    //dimensions[STConstantsDimensionIndex.Rows]++;
-  }
-
-  if ([_TableFormat IncludeRowNames] && [tableData RowNames] != nil)
-  {
-    dimensions[STConstantsDimensionIndex.Columns] = [NSNumber numberWithInteger:[dimensions[STConstantsDimensionIndex.Columns] integerValue] + 1];
-    //dimensions[STConstantsDimensionIndex.Columns]++;
-  }
-   */
-  
-  //[dimensions setObject:[self GetDisplayDimension:[tableData RowSize] filter:[STTableFormat RowFilter]] atIndexedSubscript:0];
   
   return dimensions;
 }

@@ -78,7 +78,7 @@
   [alert runModal];
 
   
-  NSLog(@"*** FIX ME *** Later on we should see an alert panel... when we have any sort of UI");
+  //NSLog(@"*** FIX ME *** Later on we should see an alert panel... when we have any sort of UI");
   //MessageBox.Show(userMessage, GetAddInName(), MessageBoxButtons.OK, MessageBoxIcon.Error);
 }
 

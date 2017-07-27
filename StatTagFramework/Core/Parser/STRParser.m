@@ -30,8 +30,8 @@
                                   options:0
                                   error:&error];
   if(error){
-    NSLog(@"R - FigureRexec : %@", [error localizedDescription]);
-    NSLog(@"R - [[self class] FigureCommand] : %@", [[self class] FigureCommands]);
+    //NSLog(@"R - FigureRexec : %@", [error localizedDescription]);
+    //NSLog(@"R - [[self class] FigureCommand] : %@", [[self class] FigureCommands]);
   }
   return regex;
 }
@@ -43,8 +43,8 @@
                                   options:NSRegularExpressionDotMatchesLineSeparators
                                   error:&error];
   if(error){
-    NSLog(@"R - FigureParameterRegex : %@", [error localizedDescription]);
-    NSLog(@"R - [[self class] FigureCommand] : %@", [[self class] FigureCommands]);
+    //NSLog(@"R - FigureParameterRegex : %@", [error localizedDescription]);
+    //NSLog(@"R - [[self class] FigureCommand] : %@", [[self class] FigureCommands]);
   }
   return regex;
 }
@@ -78,7 +78,7 @@ This will return the exact parameter that represents the image save location.  T
 
   NSArray *matches = [[[self class] FigureParameterRegex] matchesInString:arguments
                                                        options:0
-                                                         range:NSMakeRange(0, [command length])];
+                                                         range:NSMakeRange(0, [arguments length])];
   if([matches count] == 0)
   {
     return @"";
@@ -98,16 +98,24 @@ This will return the exact parameter that represents the image save location.  T
       continue;
     }
 
-    
+    NSString* t1 = @"";
+    NSString* t2 = @"";
+    NSString* t3 = @"";
     NSRange m1 = [tc rangeAtIndex:1];
-    NSString* t1 = [arguments substringWithRange:m1];
+      if (m1.length > 0) {
+          t1 = [arguments substringWithRange:m1];
+      }
 
     NSRange m2 = [tc rangeAtIndex:2];
-    NSString* t2 = [arguments substringWithRange:m2];
+      if (m2.length > 0) {
+          t2 = [arguments substringWithRange:m2];
+      }
 
     NSRange m3 = [tc rangeAtIndex:3];
-    NSString* t3 = [arguments substringWithRange:m3];
-    
+      if (m3.length > 0) {
+          t3 = [arguments substringWithRange:m3];
+      }
+
     STRParserFunctionParam* fp = [[STRParserFunctionParam alloc] init];
     [fp setIndex:index];
     [fp setKey:t1];

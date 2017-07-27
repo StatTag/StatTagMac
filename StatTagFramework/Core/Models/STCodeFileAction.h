@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "STJSONable.h"
+#import "STJSONAble.h"
 
 /**
  @brief Used to specify an action to take when a code file is unlinked from a document, and there

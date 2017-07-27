@@ -11,15 +11,17 @@
 #import "STIStatAutomation.h"
 
 @class STRParser;
+@class RCEngine;
+@class STRVerbatimDevice;
 
 @interface STRAutomation : NSObject <STIStatAutomation> {
   STRParser* Parser;
   NSMutableArray<NSString*>* OpenLogs;
+  RCEngine* Engine;
+  STRVerbatimDevice* VerbatimLog;
 }
 
-//Need to add external reference to REngine
-// none of real internal R interface methods are complete
-
+-(BOOL)Initialize:(STCodeFile*)codeFile;
 -(NSString*)GetInitializationErrorMessage;
 
 @end

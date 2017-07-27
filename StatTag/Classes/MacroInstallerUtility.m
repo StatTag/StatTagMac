@@ -69,7 +69,9 @@
     }
   }
   
-  [alert beginSheetModalForWindow:[[NSApplication sharedApplication] mainWindow] completionHandler:^(NSModalResponse returnCode) {
+  NSModalResponse returnCode = [alert runModal];
+  
+//  [alert beginSheetModalForWindow:[[NSApplication sharedApplication] mainWindow] completionHandler:^(NSModalResponse returnCode) {
     if (returnCode == NSAlertFirstButtonReturn) {
       
       NSTask *task = [[NSTask alloc] init];
@@ -89,7 +91,7 @@
       //we're just going to do this in a simple, brute synchronous way
       NSData* error = [[errorPipe fileHandleForReading] readDataToEndOfFile];
       NSString* err_result = [[NSString alloc] initWithData:error encoding:NSUTF8StringEncoding];
-      NSLog(@"%@", err_result);
+      //NSLog(@"%@", err_result);
       
       if([task terminationStatus] != 0 || [err_result length] > 0)
       {
@@ -103,7 +105,7 @@
       
     } else if (returnCode == NSAlertSecondButtonReturn) {
     }
-  }];
+//  }];
   
 }
 
@@ -119,9 +121,10 @@
   }
   [alert setMessageText:message];
   [alert addButtonWithTitle:@"OK"];
-  
-  [alert beginSheetModalForWindow:[[NSApplication sharedApplication] mainWindow] completionHandler:^(NSModalResponse returnCode) {
-  }];
+
+  [alert runModal];
+//  [alert beginSheetModalForWindow:[[NSApplication sharedApplication] mainWindow] completionHandler:^(NSModalResponse returnCode) {
+//  }];
   
 }
 

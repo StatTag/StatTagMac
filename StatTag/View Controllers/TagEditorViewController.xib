@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12120"/>
         <capability name="box content view" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
         <capability name="stacking Non-gravity area distributions on NSStackView" minToolsVersion="7.0" minSystemVersion="10.11"/>
@@ -16,11 +16,11 @@
                 <outlet property="labelInstructionText" destination="27e-Xe-bfn" id="clo-uc-hoO"/>
                 <outlet property="listCodeFile" destination="XiB-LI-d7f" id="b7h-oc-8PC"/>
                 <outlet property="propertiesStackView" destination="asj-x8-Tj3" id="Ien-dk-Tjf"/>
+                <outlet property="sourceEditor" destination="rGg-7P-f2W" id="LXO-OU-gnL"/>
                 <outlet property="sourceView" destination="6Lh-06-MJS" id="1t5-JA-11G"/>
                 <outlet property="tagBasicProperties" destination="qi8-eH-f6G" id="qiB-si-JRX"/>
                 <outlet property="tagBasicPropertiesDisclosure" destination="tD5-YR-IPS" id="t2W-Ic-gqS"/>
                 <outlet property="tagBasicPropertiesView" destination="Ynp-E8-QQE" id="gNj-xR-Xhg"/>
-                <outlet property="tagFrequency" destination="t2H-fw-Wr8" id="QKu-3s-plw"/>
                 <outlet property="tagPreviewController" destination="2DR-e2-hcN" id="C5T-gQ-eFb"/>
                 <outlet property="tagPreviewDisclosureController" destination="22w-xs-BC6" id="HDP-BB-k5H"/>
                 <outlet property="tagPreviewView" destination="9oi-ab-Odp" id="hpm-oo-YRh"/>
@@ -42,7 +42,7 @@
                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="7d6-L2-EtB" userLabel="Code Editing View">
                     <rect key="frame" x="0.0" y="0.0" width="669" height="450"/>
                     <subviews>
-                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mA0-B2-GeQ">
+                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mA0-B2-GeQ">
                             <rect key="frame" x="6" y="425" width="62" height="17"/>
                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Code file:" id="CSe-Ie-4AR">
                                 <font key="font" metaFont="system"/>
@@ -50,7 +50,7 @@
                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                             </textFieldCell>
                         </textField>
-                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="i52-gS-FJO">
+                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="i52-gS-FJO">
                             <rect key="frame" x="6" y="402" width="645" height="17"/>
                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Click on the margin to define tags:" id="Xx7-3F-dgY">
                                 <font key="font" metaFont="system"/>
@@ -112,7 +112,7 @@
                                 <rect key="frame" x="1" y="1" width="283" height="287"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
-                                    <stackView distribution="equalSpacing" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" ambiguous="YES" misplaced="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="asj-x8-Tj3" userLabel="Properties Stack View">
+                                    <stackView distribution="equalSpacing" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" ambiguous="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="asj-x8-Tj3" userLabel="Properties Stack View">
                                         <rect key="frame" x="0.0" y="87" width="283" height="200"/>
                                         <subviews>
                                             <customView ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ynp-E8-QQE">
@@ -177,7 +177,7 @@
                                     <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="9XB-Gv-hpR">
                                         <rect key="frame" x="0.0" y="97" width="300" height="5"/>
                                     </box>
-                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="27e-Xe-bfn">
+                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="27e-Xe-bfn">
                                         <rect key="frame" x="4" y="55" width="292" height="36"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="36" id="24l-TP-ANj"/>
@@ -191,7 +191,7 @@
                                             <binding destination="-2" name="value" keyPath="self.instructionTitleText" id="xLC-yg-FVx"/>
                                         </connections>
                                     </textField>
-                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="2wk-93-r5B">
+                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2wk-93-r5B">
                                         <rect key="frame" x="30" y="35" width="266" height="14"/>
                                         <textFieldCell key="cell" controlSize="mini" sendsActionOnEndEditing="YES" title="Multiline Label" id="fec-DY-JIh">
                                             <font key="font" metaFont="smallSystem"/>
@@ -283,5 +283,6 @@ Gw
         <viewController id="dA9-qu-Mcf" userLabel="Table Properties Disclosure View" customClass="DisclosureViewController"/>
         <viewController id="2DR-e2-hcN" customClass="TagPreviewController"/>
         <viewController id="22w-xs-BC6" userLabel="Tag Preview Disclosure View Controller" customClass="DisclosureViewController"/>
+        <viewController id="rGg-7P-f2W" customClass="ScintillaEmbeddedViewController"/>
     </objects>
 </document>

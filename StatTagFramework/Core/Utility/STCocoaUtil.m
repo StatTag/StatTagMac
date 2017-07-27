@@ -33,14 +33,14 @@
     switch(result)
     {
       case noErr:
-        //NSLog(@"the app's URL is: %@",appURL);
+        ////NSLog(@"the app's URL is: %@",appURL);
         url = (__bridge NSURL *)appURL;
         break;
       case kLSApplicationNotFoundErr:
-        NSLog(@"app not found");
+        //NSLog(@"app not found");
         break;
       default:
-        NSLog(@"an error occurred: %ld",(long)result);
+        //NSLog(@"an error occurred: %ld",(long)result);
         break;
     }
     
@@ -112,6 +112,13 @@
 +(NSString*)currentBundleIdentifier {
   
   NSString *bundleName = [[NSBundle mainBundle] bundleIdentifier];
+  
+  if(bundleName == nil)
+  {
+    NSBundle* bundle = [NSBundle bundleForClass:[self class]];
+    bundleName = [bundle bundleIdentifier];
+  }
+  
   /*
    //originall had this so we could better test the app, but when we do this we get the framework bundle and not
    // the app bundle (when running)

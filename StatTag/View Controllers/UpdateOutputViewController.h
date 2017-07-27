@@ -17,6 +17,12 @@
 
 IB_DESIGNABLE
 
+@class UpdateOutputViewController;
+@protocol AllTagsDelegate <NSObject>
+-(void)allTagsDidChange:(UpdateOutputViewController*)controller;
+@end
+
+
 @interface UpdateOutputViewController : NSViewController <UpdateOutputProgressDelegate, TagEditorViewControllerDelegate, NSTableViewDelegate> {
   __weak NSTextField *labelOnDemandSearchText;
   __weak NSButton *buttonOnDemandSelectAll;
@@ -33,6 +39,8 @@ IB_DESIGNABLE
   NSString* _filterTagFrequency;
   NSString* _filterTagType;
 }
+
+@property (nonatomic, weak) id<AllTagsDelegate> delegate;
 
 @property (weak) IBOutlet NSTextField *labelOnDemandSearchText;
 @property (weak) IBOutlet NSButton *buttonOnDemandSelectAll;
@@ -61,7 +69,7 @@ IB_DESIGNABLE
 @property (weak) IBOutlet NSButton *addTagButton;
 @property (weak) IBOutlet NSButton *removeTagButton;
 
-- (STTag*)selectTagWithName:(NSString*)tagName;
+- (STTag*)selectTagWithName:(NSString*)tagName orID:(NSString*)tagID;
 - (IBAction)editTag:(id)sender;
 
 -(void)loadAllTags;

@@ -27,13 +27,15 @@
 -(void)createOrUpdateDocumentVariableWithName:(NSString*)variableName andValue:(NSString*)variableValue;
 
 -(void)UpdateLinkFormat:(STMSWord2011LinkFormat*)linkFormat;
--(void)insertImageAtPath:(NSString*)filePath;
+-(NSNumber*)insertImageAtPath:(NSString*)filePath;
 -(void)UpdateAllImageLinks;
 -(NSNumber*)createTableAtRangeStart:(NSNumber*)rangeStart andRangeEnd:(NSNumber*)rangeEnd withRows:(NSNumber*)rows andCols:(NSNumber*)cols;
 -(NSNumber*)insertParagraphAtRangeStart:(NSNumber*)rangeStart andRangeEnd:(NSNumber*)rangeEnd;
 -(NSNumber*)updateAllFields;
 
 -(void)setActiveDocumentByDocName:(NSString*)theName;
+
+-(void)insertTextboxAtRangeStart:(NSNumber*)theRangeStart andRangeEnd:(NSNumber*)theRangeEnd forShapeName:(NSString*)shapeName withShapetext:(NSString*)shapeText andFontSize:(NSNumber*)fontSize andFontFace:(NSString*)fontFace;
 
 //-(void)disableScreenUpdates;
 //-(void)enableScreenUpdates;

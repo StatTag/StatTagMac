@@ -10,4 +10,6 @@
 
 @interface STCodeFile (PackageIcon)
 
+-(NSImage*)packageIcon;
+
 @end

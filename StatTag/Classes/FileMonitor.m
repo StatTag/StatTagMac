@@ -61,7 +61,16 @@ dispatch_source_t fileMonitorSource;
     const char *c = [[[self filePath] path] UTF8String];
     monitoredFileDescriptor= open(c , O_RDONLY);
     
+    //https://www.cocoanetics.com/2013/08/monitoring-a-folder-with-gcd/
     //http://stackoverflow.com/questions/12343833/cocoa-monitor-a-file-for-modifications
+    //https://github.com/tblank555/iMonitorMyFiles
+    //kFSEventStreamCreateFlagFileEvents
+    //https://stackoverflow.com/questions/1772209/file-level-filesystem-change-notification-in-mac-os-x
+    //https://stackoverflow.com/questions/8314348/cocoa-fsevents-kfseventstreamcreateflagfileevents-flag-and-renamed-events
+    //https://stackoverflow.com/questions/7300998/tracking-file-renaming-deleting-with-fsevents-on-lion
+    //https://developer.apple.com/library/content/documentation/Darwin/Conceptual/FSEvents_ProgGuide/UsingtheFSEventsFramework/UsingtheFSEventsFramework.html
+    //consider a delegate model (vs notification) - with a shared instance
+    //https://github.com/njdehoog/Witness
     //__block typeof(self) blockSelf = self;
     fileMonitorSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_VNODE,monitoredFileDescriptor,
                                     DISPATCH_VNODE_DELETE | DISPATCH_VNODE_WRITE | DISPATCH_VNODE_EXTEND | DISPATCH_VNODE_ATTRIB | DISPATCH_VNODE_LINK | DISPATCH_VNODE_RENAME | DISPATCH_VNODE_REVOKE,
@@ -85,7 +94,7 @@ dispatch_source_t fileMonitorSource;
         {
           //
           //dispatch_source_cancel(fileMonitorSource);
-          NSLog(@"DISPATCH_VNODE_DELETE");
+          //NSLog(@"DISPATCH_VNODE_DELETE");
           dispatch_async(dispatch_get_main_queue(), ^{
 
           NSDictionary *fileInfo = @{@"originalFilePath":[[self filePath] path]};
@@ -100,7 +109,7 @@ dispatch_source_t fileMonitorSource;
 
           
         } else if (flags & DISPATCH_VNODE_WRITE) {
-          NSLog(@"DISPATCH_VNODE_WRITE");
+          //NSLog(@"DISPATCH_VNODE_WRITE");
           dispatch_async(dispatch_get_main_queue(), ^{
             
             NSDictionary *fileInfo = @{@"originalFilePath":[[self filePath] path]};
@@ -110,13 +119,13 @@ dispatch_source_t fileMonitorSource;
           });
         } else if (flags & DISPATCH_VNODE_EXTEND) {
           //changed in size - likely due to write activity
-          NSLog(@"DISPATCH_VNODE_EXTEND");
+          //NSLog(@"DISPATCH_VNODE_EXTEND");
         } else if (flags & DISPATCH_VNODE_ATTRIB) {
-          NSLog(@"DISPATCH_VNODE_ATTRIB");
+          //NSLog(@"DISPATCH_VNODE_ATTRIB");
         } else if (flags & DISPATCH_VNODE_LINK) {
-          dispatch_async(dispatch_get_main_queue(), ^{
-            NSLog(@"DISPATCH_VNODE_LINK");
-          });
+          //dispatch_async(dispatch_get_main_queue(), ^{
+            //NSLog(@"DISPATCH_VNODE_LINK");
+          //});
         } else if (flags & DISPATCH_VNODE_RENAME) {
           //this also does file moves (path was "renamed" for file descriptor)
           
@@ -131,11 +140,11 @@ dispatch_source_t fileMonitorSource;
           dispatch_async(dispatch_get_main_queue(), ^{
 
             char* originalPath = (char*)dispatch_get_context(fileMonitorSource);
-            NSLog(@"original file path : %@", [NSString stringWithUTF8String:originalPath]);
+            //NSLog(@"original file path : %@", [NSString stringWithUTF8String:originalPath]);
 
             char newPath[MAXPATHLEN];
-            if (fcntl(monitoredFileDescriptor, F_GETPATH, newPath) != -1)
-              NSLog(@"new file path : %@", [NSString stringWithUTF8String:newPath]);
+            //if (fcntl(monitoredFileDescriptor, F_GETPATH, newPath) != -1)
+              //NSLog(@"new file path : %@", [NSString stringWithUTF8String:newPath]);
 
             NSDictionary *fileInfo = @{@"originalFilePath":@(originalPath),
                                        @"newFilePath":@(newPath)};
@@ -157,15 +166,15 @@ dispatch_source_t fileMonitorSource;
 
           });
           
-          NSLog(@"DISPATCH_VNODE_RENAME");
+          //NSLog(@"DISPATCH_VNODE_RENAME");
         } else if (flags & DISPATCH_VNODE_REVOKE) {
-          NSLog(@"DISPATCH_VNODE_REVOKE");
+          //NSLog(@"DISPATCH_VNODE_REVOKE");
         }
         
       });
     dispatch_source_set_cancel_handler(fileMonitorSource, ^
       {
-        NSLog(@"cancel");
+        //NSLog(@"cancel");
         //char* fileStr = (char*)dispatch_get_context(fileMonitorSource);
         //free(fileStr);
         close(monitoredFileDescriptor);

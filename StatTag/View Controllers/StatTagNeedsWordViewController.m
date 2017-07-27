@@ -47,8 +47,8 @@ static void *SharedContext = &SharedContext;
 }
 
 -(void)viewDidAppear {
-  NSLog(@"%@", [self statusMessageText]);
-  NSLog(@"%@", [[self statusMessage] stringValue]);
+  //NSLog(@"%@", [self statusMessageText]);
+  //NSLog(@"%@", [[self statusMessage] stringValue]);
 }
 
 -(void)dealloc {

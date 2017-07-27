@@ -26,10 +26,6 @@
 
 
 
-
-
-
-
 //MARK: JSON
 //NOTE: go back later and figure out if/how the bulk of this can be centralized in some sort of generic or category (if possible)
 -(NSDictionary *)toDictionary {

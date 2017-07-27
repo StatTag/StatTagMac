@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "STJSONable.h"
+#import "STJSONAble.h"
 @class STTable;
 
 @interface STCommandResult : NSObject<STJSONAble> {
@@ -20,6 +20,7 @@
 @property (copy, nonatomic) NSString* ValueResult;
 @property (copy, nonatomic) NSString* FigureResult;
 @property (strong, nonatomic) STTable* TableResult;
+@property (strong, nonatomic) NSString* VerbatimResult;
 
 
 /**

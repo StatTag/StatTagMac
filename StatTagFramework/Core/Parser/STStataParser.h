@@ -9,6 +9,15 @@
 #import <Foundation/Foundation.h>
 #import "STBaseParser.h"
 
+@interface STStataParserLog : NSObject {
+}
+  @property (strong, nonatomic) NSString* LogType;
+  @property (strong, nonatomic) NSString* LogPath;
+  @property (strong, nonatomic) NSString* LiteralLogEntry;
+
+@end
+
+
 @interface STStataParser : STBaseParser {
   
 }
@@ -34,6 +43,9 @@
 -(BOOL) IsMacroDisplayValue:(NSString*)command;
 -(BOOL) IsStartingLog:(NSString*)command;
 -(NSArray<NSString*>*) GetLogType:(NSString*)command;
+-(NSArray<NSString*>*) GetLogFile:(NSString*)command;
+-(NSArray<STStataParserLog*>*)GetLogs:(NSString*)command;
+
 -(BOOL) IsCalculatedDisplayValue:(NSString*)command;
 -(NSArray<NSString*>*)GetMacros:(NSString*)command;
 -(NSArray<NSString*>*)PreProcessContent:(NSArray<NSString*>*)originalContent;

@@ -56,25 +56,10 @@
     return [[STTableData alloc] init];
   }
 
-//  BOOL canIncludeColumnNames = (_IncludeColumnNames && [tableData ColumnNames] != nil && [[tableData ColumnNames] count] > 0);
-//
-//  if (canIncludeColumnNames)
-//  {
-//    [formattedResults addObjectsFromArray:[tableData ColumnNames]];
-//  }
-//
-//  BOOL canIncludeRowNames = (_IncludeRowNames && [tableData RowNames] != nil && [[tableData RowNames] count] > 0);
-
-  //var formattedResults = new string[tableData.RowSize, tableData.ColumnSize];
   STTableData* formattedResults = [[STTableData alloc] init];
   
   for (NSInteger row = 0; row < [tableData RowSize]; row++)
   {
-//    if (canIncludeRowNames)
-//    {
-//      [formattedResults addObject:[tableData RowNames][rowIndex]];
-//    }
-    //NSMutableArray<NSString*>* inner = [[NSMutableArray<NSString*> alloc] init];
     for (NSInteger column = 0; column < tableData.ColumnSize; column++)
     {
       // If we are not filtering, and the first cell is blank, don't finalize it.  We purposely want to
@@ -88,36 +73,9 @@
       }
 
       [formattedResults addValue: [valueFormatter Finalize:[[tableData Data] valueAtRow:row andColumn:column]] atRow:row andColumn:column];
-
-//      NSInteger index = (rowIndex * tableData.ColumnSize) + columnIndex;
-//      //NOTE: we can send in [NSNull null] - if that happens, do an extra check and replace with empty string - otherwise, we get the string literal "<null>"
-//      [formattedResults addObject:[NSString stringWithFormat:@"%@", ([[tableData Data][index] isEqual:[NSNull null]] ? @"" : [tableData Data][index])]];
     }
   }
 
-  /*
-   Leaving this in here for reference
-   not exactly sure why we can't update the string object directly if it's a pointer to the item in the array
-      for (NSString* fr __strong in formattedResults) {
-        NSLog(@"fr: %@", fr);
-        fr = [valueFormatter Finalize:fr];
-        NSLog(@"fr (finalized): %@", fr);
-      }  
-   */
-//  for(NSInteger i = 0; i < [formattedResults count]; i++) {
-//    NSString* fr = [valueFormatter Finalize:[formattedResults objectAtIndex:i]];
-//    [formattedResults replaceObjectAtIndex:i withObject:fr];
-//  }
-
-  // If we have rows and columns, we want to include a blank first value so
-  // it fits nicely into an N x M table.
-  // Note that we do NOT use the valueFormatter here.  We absolutely want this to
-  // be blank, so we don't touch it.
-//  if (canIncludeColumnNames && canIncludeRowNames && [formattedResults count] > 0)
-//  {
-//    [formattedResults insertObject:@"" atIndex:0];
-//  }
-  
   return formattedResults;  
 }
 -(STTableData*)Format:(STTable*)tableData {
@@ -143,7 +101,14 @@
   }
 
   for (NSString* key in dict) {
-    [self setValue:[dict valueForKey:key] forKey:key];
+    if([key isEqualToString:@"RowFilter"] || [key isEqualToString:@"ColumnFilter"]) {
+      NSDictionary *objDict = (NSDictionary*)[dict valueForKey:key];
+      if(objDict != nil) {
+        [self setValue:[[STFilterFormat alloc] initWithDictionary:objDict] forKey:key];
+      }
+    } else {
+      [self setValue:[dict valueForKey:key] forKey:key];
+    }
   }
 }
 

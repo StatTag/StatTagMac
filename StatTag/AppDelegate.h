@@ -29,6 +29,7 @@
 //@property (strong, nonatomic) MainTabViewController* mainVC; //weak?
 @property NSWindowController *preferencesWindowController;
 @property NSWindowController *aboutWindowController;
+@property NSWindowController *samplesWindowController;
 
 
 @property (weak) NSWindow* window;
@@ -37,6 +38,8 @@
 
 -(void)openPreferences;
 -(void)openAboutWindow;
+- (IBAction)openSamplesInstallerWindow:(id)sender;
+
 
 //-(void)update;
 //-(BOOL)enablePreferences;

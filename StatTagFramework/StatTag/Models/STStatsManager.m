@@ -17,6 +17,20 @@ BOOL Globals_Application_ScreenUpdating = true;
 @implementation STStatsManagerExecuteResult
 @synthesize Success = _Success;
 @synthesize UpdatedTags = UpdatedTags;
+@synthesize FailedTags = FailedTags;
+
+-(instancetype)init
+{
+  self = [super init];
+  if(self)
+  {
+    self.Success = false;
+    self.UpdatedTags = [[NSMutableArray<STTag*> alloc] init];
+    self.FailedTags = [[NSMutableArray<STTag*> alloc] init];
+  }
+  return self;
+}
+
 @end
 
 
@@ -68,6 +82,10 @@ const NSInteger RefreshStepInterval = 5;
     {
       return [[STStataParser alloc] init];
     }
+    if([[file StatisticalPackage] isEqualToString:[STConstantsStatisticalPackages R]])
+    {
+      return [[STRParser alloc] init];
+    }
   }
   
   return nil;
@@ -83,18 +101,19 @@ const NSInteger RefreshStepInterval = 5;
 */
 -(STStatsManagerExecuteResult*) ExecuteStatPackage:(STCodeFile*)file filterMode:(NSInteger)filterMode tagsToRun:(NSArray<STTag*>*)tagsToRun {
   
-  dispatch_async(dispatch_get_main_queue(), ^{
-    NSLog(@"ExecuteStatPackage preparing to execute %ld tags", (unsigned long)[tagsToRun count]);
-  });
+  //dispatch_async(dispatch_get_main_queue(), ^{
+    //NSLog(@"ExecuteStatPackage preparing to execute %ld tags", (unsigned long)[tagsToRun count]);
+  //});
   
   STStatsManagerExecuteResult* result = [[STStatsManagerExecuteResult alloc] init];
-  result.Success = false;
-  result.UpdatedTags = [[NSMutableArray<STTag*> alloc] init];
+//  result.Success = false;
+//  result.UpdatedTags = [[NSMutableArray<STTag*> alloc] init];
+//  result.FailedTags = [[NSMutableArray<STTag*> alloc] init];
   
   //STStataAutomation* automation = [[STStataAutomation alloc] init];
   NSObject<STIStatAutomation>* automation = [[self class] GetStatAutomation:file];
   
-  if(! [automation Initialize]){
+  if(! [automation Initialize:file]){
     //FIXME: we should probably do something w/ NSError here?
     /*
      MessageBox.Show(automation.GetInitializationErrorMessage(), UIUtility.GetAddInName());
@@ -110,7 +129,13 @@ const NSInteger RefreshStepInterval = 5;
 
   NSString* previousTagName;
   NSString* currentTagName;
+  STTag* activeTag;
+
+//  NSInteger responseState = 0;
   
+//  NSInteger lineStart = 1;
+//  NSInteger lineEnd = lineStart;
+    
   @try {
     // Get all of the commands in the code file that should be executed given the current filter
     NSArray<STExecutionStep*>* steps = [parser GetExecutionSteps:file filterMode:filterMode tagsToRun:tagsToRun];
@@ -120,6 +145,17 @@ const NSInteger RefreshStepInterval = 5;
     for (NSInteger index = 0; index < [steps count]; index++) {
       
       STExecutionStep* step = steps[index];
+//      lineStart = lineEnd;
+//      lineEnd = lineStart + ([[step Code] count] > 0 ? [[step Code] count] - 1 : 0);
+
+      //NSLog(@"step lines (%ld,%ld)", [step lineStart], [step lineEnd]);
+      
+//      if([[file StatisticalPackage] isEqualToString:[STConstantsStatisticalPackages Stata]] && lineEnd > 1)
+//      {
+        //for Stata we're sending in "clear all" on the first line
+        // no - this isn't an ideal way to address this
+//        lineEnd = lineEnd - 1;
+//      }
       
       // Every few steps, we will allow the screen to update, otherwise the UI looks like it's
       // completely hung up.  Note that we will only do this if screen updating is disabled when
@@ -141,9 +177,14 @@ const NSInteger RefreshStepInterval = 5;
         {
           //we changed tags, so update the name and fire off a notification
           currentTagName = [NSString stringWithString:[[step Tag] Name]];
-          dispatch_async(dispatch_get_main_queue(), ^{
+          
+          //dispatch_async(dispatch_get_main_queue(), ^{
             [[NSNotificationCenter defaultCenter] postNotificationName:@"tagUpdateStart" object:self userInfo:@{@"tagName":currentTagName, @"codeFileName":[[[step Tag] CodeFile] FileName], @"type" : @"tag"}];
-          });
+            
+//            NSNotification *nTagUpdateStart = [NSNotification notificationWithName:@"tagUpdateStart" object:self userInfo:@{@"tagName":currentTagName, @"codeFileName":[[[step Tag] CodeFile] FileName], @"type" : @"tag"}];
+//            [[NSNotificationQueue defaultQueue] enqueueNotification:nTagUpdateStart postingStyle:NSPostNow];
+
+          //});
         }
       }
       
@@ -157,14 +198,14 @@ const NSInteger RefreshStepInterval = 5;
         continue;
       }
       
-      NSArray<STCommandResult*>* results = [automation RunCommands:[step Code] tag:[step Tag]];
       STTag* tag = [[self Manager] FindTag:[[step Tag] Id]];
-
+      activeTag = tag;
+      NSArray<STCommandResult*>* results = [automation RunCommands:[step Code] tag:[step Tag]];
       
-      NSLog(@"results count : %lu", (unsigned long)[results count]);
-      for(STCommandResult* r in results) {
-        NSLog(@"results result : %@", [r ToString]);
-      }
+      //NSLog(@"results count : %lu", (unsigned long)[results count]);
+      //for(STCommandResult* r in results) {
+        //NSLog(@"results result : %@", [r ToString]);
+      //}
 
 
       if(tag != nil) {
@@ -176,24 +217,24 @@ const NSInteger RefreshStepInterval = 5;
         // original c#
         //bool resultsChanged = (tag.CachedResult != null && !resultList.SequenceEqual(tag.CachedResult));
         
-        NSLog(@"OLD count : %lu", (unsigned long)[[tag CachedResult] count]);
-        for(STCommandResult* r in [tag CachedResult]) {
-          NSLog(@"OLD result : %@", [r ToString]);
-        }
-        NSLog(@"new count : %lu", (unsigned long)[resultList count]);
-        for(STCommandResult* r in resultList) {
-          NSLog(@"new result : %@", [r ToString]);
-        }
+        //NSLog(@"OLD count : %lu", (unsigned long)[[tag CachedResult] count]);
+        //for(STCommandResult* r in [tag CachedResult]) {
+          //NSLog(@"OLD result : %@", [r ToString]);
+        //}
+        //NSLog(@"new count : %lu", (unsigned long)[resultList count]);
+        //for(STCommandResult* r in resultList) {
+          //NSLog(@"new result : %@", [r ToString]);
+        //}
         
         
         tag.CachedResult = [NSMutableArray<STCommandResult*> arrayWithArray:results];
         
         // If the results did change, we need to sweep the document and update all of the results
         if(resultsChanged) {
-          NSLog(@"results changed");
+          //NSLog(@"results changed");
           // For all table tags, update the formatted cells collection
           if([tag IsTableTag]) {
-            NSLog(@"is a table tag");
+            //NSLog(@"is a table tag");
             //original c#
                 //tag.CachedResult.FindAll(x => x.TableResult != null).ForEach(
                   //x =>
@@ -211,11 +252,10 @@ const NSInteger RefreshStepInterval = 5;
             }
           }
           
-          NSLog(@"ExecuteStatPackage (%d) - result? %@", __LINE__, result);
-          NSLog(@"ExecuteStatPackage (%d) - [result UpdatedTags] %@", __LINE__, [result UpdatedTags]);
-          NSLog(@"ExecuteStatPackage (%d) - tag? %@", __LINE__, tag);
+          //NSLog(@"ExecuteStatPackage (%d) - result? %@", __LINE__, result);
+          //NSLog(@"ExecuteStatPackage (%d) - [result UpdatedTags] %@", __LINE__, [result UpdatedTags]);
+          //NSLog(@"ExecuteStatPackage (%d) - tag? %@", __LINE__, tag);
           [[result UpdatedTags] addObject:tag];
-
         }
       }
       //send a notification that we're completing a tag
@@ -223,11 +263,16 @@ const NSInteger RefreshStepInterval = 5;
       {
         if(![currentTagName isEqualToString:previousTagName])
         {
-          bool no_result = [[tag FormattedResult] isEqualToString:[STConstantsPlaceholders EmptyField]];
+          bool no_result = [[tag FormattedResult] isEqualToString:[STConstantsPlaceholders EmptyField]]
+          && ![[tag Type] isEqualToString:[STConstantsTagType Verbatim]];
           
-          dispatch_async(dispatch_get_main_queue(), ^{
+          //dispatch_async(dispatch_get_main_queue(), ^{
             [[NSNotificationCenter defaultCenter] postNotificationName:@"tagUpdateComplete" object:self userInfo:@{@"tagName":currentTagName, @"tagID":[[step Tag] Id], @"codeFileName":[[[step Tag] CodeFile] FileName], @"type" : @"tag", @"no_result" : [NSNumber numberWithBool:no_result]}];
-          });
+            
+//            NSNotification *nTagUpdateComplete = [NSNotification notificationWithName:@"tagUpdateComplete" object:self userInfo:@{@"tagName":currentTagName, @"tagID":[[step Tag] Id], @"codeFileName":[[[step Tag] CodeFile] FileName], @"type" : @"tag", @"no_result" : [NSNumber numberWithBool:no_result]}];
+//            [[NSNotificationQueue defaultQueue] enqueueNotification:nTagUpdateComplete postingStyle:NSPostNow];
+            
+          //});
           previousTagName = [NSString stringWithString:currentTagName];
           
           //currentTagName = [[step Tag] Name];
@@ -237,23 +282,51 @@ const NSInteger RefreshStepInterval = 5;
     }
 
     result.Success = true;
+
   }
   @catch (NSException* exception) {
     //FIXME: return an NSError?
-    NSLog(@"%@", exception.reason);
-    NSLog(@"method: %@, line : %d", NSStringFromSelector(_cmd), __LINE__);
-    NSLog(@"%@", [NSThread callStackSymbols]);
+    //NSLog(@"%@", exception.reason);
+    //NSLog(@"method: %@, line : %d", NSStringFromSelector(_cmd), __LINE__);
+    //NSLog(@"%@", [NSThread callStackSymbols]);
 
-    NSLog(@"Exception Initialize %@: %@", NSStringFromClass([self class]), [exception description]);
+    //NSLog(@"Exception Initialize %@: %@", NSStringFromClass([self class]), [exception description]);
     /*
      MessageBox.Show(exc.Message, UIUtility.GetAddInName(), MessageBoxButtons.OK, MessageBoxIcon.Error);
      */
+    //if we failed on a specific tag, then let's try to list that
+    //in some situations (code blocks before tags) we might fail _before_ we get to a tag
+    //in that case we're going to just proceed to the exception and not notify re: which tag failed
+    //responseState = 1;
     
-    return result;
+    if(activeTag != nil)
+    {
+      //dispatch_async(dispatch_get_main_queue(), ^{
+      [result.FailedTags addObject:activeTag];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"tagUpdateComplete" object:self userInfo:@{@"tagName":[activeTag Name], @"tagID":[activeTag Id], @"codeFileName":[[activeTag CodeFile] FileName], @"type" : @"tag", @"no_result" : [NSNumber numberWithBool:YES], @"exception":exception}];
+
+//        NSNotification *nTagUpdateCompleteError = [NSNotification notificationWithName:@"tagUpdateComplete" object:self userInfo:@{@"tagName":[activeTag Name], @"tagID":[activeTag Id], @"codeFileName":[[activeTag CodeFile] FileName], @"type" : @"tag", @"no_result" : [NSNumber numberWithBool:YES], @"exception":exception}];
+//        [[NSNotificationQueue defaultQueue] enqueueNotification:nTagUpdateCompleteError postingStyle:NSPostNow];
+
+      //});
+    } else {
+//      [[NSNotificationCenter defaultCenter] postNotificationName:@"allTagUpdatesComplete" object:self userInfo:@{@"responseState":[NSNumber numberWithInteger:responseState]}];
+      @throw exception;
+    }
+
+  //    errorInfo = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInteger:returnCode], @"ErrorCode", [STConstantsStatisticalPackages Stata], @"StatisticalPackage", [self getStataErrorDescription:returnCode], @"ErrorDescription", nil];
+
+    
+//    result.Success = false;
+//    return result;
+    //result.Success = false;
+    //return result;
   }
   @finally {
   }
   
+//  [[NSNotificationCenter defaultCenter] postNotificationName:@"allTagUpdatesComplete" object:self userInfo:@{@"responseState":[NSNumber numberWithInteger:responseState]}];
+
   
   return result;
   

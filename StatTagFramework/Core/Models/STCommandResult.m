@@ -16,12 +16,14 @@
 @synthesize FigureResult = _FigureResult;
 @synthesize TableResult = _TableResult;
 @synthesize TableResultPromise = _TableResultPromise;
+@synthesize VerbatimResult = _VerbatimResult;
 
 -(BOOL)IsEmpty {
   NSCharacterSet *ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
   return (
       [[_ValueResult stringByTrimmingCharactersInSet: ws] length] == 0
       && [[_FigureResult stringByTrimmingCharactersInSet: ws] length] == 0
+      && [[_VerbatimResult stringByTrimmingCharactersInSet: ws] length] == 0
       && (_TableResult == nil || [_TableResult isEmpty])
       && [[_TableResultPromise stringByTrimmingCharactersInSet: ws] length] <= 0
   );  
@@ -33,6 +35,9 @@
   }
   if ([_FigureResult isKindOfClass:[NSString class]] && [[_FigureResult stringByTrimmingCharactersInSet: ws] length] > 0) {
     return _FigureResult;
+  }
+  if ([_VerbatimResult isKindOfClass:[NSString class]] && [[_VerbatimResult stringByTrimmingCharactersInSet: ws] length] > 0) {
+    return _VerbatimResult;
   }
   if(_TableResult != nil){
     return [_TableResult ToString];
@@ -80,8 +85,8 @@
         }
       }
       @catch (NSException *exception) {
-        NSLog(@"Unable to set '%@' value for key '%@'", [self className], key);
-        NSLog(@"%@", exception.reason);
+        //NSLog(@"Unable to set '%@' value for key '%@'", [self className], key);
+        //NSLog(@"%@", exception.reason);
       }
     }
   }

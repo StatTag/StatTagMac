@@ -31,9 +31,10 @@
   //[[NSBundle mainBundle] loadNibNamed:@"AlertDisclosureTextView" owner:self topLevelObjects:nil];
   //BOOL success = [[NSBundle mainBundle] loadNibNamed:[self viewNibName] owner:self topLevelObjects:nil];
   self = [super initWithNibName:[self viewNibName] bundle:nil];
-  //NSLog(@"view is... %@", [[self view] className]);
+  ////NSLog(@"view is... %@", [[self view] className]);
   
   NSView* v = [self view];
+  #pragma unused(v)//this activates the view
   
   if (self != nil)
   {

@@ -22,6 +22,7 @@
 @interface STStatsManagerExecuteResult : NSObject {
   BOOL _Success;
   NSMutableArray<STTag*>* UpdatedTags;
+  NSMutableArray<STTag*>* FailedTags;
 }
 
 /**
@@ -33,6 +34,7 @@
  were originally inserted into the document
 */
 @property (strong, nonatomic) NSMutableArray<STTag*>* UpdatedTags;
+@property (strong, nonatomic) NSMutableArray<STTag*>* FailedTags;
 
 
 @end

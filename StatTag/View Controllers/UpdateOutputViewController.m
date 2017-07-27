@@ -12,7 +12,7 @@
 #import "StatTagShared.h"
 #import "UpdateOutputProgressViewController.h"
 #import "TagEditorViewController.h"
-
+#import "STDocumentManager+FileMonitor.h"
 
 @interface UpdateOutputViewController ()
 
@@ -139,6 +139,7 @@ BOOL breakLoop = YES;
   }
   
   [self setDocumentTags:[[NSMutableArray<STTag*> alloc] initWithArray:[_documentManager GetTags]]];
+  
 }
 
 -(void)getTags {
@@ -151,18 +152,28 @@ BOOL breakLoop = YES;
  This is used by the external AppleScript interface to select a tag
  We then use it immediately after to (likely) fire the tag UI
  */
-- (STTag*)selectTagWithName:(NSString*)tagName {
+- (STTag*)selectTagWithName:(NSString*)tagName orID:(NSString*)tagID {
   
   STTag* tag = nil;
-  NSPredicate *predicate = [NSPredicate predicateWithFormat:@"Name == %@", tagName];
+
+  //let's try to match by ID
+  NSPredicate *predicate = [NSPredicate predicateWithFormat:@"Id == %@", tagID];
   NSArray *filteredArray = [[onDemandTags arrangedObjects] filteredArrayUsingPredicate:predicate];
   tag =  filteredArray.count > 0 ? filteredArray.firstObject : nil;
+  
+  //if we didn't hit one, then try just by name
+  if(tag == nil)
+  {
+    predicate = [NSPredicate predicateWithFormat:@"Name == %@", tagName];
+    filteredArray = [[onDemandTags arrangedObjects] filteredArrayUsingPredicate:predicate];
+    tag =  filteredArray.count > 0 ? filteredArray.firstObject : nil;
+  }
   
   if(tag != nil)
   {
     NSInteger tagIndex=[[onDemandTags arrangedObjects] indexOfObject:tag];
     if(NSNotFound == tagIndex) {
-      NSLog(@"selectTagWithName couldn't find tag '%@' in onDemandTags", [tag Name]);
+      //NSLog(@"selectTagWithName couldn't find tag '%@' in onDemandTags", [tag Name]);
     } else {
       [onDemandTags setSelectionIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(tagIndex, 1)]];
       return tag;
@@ -186,7 +197,7 @@ BOOL breakLoop = YES;
   {
     NSInteger tagIndex=[[onDemandTags arrangedObjects] indexOfObject:tag];
     if(NSNotFound == tagIndex) {
-      NSLog(@"selectTagWithID couldn't find tag '%@' in onDemandTags", [tag Name]);
+      //NSLog(@"selectTagWithID couldn't find tag '%@' in onDemandTags", [tag Name]);
     } else {
       [onDemandTags setSelectionIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(tagIndex, 1)]];
       return tag;
@@ -226,35 +237,59 @@ BOOL breakLoop = YES;
   [self presentViewControllerAsSheet:tagUpdateProgressController];
 }
 
-- (void)dismissUpdateOutputProgressController:(UpdateOutputProgressViewController *)controller withReturnCode:(StatTagResponseState)returnCode andFailedTags:(NSArray<STTag *> *)failedTags {
+- (void)dismissUpdateOutputProgressController:(UpdateOutputProgressViewController *)controller withReturnCode:(StatTagResponseState)returnCode andFailedTags:(NSArray<STTag *> *)failedTags withErrors:(NSDictionary<STTag*, NSException*>*)failedTagErrors{
   //FIXME: need to handle errors from worker sheet
   [self dismissViewController:controller];
-  if(returnCode == OK) {
+  if(returnCode == OK && [failedTags count] <= 0) {
     //reload the tag list
     [self willChangeValueForKey:@"documentTags"];
     [self didChangeValueForKey:@"documentTags"];
   }
   
-  if([failedTags count] > 0)
+  if(returnCode == Error || [failedTags count] > 0)
   {
-    [self alertUserToFailedTags:failedTags];
+    [self alertUserToFailedTags:failedTags withErrors:failedTagErrors];
   }
   
   [[NSNotificationCenter defaultCenter] postNotificationName:@"tagInsertRefreshCompleted" object:self userInfo:nil];
 }
 
--(void)alertUserToFailedTags:(NSArray<STTag*>*)failedTags
+-(void)alertUserToFailedTags:(NSArray<STTag*>*)failedTags withErrors:(NSDictionary<STTag*, NSException*>*)failedTagErrors
 {
   //we should really fix how this all works
-  NSLog(@"failed tags : %@", failedTags);
+  //NSLog(@"failed tags : %@", failedTags);
+  
+  if(failedTags == nil)
+  {
+    failedTags = [[NSArray<STTag*> alloc] init];
+  }
   
   NSAlert *alert = [[NSAlert alloc] init];
   [alert setMessageText:@"Not All Tags Could be Processed"];
-  
-  NSMutableString* content = [[NSMutableString alloc] initWithString:@"StatTag could not run the following tags\n"];
-  for(STTag* t in failedTags)
+
+  NSMutableString* content = [[NSMutableString alloc] init];
+  if(failedTags == nil || [failedTags count] <= 0)
   {
-    [content appendString:[NSString stringWithFormat:@"•\t%@ (%@)\n", [t Name], [[t CodeFile] FileName] ]];
+    //it's possible we have generalized failures not directly related to a tag
+    [content appendString:@"StatTag encountered an error and could not continue processing the requested tag(s).\n"];
+  } else {
+    [content appendString:@"StatTag could not run the following tags\n\n"];
+    for(STTag* t in failedTags)
+    {
+      NSString* errorDetail = @"";
+      if(failedTagErrors != nil)
+      {
+        NSException* ex = [failedTagErrors objectForKey:t];
+        if(ex != nil && [ex userInfo] != nil)
+        {
+          NSString* errorStatisticalPackage = [[ex userInfo] valueForKey:@"StatisticalPackage"];
+          NSString* errorCode = [[ex userInfo] valueForKey:@"ErrorCode"];
+          NSString* errorDescription = [[ex userInfo] valueForKey:@"ErrorDescription"];
+          errorDetail = [NSString stringWithFormat:@" %@ - %@ - %@", errorStatisticalPackage == nil ? @"" : errorStatisticalPackage, errorCode == nil ? @"" : errorCode, errorDescription == nil ? @"" : errorDescription];
+        }
+      }
+      [content appendString:[NSString stringWithFormat:@"•  %@ (%@%@)\n", [t Name], [[t CodeFile] FileName], errorDetail ]];
+    }
   }
   [content appendString:@"\nPlease try running your code file(s) directly in their respective statistical programs. Look for any warnings or errors that might prevent successful completion."];
  
@@ -271,7 +306,7 @@ BOOL breakLoop = YES;
 - (IBAction)insertTagIntoDocument:(id)sender {
   
   
- // [_documentManager InsertTagsInDocument:[onDemandTags selectedObjects]];
+  //[_documentManager InsertTagsInDocument:[onDemandTags selectedObjects]];
 
   /*
   for(STTag* tag in [onDemandTags selectedObjects]) {
@@ -297,8 +332,8 @@ BOOL breakLoop = YES;
   
   //need to figure out where we do this on a single tag within StatTag - doing this for all tags is expensive
 //  for(STMSWord2011Field* field in [[[StatTagShared sharedInstance] doc] fields]) {
-//    NSLog(@"fieldText : %@", [field fieldText]);
-//    NSLog(@"fieldCode : %@", [[field fieldCode] content]);
+//    //NSLog(@"fieldText : %@", [field fieldText]);
+//    //NSLog(@"fieldCode : %@", [[field fieldCode] content]);
 //    
 //    field.showCodes = ![field showCodes];
 //    field.showCodes = ![field showCodes];
@@ -371,6 +406,67 @@ BOOL breakLoop = YES;
   [self presentViewControllerAsSheet:tagEditorController];
 }
 
+- (IBAction)deleteTag:(id)sender {
+
+  NSMutableArray<STTag*>* tags = [NSMutableArray arrayWithArray:[onDemandTags selectedObjects]];
+  NSInteger numSelectedTags = [tags count];
+
+  if(numSelectedTags > 0)
+  {
+    //no tag deletion yet
+    NSAlert *alert = [[NSAlert alloc] init];
+    [alert setAlertStyle:NSAlertStyleWarning];
+    [alert setMessageText:[NSString stringWithFormat:@"Do you wish to remove the %ld selected tags from your project?", numSelectedTags]];
+    [alert setInformativeText:[NSString stringWithFormat:@"Removing a tag will not materially change your code file. StatTag will remove references to the tag within the file, but leave the code itself intact.\n\nTags (%ld): %@", numSelectedTags, [[tags valueForKeyPath:@"@distinctUnionOfObjects.Name"] componentsJoinedByString:@", "]]];
+    [alert addButtonWithTitle:@"Remove Tag"];
+    [alert addButtonWithTitle:@"Cancel"];
+    
+    [alert beginSheetModalForWindow:[[NSApplication sharedApplication] mainWindow] completionHandler:^(NSModalResponse returnCode) {
+      if (returnCode == NSAlertFirstButtonReturn) {
+        //NSLog(@"tag deletion not yet implemented");
+        
+        //look in ManageTags.cs -> cmdRemove_Click
+        for(STTag* tag in tags)
+        {
+          [[tag CodeFile] RemoveTag:tag];
+
+          NSError* error;
+          [[tag CodeFile] Save:&error];
+        }
+        //[self loadAllTags];
+        [self allTagsDidChange:self];
+
+      } else if (returnCode == NSAlertSecondButtonReturn) {
+      }
+    }];
+  }
+
+
+}
+
+- (void)keyDown:(NSEvent *)theEvent
+{
+  if((id)[self tableViewOnDemand] == [(id)[NSApp keyWindow] firstResponder])
+  {
+    if([theEvent keyCode] == 51)
+    {
+      //delete
+      [self deleteTag:tableViewOnDemand];
+    }
+  }
+}
+
+- (BOOL)tableView:(NSTableView *)tableView shouldEditTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
+  if(tableView == tableViewOnDemand)
+  {
+    NSEvent *e = [NSApp currentEvent];
+    if (e.type == NSKeyDown && e.keyCode == 48) return NO;
+    return YES;
+  }
+  return NO;
+}
+
+
 - (void)dismissTagEditorController:(TagEditorViewController *)controller withReturnCode:(StatTagResponseState)returnCode {
   //FIXME: need to handle errors from worker sheet
   [self dismissViewController:controller];
@@ -386,6 +482,22 @@ BOOL breakLoop = YES;
 
 -(NSString*)tagPreviewText:(STTag*)tag {
   return @"hello";
+}
+
+-(void)tableView:(NSTableView *)tableView sortDescriptorsDidChange: (NSArray *)oldDescriptors
+{
+  NSArray *newDescriptors = [tableView sortDescriptors];
+  //[[[self onDemandTags] arrangedObjects] sortUsingDescriptors:newDescriptors];
+  [[self onDemandTags] setSortDescriptors:newDescriptors];
+  //"results" is my NSMutableArray which is set to be the data source for the NSTableView object.
+//  [tableView reloadData];
+}
+
+-(void)allTagsDidChange:(UpdateOutputViewController*)controller
+{
+  if([[self delegate] respondsToSelector:@selector(allTagsDidChange:)]) {
+    [[self delegate] allTagsDidChange:controller];
+  }
 }
 
 

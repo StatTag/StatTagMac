@@ -34,6 +34,9 @@
 
 static StatTagShared *sharedInstance = nil;
 
+NSString* const kStatTagErrorDomain = @"STErrorDomain";
+
+
 + (StatTagShared*)sharedInstance {
   if (sharedInstance == nil) {
     sharedInstance = [[super allocWithZone:NULL] init];
@@ -255,6 +258,7 @@ static StatTagShared *sharedInstance = nil;
   NSString *currentAppVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
   
   if ([self lastLaunchedAppVersion] != nil) {
+    [self setLastLaunchedAppVersion:currentAppVersion];
     return NO;
   }
   

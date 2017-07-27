@@ -1,0 +1,6 @@
+framework module RCocoa {
+  umbrella header "RCocoa.h"
+
+  export *
+  module * { export * }
+}

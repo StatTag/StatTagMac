@@ -14,6 +14,6 @@
 -(NSObject<STIResultCommandList>*)ValueResultCommands;
 -(NSObject<STIResultCommandList>*)FigureResultCommands;
 -(NSObject<STIResultCommandList>*)TableResultCommands;
-
+-(NSObject<STIResultCommandList>*)VerbatimResultCommands;
 
 @end

@@ -17,6 +17,9 @@
 @synthesize Result = _Result;
 @synthesize Tag = _Tag;
 
+@synthesize lineStart = _lineStart;
+@synthesize lineEnd = _lineEnd;
+
 -(id)init {
   self = [super init];
   if(self){

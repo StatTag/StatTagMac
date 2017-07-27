@@ -121,11 +121,11 @@
     }
   }
   @catch (NSException* exception) {
-    NSLog(@"%@", exception.reason);
-    NSLog(@"method: %@, line : %d", NSStringFromSelector(_cmd), __LINE__);
-    NSLog(@"%@", [NSThread callStackSymbols]);
+    //NSLog(@"%@", exception.reason);
+    //NSLog(@"method: %@, line : %d", NSStringFromSelector(_cmd), __LINE__);
+    //NSLog(@"%@", [NSThread callStackSymbols]);
 
-    NSLog(@"Getting ActiveDocument threw an exception : %@", exception.reason);
+    //NSLog(@"Getting ActiveDocument threw an exception : %@", exception.reason);
   }
   @finally {
   }
@@ -210,7 +210,7 @@
         [[self LogManager] WriteMessage:[NSString stringWithFormat:@"Executed the statistical code for file, with success = %hhd", results.Success]];
       }
       @catch (NSException* exc) {
-        NSLog(@"StatTag encountered an exception while attempting to load and execute tags from the codefile : %@", [file FilePath]);
+        //NSLog(@"StatTag encountered an exception while attempting to load and execute tags from the codefile : %@", [file FilePath]);
       }
       @finally
       {
@@ -223,7 +223,7 @@
     
     NSString* alertText = [NSString stringWithFormat:@"The following source code files were referenced by this document, but could not be found on this device:\r\n\r\n%@", [[filesNotFound valueForKey:@"FilePath"] componentsJoinedByString:@"\r\n"]];
     NSAlert *alert = [[NSAlert alloc] init];
-    [alert setMessageText:@"StatTag fan't find some code files"];
+    [alert setMessageText:@"StatTag can't find some code files"];
     [alert setInformativeText:alertText];
     [alert setAlertStyle:NSWarningAlertStyle];
     [alert addButtonWithTitle:@"Ok"];

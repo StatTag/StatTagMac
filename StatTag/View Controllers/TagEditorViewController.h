@@ -13,8 +13,8 @@
 #import "ValuePropertiesController.h"
 #import "TablePropertiesController.h"
 
+@class ScintillaEmbeddedViewController;
 
-@class ScintillaView;
 @class STTag;
 @class STCodeFile;
 @class STDocumentManager;
@@ -28,19 +28,13 @@
 - (void)dismissTagEditorController:(TagEditorViewController*)controller withReturnCode:(StatTagResponseState)returnCode;
 @end
 
-@class SCNotification;
-@protocol ScintillaNotificationProtocol
-- (void)notification: (SCNotification*)notification;
-@end
-
-
-@interface TagEditorViewController : NSViewController <NSTextFieldDelegate, TagBasicPropertiesControllerDelegate, ValuePropertiesControllerDelegate, TablePropertiesControllerDelegate, ScintillaNotificationProtocol> {
+@interface TagEditorViewController : NSViewController <NSTextFieldDelegate, TagBasicPropertiesControllerDelegate, ValuePropertiesControllerDelegate, TablePropertiesControllerDelegate> {
   STTag* _tag;
   STDocumentManager* _documentManager;
   
   NSArrayController* _codeFileList;
   
-  ScintillaView* _sourceEditor;
+  ScintillaEmbeddedViewController* _sourceEditor;
   
   NSMutableAttributedString* _instructionTitleText;
   NSString* _allowedCommandsText;
@@ -57,7 +51,7 @@
 @property (weak) IBOutlet NSPopUpButton *listCodeFile;
 
 
-@property (strong, nonatomic) ScintillaView *sourceEditor;
+@property (strong) IBOutlet ScintillaEmbeddedViewController *sourceEditor;
 @property (weak) IBOutlet NSView *sourceView;
 
 //delegate since this is probably opened modally

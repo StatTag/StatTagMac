@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12121" systemVersion="16F2073" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12118"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12121"/>
         <capability name="box content view" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
-        <capability name="system font weights other than Regular or Bold" minToolsVersion="7.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="AboutViewController">
@@ -50,7 +49,7 @@
                                                 <constraint firstAttribute="width" constant="185" id="iO5-7g-96e"/>
                                             </constraints>
                                             <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Learn More" id="wqS-2b-MIP">
-                                                <font key="font" metaFont="systemHeavy" size="24"/>
+                                                <font key="font" metaFont="systemBold" size="24"/>
                                                 <color key="textColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
@@ -103,7 +102,7 @@
                                 <rect key="frame" x="216" y="172" width="389" height="42"/>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" id="lMl-LF-THN">
                                     <font key="font" metaFont="smallSystem"/>
-                                    <string key="title">Welty, L.J., Rasmussen, L.V., &amp; Baldridge, A.S. (2016). StatTag. Chicago, Illinois, United States: Galter Health Sciences Library. doi:10.18131/G36K76</string>
+                                    <string key="title">Welty, L.J., Rasmussen, L.V., &amp; Baldridge, A.S., &amp; Whitley E. (2016). StatTag. Chicago, Illinois, United States: Galter Health Sciences Library. doi:10.18131/G36K76</string>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>

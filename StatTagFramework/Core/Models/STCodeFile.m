@@ -34,28 +34,54 @@
     return url;
   }
   @try {
-    //URL CHANGE
-    //url = [[NSURL alloc] initWithString:[[self FilePath] stringByAddingPercentEncodingWithAllowedCharacters: [NSCharacterSet URLHostAllowedCharacterSet]]];//append path at the end so we can deal with spaces, etc.
-    
     url = [NSURL fileURLWithPath:[self FilePath]];
   }
   @catch (NSException * e) {
-    NSLog(@"Exception creating URL (%@): %@", NSStringFromClass([self class]), [self FilePath]);
+    //NSLog(@"Exception creating URL (%@): %@", NSStringFromClass([self class]), [self FilePath]);
   }
   @finally {
   }
   return url;
 }
 
--(NSString*)FileName {
-  return [[self FilePathURL] lastPathComponent];
+//we're using custom setters/getters because there are places where we are overwriting the tag data as an immutable array - we want to avoid that as it breaks some of our updates
+-(NSMutableArray<STTag*>*)Tags
+{
+  return _Tags;
 }
+-(void)setTags:(NSArray<STTag*>*)tags
+{
+  _Tags = [[NSMutableArray<STTag*> alloc] initWithArray:tags];
+}
+
+-(NSString*)FileName {
+  NSString* fileName = [[self FilePath] lastPathComponent];
+  if([fileName isEqualToString:[self FilePath]])
+  {
+    //may be a Windows path
+    // I get valid URLs back from these, but can't pluck out just the file name
+    // It's flagged as a valid file URL, but the file name can't be pulled out
+    // can't determine the best way to approach this, so I'm going to try a quick work-around
+    fileName = [[[self FilePath] componentsSeparatedByString:@"\\"] lastObject];
+  }
+  return fileName;
+}
+
+-(NSString*)DirectoryPathString {
+  NSString* folderPath = [self FilePath];
+  NSRange lastFileNamePosition = [[self FilePath] rangeOfString:[self FileName] options:NSBackwardsSearch];
+  if(lastFileNamePosition.location != NSNotFound) {
+    folderPath = [folderPath stringByReplacingCharactersInRange:lastFileNamePosition withString:@""];
+  }
+  return folderPath;
+}
+
 
 -(void)setStatisticalPackage:(NSString *)StatisticalPackage {
   _StatisticalPackage = StatisticalPackage;
 }
 -(NSString*)StatisticalPackage {
-  if(_StatisticalPackage == nil) {
+  if(_StatisticalPackage == nil || [_StatisticalPackage length] <= 0) {
     _StatisticalPackage = [STCodeFile GuessStatisticalPackage:[self FilePath]];
   }
   return _StatisticalPackage;
@@ -117,13 +143,13 @@ NSObject<STIFileHandler>* _FileHandler;
 -(void)initialize:(NSObject<STIFileHandler>*)handler {
   _Tags = [[NSMutableArray<STTag*> alloc] init];
   _FileHandler = handler ? handler :[[STFileHandler alloc] init];
-  NSLog(@"_FileHandler : %@", _FileHandler);
+  //NSLog(@"_FileHandler : %@", _FileHandler);
 }
 
 //MARK: copying
 -(id)copyWithZone:(NSZone *)zone
 {
-  STCodeFile *codeFile = [[[self class] allocWithZone:zone] init];//[[STCodeFile alloc] init];
+  STCodeFile *codeFile = [[[self class] allocWithZone:zone] init];
 
   codeFile.StatisticalPackage = [_StatisticalPackage copyWithZone:zone];
   codeFile.FilePath = [_FilePath copyWithZone:zone];
@@ -256,12 +282,7 @@ the cached results in another tag.
  user needs to restore it.
 */
 -(void)SaveBackup:(NSError**)error {
-
-  //URL CHANGE
-  //NSURL *backupFile = [[NSURL alloc] initWithString:[[NSString stringWithFormat:@"%@.%@", [[self FilePathURL] path], [STConstantsFileExtensions Backup]]  stringByAddingPercentEncodingWithAllowedCharacters: [NSCharacterSet URLHostAllowedCharacterSet]] ];
-
   NSURL *backupFile = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@.%@", [[self FilePathURL] path], [STConstantsFileExtensions Backup]]];
-
   
   if (![_FileHandler Exists:backupFile error:error])
   {
@@ -292,7 +313,7 @@ the cached results in another tag.
       [self setValue:[dict valueForKey:key] forKey:key];
     } else if([key isEqualToString:@"LastCached"]) {
       [self setValue:[STJSONUtility dateFromString:[dict valueForKey:key]] forKey:key];
-      //NSLog(@"LastCached : %@", [self LastCached]);
+      ////NSLog(@"LastCached : %@", [self LastCached]);
     } else {
       [self setValue:[dict valueForKey:key] forKey:key];
     }
@@ -460,6 +481,9 @@ the cached results in another tag.
       otherTag.LineEnd = [NSNumber numberWithInteger:_lineEnd];
     }
   }
+  
+  [self setContent:ContentCache];
+  
 }
 
 
@@ -488,10 +512,6 @@ the cached results in another tag.
   #pragma unused(content) //touching this just forces things to work - ignore the variable not being used
 
   if(oldTag != nil) {
-    //var refreshedOldTag = (matchWithPosition ? Tags.FirstOrDefault(tag => oldTag.EqualsWithPosition(tag)) : Tags.FirstOrDefault(tag => oldTag.Equals(tag)));
-
-    //this is all wrong
-    //STTag* refreshedOldTag = _Tags.FirstOrDefault(tag => oldTag.Equals(tag, matchWithPosition));
     NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(STTag *aTag, NSDictionary *bindings) {
       //return [aTag isEqual:oldTag];
       return [aTag Equals:oldTag usePosition:matchWithPosition];
@@ -604,14 +624,10 @@ the cached results in another tag.
       if([duplicates objectForKey:[distinct objectForKey:searchLabel]] == nil)
       {
         [duplicates setObject:[[NSMutableArray<STTag*> alloc] init] forKey:[distinct objectForKey:searchLabel]];
-        //duplicates.Add(distinct[searchLabel], new List<Tag>());
       }
-      //http://stackoverflow.com/questions/5526941/nsdictionary-containing-an-nsarray
-      //apparently the array reference is a pointer so we can just add things to it... should check this.
       NSMutableArray<STTag*>* someTags = [duplicates objectForKey:[distinct objectForKey:searchLabel]];
       [someTags addObject:tag];
       [duplicates setObject:someTags forKey:[distinct objectForKey:searchLabel]];
-      //duplicates[distinct[searchLabel]].Add(tag);
     }
     else
     {

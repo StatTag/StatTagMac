@@ -23,6 +23,7 @@
 @class STMSWord2011SelectionObject;
 @class STMSWord2011Variable;
 @class STMSWord2011Document;
+@class STStatsManagerExecuteResult;
 
 @interface STDocumentManager : STBaseManager {
   NSMutableDictionary<NSString*, NSMutableArray<STCodeFile*>*>* DocumentCodeFiles;
@@ -82,6 +83,11 @@
 -(void)AddCodeFile:(NSString*)fileName;
 -(void)AddCodeFile:(NSString*)fileName document:(STMSWord2011Document*)document;
 
+-(void)RemoveCodeFile:(NSString*)fileName document:(STMSWord2011Document*)document;
+-(void)RemoveCodeFile:(NSString*)fileName;
+
+-(void) UpdateRenamedTags:(NSArray<STUpdatePair<STTag*>*>*) updates;
+
 -(NSMutableArray<STCodeFile*>*)GetCodeFileList;
 -(NSMutableArray<STCodeFile*>*)GetCodeFileList:(STMSWord2011Document*)document;
 -(void)SetCodeFileList:(NSArray<STCodeFile*>*)files;
@@ -94,7 +100,7 @@
 
 -(void) InsertField:(id)tag;
 
--(void)InsertTagsInDocument:(NSArray<STTag*>*)tags;
+-(STStatsManagerExecuteResult*)InsertTagsInDocument:(NSArray<STTag*>*)tags;
 
 -(BOOL)EditTag:(STTag*)tag existingTag:(STTag*)existingTag;
 

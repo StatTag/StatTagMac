@@ -63,17 +63,12 @@
   }
   
   return [data GetDataAtIndex:index];
-  
-  //NSInteger columns = [data numColumns];
-  //return [data valueAtRow:(index / columns) andColumn:(index % columns)];
-  //  return [[[data Data] objectAtIndex:(index / columns)] objectAtIndex:(index % columns)];
 }
 
 -(NSString*)ToString {
   //FIXME: the original code makes use of ToString in places, but it's not clear how the default implementation works (STTableFormat)
   //for now, it appears the original c# just returns class name as the default ToString
   
-  //return @"Table";
   return NSStringFromClass([self class]);
   
 }
@@ -88,8 +83,6 @@
 //MARK: JSON
 -(NSDictionary *)toDictionary {
   NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];  
-  //[dict setValue:[self RowNames] forKey:@"RowNames"];
-  //[dict setValue:[self ColumnNames] forKey:@"ColumnNames"];
   [dict setValue:[NSNumber numberWithInteger:[self RowSize]] forKey:@"RowSize"];
   [dict setValue:[NSNumber numberWithInteger:[self ColumnSize]] forKey:@"ColumnSize"];
   [dict setValue:[[self Data] toDictionary] forKey:@"Data"];

@@ -18,42 +18,35 @@
 -(NSObject<STIResultCommandList>*)TableResultCommands {
   return [[STSASCommandsTableCommands alloc] init];
 }
+-(NSObject<STIResultCommandList>*)VerbatimResultCommands {
+    return [[STSASCommandsVerbatimCommands alloc] init];
+}
 
 @end
 
 //MARK: "nested" classes for SAS Commands
 
 @implementation STSASCommandsValueCommands
--(NSString*)Display {
-  return @"%put";
-}
-
 -(NSArray<NSString*>*)GetCommands {
-  return [NSArray arrayWithObjects:
-          [self Display]
-          , nil];
+  return [NSArray<NSString*> arrayWithObject: @"%put"];
 }
 @end
 
 @implementation STSASCommandsFigureCommands
--(NSString*)GraphExport {
-  return @"ODS PDF";
-}
 -(NSArray<NSString*>*)GetCommands {
-  return [NSArray arrayWithObjects:
-          [self GraphExport]
-          , nil];
+  return [NSArray<NSString*> arrayWithObject: @"ODS PDF"];
 }
 @end
 
 
 @implementation STSASCommandsTableCommands
--(NSString*)MatrixList {
-  return @"ODS CSV";
-}
 -(NSArray<NSString*>*)GetCommands {
-  return [NSArray arrayWithObjects:
-          [self MatrixList]
-          , nil];
+  return [NSArray<NSString*> arrayWithObject: @"ODS CSV"];
+}
+@end
+
+@implementation STSASCommandsVerbatimCommands
+-(NSArray<NSString*>*)GetCommands {
+    return [NSArray<NSString*> arrayWithObject: @"(Any command)"];
 }
 @end

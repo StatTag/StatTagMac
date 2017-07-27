@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "STJSONable.h"
+#import "STJSONAble.h"
 @class STCodeFile;
 @class STCommandResult;
 @class STTableFormat;
@@ -41,6 +41,7 @@
 @property (strong, nonatomic) STCodeFile *CodeFile;
 @property (copy, nonatomic) NSString *Type;
 @property (copy, nonatomic) NSString *Name;
+-(NSString*)CodeFilePath; //non-standard
 /**
  String
  */

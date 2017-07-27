@@ -68,6 +68,18 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 
+  #if !defined(MAC_OS_X_VERSION_10_12_2) || MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_12_2
+    if ([[NSApplication sharedApplication] respondsToSelector:@selector(isAutomaticCustomizeTouchBarMenuItemEnabled)])
+    {
+      [NSApplication sharedApplication].automaticCustomizeTouchBarMenuItemEnabled = YES;
+    }
+  #endif
+
+  if([[StatTagShared sharedInstance] isFirstLaunch])
+  {
+    [MacroInstallerUtility installMacros];
+  }
+
 //  [self runStatTagWithDocumentBrowser];
 
 /*
@@ -138,10 +150,12 @@
   [AppEventListener stopListening];
 }
 
-//in our case - yes - let's quit if the last window is closed
+// in our case - yes - let's quit if the last window is closed
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication {
-  //FIXME: this is just a quick fix. Circle back and fix this to quit the app when the main window closes
-  return YES;
+  // We want the app to close, but in order to get window position to save appropriately we will return
+  // NO from this method and signal the app to terminate separately.
+  [NSApp performSelector:@selector(terminate:) withObject:nil afterDelay:0.0];
+  return NO;
 }
 
 //FIXME: not yet implemented
@@ -172,7 +186,7 @@
   [[self preferencesWindowController] showWindow:self]; // show the window
   
   
-  NSLog(@"open preferences");
+  //NSLog(@"open preferences");
 }
 
 
@@ -188,9 +202,24 @@
   
   [[self aboutWindowController] showWindow:self]; // show the window
   
-  NSLog(@"open about");
+  //NSLog(@"open about");
 
 }
+
+- (IBAction)openSamplesInstallerWindow:(id)sender {
+
+  // get a reference to the storyboard
+  NSStoryboard *storyBoard = [NSStoryboard storyboardWithName:@"Main" bundle:nil];
+
+  // instantiate your window controller
+  self.samplesWindowController = [storyBoard instantiateControllerWithIdentifier:@"samplesWindowController"];
+  [[self samplesWindowController] contentViewController];
+  
+  // show the window
+  [[self samplesWindowController] showWindow:self];
+
+}
+
 
 - (IBAction)installWordMacros:(id)sender {
   [MacroInstallerUtility installMacros];

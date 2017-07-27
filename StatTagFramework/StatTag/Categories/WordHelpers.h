@@ -36,7 +36,7 @@
 
 +(void)UpdateLinkFormat:(STMSWord2011LinkFormat*)linkFormat;
 +(BOOL)imageExistsAtPath:(NSString*)filePath;
-+(void)insertImageAtPath:(NSString*)filePath;
++(BOOL)insertImageAtPath:(NSString*)filePath;
 +(void)UpdateAllImageLinks;
 //+(void)disableScreenUpdates;
 //+(void)enableScreenUpdates;
@@ -56,5 +56,8 @@
 
 +(void)setActiveDocumentByDocName:(NSString*)theName;
 +(NSString*)getActiveDocumentName;
+
+
++(void)insertTextboxAtRangeStart:(NSInteger)theRangeStart andRangeEnd:(NSInteger)theRangeEnd forShapeName:(NSString*)shapeName withShapetext:(NSString*)shapeText andFontSize:(double)fontSize andFontFace:(NSString*)fontFace;
 
 @end
