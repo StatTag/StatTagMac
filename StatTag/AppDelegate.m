@@ -150,10 +150,12 @@
   [AppEventListener stopListening];
 }
 
-//in our case - yes - let's quit if the last window is closed
+// in our case - yes - let's quit if the last window is closed
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication {
-  //FIXME: this is just a quick fix. Circle back and fix this to quit the app when the main window closes
-  return YES;
+  // We want the app to close, but in order to get window position to save appropriately we will return
+  // NO from this method and signal the app to terminate separately.
+  [NSApp performSelector:@selector(terminate:) withObject:nil afterDelay:0.0];
+  return NO;
 }
 
 //FIXME: not yet implemented

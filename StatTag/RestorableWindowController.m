@@ -39,6 +39,11 @@ static NSString* QUITTING_ZOOM_STATE = @"QUITTING_ZOOM_STATE";
   [self saveWindowState];
 }
 
+- (void)windowWillClose:(NSNotification *)notification
+{
+  [self saveWindowState];
+}
+
 -(void)saveWindowState
 {
   NSString  *mainWindowFrameString;
