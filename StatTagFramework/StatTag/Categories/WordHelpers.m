@@ -419,13 +419,22 @@ static WordHelpers* sharedInstance = nil;
 
 +(void)selectTextAtRangeStart:(NSInteger)rangeStart andEnd:(NSInteger)rangeEnd {
   @autoreleasepool {
+    // This duplicate setting of the selection range is done to handle selection ranges across table cells.
+    // Imagine you have two table cells Left and Right.  The cursor is in Right, and this method is being
+    // called to select a range of text that is entirely within Left.  When we get the current selection,
+    // the start and end positions represent the same spot - the cursor.  When we make the call to change
+    // selectionStart, Word treats it as if we were dragging the cursor all the way over from the current
+    // cursor position in the Right cell to the position in the Left cell.  You'll notice that when you
+    // drag your cursor in Word, what happens is once you cross that table cell boundary it selects the entire
+    // cell of both Left and Right.  So now the selection represents these two cells.  When we call to set
+    // the selectionEnd, it moves the selection to the end position within the Left cell.  The problem is that
+    // because it had the entire Left cell selected (and so the selectionStart position gets reset to the
+    // beginning of the Left cell) it ends up selecting all the text in the cell.  This means we have a lot
+    // more text selected than we actually wanted.
+    // To address this, if we know we are probably crossing cell boundaries - detected if the selection we
+    // start with is in a cell - we will call the selection twice.  The second call to set the selectionStart
+    // and selectionEnd will work as expected, since we are doing it within the cell where the range is located.
     STMSWord2011SelectionObject* selection = [[[[STGlobals sharedInstance] ThisAddIn] Application] selection];
-    // Because of an issue/quirk with Word (we have not determined the actual root cause, just
-    // observed the behavior), if the cursor is in a table cell that is not the table cell where
-    // the selection range is located, the changes to the selection range end up causing the
-    // entire table cell content to be selected and replaced.  Our method to address this is
-    // to detect if we are in a table cell.  If so we will set the selection twice.  Again, not
-    // sure what's wrong or why this works, but it works.
     if ([[selection cells] count] > 0) {
       selection.selectionStart = rangeStart;
       selection.selectionEnd = rangeEnd;
@@ -440,9 +449,6 @@ static WordHelpers* sharedInstance = nil;
   @autoreleasepool {
     if(textRange != nil) {
       [self selectTextAtRangeStart:[textRange startOfContent] andEnd:[textRange endOfContent]];
-      //STMSWord2011SelectionObject* selection = [[[[STGlobals sharedInstance] ThisAddIn] Application] selection];
-      //selection.selectionStart = [textRange startOfContent];
-      //selection.selectionEnd = [textRange endOfContent];
     }
   }
 }
