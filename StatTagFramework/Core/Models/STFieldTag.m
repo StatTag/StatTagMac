@@ -17,33 +17,6 @@
 
 @synthesize TableCellIndex = _TableCellIndex;
 
-- (NSString*) CodeFilePath {
-  if(_CodeFile != nil) {
-    return [_CodeFile FilePath];
-  }
-  return nil;
-}
-- (void) setCodeFilePath:(NSString *)c {
-  if (_CodeFile == nil)
-  {
-    _CodeFile = [[STCodeFile alloc] init];
-    _CodeFile.FilePath = c;
-  }
-}
-- (NSURL*) CodeFilePathURL {
-  if(_CodeFile != nil) {
-    return [_CodeFile FilePathURL];
-  }
-  return nil;
-}
-- (void) setCodeFilePathURL:(NSURL *)c {
-  if (_CodeFile == nil)
-  {
-    _CodeFile = [[STCodeFile alloc] init];
-    _CodeFile.FilePathURL = c;
-  }
-}
-
 //MARK: initializers
 
 -(instancetype)init{

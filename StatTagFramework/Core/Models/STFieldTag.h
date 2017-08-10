@@ -27,11 +27,6 @@ within the table.</remarks>
 }
 
 @property (nonatomic, copy) NSNumber* TableCellIndex;
-/**
- Shortcut to the file path of the CodeFile.  This is used for serialization.
- */
-@property (nonatomic, copy) NSURL* CodeFilePathURL;
-@property (nonatomic, copy) NSString* CodeFilePath;
 
 //MARK: initializers
 -(instancetype)initWithTag:(STTag*)tag;

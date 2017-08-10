@@ -31,9 +31,41 @@
 @synthesize LineStart = _LineStart;
 @synthesize LineEnd = _LineEnd;
 
+NSString* const TagIdentifierDelimiter = @"--";
+
 @synthesize Id = _Id;
 - (NSString*) Id {
-  return [NSString stringWithFormat:@"%@--%@", (_Name == nil ? @"" : _Name), (_CodeFile == nil || [_CodeFile FilePath] == nil ? @"" : [_CodeFile FilePath])];
+  return [NSString stringWithFormat:@"%@%@%@", (_Name == nil ? @"" : _Name), TagIdentifierDelimiter, (_CodeFile == nil || [_CodeFile FilePath] == nil ? @"" : [_CodeFile FilePath])];
+}
+
+- (NSString*) CodeFilePath {
+  if(_CodeFile != nil) {
+    return [_CodeFile FilePath];
+  }
+  return nil;
+}
+- (void) setCodeFilePath:(NSString *)c {
+  // We only initialize this if the code file hasn't been set before.
+  // To maintain our internally expected behavior, if the path parameter
+  // is nil, we won't allocate the code file object.
+  if (_CodeFile == nil && c != nil)
+  {
+    _CodeFile = [[STCodeFile alloc] init];
+    _CodeFile.FilePath = c;
+  }
+}
+- (NSURL*) CodeFilePathURL {
+  if(_CodeFile != nil) {
+    return [_CodeFile FilePathURL];
+  }
+  return nil;
+}
+- (void) setCodeFilePathURL:(NSURL *)c {
+  if (_CodeFile == nil)
+  {
+    _CodeFile = [[STCodeFile alloc] init];
+    _CodeFile.FilePathURL = c;
+  }
 }
 
 
@@ -61,10 +93,10 @@
   [STConstantsPlaceholders EmptyField] : formattedValue;
 }
 
--(NSString*)CodeFilePath
-{
-  return [[self CodeFile] FilePath];
-}
+//-(NSString*)CodeFilePath
+//{
+//  return [[self CodeFile] FilePath];
+//}
 
 
 -(instancetype)init{
@@ -98,6 +130,7 @@
     self.LineStart = [[tag LineStart ] copy];
     self.LineEnd = [[tag LineEnd] copy];
     self.CachedResult = [[tag CachedResult] copy];
+    [self setCodeFilePath:[tag CodeFilePath]];
     //NSLog(@"tag CachedResult = %@", [tag CachedResult]);
     //NSLog(@"self CachedResult = %@", [self CachedResult]);
     //NSLog(@"tag(self) FormattedResult : %@", [self FormattedResult]);
