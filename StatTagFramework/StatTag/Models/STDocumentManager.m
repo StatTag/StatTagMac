@@ -698,10 +698,12 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   STCommandResult* result = [[tag CachedResult] firstObject];
   if (result != nil)
   {
-    STMSWord2011TextRange* range = [selection formattedText];//unclear if this is what we want to use
-
+    //STMSWord2011TextRange* range = [selection formattedText];//unclear if this is what we want to use
+    NSInteger rangeStart = [selection selectionStart];
+    NSInteger rangeEnd = [selection selectionEnd];
+    
     //we have to offload this directly to AppleScript so we can do what we need to
-    [WordHelpers insertTextboxAtRangeStart:[range startOfContent] andRangeEnd:[range endOfContent] forShapeName:[tag Id] withShapetext:[result VerbatimResult] andFontSize:9.0 andFontFace:@"Courier New"];
+    [WordHelpers insertTextboxAtRangeStart:rangeStart andRangeEnd:rangeEnd forShapeName:[tag Id] withShapetext:[result VerbatimResult] andFontSize:9.0 andFontFace:@"Courier New"];
   }
   
   //[self Log:@"InsertVerbatim - Finished"];

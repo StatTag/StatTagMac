@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import <Cocoa/Cocoa.h>
+#import "FileMonitor.h"
+
 
 @class MainTabViewController;
 @class STMSWord2011Application;
@@ -20,6 +22,7 @@
 @class SettingsViewController;
 @class FileMonitor;
 @class UpdateOutputViewController;
+@class STCodeFile;
 
 #import "STLogManager.h"
 
@@ -30,8 +33,9 @@
   STDocumentManager* _docManager;
   STPropertiesManager* _propertiesManager;
   STLogManager* _logManager;
-  NSMutableArray<FileMonitor*>* _fileMonitors;
   NSRect _archivedWindowFrame;
+//  NSMutableArray<FileMonitor*>* _fileMonitors;
+//  NSMutableArray<NSDictionary*>* _fileNotifications;
   //  NSWindow* _mainWindow;
 }
 
@@ -93,6 +97,11 @@ extern NSString* _Nonnull const kStatTagErrorDomain;
 //-(void)logMessage:(NSString*)message;
 //-(void)logException:(NSException*)exception;
 
+//-(void)monitorCodeFile:(STCodeFile*_Nullable)file;
+//-(void)stopMonitoringCodeFile:(STCodeFile*_Nullable)file;
+//-(void)fileDidChange:(NSDictionary*_Nullable)fileInfo;
+
+//@property NSMutableArray<NSDictionary*>* _Nonnull fileNotifications;
 
 #define LOG_STATTAG_MESSAGE(var, ...) [[[StatTagShared sharedInstance] logManager] WriteMessage:var, ## __VA_ARGS__]
 #define LOG_STATTAG_EXCEPTION(var, ...) [[[StatTagShared sharedInstance] logManager] WriteException:var, ## __VA_ARGS__]

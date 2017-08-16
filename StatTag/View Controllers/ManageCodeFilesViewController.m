@@ -30,15 +30,15 @@
   [super viewDidLoad];
   //NSLog(@"ManageCodeFilesViewController loaded");
 
-  [[NSNotificationCenter defaultCenter] addObserver:self
-                                           selector:@selector(codeFileEdited:)
-                                               name:@"codeFileEdited"
-                                             object:nil];
-
-  [[NSNotificationCenter defaultCenter] addObserver:self
-                                           selector:@selector(codeFileRenamed:)
-                                               name:@"codeFileRenamed"
-                                             object:nil];
+//  [[NSNotificationCenter defaultCenter] addObserver:self
+//                                           selector:@selector(codeFileEdited:)
+//                                               name:@"codeFileEdited"
+//                                             object:nil];
+//
+//  [[NSNotificationCenter defaultCenter] addObserver:self
+//                                           selector:@selector(codeFileRenamed:)
+//                                               name:@"codeFileRenamed"
+//                                             object:nil];
 
   
 }
@@ -49,27 +49,28 @@
 
 -(void)viewDidAppear
 {
-  [self startMonitoringCodeFiles];
+  //[self startMonitoringCodeFiles];
 }
 
 -(void)viewWillDisappear {
-  [self stopMonitoringCodeFiles];
+  //[self stopMonitoringCodeFiles];
 }
 
--(void)startMonitoringCodeFiles
-{
-  [[self documentManager] startMonitoringCodeFiles];
-}
-
--(void)stopMonitoringCodeFiles
-{
-  [[self documentManager] stopMonitoringCodeFiles];
-}
+//-(void)startMonitoringCodeFiles
+//{
+//  [[self documentManager] startMonitoringCodeFiles];
+//}
+//
+//-(void)stopMonitoringCodeFiles
+//{
+//  [[self documentManager] stopMonitoringCodeFiles];
+//}
 
 
 - (void)awakeFromNib {
 }
 
+/*
 -(void)codeFileEdited:(NSNotification *)notification
 {
   //FIXME: go back and do this as an alert sheet
@@ -96,7 +97,8 @@
   [alert runModal];
 
 }
-
+*/
+ 
 -(id) initWithCoder:(NSCoder *)coder {
   self = [super initWithCoder:coder];
   if(self) {
@@ -113,6 +115,7 @@
 //go back and review - this isn't fired (should be...)
 //FIXME: not sure why this isn't being called
 - (void)removeObjectFromCodeFilesAtIndex:(NSUInteger)index {
+  
   [_codeFiles removeObjectAtIndex:index];
   [_documentManager SaveCodeFileListToDocument:nil];
 }

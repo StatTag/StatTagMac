@@ -26,7 +26,7 @@
 
 //URL form accessor for FilePath
 -(void)setFilePathURL:(NSURL*) u {
-  self.FilePath = [u path];
+  [self setFilePath:[u path]];
 }
 -(NSURL*)FilePathURL {
   NSURL* url;

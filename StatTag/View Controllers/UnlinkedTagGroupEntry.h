@@ -26,5 +26,6 @@
 @property (strong, nonatomic) STCodeFile* codeFile;
 +(NSArray<UnlinkedTagGroupEntry*>*)initWithUnlinkedTags:(NSDictionary<NSString*, NSArray<STTag*>*>*)unlinkedTags;
 
+-(instancetype)initWithCodeFile:(STCodeFile*)codeFile andTag:(STTag*)tag isGroup:(BOOL)isGroup;
 
 @end

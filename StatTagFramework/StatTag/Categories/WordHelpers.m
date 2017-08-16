@@ -472,6 +472,13 @@ static WordHelpers* sharedInstance = nil;
 +(void)insertTextboxAtRangeStart:(NSInteger)theRangeStart andRangeEnd:(NSInteger)theRangeEnd forShapeName:(NSString*)shapeName withShapetext:(NSString*)shapeText andFontSize:(double)fontSize andFontFace:(NSString*)fontFace
 {
   [[self class] sharedInstance];
+
+  /*
+   Why are we replacing the \r\n's with \n?
+   When we send the text over to AppleScript (again - because of Word issues), AppleScript has to count the # of characters - which includes the line breaks and carriage returns in order to calculate the incoming text size. We then extend the text selection to that length (which should… ideally… be the length of the verbatim result.) Turns out - there are issues. The “\r\n” are counted. BUT when we insert the text, “\r\n” is converted to a single line feed character. So - for every “\r\n” in the original text we’re losing _one_ character - because it’s replaced with (linefeed). So - we’re slowly eating away at the following text. For each missing “\r” we eat one character by incorrectly extended the text range into the subsequent content.
+   */
+  shapeText = [shapeText stringByReplacingOccurrencesOfString:@"\r\n" withString:@"\n"];
+  
   WordASOC *asoc = [[NSClassFromString(@"WordASOC") alloc] init];
   [asoc insertTextboxAtRangeStart:[NSNumber numberWithInteger:theRangeStart] andRangeEnd:[NSNumber numberWithInteger:theRangeEnd] forShapeName:shapeName withShapetext:shapeText andFontSize:[NSNumber numberWithDouble:fontSize] andFontFace:fontFace];
 }

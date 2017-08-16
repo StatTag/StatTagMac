@@ -92,6 +92,13 @@
 
 @property BOOL editable;
 
+/**
+ Cancel all actions and close editor
+ we're making this public so our "something changed with the code file" notifications can cancel/close the editor when necessary
+*/
+- (IBAction)cancel:(id)sender;
+
+
 /*
  EWW:
  You'll note the XIB file uses a custom clipview within the scrollview when embedding a stackview - this is by design

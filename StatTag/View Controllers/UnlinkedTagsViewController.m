@@ -16,6 +16,11 @@
 #import "UnlinkedTagGroupEntry.h"
 
 #import "STCodeFile+FileAttributes.h"
+#import "STCodeFile+FileMonitor.h"
+#import "STDocumentManager+CodeFileManagement.h"
+#import "STDocumentManager+FileMonitor.h"
+
+
 
 @interface UnlinkedTagsViewController ()
 
@@ -56,12 +61,21 @@
 {
 }
 
+//FIXME: refactor this... it's a mess. Once we started doing more stuff w/ the files and not just tags we bent this badly. Should just extend the document manager to manage this for us
 -(void)setUnlinkedTags:(NSDictionary<NSString*, NSArray<STTag*>*>*)unlinkedTags
 {
   _unlinkedTags = unlinkedTags;
 
-  NSArray<UnlinkedTagGroupEntry*>* tagGroupEntries = [UnlinkedTagGroupEntry initWithUnlinkedTags:unlinkedTags];
-
+  NSMutableArray<UnlinkedTagGroupEntry*>* tagGroupEntries = [[UnlinkedTagGroupEntry initWithUnlinkedTags:unlinkedTags] mutableCopy];
+  NSArray<STCodeFile*>* impactedCodeFiles = [[NSSet setWithArray:[tagGroupEntries valueForKey:@"codeFile"]] allObjects];
+  for(STCodeFile* cf in [_documentManager unlinkedCodeFiles])
+  {
+    if(![impactedCodeFiles containsObject:cf])
+    {
+      [tagGroupEntries addObject:[[UnlinkedTagGroupEntry alloc] initWithCodeFile:cf andTag:nil isGroup:YES]];
+    }
+  }
+  
   self.unlinkedTagsArray = tagGroupEntries;
   [[self unlinkedTagsArrayController] setContent:[self unlinkedTagsArray]];
   [[self unlinkedTagsTableView] reloadData];
@@ -79,13 +93,15 @@
   NSLog(@"selected code file");
   NSPopUpButton* btn = (NSPopUpButton*)sender;
   NSInteger row = [[self unlinkedTagsTableView] rowForView:sender];
-  STTag* t = [[[self unlinkedTagsArray] objectAtIndex:row] tag];
-  if(t && [t CodeFile])
+  //STTag* t = [[[self unlinkedTagsArray] objectAtIndex:row] tag];
+  STCodeFile* cfo = [[[self unlinkedTagsArray] objectAtIndex:row] codeFile];
+  //if(t && [t CodeFile])
+  if(cfo)
   {
     if([[btn selectedItem] tag] == 1)
     {
       //tag 1 = link to new code file (choose new file from file system)
-      NSURL* filePath = [self getCodeFileFromUser:[t CodeFile]];
+      NSURL* filePath = [self getCodeFileFromUser:cfo];
       if(filePath != nil)
       {
         STCodeFile* cf = [[STCodeFile alloc] init];
@@ -95,12 +111,22 @@
         [cfa setParameter:cf];
         [cfa setLabel:@"Link to New Code File"];//this doesn't matter for us, but adding for debugging
         //let's try re-linking...
-        NSString* oldCodeFilePath = [[t CodeFile] FilePath];
-        NSDictionary<NSString *,STCodeFileAction *>* actions = [[NSDictionary<NSString *,STCodeFileAction *> alloc] initWithObjectsAndKeys:cfa, [[t CodeFile] FilePath], nil];
+        NSString* oldCodeFilePath = [cfo FilePath];
+        NSDictionary<NSString *,STCodeFileAction *>* actions = [[NSDictionary<NSString *,STCodeFileAction *> alloc] initWithObjectsAndKeys:cfa, [cfo FilePath], nil];
         [[self documentManager] UpdateUnlinkedTagsByCodeFile:actions];
         [btn selectItemAtIndex:0];
         //this is risky... we don't entirely know for sure that the code file remapping worked, but we're going to continue to clean up after adding the new code file - by removing the old code file reference
+
+        //remove the old code file
+        //remove the file watcher for the existing code file
+        [[self documentManager] stopMonitoringCodeFiles];
         [[self documentManager] RemoveCodeFile:oldCodeFilePath];
+                
+        //add the new code file
+        //create a new file watcher for the new code file
+        [[self documentManager] AddCodeFile:[filePath path]];
+        [[self documentManager] startMonitoringCodeFiles];
+        
         [self unlinkedTagsDidChange:self];
         //the above handles all of the code file and tag relinking
       }
@@ -115,7 +141,7 @@
       {
         if(![entry isGroup])
         {
-          if([[[entry tag] CodeFile] isEqual: [t CodeFile]] )
+          if([[[entry tag] CodeFile] isEqual: cfo] )
           {
             [tagNames addObject:[[entry tag] Name]];
           }
@@ -133,10 +159,10 @@
         if (returnCode == NSAlertFirstButtonReturn) {
           STCodeFileAction* cfa = [[STCodeFileAction alloc] init];
           [cfa setAction:[STConstantsCodeFileActionTask RemoveTags]];
-          [cfa setParameter:[t CodeFile]];
+          [cfa setParameter:cfo];
           [cfa setLabel:@"Remove Tag"];//this doesn't matter for us, but adding for debugging
           //let's try re-linking...
-          NSDictionary<NSString *,STCodeFileAction *>* actions = [[NSDictionary<NSString *,STCodeFileAction *> alloc] initWithObjectsAndKeys:cfa, [[t CodeFile] FilePath], nil];
+          NSDictionary<NSString *,STCodeFileAction *>* actions = [[NSDictionary<NSString *,STCodeFileAction *> alloc] initWithObjectsAndKeys:cfa, [cfo FilePath], nil];
           [[self documentManager] UpdateUnlinkedTagsByCodeFile:actions];
           [btn selectItemAtIndex:0];
           [self unlinkedTagsDidChange:self];
@@ -256,10 +282,10 @@
   
   if ([entry isGroup]) {
     UnlinkedTagsGroupRowView* groupCell = (UnlinkedTagsGroupRowView*)[tableView makeViewWithIdentifier:@"unlinkedTagGroupRow" owner:self];
-    groupCell.codeFileName.objectValue = [[[entry tag] CodeFile] FileName];
-    groupCell.codeFilePath.objectValue = [[[entry tag] CodeFile] FilePath];
-    [[groupCell imageView] setImage: [[[entry tag] CodeFile] packageIcon]];
-    if([[_documentManager GetCodeFileList] containsObject:[[entry tag] CodeFile]] && [[[entry tag] CodeFile] fileAccessibleAtPath])
+    groupCell.codeFileName.objectValue = [[entry codeFile] FileName];
+    groupCell.codeFilePath.objectValue = [[entry codeFile] FilePath];
+    [[groupCell imageView] setImage: [[entry codeFile] packageIcon]];
+    if([[_documentManager GetCodeFileList] containsObject:[entry codeFile]] && [[entry codeFile] fileAccessibleAtPath])
     {
 //      //ok, so - if the tag's code file is NOT already referenced OR the code file is no longer accessible, we want to draw the code file as a header WITH a dropdown, BUT...
 //      // we don't want to draw the dropdown/action button if the code file is "valid" for StatTag

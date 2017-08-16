@@ -27,6 +27,9 @@
 #import <QuartzCore/QuartzCore.h>
 #import <CoreVideo/CoreVideo.h>
 
+#import "STDocumentManager+FileMonitor.h"
+
+
 @interface AppDelegate ()
 
 @end
@@ -119,20 +122,20 @@
 {
   [[StatTagShared sharedInstance] configureBasicProperties];
 }
--(void)runStatTagWithTabs
-{
-  _window = [[[NSApplication sharedApplication] windows] firstObject];
-  [[StatTagShared sharedInstance] setWindow:_window];
-  [[StatTagShared sharedInstance] initializeWordViews];
-  
-  [AppEventListener startListening];
-  //[[StatTagShared sharedInstance] logAppStartup];
-  
-  if([[StatTagShared sharedInstance] isFirstLaunch])
-  {
-    [MacroInstallerUtility installMacros];
-  }
-}
+//-(void)runStatTagWithTabs
+//{
+//  _window = [[[NSApplication sharedApplication] windows] firstObject];
+//  [[StatTagShared sharedInstance] setWindow:_window];
+//  [[StatTagShared sharedInstance] initializeWordViews];
+//  
+//  [AppEventListener startListening];
+//  //[[StatTagShared sharedInstance] logAppStartup];
+//  
+//  if([[StatTagShared sharedInstance] isFirstLaunch])
+//  {
+//    [MacroInstallerUtility installMacros];
+//  }
+//}
 
 - (void)applicationDidBecomeActive:(NSNotification *)notification{
   //Posted immediately after the app becomes active.
@@ -146,7 +149,8 @@
 
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
-  // Insert code here to tear down your application  
+  // Insert code here to tear down your application
+  [[[StatTagShared sharedInstance] documentManager] stopMonitoringCodeFiles];
   [AppEventListener stopListening];
 }
 
