@@ -12,13 +12,14 @@
 
 @implementation STUIUtility
 
-+(void)WarningMessageBox:(NSString*)text logger:(STLogManager*)logger {
++(void)WarningMessageBoxWithTitle:(NSString*)title andDetail:(NSString*)detail logger:(STLogManager*)logger {
   if(logger != nil) {
-    [logger WriteMessage:text];
+    [logger WriteMessage:[NSString stringWithFormat:@"%@ %@", title, detail]];
   }
   
   NSAlert *alert = [[NSAlert alloc] init];
-  [alert setMessageText:text];
+  [alert setMessageText:title];
+  [alert setInformativeText:detail];
   [alert setAlertStyle:NSWarningAlertStyle];
   [alert addButtonWithTitle:@"Ok"];
   [alert runModal];

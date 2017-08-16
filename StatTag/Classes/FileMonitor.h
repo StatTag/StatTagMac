@@ -28,6 +28,7 @@ typedef enum {
   NSURL* _lastNewPath;
   NSString* _observedKeyPath;
   BOOL _isMonitoring;
+  FSEventStreamRef _stream;
 }
 
 @property (copy, nonatomic) NSURL* filePath;
@@ -35,6 +36,7 @@ typedef enum {
 @property (weak, nonatomic) id observedObject;
 @property (readonly) NSInteger monitoredFileDescriptor;
 @property (readonly) BOOL isMonitoring;
+@property FSEventStreamRef stream;
 
 -(void)restartMonitor;
 -(void)startMonitoring;

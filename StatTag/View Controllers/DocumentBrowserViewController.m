@@ -165,6 +165,7 @@
   //NSLog(@"%@", [[self documentManager] fileNotifications]);
   
   NSString* userAlertInformation;
+  NSString* userInformativeText = @"";
   NSString* movedFilesAlert = @"";
   NSString* deletedFilesAlert = @"";
   NSString* modifiedFilesAlert = @"";
@@ -202,24 +203,25 @@
     
     if([modifiedFiles count] > 0)
     {
-      modifiedFilesAlert = [NSString stringWithFormat:@"\r\n\r\n\r\nModified:\r\n%@", [modifiedFiles componentsJoinedByString:@"\r\n • "]];
+      modifiedFilesAlert = [NSString stringWithFormat:@"\r\n\r\n\r\nModified:\r\n • %@", [modifiedFiles componentsJoinedByString:@"\r\n • "]];
     }
     if([deletedFiles count] > 0)
     {
-      deletedFilesAlert = [NSString stringWithFormat:@"\r\n\r\nDeleted:\r\n%@", [deletedFiles componentsJoinedByString:@"\r\n • "]];
+      deletedFilesAlert = [NSString stringWithFormat:@"\r\n\r\nDeleted:\r\n • %@", [deletedFiles componentsJoinedByString:@"\r\n • "]];
     }
     if([movedFiles count] > 0)
     {
-      movedFilesAlert = [NSString stringWithFormat:@"\r\n\r\nMoved or Renamed:\r\n%@", [movedFiles componentsJoinedByString:@"\r\n • "]];
+      movedFilesAlert = [NSString stringWithFormat:@"\r\n\r\nMoved or Renamed:\r\n • %@", [movedFiles componentsJoinedByString:@"\r\n • "]];
     }
     
-    userAlertInformation = [NSString stringWithFormat:@"The following files were modified outside of StatTag. StatTag has refreshed to ensure you are using the latest content.%@%@%@", deletedFilesAlert, movedFilesAlert, modifiedFilesAlert ];
+    userAlertInformation = [NSString stringWithFormat:@"The following files were modified outside of StatTag. StatTag has refreshed to ensure you are using the latest content."];
+    userInformativeText = [NSString stringWithFormat:@"%@%@%@", deletedFilesAlert, movedFilesAlert, modifiedFilesAlert ];
     
     [_documentsArrayController rearrangeObjects];
   }
   if(userAlertInformation != nil)
   {
-    [STUIUtility WarningMessageBox:userAlertInformation logger:nil];
+    [STUIUtility WarningMessageBoxWithTitle:userAlertInformation andDetail:userInformativeText logger:nil];
   }
   //-(NSDictionary<NSString*, FileChangeNotificationData*>*)getPrioritizedFileNotifications
 }

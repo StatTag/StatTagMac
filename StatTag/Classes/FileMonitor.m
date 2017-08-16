@@ -34,13 +34,13 @@
 
 @implementation FileMonitor
 
-FSEventStreamRef stream;
 //NSInteger _monitoredFileDescriptor;
 
 //static void *FileMonitorContext = &FileMonitorContext;
 
 @synthesize monitoredFileDescriptor = _monitoredFileDescriptor;
 @synthesize isMonitoring = _isMonitoring;
+@synthesize stream = _stream;
 
 /*
  [self addObserver:self
@@ -157,6 +157,7 @@ FSEventStreamRef stream;
 
 -(void)dealloc
 {
+  NSLog(@"File Watcher - deallocating");
   [[self observedObject] removeObserver:self forKeyPath:_observedKeyPath];
   if(_isMonitoring)
   {
@@ -207,7 +208,7 @@ FSEventStreamRef stream;
 - (void)startMonitoringWithFSEvents {
   
   //stop if we're already monitoring
-  if (stream && _isMonitoring)
+  if (_stream && _isMonitoring)
   {
     [self stopMonitoringWithFSEvents];
   }
@@ -270,7 +271,7 @@ FSEventStreamRef stream;
    https://developer.apple.com/library/content/samplecode/CocoaSlideCollection/Listings/CocoaSlideCollection_Model_AAPLFileTreeWatcherThread_m.html
    */
   
-  stream = FSEventStreamCreate(
+  _stream = FSEventStreamCreate(
                               NULL,
                                &feCallback,
                                &context,
@@ -286,19 +287,19 @@ FSEventStreamRef stream;
   //final deletion (file deleted after move)
   //content change
   //how do we handle situations where the file is deleted and recreated? (certain text editors)
-  if (stream != NULL) {
-    FSEventStreamScheduleWithRunLoop(stream, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
-    _isMonitoring = FSEventStreamStart(stream);
+  if (_stream != NULL) {
+    FSEventStreamScheduleWithRunLoop(_stream, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
+    _isMonitoring = FSEventStreamStart(_stream);
   }
 }
 
 - (void)stopMonitoringWithFSEvents {
-  if (stream && _isMonitoring)
+  if (_stream && _isMonitoring)
   {
-    FSEventStreamStop(stream);
+    FSEventStreamStop(_stream);
     //FSEventStreamUnscheduleFromRunLoop(stream, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
-    FSEventStreamInvalidate(stream);
-    FSEventStreamRelease(stream);
+    FSEventStreamInvalidate(_stream);
+    FSEventStreamRelease(_stream);
   }
   _isMonitoring = false;
 }

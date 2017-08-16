@@ -144,7 +144,7 @@ NSString* const defaultLogFileName = @"StatTag.log";
   
   if ([[self properties] EnableLogging] && ![[self logManager] IsValidLogPath: [[self properties] LogLocation]])
   {
-    [STUIUtility WarningMessageBox:@"The debug file you have selected appears to be invalid, or you do not have rights to access it.\r\nPlease select a valid path for the debug file, or disable debugging." logger:nil];
+    [STUIUtility WarningMessageBoxWithTitle:@"Unable to access debug file." andDetail:@"The debug file you have selected appears to be invalid, or you do not have rights to access it.\r\nPlease select a valid path for the debug file, or disable debugging." logger:nil];
   } else {
     [[self propertiesManager] setProperties:[self properties]];
     [[self propertiesManager] Save];
