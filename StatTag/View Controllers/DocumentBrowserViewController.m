@@ -172,7 +172,7 @@
   
   
   NSDictionary<NSString*, FileChangeNotificationData*>* fileChanges = [[self documentManager] getPrioritizedFileNotifications];
-  NSLog(@"listing file notofications");
+  NSLog(@"listing file notifications");
   NSLog(@"%@", fileChanges);
   if([[fileChanges allValues] count] > 0)
   {
@@ -233,6 +233,8 @@
   
   NSString* docName = [WordHelpers getActiveDocumentName];// stringByReplacingOccurrencesOfString:@" [Compatibility Mode]" withString:@""];
   
+  NSLog(@"active document: %@", [[[self documentsArrayController] selectedObjects] firstObject]);
+  
   if(![[[[self documentsArrayController] selectedObjects] firstObject] isEqualToString:docName])
   {
     if(docName != nil)
@@ -241,6 +243,8 @@
       {
         if([docName isEqualToString:name])
         {
+          //since we're changing documents we need to close any open editors
+          [[NSNotificationCenter defaultCenter] postNotificationName:@"allEditorsShouldClose" object:self userInfo:nil];
           [[self documentsArrayController] setSelectedObjects:[NSArray arrayWithObject:name]];
         }
       }
@@ -249,7 +253,12 @@
     //if it's already selected, select "all tags"
     //FIXME: disabled
     //do we really want to reload all tags? maybe?
+    //[self documentManager]
+    //putting this in for now so we can reload (regardless of selection change... I know, I know...) because there might have been file changes outside of the app. This is probably not ideal and we really need to redo a lot of this code from the ground up
+    [self setActiveDocumentAtIndex:[[self documentsArrayController] selectionIndex]];
+    //[[self documentsArrayController] setSelectionIndex:[[self documentsArrayController] selectionIndex]];
     //[[self documentBrowserDocumentViewController] focusOnTags];
+    //NSLog(@"document is already actively selected");
   }
 
 }
@@ -390,6 +399,8 @@
       row = [[self documentsTableView] clickedRow];
     }
     if(row > -1) {
+      [self setActiveDocumentAtIndex:row];
+      /*
       NSString* doc_name = [[_documentsArrayController arrangedObjects] objectAtIndex:row];
       if(doc_name != nil) {
         [WordHelpers setActiveDocumentByDocName:doc_name];
@@ -402,6 +413,7 @@
 
         //[[self codeFilesViewController] updateTagSummary];
       }
+       */
       //STMSWord2011Document* doc = [[_documentsArrayController arrangedObjects] objectAtIndex:row];
       //if(doc != nil) {
       //  [WordHelpers setActiveDocumentByDocName:[doc name]];
@@ -409,6 +421,22 @@
     }
   }
 
+}
+
+-(void)setActiveDocumentAtIndex:(NSInteger)index
+{
+  NSString* doc_name = [[_documentsArrayController arrangedObjects] objectAtIndex:index];
+  if(doc_name != nil) {
+    [WordHelpers setActiveDocumentByDocName:doc_name];
+    STMSWord2011Document* doc = [[StatTagShared sharedInstance] doc];
+    [[self documentBrowserDocumentViewController] setDocument:doc];
+    //FIXME: removed
+    //[[self codeFilesViewController] configure];
+    //FIXME: removed
+    //[self focusOnTags];
+    
+    //[[self codeFilesViewController] updateTagSummary];
+  }
 }
 
 -(void)doubleClickedDocumentRow
