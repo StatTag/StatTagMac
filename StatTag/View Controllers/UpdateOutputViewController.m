@@ -495,7 +495,9 @@ BOOL breakLoop = YES;
   if(returnCode == OK) {
     //no errors - so refresh the list of tags because we changed things
     //FIXME: we shouldn't have to do this - we should just reload the data and re-selected the items that were previously selected (code files)
-    [self loadAllTags];
+    //[self loadAllTags];
+    [self loadTagsForCodeFiles:[self activeCodeFiles]];
+    
     if(tag)
     {
       [self selectTagWithID:[tag Id]];//selected the tag we just created or edited
