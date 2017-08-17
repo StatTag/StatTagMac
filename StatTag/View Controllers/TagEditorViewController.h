@@ -25,7 +25,7 @@
 
 @class TagEditorViewController;
 @protocol TagEditorViewControllerDelegate <NSObject>
-- (void)dismissTagEditorController:(TagEditorViewController*)controller withReturnCode:(StatTagResponseState)returnCode;
+- (void)dismissTagEditorController:(TagEditorViewController*)controller withReturnCode:(StatTagResponseState)returnCode andTag:(STTag*)tag;
 @end
 
 @interface TagEditorViewController : NSViewController <NSTextFieldDelegate, TagBasicPropertiesControllerDelegate, ValuePropertiesControllerDelegate, TablePropertiesControllerDelegate> {
@@ -41,6 +41,7 @@
   
   BOOL _showTagValuePropertiesView;
   BOOL _editable;
+  STCodeFile* _originallySelectedCodeFile;
 }
 
 @property (strong, nonatomic) STTag* tag;
@@ -50,6 +51,8 @@
 @property (strong) IBOutlet NSArrayController *codeFileList;
 @property (weak) IBOutlet NSPopUpButton *listCodeFile;
 
+//the code file that was selected (if any) in the code file list prior to
+@property (strong, nonatomic) STCodeFile* originallySelectedCodeFile;
 
 @property (strong) IBOutlet ScintillaEmbeddedViewController *sourceEditor;
 @property (weak) IBOutlet NSView *sourceView;

@@ -28,6 +28,7 @@
 @synthesize onDemandTags;
 @synthesize documentTags = _documentTags;
 @synthesize documentManager = _documentManager;
+@synthesize activeCodeFiles = _activeCodeFiles;
 
 UpdateOutputProgressViewController* tagUpdateProgressController;
 TagEditorViewController* tagEditorController;
@@ -93,6 +94,8 @@ BOOL breakLoop = YES;
 -(void)loadTagsForCodeFiles:(NSArray<STCodeFile*>*)codeFiles {
   [_documentManager LoadCodeFileListFromDocument:[[StatTagShared sharedInstance] doc]];
   
+  [self setActiveCodeFiles:codeFiles];
+  
   for(STCodeFile* file in [_documentManager GetCodeFileList]) {
     [file LoadTagsFromContent];
   }
@@ -127,6 +130,7 @@ BOOL breakLoop = YES;
 
 -(void)loadAllTags {
   [_documentManager LoadCodeFileListFromDocument:[[StatTagShared sharedInstance] doc]];
+  [self setActiveCodeFiles:nil];
   
   for(STCodeFile* file in [_documentManager GetCodeFileList]) {
     [file LoadTagsFromContent];
@@ -403,6 +407,7 @@ BOOL breakLoop = YES;
   tagEditorController.documentManager = _documentManager;
   tagEditorController.tag = nil;
   tagEditorController.delegate = self;
+  tagEditorController.originallySelectedCodeFile = [[self activeCodeFiles] firstObject];
   [self presentViewControllerAsSheet:tagEditorController];
 }
 
@@ -467,12 +472,17 @@ BOOL breakLoop = YES;
 }
 
 
-- (void)dismissTagEditorController:(TagEditorViewController *)controller withReturnCode:(StatTagResponseState)returnCode {
+- (void)dismissTagEditorController:(TagEditorViewController *)controller withReturnCode:(StatTagResponseState)returnCode andTag:(STTag*)tag {
   //FIXME: need to handle errors from worker sheet
   [self dismissViewController:controller];
   if(returnCode == OK) {
     //no errors - so refresh the list of tags because we changed things
+    //FIXME: we shouldn't have to do this - we should just reload the data and re-selected the items that were previously selected (code files)
     [self loadAllTags];
+    if(tag)
+    {
+      [self selectTagWithID:[tag Id]];//selected the tag we just created or edited
+    }
   } else if (returnCode == Cancel) {
     //[self loadAllTags];
   } else {

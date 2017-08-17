@@ -52,6 +52,8 @@
 @synthesize allowedCommandsText = _allowedCommandsText;
 @synthesize editable = _editable;
 
+@synthesize originallySelectedCodeFile = _originallySelectedCodeFile;
+
 //@synthesize propertiesStackView = _propertiesStackView;
 STCodeFile* codeFile;
 STTag* _originalTag;
@@ -162,6 +164,7 @@ static void *TagTypeContext = &TagTypeContext;
 
 -(void)viewDidAppear {
   [self startObservingEditorDirectives];
+
   if(_documentManager != nil) {
     //every time this view appears we need to completely refresh all code files
     [_codeFileList removeObjects:[_codeFileList arrangedObjects]];
@@ -232,13 +235,22 @@ static void *TagTypeContext = &TagTypeContext;
     } else {
       //probably a new tag
       _originalTag = nil;
+
       
       [[self tag] setName:@""];
       //create a new tag and set some defaults
       [self setTag:[[STTag alloc] init]];
       [[self tag] setType:[STConstantsTagType Value]];
       //ack... I'd rather get this from the array controller, but...
-      [[self tag] setCodeFile: [[[self documentManager] GetCodeFileList] firstObject]];
+
+      //if we have a code file that was active in the tag list UI, try to set the code file selection to that if we're editing
+      if([self originallySelectedCodeFile])
+      {
+        [[self tag] setCodeFile:[self originallySelectedCodeFile]];
+      } else {
+        [[self tag] setCodeFile: [[[self documentManager] GetCodeFileList] firstObject]];
+      }
+      
       [self setCodeFile:[[self tag] CodeFile]];
       [[self tag] setRunFrequency:[STConstantsRunFrequency OnDemand]];
       STValueFormat* v = [[STValueFormat alloc] init];
@@ -352,7 +364,7 @@ static void *TagTypeContext = &TagTypeContext;
 
 - (IBAction)cancel:(id)sender {
   [self stopObservingNotifications];
-  [_delegate dismissTagEditorController:self withReturnCode:(StatTagResponseState)Cancel];
+  [_delegate dismissTagEditorController:self withReturnCode:(StatTagResponseState)Cancel andTag:nil];
 }
 
 
@@ -489,7 +501,7 @@ static void *TagTypeContext = &TagTypeContext;
   if(edited == YES || [errorDetail count] == 0)
   {
     [self stopObservingNotifications];
-    [_delegate dismissTagEditorController:self withReturnCode:(StatTagResponseState)OK];
+    [_delegate dismissTagEditorController:self withReturnCode:(StatTagResponseState)OK andTag:[self tag]];
     return;
   }
   
