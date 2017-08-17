@@ -618,7 +618,8 @@ the DocumentManager instance that contains it.
   
   NSCharacterSet *ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
   return (shape != nil
-          && !([[[shape name] stringByTrimmingCharactersInSet:ws] length] == 0));
+          && !([[[shape name] stringByTrimmingCharactersInSet:ws] length] == 0)
+          && [[shape name] containsString:TagIdentifierDelimiter]);
 }
 
 

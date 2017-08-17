@@ -39,10 +39,10 @@
   [app Hide];
 }
 
-//- (void)testInitialize {
-//  bool passed = [[[STStataAutomation alloc] init] Initialize];
-//  XCTAssert(passed);
-//}
+- (void)testInitialize {
+  bool passed = [[[STStataAutomation alloc] init] Initialize:nil];
+  XCTAssert(passed);
+}
 
 - (void)testAppPath {
   NSURL* appPath = [STStataAutomation AppPath];

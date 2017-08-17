@@ -312,6 +312,7 @@
   
   STCodeFile* codeFile = [[STCodeFile alloc] init:mock];
   codeFile.StatisticalPackage = [STConstantsStatisticalPackages Stata];
+  codeFile.FilePath = @"Test.do";
 
   STTag* tag = [[STTag alloc] init];
   tag.LineStart = @1;

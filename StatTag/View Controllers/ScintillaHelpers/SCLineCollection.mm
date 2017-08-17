@@ -180,14 +180,17 @@ NSInteger stepLength;
 
 
 /// <summary>
-/// Gets the number of CHARACTERS int a BYTE range.
+/// Gets the number of CHARACTERS in a BYTE range.
 /// </summary>
 -(NSInteger)GetCharCount:(NSInteger)pos length:(NSInteger)length
 {
   //NSInteger ptr = [ScintillaView directCall:[_scintilla scintillaView] message:SCI_GETRANGEPOINTER wParam:pos lParam:length];
   char* ptr = (char*)[ScintillaView directCall:[_scintilla scintillaView] message:SCI_GETRANGEPOINTER wParam:pos lParam:length];
-//  NSString* s = [NSString stringWithCString:ptr encoding:NSUTF8StringEncoding];
-  NSString* s = [NSString stringWithUTF8String: ptr];
+
+  // Previously we had tried [NSString stringWithUTF8String: ptr] to do the string conversion, but this was
+  // returning nil string pointers.  We switched to this approach in hopes it will more reliably do the
+  // conversion correctly.
+  NSString* s = [[NSString alloc] initWithBytes:ptr length:length encoding:NSUTF8StringEncoding];
   //OK - this is somehow just... off... we get the entire string back after the pos offset
   // I think... so we're going to manually substring this ourselves... until we find out why this doesn't
   // behave as anticipated... probably me (ok - definitely me...), but it's unclear why.

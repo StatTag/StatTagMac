@@ -34,14 +34,23 @@
   
   NSNumber* _LineStart;
   NSNumber* _LineEnd;
-  
 }
+
+extern NSString* const TagIdentifierDelimiter;
 
 //MARK: properties
 @property (strong, nonatomic) STCodeFile *CodeFile;
 @property (copy, nonatomic) NSString *Type;
 @property (copy, nonatomic) NSString *Name;
 -(NSString*)CodeFilePath; //non-standard
+
+
+/**
+ Shortcut to the file path of the CodeFile.  This is used for serialization.
+ */
+@property (nonatomic, copy) NSURL* CodeFilePathURL;
+@property (nonatomic, copy) NSString* CodeFilePath;
+
 /**
  String
  */

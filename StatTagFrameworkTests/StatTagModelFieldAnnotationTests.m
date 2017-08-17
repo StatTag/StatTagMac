@@ -56,10 +56,10 @@
 
 - (void)testConstructor_TagWithFieldTag {
   
-  
-  STTag* tag = [STTag tagWithName:@"Test" andCodeFile:nil andType:[STConstantsTagType Table]];
+  STCodeFile* codeFile = [[STCodeFile alloc] init];
+  codeFile.FilePath = @"Test.do";
+  STTag* tag = [STTag tagWithName:@"Test" andCodeFile:codeFile andType:[STConstantsTagType Table]];
   STFieldTag* fieldTag = [[STFieldTag alloc] init];
-  fieldTag.CodeFilePath = @"Test.do";
   fieldTag.TableCellIndex = @10;
   
   STFieldTag *newFieldTag = [[STFieldTag alloc] initWithTag:tag andFieldTag:fieldTag];
