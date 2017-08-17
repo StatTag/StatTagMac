@@ -13,7 +13,7 @@
 #import <StatTagFramework/STConstants.h>
 #import "STCodeFile+FileHelper.h"
 #import "DocumentBrowserDocumentViewController.h"
-
+#import "STDocumentManager+FileMonitor.h"
 
 //#import "TagIndicatorView.h"
 
@@ -218,6 +218,8 @@
   [_documentManager AddCodeFile:[cf FilePath]];
   [_documentManager SaveCodeFileListToDocument:nil];
   [_codeFiles addObject:cf];
+  [_documentManager monitorCodeFile:cf];
+  //[[StatTagShared sharedInstance] monitorCodeFile:cf];
   [self updateTagSummary];
 }
 
@@ -225,6 +227,8 @@
 //FIXME: not sure why this isn't being called
 - (void)removeObjectFromCodeFilesAtIndex:(NSUInteger)index {
   
+  //[[StatTagShared sharedInstance] stopMonitoringCodeFile:[_codeFiles objectAtIndex:index]];
+  [_documentManager stopMonitoringCodeFile:[_codeFiles objectAtIndex:index]];
   [_codeFiles removeObjectAtIndex:index];
   [_documentManager SetCodeFileList:_codeFiles document:nil];
   [_documentManager SaveCodeFileListToDocument:nil];

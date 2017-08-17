@@ -18,6 +18,8 @@
 #import "AppEventListener.h"
 #import "ViewUtils.h"
 #import "FileMonitor.h"
+#import "STCodeFile+FileMonitor.h"
+#import "STDocumentManager+FileMonitor.h"
 
 
 @implementation StatTagShared
@@ -29,8 +31,10 @@
 
 @synthesize propertiesManager = _propertiesManager;
 @synthesize logManager = _logManager;
-@synthesize fileMonitors = _fileMonitors;
+//@synthesize fileMonitors = _fileMonitors;
 @synthesize lastLaunchedAppVersion = _lastLaunchedAppVersion;
+
+//@synthesize fileNotifications = _fileNotifications;
 
 static StatTagShared *sharedInstance = nil;
 
@@ -50,19 +54,44 @@ NSString* const kStatTagErrorDomain = @"STErrorDomain";
   self = [super init];
   if (self) {
     [self setWordAppStatusMessage:@""];
-    [self setFileMonitors:[[NSMutableArray<FileMonitor*> alloc] init]];
+//    [self setFileMonitors:[[NSMutableArray<FileMonitor*> alloc] init]];
     [self setLogManager:[[STLogManager alloc] init]];
+//    [self setFileNotifications:[[NSMutableArray<NSDictionary*> alloc] init]];
   }
   return self;
 }
 
 -(void)dealloc
 {
-  for(FileMonitor* fm in [self fileMonitors])
+  for(FileMonitor* fm in [[self docManager] fileMonitors])
   {
     [fm stopMonitoring];
   }
 }
+
+//-(void)monitorCodeFile:(STCodeFile*)file
+//{
+//  if([file fileMonitor] == nil)
+//  {
+//    [file setFileMonitor:[[FileMonitor alloc] init]];
+//    [[file fileMonitor] setFilePath:[file FilePathURL]];
+//    //[[file fileMonitor] observeChangesForObject:file withKeyPath:NSStringFromSelector(@selector(FilePathURL))];
+//  }
+//  if(![[self fileMonitors] containsObject:[file fileMonitor]])
+//  {
+//    [[file fileMonitor] startMonitoring];
+//    [[self fileMonitors] addObject:[file fileMonitor]];
+//  }
+//}
+//-(void)stopMonitoringCodeFile:(STCodeFile*)file
+//{
+//  if([[self fileMonitors] containsObject:[file fileMonitor]])
+//  {
+//    [[file fileMonitor] stopMonitoring];
+//    [[self fileMonitors] removeObject:[file fileMonitor]];
+//  }
+//}
+
 
 + (id)allocWithZone:(NSZone*)zone {
   return [self sharedInstance];
@@ -303,6 +332,11 @@ NSString* const kStatTagErrorDomain = @"STErrorDomain";
 {
   [[self logManager] WriteMessage:[NSString stringWithFormat:@"Starting StatTag... OS: %@; Hardware: %@; RAM: %@", [STCocoaUtil macOSVersion], [STCocoaUtil machineModel], [STCocoaUtil physicalMemory]]];
 }
+
+//-(void)fileDidChange:(NSDictionary*)fileInfo
+//{
+//  NSLog(@"received fileDidChange notification");
+//}
 
 //-(void)logMessage:(NSString*)message
 //{

@@ -698,10 +698,12 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   STCommandResult* result = [[tag CachedResult] firstObject];
   if (result != nil)
   {
-    STMSWord2011TextRange* range = [selection formattedText];//unclear if this is what we want to use
-
+    //STMSWord2011TextRange* range = [selection formattedText];//unclear if this is what we want to use
+    NSInteger rangeStart = [selection selectionStart];
+    NSInteger rangeEnd = [selection selectionEnd];
+    
     //we have to offload this directly to AppleScript so we can do what we need to
-    [WordHelpers insertTextboxAtRangeStart:[range startOfContent] andRangeEnd:[range endOfContent] forShapeName:[tag Id] withShapetext:[result VerbatimResult] andFontSize:9.0 andFontFace:@"Courier New"];
+    [WordHelpers insertTextboxAtRangeStart:rangeStart andRangeEnd:rangeEnd forShapeName:[tag Id] withShapetext:[result VerbatimResult] andFontSize:9.0 andFontFace:@"Courier New"];
   }
   
   //[self Log:@"InsertVerbatim - Finished"];
@@ -768,7 +770,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   //if (table.FormattedCells == nil || [[table FormattedCells] count] == 0)
   if (displayData == nil || [displayData count] == 0)
   {
-    [STUIUtility WarningMessageBox:@"There are no table results to insert." logger:[self Logger]];
+    [STUIUtility WarningMessageBoxWithTitle:@"There are no table results to insert." andDetail:@"" logger:[self Logger]];
     return;
   }
   
@@ -938,11 +940,11 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   //FIXME: this is not ideal - we should be separating UI from this kind of behavior
   if (selectedCellCount > dataLength)
   {
-    [STUIUtility WarningMessageBox:[NSString stringWithFormat:@"The number of cells you have selected (%ld) is larger than the number of cells in your results (%ld).\r\n\r\nOnly the first %ld cells have been filled in with results.", selectedCellCount, dataLength, dataLength] logger:[self Logger]];
+    [STUIUtility WarningMessageBoxWithTitle:@"Unable to generate table" andDetail:[NSString stringWithFormat:@"The number of cells you have selected (%ld) is larger than the number of cells in your results (%ld).\r\n\r\nOnly the first %ld cells have been filled in with results.", selectedCellCount, dataLength, dataLength] logger:[self Logger]];
   }
   else if (selectedCellCount < dataLength)
   {
-    [STUIUtility WarningMessageBox:[NSString stringWithFormat:@"The number of cells you have selected (%ld) is smaller than the number of cells in your results (%ld).\r\n\r\nOnly the first %ld cells have been used.", selectedCellCount, dataLength, selectedCellCount] logger:[self Logger]];
+    [STUIUtility WarningMessageBoxWithTitle:@"Unable to generate table" andDetail:[NSString stringWithFormat:@"The number of cells you have selected (%ld) is smaller than the number of cells in your results (%ld).\r\n\r\nOnly the first %ld cells have been used.", selectedCellCount, dataLength, selectedCellCount] logger:[self Logger]];
   }
 }
 

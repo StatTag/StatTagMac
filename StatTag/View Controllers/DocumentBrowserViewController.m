@@ -13,6 +13,7 @@
 #import "UpdateOutputViewController.h"
 #import "UnlinkedTagsViewController.h"
 #import "DocumentBrowserDocumentViewController.h"
+#import "STDocumentManager+FileMonitor.h"
 
 #import <QuartzCore/CALayer.h>
 
@@ -107,7 +108,7 @@
 -(void)startObservingAppFocus
 {
     [[NSNotificationCenter defaultCenter]addObserver:self
-                                          selector:@selector(loadDocsAndContent)
+                                          selector:@selector(viewApplicationDidBecomeActive)
                                               name:NSApplicationDidBecomeActiveNotification
                                             object:nil];
 }
@@ -155,6 +156,74 @@
   //go read up on this post for why we're not able to connect the view outlet to the controller directly
   //http://stackoverflow.com/questions/20676801/how-do-you-get-a-custom-view-controller-to-load-its-view-into-placeholder-in-ano
 
+  //examine our shared document notification events and see if we need to act
+}
+
+-(void)viewApplicationDidBecomeActive
+{
+  [self loadDocsAndContent];
+  //NSLog(@"%@", [[self documentManager] fileNotifications]);
+  
+  NSString* userAlertInformation;
+  NSString* userInformativeText = @"";
+  NSString* movedFilesAlert = @"";
+  NSString* deletedFilesAlert = @"";
+  NSString* modifiedFilesAlert = @"";
+  
+  
+  NSDictionary<NSString*, FileChangeNotificationData*>* fileChanges = [[self documentManager] getPrioritizedFileNotifications];
+  NSLog(@"listing file notofications");
+  NSLog(@"%@", fileChanges);
+  if([[fileChanges allValues] count] > 0)
+  {
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"allEditorsShouldClose" object:self userInfo:nil];
+
+    
+    NSMutableArray<NSString*>* modifiedFiles = [[NSMutableArray<NSString*> alloc] init];
+    NSMutableArray<NSString*>* deletedFiles = [[NSMutableArray<NSString*> alloc] init];
+    NSMutableArray<NSString*>* movedFiles = [[NSMutableArray<NSString*> alloc] init];
+    for(NSString* k in [fileChanges allKeys])
+    {
+      FileChangeNotificationData* v = [fileChanges objectForKey:k];
+      NSString* fileName = [[v filePath] lastPathComponent];
+      if([v fileModified])
+      {
+        [modifiedFiles addObject:fileName];
+      }
+      if([v fileDeleted])
+      {
+        [deletedFiles addObject:fileName];
+      }
+      if([v fileMoved])
+      {
+        [movedFiles addObject:fileName];
+      }
+    }
+    
+    if([modifiedFiles count] > 0)
+    {
+      modifiedFilesAlert = [NSString stringWithFormat:@"\r\n\r\n\r\nModified:\r\n • %@", [modifiedFiles componentsJoinedByString:@"\r\n • "]];
+    }
+    if([deletedFiles count] > 0)
+    {
+      deletedFilesAlert = [NSString stringWithFormat:@"\r\n\r\nDeleted:\r\n • %@", [deletedFiles componentsJoinedByString:@"\r\n • "]];
+    }
+    if([movedFiles count] > 0)
+    {
+      movedFilesAlert = [NSString stringWithFormat:@"\r\n\r\nMoved or Renamed:\r\n • %@", [movedFiles componentsJoinedByString:@"\r\n • "]];
+    }
+    
+    userAlertInformation = [NSString stringWithFormat:@"The following files were modified outside of StatTag. StatTag has refreshed to ensure you are using the latest content."];
+    userInformativeText = [NSString stringWithFormat:@"%@%@%@", deletedFilesAlert, movedFilesAlert, modifiedFilesAlert ];
+    
+    [_documentsArrayController rearrangeObjects];
+  }
+  if(userAlertInformation != nil)
+  {
+    [STUIUtility WarningMessageBoxWithTitle:userAlertInformation andDetail:userInformativeText logger:nil];
+  }
+  //-(NSDictionary<NSString*, FileChangeNotificationData*>*)getPrioritizedFileNotifications
 }
 
 -(void)setActiveDocument

@@ -27,6 +27,8 @@ NSString* const StatTagVerbatimLogIdentifier = @"stattag-verbatim";
 
 NSString* const EndLoggingCommand = @"log close";
 
+NSString* const CapturePrefix = @"capture {\r\nnoisily {\r\n";
+NSString* const CaptureSuffix = @"\r\n}\r\n}";
 
 //NSString* StaticAppBundleIdentifier;// = @"com.stata.stata14";
 @synthesize AppBundleIdentifier = _AppBundleIdentifier;
@@ -361,7 +363,7 @@ const NSInteger ShowStata = 3;
 
     //            var substring = text.Substring(startIndex, endIndex - startIndex - additionalOffset).TrimEnd('\r').Split(new char[] { '\r' });
     
-    NSString* substringS = [text substringWithRange:NSMakeRange(startIndex, endIndex - startIndex - additionalOffset)];
+    NSString* substringS = [text substringWithRange:NSMakeRange(startIndex, endIndex - startIndex)];// - additionalOffset)];
     startIndex = 0;
     endIndex = [substringS length];
     if([[substringS substringToIndex:endIndex - 1] isEqualToString:@"\r"])
@@ -396,12 +398,18 @@ const NSInteger ShowStata = 3;
 
 -(NSString*)GetMacroValue:(NSString*)name
 {
-  NSString* result = [Application MacroValue:name];
-  // If we get an empty string, try it with the prefix for local macros
+  //Per Stata support (2017-AUG-15), "You should use StReturnString, not MacroValue for the returned results. MacroValue is for local macros, StReturn* is for e(), r(), s(), and c()."
+  NSString* result = [Application StReturnString:name];
+
   NSCharacterSet *ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
 
   if ([[result stringByTrimmingCharactersInSet:ws] length] == 0)
   {
+    NSString* result = [Application MacroValue:name];
+  }
+  if ([[result stringByTrimmingCharactersInSet:ws] length] == 0)
+  {
+    // If we get an empty string, try it with the prefix for local macros
     result = [Application MacroValue:[NSString stringWithFormat:@"%@%@",LocalMacroPrefix, name]];
   }
   return result;
@@ -512,7 +520,7 @@ const NSInteger ShowStata = 3;
     }
   }
   
-  command = [NSString stringWithFormat:@"capture {\r\nnoisily {\r\n%@\r\n}\r\n}", command];
+  command = [NSString stringWithFormat:@"%@%@%@", CapturePrefix, command, CaptureSuffix];
   NSDictionary *errorInfo;
   
   NSInteger returnCode = [Application DoCommandAsync:command];
@@ -539,6 +547,10 @@ const NSInteger ShowStata = 3;
 
   //NSLog(@"stataErrorCode : %ld", stataErrorCode);
 
+  //FIXME: removing our capture commands before we process the image information - for now - until we can review the regex
+  command = [command substringFromIndex:[CapturePrefix length]];
+  command = [command substringToIndex:[command length] - [CaptureSuffix length]];
+  
   if([Parser IsImageExport:command] && !IsTrackingVerbatim) {
     
     NSString* imageLocation = [Parser GetImageSaveLocation:command];

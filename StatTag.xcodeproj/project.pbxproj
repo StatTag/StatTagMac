@@ -192,6 +192,7 @@
 		3884513D1D19DCB3004C2B40 /* STValueParameterParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3884513B1D19DCB3004C2B40 /* STValueParameterParser.m */; };
 		388ABF881DA5B1F600F08956 /* ViewUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 388ABF871DA5B1F500F08956 /* ViewUtils.m */; };
 		389591B51E8A991F003FE9E3 /* DocumentBrowserTagSummary.m in Sources */ = {isa = PBXBuildFile; fileRef = 389591B41E8A991F003FE9E3 /* DocumentBrowserTagSummary.m */; };
+		389B20561F3E01D400D853EF /* STDocumentManager+CodeFileManagement.m in Sources */ = {isa = PBXBuildFile; fileRef = 389B20551F3E01D400D853EF /* STDocumentManager+CodeFileManagement.m */; };
 		38A7CE981D4FDFB600B06AFF /* STGridDataItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 38A7CE961D4FDFB600B06AFF /* STGridDataItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38A7CE991D4FDFB600B06AFF /* STGridDataItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A7CE971D4FDFB600B06AFF /* STGridDataItem.m */; };
 		38A7CE9C1D4FE29400B06AFF /* STPropertiesManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 38A7CE9A1D4FE29400B06AFF /* STPropertiesManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -625,6 +626,8 @@
 		388ABF871DA5B1F500F08956 /* ViewUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewUtils.m; sourceTree = "<group>"; };
 		389591B31E8A991F003FE9E3 /* DocumentBrowserTagSummary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentBrowserTagSummary.h; sourceTree = "<group>"; };
 		389591B41E8A991F003FE9E3 /* DocumentBrowserTagSummary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentBrowserTagSummary.m; sourceTree = "<group>"; };
+		389B20541F3E01D400D853EF /* STDocumentManager+CodeFileManagement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "STDocumentManager+CodeFileManagement.h"; sourceTree = "<group>"; };
+		389B20551F3E01D400D853EF /* STDocumentManager+CodeFileManagement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "STDocumentManager+CodeFileManagement.m"; sourceTree = "<group>"; };
 		38A7CE901D4E2E4400B06AFF /* readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = readme.md; sourceTree = "<group>"; };
 		38A7CE961D4FDFB600B06AFF /* STGridDataItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STGridDataItem.h; sourceTree = "<group>"; };
 		38A7CE971D4FDFB600B06AFF /* STGridDataItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STGridDataItem.m; sourceTree = "<group>"; };
@@ -1378,6 +1381,8 @@
 				3828F3351ED9CC6D00DABA43 /* NSURL+FileAccess.m */,
 				381CC7621EFFFF8D00CC220E /* STTag+StatisticalPackage.h */,
 				381CC7631EFFFF8D00CC220E /* STTag+StatisticalPackage.m */,
+				389B20541F3E01D400D853EF /* STDocumentManager+CodeFileManagement.h */,
+				389B20551F3E01D400D853EF /* STDocumentManager+CodeFileManagement.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -2216,6 +2221,7 @@
 				3846CC3A1DA49B0E0066D186 /* FlippedScrollView.m in Sources */,
 				38F803651D9DCB8900C8F1EA /* ValuePropertiesController.m in Sources */,
 				38FFDD201E8C9813004D92C3 /* NSAttributedString+Hyperlink.m in Sources */,
+				389B20561F3E01D400D853EF /* STDocumentManager+CodeFileManagement.m in Sources */,
 				384764B91DA56B8300FCDABE /* IntegerOnlyNumberFormatter.m in Sources */,
 				38F8034F1D9C5C1800C8F1EA /* SCScintilla.mm in Sources */,
 				3828F33A1EDB209B00DABA43 /* SamplesDownloadProgressViewController.m in Sources */,
@@ -2375,7 +2381,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -2424,7 +2430,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -2510,6 +2516,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2528,6 +2535,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2549,9 +2557,9 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = ZRBJAU296F;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -2581,9 +2589,9 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = ZRBJAU296F;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -2611,6 +2619,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = StatTagTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
@@ -2627,6 +2636,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = StatTagTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";

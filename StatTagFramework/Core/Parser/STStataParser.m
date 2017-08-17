@@ -288,6 +288,7 @@ This is used to test/extract a macro display value.
  */
 -(NSString*) GetImageSaveLocation:(NSString*)command
 {
+//  command = [command string]
   return [self MatchRegexReturnGroup:command regex:[[self class] GraphRegex] groupNum:1];
 }
 

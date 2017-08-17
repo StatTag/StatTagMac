@@ -377,7 +377,7 @@ on insertTextboxAtRangeStart:theRangeStart andRangeEnd:theRangeEnd forShapeName:
 end insertTextboxAtRangeStart:andRangeEnd:forShapeName:withShapetext:andFontSize:andFontFace:
 *)
 
-on insertTextboxAtRangeStart:theRangeStart andRangeEnd:theRangeEnd forShapeName:shapeName withShapetext: shapeText andFontSize:fontSize andFontFace:fontFace
+on insertTextboxAtRangeStart:theRangeStart andRangeEnd:theRangeEnd forShapeName:shapeName withShapetext:shapeText andFontSize:fontSize andFontFace:fontFace
 
   set theRangeStart to theRangeStart as integer
   set theRangeEnd to theRangeEnd as integer
@@ -442,7 +442,7 @@ on insertTextboxAtRangeStart:theRangeStart andRangeEnd:theRangeEnd forShapeName:
         set allow overlap of wrap format of myShape to false
         
         --we need to compute the size of the shape and then resize to fit the contents
-        set fontMultiplier to 1.25 as real
+        set fontMultiplier to 1.35 as real
         
         set name of font object of text range of text frame of myShape to fontFace
         set font size of font object of text range of text frame of myShape to fontSize

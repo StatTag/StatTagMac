@@ -14,6 +14,7 @@
 #import "DocumentBrowserDocumentViewController.h"
 
 #import "STDocumentManager+FileMonitor.h"
+#import "NSURL+FileAccess.h"
 
 @interface DocumentBrowserDocumentViewController ()
 
@@ -46,7 +47,8 @@
 
 -(void)dealloc
 {
-  [self stopObservingNotifications];
+  [self stopMonitoringCodeFiles];
+  //[self stopObservingNotifications];
 }
 
 //MARK: view events
@@ -63,8 +65,7 @@
   
   self.codeFilesViewController.delegate = self;
   
-  [self beginObservingCodeFileMonitoringNotifications];
-  [self startMonitoringCodeFiles];
+ // [self beginObservingCodeFileMonitoringNotifications];
 }
 
 -(void)setDocumentManager:(STDocumentManager *)documentManager
@@ -87,7 +88,9 @@
 
 -(void)setDocument:(STMSWord2011Document *)document
 {
+  [self stopMonitoringCodeFiles];
   _document = document;
+  [self startMonitoringCodeFiles];
   //_documentManager.activeDocument = document;
   //FIXME: removed
   [[self codeFilesViewController] configure];
@@ -128,9 +131,24 @@
     [self.focusView setAutoresizesSubviews:YES];
     [self.focusView addSubview:fView];
   }
+
+  //we're cheating here a bit - we want to reuse the "unlinked tags" UI for relinking a code file
+  /*
+  NSMutableDictionary<NSString*, NSArray<STTag*>*>* unlinkedTags = [[[self documentManager] FindAllUnlinkedTags] mutableCopy];
+ 
+  for(STCodeFile* cf in [[self documentManager] GetCodeFileList])
+  {
+    if(![[cf FilePathURL] fileExistsAtPath])
+    {
+      if(![[unlinkedTags allKeys] containsObject:[cf FilePath]])
+      {
+        [unlinkedTags setObject:[[NSArray<STTag*> alloc] init] forKey:cf];
+      }
+    }
+  }
   
-  //[[self duplicateTagsViewController] setDuplicateTags:[self duplicateTags]];
-  //[[self unlinkedTagsViewController] setDocumentManager:[self documentManager]];
+  [[self unlinkedTagsViewController] setUnlinkedTags:unlinkedTags];
+   */
   [[self unlinkedTagsViewController] setUnlinkedTags:[[self documentManager] FindAllUnlinkedTags]];
   [[self codeFilesViewController] focusOnTags:TagIndicatorViewTagFocusUnlinkedTags];
 }
@@ -279,11 +297,13 @@
 
 -(void)startMonitoringCodeFiles
 {
+  [self beginObservingCodeFileMonitoringNotifications];
   [[self documentManager] startMonitoringCodeFiles];
 }
 
 -(void)stopMonitoringCodeFiles
 {
+  [self stopObservingNotifications];
   [[self documentManager] stopMonitoringCodeFiles];
 }
 

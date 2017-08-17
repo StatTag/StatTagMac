@@ -66,6 +66,21 @@ STTag* _originalTag;
 
 static void *TagTypeContext = &TagTypeContext;
 
+
+-(void)startObservingEditorDirectives
+{
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(forciblyDismissEditor)
+                                               name:@"allEditorsShouldClose"
+                                             object:nil];
+}
+
+-(void)stopObservingNotifications
+{
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+
 -(BOOL)showTagValuePropertiesView {
   return _showTagValuePropertiesView;
 }
@@ -146,6 +161,7 @@ static void *TagTypeContext = &TagTypeContext;
 }
 
 -(void)viewDidAppear {
+  [self startObservingEditorDirectives];
   if(_documentManager != nil) {
     //every time this view appears we need to completely refresh all code files
     [_codeFileList removeObjects:[_codeFileList arrangedObjects]];
@@ -329,7 +345,13 @@ static void *TagTypeContext = &TagTypeContext;
 //  
 //}
 
+-(void)forciblyDismissEditor
+{
+  [self cancel:self];
+}
+
 - (IBAction)cancel:(id)sender {
+  [self stopObservingNotifications];
   [_delegate dismissTagEditorController:self withReturnCode:(StatTagResponseState)Cancel];
 }
 
@@ -466,6 +488,7 @@ static void *TagTypeContext = &TagTypeContext;
   NSMutableDictionary *errorDetail = [NSMutableDictionary dictionary];
   if(edited == YES || [errorDetail count] == 0)
   {
+    [self stopObservingNotifications];
     [_delegate dismissTagEditorController:self withReturnCode:(StatTagResponseState)OK];
     return;
   }

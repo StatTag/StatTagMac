@@ -21,19 +21,26 @@
   }
   return self;
 }
--(instancetype)initWithTitle:(NSString*)title andTag:(STTag*)tag isGroup:(BOOL)isGroup
+
+-(instancetype)initWithCodeFile:(STCodeFile*)codeFile andTag:(STTag*)tag isGroup:(BOOL)isGroup
 {
   self = [super init];
   if(self)
   {
-    _title = title;
+    _codeFile = codeFile;
+    //_title = title;
     _tag = tag;
     _isGroup = isGroup;
-    if(tag && isGroup)
+    if(codeFile && isGroup)
     {
-      _codeFile = [tag CodeFile];
-      _subTitle = [[tag CodeFile] FilePath];
+      _title = [codeFile FileName];
+      _subTitle = [codeFile FilePath];
     }
+//    if(tag && isGroup)
+//    {
+//      //_codeFile = [tag CodeFile];
+//      _subTitle = [[tag CodeFile] FilePath];
+//    }
   }
   return self;
 }
@@ -45,7 +52,7 @@
 +(NSArray<UnlinkedTagGroupEntry*>*)initWithUnlinkedTags:(NSDictionary<NSString*, NSArray<STTag*>*>*)unlinkedTags
 {
   NSMutableArray<UnlinkedTagGroupEntry*>* tags = [[NSMutableArray<UnlinkedTagGroupEntry*> alloc] init];
-
+  
   //NSMutableDictionary<STTag*, NSArray<STTag*>*>
   //enumerateKeysAndObjectsUsingBlock:(void (^)(id key, id obj, BOOL *stop))
   for (NSString* cfPath in [unlinkedTags allKeys]) {
@@ -56,9 +63,9 @@
       if(pos == 0)
       {
         //if we are the first record in the list, we're double-adding to create a "group"
-        [tags addObject:[[UnlinkedTagGroupEntry alloc] initWithTitle:[[i CodeFile] FileName] andTag:i isGroup:YES]];
+        [tags addObject:[[UnlinkedTagGroupEntry alloc] initWithCodeFile:[i CodeFile] andTag:i isGroup:YES]];
       }
-        [tags addObject:[[UnlinkedTagGroupEntry alloc] initWithTitle:[i Name] andTag:i isGroup:NO]];
+      [tags addObject:[[UnlinkedTagGroupEntry alloc] initWithCodeFile:[i CodeFile] andTag:i isGroup:NO]];
       pos = pos + 1;
     }
   }

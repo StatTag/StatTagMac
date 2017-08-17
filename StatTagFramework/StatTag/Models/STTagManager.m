@@ -362,7 +362,6 @@ the DocumentManager instance that contains it.
   }
 }
 
-//FIXME: EWW - This method is completely wrong - we need to look at the "function" argument and fix this
 /**
  A generic method that will iterate over the fields in the active document, and apply a function to
  each StatTag field.
