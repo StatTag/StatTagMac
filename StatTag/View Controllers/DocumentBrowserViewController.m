@@ -243,6 +243,8 @@
       {
         if([docName isEqualToString:name])
         {
+          //since we're changing documents we need to close any open editors
+          [[NSNotificationCenter defaultCenter] postNotificationName:@"allEditorsShouldClose" object:self userInfo:nil];
           [[self documentsArrayController] setSelectedObjects:[NSArray arrayWithObject:name]];
         }
       }
@@ -252,6 +254,7 @@
     //FIXME: disabled
     //do we really want to reload all tags? maybe?
     //[self documentManager]
+    //putting this in for now so we can reload (regardless of selection change... I know, I know...) because there might have been file changes outside of the app. This is probably not ideal and we really need to redo a lot of this code from the ground up
     [self setActiveDocumentAtIndex:[[self documentsArrayController] selectionIndex]];
     //[[self documentsArrayController] setSelectionIndex:[[self documentsArrayController] selectionIndex]];
     //[[self documentBrowserDocumentViewController] focusOnTags];
