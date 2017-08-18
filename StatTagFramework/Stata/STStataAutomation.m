@@ -342,41 +342,53 @@ const NSInteger ShowStata = 3;
     NSString* text = [[fh ReadAllLines:[NSURL fileURLWithPath:[logToRead LogPath]] error:&error] componentsJoinedByString:@"\r"];
     //var text = File.ReadAllText(logToRead.LogPath).Replace("\r\n", "\r");
     NSInteger startIndex = [text rangeOfString:startingVerbatimCommand].location;
-    //int startIndex = text.IndexOf(startingVerbatimCommand, StringComparison.CurrentCulture);
     NSInteger endIndex = [text rangeOfString:endingVerbatimCommand].location;
-    //int endIndex = text.IndexOf(endingVerbatimCommand, startIndex, StringComparison.CurrentCulture);
-    
+
     if (startIndex == NSNotFound || endIndex == NSNotFound)
     {
       return text;
     }
-    
-    NSInteger additionalOffset = 1;
-    startIndex += [startingVerbatimCommand length] + additionalOffset;
-    //if (text[startIndex] == '\r')
-    if ([[text substringWithRange:NSMakeRange(startIndex, 1)] isEqualToString:@"\r"])
-    {
-      additionalOffset++;
-      startIndex++;
-    }
+
+    startIndex += [startingVerbatimCommand length] + 1;
     //    var substring = text.Substring(startIndex, endIndex - startIndex - additionalOffset).TrimEnd('\r').Split(new char[] { '\r' });
 
     //            var substring = text.Substring(startIndex, endIndex - startIndex - additionalOffset).TrimEnd('\r').Split(new char[] { '\r' });
     
-    NSString* substringS = [text substringWithRange:NSMakeRange(startIndex, endIndex - startIndex)];// - additionalOffset)];
-    startIndex = 0;
-    endIndex = [substringS length];
-    if([[substringS substringToIndex:endIndex - 1] isEqualToString:@"\r"])
-    {
-      substringS = [substringS substringToIndex:(endIndex - 1)];
-    }
+    NSString* substringS = [text substringWithRange:NSMakeRange(startIndex, endIndex - startIndex)];
+    substringS = [substringS stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     NSArray<NSString*>* substring = [substringS componentsSeparatedByString:@"\r"];
-    
-    //    var finalLines = substring.Where(line => !line.StartsWith(". ")).ToList();
+
+    // Lines prefixed with ". " are from Stata to echo our commands and can be removed.  Note that we somtimes
+    // end up with a line that is just a period - this is a ". " line that got trimmed and can be removed (but
+    // we only do that if it is the last line, not globally).
     NSPredicate* predLine = [NSPredicate predicateWithFormat:@"NOT SELF BEGINSWITH[c] %@", @". "];
-    NSArray<NSString*>* finalLines = [substring filteredArrayUsingPredicate:predLine];
-    
-    //    return string.Join("\r\n", finalLines);
+    NSMutableArray<NSString*>* interimLines = [NSMutableArray arrayWithArray:[substring filteredArrayUsingPredicate:predLine]];
+    if ([interimLines count] > 0 && [[interimLines lastObject] isEqualToString:@"."]) {
+      [interimLines removeLastObject];
+    }
+
+    // Go through the lines until we find the first non-blank line.  That's what we will use as the first actual line
+    // in the verbatim results.
+    int firstIndex = 0;
+    for (int index = 0; index < [interimLines count]; index++) {
+      if ([interimLines[index] length] > 0) {
+        firstIndex = index;
+        break;
+      }
+    }
+
+    // Now go through and remove all lines at the end that are blanks.
+    for (int index = [interimLines count] - 1; index >= 0; index--) {
+      if ([interimLines[index] length] > 0) {
+        break;
+      }
+      [interimLines removeLastObject];
+    }
+
+    NSRange range;
+    range.location = firstIndex;
+    range.length = ([interimLines count] - firstIndex);
+    NSArray<NSString*>* finalLines = [interimLines subarrayWithRange:range];
     return [finalLines componentsJoinedByString:@"\r\n"];
     
   }
