@@ -195,6 +195,7 @@ script WordASOC
     tell application "Microsoft Word"
       set theRange to create range active document start theRangeStart end theRangeEnd
       insert paragraph at theRange
+      move range text object of selection by a paragraph item count 1
       return true
     end tell
     return false
@@ -464,6 +465,7 @@ on insertTextboxAtRangeStart:theRangeStart andRangeEnd:theRangeEnd forShapeName:
         #reset our selection so we don't have issues with textboxes trying to insert into textboxes
         set selection start of selection to theRangeEnd
         set selection end of selection to theRangeEnd
+        type paragraph selection
         
       end repeat
       
