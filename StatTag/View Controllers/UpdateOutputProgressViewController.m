@@ -138,7 +138,7 @@
                                                    ];
             [[allResults FailedTags] addObjectsFromArray:[result FailedTags]];
             [[allResults UpdatedTags] addObjectsFromArray:[result UpdatedTags]];
-            [allResults setSuccess:([result Success] == true && [allResults Success] == true ? OK : Error)];
+            [allResults setSuccess:([result Success] == true && [allResults Success] == true)];
             #pragma unused (result)
           }
         //});
