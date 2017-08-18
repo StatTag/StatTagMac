@@ -38,6 +38,7 @@ IB_DESIGNABLE
   NSString* _filterAll;
   NSString* _filterTagFrequency;
   NSString* _filterTagType;
+  NSArray<STCodeFile*>* _activeCodeFiles;
 }
 
 @property (nonatomic, weak) id<AllTagsDelegate> delegate;
@@ -65,6 +66,7 @@ IB_DESIGNABLE
 
 @property (weak) IBOutlet NSButton *filterButtonAll;
 
+@property (strong, nonatomic) NSArray<STCodeFile*>* activeCodeFiles;
 
 @property (weak) IBOutlet NSButton *addTagButton;
 @property (weak) IBOutlet NSButton *removeTagButton;

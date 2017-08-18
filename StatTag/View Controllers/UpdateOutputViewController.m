@@ -13,6 +13,7 @@
 #import "UpdateOutputProgressViewController.h"
 #import "TagEditorViewController.h"
 #import "STDocumentManager+FileMonitor.h"
+#import "NSURL+FileAccess.h"
 
 @interface UpdateOutputViewController ()
 
@@ -28,6 +29,7 @@
 @synthesize onDemandTags;
 @synthesize documentTags = _documentTags;
 @synthesize documentManager = _documentManager;
+@synthesize activeCodeFiles = _activeCodeFiles;
 
 UpdateOutputProgressViewController* tagUpdateProgressController;
 TagEditorViewController* tagEditorController;
@@ -93,6 +95,8 @@ BOOL breakLoop = YES;
 -(void)loadTagsForCodeFiles:(NSArray<STCodeFile*>*)codeFiles {
   [_documentManager LoadCodeFileListFromDocument:[[StatTagShared sharedInstance] doc]];
   
+  [self setActiveCodeFiles:codeFiles];
+  
   for(STCodeFile* file in [_documentManager GetCodeFileList]) {
     [file LoadTagsFromContent];
   }
@@ -127,6 +131,7 @@ BOOL breakLoop = YES;
 
 -(void)loadAllTags {
   [_documentManager LoadCodeFileListFromDocument:[[StatTagShared sharedInstance] doc]];
+  [self setActiveCodeFiles:nil];
   
   for(STCodeFile* file in [_documentManager GetCodeFileList]) {
     [file LoadTagsFromContent];
@@ -400,10 +405,27 @@ BOOL breakLoop = YES;
     tagEditorController = [[TagEditorViewController alloc] init];
   }
 
-  tagEditorController.documentManager = _documentManager;
-  tagEditorController.tag = nil;
-  tagEditorController.delegate = self;
-  [self presentViewControllerAsSheet:tagEditorController];
+  //don't do anything if there are no code files available
+  BOOL canCreatTag = false;
+  for(STCodeFile* cf in [[self documentManager] GetCodeFileList])
+  {
+    if([[cf FilePathURL] fileExistsAtPath])
+    {
+      canCreatTag = true;
+      break;
+    }
+  }
+  
+  if(canCreatTag)
+  {
+    tagEditorController.documentManager = _documentManager;
+    tagEditorController.tag = nil;
+    tagEditorController.delegate = self;
+    tagEditorController.originallySelectedCodeFile = [[self activeCodeFiles] firstObject];
+    [self presentViewControllerAsSheet:tagEditorController];
+  } else {
+    [STUIUtility WarningMessageBoxWithTitle:@"No Code Files Available" andDetail:@"Creating a tag requires at least one code file be accessible. Please ensure you have added a code file to your document and that it is available at the location you specified." logger:nil];
+  }
 }
 
 - (IBAction)deleteTag:(id)sender {
@@ -467,12 +489,19 @@ BOOL breakLoop = YES;
 }
 
 
-- (void)dismissTagEditorController:(TagEditorViewController *)controller withReturnCode:(StatTagResponseState)returnCode {
+- (void)dismissTagEditorController:(TagEditorViewController *)controller withReturnCode:(StatTagResponseState)returnCode andTag:(STTag*)tag {
   //FIXME: need to handle errors from worker sheet
   [self dismissViewController:controller];
   if(returnCode == OK) {
     //no errors - so refresh the list of tags because we changed things
-    [self loadAllTags];
+    //FIXME: we shouldn't have to do this - we should just reload the data and re-selected the items that were previously selected (code files)
+    //[self loadAllTags];
+    [self loadTagsForCodeFiles:[self activeCodeFiles]];
+    
+    if(tag)
+    {
+      [self selectTagWithID:[tag Id]];//selected the tag we just created or edited
+    }
   } else if (returnCode == Cancel) {
     //[self loadAllTags];
   } else {

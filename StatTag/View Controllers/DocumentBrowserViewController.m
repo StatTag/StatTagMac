@@ -231,7 +231,12 @@
 
 //  [self tableViewSelectionDidChange:[[NSNotification alloc] init]];
   
+  
   NSString* docName = [WordHelpers getActiveDocumentName];// stringByReplacingOccurrencesOfString:@" [Compatibility Mode]" withString:@""];
+  //NSString* activeCodeFilePath =
+  
+  NSArray<NSString*>* selectedFilePaths = [[[[[self documentBrowserDocumentViewController] codeFilesViewController] arrayController] selectedObjects] valueForKey:@"FilePath"];
+  NSLog(@"selectedFilePaths : %@", selectedFilePaths);
   
   NSLog(@"active document: %@", [[[self documentsArrayController] selectedObjects] firstObject]);
   
@@ -261,6 +266,29 @@
     //NSLog(@"document is already actively selected");
   }
 
+  [self setSelectedCodeFilesForFilePaths:selectedFilePaths];
+  
+}
+
+//if we want to go back and retain selection (because we're just trouncing all over the selections when we forcibly reload the document), then we need to just tell the app which code files were previously selected.
+//yes - there's likely a better way to do this
+-(void)setSelectedCodeFilesForFilePaths:(NSArray<NSString*>*)codeFilePaths
+{
+  NSMutableIndexSet* selectedIndexes = [[NSMutableIndexSet alloc] init];
+  if(codeFilePaths && [codeFilePaths count] > 0 && [[[[[self documentBrowserDocumentViewController] codeFilesViewController] arrayController] arrangedObjects] count] > 0)
+  {
+    for(NSInteger i = 0; i < [[[[[self documentBrowserDocumentViewController] codeFilesViewController] arrayController] arrangedObjects] count]; i++)
+    {
+      if([codeFilePaths containsObject:[[[[[[self documentBrowserDocumentViewController] codeFilesViewController] arrayController] arrangedObjects] objectAtIndex:i] FilePath]])
+      {
+        [selectedIndexes addIndex:i];
+      }
+    }
+    [[[[self documentBrowserDocumentViewController] codeFilesViewController] arrayController] setSelectionIndexes:selectedIndexes];
+    //NSArray<NSString*>* selectedFilePaths = [[[[[self documentBrowserDocumentViewController] codeFilesViewController] arrayController] selectedObjects] valueForKey:@"FilePath"];
+    //[[[[self documentBrowserDocumentViewController] codeFilesViewController] arrayController] selectionIndexes];
+    
+  }
 }
 
 /**

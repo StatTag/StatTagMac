@@ -127,6 +127,7 @@ script WordASOC
         set rangeStart to (selection start of selection)
         set rangeEnd to (selection end of selection)
         set myRange to create range active document start rangeStart end rangeEnd
+        set originalNumShapes to count of inline pictures of active document
         
         try
           make new inline picture at myRange with properties {file name:filePath, link to file: true, save with document:true}
@@ -134,6 +135,14 @@ script WordASOC
         on error the error_message number the error_number
           return false
         end try
+        
+        set newNumShapes to count of inline pictures of active document
+        if newNumShapes > originalNumShapes
+          return true
+        else
+          return false
+        end
+
     end tell
   end insertImageAtPath
 
