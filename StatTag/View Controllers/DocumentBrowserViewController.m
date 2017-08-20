@@ -166,9 +166,10 @@
   
   NSString* userAlertInformation;
   NSString* userInformativeText = @"";
-  NSString* movedFilesAlert = @"";
-  NSString* deletedFilesAlert = @"";
-  NSString* modifiedFilesAlert = @"";
+//  NSString* movedFilesAlert = @"";
+//  NSString* deletedFilesAlert = @"";
+//  NSString* modifiedFilesAlert = @"";
+  NSString* listOfFiles = @"";
   
   
   NSDictionary<NSString*, FileChangeNotificationData*>* fileChanges = [[self documentManager] getPrioritizedFileNotifications];
@@ -180,42 +181,50 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"allEditorsShouldClose" object:self userInfo:nil];
 
     
-    NSMutableArray<NSString*>* modifiedFiles = [[NSMutableArray<NSString*> alloc] init];
-    NSMutableArray<NSString*>* deletedFiles = [[NSMutableArray<NSString*> alloc] init];
-    NSMutableArray<NSString*>* movedFiles = [[NSMutableArray<NSString*> alloc] init];
+//    NSMutableArray<NSString*>* modifiedFiles = [[NSMutableArray<NSString*> alloc] init];
+//    NSMutableArray<NSString*>* deletedFiles = [[NSMutableArray<NSString*> alloc] init];
+//    NSMutableArray<NSString*>* movedFiles = [[NSMutableArray<NSString*> alloc] init];
+    NSMutableArray<NSString*>* changedFiles = [[NSMutableArray<NSString*> alloc] init];
+    
     for(NSString* k in [fileChanges allKeys])
     {
       FileChangeNotificationData* v = [fileChanges objectForKey:k];
       NSString* fileName = [[v filePath] lastPathComponent];
-      if([v fileModified])
-      {
-        [modifiedFiles addObject:fileName];
-      }
-      if([v fileDeleted])
-      {
-        [deletedFiles addObject:fileName];
-      }
-      if([v fileMoved])
-      {
-        [movedFiles addObject:fileName];
-      }
+//      if([v fileModified])
+//      {
+//        [modifiedFiles addObject:fileName];
+//      }
+//      if([v fileDeleted])
+//      {
+//        [deletedFiles addObject:fileName];
+//      }
+//      if([v fileMoved])
+//      {
+//        [movedFiles addObject:fileName];
+//      }
+      [changedFiles addObject:fileName];
     }
     
-    if([modifiedFiles count] > 0)
+    if([changedFiles count] > 0)
     {
-      modifiedFilesAlert = [NSString stringWithFormat:@"\r\n\r\n\r\nModified:\r\n • %@", [modifiedFiles componentsJoinedByString:@"\r\n • "]];
+        listOfFiles = [NSString stringWithFormat:@"\r\n\r\n • %@", [changedFiles componentsJoinedByString:@"\r\n • "]];
     }
-    if([deletedFiles count] > 0)
-    {
-      deletedFilesAlert = [NSString stringWithFormat:@"\r\n\r\nDeleted:\r\n • %@", [deletedFiles componentsJoinedByString:@"\r\n • "]];
-    }
-    if([movedFiles count] > 0)
-    {
-      movedFilesAlert = [NSString stringWithFormat:@"\r\n\r\nMoved or Renamed:\r\n • %@", [movedFiles componentsJoinedByString:@"\r\n • "]];
-    }
+    
+//    if([modifiedFiles count] > 0)
+//    {
+//      modifiedFilesAlert = [NSString stringWithFormat:@"\r\n\r\n\r\nModified:\r\n • %@", [modifiedFiles componentsJoinedByString:@"\r\n • "]];
+//    }
+//    if([deletedFiles count] > 0)
+//    {
+//      deletedFilesAlert = [NSString stringWithFormat:@"\r\n\r\nDeleted:\r\n • %@", [deletedFiles componentsJoinedByString:@"\r\n • "]];
+//    }
+//    if([movedFiles count] > 0)
+//    {
+//      movedFilesAlert = [NSString stringWithFormat:@"\r\n\r\nMoved or Renamed:\r\n • %@", [movedFiles componentsJoinedByString:@"\r\n • "]];
+//    }
     
     userAlertInformation = [NSString stringWithFormat:@"The following files were modified outside of StatTag. StatTag has refreshed to ensure you are using the latest content."];
-    userInformativeText = [NSString stringWithFormat:@"%@%@%@", deletedFilesAlert, movedFilesAlert, modifiedFilesAlert ];
+    userInformativeText = [NSString stringWithFormat:@"%@", listOfFiles ];
     
     [_documentsArrayController rearrangeObjects];
   }
