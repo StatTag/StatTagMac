@@ -413,7 +413,7 @@ on insertTextboxAtRangeStart:theRangeStart andRangeEnd:theRangeEnd forShapeName:
       #now re-make our selection
       set selection start of selection to theRangeStart
       set selection end of selection to theRangeEnd
-      
+
       #create the textbox - NOTE you can't store the reference to the created object from here - why? no idea!
       create textbox selection
       
@@ -460,15 +460,14 @@ on insertTextboxAtRangeStart:theRangeStart andRangeEnd:theRangeEnd forShapeName:
         #now we need to calculate the # of lines in the newly widened text frame and then expand the height to fit the contents based on that width and # of lines
         set lineCount to compute text range statistics text range of text frame of myShape statistic statistic lines
         set height of myShape to lineCount * (fontSize * fontMultiplier)
-        
-        
-        #reset our selection so we don't have issues with textboxes trying to insert into textboxes
-        set selection start of selection to theRangeEnd
-        set selection end of selection to theRangeEnd
-        type paragraph selection
-        
       end repeat
-      
+
+      #reset our selection so we don't have issues with textboxes trying to insert into textboxes
+      end key selection move unit a story extend by moving
+      #set selection start of selection to theRangeEnd
+      #set selection end of selection to theRangeEnd
+      type paragraph selection
+
   end tell
 
 end insertTextboxAtRangeStart:andRangeEnd:forShapeName:withShapetext:andFontSize:andFontFace:
