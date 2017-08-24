@@ -157,7 +157,7 @@
 
 -(void)dealloc
 {
-  NSLog(@"File Watcher - deallocating");
+  //NSLog(@"File Watcher - deallocating");
   [[self observedObject] removeObserver:self forKeyPath:_observedKeyPath];
   if(_isMonitoring)
   {
@@ -183,21 +183,21 @@
 }
 
 - (void)startMonitoring {
-  NSLog(@"FileMonitor: Start Monitoring -> %@", [[self filePath] path]);
+  //NSLog(@"FileMonitor: Start Monitoring -> %@", [[self filePath] path]);
   
   //const char *c = [[[self filePath] path] UTF8String];
   //_monitoredFileDescriptor= open(c , O_RDONLY);
 
   _monitoredFileDescriptor = open([[[self filePath] path] cStringUsingEncoding:NSUTF8StringEncoding], O_RDONLY);
 
-  NSLog(@"file descriptor: %ld", (long)_monitoredFileDescriptor);
+  //NSLog(@"file descriptor: %ld", (long)_monitoredFileDescriptor);
   
   [self startMonitoringWithFSEvents];
   [self startMonitoringWithGCD];
 }
 
 - (void)stopMonitoring {
-  NSLog(@"FileMonitor: Stop Monitoring -> %@", [[self filePath] path]);
+  //NSLog(@"FileMonitor: Stop Monitoring -> %@", [[self filePath] path]);
 
   [self stopMonitoringWithFSEvents];
   [self stopMonitoringWithGCD];

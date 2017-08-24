@@ -662,16 +662,16 @@ the DocumentManager instance that contains it.
         //we have a verbatim tag
         if(shapeType == STMSWord2011MShpShapeTypeTextBox)
         {
-          NSLog(@"found a text box");
+          //NSLog(@"found a text box");
           [tag setType:[STConstantsTagType Verbatim]];
         }
         
         NSString* shapeName = [originShapeName substringToIndex:r.location];
         NSString* shapeFilePath = [originShapeName substringFromIndex:r.location + r.length];
         
-        NSLog(@"shapeName = '%@'", shapeName);
-        NSLog(@"shapeFilePath = '%@'", shapeFilePath);
-        NSLog(@"shapeType = '%ld'", shapeType);
+        //NSLog(@"shapeName = '%@'", shapeName);
+        //NSLog(@"shapeFilePath = '%@'", shapeFilePath);
+        //NSLog(@"shapeType = '%ld'", shapeType);
         
         [tag setName:shapeName];
         STCodeFile* cf = [[STCodeFile alloc] init];

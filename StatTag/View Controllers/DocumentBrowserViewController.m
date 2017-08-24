@@ -173,8 +173,8 @@
   
   
   NSDictionary<NSString*, FileChangeNotificationData*>* fileChanges = [[self documentManager] getPrioritizedFileNotifications];
-  NSLog(@"listing file notifications");
-  NSLog(@"%@", fileChanges);
+  //NSLog(@"listing file notifications");
+  //NSLog(@"%@", fileChanges);
   if([[fileChanges allValues] count] > 0)
   {
     
@@ -245,9 +245,9 @@
   //NSString* activeCodeFilePath =
   
   NSArray<NSString*>* selectedFilePaths = [[[[[self documentBrowserDocumentViewController] codeFilesViewController] arrayController] selectedObjects] valueForKey:@"FilePath"];
-  NSLog(@"selectedFilePaths : %@", selectedFilePaths);
+  //NSLog(@"selectedFilePaths : %@", selectedFilePaths);
   
-  NSLog(@"active document: %@", [[[self documentsArrayController] selectedObjects] firstObject]);
+  //NSLog(@"active document: %@", [[[self documentsArrayController] selectedObjects] firstObject]);
   
   if(![[[[self documentsArrayController] selectedObjects] firstObject] isEqualToString:docName])
   {

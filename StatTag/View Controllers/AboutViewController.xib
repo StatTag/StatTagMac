@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12121" systemVersion="16F2073" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12121"/>
         <capability name="box content view" minToolsVersion="7.0"/>
@@ -43,7 +43,7 @@
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
-                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eSZ-3H-Tf3">
+                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="NO" preferredMaxLayoutWidth="185" translatesAutoresizingMaskIntoConstraints="NO" id="eSZ-3H-Tf3">
                                             <rect key="frame" x="8" y="11" width="189" height="29"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="185" id="iO5-7g-96e"/>
@@ -81,7 +81,7 @@
                                 </constraints>
                                 <color key="fillColor" name="controlHighlightColor" catalog="System" colorSpace="catalog"/>
                             </box>
-                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D0u-qO-y9y">
+                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="NO" preferredMaxLayoutWidth="385" translatesAutoresizingMaskIntoConstraints="NO" id="D0u-qO-y9y">
                                 <rect key="frame" x="216" y="108" width="389" height="56"/>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" id="m0A-iW-N0g">
                                     <font key="font" metaFont="smallSystem"/>
@@ -98,7 +98,7 @@
                                 </constraints>
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="stattag_logo_purple" id="auC-EE-zCk"/>
                             </imageView>
-                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Hf-xX-wrI">
+                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="NO" preferredMaxLayoutWidth="385" translatesAutoresizingMaskIntoConstraints="NO" id="9Hf-xX-wrI">
                                 <rect key="frame" x="216" y="172" width="389" height="42"/>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" id="lMl-LF-THN">
                                     <font key="font" metaFont="smallSystem"/>

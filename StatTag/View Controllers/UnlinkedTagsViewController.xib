@@ -18,7 +18,7 @@
             <rect key="frame" x="0.0" y="0.0" width="724" height="272"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oUD-xx-cdj">
+                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="NO" preferredMaxLayoutWidth="684" translatesAutoresizingMaskIntoConstraints="NO" id="oUD-xx-cdj">
                     <rect key="frame" x="18" y="218" width="688" height="34"/>
                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" id="Gqf-CY-YH0">
                         <font key="font" metaFont="system"/>
@@ -201,7 +201,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
                 </scrollView>
-                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gN7-hJ-emP">
+                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="NO" preferredMaxLayoutWidth="684" translatesAutoresizingMaskIntoConstraints="NO" id="gN7-hJ-emP">
                     <rect key="frame" x="18" y="176" width="688" height="34"/>
                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" id="tGh-zt-6Qf">
                         <font key="font" metaFont="system"/>
