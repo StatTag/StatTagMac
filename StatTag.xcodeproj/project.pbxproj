@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		3500D5CD1EE066DA006AA0ED /* RCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3500D5CC1EE066DA006AA0ED /* RCocoa.framework */; };
 		3500D5CF1EE066F7006AA0ED /* R.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3500D5CE1EE066F7006AA0ED /* R.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		35AE14811F4DC69900A162C4 /* StatTagRParserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 35AE14801F4DC69900A162C4 /* StatTagRParserTests.m */; };
+		35AE14831F4DE2F100A162C4 /* STCodeParserUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 35AE14821F4DE2F100A162C4 /* STCodeParserUtil.m */; };
+		35AE14851F4DE69A00A162C4 /* STCodeParserUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 35AE14841F4DE2FE00A162C4 /* STCodeParserUtil.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		35AE14871F4E253000A162C4 /* StatTagUtilityCodeParserUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 35AE14861F4E253000A162C4 /* StatTagUtilityCodeParserUtilTests.m */; };
 		35C112AE1EE09A9A00C9CC7F /* RCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3500D5CC1EE066DA006AA0ED /* RCocoa.framework */; };
 		35C112AF1EE09A9A00C9CC7F /* RCocoa.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3500D5CC1EE066DA006AA0ED /* RCocoa.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		35CE4F9C1F141EBF00B1221B /* STRVerbatimDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 35CE4F9B1F141EBF00B1221B /* STRVerbatimDevice.m */; };
@@ -385,6 +389,10 @@
 /* Begin PBXFileReference section */
 		3500D5CC1EE066DA006AA0ED /* RCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RCocoa.framework; sourceTree = "<group>"; };
 		3500D5CE1EE066F7006AA0ED /* R.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = R.framework; path = ../../../../Library/Frameworks/R.framework; sourceTree = "<group>"; };
+		35AE14801F4DC69900A162C4 /* StatTagRParserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagRParserTests.m; sourceTree = "<group>"; };
+		35AE14821F4DE2F100A162C4 /* STCodeParserUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STCodeParserUtil.m; sourceTree = "<group>"; };
+		35AE14841F4DE2FE00A162C4 /* STCodeParserUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = STCodeParserUtil.h; sourceTree = "<group>"; };
+		35AE14861F4E253000A162C4 /* StatTagUtilityCodeParserUtilTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagUtilityCodeParserUtilTests.m; sourceTree = "<group>"; };
 		35CE4F9A1F141EAF00B1221B /* STRVerbatimDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = STRVerbatimDevice.h; sourceTree = "<group>"; };
 		35CE4F9B1F141EBF00B1221B /* STRVerbatimDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STRVerbatimDevice.m; sourceTree = "<group>"; };
 		35F2E7311EE1A93E0086F9D0 /* STRBaseValueFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STRBaseValueFormatter.h; sourceTree = "<group>"; };
@@ -1079,6 +1087,8 @@
 				38EDF0311D2C2E6900ACD77B /* STCocoaUtil.m */,
 				38FF471A1DFF058900A65893 /* STTableUtil.h */,
 				38FF471B1DFF058900A65893 /* STTableUtil.m */,
+				35AE14821F4DE2F100A162C4 /* STCodeParserUtil.m */,
+				35AE14841F4DE2FE00A162C4 /* STCodeParserUtil.h */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -1506,6 +1516,7 @@
 				38D0C1E21D1AD7F8001CC013 /* StatTagUtilityGeneralUtilTests.m */,
 				38D0C1E41D1AD935001CC013 /* StatTagUtilityTagUtilTests.m */,
 				38E20DF51E09A4F600B524CE /* StatTagUtilityTableUtilTests.m */,
+				35AE14861F4E253000A162C4 /* StatTagUtilityCodeParserUtilTests.m */,
 			);
 			name = Utility;
 			sourceTree = "<group>";
@@ -1518,6 +1529,7 @@
 				387A0E271D22E65500F1FE9C /* StatTagParserBaseParserTests.m */,
 				387A0E381D242C4400F1FE9C /* StatTagParserTableParameterParserTests.m */,
 				387A0E361D24156900F1FE9C /* StatTagParserValueParameterParserTests.m */,
+				35AE14801F4DC69900A162C4 /* StatTagRParserTests.m */,
 			);
 			name = Parser;
 			sourceTree = "<group>";
@@ -1802,6 +1814,7 @@
 				38C9B2181D10A8CF003B571E /* STTag.h in Headers */,
 				35F2E7321EE1A93E0086F9D0 /* STRBaseValueFormatter.h in Headers */,
 				382C286A1D1488F200697D6F /* STIGenerator.h in Headers */,
+				35AE14851F4DE69A00A162C4 /* STCodeParserUtil.h in Headers */,
 				38FF472C1DFF490000A65893 /* STRParser.h in Headers */,
 				385FDD2C1D32F70100AE0FE2 /* STDocumentManager.h in Headers */,
 				38788F941D30100F00299789 /* STStatsManager.h in Headers */,
@@ -2157,6 +2170,7 @@
 				38A7CE9D1D4FE29400B06AFF /* STPropertiesManager.m in Sources */,
 				38E20DF01E08968600B524CE /* STBaseManager.m in Sources */,
 				3884513D1D19DCB3004C2B40 /* STValueParameterParser.m in Sources */,
+				35AE14831F4DE2F100A162C4 /* STCodeParserUtil.m in Sources */,
 				382C28DA1D19DAD500697D6F /* STTableParameterParser.m in Sources */,
 				385FDD2D1D32F70100AE0FE2 /* STDocumentManager.m in Sources */,
 				35CE4F9C1F141EBF00B1221B /* STRVerbatimDevice.m in Sources */,
@@ -2178,9 +2192,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				382C28541D1324EB00697D6F /* ObjCPortingScratchPad.m in Sources */,
+				35AE14811F4DC69900A162C4 /* StatTagRParserTests.m in Sources */,
 				385FDD3E1D33FA1800AE0FE2 /* StatTagWord2011AutomationTests.m in Sources */,
 				382C286E1D16C77400697D6F /* StatTagModelCodeFileTests.m in Sources */,
 				38EDF0351D2C2FC200ACD77B /* StatTagStataAutomationTests.m in Sources */,
+				35AE14871F4E253000A162C4 /* StatTagUtilityCodeParserUtilTests.m in Sources */,
 				387A0E2C1D22FA4200F1FE9C /* MockIFileHandler.m in Sources */,
 				387A0E281D22E65500F1FE9C /* StatTagParserBaseParserTests.m in Sources */,
 				387A0E391D242C4400F1FE9C /* StatTagParserTableParameterParserTests.m in Sources */,
@@ -2557,7 +2573,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = ZRBJAU296F;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2589,7 +2605,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = ZRBJAU296F;
 				FRAMEWORK_SEARCH_PATHS = (

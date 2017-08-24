@@ -130,6 +130,7 @@ FOUNDATION_EXPORT const unsigned char StatTagVersionString[];
 #import <StatTagFramework/STTagUtil.h>
 #import <StatTagFramework/STGeneralUtil.h>
 #import <StatTagFramework/STTableUtil.h>
+#import <StatTagFramework/STCodeParserUtil.h>
 
 
 //--ValueFormatter

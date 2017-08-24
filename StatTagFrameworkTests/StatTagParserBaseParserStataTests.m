@@ -185,12 +185,22 @@
 {
   STStataParser* parser = [[STStataParser alloc] init];
 
+  XCTAssertFalse([parser IsCalculatedDisplayValue: nil]);
   XCTAssertFalse([parser IsCalculatedDisplayValue: @""]);
   XCTAssertFalse([parser IsCalculatedDisplayValue: @"2*3"]);
   XCTAssertTrue([parser IsCalculatedDisplayValue: @"display (5*2)"]);
   XCTAssertTrue([parser IsCalculatedDisplayValue: @"display(5*2+(7*8])"]);
   XCTAssertTrue([parser IsCalculatedDisplayValue: @"display 5*2"]);
   XCTAssertFalse([parser IsCalculatedDisplayValue: @"display r[n]"]);
+
+  XCTAssertTrue([parser IsCalculatedDisplayValue: @"display 5"]);
+  XCTAssertTrue([parser IsCalculatedDisplayValue: @"display 00005"]);
+  XCTAssertTrue([parser IsCalculatedDisplayValue: @"display 5."]);
+  XCTAssertTrue([parser IsCalculatedDisplayValue: @"display 0.3059"]);
+  XCTAssertTrue([parser IsCalculatedDisplayValue: @"display .3059"]);
+  XCTAssertTrue([parser IsCalculatedDisplayValue: @"display 5e-10"]);
+  XCTAssertFalse([parser IsCalculatedDisplayValue: @"display 5test"]);
+  XCTAssertFalse([parser IsCalculatedDisplayValue: @"display 5,000"]);
 }
 
 -(void)testGetMacroValueName
@@ -230,20 +240,24 @@
 {
   STStataParser* parser = [[STStataParser alloc] init];
   NSArray<NSString*>* testList;
-  
+
+  // Note that all of the returned arrays have 1 more element than you would
+  // expect.  This is because we inject a "clear all" command whenever we
+  // pre-process the content and we need to account for it in the output.
+
   testList = [NSArray<NSString*> arrayWithObjects:
                                   @"First line",
                                   @"Second line",
                                   @"Third line",
                                   nil];
-  XCTAssertEqual(3, [[parser PreProcessContent:testList] count]);
+  XCTAssertEqual(4, [[parser PreProcessContent:testList] count]);
   
   testList = [NSArray<NSString*> arrayWithObjects:
               @"First line",
               @"Second line ///",
               @"Third line",
               nil];
-  XCTAssertEqual(2, [[parser PreProcessContent:testList] count]);
+  XCTAssertEqual(3, [[parser PreProcessContent:testList] count]);
   /*
    Result:
    "First line",
@@ -256,7 +270,7 @@
               @"Second line ///",
               @"Third line ///",
               nil];
-  XCTAssertEqual(1, [[parser PreProcessContent:testList] count]);
+  XCTAssertEqual(2, [[parser PreProcessContent:testList] count]);
   
 }
 
@@ -265,14 +279,19 @@
   STStataParser* parser = [[STStataParser alloc] init];
   NSArray<NSString*>* testList;
 
+  // Note that all of the returned arrays have 1 more element than you would
+  // expect.  This is because we inject a "clear all" command whenever we
+  // pre-process the content and we need to account for it in the output.
+
   //1
   testList = [NSArray<NSString*> arrayWithObjects:
               @"First line",
               @"Second line /*",
               @"*/Third line",
               nil];
-  XCTAssertEqual(2, [[parser PreProcessContent:testList] count]);
-  XCTAssert([@"First line\r\nSecond line  Third line" isEqualToString:[[parser PreProcessContent:testList] componentsJoinedByString:@"\r\n"]]);
+  NSArray<NSString*>* results = [parser PreProcessContent:testList];
+  XCTAssertEqual(3, [results count]);
+  XCTAssert([@"clear all\r\nFirst line\r\nSecond line Third line" isEqualToString:[results componentsJoinedByString:@"\r\n"]]);
 
   //2
   testList = [NSArray<NSString*> arrayWithObjects:
@@ -280,8 +299,9 @@
               @"Second line ///",
               @"Third line */",
               nil];
-  XCTAssertEqual(1, [[parser PreProcessContent:testList] count]);
-  XCTAssert([@"First line  " isEqualToString:[[parser PreProcessContent:testList] componentsJoinedByString:@"\r\n"]]);
+  results = [parser PreProcessContent:testList];
+  XCTAssertEqual(2, [results count]);
+  XCTAssert([@"clear all\r\nFirst line" isEqualToString:[results componentsJoinedByString:@"\r\n"]]);
 
   
   //3
@@ -291,13 +311,70 @@
               @"Third line */",
               @"Fourth line */",
               nil];
-  XCTAssertEqual(1, [[parser PreProcessContent:testList] count]);
-  XCTAssert([@"First line  " isEqualToString:[[parser PreProcessContent:testList] componentsJoinedByString:@"\r\n"]]);
-  
+  results = [parser PreProcessContent:testList];
+  XCTAssertEqual(2, [results count]);
+  XCTAssert([@"clear all\r\nFirst line" isEqualToString:[results componentsJoinedByString:@"\r\n"]]);
+
+
+  // This was in response to an issue reported by a user.  The code file had multiple comments in it, and our regex
+  // was being too greedy and pulling extra code out (until it found the last closing comment indicator)
+  testList = [NSArray<NSString*> arrayWithObjects:
+              @"/*First line*/",
+              @"Second line",
+              @"/*Third line*/",
+              @"Fourth line",
+              nil];
+  results = [parser PreProcessContent:testList];
+  XCTAssertEqual(5, [results count]);
+  XCTAssert([@"clear all\r\n\r\nSecond line\r\n\r\nFourth line" isEqualToString:[results componentsJoinedByString:@"\r\n"]]);
+
+  testList = [NSArray<NSString*> arrayWithObjects:
+              @"/*First line*/",
+              @"/*Second line*/ /*More on the same line*/",
+              @"/*Third line*/",
+              @"Fourth line",
+              nil];
+  results = [parser PreProcessContent:testList];
+  XCTAssertEqual(5, [results count]);
+  XCTAssert([@"clear all\r\n\r\n \r\n\r\nFourth line" isEqualToString:[results componentsJoinedByString:@"\r\n"]]);
+
+  // This is to test unbalanced comments (missing whitespace near the end so it is treated like
+  // an unending comment.
+  testList = [NSArray<NSString*> arrayWithObjects:
+              @"/*First line",
+              @"/*Second line*//*More on the same line*/",
+              @"/*Third line",
+              @"Fourth line*/*/",
+              nil];
+  results = [parser PreProcessContent:testList];
+  XCTAssertEqual(5, [results count]);
+  XCTAssert([@"clear all\r\n/*First line\r\n/*Second line*//*More on the same line*/\r\n/*Third line\r\nFourth line*/*/" isEqualToString:[results componentsJoinedByString:@"\r\n"]]);
+
+  testList = [NSArray<NSString*> arrayWithObjects:
+              @"/*First line",
+              @"/*Second line*/ /*More on the same line*/",
+              @"/*Third line",
+              @"Fourth line*/ */",
+              nil];
+  results = [parser PreProcessContent:testList];
+  XCTAssertEqual(1, [results count]);
+  XCTAssert([@"clear all" isEqualToString:[results componentsJoinedByString:@"\r\n"]]);
+
+  testList = [NSArray<NSString*> arrayWithObjects:
+              @"/**/First line",
+              nil];
+  XCTAssertEqual(2, [[parser PreProcessContent:testList] count]);
+  XCTAssert([@"clear all\r\nFirst line" isEqualToString:[[parser PreProcessContent:testList] componentsJoinedByString:@"\r\n"]]);
+
+  testList = [NSArray<NSString*> arrayWithObjects:
+              @"First line/**/",
+              nil];
+  XCTAssertEqual(2, [[parser PreProcessContent:testList] count]);
+  XCTAssert([@"clear all\r\nFirst line" isEqualToString:[[parser PreProcessContent:testList] componentsJoinedByString:@"\r\n"]]);
 }
 
 
--(void) GetMacros
+-(void) testGetMacros
 {
   STStataParser* parser = [[STStataParser alloc] init];
   XCTAssertEqual(0, [[parser GetMacros:nil] count]);
@@ -311,7 +388,7 @@
   result = [parser GetMacros:@"display `x'\\`y'"];
   XCTAssertEqual(2, [result count]);
   XCTAssert([@"x" isEqualToString:[result objectAtIndex:0]]);
-  XCTAssert([@"y" isEqualToString:[result objectAtIndex:2]]);
+  XCTAssert([@"y" isEqualToString:[result objectAtIndex:1]]);
 }
 
 @end

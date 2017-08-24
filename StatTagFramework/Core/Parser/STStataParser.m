@@ -8,6 +8,7 @@
 
 #import "STStataParser.h"
 #import "STCocoaUtil.h"
+#import "STCodeParserUtil.h"
 
 
 @implementation STStataParserLog
@@ -17,11 +18,18 @@
 @synthesize LiteralLogEntry = _LiteralLogEntry;
 @end
 
+@implementation STStataCommentBlock
+  @synthesize Start = _Start;
+  @synthesize End = _End;
+  @synthesize IsNested = _IsNested;
+@end
 
 @implementation STStataParser
 
 NSString* const macroChars = @"`'";
 NSString* const calcChars = @"*/-+";
+NSString* const CommentStart = @"/*";
+NSString* const CommendEnd = @"*/";
 
 +(NSCharacterSet*)MacroDelimiters {
   NSCharacterSet* chars = [NSCharacterSet characterSetWithCharactersInString:macroChars];
@@ -128,20 +136,27 @@ NSString* const calcChars = @"*/-+";
           error:nil];
   // static Regex LogKeywordRegex = new Regex("^\\s*((?:cmd)?log)\\s*using\\b", RegexOptions.Multiline);
 }
+//
+//+(NSArray<NSRegularExpression*>*)MultiLineIndicators {
+//  
+//  return [NSArray<NSRegularExpression*> arrayWithObjects:
+//          [NSRegularExpression
+//           regularExpressionWithPattern:@"[/]{3,}.*\\s*"
+//           options:0//NSRegularExpressionAnchorsMatchLines //should match c# RegexOptions.Multiline
+//           error:nil],
+//          [NSRegularExpression
+//           regularExpressionWithPattern:@"/\\*.*\\*/\\s?"
+//           options:NSRegularExpressionDotMatchesLineSeparators //default options should be single line?
+//           error:nil]
+//          , nil];
+//  
+//}
 
-+(NSArray<NSRegularExpression*>*)MultiLineIndicators {
-  
-  return [NSArray<NSRegularExpression*> arrayWithObjects:
-          [NSRegularExpression
-           regularExpressionWithPattern:@"[/]{3,}.*\\s*"
-           options:0//NSRegularExpressionAnchorsMatchLines //should match c# RegexOptions.Multiline
-           error:nil],
-          [NSRegularExpression
-           regularExpressionWithPattern:@"/\\*.*\\*/\\s?"
-           options:NSRegularExpressionDotMatchesLineSeparators //default options should be single line?
-           error:nil]
-          , nil];
-  
++(NSRegularExpression*)MultiLineIndicator {
+  return [NSRegularExpression
+          regularExpressionWithPattern:@"[/]{3,}.*\\s*"
+          options:0 //should match c# RegexOptions.Multiline
+          error:nil];
 }
 
 +(NSRegularExpression*)MacroRegex {
@@ -161,6 +176,19 @@ This is used to test/extract a macro display value.
    regularExpressionWithPattern:@"^\\s*`(.+)'"
    options:0
    error:nil];
+}
+
+/// <summary>
+/// Determine if a string represents a numeric constant.  Used when testing display
+/// value results to determine appropriate processing.
+/// <remarks>It assumes the rest of the display command has been extracted,
+/// and only the value name remains.</remarks>
+/// </summary>
++(NSRegularExpression*)NumericConstantRegex {
+  return [NSRegularExpression
+          regularExpressionWithPattern:@"^(\\d*)(\\.)?(\\d+)?(e-?(0|[1-9]\\d*))?$"
+          options:0 //should match c# RegexOptions.Multiline
+          error:nil];
 }
 
 -(NSString*)CommentCharacter {
@@ -347,12 +375,22 @@ This is used to test/extract a macro display value.
 
 -(BOOL) IsCalculatedDisplayValue:(NSString*)command
 {
-  NSString* cmd = [self GetValueName:command];
-  if([cmd rangeOfCharacterFromSet:[[self class] CalculationOperators]].location != NSNotFound)
-  {
+  if ([command length] == 0) {
+    return false;
+  }
+
+  NSString* valueName = [self GetValueName:command];
+  if ([valueName length] == 0) {
+    return false;
+  }
+
+  if([valueName rangeOfCharacterFromSet:[[self class] CalculationOperators]].location != NSNotFound) {
     return true;
   }
-  return false;
+
+  return [[self class] regexIsMatch:[[self class] NumericConstantRegex] inString:valueName];
+
+  //return false;
 }
 
 
@@ -384,6 +422,130 @@ Given a command string, extract all macros that are present.  This will remove m
   return macroNames;
 }
 
+/// <summary>
+/// Specialized "IndexOfAny" that accepts strings (in this case - our comment
+/// start and end values).
+/// </summary>
+/// <param name="text"></param>
+/// <param name="startIndex"></param>
+/// <returns></returns>
+-(long) IndexOfAnyCommentChar:(NSString*) text startIndex:(long) startIndex
+{
+//  int nextStart = text.IndexOf(CommentStart, startIndex, StringComparison.CurrentCulture);
+  NSRange textRange = NSMakeRange(startIndex, ([text length] - startIndex));
+  long nextStart = [text rangeOfString:CommentStart options:NSCaseInsensitiveSearch range:textRange].location;
+//  int nextEnd = text.IndexOf(CommentEnd, startIndex, StringComparison.CurrentCulture);
+  long nextEnd = [text rangeOfString:CommendEnd options:NSCaseInsensitiveSearch range:textRange].location;
+  if (nextStart == NSNotFound && nextEnd == NSNotFound)
+  {
+    return NSNotFound;
+  }
+  else if (nextStart == NSNotFound)
+  {
+    return nextEnd;
+  }
+  else if (nextEnd == NSNotFound)
+  {
+    return nextStart;
+  }
+
+  return MIN(nextStart, nextEnd);
+}
+
+/// <summary>
+/// Utility method to take a string of Stata code and remove all of the comment blocks that use
+/// /* */ syntax.  This is needed because a regex-based solution did not seem feasible (or advised)
+/// given the type of parsing this requires.
+/// </summary>
+/// <param name="text">The original Stata code</param>
+/// <returns>The modified Stata code with all /* */ comments removed </returns>
+-(NSString*) RemoveNestedComments:(NSString*) text
+{
+  // Go through the string, finding any comment starts.  Those get pushed onto a
+  // stack, and we keep looking for ending pairs.  When that's all done we will
+  // reconcile and pull out the comment blocks.
+  long startIndex = [text rangeOfString:CommentStart].location;
+  if (startIndex == NSNotFound)
+  {
+    return text;
+  }
+
+  NSMutableArray<NSNumber*>* startIndices = [[NSMutableArray<NSNumber*> alloc] init];
+  [startIndices addObject:[NSNumber numberWithLong:startIndex]];
+  NSMutableArray<STStataCommentBlock*>* commentBlocks = [[NSMutableArray<STStataCommentBlock*> alloc] init];
+  long nextIndex = [self IndexOfAnyCommentChar:text startIndex:(startIndex + 1)];
+  while (nextIndex != NSNotFound)
+  {
+    long findPosition = [text rangeOfString:CommentStart options:NSCaseInsensitiveSearch range:NSMakeRange(nextIndex, ([text length] - nextIndex))].location;
+    if (findPosition == nextIndex)
+    {
+      // We have another comment starting
+      [startIndices addObject:[NSNumber numberWithLong:nextIndex]];
+    }
+    else
+    {
+      // We found the end of the current comment block.  We add 1 to the nextIndex (as the end index)
+      // to capture the "/" character (since our find just gets "*" from "*/").
+      STStataCommentBlock* block = [[STStataCommentBlock alloc] init];
+      bool isNested = ([startIndices count] > 1);
+      NSNumber* lastIndex = [startIndices lastObject]; [startIndices removeLastObject];   // pop
+      block.Start = [lastIndex longValue];
+      block.End = (nextIndex + 1);
+      block.IsNested = isNested ? YES : NO;
+      [commentBlocks addObject:block];
+    }
+
+    nextIndex = [self IndexOfAnyCommentChar:text startIndex:(nextIndex + 1)];
+  }
+
+  // If we get a block of code that has unmatched nested comments, we are going to ignore it
+  // and return the original text.  Most likely the code will fail in Stata anyway so we are
+  // going to pass it to the API as-is.
+  if ([startIndices count] != 0)
+  {
+    return text;
+  }
+
+
+//  commentBlocks.Sort(delegate(Tuple<int, int, bool> x, Tuple<int, int, bool> y)
+//                     {
+//                       if (x == null && y == null) { return 0; }
+//                       if (x == null) { return 1; }
+//                       if (y == null) { return -1; }
+//                       return y.Item1.CompareTo(x.Item1);
+//                     });
+
+  // Sort the comment blocks by the starting index (descending order).  That way we can remove comment blocks
+  // starting at the end and not have to worry about updating string indices.
+  NSArray<STStataCommentBlock*> *sortedCommentBlocks;
+  sortedCommentBlocks = [commentBlocks sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
+    STStataCommentBlock *first = (STStataCommentBlock*)a;
+    STStataCommentBlock *second = (STStataCommentBlock*)b;
+    if (first == nil && second == nil) { return NSOrderedSame; }
+    if (first == nil) { return NSOrderedDescending; }
+    if (second == nil) { return NSOrderedAscending; }
+    return [[[NSNumber alloc] initWithLong:second.Start] compare: [[NSNumber alloc] initWithLong:first.Start]];
+  }];
+
+  // Finally, loop through the comment blocks and apply them by removing the commented text.  This makes
+  // the assumption sortedCommentBlocks is sorted in descending order, so we can just remove text and not need
+  // to worry about adjusting indices.
+  for (int index = 0; index < [sortedCommentBlocks count]; index++)
+  {
+    // Our commentBlocks contains all unique comment locations.  Some locations many be nested inside
+    // other comments (not sure why you would, but it could happen!)  We will check to see if we have
+    // some type of inner comment and skip it if that's the case, since the outer one will remove it.
+    if (sortedCommentBlocks[index].IsNested)
+    {
+      continue;
+    }
+
+    long length = sortedCommentBlocks[index].End - sortedCommentBlocks[index].Start + 1;
+    text = [text stringByReplacingCharactersInRange:NSMakeRange(sortedCommentBlocks[index].Start, length) withString:@""];
+  }
+
+  return text;
+}
 
 /**
  To prepare for use, we need to collapse down some of the text.  This includes:
@@ -395,19 +557,26 @@ Given a command string, extract all macros that are present.  This will remove m
   {
     return [[NSArray<NSString*> alloc] init];
   }
-  
+
   NSString* originalText = [originalContent componentsJoinedByString:@"\r\n"];
   //because we're not able to explicitly create a stata session (and then close it) per batch of commands, we must (should) first clear the command list before running. This will get rid of any of the existing data that we might have. We want to do this because Stata will complain about "changed" data (and refuse to change it) if we redefine any of the data sets or related variables within the code file between executions.
   NSString* modifiedText = [@"clear all\r\n" stringByAppendingString:originalText];
 
-  for(NSRegularExpression* regex in [[self class]MultiLineIndicators])
-  {
-    modifiedText = [regex stringByReplacingMatchesInString:modifiedText options:0 range:NSMakeRange(0, modifiedText.length) withTemplate:@" "];
-    //modifiedText = regex.Replace(modifiedText, " ");
-  }
+//  for(NSRegularExpression* regex in [[self class]MultiLineIndicators])
+//  {
+//    modifiedText = [regex stringByReplacingMatchesInString:modifiedText options:0 range:NSMakeRange(0, modifiedText.length) withTemplate:@" "];
+//  }
+  modifiedText = [[[self class]MultiLineIndicator] stringByReplacingMatchesInString:modifiedText options:0 range:NSMakeRange(0, modifiedText.length) withTemplate:@" "];
+
+  // Why are we stripping out trailing lines?  There is apparently an issue with the Stata
+  // Automation API where having a trailing comment on a valid line causes that command to
+  // fail (e.g., "sysuse(bpwide)  //comment").  Our workaround is to strip those comments
+  // to users don't have to modify their code.  The issue has been reported to Stata.
+  modifiedText = [STCodeParserUtil StripTrailingComments:modifiedText];
+  modifiedText = [self RemoveNestedComments:modifiedText];
+  modifiedText = [modifiedText stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
   
   return [modifiedText componentsSeparatedByString:@"\r\n"];
-  //return modifiedText.Split(new string[]{"\r\n"}, StringSplitOptions.None).ToList();
 }
 
 

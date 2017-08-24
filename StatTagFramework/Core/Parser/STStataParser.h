@@ -9,6 +9,16 @@
 #import <Foundation/Foundation.h>
 #import "STBaseParser.h"
 
+@interface STStataCommentBlock : NSObject {
+  long _Start;
+  long _End;
+  BOOL _IsNested;
+}
+@property long Start;
+@property long End;
+@property BOOL IsNested;
+@end
+
 @interface STStataParserLog : NSObject {
 }
   @property (strong, nonatomic) NSString* LogType;
