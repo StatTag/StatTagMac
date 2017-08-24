@@ -267,6 +267,16 @@ static BOOL valuePreviewsEnabled = NO;
       // then just use the default placeholder image
       preview = [NSImage imageNamed:@"figure_preview"]; //move this to a property later
     }
+  } else if ([tag Type] == [STConstantsTagType Verbatim]) {
+    //preview = [NSImage imageNamed:@"preview_verbatim_console"]; //move this to a property later
+  } else if ([tag Type] == [STConstantsTagType Value]) {
+    if([[[tag ValueFormat] FormatType] isEqualToString: [STConstantsValueFormatType Percentage]])
+    {
+      //preview = [NSImage imageNamed:@"preview_percent"];
+    } else if([[[tag ValueFormat] FormatType] isEqualToString: [STConstantsValueFormatType Numeric]]) {
+      //preview = [NSImage imageNamed:@"preview_number"];
+    } else if([[[tag ValueFormat] FormatType] isEqualToString: [STConstantsValueFormatType DateTime]]) {
+    }
   }
   
   return preview;
