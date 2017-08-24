@@ -441,22 +441,26 @@ on insertTextboxAtRangeStart:theRangeStart andRangeEnd:theRangeEnd forShapeName:
         #display dialog (name of myShape as string)
         
         set width of myShape to pageWidth
-        
+
         set alignment of paragraph format of text range of text frame of myShape to align paragraph left
         set space after of paragraph format of text range of text frame of myShape to 0
         set space before of paragraph format of text range of text frame of myShape to 0
-        
+
         --WdWrapType.wdWrapInline
         --https://msdn.microsoft.com/en-us/library/bb214041%28v=office.12%29.aspx?f=255&MSPPError=-2147217396
-        set wrap type of wrap format of myShape to 7
+        #set wrap type of wrap format of myShape to 7
+        # NOTE: using the constant value of 7 sets the wrap format correctly, but (for some reason) changes
+        # the myShape reference to point to the NEXT textbox shape in the document.  We are using the top/bottom
+        # wrapping style as it produces similar layout to inline (7), and doesn't cause this issue.
+        set wrap type of wrap format of myShape to wrap top bottom
         set allow overlap of wrap format of myShape to false
-        
+
         --we need to compute the size of the shape and then resize to fit the contents
         set fontMultiplier to 1.35 as real
-        
+
         set name of font object of text range of text frame of myShape to fontFace
         set font size of font object of text range of text frame of myShape to fontSize
-        
+
         #now we need to calculate the # of lines in the newly widened text frame and then expand the height to fit the contents based on that width and # of lines
         set lineCount to compute text range statistics text range of text frame of myShape statistic statistic lines
         set height of myShape to lineCount * (fontSize * fontMultiplier)
