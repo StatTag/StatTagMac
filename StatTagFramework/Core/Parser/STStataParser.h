@@ -60,6 +60,7 @@
 -(NSArray<NSString*>*)GetMacros:(NSString*)command;
 -(NSArray<NSString*>*)PreProcessContent:(NSArray<NSString*>*)originalContent;
 -(NSString*) GetMacroValueName:(NSString*)command;
+-(BOOL) IsSavedResultCommand:(NSString*)command;
 
 
 @end

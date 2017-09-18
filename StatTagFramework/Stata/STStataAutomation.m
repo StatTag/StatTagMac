@@ -139,6 +139,14 @@ const NSInteger ShowStata = 3;
     }
     [Application DoCommand:DisablePagingCommand stopOnError:true addToReview:true];
     [self Show];
+
+    // Initialize the application to use the file path's folder as the working directory.
+    // We do this at the beginning so that if the user overwrites it during the script,
+    // we will respect that change.
+    if (codeFile != nil) {
+      NSString* path = [codeFile.FilePath stringByDeletingLastPathComponent];
+      [self RunCommand:[NSString stringWithFormat:@"cd \"%@\"", path]];
+    }
   }
   @catch (NSException* exception) {
     //NSLog(@"%@", exception.reason);

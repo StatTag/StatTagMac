@@ -579,5 +579,14 @@ Given a command string, extract all macros that are present.  This will remove m
   return [modifiedText componentsSeparatedByString:@"\r\n"];
 }
 
+// Perform a check to see if a command contains a saved result embedded within it.  These
+// are represented as commands that Stata executes, as opposed to being named values.
+-(BOOL) IsSavedResultCommand:(NSString*)command
+{
+  // Note that Stata is case-sensitive for these commands.
+  return [command containsString:@"c("]
+    || [command containsString:@"r("]
+    || [command containsString:@"e("];
+}
 
 @end
