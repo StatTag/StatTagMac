@@ -267,7 +267,7 @@ In the StatTagHelp project, ensure the info.plist has the following set:
 We're now going to tell StatTag how to use StatTagHelp
 
 * **CFBundleHelpBookFolder** : StatTagHelp.help
-* **CFBundleHelpBookName** : org.stattag.StatTagHelp.help
+* **CFBundleHelpBookName** : edu.northwestern.nucats.StatTagHelp.help
 
 
 ## Updating Apple Help ##

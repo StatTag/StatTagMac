@@ -130,7 +130,7 @@
                                NSLocalizedFailureReasonErrorKey: NSLocalizedString(errorString, nil),
                                NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Please manually review the zip file", nil)
                                };
-    processError = [NSError errorWithDomain:@"org.stattag.stattag"//kStatTagErrorDomain
+    processError = [NSError errorWithDomain:@"edu.northwestern.nucats.stattag"//kStatTagErrorDomain
                                          code:-57
                                      userInfo:userInfo];
   }

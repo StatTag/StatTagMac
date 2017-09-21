@@ -74,7 +74,7 @@
 //MARK: delegate methods and helper prep methods
 -(void)fileDidChange:(NSDictionary*)fileInfo
 {
-  NSLog(@"fileInfo: %@", fileInfo);
+  //NSLog(@"fileInfo: %@", fileInfo);
   if([[self delegate] respondsToSelector:@selector(fileDidChange:)]) {
     [[self delegate] fileDidChange:fileInfo];
   }
@@ -567,7 +567,7 @@ void feCallback(ConstFSEventStreamRef streamRef, void* pClientCallBackInfo,
           dispatch_async(dispatch_get_main_queue(), ^{
 
             //NSDictionary *fileInfo = @{@"originalFilePath":[[self filePath] path]};
-            NSLog(@"file deleted - %@", [[self filePath] path]);
+            //NSLog(@"file deleted - %@", [[self filePath] path]);
 
             [self fileChangedForOperation:FileChangeOperationTypeDelete withOriginalPath:[self filePath] andNewPath:nil];
 
@@ -621,7 +621,7 @@ void feCallback(ConstFSEventStreamRef streamRef, void* pClientCallBackInfo,
 
             char newPath[MAXPATHLEN];
             NSString* newFilePath;
-            NSLog(@"file descriptor: %ld", (long)_monitoredFileDescriptor);
+            //NSLog(@"file descriptor: %ld", (long)_monitoredFileDescriptor);
             if (fcntl(_monitoredFileDescriptor, F_GETPATH, newPath) != -1)
             {
               newFilePath = [NSString stringWithUTF8String:newPath];

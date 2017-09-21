@@ -2354,7 +2354,7 @@
 				INFOPLIST_FILE = StatTagHelp/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				PRODUCT_BUNDLE_IDENTIFIER = org.stattag.StatTagHelp;
+				PRODUCT_BUNDLE_IDENTIFIER = edu.northwestern.nucats.StatTagHelp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = help;
@@ -2370,7 +2370,7 @@
 				INFOPLIST_FILE = StatTagHelp/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				PRODUCT_BUNDLE_IDENTIFIER = org.stattag.StatTagHelp;
+				PRODUCT_BUNDLE_IDENTIFIER = edu.northwestern.nucats.StatTagHelp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = help;
@@ -2491,7 +2491,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = org.stattag.StatTagFramework;
+				PRODUCT_BUNDLE_IDENTIFIER = edu.northwestern.nucats.StatTagFramework;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx10.11;
 				SKIP_INSTALL = YES;
@@ -2521,7 +2521,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = org.stattag.StatTagFramework;
+				PRODUCT_BUNDLE_IDENTIFIER = edu.northwestern.nucats.StatTagFramework;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx10.11;
 				SKIP_INSTALL = YES;
@@ -2591,7 +2591,7 @@
 				INFOPLIST_FILE = StatTag/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks /Library/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				PRODUCT_BUNDLE_IDENTIFIER = org.stattag.StatTag;
+				PRODUCT_BUNDLE_IDENTIFIER = edu.northwestern.nucats.StatTag;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx10.12;
@@ -2622,7 +2622,7 @@
 				INFOPLIST_FILE = StatTag/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks /Library/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				PRODUCT_BUNDLE_IDENTIFIER = org.stattag.StatTag;
+				PRODUCT_BUNDLE_IDENTIFIER = edu.northwestern.nucats.StatTag;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx10.12;
@@ -2640,7 +2640,7 @@
 				INFOPLIST_FILE = StatTagTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				PRODUCT_BUNDLE_IDENTIFIER = org.stattag.StatTagTests;
+				PRODUCT_BUNDLE_IDENTIFIER = edu.northwestern.nucats.StatTagTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/StatTag.app/Contents/MacOS/StatTag";
 			};
@@ -2657,7 +2657,7 @@
 				INFOPLIST_FILE = StatTagTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				PRODUCT_BUNDLE_IDENTIFIER = org.stattag.StatTagTests;
+				PRODUCT_BUNDLE_IDENTIFIER = edu.northwestern.nucats.StatTagTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/StatTag.app/Contents/MacOS/StatTag";
 			};
