@@ -79,6 +79,7 @@
   XCTAssertEqualObjects(@"paste(\"test\", \".pdf\")", [parser GetImageSaveLocation:@"pdf(file=paste(\"test\", \".pdf\"))"]);
   XCTAssertEqualObjects(@"paste(\"test\", paste(\".\", \"pdf\"))", [parser GetImageSaveLocation:@"pdf(file=paste(\"test\", paste(\".\", \"pdf\")))"]);
   XCTAssertEqualObjects(@"paste(\"test\", \".pdf\")", [parser GetImageSaveLocation:@"pdf(paste(\"test\", \".pdf\"))"]);
+  XCTAssertEqualObjects(@"paste(\"test\", \".pdf\", sep=\"\")", [parser GetImageSaveLocation:@"pdf(paste(\"test\", \".pdf\", sep=\"\"))"]);
   XCTAssertEqualObjects(@"paste(\"test\", paste(\".\", \"pdf\"))", [parser GetImageSaveLocation:@"pdf(paste(\"test\", paste(\".\", \"pdf\")))"]);
 
   // Variable names should be allowed for file name parameter too
