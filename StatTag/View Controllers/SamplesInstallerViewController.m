@@ -49,8 +49,8 @@ static NSString* StatTagSampleDefaultUserPathKey = @"StatTag Samples Location";
     [self setFileSourceURI:[[NSURL alloc] initWithString:@"https://github.com/StatTag/Simple-Code-Examples/archive/master.zip"]];
   }
 
-  self.downloadProgressViewConroller = [[SamplesDownloadProgressViewController alloc] init];
-  [[self downloadProgressViewConroller] setDelegate:self];
+  self.downloadProgressViewController = [[SamplesDownloadProgressViewController alloc] init];
+  [[self downloadProgressViewController] setDelegate:self];
   
   // leaving the info here on how to get access to the custom "downloads" folder icon
   // leaving this in here as an example in case we want to change this later - wasn't easy to find
@@ -110,9 +110,9 @@ static NSString* StatTagSampleDefaultUserPathKey = @"StatTag Samples Location";
   
   if([[self defaultDownloadFolderURI] canWriteToFileAtPath])
   {
-    [[self downloadProgressViewConroller] setDownloadSourceFileURL:[self fileSourceURI]];
-    [[self downloadProgressViewConroller] setDownloadTargetDirectoryURL:[self defaultDownloadFolderURI]];
-    [self presentViewControllerAsSheet:[self downloadProgressViewConroller]];
+    [[self downloadProgressViewController] setDownloadSourceFileURL:[self fileSourceURI]];
+    [[self downloadProgressViewController] setDownloadTargetDirectoryURL:[self defaultDownloadFolderURI]];
+    [self presentViewControllerAsSheet:[self downloadProgressViewController]];
   } else {
     //selected path can't be written to - notify user
 

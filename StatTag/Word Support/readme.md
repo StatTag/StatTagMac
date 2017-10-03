@@ -30,7 +30,7 @@ One-off Templates (from which a document MUST be based)
 
 #### How to Modify the Word 2016 Ribbon ####
 
-The StatTag (Mac) Ribbon is governed by an XML file contained within the macro template file. The Mac version(s) of Word do not have any provided facilities to modify the file for easy distribution. If you need to modify the Ribbon, your best course of action is to get a Windows PC and install the publicly distrbuted "Office Custom UI Editor" tool. This tool lets you easily modify the Ribbon XML file embedded in the macro template file (including adding icons if desired).
+The StatTag (Mac) Ribbon is governed by an XML file contained within the macro template file. The Mac version(s) of Word do not have any provided facilities to modify the file for easy distribution. If you need to modify the Ribbon, your best course of action is to get a Windows PC and install the publicly distributed "Office Custom UI Editor" tool. This tool lets you easily modify the Ribbon XML file embedded in the macro template file (including adding icons if desired).
 
 ##### Office Custom UI Editor #####
 

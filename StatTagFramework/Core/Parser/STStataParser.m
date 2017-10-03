@@ -41,10 +41,10 @@ NSString* const CommendEnd = @"*/";
 }
 
 +(NSArray<NSString*>*)MacroDelimitersCharacters {
-  return [STCocoaUtil splitStringIntoArrray:macroChars];
+  return [STCocoaUtil splitStringIntoArray:macroChars];
 }
 +(NSArray<NSString*>*)CalculationOperatorsCharacters {
-  return [STCocoaUtil splitStringIntoArrray:calcChars];
+  return [STCocoaUtil splitStringIntoArray:calcChars];
 }
 
 //MARK: Value regex

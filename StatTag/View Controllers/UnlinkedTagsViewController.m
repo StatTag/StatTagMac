@@ -290,7 +290,7 @@
 //      //ok, so - if the tag's code file is NOT already referenced OR the code file is no longer accessible, we want to draw the code file as a header WITH a dropdown, BUT...
 //      // we don't want to draw the dropdown/action button if the code file is "valid" for StatTag
 //        [[groupCell codeFileActionPopUpList] setHidden:YES]; //so we're going to hide it...
-//        [[groupCell codeFilePopUpWidth] setConstant:0.0]; //and we're goign to shrink the constraint so the other UI elements are allowed to grow to fill
+//        [[groupCell codeFilePopUpWidth] setConstant:0.0]; //and we're going to shrink the constraint so the other UI elements are allowed to grow to fill
 
       //leaving the above for reference - we will actually keep the ddl on the page at all times because there's a "remove all tags" option
       //if the code file is valid we're going to remove the action where a user re-links to a new code file

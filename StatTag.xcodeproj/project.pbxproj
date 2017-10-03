@@ -542,9 +542,9 @@
 		38516FC91DF5B279006989BC /* STCSVToTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STCSVToTable.m; sourceTree = "<group>"; };
 		38516FCD1DF5C751006989BC /* CHCSVParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHCSVParser.h; sourceTree = "<group>"; };
 		38516FCE1DF5C751006989BC /* CHCSVParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHCSVParser.m; sourceTree = "<group>"; };
-		38516FD41DF5D20A006989BC /* balanced.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = balanced.csv; sourceTree = "<group>"; };
+		38516FD41DF5D20A006989BC /* balanced.csv */ = {isa = PBXFileReference; fileEncoding = 1; lastKnownFileType = text; path = balanced.csv; sourceTree = "<group>"; };
 		38516FD51DF5D20A006989BC /* empty.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = empty.csv; sourceTree = "<group>"; };
-		38516FD61DF5D20A006989BC /* unbalanced.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = unbalanced.csv; sourceTree = "<group>"; };
+		38516FD61DF5D20A006989BC /* unbalanced.csv */ = {isa = PBXFileReference; fileEncoding = 1; lastKnownFileType = text; path = unbalanced.csv; sourceTree = "<group>"; };
 		38516FDA1DF5D23E006989BC /* StatTagModelCSVToTableTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagModelCSVToTableTests.m; sourceTree = "<group>"; };
 		385221C31DAD5D0B005E804B /* SCPerLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCPerLine.h; sourceTree = "<group>"; };
 		385221C41DAD5D0B005E804B /* SCPerLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCPerLine.m; sourceTree = "<group>"; };
@@ -707,9 +707,9 @@
 		38E20DF51E09A4F600B524CE /* StatTagUtilityTableUtilTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagUtilityTableUtilTests.m; sourceTree = "<group>"; };
 		38E20DF81E09E6D300B524CE /* sample_png.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sample_png.png; sourceTree = "<group>"; };
 		38E20DFA1E09E92200B524CE /* sample_pdf.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = sample_pdf.pdf; sourceTree = "<group>"; };
-		38E20DFE1E09EC5700B524CE /* fake-file.do */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "fake-file.do"; sourceTree = "<group>"; };
-		38E20DFF1E09EC5700B524CE /* simple-macro-test-2.do */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "simple-macro-test-2.do"; sourceTree = "<group>"; };
-		38E20E001E09EC5700B524CE /* simple-macro-test.do */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "simple-macro-test.do"; sourceTree = "<group>"; };
+		38E20DFE1E09EC5700B524CE /* fake-file.do */ = {isa = PBXFileReference; fileEncoding = 1; lastKnownFileType = text; path = "fake-file.do"; sourceTree = "<group>"; };
+		38E20DFF1E09EC5700B524CE /* simple-macro-test-2.do */ = {isa = PBXFileReference; fileEncoding = 1; lastKnownFileType = text; path = "simple-macro-test-2.do"; sourceTree = "<group>"; };
+		38E20E001E09EC5700B524CE /* simple-macro-test.do */ = {isa = PBXFileReference; fileEncoding = 1; lastKnownFileType = text; path = "simple-macro-test.do"; sourceTree = "<group>"; };
 		38E22AB71E9D4388005DFFE9 /* TagCodePeekViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagCodePeekViewController.h; sourceTree = "<group>"; };
 		38E22AB81E9D4388005DFFE9 /* TagCodePeekViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagCodePeekViewController.m; sourceTree = "<group>"; };
 		38E22AB91E9D4388005DFFE9 /* TagCodePeekViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TagCodePeekViewController.xib; sourceTree = "<group>"; };
@@ -2574,6 +2574,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = ZRBJAU296F;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2593,6 +2594,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = edu.northwestern.nucats.StatTag;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx10.12;
 			};
@@ -2606,6 +2608,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = ZRBJAU296F;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2624,6 +2627,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = edu.northwestern.nucats.StatTag;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx10.12;
 			};

@@ -62,7 +62,7 @@
     [[self detailedOptionsView] setHidden: NO];
     [ViewUtils fillView:_detailedOptionsView withView:[_percentagePropertiesController view]];
   } else if([[[[self tag] ValueFormat] FormatType] isEqualToString:[STConstantsValueFormatType DateTime]]) {
-    //FIXME: need view conroller!
+    //FIXME: need view controller!
     [[self detailedOptionsView] setHidden: NO];
     [ViewUtils fillView:_detailedOptionsView withView:[_dateTimePropertiesController view]];
   } else {

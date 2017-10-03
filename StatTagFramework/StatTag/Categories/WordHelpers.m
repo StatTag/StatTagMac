@@ -289,7 +289,7 @@ static WordHelpers* sharedInstance = nil;
   /*
    tried alternatives to doing this in AppleScript
    
-   1) SB to call into "initWithProperties" and add to tables - didn'tw ork
+   1) SB to call into "initWithProperties" and add to tables - didn't work
    2) random "be lazy" and try to message over the type to SB directly, hoping it would infer types - nope
    3) tried to see if we could be really really lazy and just throw NSData at the object... nope.
    

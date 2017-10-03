@@ -36,7 +36,7 @@
 }
 
 
-//Extra obj-c methods for NURL <-> NSString
+//Extra obj-c methods for NSURL <-> NSString
 -(void)testNSURLToFilePath {
   NSURL* url;
   STCodeFile* cf = [[STCodeFile alloc] init];
@@ -168,14 +168,14 @@
   cr.ValueResult = @"Test result 1";
   codeFile.Tags[0].CachedResult = [NSMutableArray<STCommandResult*> arrayWithObject:cr];
 
-  // Now restore and preserve the cahced value result
+  // Now restore and preserve the cached value result
   [codeFile LoadTagsFromContent];
   XCTAssertEqual(1, [[codeFile Tags] count]);
   XCTAssert([[STConstantsTagType Value] isEqualToString:[[codeFile Tags][0] Type]]);
   STCommandResult* cachedResult = codeFile.Tags[0].CachedResult[0];
   XCTAssert([@"Test result 1" isEqualToString:[cachedResult ValueResult]]);
 
-  // Restore again but do not preserve the cahced value result
+  // Restore again but do not preserve the cached value result
   [codeFile LoadTagsFromContent:false];
   XCTAssertEqual(1, [[codeFile Tags] count]);
   XCTAssert([[STConstantsTagType Value] isEqualToString:[[codeFile Tags][0] Type]]);

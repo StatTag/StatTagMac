@@ -12,7 +12,7 @@
   BOOL _disclosureIsClosed;
 
 }
-@property (weak) IBOutlet NSTextField *titleTextField;      // the title of the discloved view
+@property (weak) IBOutlet NSTextField *titleTextField;      // the title of the disclosed view
 @property (weak) IBOutlet NSButton *disclosureButton;       // the hide/show button
 @property (weak) IBOutlet NSView *headerView;               // header/title section of this view controller
 

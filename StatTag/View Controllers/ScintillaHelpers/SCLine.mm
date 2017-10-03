@@ -94,7 +94,7 @@
 /// <summary>
 /// Efficiently searches from the current line backward to the start of the document for the specified markers.
 /// </summary>
-/// <param name="markerMask">An unsigned 32-bit value with each bit cooresponding to one of the 32 zero-based <see cref="Margin" /> indexes.</param>
+/// <param name="markerMask">An unsigned 32-bit value with each bit corresponding to one of the 32 zero-based <see cref="Margin" /> indexes.</param>
 /// <returns>If found, the zero-based line index containing one of the markers in <paramref name="markerMask" />; otherwise, -1.</returns>
 /// <remarks>For example, the mask for marker index 10 is 1 shifted left 10 times (1 &lt;&lt; 10).</remarks>
 -(int)MarkerPrevious:(uint)markerMask

@@ -88,7 +88,7 @@ STTag* _renamedTag;
 {
   //set canRename to something - use bindings to do the rest
   
-  //let's do a case insenitive comparison of the names
+  //let's do a case insensitive comparison of the names
   if ([replacementName length] <= 0 || [[allTagNames valueForKey:@"lowercaseString"] containsObject:[replacementName lowercaseString]])
   {
     //not valid, so show the warning labels and disable the submit button

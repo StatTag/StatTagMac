@@ -105,7 +105,7 @@ BOOL breakLoop = YES;
 //    [file LoadTagsFromContent];
 //  }
   
-  //FIXME: we should probably check these aginst the list of code files to be safe
+  //FIXME: we should probably check these against the list of code files to be safe
   if([codeFiles count] > 0) {
     [[self addTagButton] setEnabled:YES];
   } else {

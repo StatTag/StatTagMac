@@ -10,7 +10,7 @@ When integrating the RCocoa framework into StatTag, we needed to make some adjus
 ### Build Settings
 * Search Paths -> Header Search Paths -> Add `$(LOCAL_LIBRARY_DIR)/Frameworks/R.framework/Headers`
 	* This is needed so that R.h can be found at compile time.
-* Apple LLVM 8.0 - Language - Modules - Allow Non-moduler Includes in Framework Modules -> Change to `Yes`
+* Apple LLVM 8.0 - Language - Modules - Allow Non-modular Includes in Framework Modules -> Change to `Yes`
 	* This is needed so that the inclusion of the R framework compiles appropriately.
 
 ### Build Phases

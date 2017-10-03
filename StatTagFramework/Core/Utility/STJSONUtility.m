@@ -27,7 +27,7 @@
    
    Why are we doing this two different ways? Why not just one?
    
-   We don't know any of the date/time formats (not really), so using fixed date formatters and extracting the datetime from the string really isn't likely to be effecitve.  Could be "06/01/2016" or could be "June 1, 2016" or even "June First, 2016" - we just don't know.
+   We don't know any of the date/time formats (not really), so using fixed date formatters and extracting the datetime from the string really isn't likely to be effective.  Could be "06/01/2016" or could be "June 1, 2016" or even "June First, 2016" - we just don't know.
    
    We also don't know based on the locale how we should anticipate the string format.
    

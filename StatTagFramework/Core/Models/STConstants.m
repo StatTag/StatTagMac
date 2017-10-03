@@ -64,7 +64,7 @@ NSString *const STStatTagErrorDomain = @"StatTagErrorDomain";
 +(NSString*)RLabel { return @"R";}
 +(NSString*)RFilter { return @"*.r";} //"*.r"
 +(NSString*)AllLabel { return @"All files";}
-+(NSString*)AllFilter { return @"*.*";}//neeeeeever use this
++(NSString*)AllFilter { return @"*.*";}//never use this
 +(NSString*)SupportedLabel { return @"Supported files";}
 +(NSArray<NSString*>*)SupportedFileFiltersArray
 {

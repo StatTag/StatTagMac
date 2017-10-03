@@ -154,7 +154,7 @@
       //add to array controller
       [arrayController addObject:cf];
       
-      //re-sort in case the user has sorteda column
+      //re-sort in case the user has sorted column
       [arrayController rearrangeObjects];
       
     }

@@ -53,7 +53,7 @@
 
   [self setup];
 
-  //we're goig to attach to the default notification center so we can force-reload changed documents
+  //we're going to attach to the default notification center so we can force-reload changed documents
   // when the window regains focus
 
 
@@ -486,8 +486,8 @@
 {
   //we can also use IB to do this on the array controller, but for now I want to explicitly manage this while testing
   
-  //NOTE for postertiy - this will NOT work.
-  // The API isn't working right. If you query "documents" directly you'll often get an incorrect list (missing names and duplicated names). It's inconsistent, but fails when you have modified your document list (in Word) by opening and closing a lot of documents
+  //NOTE for posterity - this will NOT work.
+  // The API isn't working correctly. If you query "documents" directly you'll often get an incorrect list (missing names and duplicated names). It's inconsistent, but fails when you have modified your document list (in Word) by opening and closing a lot of documents
   // The work-around is to first list _windows_ in Word, then get their corresponding document. That seems to work and retrieve the correct document names.
   //NSArray<NSString*>* current_word_doc_names = [[[[[STGlobals sharedInstance] ThisAddIn] Application] documents] valueForKey:@"name"];
 

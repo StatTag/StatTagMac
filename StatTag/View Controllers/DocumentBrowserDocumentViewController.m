@@ -223,7 +223,7 @@
 //  //NSLog(@"code file changed selection");
 //  //This needs attention
 //  // if the code file selection changed, we could have one of a few things:
-//  // 1) a specific code / group of code filess were selected - we want to focus on tags
+//  // 1) a specific code / group of code files were selected - we want to focus on tags
 //  // 2) summary view - we want to focus on tags
 //  //for the rest, we want to focus on the different interfaces appropriate for the selection
 //  // 3) duplicate tags

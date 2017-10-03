@@ -285,7 +285,7 @@
 //- (void)refreshTags {
 //
 //  //non-async version because we're using the indeterminate indicator
-//  // not working quite right becuse we sort of stall and the window doesn't fire correctly
+//  // not working quite right because we sort of stall and the window doesn't fire correctly
 //  // circle back here
 //
 //  [progressIndicator startAnimation:nil];

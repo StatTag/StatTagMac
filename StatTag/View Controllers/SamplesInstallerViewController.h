@@ -20,6 +20,6 @@
 
 @property (weak) IBOutlet NSTextField *downloadPathTextField;
 
-@property (strong, nonatomic) SamplesDownloadProgressViewController* downloadProgressViewConroller;
+@property (strong, nonatomic) SamplesDownloadProgressViewController* downloadProgressViewController;
 
 @end

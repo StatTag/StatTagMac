@@ -18,7 +18,7 @@
  
  That's just to start
  
- The entire approach isn't particularly good. It desperatley needs to be refactored.
+ The entire approach isn't particularly good. It needs to be refactored.
 
  */
  

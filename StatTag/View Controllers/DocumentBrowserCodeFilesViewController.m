@@ -300,7 +300,7 @@
   
   //NSLog(@"arrayController content = %@", [arrayController content]);
   
-  //re-sort in case the user has sorteda column
+  //re-sort in case the user has sorted a column
   [arrayController rearrangeObjects];
 
 }

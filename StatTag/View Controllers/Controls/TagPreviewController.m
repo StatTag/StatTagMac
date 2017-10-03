@@ -36,7 +36,7 @@ static BOOL valuePreviewsEnabled = NO;
 
 //graph preview
 /**
- 1) colum headers?
+ 1) column headers?
  2) row headers?
  */
 

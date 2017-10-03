@@ -24,7 +24,7 @@ static NSString* QUITTING_ZOOM_STATE = @"QUITTING_ZOOM_STATE";
  1) When we close our window (which closes our app), try to store our window frame information (into user defaults)
  2) When we then reopen our window, set the frame size back to our defaults
  
- The sticky bit is when we go full screen (which is not restored on startup - nor do we want it to), that's not a frame size we want to retain. So we're goig to store the window state _before_ we go into full screen. That way we get the original size. That's what we're going to store.
+ The sticky bit is when we go full screen (which is not restored on startup - nor do we want it to), that's not a frame size we want to retain. So we're going to store the window state _before_ we go into full screen. That way we get the original size. That's what we're going to store.
  
  Delegate reference here: https://developer.apple.com/documentation/appkit/nswindowdelegate
  */

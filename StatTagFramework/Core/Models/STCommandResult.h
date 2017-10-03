@@ -24,7 +24,7 @@
 
 
 /**
-Although not strictly enforced, the TableResult or TableResultPromise should be set at one time, but not both.  The presernce of the TableResultPromise member will be used as a flag to indicate that the TableResult needs to be set. Once the table is set, we clear the promise since it has been fulfilled.
+Although not strictly enforced, the TableResult or TableResultPromise should be set at one time, but not both.  The presence of the TableResultPromise member will be used as a flag to indicate that the TableResult needs to be set. Once the table is set, we clear the promise since it has been fulfilled.
 
  @remark Indicates that a promise is made to deliver table data, but that the data may not be ready to be pulled yet.  The information stored in this property will be sufficient for each statistical package processor to create a populated instance of TableResult.
 */

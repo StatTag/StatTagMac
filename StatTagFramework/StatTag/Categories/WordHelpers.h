@@ -22,7 +22,7 @@
 +(BOOL)FindText:(NSString*)text inRange:(STMSWord2011TextRange*)range;
 
 /**
- Unlike the C# version of Range, we can't juset update content - this simply _appends_ content to the range. And - we can't directly update the content and shift the positions cleanly - the "update position" methods all return a new instance of the text range.  (I know, right?)
+ Unlike the C# version of Range, we can't just update content - this simply _appends_ content to the range. And - we can't directly update the content and shift the positions cleanly - the "update position" methods all return a new instance of the text range.  (I know, right?)
  
  So instead we need to return a new object, but... not. So we're going to create a new one in the method and then point to that object using the original object reference.
  

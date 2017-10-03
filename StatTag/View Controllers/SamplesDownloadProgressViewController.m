@@ -170,14 +170,14 @@
   [self setBytesReceived: [self bytesReceived] + length];
   
   if (expectedLength != NSURLResponseUnknownLength) {
-    //KNOWN target length - show % complete and set progess bar to show % to target
+    //KNOWN target length - show % complete and set progtess bar to show % to target
     [[self progressIndicator] setIndeterminate:NO];
     double percentComplete = (self.bytesReceived/(float)expectedLength)*100.0;
     [[self progressIndicator] setDoubleValue:percentComplete];
     [self setProgressText:[NSString stringWithFormat:@"%f%% complete", percentComplete]];
   }
   else {
-    //unknown target length - show bytes received and change progess bar to indeterminate
+    //unknown target length - show bytes received and change progtess bar to indeterminate
     [[self progressIndicator] setIndeterminate:YES];
     [self setProgressText:[NSString stringWithFormat:@"%ld kb received", (long)([self bytesReceived]/1024)]];
   }

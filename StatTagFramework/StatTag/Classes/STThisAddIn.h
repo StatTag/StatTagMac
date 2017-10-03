@@ -58,7 +58,7 @@
 -(void)Application_DocumentBeforeSave:(STMSWord2011Document*)doc;
 
 /**
- Handle initailization when a document is opened.  This may be called multiple times in a single Word session.
+ Handle initialization when a document is opened.  This may be called multiple times in a single Word session.
  */
 -(void)Application_DocumentOpen:(STMSWord2011Document*)doc;
 

@@ -12,7 +12,7 @@
 /**
 A specialized version of Tag that lives inside of fields within the
 Word document.  This contains some additional attributes that pertain to an
-instance of an Attribute within the documment, and not the general specification
+instance of an Attribute within the document, and not the general specification
 of the Attribute.
 
 @remark A good example is with a Table tag.  The Tag defines how the

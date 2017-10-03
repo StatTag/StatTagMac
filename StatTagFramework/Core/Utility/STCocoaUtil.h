@@ -24,6 +24,6 @@
 +(NSString*)getApplicationDetailsForBundleID:(NSString*)app;
 +(NSString*)bundleVersionInfo;
 
-+(NSArray<NSString*>*)splitStringIntoArrray:(NSString*)str;
++(NSArray<NSString*>*)splitStringIntoArray:(NSString*)str;
 
 @end

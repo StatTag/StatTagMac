@@ -49,7 +49,7 @@ StatTag is progressing rapidly. When the Mac version was started, StatTag for Wi
 
 With the Windows version in the lead position, the Mac development team recognized that it would be hard to deliver an equally capable product with document-level compatibility unless they stayed as closely in sync with the Windows version as possible. The decision was that to help with that goal, the Mac version would be modeled very closely so changes could be monitored. As a single class file in the Windows version was introduced, altered, or even removed, we could review those changes in git and mirror them in Xcode.
 
-You will see a nearly 1:1 relationship between classes, files, and folders. The notion is to help keep improvments in sync as development progresses in both versions.
+You will see a nearly 1:1 relationship between classes, files, and folders. The notion is to help keep improvements in sync as development progresses in both versions.
 
 * **Does this mean the Mac version isn't a full citizen port?** 
 Absolutely not! The Mac development team took this approach to help _ensure_ macOS users would have a fully-featured Mac-friendly StatTag.
@@ -152,7 +152,7 @@ The table is created in `theDoc` in `theRange` using the specified number of row
 For the moment, we've worked around this issue by instead using ASOC to create proxy classes that allow us to utilize AppleScript from Objective-C:
 
 * Create AppleScript file `WordASOC.applescript`
-* Create an Ojbective-C header file `WordASOC.h` (NOTE the name of the file is the same as its AppleScript peer)
+* Create an Objective-C header file `WordASOC.h` (NOTE the name of the file is the same as its AppleScript peer)
 
 In `WordASOC.applescript`
 

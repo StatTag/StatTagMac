@@ -1711,7 +1711,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "79"
             endingLineNumber = "79"
-            landmarkName = "+GraphCommands"
+            landmarkName = "+ValueRegex"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1743,7 +1743,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "292"
             endingLineNumber = "292"
-            landmarkName = "-GetImageSaveLocation:"
+            landmarkName = "-GetLogs:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1759,7 +1759,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "99"
             endingLineNumber = "99"
-            landmarkName = "+GraphRegex"
+            landmarkName = "+GraphKeywordRegex"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

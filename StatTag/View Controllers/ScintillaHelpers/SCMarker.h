@@ -14,7 +14,7 @@
 typedef NS_ENUM(int, MarkerSymbol) {
   /// A circle. This symbol is typically used to indicate a breakpoint.
   Circle = 0,
-  /// A rectangel with rounded edges.
+  /// A rectangle with rounded edges.
   RoundRect = 1,
   /// An arrow (triangle) pointing right.
   Arrow = 2,
@@ -102,9 +102,9 @@ typedef NS_ENUM(int, MarkerSymbol) {
 
 
 
-/// An unsigned 32-bit mask of all <see cref="Margin" /> indexes where each bit cooresponds to a margin index.
+/// An unsigned 32-bit mask of all <see cref="Margin" /> indexes where each bit corresponds to a margin index.
 -(uint)MaskAll;
-/// An unsigned 32-bit mask of folder <see cref="Margin" /> indexes (25 through 31) where each bit cooresponds to a margin index.
+/// An unsigned 32-bit mask of folder <see cref="Margin" /> indexes (25 through 31) where each bit corresponds to a margin index.
 /// <seealso cref="Margin.Mask" />
 -(uint)MaskFolders;
 /// Folder end marker index. This marker is typically configured to display the <see cref="MarkerSymbol.BoxPlusConnected" /> symbol.

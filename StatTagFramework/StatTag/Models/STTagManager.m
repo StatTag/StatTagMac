@@ -224,7 +224,7 @@ the DocumentManager instance that contains it.
     STDuplicateTagResults* result = [[STDuplicateTagResults alloc] initWithDictionary:[file FindDuplicateTags]];
     if(result != nil && [result count] > 0) {
       [duplicateTags addEntriesFromDictionary:result];
-      //FIXME: go back and reivew this.  The original did something like...
+      //FIXME: go back and review this.  The original did something like...
       //  duplicateTags.Add(file, result);
       // so that may behave slightly differently
       // from the docs it looks like it should be the "same" ?

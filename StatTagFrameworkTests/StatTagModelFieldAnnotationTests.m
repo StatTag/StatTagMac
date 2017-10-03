@@ -144,7 +144,7 @@
 
 -(void)testSerialize_NormalizesObjectName
 {
-  // The Serailize function will modify the Name property to a normalized value.
+  // The Serialize function will modify the Name property to a normalized value.
   // We expect this and explicitly confirm it's intended behavior.
   STFieldTag* tag = [[STFieldTag alloc] init];
   
@@ -196,8 +196,8 @@
   XCTAssertEqual([[tag LineEnd] integerValue], [[recreatedTag LineEnd] integerValue]);
   XCTAssertEqual([[tag LineStart] integerValue], [[recreatedTag LineStart] integerValue]);
   
-  //how are these matching if tag.Name is (nil) and the rormalized recreatedTag.Name is ""?
-  //NOTE: spoke w/ Luke - normalize occurs before we serialize/desserialize, so the value will be "" for both
+  //how are these matching if tag.Name is (nil) and the normalized recreatedTag.Name is ""?
+  //NOTE: spoke w/ Luke - normalize occurs before we serialize/deserialize, so the value will be "" for both
   XCTAssert([[tag Name] isEqualToString:[recreatedTag Name]]);
 
   //both are nil
@@ -294,8 +294,8 @@
 //  XCTAssertEqual([[tag LineEnd] integerValue], [[recreatedTag LineEnd] integerValue]);
 //  XCTAssertEqual([[tag LineStart] integerValue], [[recreatedTag LineStart] integerValue]);
 //  
-//  //how are these matching if tag.Name is (nil) and the rormalized recreatedTag.Name is ""?
-//  //NOTE: spoke w/ Luke - normalize occurs before we serialize/desserialize, so the value will be "" for both
+//  //how are these matching if tag.Name is (nil) and the normalized recreatedTag.Name is ""?
+//  //NOTE: spoke w/ Luke - normalize occurs before we serialize/deserialize, so the value will be "" for both
 //  XCTAssert([[tag Name] isEqualToString:[recreatedTag Name]]);
 //  
 //  //both are nil

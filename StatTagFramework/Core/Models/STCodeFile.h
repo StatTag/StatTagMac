@@ -50,7 +50,7 @@
 - (void) RefreshContent;
 
 /**
- Using the contents of this file, parse the instrutions and build the list
+ Using the contents of this file, parse the instructions and build the list
  of tags that are present and cache them for later use.
  */
 -(void)LoadTagsFromContent:(BOOL)preserveCache;

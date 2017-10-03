@@ -445,7 +445,7 @@ const NSInteger ShowStata = 3;
   
   // Display values with calculations in them require special handling.  The API does not
   // process them directly, so our workaround is to introduce a local macro to process the
-  // calculcation, and then use the downstream macro result handler to pull out the result.
+  // calculation, and then use the downstream macro result handler to pull out the result.
   // This will work even if the same local macro is defined multiple times in the same
   // execution.
   if([Parser IsCalculatedDisplayValue:command]) {
@@ -651,7 +651,7 @@ const NSInteger ShowStata = 3;
 
 -(NSString*)GetInitializationErrorMessage
 {
-  return @"Could not communicate with Stata. Please ensure that Stata is installed and is, at minium, version 13.";
+  return @"Could not communicate with Stata. Please ensure that Stata is installed and is, at minimum, version 13.";
 }
 
 

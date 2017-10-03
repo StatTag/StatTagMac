@@ -204,7 +204,7 @@ NSObject<STIFileHandler>* _FileHandler;
 }
 
 /**
- Using the contents of this file, parse the instrutions and build the list
+ Using the contents of this file, parse the instructions and build the list
  of tags that are present and cache them for later use.
 */
 -(void)LoadTagsFromContent {
@@ -558,7 +558,7 @@ the cached results in another tag.
     //FIXME: this should be replaced with better nsindexset search and removal
     /* NOTE: leaving this in here for reference so we don't repeat the same mistake I did initially.
      
-     We CANNOT use object equality to find tags here. The initial predicate match is fine, but the later "remove objects in array" uses an equality comparison, which basically undoes our specialized "match with positiion" logic below.
+     We CANNOT use object equality to find tags here. The initial predicate match is fine, but the later "remove objects in array" uses an equality comparison, which basically undoes our specialized "match with position" logic below.
      
      Instead, we're going to do what I should have done initially - and what Luke did in the original c# - which is find and remove by _index_.
      

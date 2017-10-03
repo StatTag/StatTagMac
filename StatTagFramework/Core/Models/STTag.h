@@ -62,7 +62,7 @@ extern NSString* const TagIdentifierDelimiter;
 @property (readonly, nonatomic) NSString* Id;
 /**
  Format the results for the tag.  This method assumes that the tag has
- received a cahced copy of the results it should format.  It does not call out to
+ received a cached copy of the results it should format.  It does not call out to
  retrieve results if they are not set.
  */
 @property (readonly, nonatomic) NSString* FormattedResult;
