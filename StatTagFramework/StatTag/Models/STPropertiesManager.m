@@ -12,12 +12,11 @@
 
 @implementation STPropertiesManager
 
-
-NSString* const ApplicationKey = @"Software\\Northwestern University\\StatTag";
-NSString* const StataLocationKey = @"Stata Location";
-NSString* const LogLocationKey = @"Log Location";
-NSString* const LogEnabledKey = @"Logging Enabled";
-NSString* const RunCodeOnOpenKey = @"Autorun Code";
+//NSString* const ApplicationKey = @"Software\\Northwestern University\\StatTag";
+static NSString* const StataLocationKey = @"Stata Location";
+static NSString* const LogLocationKey = @"Log Location";
+static NSString* const LogEnabledKey = @"Logging Enabled";
+static NSString* const RunCodeOnOpenKey = @"Autorun Code";
 
 @synthesize Properties = _Properties;
 

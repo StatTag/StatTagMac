@@ -21,9 +21,9 @@
   NSMutableArray<STStataParserLog*>* OpenLogs;
   bool IsTrackingVerbatim;
   
-  const NSInteger StataHidden;
-  const NSInteger MinimizeStata;
-  const NSInteger ShowStata;
+//  const NSInteger StataHidden;
+//  const NSInteger MinimizeStata;
+//  const NSInteger ShowStata;
 
   NSString* _AppBundleIdentifier;
 }

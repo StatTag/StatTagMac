@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F2073" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12121"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13196"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -706,6 +707,9 @@
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="196" y="240" width="480" height="270"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
+                        <connections>
+                            <outlet property="delegate" destination="W7G-iM-ke7" id="WON-7G-Z5J"/>
+                        </connections>
                     </window>
                     <connections>
                         <segue destination="rbg-pG-S9r" kind="relationship" relationship="window.shadowedContentViewController" id="onL-Z6-w62"/>
@@ -724,6 +728,9 @@
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="196" y="240" width="480" height="270"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
+                        <connections>
+                            <outlet property="delegate" destination="ECo-6X-mpQ" id="qf3-BO-cjM"/>
+                        </connections>
                     </window>
                     <connections>
                         <segue destination="Vix-qB-mqC" kind="relationship" relationship="window.shadowedContentViewController" id="Pjo-14-PgI"/>
@@ -742,6 +749,9 @@
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="196" y="240" width="480" height="270"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
+                        <connections>
+                            <outlet property="delegate" destination="39s-jH-hwS" id="lwA-T5-QyB"/>
+                        </connections>
                     </window>
                     <connections>
                         <segue destination="qrR-Lf-UNx" kind="relationship" relationship="window.shadowedContentViewController" id="zVD-q1-CaY"/>
@@ -830,6 +840,7 @@
                         </connections>
                     </tabView>
                     <connections>
+                        <outlet property="tabView" destination="bgG-rZ-LXd" id="fYo-Hz-ujA"/>
                         <segue destination="W9p-NN-bND" kind="relationship" relationship="tabItems" id="L8p-MV-O6a"/>
                         <segue destination="diY-aM-9tA" kind="relationship" relationship="tabItems" id="TGs-BS-ZQY"/>
                         <segue destination="7rQ-kh-Vt3" kind="relationship" relationship="tabItems" id="VmU-hw-oSf"/>
@@ -937,7 +948,7 @@
                 </viewController>
                 <customObject id="PmH-fk-VWh" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="319" y="1608"/>
+            <point key="canvasLocation" x="350" y="1908"/>
         </scene>
     </scenes>
     <resources>

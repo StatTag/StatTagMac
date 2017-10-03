@@ -28,6 +28,7 @@
 
 DuplicateTagRenameViewController* duplicateTagRenameController;
 
+//FIXME: cannot remember if we use this - remove after 1.0
 static NSEvent *popoverTransiencyMonitor;
 
 //MARK: storyboard / nib setup

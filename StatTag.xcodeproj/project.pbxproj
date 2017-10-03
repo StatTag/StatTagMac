@@ -166,7 +166,6 @@
 		387632411DA7D70500680898 /* PercentagePropertiesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 387632401DA7D70500680898 /* PercentagePropertiesController.m */; };
 		387632461DA7E2AC00680898 /* DateTimePropertiesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 387632441DA7E2AC00680898 /* DateTimePropertiesController.m */; };
 		387632471DA7E2AC00680898 /* DateTimePropertiesController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 387632451DA7E2AC00680898 /* DateTimePropertiesController.xib */; };
-		3876324B1DA8383900680898 /* AppEventListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 3876324A1DA8383900680898 /* AppEventListener.m */; };
 		3876324F1DA83B6C00680898 /* StatTagNeedsWordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3876324D1DA83B6C00680898 /* StatTagNeedsWordViewController.m */; };
 		387632501DA83B6C00680898 /* StatTagNeedsWordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3876324E1DA83B6C00680898 /* StatTagNeedsWordViewController.xib */; };
 		387632541DA9402500680898 /* STTag+Preview.m in Sources */ = {isa = PBXBuildFile; fileRef = 387632531DA9402500680898 /* STTag+Preview.m */; };
@@ -596,8 +595,6 @@
 		387632431DA7E2AC00680898 /* DateTimePropertiesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DateTimePropertiesController.h; sourceTree = "<group>"; };
 		387632441DA7E2AC00680898 /* DateTimePropertiesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DateTimePropertiesController.m; sourceTree = "<group>"; };
 		387632451DA7E2AC00680898 /* DateTimePropertiesController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DateTimePropertiesController.xib; sourceTree = "<group>"; };
-		387632491DA8383900680898 /* AppEventListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppEventListener.h; sourceTree = "<group>"; };
-		3876324A1DA8383900680898 /* AppEventListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppEventListener.m; sourceTree = "<group>"; };
 		3876324C1DA83B6C00680898 /* StatTagNeedsWordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatTagNeedsWordViewController.h; sourceTree = "<group>"; };
 		3876324D1DA83B6C00680898 /* StatTagNeedsWordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagNeedsWordViewController.m; sourceTree = "<group>"; };
 		3876324E1DA83B6C00680898 /* StatTagNeedsWordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StatTagNeedsWordViewController.xib; sourceTree = "<group>"; };
@@ -1123,7 +1120,6 @@
 			children = (
 				3836F54C1D92C89900BF0DD4 /* AppDelegate.h */,
 				3836F54D1D92C89900BF0DD4 /* AppDelegate.m */,
-				387632481DA837FF00680898 /* AppEventListener */,
 				3836F5551D92C89900BF0DD4 /* Assets.xcassets */,
 				387632511DA93FF400680898 /* Categories */,
 				38F803501D9DAF5500C8F1EA /* Classes */,
@@ -1353,15 +1349,6 @@
 				38FFDD231E8D5C3F004D92C3 /* UnlinkedTagsViewController.xib */,
 			);
 			name = UnlinkedTags;
-			sourceTree = "<group>";
-		};
-		387632481DA837FF00680898 /* AppEventListener */ = {
-			isa = PBXGroup;
-			children = (
-				387632491DA8383900680898 /* AppEventListener.h */,
-				3876324A1DA8383900680898 /* AppEventListener.m */,
-			);
-			path = AppEventListener;
 			sourceTree = "<group>";
 		};
 		387632511DA93FF400680898 /* Categories */ = {
@@ -2287,7 +2274,6 @@
 				386689561E9BD37D00A5A1CB /* DocumentBrowserDocumentViewController.m in Sources */,
 				38EDC05C1EE0EF2200A7BFD2 /* DuplicateTagRenameViewController.m in Sources */,
 				38C3CC761DA428E700CEA70C /* DisclosureViewController.m in Sources */,
-				3876324B1DA8383900680898 /* AppEventListener.m in Sources */,
 				38D8B1C71D95872A00BF878A /* UpdateOutputProgressViewController.m in Sources */,
 				385221CC1DAE98CB005E804B /* SCMarkerCollection.mm in Sources */,
 				3828C8161E9D0AB8000A4159 /* DuplicateTagDetailRowView.m in Sources */,

@@ -15,7 +15,6 @@
 #import "SettingsViewController.h"
 #import "UpdateOutputViewController.h"
 #import "StatTagNeedsWordViewController.h"
-#import "AppEventListener.h"
 #import "ViewUtils.h"
 #import "FileMonitor.h"
 #import "STCodeFile+FileMonitor.h"
@@ -68,29 +67,6 @@ NSString* const kStatTagErrorDomain = @"STErrorDomain";
     [fm stopMonitoring];
   }
 }
-
-//-(void)monitorCodeFile:(STCodeFile*)file
-//{
-//  if([file fileMonitor] == nil)
-//  {
-//    [file setFileMonitor:[[FileMonitor alloc] init]];
-//    [[file fileMonitor] setFilePath:[file FilePathURL]];
-//    //[[file fileMonitor] observeChangesForObject:file withKeyPath:NSStringFromSelector(@selector(FilePathURL))];
-//  }
-//  if(![[self fileMonitors] containsObject:[file fileMonitor]])
-//  {
-//    [[file fileMonitor] startMonitoring];
-//    [[self fileMonitors] addObject:[file fileMonitor]];
-//  }
-//}
-//-(void)stopMonitoringCodeFile:(STCodeFile*)file
-//{
-//  if([[self fileMonitors] containsObject:[file fileMonitor]])
-//  {
-//    [[file fileMonitor] stopMonitoring];
-//    [[self fileMonitors] removeObject:[file fileMonitor]];
-//  }
-//}
 
 
 + (id)allocWithZone:(NSZone*)zone {
@@ -151,92 +127,6 @@ NSString* const kStatTagErrorDomain = @"STErrorDomain";
 
 }
 
--(void)initializeWordViews
-{
-  //mainWindow was hit or miss, so we're not using it - really unclear to me why this is nil during setup
-  //  self.mainVC = (MainTabViewController*)[[[[NSApplication sharedApplication] mainWindow] windowController] contentViewController];//[[NSApp mainWindow] windowController];
-  
-  StatTagShared* shared = [StatTagShared sharedInstance];
-  
-  NSWindow *window = [[[NSApplication sharedApplication] windows] firstObject];
-
-  
-  //get our root view controller
-  //  shared.mainVC = (MainTabViewController*)[[window windowController] contentViewController];
-  //hrm... I wonder if we're screwing this up by assigning this here...
-
-  MainTabViewController* t = [[NSStoryboard storyboardWithName:@"Main" bundle:nil] instantiateControllerWithIdentifier:@"MainTabViewController"];
-  [[window windowController] setContentViewController:t];
-  shared.mainVC = t;
-    
-  //set up some of our shared stattag stuff
-  shared.app= [[[STGlobals sharedInstance] ThisAddIn] Application];
-  shared.doc = [[shared app] activeDocument]; //this will be problematic ongoing when we open / close documents, etc.
-  shared.docManager = [[STDocumentManager alloc] init];
-  
-  shared.logManager = [[STLogManager alloc] init];
-  shared.propertiesManager = [[STPropertiesManager alloc] init];
-
-  [[shared propertiesManager] Load];
-  //self.properties = [[self propertiesManager] Properties]; //just for setup
-  
-  shared.logManager.Enabled = shared.propertiesManager.Properties.EnableLogging;
-  if(shared.propertiesManager.Properties.LogLocation != nil)
-  {
-    shared.logManager.LogFilePath = [NSURL fileURLWithPath:shared.propertiesManager.Properties.LogLocation];
-  }
-  
-  //get our code file list on startup
-  //  [[shared docManager] LoadCodeFileListFromDocument:[shared doc]];
-  
-  // Set up Code File Manager
-  //-----------
-  //send over our managers, etc.
-  ManageCodeFilesViewController* codeFilesVC = (ManageCodeFilesViewController*)[[[[shared mainVC ] tabView] tabViewItemAtIndex:(StatTagTabIndexes)ManageCodeFiles] viewController];
-  shared.codeFilesViewController = codeFilesVC;
-  codeFilesVC.documentManager = [shared docManager];
-  //  codeFilesVC.codeFiles = [[shared docManager] GetCodeFileList]; //just for setup
-  
-  // Set up Preferences Manager
-  //-----------
-  SettingsViewController* settingsVC = (SettingsViewController*)[[[[shared mainVC ] tabView] tabViewItemAtIndex:(StatTagTabIndexes)Settings] viewController];
-  settingsVC.propertiesManager = [shared propertiesManager];
-  settingsVC.logManager = [shared logManager];
-  [[settingsVC propertiesManager] Load];
-  settingsVC.properties = [[shared propertiesManager] Properties]; //just for setup
-  [[StatTagShared sharedInstance] setSettingsViewController: settingsVC];
-  //  [propertiesManager Load];
-  
-  
-  // Set up Code File Manager
-  //-----------
-  //send over our managers, etc.
-  UpdateOutputViewController* updateOutputVC = (UpdateOutputViewController*)[[[[shared mainVC ] tabView] tabViewItemAtIndex:(StatTagTabIndexes)UpdateOutput] viewController];
-  updateOutputVC.documentManager = [shared docManager];
-  shared.tagsViewController = updateOutputVC;
-  //updateOutputVC.codeFiles = [[shared docManager] GetCodeFileList]; //just for setup
-  
-  
-  NSStoryboard* storyBoard = [NSStoryboard storyboardWithName:@"Main" bundle:nil];
-  if(storyBoard != nil) {
-    StatTagNeedsWordViewController* wc = [storyBoard instantiateControllerWithIdentifier:@"StatTagNeedsWordViewController"];
-    shared.needsWordController = wc;
-    
-    //    [AppEventListener updateWordViewController];
-    
-    if([AppEventListener wordIsOK]) {
-      [[shared docManager] LoadCodeFileListFromDocument:[shared doc]];
-      codeFilesVC.codeFiles = [[shared docManager] GetCodeFileList]; //just for setup
-      [[window windowController] setContentViewController:shared.mainVC ];
-      [window setStyleMask:[window styleMask] | NSResizableWindowMask];
-    } else {
-      [[window windowController] setContentViewController:shared.needsWordController ];
-      [window setStyleMask:[window styleMask] & ~NSResizableWindowMask];
-    }
-  }
-  
-  [self logAppStartup];
-}
 
 -(void)setArchivedWindowFrame:(NSRect)archivedWindowFrame
 {
@@ -332,21 +222,6 @@ NSString* const kStatTagErrorDomain = @"STErrorDomain";
 {
   [[self logManager] WriteMessage:[NSString stringWithFormat:@"Starting StatTag... OS: %@; Hardware: %@; RAM: %@", [STCocoaUtil macOSVersion], [STCocoaUtil machineModel], [STCocoaUtil physicalMemory]]];
 }
-
-//-(void)fileDidChange:(NSDictionary*)fileInfo
-//{
-//  NSLog(@"received fileDidChange notification");
-//}
-
-//-(void)logMessage:(NSString*)message
-//{
-//  [[self logManager] WriteMessage:message];
-//}
-//
-//-(void)logException:(NSException*)exception
-//{
-//  [[self logManager] WriteException: exception];
-//}
 
 
 @end

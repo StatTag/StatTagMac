@@ -35,8 +35,8 @@ UpdateOutputProgressViewController* tagUpdateProgressController;
 TagEditorViewController* tagEditorController;
 
 
-BOOL breakLoop = YES;
-#define maxloop 1000
+//BOOL breakLoop = YES;
+//#define maxloop 1000
 
 -(id)init {
   self = [super init];

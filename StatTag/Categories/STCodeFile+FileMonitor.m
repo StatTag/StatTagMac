@@ -20,7 +20,7 @@ static void *FileMonitorPropertyKey = &FileMonitorPropertyKey;
 @implementation STCodeFile (FileMonitor)
 
 -(FileMonitor*)fileMonitor {
-  NSLog(@"getting file monitor");
+  //NSLog(@"getting file monitor");
   FileMonitor* f = objc_getAssociatedObject(self, FileMonitorPropertyKey);
   if(f == nil) {
     //in case we don't have our file monitor initialized
@@ -35,7 +35,7 @@ static void *FileMonitorPropertyKey = &FileMonitorPropertyKey;
 }
 
 - (void)setFileMonitor:(FileMonitor *)fileMonitor {
-  NSLog(@"setting file monitor");
+  //NSLog(@"setting file monitor");
 
   objc_setAssociatedObject(self, FileMonitorPropertyKey, fileMonitor, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
