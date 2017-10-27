@@ -112,7 +112,7 @@
   //FIXME: Word will happily return a reference to a non-existent object - it will NOT be nil
   @try {
     STMSWord2011Document* doc = [[self Application] activeDocument];
-    if([doc name] != nil) {
+    if(doc && [doc name] != nil) {
       //we can actually get an invalid document reference from the API
       //(name is nil - name should never be nil - return nil if we don't have a doc name)
       return doc;

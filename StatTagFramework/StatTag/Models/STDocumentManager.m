@@ -287,7 +287,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
     }
     
     
-    if (![_TagManager IsStatTagField:field])
+    if (![[_TagManager class] IsStatTagField:field])
     {
       //Marshal.ReleaseComObject(field);
       continue;
@@ -539,7 +539,7 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
         continue;
       }
       
-      if (![_TagManager IsStatTagField:field])
+      if (![[_TagManager class] IsStatTagField:field])
       {
         [self setValue:[NSNumber numberWithInteger:index+1] forKey:@"wordFieldsUpdated"];
         continue;
@@ -1074,9 +1074,9 @@ Insert an StatTag field at the currently specified document range.
                                           ]
                                          ];
   
-  [STGlobals activateDocument];
+//  [STGlobals activateDocument];
   STMSWord2011Field* dataField = [fields firstObject];
-  [STGlobals activateDocument];
+//  [STGlobals activateDocument];
   dataField.fieldText = [tag Serialize:nil];
   
   //NSLog(@"CreateTagField - Finished");
@@ -1172,7 +1172,7 @@ Insert an StatTag field at the currently specified document range.
 
 -(void)EditTagField:(STMSWord2011Field*)field
 {
-  if ([_TagManager IsStatTagField:field])
+  if ([[_TagManager class] IsStatTagField:field])
   {
     STFieldTag* fieldTag = [_TagManager GetFieldTag:field];
     STTag* tag = [_TagManager FindTag:fieldTag];
@@ -1453,6 +1453,12 @@ Insert an StatTag field at the currently specified document range.
   [self RemoveCodeFile:fileName document:nil];
 }
 
+-(void)LoadAllTagsFromCodeFiles
+{
+  for(STCodeFile* file in [self GetCodeFileList]) {
+    [file LoadTagsFromContent];
+  }
+}
 
 
 -(void) UpdateRenamedTags:(NSArray<STUpdatePair<STTag*>*>*) updates

@@ -15,6 +15,8 @@
 
 @implementation TagIndicatorView
 
+@synthesize isLoading = _isLoading;
+
 /*
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -22,8 +24,11 @@
 }
 */
 
+//fixme a LOT of this should be done lazily and stored. We're dynamically recreating images on the fly here (bad)
+
 -(instancetype)init
 {
+  NSLog(@"lading TagIndicatorView - init()");
   self = [super init];
   if(self){
     
@@ -31,14 +36,30 @@
   return self;
 }
 
--(instancetype)initWithType:(TagIndicatorViewTagStyle)tagStyle andLabel:(NSString*)label
+- (void)drawRect:(NSRect)dirtyRect {
+  [super drawRect:dirtyRect];
+}
+
+-(instancetype)initWithStyle:(TagIndicatorViewTagStyle)tagStyle andLabel:(NSString*)label
 {
+  NSLog(@"lading TagIndicatorView - initWithStyle()");
+
   self = [super init];
   if(self){
     [self setTagStyle:tagStyle];
     [[self tagLabel] setStringValue:label];
   }
   return self;
+}
+
+-(BOOL)isLoading
+{
+  return _isLoading;
+}
+
+-(void)setIsLoading:(BOOL)loading;
+{
+  _isLoading = loading;
 }
 
 
@@ -71,6 +92,12 @@
   }
 }
 
+//+ (nonnull NSColor*)colorFromRGBRed:(CGFloat)r  green:(CGFloat)g blue:(CGFloat)b alpha:(CGFloat)a;
++(NSColor*)greenColor
+{
+  return [StatTagShared colorFromRGBRed:30.0 green:206.0 blue:66.0 alpha:1.0];
+}
+
 //tinting
 + (NSImage *)colorImage:(NSImage*)image forTagIndicatorViewTagStyle:(TagIndicatorViewTagStyle)style
 {
@@ -78,7 +105,7 @@
   switch(style)
   {
     case TagIndicatorViewTagStyleNormal:
-      copiedImage = [[self class] colorImage:image withTint:[NSColor greenColor]];
+      copiedImage = [[self class] colorImage:image withTint:[[self class] greenColor]];
       break;
     case TagIndicatorViewTagStyleWarning:
       copiedImage = [[self class] colorImage:image withTint:[NSColor orangeColor]];

@@ -46,6 +46,9 @@
 
 @property (strong) IBOutlet NSArrayController *tagSummaryArrayController;
 
+-(void)beginLoadingUnlinkedTags;
+-(void)completeLoadingUnlinkedTags;
+@property BOOL loadingUnlinkedTags;
 
 @property (nonatomic, weak) id<DocumentBrowserCodeFilesDelegate> delegate;
 //@property (nonatomic, weak) id<DocumentBrowserDocumentDelegate> documentBrowserDelegate;

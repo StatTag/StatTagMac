@@ -15,6 +15,7 @@
 
 #import "STDocumentManager+FileMonitor.h"
 #import "NSURL+FileAccess.h"
+#import "StatTagWordDocument.h"
 
 @interface DocumentBrowserDocumentViewController ()
 
@@ -48,7 +49,7 @@
 -(void)dealloc
 {
   [self stopMonitoringCodeFiles];
-  //[self stopObservingNotifications];
+  [self stopObservingNotifications];
 }
 
 //MARK: view events
@@ -64,7 +65,8 @@
   [self.codeFilesView addSubview:cfView];
   
   self.codeFilesViewController.delegate = self;
-  
+  [self startObservingUnlinkedTagProcessing];
+
  // [self beginObservingCodeFileMonitoringNotifications];
 }
 
@@ -90,6 +92,7 @@
 {
   [self stopMonitoringCodeFiles];
   _document = document;
+  
   [self startMonitoringCodeFiles];
   //_documentManager.activeDocument = document;
   //FIXME: removed
@@ -149,7 +152,9 @@
   
   [[self unlinkedTagsViewController] setUnlinkedTags:unlinkedTags];
    */
-  [[self unlinkedTagsViewController] setUnlinkedTags:[[self documentManager] FindAllUnlinkedTags]];
+  //EWW REMOVED FUNCTIONALITY
+  //[[self unlinkedTagsViewController] setUnlinkedTags:[[self documentManager] FindAllUnlinkedTags]];
+  [[self unlinkedTagsViewController] setUnlinkedTags: [[[StatTagShared sharedInstance] activeStatTagWordDocument] unlinkedTags]];
   [[self codeFilesViewController] focusOnTags:TagIndicatorViewTagFocusUnlinkedTags];
 }
 
@@ -157,7 +162,9 @@
 {
   //our unlinked tags changed
   [[self codeFilesViewController] configure];
-  [[self unlinkedTagsViewController] setUnlinkedTags:[[self documentManager] FindAllUnlinkedTags]];
+
+  //EWW REMOVED FUNCTIONALITY
+  //[[self unlinkedTagsViewController] setUnlinkedTags:[[self documentManager] FindAllUnlinkedTags]];
   if([[unlinkedTagsViewController unlinkedTags] count] > 0)
   {
     [self focusOnUnlinkedTags];
@@ -291,6 +298,7 @@
 
 -(void)stopObservingNotifications
 {
+  NSLog(@"DocumentBrowser - stopObservingNotifications");
   [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -303,7 +311,6 @@
 
 -(void)stopMonitoringCodeFiles
 {
-  [self stopObservingNotifications];
   [[self documentManager] stopMonitoringCodeFiles];
 }
 
@@ -333,6 +340,48 @@
   [alert runModal];
   
 }
+
+
+//MARK: Unlinked tags (long process) observer
+
+
+-(void)startObservingUnlinkedTagProcessing
+{
+  //NSLog(@"startObservingUnlinkedTagProcessing");
+  [[NSNotificationCenter defaultCenter]addObserver:self
+                                          selector:@selector(unlinkedTagProcessingBegan:)
+                                              name:@"UnlinkedTagProcessingBegan"
+                                            object:nil];
+  
+  [[NSNotificationCenter defaultCenter]addObserver:self
+                                          selector:@selector(unlinkedTagProcessingCompleted:)
+                                              name:@"UnlinkedTagProcessingCompleted"
+                                            object:nil];
+}
+
+-(void)unlinkedTagProcessingBegan:(NSNotification *)notification
+{
+  //NSLog(@"Document Browser - unlinkedTagProcessingBegan");
+  NSDictionary* docInfo = [notification userInfo];
+  NSString* doc = [docInfo valueForKey:@"doc"];
+  if([doc isEqualToString:[[self document] name]])
+  {
+    //NSLog(@"Document Browser - Unlinked Tags Impacts Current Doc");
+    [[self codeFilesViewController] beginLoadingUnlinkedTags];
+  }
+}
+-(void)unlinkedTagProcessingCompleted:(NSNotification *)notification
+{
+  //NSLog(@"Document Browser - unlinkedTagProcessingCompleted");
+  NSDictionary* docInfo = [notification userInfo];
+  NSString* doc = [docInfo valueForKey:@"doc"];
+  if([doc isEqualToString:[[self document] name]])
+  {
+    [[self codeFilesViewController] completeLoadingUnlinkedTags];
+    //NSLog(@"Document Browser - Unlinked Tags Impacts Current Doc");
+  }
+}
+
 
 
 @end

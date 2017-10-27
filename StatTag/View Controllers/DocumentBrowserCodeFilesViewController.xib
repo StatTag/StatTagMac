@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="13196" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12120"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13196"/>
         <capability name="box content view" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -79,7 +80,7 @@
                                                 <rect key="frame" x="40" y="1" width="163" height="40"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
-                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yka-hl-Xib">
+                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Yka-hl-Xib">
                                                         <rect key="frame" x="0.0" y="23" width="163" height="17"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="OHi-rs-05L">
@@ -91,7 +92,7 @@
                                                             <binding destination="PV6-Xf-Fh8" name="value" keyPath="objectValue.FileName" id="iYF-n6-aRz"/>
                                                         </connections>
                                                     </textField>
-                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Ai-ET-eVf">
+                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Ai-ET-eVf">
                                                         <rect key="frame" x="0.0" y="3" width="163" height="17"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                         <textFieldCell key="cell" lineBreakMode="truncatingMiddle" sendsActionOnEndEditing="YES" title="Table View Cell" id="PFk-M8-mVo">
@@ -227,7 +228,7 @@
                                 <color key="backgroundColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                 <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                 <tableColumns>
-                                    <tableColumn width="175" minWidth="40" maxWidth="1000" id="d9h-zU-Tk8">
+                                    <tableColumn identifier="tagIndicatorColumn" width="229" minWidth="40" maxWidth="1000" id="d9h-zU-Tk8">
                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
                                             <font key="font" metaFont="smallSystem"/>
                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -240,12 +241,12 @@
                                         </textFieldCell>
                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                         <prototypeCellViews>
-                                            <tableCellView id="fY4-JU-rfs">
-                                                <rect key="frame" x="1" y="3" width="175" height="17"/>
+                                            <tableCellView identifier="tagDashboardCell" id="fY4-JU-rfs" customClass="TagIndicatorView">
+                                                <rect key="frame" x="1" y="3" width="229" height="17"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
-                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ree-VA-AzC">
-                                                        <rect key="frame" x="0.0" y="0.0" width="175" height="17"/>
+                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ree-VA-AzC">
+                                                        <rect key="frame" x="0.0" y="0.0" width="180" height="17"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="3we-3T-AIP">
                                                             <font key="font" metaFont="system"/>
@@ -256,36 +257,13 @@
                                                             <binding destination="fY4-JU-rfs" name="value" keyPath="objectValue.tagGroupTitle" id="F8t-A6-gSy"/>
                                                         </connections>
                                                     </textField>
-                                                </subviews>
-                                                <connections>
-                                                    <outlet property="textField" destination="Ree-VA-AzC" id="L3f-mg-hP4"/>
-                                                </connections>
-                                            </tableCellView>
-                                        </prototypeCellViews>
-                                        <connections>
-                                            <binding destination="r6k-fG-ho7" name="value" keyPath="arrangedObjects.tagGroupTitle" id="2Vu-We-ZWk"/>
-                                        </connections>
-                                    </tableColumn>
-                                    <tableColumn identifier="tagIndicatorColumn" width="51" minWidth="10" maxWidth="3.4028234663852886e+38" id="cTY-Ei-vpJ">
-                                        <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
-                                            <font key="font" metaFont="smallSystem"/>
-                                            <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </tableHeaderCell>
-                                        <imageCell key="dataCell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="tag_button" id="Rvy-7S-Dyz"/>
-                                        <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
-                                        <prototypeCellViews>
-                                            <tableCellView identifier="tagIndicatorCellView" id="u2B-OV-RXf">
-                                                <rect key="frame" x="179" y="3" width="51" height="17"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                <subviews>
                                                     <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Nte-v7-AVI">
-                                                        <rect key="frame" x="12" y="0.0" width="36" height="20"/>
+                                                        <rect key="frame" x="190" y="-1" width="36" height="20"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="tag_button" id="HgQ-ca-AVf"/>
                                                     </imageView>
-                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" allowsExpansionToolTips="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lje-Xa-pDs">
-                                                        <rect key="frame" x="20" y="0.0" width="29" height="17"/>
+                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Lje-Xa-pDs">
+                                                        <rect key="frame" x="200" y="-1" width="24" height="17"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="right" title="0" id="nKV-0u-osg">
                                                             <font key="font" metaFont="smallSystem"/>
@@ -293,13 +271,23 @@
                                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                         </textFieldCell>
                                                     </textField>
+                                                    <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" maxValue="100" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="eaH-Qc-s2i">
+                                                        <rect key="frame" x="202" y="1" width="16" height="16"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    </progressIndicator>
                                                 </subviews>
                                                 <connections>
-                                                    <outlet property="imageView" destination="Nte-v7-AVI" id="SOY-Uo-eKs"/>
-                                                    <outlet property="textField" destination="Lje-Xa-pDs" id="ndL-yS-al9"/>
+                                                    <outlet property="tagCountLabel" destination="Lje-Xa-pDs" id="hl8-6F-8Ja"/>
+                                                    <outlet property="tagImageView" destination="Nte-v7-AVI" id="BdL-qE-zzd"/>
+                                                    <outlet property="tagLabel" destination="Ree-VA-AzC" id="2My-BC-W9E"/>
+                                                    <outlet property="tagProgressIndicator" destination="eaH-Qc-s2i" id="BKJ-Pa-P8R"/>
+                                                    <outlet property="textField" destination="Ree-VA-AzC" id="L3f-mg-hP4"/>
                                                 </connections>
                                             </tableCellView>
                                         </prototypeCellViews>
+                                        <connections>
+                                            <binding destination="r6k-fG-ho7" name="value" keyPath="arrangedObjects.tagGroupTitle" id="2Vu-We-ZWk"/>
+                                        </connections>
                                     </tableColumn>
                                 </tableColumns>
                                 <connections>
@@ -326,7 +314,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="232" height="20"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nEI-LD-1KG">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nEI-LD-1KG">
                                 <rect key="frame" x="2" y="2" width="228" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="DASHBOARD" id="GoW-EQ-Nrb">
                                     <font key="font" metaFont="systemBold" size="12"/>
@@ -350,7 +338,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="232" height="20"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Iou-DW-0Xd">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Iou-DW-0Xd">
                                 <rect key="frame" x="2" y="2" width="228" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="CODE FILES" id="e09-te-YZy">
                                     <font key="font" metaFont="systemBold" size="12"/>
@@ -387,7 +375,7 @@
                 <constraint firstItem="7FJ-6j-toJ" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="qgA-ZO-dSf"/>
                 <constraint firstItem="vQm-0o-JPP" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="u6e-Ue-hbe"/>
             </constraints>
-            <point key="canvasLocation" x="-36.5" y="191.5"/>
+            <point key="canvasLocation" x="-37" y="191.5"/>
         </customView>
         <arrayController id="dNU-vC-xar" userLabel="Code Files Controller">
             <connections>

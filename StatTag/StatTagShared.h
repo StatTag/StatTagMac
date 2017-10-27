@@ -14,6 +14,8 @@
 @class MainTabViewController;
 @class STMSWord2011Application;
 @class STMSWord2011Document;
+@class STMSWord2011Field;
+
 @class STDocumentManager;
 @class ManageCodeFilesViewController;
 @class STPropertiesManager;
@@ -23,6 +25,9 @@
 @class FileMonitor;
 @class UpdateOutputViewController;
 @class STCodeFile;
+@class StatTagWordDocument;
+
+@class StatTagWordDocumentPendingValidations;
 
 #import "STLogManager.h"
 
@@ -34,6 +39,10 @@
   STPropertiesManager* _propertiesManager;
   STLogManager* _logManager;
   NSRect _archivedWindowFrame;
+  
+
+//  NSDictionary<STMSWord2011Document*, NSArray<STMSWord2011Field*>*>* _documentDictionary;
+  
 //  NSMutableArray<FileMonitor*>* _fileMonitors;
 //  NSMutableArray<NSDictionary*>* _fileNotifications;
   //  NSWindow* _mainWindow;
@@ -52,6 +61,10 @@
 @property (strong, nonatomic, nullable) SettingsViewController* settingsViewController;
 @property (strong, nonatomic, nullable) UpdateOutputViewController* tagsViewController;
 
+//later - circle back and make this a collection so we can do the same caching across documents
+@property (strong, nonatomic, nullable) NSMutableDictionary<NSString*, StatTagWordDocument*>* StatTagWordDocuments;
+@property (strong, nonatomic, nullable) StatTagWordDocument* activeStatTagWordDocument;
+
 @property (strong, nonatomic, nullable) NSString* lastLaunchedAppVersion;
 -(BOOL)isFirstLaunch;
 -(BOOL)isNewVersion;
@@ -68,6 +81,10 @@
 @property (weak, nonatomic, nullable) NSWindow* window;
 
 @property (strong, nonatomic, nullable) NSMutableArray<FileMonitor*>* fileMonitors;
+
+
+@property (strong, nonatomic, nullable) StatTagWordDocumentPendingValidations* pendingValidations;
+-(void)validateDocument:(nonnull StatTagWordDocument*)doc;
 
 -(void)configureBasicProperties;
 

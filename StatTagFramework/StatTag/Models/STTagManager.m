@@ -122,13 +122,13 @@ the DocumentManager instance that contains it.
  Given a Word field, determine if it is our specialized StatTag field type given
  its composition.
 */
--(BOOL)IsStatTagField:(STMSWord2011Field*) field {
++(BOOL)IsStatTagField:(STMSWord2011Field*) field {
   return(field != nil
          //fieldType is a STMSWord2011E183 enum, so we are looking for value "STMSWord2011E183FieldMacroButton" (which is "51" in the Windows version)
          //NOTE: the scripting bridge doesn't successfully import this macro field value name, so you need to supply it yourself - see the readme in the StatTag base project directory
          && [field fieldType] == STMSWord2011E183FieldMacroButton
-         && [field fieldCode] != nil && [[[[field fieldCode] formattedText] content] containsString:[STConstantsFieldDetails MacroButtonName]]
          && [[[field fieldCode] fields] count] > 0
+         && [field fieldCode] != nil && [[[[field fieldCode] formattedText] content] containsString:[STConstantsFieldDetails MacroButtonName]]
          );
 }
 
@@ -242,7 +242,7 @@ the DocumentManager instance that contains it.
  1) (Code file missing) Tag exists in document, but referenced code file does not
  2) (Tag no longer in code file) Tag exists in document, referenced code file exists, but tag no longer in code file
  */
--(NSDictionary<NSString*, NSArray<STTag*>*>*) FindAllUnlinkedTags {
+-(NSDictionary<NSString*, NSArray<STTag*>*>*) FindAllUnlinkedTagsOriginal {
   //NSLog(@"FindAllUnlinkedTags - Started");
   NSMutableDictionary<NSString*, NSMutableArray<STTag*>*>* results = [[NSMutableDictionary<NSString*, NSMutableArray<STTag*>*> alloc] init];
   @autoreleasepool {
@@ -264,40 +264,41 @@ the DocumentManager instance that contains it.
     //==========================================================
     NSArray<STMSWord2011Field*>* fields = [document fields];
     NSInteger fieldsCount = [fields count];
-
+    
     //counting backwards
     for (NSInteger index = fieldsCount - 1; index >= 0; index--) {
-      STMSWord2011Field* field = fields[index];
-      if(field == nil) {
-        //NSLog(@"Null field detected at index %ld", index);
-        continue;
-      }
-
-      if(![self IsStatTagField:field]) {
-        continue;
-      }
-
-      //NSLog(@"Processing StatTag field");
-      STFieldTag* tag = [self GetFieldTag:field];
-      if(tag == nil) {
-        //NSLog(@"The field tag is null or could not be found");
-        continue;
-      }
-
-      BOOL hasFilePath = false;
-      for(STCodeFile* cf in files) {
-        if([[cf FilePath] isEqualToString:[tag CodeFilePath]]) {
-          hasFilePath = true;
+      
+        STMSWord2011Field* field = fields[index];
+        if(field == nil) {
+          //NSLog(@"Null field detected at index %ld", index);
+          continue;
         }
-      }
-      if(!hasFilePath || ![allTags containsObject:tag]) {
-        //!hasFilePath => this tag refers to an invalid code file path
-        //![allTags containsObject:tag] => we have a file path that's valid, but now let's check to see if the tag we're looking at is actually found in the code file(s)
-        if([results objectForKey:[tag CodeFilePath]] == nil) {
-          [results setObject:[[NSMutableArray<STTag*> alloc] init] forKey:[tag CodeFilePath]];
+
+        if(![[self class] IsStatTagField:field]) {
+          continue;
         }
-        [[results objectForKey:[tag CodeFilePath]] addObject:tag];
-      }
+      
+        //NSLog(@"Processing StatTag field");
+        STFieldTag* tag = [self GetFieldTag:field];
+        if(tag == nil) {
+          //NSLog(@"The field tag is null or could not be found");
+          continue;
+        }
+
+        BOOL hasFilePath = false;
+        for(STCodeFile* cf in files) {
+          if([[cf FilePath] isEqualToString:[tag CodeFilePath]]) {
+            hasFilePath = true;
+          }
+        }
+        if(!hasFilePath || ![allTags containsObject:tag]) {
+          //!hasFilePath => this tag refers to an invalid code file path
+          //![allTags containsObject:tag] => we have a file path that's valid, but now let's check to see if the tag we're looking at is actually found in the code file(s)
+          if([results objectForKey:[tag CodeFilePath]] == nil) {
+            [results setObject:[[NSMutableArray<STTag*> alloc] init] forKey:[tag CodeFilePath]];
+          }
+          [[results objectForKey:[tag CodeFilePath]] addObject:tag];
+        }
     }
     
     
@@ -327,8 +328,6 @@ the DocumentManager instance that contains it.
         //NSLog(@"Null field detected at index %ld", index);
         continue;
       }
-      
-      
       
       //go through all the tags
       // if we find one which matches then we can ignore
@@ -362,6 +361,182 @@ the DocumentManager instance that contains it.
   }
 }
 
+-(NSDictionary<NSString*, NSArray<STTag*>*>*) FindAllUnlinkedTags {
+
+  __block NSMutableDictionary<NSString*, NSMutableArray<STTag*>*>* results = [[NSMutableDictionary<NSString*, NSMutableArray<STTag*>*> alloc] init];
+  __block NSMutableDictionary<NSString*, STMSWord2011Field*>* unique_fields_dict = [[NSMutableDictionary<NSString*, STMSWord2011Field*> alloc] init];
+
+  @autoreleasepool {
+    
+    STMSWord2011Application* application = [[[STGlobals sharedInstance] ThisAddIn] Application];
+    STMSWord2011Document* document = [application activeDocument];
+    
+    
+    // Fields is a 1-based index
+    // -- EWW -> above is from the original c# - will be interesting to see if this is the case for the Mac version
+    //FIXME: check later to see if Fields is 1-based index
+    NSArray<STCodeFile*>* files = [_DocumentManager GetCodeFileList];
+    //NSLog(@"Preparing to process %ld fields", fieldsCount);
+    
+    NSArray<STTag*>* allTags = [self GetTags];
+//    NSArray<STTag*>* allTagNames = [allTags valueForKey:@"Name"];
+//    NSArray<STTag*>* allTagPaths = [allTags valueForKey:@"FilePath"];
+
+    //==========================================================
+    // FIELDS
+    //==========================================================
+    NSArray<STMSWord2011Field*>* fields = [document fields];
+    NSInteger fieldsCount = [fields count];
+    
+    //FIXME: performance fixes
+    // change this a bit...
+    // if the tag NAME is NOT found at all - we know it's unlinked
+    // then, for the remainder of the ones with names... try by path
+    // ANYTHING to help us skip accessing the fieldText -> hit - 300ms (minimum)
+    // this is going to be risky - we're likely to have to use the "name" element (field code) to de-duplicate initially instead of the id (which contains path)
+    /*
+     There are two scenarios where we'll have unlinked tags
+     1) tag name exists in Word field, but not in tag list
+     2) tag path in Word field does not exist in code file list
+     
+     Yes - you're right - in an ideal world, we'd just reconstitute all tags from fields and be done with it.
+     BUT - accessing the fieldText property seems to have a fixed cost of around 300ms. That's a huge performance hit.
+     
+     We're going to see if we can slim down that cost by first asking if the tag name exists at all. If not, definitely unlinked - go to next tag.
+     
+     The problem is going to be that a tag name is NOT unique enough. People could be using duplicate tag names across code files.
+     
+     HIGH RISK ->
+     We're also going to have to cheat a bit here - and not in a good way.
+
+     We're going to use the field tag name as the unique key instead of the path on the first go so we can condense the set. The impact here will be that our performance should (ideally) be marginally better - at the cost of accuracy. We will not know for sure if the tag is really missing or not because we're not validating each unique file path.
+     
+     SAMPLES:
+     
+     [ MacroButton StatTag 15.4 ADDIN Average Speed ]
+     [ MacroButton StatTag 15.40 ADDIN r test with Leah ]
+     [ MacroButton StatTag 50 ADDIN Num Obs ]
+     [ MacroButton StatTag 334 ADDIN test_of_new_tag ]
+
+     according to BBEdit, there are control characters in the following positions...
+     using "?" to show presence of character
+     
+     [ MacroButton StatTag 334? ADDIN test_of_new_tag ?]
+
+     1) Get all tags from code files
+     2) Get a list of duplicate tags? Can we do that quickly?
+     3) Get list of "distinct" fields by add-in label. This will NOT be truly distinct. If there are duplicate tags then we WILL have issues.
+       OPTIONS:
+        - Could we cross-check this against the duplicate tag list and expand it if necessary?
+     4) If the field title - aka tag name - does not exist in our tag list, add it to the list of unlinked tags - skip checking the file path
+     
+     */
+    
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
+    dispatch_apply(fieldsCount, queue, ^(size_t index) {
+      STMSWord2011Field* field = fields[index];
+      if(field != nil) {
+        if([[self class] IsStatTagField:field]) {
+          STMSWord2011TextRange* code = [field fieldCode];
+          //NSLog(@"parent fieldCode = [%@]", [code content]);
+          //NSLog(@"parent fieldText = [%@]", [field fieldText]);
+          STMSWord2011Field* nestedField = [code fields][0];
+          //NSLog(@"nestedField = [%@]", nestedField);
+          //NSLog(@"nestedField description = [%@]", [nestedField description]);
+          //NSLog(@"nestedField fieldCode = [%@]", [[nestedField fieldCode] content]);
+          //NSLog(@"nestedField fieldText = [%@]", [nestedField fieldText]);
+          [unique_fields_dict setObject:field forKey:[nestedField fieldText]];
+        }
+      }
+    });
+
+    //NSLog(@"unique_fields_dict : %@", unique_fields_dict);
+    
+    __block NSArray<NSString*>* codeFilePaths = [files valueForKey:@"FilePath"];
+    __block NSArray<STMSWord2011Field*>* unique_fields = [unique_fields_dict allValues];
+    fieldsCount = [unique_fields count];
+    
+    queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
+    dispatch_apply(fieldsCount, queue, ^(size_t index) {
+      STMSWord2011Field* field = [unique_fields objectAtIndex:index];
+      STFieldTag* tag = [self GetFieldTag:field];
+      if(tag != nil) {
+        if(![codeFilePaths containsObject:[tag CodeFilePath]] || ![allTags containsObject:tag]) {
+          if([results objectForKey:[tag CodeFilePath]] == nil) {
+            [results setObject:[[NSMutableArray<STTag*> alloc] init] forKey:[tag CodeFilePath]];
+          }
+          [[results objectForKey:[tag CodeFilePath]] addObject:tag];
+        }
+      }
+    });
+
+    //NSLog(@"results : %@", results);
+
+    
+    //==========================================================
+    // SHAPES
+    //==========================================================
+    // we have to approach this one a bit differently
+    
+    
+    //if the shape type is "image"...
+    // we have a figure tag
+    
+    NSMutableArray* allShapes = [[NSMutableArray alloc] init];
+    
+    
+    //[allShapes addObjectsFromArray:[document inlineShapes]]; //no reason to use these - they're not real tags
+    [allShapes addObjectsFromArray:[document shapes]];
+    
+    NSInteger shapesCount = [allShapes count];
+    
+    
+    for (NSInteger index = shapesCount - 1; index >= 0; index--) {
+      STMSWord2011Shape* shape = allShapes[index];
+      
+      if(shape == nil) {
+        continue;
+      }
+      
+      //go through all the tags
+      // if we find one which matches then we can ignore
+      // if we don't, then we have an issue
+      
+      STTag* tag = [self restoreUnlinkedTagFromShape:shape];
+      if(tag != nil)
+      {
+        BOOL hasFilePath = false;
+        for(STCodeFile* cf in files) {
+          if([[cf FilePath] isEqualToString:[[tag CodeFile] FilePath]]) {
+            hasFilePath = true;
+          }
+        }
+        if(!hasFilePath || ![allTags containsObject:tag]) {
+          //!hasFilePath => this tag refers to an invalid code file path
+          //![allTags containsObject:tag] => we have a file path that's valid, but now let's check to see if the tag we're looking at is actually found in the code file(s)
+          if([results objectForKey:[[tag CodeFile] FilePath]] == nil) {
+            [results setObject:[[NSMutableArray<STTag*> alloc] init] forKey:[[tag CodeFile] FilePath]];
+          }
+          //only add the tag if we don't already have it in the tag array for this code file
+          if(![[results objectForKey:[[tag CodeFile] FilePath]] containsObject:tag])
+          {
+            [[results objectForKey:[[tag CodeFile] FilePath]] addObject:tag];
+          }
+        }
+      }
+    }
+    
+    return results;
+  }
+}
+
+
+
+
+
+
+
+
 /**
  A generic method that will iterate over the fields in the active document, and apply a function to
  each StatTag field.
@@ -392,7 +567,7 @@ the DocumentManager instance that contains it.
         //NSLog(@"Null field detected at index %ld", index);
         continue;
       }
-      if(![self IsStatTagField:field]) {
+      if(![[self class] IsStatTagField:field]) {
         //Marshal.ReleaseComObject(field);
         continue;
       }

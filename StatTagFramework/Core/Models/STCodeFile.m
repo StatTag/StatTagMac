@@ -200,6 +200,12 @@ NSObject<STIFileHandler>* _FileHandler;
 */
 - (void) RefreshContent {
   NSError *error;
+  //why is this possibly blowing up if we attempt to access the result directly? and only occasionally?
+//  id result = [_FileHandler ReadAllLines:[self FilePathURL] error:&error];
+//  if(result && [[result class] isEqualTo:[NSArray class]])
+//  {
+//    ContentCache = [result mutableCopy];
+//  }
   ContentCache = [NSMutableArray arrayWithArray:[_FileHandler ReadAllLines:[self FilePathURL] error:&error]];
 }
 

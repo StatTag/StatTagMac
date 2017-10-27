@@ -18,6 +18,10 @@
 
 @property (weak) IBOutlet NSImageView *tagImageView;
 @property (weak) IBOutlet NSTextField *tagLabel;
+@property (weak) IBOutlet NSProgressIndicator *tagProgressIndicator;
+@property (weak) IBOutlet NSTextField *tagCountLabel;
+
+@property BOOL isLoading;
 
 @property TagIndicatorViewTagStyle tagStyle;
 -(instancetype)initWithStyle:(TagIndicatorViewTagStyle)tagStyle andLabel:(NSString*)label;

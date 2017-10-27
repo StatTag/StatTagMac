@@ -122,7 +122,6 @@
 //                                            object:nil];
 }
 
-
 -(void)tagInsertRefreshStarted
 {
   [self stopObservingAppFocus];
@@ -148,7 +147,9 @@
 
 -(void)viewDidAppear
 {
-  [self loadDocsAndContent];
+  //NSLog(@"DocumentBrowserViewController - viewDidAppear");
+
+//  [self loadDocsAndContent];
   [self setup];
 
   //self.codeFilesView = _codeFilesViewController.view;
@@ -161,6 +162,7 @@
 
 -(void)viewApplicationDidBecomeActive
 {
+  //NSLog(@"DocumentBrowserViewController - viewApplicationDidBecomeActive");
   [self loadDocsAndContent];
   //NSLog(@"%@", [[self documentManager] fileNotifications]);
   
@@ -237,6 +239,8 @@
 
 -(void)setActiveDocument
 {
+
+  //NSLog(@"DocumentBrowserViewController - setActiveDocument");
 
 //  [self tableViewSelectionDidChange:[[NSNotification alloc] init]];
   
@@ -462,6 +466,8 @@
 
 -(void)setActiveDocumentAtIndex:(NSInteger)index
 {
+  //NSLog(@"DocumentBrowserViewController - setActiveDocumentAtIndex");
+
   NSString* doc_name = [[_documentsArrayController arrangedObjects] objectAtIndex:index];
   if(doc_name != nil) {
     [WordHelpers setActiveDocumentByDocName:doc_name];
@@ -484,6 +490,8 @@
 
 -(void)loadDocsAndContent
 {
+  NSLog(@"DocumentBrowserViewController - loadDocsAndContent");
+
   //we can also use IB to do this on the array controller, but for now I want to explicitly manage this while testing
   
   //NOTE for posterity - this will NOT work.

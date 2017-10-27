@@ -14,8 +14,9 @@
 #import "STCodeFile+FileHelper.h"
 #import "DocumentBrowserDocumentViewController.h"
 #import "STDocumentManager+FileMonitor.h"
+#import "StatTagWordDocument.h"
 
-//#import "TagIndicatorView.h"
+#import "TagIndicatorView.h"
 
 @interface DocumentBrowserCodeFilesViewController ()
 
@@ -90,8 +91,8 @@
   [arrayController rearrangeObjects];
 
   //  [_documentManager LoadCodeFileListFromDocument:[[StatTagShared sharedInstance] doc]];
-  
-  [self updateTagSummary];
+  [self beginLoadingUnlinkedTags];
+  //[self updateTagSummary];
 }
 
 
@@ -112,7 +113,10 @@
   //NSLog(@"document [%@] has %ld tags", [[[self documentManager] activeDocument] name], (unsigned long)[tags count]);
   
   //NSDictionary<NSString*, NSArray<STTag*>*>* unlinkedTags = [[self documentManager] FindAllUnlinkedTags];
-  [self setUnlinkedTags:[[self documentManager] FindAllUnlinkedTags]];
+  
+  //FIXME: disabling unlinked tag loading temporarily
+  //EWW REMOVED FUNCTIONALITY
+  //[self setUnlinkedTags:[[self documentManager] FindAllUnlinkedTags]];
   
   //STDuplicateTagResults* duplicateTags = [[[self documentManager] TagManager] FindAllDuplicateTags];
   [self setDuplicateTags: [[[self documentManager] TagManager] FindAllDuplicateTags]];
@@ -133,6 +137,7 @@
 
   //[[tagSummaryArrayController content] removeAllObjects];
   
+  
   [objs addObject:[[DocumentBrowserTagSummary alloc] initWithTitle:[NSString stringWithFormat:@"%@", @"All Tags"] andStyle:TagIndicatorViewTagStyleNormal withFocus:TagIndicatorViewTagFocusAllTags andCount:numGoodTags]];
 
   if(numDuplicateTags > 0)
@@ -140,10 +145,16 @@
     [objs addObject:[[DocumentBrowserTagSummary alloc] initWithTitle:@"Duplicate Tags" andStyle:TagIndicatorViewTagStyleWarning withFocus:TagIndicatorViewTagFocusDuplicateTags andCount:numDuplicateTags]];
   }
   
-  if(numUnlinkedTags > 0)
+  if([self loadingUnlinkedTags])
   {
-    [objs addObject:[[DocumentBrowserTagSummary alloc] initWithTitle:@"Unlinked Tags" andStyle:TagIndicatorViewTagStyleError withFocus:TagIndicatorViewTagFocusUnlinkedTags andCount:numUnlinkedTags]];
+    [objs addObject:[[DocumentBrowserTagSummary alloc] initWithTitle:[NSString stringWithFormat:@"%@", @"Loading Unlinked Tags..."] andStyle:TagIndicatorViewTagStyleLoading withFocus:TagIndicatorViewTagFocusNone andCount:0]];
+  } else {
+    if(numUnlinkedTags > 0)
+    {
+      [objs addObject:[[DocumentBrowserTagSummary alloc] initWithTitle:@"Unlinked Tags" andStyle:TagIndicatorViewTagStyleError withFocus:TagIndicatorViewTagFocusUnlinkedTags andCount:numUnlinkedTags]];
+    }
   }
+
   
   [tagSummaryArrayController setContent:objs];
   
@@ -356,20 +367,47 @@
 -(NSView*)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
   
+
+//  DuplicateTagGroupRowView* groupCell = (DuplicateTagGroupRowView*)[tableView makeViewWithIdentifier:@"tagGroupCell" owner:self];
   NSTableCellView *cell = [tableView makeViewWithIdentifier:[tableColumn identifier] owner:NULL];
 
+  
   if(tableColumn != nil)
   {
     if([[tableColumn identifier] isEqualToString:@"tagIndicatorColumn"])
     {
       //the visual "tag" indicator in the top tag list table
-      cell = [tableView makeViewWithIdentifier:@"tagIndicatorCellView" owner:NULL];
+      //
+      TagIndicatorView* cell = (TagIndicatorView*)[tableView makeViewWithIdentifier:@"tagDashboardCell" owner:NULL];
+      //cell = (TagIndicatorView*)[tableView makeViewWithIdentifier:@"tagIndicatorCellView" owner:NULL];
       DocumentBrowserTagSummary* summary = [[[self tagSummaryArrayController] arrangedObjects] objectAtIndex:row];
       if(summary)
       {
-        cell.textField.stringValue = [NSString stringWithFormat:@"%ld", (long)[summary tagCount]];
-        NSImage* img = [DocumentBrowserTagSummary colorImage:cell.imageView.image forTagIndicatorViewTagStyle:[summary tagStyle]];
-        cell.imageView.image = img;
+//        cell.textField.stringValue = [NSString stringWithFormat:@"%ld", (long)[summary tagCount]];
+//        NSImage* img = [DocumentBrowserTagSummary colorImage:cell.imageView.image forTagIndicatorViewTagStyle:[summary tagStyle]];
+//        cell.imageView.image = img;
+
+        cell.tagLabel.stringValue = [summary tagGroupTitle];
+        //[[cell tagCountLabel] setTextColor: [DocumentBrowserTagSummary textColorForTagIndicatorViewTagStyle:[summary tagStyle]]];
+        if([summary tagStyle] == TagIndicatorViewTagStyleLoading)
+        {
+          cell.tagCountLabel.hidden = true;
+          cell.tagImageView.hidden = true;
+          cell.tagProgressIndicator.hidden = false;
+          [cell.tagProgressIndicator startAnimation:self];
+        } else {
+          cell.tagCountLabel.hidden = false;
+          NSImage* img = [DocumentBrowserTagSummary colorImage:cell.tagImageView.image forTagIndicatorViewTagStyle:[summary tagStyle]];
+          cell.tagImageView.image = img;
+
+          cell.tagImageView.hidden = false;
+          cell.tagCountLabel.stringValue = [NSString stringWithFormat:@"%ld", (long)[summary tagCount]];
+          
+          [cell.tagProgressIndicator stopAnimation:self];
+          cell.tagProgressIndicator.hidden = true;
+        }
+        
+        return cell;
       }
     }
     else if([[tableColumn identifier] isEqualToString:@"tagIndicatorColumn"])
@@ -530,6 +568,19 @@
   return NO;
 }
 
+-(void)beginLoadingUnlinkedTags
+{
+  //remove the unlinked tags
+  [self setLoadingUnlinkedTags:YES];
+  [self setUnlinkedTags: [[NSDictionary<NSString*, NSArray<STTag*>*> alloc] init]];
+  [self updateTagSummary];
+}
+-(void)completeLoadingUnlinkedTags
+{
+  [self setUnlinkedTags: [[[StatTagShared sharedInstance] activeStatTagWordDocument] unlinkedTags]];
+  [self setLoadingUnlinkedTags:NO];
+  [self updateTagSummary];
+}
 
 
 

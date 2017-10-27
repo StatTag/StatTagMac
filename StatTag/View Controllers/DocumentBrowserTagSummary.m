@@ -36,6 +36,33 @@
   return self;
 }
 
++(NSColor*)greenColor
+{
+//  return [StatTagShared colorFromRGBRed:15.0 green:224 blue:57.0 alpha:1.0];
+  return [StatTagShared colorFromRGBRed:1 green:196 blue:40 alpha:1.0];
+}
+
++(NSColor*)textColorForTagIndicatorViewTagStyle:(TagIndicatorViewTagStyle)style
+{
+  switch(style)
+  {
+    case TagIndicatorViewTagStyleNormal:
+      return [NSColor blackColor];
+      break;
+    case TagIndicatorViewTagStyleWarning:
+      return [NSColor whiteColor];
+      break;
+    case TagIndicatorViewTagStyleError:
+      return [NSColor whiteColor];
+      break;
+    case TagIndicatorViewTagStyleLoading:
+      return [NSColor blackColor];
+      break;
+    default:
+      return [NSColor blackColor];
+      break;
+  }
+}
 
 //tinting
 + (NSImage *)colorImage:(NSImage*)image forTagIndicatorViewTagStyle:(TagIndicatorViewTagStyle)style
@@ -44,13 +71,16 @@
   switch(style)
   {
     case TagIndicatorViewTagStyleNormal:
-      copiedImage = [[self class] colorImage:image withTint:[NSColor greenColor]];
+      copiedImage = [[self class] colorImage:image withTint:[[self class] greenColor]];
       break;
     case TagIndicatorViewTagStyleWarning:
       copiedImage = [[self class] colorImage:image withTint:[NSColor orangeColor]];
       break;
     case TagIndicatorViewTagStyleError:
       copiedImage = [[self class] colorImage:image withTint:[NSColor redColor]];
+      break;
+    case TagIndicatorViewTagStyleLoading:
+      copiedImage = [[self class] colorImage:image withTint:[NSColor grayColor]];
       break;
     default:
       copiedImage = [[self class] colorImage:image withTint:[NSColor blueColor]];

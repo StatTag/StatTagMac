@@ -31,7 +31,7 @@ typedef void (^CodeFileActionTypeShape)(STMSWord2011Shape*, STTag*, id);
 
 -(NSArray<STTag*>*)GetTags;
 
--(BOOL)IsStatTagField:(STMSWord2011Field*) field;
++(BOOL)IsStatTagField:(STMSWord2011Field*) field;
 -(BOOL)IsLinkedField:(STMSWord2011Field*) field;
 -(STFieldTag*)DeserializeFieldTag:(STMSWord2011Field*) field;
 -(STFieldTag*)GetFieldTag:(STMSWord2011Field*) field;
@@ -47,7 +47,7 @@ typedef void (^CodeFileActionTypeShape)(STMSWord2011Shape*, STTag*, id);
 -(void) UpdateUnlinkedTagsByTag:(id)field tag:(STTag*)tag configuration:(id)configuration;
 
 +(bool)IsStatTagShape:(STMSWord2011Shape*)shape;
-
+-(STTag*)restoreUnlinkedTagFromShape:(id)aShape;
 
 -(void)ProcessStatTagShapes:(CodeFileActionTypeShape)aFunction configuration:(id)configuration;
 

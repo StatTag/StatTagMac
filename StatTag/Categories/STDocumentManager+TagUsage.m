@@ -33,7 +33,7 @@
     {
       continue;
     }
-    if (![_TagManager IsStatTagField:field])
+    if (![[_TagManager class] IsStatTagField:field])
     {
       continue;
     }
