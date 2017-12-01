@@ -59,7 +59,7 @@
 @property (strong, nonatomic, nullable) StatTagNeedsWordViewController* needsWordController;
 @property (strong, nonatomic, nullable) ManageCodeFilesViewController* codeFilesViewController;
 @property (strong, nonatomic, nullable) SettingsViewController* settingsViewController;
-@property (strong, nonatomic, nullable) UpdateOutputViewController* tagsViewController;
+//@property (strong, nonatomic, nullable) UpdateOutputViewController* tagsViewController;
 
 //later - circle back and make this a collection so we can do the same caching across documents
 @property (strong, nonatomic, nullable) NSMutableDictionary<NSString*, StatTagWordDocument*>* StatTagWordDocuments;

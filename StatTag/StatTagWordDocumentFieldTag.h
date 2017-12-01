@@ -28,5 +28,7 @@
 -(instancetype)initWithWordField:(STMSWord2011Field*)field andFieldTag:(STFieldTag*)fieldTag andTag:(STTag*)tag;
 -(instancetype)initWithWordShape:(STMSWord2011Shape*)shape andTag:(STTag*)tag;
 
+-(void)updateWithTag:(STTag*)tag;
+-(void)removeTag;
 
 @end

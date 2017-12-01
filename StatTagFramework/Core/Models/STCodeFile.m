@@ -47,6 +47,11 @@
 //we're using custom setters/getters because there are places where we are overwriting the tag data as an immutable array - we want to avoid that as it breaks some of our updates
 -(NSMutableArray<STTag*>*)Tags
 {
+  if(_Tags == nil)
+  {
+    _Tags = [[NSMutableArray<STTag*> alloc] init];
+    [self LoadTagsFromContent:true];
+  }
   return _Tags;
 }
 -(void)setTags:(NSArray<STTag*>*)tags

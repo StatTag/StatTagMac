@@ -26,7 +26,7 @@
 
 -(NSString*)description
 {
-  return [NSString stringWithFormat:@"field:(%ld)%@, field tag:%@", (long)[_field entry_index], [[_field fieldCode] content], [_fieldTag Id]];
+  return [NSString stringWithFormat:@"field:(%ld)%@, field tag:%@, tag: %@", (long)[_field entry_index], [[_field fieldCode] content], [_fieldTag Id], [self tag]];
 }
 
 -(instancetype)initWithWordShape:(STMSWord2011Shape*)shape andTag:(STTag*)tag
@@ -51,6 +51,17 @@
     return @"STMSWord2011Shape";
   }
   return nil;
+}
+
+-(void)updateWithTag:(STTag*)tag
+{
+  [self setTag:tag];
+  [self setFieldTag:[[STFieldTag alloc] initWithTag:tag]];
+}
+-(void)removeTag
+{
+  [self setTag:nil];
+  [self setFieldTag:nil];
 }
 
 @end

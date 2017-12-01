@@ -185,7 +185,7 @@
     fView.autoresizingMask = (NSViewWidthSizable | NSViewHeightSizable);
     [self.focusView setAutoresizesSubviews:YES];
     [self.focusView addSubview:fView];
-
+    
   }
   //revisit this - we're reloading everything every time we focus
   NSArray<STCodeFile*>* files = [NSMutableArray arrayWithArray:[[[self codeFilesViewController]arrayController] selectedObjects]];

@@ -20,6 +20,9 @@
 #import "STDocumentManager+CodeFileManagement.h"
 #import "STDocumentManager+FileMonitor.h"
 
+#import "UnlinkedFieldCheckProgressViewController.h"
+
+#import "StatTagWordDocument.h"
 
 
 @interface UnlinkedTagsViewController ()
@@ -31,9 +34,13 @@
 @synthesize unlinkedTags = _unlinkedTags;
 @synthesize unlinkedTagsArray = _unlinkedTagsArray;
 
+UnlinkedFieldCheckProgressViewController* unlinkedFieldProgressController;
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do view setup here.
+  [self view];//dumb but we want the self view loaded
 }
 
 - (NSString *)nibName
@@ -59,6 +66,15 @@
 
 -(void)viewWillAppear
 {
+  //self.window = UIWindow(frame: UIScreen.main.bounds)
+}
+
+-(void)viewDidAppear
+{
+  if([[self view] window])
+  {
+    [self checkUnlinkedTagsWithModalController];
+  }
 }
 
 //FIXME: refactor this... it's a mess. Once we started doing more stuff w/ the files and not just tags we bent this badly. Should just extend the document manager to manage this for us
@@ -90,7 +106,7 @@
 
 - (IBAction)takeActionOnCodeFile:(id)sender
 {
-  NSLog(@"selected code file");
+  //NSLog(@"selected code file");
   NSPopUpButton* btn = (NSPopUpButton*)sender;
   NSInteger row = [[self unlinkedTagsTableView] rowForView:sender];
   //STTag* t = [[[self unlinkedTagsArray] objectAtIndex:row] tag];
@@ -127,7 +143,8 @@
         [[self documentManager] AddCodeFile:[filePath path]];
         [[self documentManager] startMonitoringCodeFiles];
         
-        [self unlinkedTagsDidChange:self];
+        NSLog(@"RELINKING CODE FILE");
+        [self unlinkedTagsDidChange:self forCodeFilePath:oldCodeFilePath];
         //the above handles all of the code file and tag relinking
       }
     } else if ([[btn selectedItem] tag] == 2)
@@ -165,7 +182,8 @@
           NSDictionary<NSString *,STCodeFileAction *>* actions = [[NSDictionary<NSString *,STCodeFileAction *> alloc] initWithObjectsAndKeys:cfa, [cfo FilePath], nil];
           [[self documentManager] UpdateUnlinkedTagsByCodeFile:actions];
           [btn selectItemAtIndex:0];
-          [self unlinkedTagsDidChange:self];
+          //[self unlinkedTagsDidChange:self];
+          [self unlinkedTagsDidChange:self forCodeFilePath:[cfo FilePath]];
         } else if (returnCode == NSAlertSecondButtonReturn) {
           //clear the popup selection
           [btn selectItemAtIndex:0];
@@ -203,7 +221,8 @@
       NSDictionary<NSString *,STCodeFileAction *>* actions = [[NSDictionary<NSString *,STCodeFileAction *> alloc] initWithObjectsAndKeys:cfa, [t Id], nil];
       [[self documentManager] UpdateUnlinkedTagsByTag:actions];
       [btn selectItemAtIndex:0];
-      [self unlinkedTagsDidChange:self];
+      //[self unlinkedTagsDidChange:self];
+      [self unlinkedTagsDidChange:self forTag:t];
       //the above handles all of the code file and tag relinking
     }
    
@@ -227,14 +246,14 @@
         NSDictionary<NSString *,STCodeFileAction *>* actions = [[NSDictionary<NSString *,STCodeFileAction *> alloc] initWithObjectsAndKeys:cfa, [t Id], nil];
         [[self documentManager] UpdateUnlinkedTagsByTag:actions];
         [btn selectItemAtIndex:0];
-        [self unlinkedTagsDidChange:self];
+        //[self unlinkedTagsDidChange:self];
+        [self unlinkedTagsDidChange:self forTag:t];
       } else if (returnCode == NSAlertSecondButtonReturn) {
         //clear the popup selection
         [btn selectItemAtIndex:0];
       }
     }];
   }
-
 }
 
 -(bool)confirmBasicModal:(STCodeFile*)cf
@@ -260,7 +279,7 @@
   if ( [openPanel runModal] == NSModalResponseOK )
   {
     NSArray<NSURL*>* files = [openPanel URLs];
-    NSLog(@"added files... %@", files);
+    //NSLog(@"added files... %@", files);
     return [files firstObject];
   }
   return nil;
@@ -285,6 +304,7 @@
     groupCell.codeFileName.objectValue = [[entry codeFile] FileName];
     groupCell.codeFilePath.objectValue = [[entry codeFile] FilePath];
     [[groupCell imageView] setImage: [[entry codeFile] packageIcon]];
+    /*
     if([[_documentManager GetCodeFileList] containsObject:[entry codeFile]] && [[entry codeFile] fileAccessibleAtPath])
     {
 //      //ok, so - if the tag's code file is NOT already referenced OR the code file is no longer accessible, we want to draw the code file as a header WITH a dropdown, BUT...
@@ -304,7 +324,7 @@
         }
       }
     }
-
+     */
     
     
     return groupCell;
@@ -349,14 +369,70 @@
 - (IBAction)linkCodeFileToNewPath:(id)sender {
 }
 
-
+-(void)unlinkedTagsDidChange:(UnlinkedTagsViewController*)controller forTag:(STTag*)tag
+{
+  [[[StatTagShared sharedInstance] activeStatTagWordDocument] fieldCacheDidChangeForTags:@[tag] orCodeFilePath:nil];
+  [self unlinkedTagsDidChange:controller];
+}
+-(void)unlinkedTagsDidChange:(UnlinkedTagsViewController*)controller forCodeFilePath:(NSString*)codeFilePath
+{
+  [[[StatTagShared sharedInstance] activeStatTagWordDocument] fieldCacheDidChangeForTags:@[] orCodeFilePath:codeFilePath];
+  [self unlinkedTagsDidChange:controller];
+}
 
 -(void)unlinkedTagsDidChange:(UnlinkedTagsViewController*)controller
 {
+  //[self syncUnlinkedTags];
+  [self syncUnlinkedTags];
+  [self checkUnlinkedTagsWithModalController];
   if([[self delegate] respondsToSelector:@selector(unlinkedTagsDidChange:)]) {
     [[self delegate] unlinkedTagsDidChange:controller];
   }
 }
+
+//MARK: unlinked tags progress controller delegate
+- (void)checkUnlinkedTagsWithModalController {
+  
+  //[[NSNotificationCenter defaultCenter] postNotificationName:@"tagInsertRefreshStarted" object:self userInfo:nil];
+  
+  if (unlinkedFieldProgressController == nil)
+  {
+    unlinkedFieldProgressController = [[UnlinkedFieldCheckProgressViewController alloc] init];
+  }
+  
+//  tagUpdateProgressController.tagsToProcess = [NSMutableArray arrayWithArray:[onDemandTags selectedObjects]];
+  unlinkedFieldProgressController.documentManager = _documentManager;
+//  tagUpdateProgressController.insert = insert;
+  unlinkedFieldProgressController.delegate = self;
+  
+  if ([unlinkedFieldProgressController isViewLoaded] && [[unlinkedFieldProgressController view] window]) {
+    // viewController is visible
+  } else {
+    [self presentViewControllerAsSheet:unlinkedFieldProgressController];
+  }
+}
+
+- (void)dismissUnlinkedFieldCheckProgressViewController:(UnlinkedFieldCheckProgressViewController*)controller withReturnCode:(StatTagResponseState)returnCode
+{
+  if([controller view] && [[controller view] window])
+  {
+    [self dismissViewController:controller];
+    [self syncUnlinkedTags];
+    [[self unlinkedTagsArrayController] setContent:[self unlinkedTagsArray]];
+    [[self unlinkedTagsTableView] reloadData];
+  }
+  //  [[NSNotificationCenter defaultCenter] postNotificationName:@"tagInsertRefreshCompleted" object:self userInfo:nil];
+}
+
+-(void)syncUnlinkedTags
+{
+  [[[StatTagShared sharedInstance] activeStatTagWordDocument] loadDocument];
+  NSLog(@"CODE FILE PATHS: %@", [[[StatTagShared sharedInstance] activeStatTagWordDocument] codeFilePaths]);
+  [self setUnlinkedTags:[[[StatTagShared sharedInstance] activeStatTagWordDocument] unlinkedTags]];
+  NSLog(@"UNLINKED TAGS: %@", [self unlinkedTags]);
+}
+
+
 
 
 @end

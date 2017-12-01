@@ -10,7 +10,6 @@
 #import <StatTagFramework/STDuplicateTagResults.h>
 #import "DocumentBrowserTagSummary.h"
 
-
 @class STCodeFile;
 @class STDocumentManager;
 @class STMSWord2011Document;

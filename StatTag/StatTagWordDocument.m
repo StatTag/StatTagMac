@@ -23,8 +23,8 @@
 @synthesize codeFiles = _codeFiles;
 @synthesize codeFilePaths = _codeFilePaths;
 
-@synthesize fieldCache  = _fieldCache;
-@synthesize priorFieldCache = _priorFieldCache;
+//@synthesize fieldCache  = _fieldCache;
+//@synthesize priorFieldCache = _priorFieldCache;
 @synthesize priorFieldList =  _priorFieldList;
 @synthesize threadLimit = _threadLimit;
 
@@ -78,8 +78,17 @@
     [self setCodeFilePaths: [[self codeFiles] valueForKey:@"FilePath"]];
 
     [[[StatTagShared sharedInstance] docManager] LoadAllTagsFromCodeFiles];
+    NSLog(@"self tags count : %ld", [[self tags] count]);
+    NSLog(@"raw result array: %@", [[[StatTagShared sharedInstance] docManager] GetTags]);
+    if([[[[StatTagShared sharedInstance] docManager] GetTags] count] == 0)
+    {
+      [self setTags:[NSMutableArray<STTag*> arrayWithArray:[[[StatTagShared sharedInstance] docManager] GetTags]]];
+    }
     [self setTags:[NSMutableArray<STTag*> arrayWithArray:[[[StatTagShared sharedInstance] docManager] GetTags]]];
-    
+    NSLog(@"loadDocument - codefiles: %@", [self codeFiles]);
+    NSLog(@"loadDocument - tags: %@", [self tags]);
+    NSLog(@"self tags count : %ld", [[self tags] count]);
+
     //NSLog(@"loading document");
     //[self validateDocument]; we're not going to validate here - do it in the other list of docs
     //_priorFieldList = [self getStatTagWordFieldListGCD];
@@ -139,7 +148,6 @@
 }
 
 
-
 //-(NSMutableDictionary<STMSWord2011Field*, STTag*>*)getStatTagWordFieldDictionary
 //{
 //  NSArray<STMSWord2011Field*>* fields = [[self document] fields];
@@ -175,7 +183,7 @@
  
  FIXME: we need to change this so we can deal with queued operations
  ex: start validation - change doc - return and start new validation AFTER
- ex: start validation - close doc - cancell all operations for doc
+ ex: start validation - close doc - cancel all operations for doc
  Since we do NOT want to block the UI we should consider doing more queues for long processes like this
  */
 -(void)validateFieldCache
@@ -184,7 +192,8 @@
   // we'll need to compare by position and content (NOT the innert text - which is what we should really be using)
   // accessing inner text has a huge performance penalty
   //NOTE (2) - Reminder - we cannot currently deal with images as they are simply file path references
-  
+  NSLog(@"validateFieldCache");
+  [self loadDocument];//refresh just in case there were changes we didn't pick up on changed code files, etc.
   
   //NSLog(@"validateFieldCache - enter");
   
@@ -238,12 +247,12 @@
     
   });
   
-  if([newFields count] > 0)
-  {
-    //NSLog(@"validateFieldCache - new fields: %@", newFields);
-  } else {
-    //NSLog(@"validateFieldCache - no new fields");
-  }
+//  if([newFields count] > 0)
+//  {
+//    //NSLog(@"validateFieldCache - new fields: %@", newFields);
+//  } else {
+//    //NSLog(@"validateFieldCache - no new fields");
+//  }
 
 //    for(STMSWord2011Field* f in newFields)
 //    {
@@ -260,6 +269,10 @@
 {
   if(tag != nil) {
     if(![[self codeFilePaths] containsObject:[tag CodeFilePath]] || ![[self tags] containsObject:tag]) {
+      NSLog(@"tag is unlinked - %@", tag);
+      NSLog(@"isUnlinkedTag: all CodeFilePaths -> %@", [self codeFilePaths]);
+      NSLog(@"isUnlinkedTag: tag CodeFilePath -> %@", [tag CodeFilePath]);
+      NSLog(@"isUnlinkedTag: tags -> %@", [self tags]);
       return YES;
     }
   }
@@ -267,6 +280,14 @@
 }
 //check if unlinked tag
 //check if figures are unlinked
+
+-(NSInteger)numUniqueFields
+{
+  [self validateFieldCache];
+  __block NSArray *keys = [[self priorFieldList] allKeys];
+  NSInteger fieldsCount = [keys count];
+  return fieldsCount;
+}
 
 -(void)validateUnlinkedTags
 {
@@ -292,11 +313,18 @@
   NSInteger fieldsCount = [keys count];
   dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
   dispatch_apply(fieldsCount, queue, ^(size_t index) {
+    
+
     NSString* n = [keys objectAtIndex:index];
     StatTagWordDocumentFieldTag* currentField = [[self priorFieldList] objectForKey:n];
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [[NSNotificationCenter defaultCenter] postNotificationName:@"unlinkedFieldCheckStart" object:self userInfo:@{@"fieldType":[currentField fieldType]}];
+      //, @"fieldContent":[[currentField field] fieldText]
+    });
+
     if([[currentField fieldType] isEqualToString:@"STMSWord2011Field"] && [currentField tag] == nil)
     {
-      //we need to restore the field tag - expensive
       [currentField setTag: [[[[StatTagShared sharedInstance] docManager] TagManager] GetFieldTag:[currentField field]]];
     }
     
@@ -306,13 +334,27 @@
       if([self isUnlinkedTag:tag])
       {
         if([[self unlinkedTags] objectForKey:[tag CodeFilePath]] == nil) {
+          //container array does not exist
           [[self unlinkedTags] setObject:[[NSMutableArray<STTag*> alloc] init] forKey:[tag CodeFilePath]];
         }
+        //now add our tag to the array for the code file path key
         [[[self unlinkedTags] objectForKey:[tag CodeFilePath]] addObject:tag];
       }
     }
+    //NSLog(@"%@", [self unlinkedTags]);
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [[NSNotificationCenter defaultCenter] postNotificationName:@"unlinkedFieldCheckComplete" object:self userInfo:@{@"fieldType":[currentField fieldType]}];
+    });
+
   });
   
+  
+  dispatch_async(dispatch_get_main_queue(), ^{
+    NSLog(@"INTERNAL UNLINKED TAGS: %@", [self unlinkedTags]);
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"allUnlinkedFieldChecksComplete" object:self userInfo:@{}];
+  });
+
   //NSLog(@"TIMING: validateUnlinkedTags: tag block END");
 
   //@property NSDictionary<NSString*, NSArray<STTag*>*>* unlinkedTags;
@@ -335,5 +377,65 @@
 {
   //if delegate, etc.
 }
+
+-(void)fieldCacheDidChangeForTags:(NSArray<STTag*>*)tags orCodeFilePath:(NSString*)codeFilePath
+{
+  NSLog(@"tags: %@", tags);
+  NSLog(@"codeFilePath: %@", codeFilePath);
+  //NSMutableIndexSet *discards = [NSMutableIndexSet indexSet];
+  
+  //super expensive way to do this, but for now we're going to go w/ it
+  for(NSString* k in [[self priorFieldList] allKeys])
+//  for (NSInteger i = [[self priorFieldList] count] - 1; i >= 0; i--) {
+  {
+    StatTagWordDocumentFieldTag* dft = [[self priorFieldList] objectForKey:k];
+    //StatTagWordDocumentFieldTag* dft = [[self priorFieldList] objectAtIndex:i];
+    if(dft)
+    {
+      if([tags containsObject:[dft tag]] || [codeFilePath isEqualToString:[[dft tag] CodeFilePath]])
+      {
+        [dft removeTag];
+        //[[self priorFieldList] removeObjectForKey:k];
+      }
+    }
+  }
+}
+
+//-(void)updateFieldCacheForOriginalTag:(STTag*)orginalTag withRevisedTag:(STTag*)updatedTag
+//{
+//
+//  //When we create, update, or delete a tag we need to modify our field cache to re-associate the field with the tag
+//  //The field is "dirty" because we don't (yet) know that the associated tag has been modified
+//  //We _could_ just say "remove the associated field tag" data (more reliable), but it would also be slower
+//
+//  for(StatTagWordDocumentFieldTag* dft in [[self priorFieldList] allValues])
+//  {
+//
+//
+//    if(orginalTag != nil && updatedTag != nil)
+//    {
+//      //updating a tag - match the existing tag and map it
+//      if([[dft tag] isEqual:orginalTag])
+//      {
+//        [dft updateWithTag:updatedTag];
+//      }
+//    } else if (orginalTag == nil && updatedTag != nil) {
+//      //creating a tag - match the existing tag and map it
+//      //do we really do anything when we create a replacement tag?
+//    } else if(orginalTag != nil && updatedTag == nil) {
+//      //deleting a tag - remove the tag from the field cache
+//      //    {
+//      //      if([[dft tag] isEqual:orginalTag])
+//      //      {
+//      //
+//      //      }
+//      //
+//      //      return;
+//    }
+//
+//  }
+//
+//}
+
 
 @end

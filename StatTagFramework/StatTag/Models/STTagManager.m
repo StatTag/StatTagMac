@@ -361,6 +361,39 @@ the DocumentManager instance that contains it.
   }
 }
 
+//moving this out so we can reuse in the main app UI
+-(NSMutableDictionary<NSString*, STMSWord2011Field*>*)GetUniqueFields
+{
+  STMSWord2011Application* application = [[[STGlobals sharedInstance] ThisAddIn] Application];
+  STMSWord2011Document* document = [application activeDocument];
+
+  NSArray<STMSWord2011Field*>* fields = [document fields];
+  NSInteger fieldsCount = [fields count];
+
+  __block NSMutableDictionary<NSString*, STMSWord2011Field*>* unique_fields_dict = [[NSMutableDictionary<NSString*, STMSWord2011Field*> alloc] init];
+
+  dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
+  dispatch_apply(fieldsCount, queue, ^(size_t index) {
+    
+    STMSWord2011Field* field = fields[index];
+    if(field != nil) {
+      if([[self class] IsStatTagField:field]) {
+        STMSWord2011TextRange* code = [field fieldCode];
+        //NSLog(@"parent fieldCode = [%@]", [code content]);
+        //NSLog(@"parent fieldText = [%@]", [field fieldText]);
+        STMSWord2011Field* nestedField = [code fields][0];
+        //NSLog(@"nestedField = [%@]", nestedField);
+        //NSLog(@"nestedField description = [%@]", [nestedField description]);
+        //NSLog(@"nestedField fieldCode = [%@]", [[nestedField fieldCode] content]);
+        //NSLog(@"nestedField fieldText = [%@]", [nestedField fieldText]);
+        [unique_fields_dict setObject:field forKey:[nestedField fieldText]];
+      }
+    }
+  });
+  
+  return unique_fields_dict;
+}
+
 -(NSDictionary<NSString*, NSArray<STTag*>*>*) FindAllUnlinkedTags {
 
   __block NSMutableDictionary<NSString*, NSMutableArray<STTag*>*>* results = [[NSMutableDictionary<NSString*, NSMutableArray<STTag*>*> alloc] init];
@@ -433,7 +466,9 @@ the DocumentManager instance that contains it.
      */
     
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
+    /*
     dispatch_apply(fieldsCount, queue, ^(size_t index) {
+      
       STMSWord2011Field* field = fields[index];
       if(field != nil) {
         if([[self class] IsStatTagField:field]) {
@@ -449,7 +484,9 @@ the DocumentManager instance that contains it.
         }
       }
     });
-
+     */
+    unique_fields_dict = [self GetUniqueFields];
+     
     //NSLog(@"unique_fields_dict : %@", unique_fields_dict);
     
     __block NSArray<NSString*>* codeFilePaths = [files valueForKey:@"FilePath"];

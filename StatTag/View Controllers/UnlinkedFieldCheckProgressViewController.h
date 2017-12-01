@@ -1,5 +1,5 @@
 //
-//  UpdateOutputProgressViewController.h
+//  UnlinkedFieldCheckProgressViewController.h
 //  StatTag
 //
 //  Created by Eric Whitley on 9/23/16.
@@ -11,19 +11,23 @@
 
 @class STDocumentManager;
 @class STTag;
+@class StatTagWordDocument;
 
-@class UpdateOutputProgressViewController;
-@protocol UpdateOutputProgressDelegate <NSObject>
-- (void)dismissUpdateOutputProgressController:(UpdateOutputProgressViewController*)controller withReturnCode:(StatTagResponseState)returnCode andFailedTags:(NSArray<STTag*>*)failedTags withErrors:(NSDictionary<STTag*, NSException*>*)errors;
+
+@class UnlinkedFieldCheckProgressViewController;
+@protocol UnlinkedFieldCheckProgressDelegate <NSObject>
+- (void)dismissUnlinkedFieldCheckProgressViewController:(UnlinkedFieldCheckProgressViewController*)controller withReturnCode:(StatTagResponseState)returnCode;
 @end
 
 
-@interface UpdateOutputProgressViewController : NSViewController {
+@interface UnlinkedFieldCheckProgressViewController : NSViewController {
   __weak NSProgressIndicator *progressIndicator;
   __weak NSTextField *progressText;
   
   NSMutableArray<STTag*>* _tagsToProcess;
   STDocumentManager* _documentManager;
+  StatTagWordDocument* _stWordDoc;
+
   
   BOOL _insert;
   NSMutableArray<STTag*>*_failedTags;
@@ -32,14 +36,15 @@
 
 @property (strong, nonatomic) NSMutableArray<STTag*>* tagsToProcess;
 @property (strong, nonatomic) STDocumentManager* documentManager;
+@property (strong, nonatomic) StatTagWordDocument* stWordDoc;
 
 @property (weak) IBOutlet NSProgressIndicator *progressIndicator;
 @property (weak) IBOutlet NSTextField *progressText;
 
-@property (nonatomic, weak) id<UpdateOutputProgressDelegate> delegate;
+@property (nonatomic, weak) id<UnlinkedFieldCheckProgressDelegate> delegate;
 
-@property (strong, nonatomic) NSNumber* numTagsCompleted;
-@property (strong, nonatomic) NSNumber* numTagsToProcess;
+@property (strong, nonatomic) NSNumber* numItemsCompleted;
+@property (strong, nonatomic) NSNumber* numItemsToProcess;
 @property (strong, nonatomic) NSString* progressCountText;
 
 @property (weak) IBOutlet NSProgressIndicator *progressIndicatorDeterminate;

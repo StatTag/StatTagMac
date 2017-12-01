@@ -55,6 +55,7 @@ NSString* const kStatTagErrorDomain = @"STErrorDomain";
   return sharedInstance;
 }
 
+/*
 -(void)validateDocument:(StatTagWordDocument*)doc
 {
   if(doc == nil)
@@ -94,6 +95,7 @@ NSString* const kStatTagErrorDomain = @"STErrorDomain";
 {
   [[NSNotificationCenter defaultCenter] postNotificationName:@"UnlinkedTagProcessingCompleted" object:self userInfo: @{@"doc":[[self doc] name]}];
 }
+*/
 
 //FIXME: go back and redo things like "add document" "remove document" so we can wire up and cancel the pending operations
 
@@ -174,7 +176,7 @@ NSString* const kStatTagErrorDomain = @"STErrorDomain";
 {
   //NSLog(@"setting document");
   _activeStatTagWordDocument = activeStatTagWordDocument;
-  [activeStatTagWordDocument validateDocument];
+  //[activeStatTagWordDocument validateDocument];
 }
 
 -(StatTagWordDocument*)activeStatTagWordDocument

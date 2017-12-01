@@ -18,6 +18,7 @@
 
 #import "TagIndicatorView.h"
 
+
 @interface DocumentBrowserCodeFilesViewController ()
 
 
@@ -90,9 +91,9 @@
   self.codeFiles = [[self documentManager] GetCodeFileList];
   [arrayController rearrangeObjects];
 
-  //  [_documentManager LoadCodeFileListFromDocument:[[StatTagShared sharedInstance] doc]];
-  [self beginLoadingUnlinkedTags];
-  //[self updateTagSummary];
+  // [_documentManager LoadCodeFileListFromDocument:[[StatTagShared sharedInstance] doc]];
+  // [self beginLoadingUnlinkedTags];
+  [self updateTagSummary];
 }
 
 
@@ -145,6 +146,7 @@
     [objs addObject:[[DocumentBrowserTagSummary alloc] initWithTitle:@"Duplicate Tags" andStyle:TagIndicatorViewTagStyleWarning withFocus:TagIndicatorViewTagFocusDuplicateTags andCount:numDuplicateTags]];
   }
   
+  /*
   if([self loadingUnlinkedTags])
   {
     [objs addObject:[[DocumentBrowserTagSummary alloc] initWithTitle:[NSString stringWithFormat:@"%@", @"Loading Unlinked Tags..."] andStyle:TagIndicatorViewTagStyleLoading withFocus:TagIndicatorViewTagFocusNone andCount:0]];
@@ -154,6 +156,8 @@
       [objs addObject:[[DocumentBrowserTagSummary alloc] initWithTitle:@"Unlinked Tags" andStyle:TagIndicatorViewTagStyleError withFocus:TagIndicatorViewTagFocusUnlinkedTags andCount:numUnlinkedTags]];
     }
   }
+   */
+  [objs addObject:[[DocumentBrowserTagSummary alloc] initWithTitle:[NSString stringWithFormat:@"%@", @"Check Unlinked Tags"] andStyle:TagIndicatorViewTagStyleNormal withFocus:TagIndicatorViewTagFocusUnlinkedTags andCount:0]];
 
   
   [tagSummaryArrayController setContent:objs];
@@ -267,6 +271,7 @@
   {
     NSArray<NSURL*>* files = [openPanel URLs];
     [self addCodeFilesByURL:files];
+    [[[StatTagShared sharedInstance] activeStatTagWordDocument] loadDocument];
   }
   
 }
@@ -329,6 +334,7 @@
       NSIndexSet* selectedFiles = [arrayController selectionIndexes];
       [arrayController removeObjectsAtArrangedObjectIndexes:selectedFiles];
       [arrayController rearrangeObjects];
+      [[[StatTagShared sharedInstance] activeStatTagWordDocument] loadDocument];
     } else if (returnCode == NSAlertSecondButtonReturn) {
     }
   }];
@@ -336,7 +342,6 @@
 
 //  [_documentManager SaveCodeFileListToDocument:nil];
 //  [self updateTagSummary];
-
 }
 
 - (IBAction)openFileInFinder:(id)sender {

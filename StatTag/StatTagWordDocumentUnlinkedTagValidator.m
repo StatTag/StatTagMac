@@ -60,15 +60,6 @@
 {
   //This is the method that will do the work
   @try {
-//    NSLog(@"Custom Operation - Main Method isMainThread?? ANS = %@",[NSThread isMainThread]? @"YES":@"NO");
-//    NSLog(@"Custom Operation - Main Method [NSThread currentThread] %@",[NSThread currentThread]);
-//    NSLog(@"Custom Operation - Main Method Try Block - Do Some work here");
-//    NSLog(@"Custom Operation - Main Method The data that was passed is %@",[self statTagWordDoc]);
-//    for (int i = 0; i<5; i++)
-//    {
-//      NSLog(@"i%d",i);
-//      sleep(1); //Never put sleep in production code until and unless the situation demands. A sleep is induced here to demonstrate a scenario that takes some time to complete
-//    }
     [[self statTagWordDoc] validateUnlinkedTags];
 
     [self willChangeValueForKey:@"isExecuting"];

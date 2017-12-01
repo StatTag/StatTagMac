@@ -39,9 +39,10 @@
 @property NSMutableArray<STCodeFile*>* codeFiles;
 @property NSMutableArray<NSString*>* codeFilePaths;
 
-@property NSMutableDictionary<STMSWord2011Field*, STTag*>* fieldCache;
-@property NSMutableDictionary<STMSWord2011Field*, STTag*>* priorFieldCache;
+//@property NSMutableDictionary<STMSWord2011Field*, STTag*>* fieldCache;
+//@property NSMutableDictionary<STMSWord2011Field*, STTag*>* priorFieldCache;
 @property NSMutableDictionary<NSString*, StatTagWordDocumentFieldTag*>* priorFieldList;
+-(NSInteger)numUniqueFields;
 
 @property NSInteger threadLimit;
 
@@ -54,6 +55,7 @@
 
 -(void)validateDocument;
 -(void)validateUnlinkedTags;
-
+-(void)loadDocument;
+-(void)fieldCacheDidChangeForTags:(NSArray<STTag*>*)tags orCodeFilePath:(NSString*)codeFilePath;
 
 @end

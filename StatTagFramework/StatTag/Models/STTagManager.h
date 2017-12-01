@@ -37,6 +37,7 @@ typedef void (^CodeFileActionTypeShape)(STMSWord2011Shape*, STTag*, id);
 -(STFieldTag*)GetFieldTag:(STMSWord2011Field*) field;
 -(STDuplicateTagResults*)FindAllDuplicateTags;
 -(NSDictionary<NSString*, NSArray<STTag*>*>*) FindAllUnlinkedTags;
+-(NSMutableDictionary<NSString*, STMSWord2011Field*>*)GetUniqueFields;
 
 -(void)ProcessStatTagFields:(CodeFileActionType)aFunction configuration:(id)configuration;
 //-(void)ProcessStatTagFields:(SEL)aFunction configuration:(id)configuration;

@@ -490,7 +490,7 @@
 
 -(void)loadDocsAndContent
 {
-  NSLog(@"DocumentBrowserViewController - loadDocsAndContent");
+  //NSLog(@"DocumentBrowserViewController - loadDocsAndContent");
 
   //we can also use IB to do this on the array controller, but for now I want to explicitly manage this while testing
   

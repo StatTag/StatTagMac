@@ -8,6 +8,9 @@
 
 #import <Cocoa/Cocoa.h>
 
+#import "UnlinkedFieldCheckProgressViewController.h"
+
+
 @class STTag;
 @class STDocumentManager;
 @class UnlinkedTagGroupEntry;
@@ -19,7 +22,7 @@
 @end
 
 
-@interface UnlinkedTagsViewController : NSViewController <NSTableViewDelegate, NSTableViewDataSource>
+@interface UnlinkedTagsViewController : NSViewController <NSTableViewDelegate, NSTableViewDataSource, UnlinkedFieldCheckProgressDelegate>
 {
   NSArray<UnlinkedTagGroupEntry*>* _unlinkedTagsArray;
   NSDictionary<NSString*, NSArray<STTag*>*>* _unlinkedTags;

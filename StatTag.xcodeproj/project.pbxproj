@@ -135,6 +135,8 @@
 		385221C51DAD5D0B005E804B /* SCPerLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 385221C41DAD5D0B005E804B /* SCPerLine.m */; };
 		385221C91DAE90CF005E804B /* SCMarker.mm in Sources */ = {isa = PBXBuildFile; fileRef = 385221C81DAE90CF005E804B /* SCMarker.mm */; };
 		385221CC1DAE98CB005E804B /* SCMarkerCollection.mm in Sources */ = {isa = PBXBuildFile; fileRef = 385221CB1DAE98CB005E804B /* SCMarkerCollection.mm */; };
+		385AE28D1FBC97FA001F4DA1 /* UnlinkedFieldCheckProgressViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 385AE28C1FBC97FA001F4DA1 /* UnlinkedFieldCheckProgressViewController.xib */; };
+		385AE28F1FBC980A001F4DA1 /* UnlinkedFieldCheckProgressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 385AE28E1FBC980A001F4DA1 /* UnlinkedFieldCheckProgressViewController.m */; };
 		385EF1421D95D53C005768C7 /* StatTagMacros.dotm in Resources */ = {isa = PBXBuildFile; fileRef = 385EF1401D95D53C005768C7 /* StatTagMacros.dotm */; };
 		385FDD281D32F6DD00AE0FE2 /* STTagManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 385FDD261D32F6DD00AE0FE2 /* STTagManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		385FDD291D32F6DD00AE0FE2 /* STTagManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 385FDD271D32F6DD00AE0FE2 /* STTagManager.m */; };
@@ -558,6 +560,9 @@
 		385221CA1DAE98CB005E804B /* SCMarkerCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMarkerCollection.h; sourceTree = "<group>"; };
 		385221CB1DAE98CB005E804B /* SCMarkerCollection.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SCMarkerCollection.mm; sourceTree = "<group>"; };
 		385906ED1D1C6E280088A0D7 /* StatTagModelJSONTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagModelJSONTests.m; sourceTree = "<group>"; };
+		385AE28C1FBC97FA001F4DA1 /* UnlinkedFieldCheckProgressViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UnlinkedFieldCheckProgressViewController.xib; sourceTree = "<group>"; };
+		385AE28E1FBC980A001F4DA1 /* UnlinkedFieldCheckProgressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnlinkedFieldCheckProgressViewController.m; sourceTree = "<group>"; };
+		385AE2901FBC9820001F4DA1 /* UnlinkedFieldCheckProgressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnlinkedFieldCheckProgressViewController.h; sourceTree = "<group>"; };
 		385EF1401D95D53C005768C7 /* StatTagMacros.dotm */ = {isa = PBXFileReference; lastKnownFileType = file; path = StatTagMacros.dotm; sourceTree = "<group>"; };
 		385FDD261D32F6DD00AE0FE2 /* STTagManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STTagManager.h; sourceTree = "<group>"; };
 		385FDD271D32F6DD00AE0FE2 /* STTagManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STTagManager.m; sourceTree = "<group>"; };
@@ -1469,27 +1474,30 @@
 		38C4656E1FA2696E0080586E /* GeneralViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				3836F59D1D92D03D00BF0DD4 /* SettingsViewController.h */,
-				3836F59E1D92D03D00BF0DD4 /* SettingsViewController.m */,
-				3836F59F1D92D03D00BF0DD4 /* SettingsViewController.xib */,
-				3836F5A21D92D07700BF0DD4 /* ManageCodeFilesViewController.h */,
-				3836F5A31D92D07700BF0DD4 /* ManageCodeFilesViewController.m */,
-				3836F5A41D92D07700BF0DD4 /* ManageCodeFilesViewController.xib */,
-				38D8B1BF1D9586D200BF878A /* UpdateOutputViewController.h */,
-				38D8B1C01D9586D200BF878A /* UpdateOutputViewController.m */,
-				38D8B1C11D9586D200BF878A /* UpdateOutputViewController.xib */,
-				38D8B1C41D95872A00BF878A /* UpdateOutputProgressViewController.h */,
-				38D8B1C51D95872A00BF878A /* UpdateOutputProgressViewController.m */,
-				38D8B1C61D95872A00BF878A /* UpdateOutputProgressViewController.xib */,
-				38C3CC781DA4298E00CEA70C /* TagEditorViewController.h */,
-				38C3CC791DA4298E00CEA70C /* TagEditorViewController.m */,
-				38AB41831DA1564C00EA464C /* TagEditorViewController.xib */,
-				3876324C1DA83B6C00680898 /* StatTagNeedsWordViewController.h */,
-				3876324D1DA83B6C00680898 /* StatTagNeedsWordViewController.m */,
-				3876324E1DA83B6C00680898 /* StatTagNeedsWordViewController.xib */,
 				38FFDD171E8C7CB6004D92C3 /* AboutViewController.h */,
 				38FFDD181E8C7CB6004D92C3 /* AboutViewController.m */,
 				38FFDD191E8C7CB6004D92C3 /* AboutViewController.xib */,
+				3836F5A21D92D07700BF0DD4 /* ManageCodeFilesViewController.h */,
+				3836F5A31D92D07700BF0DD4 /* ManageCodeFilesViewController.m */,
+				3836F5A41D92D07700BF0DD4 /* ManageCodeFilesViewController.xib */,
+				3836F59D1D92D03D00BF0DD4 /* SettingsViewController.h */,
+				3836F59E1D92D03D00BF0DD4 /* SettingsViewController.m */,
+				3836F59F1D92D03D00BF0DD4 /* SettingsViewController.xib */,
+				3876324C1DA83B6C00680898 /* StatTagNeedsWordViewController.h */,
+				3876324D1DA83B6C00680898 /* StatTagNeedsWordViewController.m */,
+				3876324E1DA83B6C00680898 /* StatTagNeedsWordViewController.xib */,
+				38C3CC781DA4298E00CEA70C /* TagEditorViewController.h */,
+				38C3CC791DA4298E00CEA70C /* TagEditorViewController.m */,
+				38AB41831DA1564C00EA464C /* TagEditorViewController.xib */,
+				385AE2901FBC9820001F4DA1 /* UnlinkedFieldCheckProgressViewController.h */,
+				385AE28E1FBC980A001F4DA1 /* UnlinkedFieldCheckProgressViewController.m */,
+				385AE28C1FBC97FA001F4DA1 /* UnlinkedFieldCheckProgressViewController.xib */,
+				38D8B1C41D95872A00BF878A /* UpdateOutputProgressViewController.h */,
+				38D8B1C51D95872A00BF878A /* UpdateOutputProgressViewController.m */,
+				38D8B1C61D95872A00BF878A /* UpdateOutputProgressViewController.xib */,
+				38D8B1BF1D9586D200BF878A /* UpdateOutputViewController.h */,
+				38D8B1C01D9586D200BF878A /* UpdateOutputViewController.m */,
+				38D8B1C11D9586D200BF878A /* UpdateOutputViewController.xib */,
 			);
 			name = GeneralViewControllers;
 			sourceTree = "<group>";
@@ -2044,6 +2052,7 @@
 				3836F5591D92C89900BF0DD4 /* Main.storyboard in Resources */,
 				3824439E1DBE567D00EF0048 /* StatTagScriptSupport.scpt in Resources */,
 				38D8B1C81D95872A00BF878A /* UpdateOutputProgressViewController.xib in Resources */,
+				385AE28D1FBC97FA001F4DA1 /* UnlinkedFieldCheckProgressViewController.xib in Resources */,
 				384764B61DA5683100FCDABE /* NumericValuePropertiesController.xib in Resources */,
 				38EC4E1D1F8BC77B00986314 /* TagIndicatorView.xib in Resources */,
 				3879D5E91E6DA86F00BF1964 /* AlertDisclosureTextView.xib in Resources */,
@@ -2292,6 +2301,7 @@
 				38C4656D1FA23BAE0080586E /* StatTagWordDocumentUnlinkedTagValidator.m in Sources */,
 				385221C91DAE90CF005E804B /* SCMarker.mm in Sources */,
 				386992D21DB8E6F500852B6E /* STCodeFile+FileAttributes.m in Sources */,
+				385AE28F1FBC980A001F4DA1 /* UnlinkedFieldCheckProgressViewController.m in Sources */,
 				38F803461D9C4CEB00C8F1EA /* SCMarkerHandle.mm in Sources */,
 				38C3CC7A1DA4298E00CEA70C /* TagEditorViewController.m in Sources */,
 				387632411DA7D70500680898 /* PercentagePropertiesController.m in Sources */,
