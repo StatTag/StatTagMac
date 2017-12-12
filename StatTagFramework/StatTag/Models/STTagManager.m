@@ -160,6 +160,9 @@ the DocumentManager instance that contains it.
     STMSWord2011TextRange* code = [field fieldCode];
     //NSLog(@"DeserializeFieldTag -> code : (%ld,%ld)", [code startOfContent], [code endOfContent]);
     STMSWord2011Field* nestedField = [[code fields] firstObject];//[code fields][1];
+    if (nestedField == nil || [nestedField fieldText] == nil) {
+      return nil;
+    }
     
     //[STGlobals activateDocument];
     NSString* nestedFieldText = [NSString stringWithString:[nestedField fieldText]];//[[nestedField fieldText] copy];
@@ -192,6 +195,9 @@ the DocumentManager instance that contains it.
     [STGlobals activateDocument];
     
     STFieldTag* fieldTag = [self DeserializeFieldTag:field];
+    if (fieldTag == nil) {
+      return nil;
+    }
     //NSLog(@"GetFieldTag -> fieldTag : %@", [fieldTag description]);
     STTag* tag = [self FindTagByTag:fieldTag];
     //NSLog(@"GetFieldTag -> tag : %@", [tag description]);
