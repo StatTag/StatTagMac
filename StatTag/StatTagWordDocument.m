@@ -378,10 +378,40 @@
   //if delegate, etc.
 }
 
--(void)fieldCacheDidChangeForTags:(NSArray<STTag*>*)tags orCodeFilePath:(NSString*)codeFilePath
+// Either tags or codeFilePath can be specified.
+-(void) cachesDidChangeForTags:(NSArray<STTag*>*)tags orCodeFilePath:(NSString*)codeFilePath
 {
   NSLog(@"tags: %@", tags);
   NSLog(@"codeFilePath: %@", codeFilePath);
+  [self fieldCacheDidChangeForTags:tags orCodeFilePath:codeFilePath];
+  [self unlinkedTagCacheDidChangeForTags:tags orCodeFilePath:codeFilePath];
+}
+
+-(void) unlinkedTagCacheDidChangeForTags:(NSArray<STTag*>*)tags orCodeFilePath:(NSString*)codeFilePath
+{
+  NSArray<NSString*>* keys = [[self unlinkedTags] allKeys];
+  for (NSString* key in keys) {
+    if (tags == nil || [tags count] == 0) {
+      if ([key isEqualToString:codeFilePath]) {
+        [[self unlinkedTags] removeObjectForKey:key];
+      }
+    }
+    else {
+      NSMutableArray<STTag*>* associatedTags = [[self unlinkedTags] objectForKey:key];
+      for (int index = [associatedTags count] - 1; index >= 0; index--) {
+        STTag* associatedTag = [associatedTags objectAtIndex:index];
+        for (STTag* tag in tags) {
+          if ([associatedTag Equals:tag usePosition:FALSE]) {
+            [associatedTags removeObject:associatedTag];
+          }
+        }
+      }
+    }
+  }
+}
+
+-(void)fieldCacheDidChangeForTags:(NSArray<STTag*>*)tags orCodeFilePath:(NSString*)codeFilePath
+{
   //NSMutableIndexSet *discards = [NSMutableIndexSet indexSet];
   
   //super expensive way to do this, but for now we're going to go w/ it

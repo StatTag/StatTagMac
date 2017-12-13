@@ -371,18 +371,17 @@ UnlinkedFieldCheckProgressViewController* unlinkedFieldProgressController;
 
 -(void)unlinkedTagsDidChange:(UnlinkedTagsViewController*)controller forTag:(STTag*)tag
 {
-  [[[StatTagShared sharedInstance] activeStatTagWordDocument] fieldCacheDidChangeForTags:@[tag] orCodeFilePath:nil];
+  [[[StatTagShared sharedInstance] activeStatTagWordDocument] cachesDidChangeForTags:@[tag] orCodeFilePath:nil];
   [self unlinkedTagsDidChange:controller];
 }
 -(void)unlinkedTagsDidChange:(UnlinkedTagsViewController*)controller forCodeFilePath:(NSString*)codeFilePath
 {
-  [[[StatTagShared sharedInstance] activeStatTagWordDocument] fieldCacheDidChangeForTags:@[] orCodeFilePath:codeFilePath];
+  [[[StatTagShared sharedInstance] activeStatTagWordDocument] cachesDidChangeForTags:@[] orCodeFilePath:codeFilePath];
   [self unlinkedTagsDidChange:controller];
 }
 
 -(void)unlinkedTagsDidChange:(UnlinkedTagsViewController*)controller
 {
-  //[self syncUnlinkedTags];
   [self syncUnlinkedTags];
   [self checkUnlinkedTagsWithModalController];
   if([[self delegate] respondsToSelector:@selector(unlinkedTagsDidChange:)]) {

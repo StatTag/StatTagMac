@@ -56,6 +56,6 @@
 -(void)validateDocument;
 -(void)validateUnlinkedTags;
 -(void)loadDocument;
--(void)fieldCacheDidChangeForTags:(NSArray<STTag*>*)tags orCodeFilePath:(NSString*)codeFilePath;
+-(void)cachesDidChangeForTags:(NSArray<STTag*>*)tags orCodeFilePath:(NSString*)codeFilePath;
 
 @end
