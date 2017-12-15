@@ -213,7 +213,8 @@ const NSInteger RefreshStepInterval = 5;
         // Determine if we had a cached list, and if so if the results have changed.
         
         //FIXME: review this line - may or may not work as expected
-        BOOL resultsChanged = ([tag CachedResult] != nil && ![resultList isEqualToArray:[tag CachedResult]]);
+        BOOL resultsChanged = ([tag CachedResult] == nil ||
+                               ([tag CachedResult] != nil && ![resultList isEqualToArray:[tag CachedResult]]));
         // original c#
         //bool resultsChanged = (tag.CachedResult != null && !resultList.SequenceEqual(tag.CachedResult));
         
