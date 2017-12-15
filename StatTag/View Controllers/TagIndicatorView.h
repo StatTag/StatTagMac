@@ -17,6 +17,7 @@
 }
 
 @property (weak) IBOutlet NSImageView *tagImageView;
+@property (weak) IBOutlet NSImageView *unlinkedTagImageView;
 @property (weak) IBOutlet NSTextField *tagLabel;
 @property (weak) IBOutlet NSProgressIndicator *tagProgressIndicator;
 @property (weak) IBOutlet NSTextField *tagCountLabel;

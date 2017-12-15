@@ -86,10 +86,14 @@
     case TagIndicatorViewTagStyleError:
       [[self tagImageView] setImage:[[self class] colorImage:[[self tagImageView] image] withTint:[NSColor redColor]]];
       break;
+    case TagIndicatorViewTagStyleUnlinked:
+      [[self tagImageView] setImage:[[self class] colorImage:[[self unlinkedTagImageView] image] withTint:[NSColor blueColor]]];
+      break;
     default:
       [[self tagImageView] setImage:[[self class] colorImage:[[self tagImageView] image] withTint:[NSColor blueColor]]];
       break;
   }
+  [[self unlinkedTagImageView] setHidden:TRUE];
 }
 
 //+ (nonnull NSColor*)colorFromRGBRed:(CGFloat)r  green:(CGFloat)g blue:(CGFloat)b alpha:(CGFloat)a;

@@ -25,13 +25,14 @@
   return self;
 }
 
--(instancetype)initWithTitle:(NSString*)title andStyle:(TagIndicatorViewTagStyle)style withFocus:(TagIndicatorViewTagFocus)focus andCount:(NSInteger)count {
+-(instancetype)initWithTitle:(NSString*)title andStyle:(TagIndicatorViewTagStyle)style withFocus:(TagIndicatorViewTagFocus)focus andCount:(NSInteger)count andDisplayCount:(BOOL) displayCount {
   self = [super init];
   if(self){
     _tagStyle = style;
     _tagGroupTitle = title;
     _tagFocus = focus;
     _tagCount = count;
+    _displayCount = displayCount;
   }
   return self;
 }

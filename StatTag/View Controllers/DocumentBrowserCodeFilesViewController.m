@@ -123,45 +123,20 @@
   [self setDuplicateTags: [[[self documentManager] TagManager] FindAllDuplicateTags]];
 
   numGoodTags = [tags count];
-  //numUnlinkedTags = [unlinkedTags count];
-  //numDuplicateTags = [[self duplicateTags] count];
-  for(STTag* t in [self duplicateTags])
-  {
+  for(STTag* t in [self duplicateTags]) {
     numDuplicateTags += [[[self duplicateTags] objectForKey:t] count] + 1; //we need to include the parent tag as a duplicate
-  }
-  for(NSString* filepath in [self unlinkedTags])
-  {
-    numUnlinkedTags += [[[self unlinkedTags] objectForKey:filepath] count];
   }
 
   NSMutableArray<DocumentBrowserTagSummary*>* objs = [[NSMutableArray<DocumentBrowserTagSummary*> alloc] init];
+  [objs addObject:[[DocumentBrowserTagSummary alloc] initWithTitle:[NSString stringWithFormat:@"%@", @"All Tags"] andStyle:TagIndicatorViewTagStyleNormal withFocus:TagIndicatorViewTagFocusAllTags andCount:numGoodTags andDisplayCount:TRUE]];
 
-  //[[tagSummaryArrayController content] removeAllObjects];
-  
-  
-  [objs addObject:[[DocumentBrowserTagSummary alloc] initWithTitle:[NSString stringWithFormat:@"%@", @"All Tags"] andStyle:TagIndicatorViewTagStyleNormal withFocus:TagIndicatorViewTagFocusAllTags andCount:numGoodTags]];
-
-  if(numDuplicateTags > 0)
-  {
-    [objs addObject:[[DocumentBrowserTagSummary alloc] initWithTitle:@"Duplicate Tags" andStyle:TagIndicatorViewTagStyleWarning withFocus:TagIndicatorViewTagFocusDuplicateTags andCount:numDuplicateTags]];
+  if (numDuplicateTags > 0) {
+    [objs addObject:[[DocumentBrowserTagSummary alloc] initWithTitle:@"Duplicate Tags" andStyle:TagIndicatorViewTagStyleWarning withFocus:TagIndicatorViewTagFocusDuplicateTags andCount:numDuplicateTags andDisplayCount:TRUE]];
   }
   
-  /*
-  if([self loadingUnlinkedTags])
-  {
-    [objs addObject:[[DocumentBrowserTagSummary alloc] initWithTitle:[NSString stringWithFormat:@"%@", @"Loading Unlinked Tags..."] andStyle:TagIndicatorViewTagStyleLoading withFocus:TagIndicatorViewTagFocusNone andCount:0]];
-  } else {
-    if(numUnlinkedTags > 0)
-    {
-      [objs addObject:[[DocumentBrowserTagSummary alloc] initWithTitle:@"Unlinked Tags" andStyle:TagIndicatorViewTagStyleError withFocus:TagIndicatorViewTagFocusUnlinkedTags andCount:numUnlinkedTags]];
-    }
-  }
-   */
-  [objs addObject:[[DocumentBrowserTagSummary alloc] initWithTitle:[NSString stringWithFormat:@"%@", @"Check Unlinked Tags"] andStyle:TagIndicatorViewTagStyleNormal withFocus:TagIndicatorViewTagFocusUnlinkedTags andCount:0]];
+  [objs addObject:[[DocumentBrowserTagSummary alloc] initWithTitle:[NSString stringWithFormat:@"%@", @"Check Unlinked Tags"] andStyle:TagIndicatorViewTagStyleUnlinked withFocus:TagIndicatorViewTagFocusUnlinkedTags andCount:0 andDisplayCount:FALSE]];
 
-  
   [tagSummaryArrayController setContent:objs];
-  
 }
 
 
@@ -394,20 +369,32 @@
 
         cell.tagLabel.stringValue = [summary tagGroupTitle];
         //[[cell tagCountLabel] setTextColor: [DocumentBrowserTagSummary textColorForTagIndicatorViewTagStyle:[summary tagStyle]]];
-        if([summary tagStyle] == TagIndicatorViewTagStyleLoading)
-        {
+        if([summary tagStyle] == TagIndicatorViewTagStyleLoading) {
           cell.tagCountLabel.hidden = true;
           cell.tagImageView.hidden = true;
+          cell.unlinkedTagImageView.hidden = true;
           cell.tagProgressIndicator.hidden = false;
           [cell.tagProgressIndicator startAnimation:self];
-        } else {
+        }
+        else if([summary tagStyle] == TagIndicatorViewTagStyleUnlinked) {
+          cell.tagCountLabel.hidden = true;
+          cell.tagImageView.hidden = true;
+          cell.unlinkedTagImageView.hidden = false;
+          cell.tagProgressIndicator.hidden = true;
+        }
+        else {
           cell.tagCountLabel.hidden = false;
           NSImage* img = [DocumentBrowserTagSummary colorImage:cell.tagImageView.image forTagIndicatorViewTagStyle:[summary tagStyle]];
           cell.tagImageView.image = img;
+          cell.unlinkedTagImageView.hidden = true;
 
           cell.tagImageView.hidden = false;
-          cell.tagCountLabel.stringValue = [NSString stringWithFormat:@"%ld", (long)[summary tagCount]];
-          
+          if ([summary displayCount]) {
+            cell.tagCountLabel.stringValue = [NSString stringWithFormat:@"%ld", (long)[summary tagCount]];
+          }
+          else {
+            cell.tagCountLabel.stringValue = @"";
+          }
           [cell.tagProgressIndicator stopAnimation:self];
           cell.tagProgressIndicator.hidden = true;
         }

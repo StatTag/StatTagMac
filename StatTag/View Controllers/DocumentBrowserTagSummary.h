@@ -13,7 +13,8 @@ typedef enum {
   TagIndicatorViewTagStyleNormal,
   TagIndicatorViewTagStyleWarning,
   TagIndicatorViewTagStyleError,
-  TagIndicatorViewTagStyleLoading
+  TagIndicatorViewTagStyleLoading,
+  TagIndicatorViewTagStyleUnlinked
 } TagIndicatorViewTagStyle;
 
 typedef enum {
@@ -34,9 +35,10 @@ typedef enum {
 @property TagIndicatorViewTagStyle tagStyle;
 @property TagIndicatorViewTagFocus tagFocus;
 @property NSInteger tagCount;
+@property BOOL displayCount;
 
 -(instancetype)init;
--(instancetype)initWithTitle:(NSString*)title andStyle:(TagIndicatorViewTagStyle)type withFocus:(TagIndicatorViewTagFocus)focus andCount:(NSInteger)count;
+-(instancetype)initWithTitle:(NSString*)title andStyle:(TagIndicatorViewTagStyle)type withFocus:(TagIndicatorViewTagFocus)focus andCount:(NSInteger)count andDisplayCount:(BOOL) displayCount;
 
 +(NSColor*)textColorForTagIndicatorViewTagStyle:(TagIndicatorViewTagStyle)style;
 +(NSImage*)colorImage:(NSImage*)image forTagIndicatorViewTagStyle:(TagIndicatorViewTagStyle)style;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="13196" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="16G29" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13196"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -10,6 +10,7 @@
                 <outlet property="tagImageView" destination="IV8-1e-60i" id="v71-Wz-vaZ"/>
                 <outlet property="tagLabel" destination="QWy-N7-6la" id="xeF-BU-kxn"/>
                 <outlet property="tagProgressIndicator" destination="mlS-jW-bHz" id="pYE-5o-bVr"/>
+                <outlet property="unlinkedTagImageView" destination="Okx-jT-cyp" id="IDM-bl-9lP"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
             </connections>
         </customObject>
@@ -26,6 +27,14 @@
                         <constraint firstAttribute="width" constant="36" id="uCG-EM-BEX"/>
                     </constraints>
                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="tag_button" id="pfc-c1-897"/>
+                </imageView>
+                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Okx-jT-cyp">
+                    <rect key="frame" x="0.0" y="0.0" width="36" height="20"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="36" id="XQr-RE-zDM"/>
+                        <constraint firstAttribute="height" constant="20" id="apK-zI-kul"/>
+                    </constraints>
+                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="unlinked_tag_button" id="V8B-vB-WqR"/>
                 </imageView>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="QWy-N7-6la">
                     <rect key="frame" x="6" y="0.0" width="28" height="17"/>
@@ -59,5 +68,6 @@
     </objects>
     <resources>
         <image name="tag_button" width="494" height="223"/>
+        <image name="unlinked_tag_button" width="494" height="223"/>
     </resources>
 </document>
