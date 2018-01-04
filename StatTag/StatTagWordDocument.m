@@ -78,16 +78,16 @@
     [self setCodeFilePaths: [[self codeFiles] valueForKey:@"FilePath"]];
 
     [[[StatTagShared sharedInstance] docManager] LoadAllTagsFromCodeFiles];
-    NSLog(@"self tags count : %ld", [[self tags] count]);
-    NSLog(@"raw result array: %@", [[[StatTagShared sharedInstance] docManager] GetTags]);
+    //NSLog(@"self tags count : %ld", [[self tags] count]);
+    //NSLog(@"raw result array: %@", [[[StatTagShared sharedInstance] docManager] GetTags]);
     if([[[[StatTagShared sharedInstance] docManager] GetTags] count] == 0)
     {
       [self setTags:[NSMutableArray<STTag*> arrayWithArray:[[[StatTagShared sharedInstance] docManager] GetTags]]];
     }
     [self setTags:[NSMutableArray<STTag*> arrayWithArray:[[[StatTagShared sharedInstance] docManager] GetTags]]];
-    NSLog(@"loadDocument - codefiles: %@", [self codeFiles]);
-    NSLog(@"loadDocument - tags: %@", [self tags]);
-    NSLog(@"self tags count : %ld", [[self tags] count]);
+    //NSLog(@"loadDocument - codefiles: %@", [self codeFiles]);
+    //NSLog(@"loadDocument - tags: %@", [self tags]);
+    //NSLog(@"self tags count : %ld", [[self tags] count]);
 
     //NSLog(@"loading document");
     //[self validateDocument]; we're not going to validate here - do it in the other list of docs
@@ -269,10 +269,10 @@
 {
   if(tag != nil) {
     if(![[self codeFilePaths] containsObject:[tag CodeFilePath]] || ![[self tags] containsObject:tag]) {
-      NSLog(@"tag is unlinked - %@", tag);
-      NSLog(@"isUnlinkedTag: all CodeFilePaths -> %@", [self codeFilePaths]);
-      NSLog(@"isUnlinkedTag: tag CodeFilePath -> %@", [tag CodeFilePath]);
-      NSLog(@"isUnlinkedTag: tags -> %@", [self tags]);
+//      NSLog(@"tag is unlinked - %@", tag);
+//      NSLog(@"isUnlinkedTag: all CodeFilePaths -> %@", [self codeFilePaths]);
+//      NSLog(@"isUnlinkedTag: tag CodeFilePath -> %@", [tag CodeFilePath]);
+//      NSLog(@"isUnlinkedTag: tags -> %@", [self tags]);
       return YES;
     }
   }
@@ -351,7 +351,7 @@
   
   
   dispatch_async(dispatch_get_main_queue(), ^{
-    NSLog(@"INTERNAL UNLINKED TAGS: %@", [self unlinkedTags]);
+    //NSLog(@"INTERNAL UNLINKED TAGS: %@", [self unlinkedTags]);
     [[NSNotificationCenter defaultCenter] postNotificationName:@"allUnlinkedFieldChecksComplete" object:self userInfo:@{}];
   });
 
@@ -381,8 +381,8 @@
 // Either tags or codeFilePath can be specified.
 -(void) cachesDidChangeForTags:(NSArray<STTag*>*)tags orCodeFilePath:(NSString*)codeFilePath
 {
-  NSLog(@"tags: %@", tags);
-  NSLog(@"codeFilePath: %@", codeFilePath);
+//  NSLog(@"tags: %@", tags);
+//  NSLog(@"codeFilePath: %@", codeFilePath);
   [self fieldCacheDidChangeForTags:tags orCodeFilePath:codeFilePath];
   [self unlinkedTagCacheDidChangeForTags:tags orCodeFilePath:codeFilePath];
 }
