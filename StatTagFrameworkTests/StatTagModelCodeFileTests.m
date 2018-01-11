@@ -12,7 +12,6 @@
 #import "MockIFileHandler.h"
 #import <OCMock/OCMock.h>
 
-
 //MARK: Test cases
 
 @interface StatTagModelCodeFileTests : XCTestCase

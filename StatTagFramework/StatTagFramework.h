@@ -20,8 +20,6 @@ FOUNDATION_EXPORT const unsigned char StatTagVersionString[];
 
 //NOTE: make sure you tag this as "public" in the framework target membership
 
-
-
 //======================================
 // StatTag
 //======================================

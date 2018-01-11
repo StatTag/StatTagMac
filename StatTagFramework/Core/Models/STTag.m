@@ -109,6 +109,7 @@ NSString* const TagIdentifierDelimiter = @"--";
  // self.ValueFormat.FormatType = [STConstantsValueFormatType Default];
   self.FigureFormat = [[STFigureFormat alloc] init];
   self.Name = @"";
+  _StatTagJSONErrata = [[NSMutableDictionary alloc] init];
   
   return self;
 }
@@ -131,6 +132,7 @@ NSString* const TagIdentifierDelimiter = @"--";
     self.LineEnd = [[tag LineEnd] copy];
     self.CachedResult = [[tag CachedResult] copy];
     [self setCodeFilePath:[tag CodeFilePath]];
+    _StatTagJSONErrata = [[NSMutableDictionary alloc] init];
     //NSLog(@"tag CachedResult = %@", [tag CachedResult]);
     //NSLog(@"self CachedResult = %@", [self CachedResult]);
     //NSLog(@"tag(self) FormattedResult : %@", [self FormattedResult]);
@@ -221,6 +223,10 @@ NSString* const TagIdentifierDelimiter = @"--";
   //[dict setValue:[self Id] forKey:@"Id"]; //this is a read only item
   [dict setValue:[self FormattedResult] forKey:@"FormattedResult"];
   
+  //retain any unknown / unsupported keys/values we may have
+  //these might be legacy StatTag items or newer items we don't yet know about - we don't want to break document compatibility
+  [dict addEntriesFromDictionary:_StatTagJSONErrata];
+  
   return dict;
   
 }
@@ -230,7 +236,6 @@ NSString* const TagIdentifierDelimiter = @"--";
   {
     return;
   }
-
   
   NSError* error;
   
@@ -260,7 +265,18 @@ NSString* const TagIdentifierDelimiter = @"--";
     } else if([key isEqualToString:@"TableFormat"]) {
       [self setValue:[[STTableFormat alloc] initWithDictionary:[dict valueForKey:key]] forKey:key];
     } else {
-      [self setValue:[dict valueForKey:key] forKey:key];
+      if ([self respondsToSelector:NSSelectorFromString(key)])
+      {
+        [self setValue:[dict valueForKey:key] forKey:key];
+      } else {
+        //archive our property info, even if unknown
+        // we want to avoid "shaving off" unused properties that may break document compatibility
+        // EX: if there is a property in a newer version of the StatTag content format we might just not know about it - so let's not toss
+        // everything out
+        // we're going to make the assumption (whether right or wrong) that a given key can exist ONCE and ONLY ONCE
+        // if we have a second instance of that key, it will overwrite the existing value
+        [_StatTagJSONErrata setValue:[dict valueForKey:key] forKey:key];
+      }
     }
   }
   

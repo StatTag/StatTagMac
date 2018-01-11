@@ -615,7 +615,8 @@
     NSLog(@"==================");
     NSLog(@"fieldText : %@", [field fieldText]);
     
-    if ([[manager TagManager] IsStatTagField:field]) {
+//    if ([[manager TagManager] IsStatTagField:field]) {
+    if ([STTagManager IsStatTagField:field]) {
       STFieldTag* fieldTag = [[manager TagManager] GetFieldTag:field];
       NSLog(@"fieldTag FormattedResult : %@", [fieldTag FormattedResult]);
     } else {

@@ -34,6 +34,8 @@
   
   NSNumber* _LineStart;
   NSNumber* _LineEnd;
+  
+  NSMutableDictionary* _StatTagJSONErrata;
 }
 
 extern NSString* const TagIdentifierDelimiter;
