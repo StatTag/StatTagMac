@@ -115,6 +115,7 @@ extern NSString* const EndLoggingCommand;
  @returns The result of the command, or null if the command does not provide a result.
  */
 -(STCommandResult*)RunCommand:(NSString*) command;
+-(STCommandResult*)RunCommand:(NSString*) command tag:(STTag*)tag;
 
 +(BOOL)UnregisterAutomationAPI:(NSString*) path;
 +(BOOL)RegisterAutomationAPI:(NSString*) path;

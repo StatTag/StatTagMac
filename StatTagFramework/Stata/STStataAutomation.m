@@ -172,13 +172,6 @@ const NSInteger ShowStata = 3;
   return [Parser IsValueDisplay:command] || [Parser IsImageExport:command] || [Parser IsTableResult:command];
 }
 
-//method removed in C# december 2016 update
-//-(NSArray<STCommandResult*>*)CombineAndRunCommands:(NSArray<NSString*>*) commands
-//{
-//  NSString* combinedCommand = [commands componentsJoinedByString:@"\r\n"];
-//  return [self RunCommands:[NSArray<NSString*> arrayWithObjects:combinedCommand, nil]];
-//}
-
 -(void)EnsureLoggingForVerbatim:(STTag*)tag
 {
   // If there is no open log, we will start one
@@ -230,11 +223,10 @@ const NSInteger ShowStata = 3;
         [self EnsureLoggingForVerbatim:tag];
       }
       
-      STCommandResult* result = [self RunCommand:command];
+      STCommandResult* result = [self RunCommand:command tag:tag];
       if(result != nil && ![result IsEmpty] && !IsTrackingVerbatim) {
         [commandResults addObject:result];
       }
-      
       else if ([Parser IsTagEnd:command] && IsTrackingVerbatim)
       {
         // Log management can get tricky.  If the user has established their own log file as part of their do file, we have
@@ -283,16 +275,12 @@ const NSInteger ShowStata = 3;
         // user-defined log.
         if (verbatimLog != nil)
         {
-          //          OpenLogs.Remove(verbatimLog);
           [OpenLogs removeObject:verbatimLog];
-          
-          //          File.Delete(verbatimLog.LogPath);
           NSError* error;
           [[NSFileManager defaultManager] removeItemAtPath:[[verbatimLog LogPath] stringByExpandingTildeInPath] error:&error];
         }
         else
         {
-          //RunCommand(string.Format("log using \"{0}\"", logToRead.LogPath));
           [self RunCommand:[NSString stringWithFormat:@"log using \"%@\"", [logToRead LogPath]]];
         }
       }
@@ -314,11 +302,7 @@ const NSInteger ShowStata = 3;
       
       // We have a special log type identifier we use for tracking verbatim output.  The Replace call
       // for each log command is a cheat to make sure that type is converted to log (instead of if/elses).
-      
-      
-      //RunCommand(string.Format("{0} close", openLog.LogType.Replace(StatTagVerbatimLogIdentifier, "log")));
       [self RunCommand:[NSString stringWithFormat:@"%@ close", [[openLog LogType] stringByReplacingOccurrencesOfString:StatTagVerbatimLogIdentifier withString:@"log"] ]];
-      //[self RunCommand:[NSString stringWithFormat:@"%@ close", openLog]];
     }
     // Since we have closed all logs, clear the list we were tracking.
     [OpenLogs removeAllObjects];
@@ -519,14 +503,22 @@ const NSInteger ShowStata = 3;
   return cleanedData;
 }
 
+-(STCommandResult*)RunCommand:(NSString*)command
+{
+  return [self RunCommand:command tag:nil];
+}
+
 /**
  Run a Stata command and provide the result of the command (if one should be returned).
  @param command: The command to run, taken from a Stata do file
  @returns The result of the command, or null if the command does not provide a result.
 */
--(STCommandResult*)RunCommand:(NSString*) command
+-(STCommandResult*)RunCommand:(NSString*) command tag:(STTag*)tag
 {
-  if(!IsTrackingVerbatim)
+  // If we are tracking verbatim, we don't do any special tag processing.  Likewise, if we don't have
+  // a tag, we don't want to do any special handling or processing of results.  This way any non-
+  // tagged code is going to go ahead and be executed.
+  if(!IsTrackingVerbatim && tag != nil)
   {
     if([Parser IsValueDisplay:command]) {
       STCommandResult* result = [[STCommandResult alloc] init];
@@ -571,7 +563,7 @@ const NSInteger ShowStata = 3;
   command = [command substringFromIndex:[CapturePrefix length]];
   command = [command substringToIndex:[command length] - [CaptureSuffix length]];
   
-  if([Parser IsImageExport:command] && !IsTrackingVerbatim) {
+  if([Parser IsImageExport:command] && !IsTrackingVerbatim && tag != nil) {
     
     NSString* imageLocation = [Parser GetImageSaveLocation:command];
     if([imageLocation containsString:[[STStataParser MacroDelimitersCharacters] firstObject]])
