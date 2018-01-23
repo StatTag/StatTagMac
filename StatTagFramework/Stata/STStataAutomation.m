@@ -431,13 +431,13 @@ const NSInteger ShowStata = 3;
   // process them directly, so our workaround is to introduce a local macro to process the
   // calculation, and then use the downstream macro result handler to pull out the result.
   // This will work even if the same local macro is defined multiple times in the same
-  // execution.
-  if([Parser IsCalculatedDisplayValue:command]) {
-    name = [Parser GetValueName:command];
-    command = [NSString stringWithFormat:@"local %@ = %@", StatTagTempMacroName, name];
-    [self RunCommand:command];
-    command = [NSString stringWithFormat:@"display `%@'", StatTagTempMacroName];
-  }
+  // execution.  We eventually decided to do this for ALL display values.  While it is
+  // admittedly some execution overhead, it saves time (and potential errors) trying to
+  // parse every command so see if it's a calculation or system variable (e.g., _pi, _N, _b[val]).
+  name = [Parser GetValueName:command];
+  command = [NSString stringWithFormat:@"local %@ = %@", StatTagTempMacroName, name];
+  [self RunCommand:command];
+  command = [NSString stringWithFormat:@"display `%@'", StatTagTempMacroName];
   
   if([Parser IsMacroDisplayValue:command]) {
     name = [Parser GetMacroValueName:command];
