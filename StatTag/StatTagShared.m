@@ -30,7 +30,7 @@
 @synthesize app = _app;
 @synthesize mainVC = _mainVC;
 
-@synthesize propertiesManager = _propertiesManager;
+@synthesize settingsManager = _settingsManager;
 @synthesize logManager = _logManager;
 //@synthesize fileMonitors = _fileMonitors;
 @synthesize lastLaunchedAppVersion = _lastLaunchedAppVersion;
@@ -111,7 +111,7 @@ NSString* const kStatTagErrorDomain = @"STErrorDomain";
     
     [self setDocManager: [[STDocumentManager alloc] init]];
     [self setLogManager: [[STLogManager alloc] init]];
-    [self setPropertiesManager: [[STPropertiesManager alloc] init]];
+    [self setSettingsManager: [[STSettingsManager alloc] init]];
     [self setPendingValidations: [[StatTagWordDocumentPendingValidations alloc] init]];
 
   }
@@ -206,15 +206,15 @@ NSString* const kStatTagErrorDomain = @"STErrorDomain";
 //  shared.docManager = [[STDocumentManager alloc] init];
 
 //  shared.logManager = [[STLogManager alloc] init];
-//  shared.propertiesManager = [[STPropertiesManager alloc] init];
+//  shared.settingsManager = [[STSettingsManager alloc] init];
 
-  [[shared propertiesManager] Load];
-  //self.properties = [[self propertiesManager] Properties]; //just for setup
+  [[shared settingsManager] Load];
+  //self.properties = [[self settingsManager] Properties]; //just for setup
 
-  shared.logManager.Enabled = shared.propertiesManager.Properties.EnableLogging;
-  if(shared.propertiesManager.Properties.LogLocation != nil)
+  shared.logManager.Enabled = shared.settingsManager.Settings.EnableLogging;
+  if(shared.settingsManager.Settings.LogLocation != nil)
   {
-    shared.logManager.LogFilePath = [NSURL fileURLWithPath:shared.propertiesManager.Properties.LogLocation];
+    shared.logManager.LogFilePath = [NSURL fileURLWithPath:shared.settingsManager.Settings.LogLocation];
   }
 
 }

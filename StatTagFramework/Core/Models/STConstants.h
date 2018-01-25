@@ -188,3 +188,11 @@ extern NSString *const STStatTagErrorDomain;
 +(NSString*)Include;
 +(NSArray<NSString *>*)GetList;
 @end
+
+
+@interface STConstantsMissingValueOption : NSObject
++(NSString*)StatPackageDefault;
++(NSString*)CustomValue;
++(NSString*)BlankString;
++(NSArray<NSString *>*)GetList;
+@end

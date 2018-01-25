@@ -264,6 +264,27 @@
   XCTAssert([[ar2[1] StatisticalPackage] isEqualToString:@"DEF"]);
   XCTAssert([[ar2[1] FilePath] isEqualToString:@"secondfile.txt"]);
   XCTAssert([[ar2[1] LastCached] isEqualToDate:d2]);
+  
+
+  NSString* jsonWithExtras = @"[{\"StatisticalPackage\" : \"ABC\",\"FilePath\" : \"myfile.txt\", \"LastCached\" : \"2016-01-01 01:02:03 -0600\", \"AnIntKey\":123},{\"StatisticalPackage\" : \"DEF\", \"FilePath\" : \"secondfile.txt\", \"LastCached\" : \"2015-06-01 01:02:46 -0500\", \"AStringKey\":\"AStringValue\"}]";
+  NSArray* ar3 = [STCodeFile DeserializeList:jsonWithExtras error:nil];
+  XCTAssertEqual(2, [ar3 count]);
+  XCTAssertEqual([[[[ar3 firstObject] ExtraMetadata] objectForKey:@"AnIntKey"] integerValue], 123);
+  XCTAssert([[[[ar3 objectAtIndex:1] ExtraMetadata] valueForKey:@"AStringKey"] isEqualToString:@"AStringValue"]);
+  
+//  NSLog(@"# items in array = %ld", [ar3 count]);
+//  NSLog(@"AnIntKey = %ld", [[[[ar3 firstObject] ExtraMetadata] objectForKey:@"AnIntKey"] integerValue]);
+//  NSLog(@"%@", ar3);
+//  for(STCodeFile* cf3 in ar3)
+//  {
+//    NSLog(@"%@", [cf3 ExtraMetadata]);
+//  }
+  
+  [[[ar3 firstObject] ExtraMetadata] setObject:@"A new Extra Value" forKey:@"ANewExtraKey"];
+  NSString* jsonFromMeta = [[ar3 firstObject] Serialize:nil];
+  NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:[jsonFromMeta dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:nil];
+  XCTAssertEqual([[jsonDict objectForKey:@"AnIntKey"] integerValue], 123);
+  
 }
 
 
@@ -398,7 +419,7 @@
   NSArray<STTag*>* ar2 = [STTag DeserializeList:json error:nil];
   NSString* json2 = [STTag SerializeList:ar2 error:nil];
   XCTAssert([json isEqualToString:json2]);
-  
+    
   //------------------
   // FIRST TAG
   //------------------
@@ -523,7 +544,54 @@
   XCTAssert([[ar2[1] TimeFormat] isEqualToString: [vf2 TimeFormat]]);
   XCTAssert([ar2[1] AllowInvalidTypes] == vf2.AllowInvalidTypes);
 
-
 }
+
+-(void)testRetainJSONUnknownProperties {
+  
+  NSString* jsonString;
+  NSString* jsonString2;
+  
+//  tg1.Type = @"1_type";
+//  tg1.Name = @"1_name";
+//  tg1.RunFrequency = @"1_run_frequency";
+
+  tg1 = [[STTag alloc] init];
+  tg1.Type = @"1_type";
+  tg1.Name = @"1_name";
+  tg1.RunFrequency = @"1_run_frequency";
+  tg1.ValueFormat = vf1;
+  tg1.FigureFormat = ff1;
+  tg1.TableFormat = tf1;
+  tg1.CachedResult = [NSMutableArray arrayWithObjects:cr1,cr2, nil];
+  tg1.LineStart = @10;
+  tg1.LineEnd = @15;
+
+  jsonString = [tg1 Serialize:nil];
+//  jsonString2 = @"{\"FormattedResult\":\"2_value_result\",\"ValueFormat\":{\"DateFormat\":\"1_date_format\",\"TimeFormat\":\"1_time_format\",\"AllowInvalidTypes\":true,\"FormatType\":\"1_format_type\",\"DecimalPlaces\":1,\"UseThousands\":true},\"CachedResult\":[{\"IsEmpty\":false,\"ValueResult\":\"1_value_result\",\"TableResult\":{\"RowSize\":2,\"ColumnSize\":2,\"Data\":{\"Data\":[[],[\"\",\"10\",\"20\"],[\"\",\"30\",\"40\"]]}},\"FigureResult\":\"1_value_result\"},{\"IsEmpty\":false,\"ValueResult\":\"2_value_result\",\"TableResult\":{\"RowSize\":2,\"ColumnSize\":2,\"Data\":{}},\"FigureResult\":\"2_value_result\"}],\"RunFrequency\":\"1_run_frequency\",\"Type\":\"1_type\",\"FigureFormat\":{},\"Name\":\"1_name\",\"LineStart\":10,\"TableFormat\":{\"RowFilter\":{\"Prefix\":\"Row\",\"Type\":\"\",\"Value\":\"\",\"Enabled\":0},\"ColumnFilter\":{\"Prefix\":\"Col\",\"Type\":\"\",\"Value\":\"\",\"Enabled\":0}},\"LineEnd\":15}";
+
+  jsonString2 = @"{\"FormattedResult\":\"2_value_result\",\"ValueFormat\":{\"DateFormat\":\"1_date_format\",\"TimeFormat\":\"1_time_format\",\"AllowInvalidTypes\":true,\"FormatType\":\"1_format_type\",\"DecimalPlaces\":1,\"UseThousands\":true},\"CachedResult\":[{\"IsEmpty\":false,\"ValueResult\":\"1_value_result\",\"TableResult\":{\"RowSize\":2,\"ColumnSize\":2,\"Data\":{\"Data\":[[],[\"\",\"10\",\"20\"],[\"\",\"30\",\"40\"]]}},\"FigureResult\":\"1_value_result\"},{\"IsEmpty\":false,\"ValueResult\":\"2_value_result\",\"TableResult\":{\"RowSize\":2,\"ColumnSize\":2,\"Data\":{}},\"FigureResult\":\"2_value_result\"}],\"RunFrequency\":\"1_run_frequency\",\"Type\":\"1_type\",\"FigureFormat\":{},\"Name\":\"1_name\",\"LineStart\":10,\"TableFormat\":{\"RowFilter\":{\"Prefix\":\"Row\",\"Type\":\"\",\"Value\":\"\",\"Enabled\":0},\"ColumnFilter\":{\"Prefix\":\"Col\",\"Type\":\"\",\"Value\":\"\",\"Enabled\":0}},\"LineEnd\":15, \"MyNewPropertyString\":\"My New Property String\", \"MyNewPropertyInt\":42, \"MyNewPropertyArray\":[0, 1, 2, 3, 4]}";
+
+  tg1 = [[STTag alloc] initWithJSONString:jsonString2 error:nil];
+  
+  NSLog(@"%@", [tg1 Serialize:nil]);
+
+  tg2 = [[STTag alloc] initWithTag:tg1];
+  NSLog(@"%@", [tg2 Serialize:nil]);
+  
+  /*
+    //-(instancetype)initWithJSONString:(NSString*)JSONString error:(NSError**)error
+    jsonString = @"{\"StatisticalPackage\" : \"R 0\",\"FilePath\" : \"/Applications/SomePath/somefile___0.txt\",\"LastCached\":\"06/20/2016, 09:18:29 -0500\"}";
+    NSError* error;
+    STCodeFile* f = [[STCodeFile alloc] initWithJSONString:jsonString error:&error];
+    NSLog(@"error: %@", error);
+    NSLog(@"f: %@", f);
+    NSLog(@"f (StatisticalPackage): %@", [f StatisticalPackage]);
+    NSLog(@"f (LastCached): %@", [f LastCached]);
+   */
+  
+  //NSLog(@"%@", [tg1 Serialize:nil]);
+  
+}
+
 
 @end

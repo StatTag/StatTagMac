@@ -1,5 +1,5 @@
 //
-//  STProperties.h
+//  STUserSettings.h
 //  StatTag
 //
 //  Created by Eric Whitley on 7/29/16.
@@ -11,10 +11,13 @@
 /**
   User preferences and settings for StatTag.
  */
-@interface STProperties : NSObject {
+@interface STUserSettings : NSObject {
   NSString* _StataLocation;
   BOOL _EnableLogging;
   NSString* _LogLocation;
+  
+  NSString* _RepresentMissingValues;
+  NSString* _CustomMissingValue;
 }
 
 /**
@@ -33,6 +36,20 @@
  Automatically run attached statistical code and update a document when the Word document is opened.
  */
 @property BOOL RunCodeOnOpen;
+
+
+/**
+ How StatTag should represent missing values within the Word document.
+ The allowed values should come from Constants.MissingValueOption
+ */
+@property (copy, nonatomic) NSString* RepresentMissingValues;
+
+/**
+ If a missing value is represented by a user-defined string, this will
+ be the string to use.  It may be set even if another missing value
+ option is selected, just to preserve the user's previous choice.
+ */
+@property (copy, nonatomic) NSString* CustomMissingValue;
 
 
 @end

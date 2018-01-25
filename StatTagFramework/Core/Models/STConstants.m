@@ -220,5 +220,13 @@ NSString *const STStatTagErrorDomain = @"StatTagErrorDomain";
 +(NSArray<NSString *>*)GetList {
   return [[NSArray alloc] initWithObjects:[STConstantsFilterType Exclude], [STConstantsFilterType Include], nil];
 }
+@end
 
+@implementation STConstantsMissingValueOption
++(NSString*)StatPackageDefault { return @"StatPackageDefault";}
++(NSString*)CustomValue { return @"CustomValue";}
++(NSString*)BlankString { return @"BlankString";}
++(NSArray<NSString *>*)GetList {
+  return [[NSArray alloc] initWithObjects:[STConstantsMissingValueOption StatPackageDefault], [STConstantsMissingValueOption CustomValue], [STConstantsMissingValueOption BlankString], nil];
+}
 @end

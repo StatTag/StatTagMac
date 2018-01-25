@@ -13,5 +13,6 @@
 
 +(void)WarningMessageBoxWithTitle:(NSString*)title andDetail:(NSString*)detail logger:(STLogManager*)logger;
 +(void)ReportException:(NSException*)exc userMessage:(NSString*)userMessage logger:(STLogManager*)logger;
++(NSString*)GetVersionLabel;
 
 @end

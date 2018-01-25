@@ -7,7 +7,7 @@
 //
 
 #import "STLogManager.h"
-#import "STProperties.h"
+#import "STUserSettings.h"
 #import "STCocoaUtil.h"
 #import "STFileHandler.h"
 
@@ -119,20 +119,20 @@ static STLogManager *sharedInstance = nil;
 
 
 /**
- Updates the internal settings used by this log manager, when given a set of application properties.
+ Updates the internal settings used by this log manager, when given a set of application settings.
 
- @remark : This should ba called any time the application properties are loaded or updated.
+ @remark : This should ba called any time the application settings are loaded or updated.
 
- @param properties : Application properties
+ @param settings : Application settings
  */
--(void)UpdateSettings:(STProperties*)properties {
-  [self UpdateSettings:[properties EnableLogging] filePath:[properties LogLocation]];
+-(void)UpdateSettings:(STUserSettings*)settings {
+  [self UpdateSettings:[settings EnableLogging] filePath:[settings LogLocation]];
 }
 
 /**
- Updates the internal settings used by this log manager, when given a set of application properties.
+ Updates the internal settings used by this log manager, when given a set of application settings.
 
- @remark : This should ba called any time the application properties are loaded or updated. If the log path is not valid, we will disable logging.
+ @remark : This should ba called any time the application settings are loaded or updated. If the log path is not valid, we will disable logging.
  
   @param enabled : If logging is enabled by the user
   @param filePath : The path of the log file to write to.

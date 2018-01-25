@@ -12,8 +12,8 @@
 #import "STLogManager.h"
 #import "STDocumentManager.h"
 #import "STStatsManager.h"
-#import "STPropertiesManager.h"
-#import "STProperties.h"
+#import "STSettingsManager.h"
+#import "STUserSettings.h"
 #import "STUIUtility.h"
 #import "STFileHandler.h"
 #import "STCodeFile.h"
@@ -26,7 +26,7 @@
 @synthesize LogManager = _LogManager;
 @synthesize DocumentManager = _DocumentManager;
 @synthesize StatsManager = _StatsManager;
-@synthesize PropertiesManager = _PropertiesManager;
+@synthesize SettingsManager = _SettingsManager;
 @synthesize applicationVersion = _applicationVersion;
 
 +(NSArray<NSString*>*) ProcessNames {
@@ -62,11 +62,11 @@
       _LogManager = [STLogManager sharedInstance];//[[STLogManager alloc] init];
       _DocumentManager = [[STDocumentManager alloc] init];
       
-      _StatsManager = [[STStatsManager alloc] init:[self DocumentManager]];
-      _PropertiesManager = [[STPropertiesManager alloc] init];
+      _StatsManager = [[STStatsManager alloc] initWithDocumentManager:[self DocumentManager] andSettingsManager:[self SettingsManager] ];
+      _SettingsManager = [[STSettingsManager alloc] init];
 
-      [[self PropertiesManager] Load];
-      [[self LogManager] UpdateSettings:[[[self PropertiesManager] Properties] EnableLogging]  filePath:[[[self PropertiesManager] Properties] LogLocation]];
+      [[self SettingsManager] Load];
+      [[self LogManager] UpdateSettings:[[[self SettingsManager] Settings] EnableLogging]  filePath:[[[self SettingsManager] Settings] LogLocation]];
       _DocumentManager.Logger = [self LogManager];
       
     }
@@ -136,12 +136,12 @@
  Called when the add-in is started up.  This performs basic initialization and one-time setup for running in a Word session.
 */
 -(void)ThisAddIn_Startup {
-  _StatsManager = [[STStatsManager alloc] init:[self DocumentManager]];
+  _StatsManager = [[STStatsManager alloc] initWithDocumentManager:[self DocumentManager] andSettingsManager:[self SettingsManager]];
 
   // We'll load at Startup but won't save on Shutdown.  We only save when the user makes
   // a change and then confirms it through the Settings dialog.
-  [[self PropertiesManager] Load];
-  [[self LogManager] UpdateSettings:[[[self PropertiesManager] Properties] EnableLogging]  filePath:[[[self PropertiesManager] Properties] LogLocation]];
+  [[self SettingsManager] Load];
+  [[self LogManager] UpdateSettings:[[[self SettingsManager] Settings] EnableLogging]  filePath:[[[self SettingsManager] Settings] LogLocation]];
   [[self LogManager] WriteMessage:@"Startup completed"];
   _DocumentManager.Logger = [self LogManager];
 

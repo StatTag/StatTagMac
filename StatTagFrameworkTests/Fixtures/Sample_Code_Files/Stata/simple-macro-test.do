@@ -55,10 +55,10 @@ display `c'
 **<<<
 
 **>>>ST:Figure(Label="sample figure", Frequency="On Demand", Type="Figure")
-graph export "/Users/ewhitley/Desktop/chartoftheday_3171_Apples_Historic_Quarterly_Earnings_n.jpg" as(pdf), replace
+graph export "/Users/ewhitley/Desktop/chartoftheday_3171_Apples_Historic_Quarterly_Earnings_n.jpg", as(pdf), replace
 **<<<
 
 **>>>ST:Figure(Label="my new first test figure tag", Frequency="On Demand")
-graph export "/Users/ewhitley/Desktop/chartoftheday_3171_Apples_Historic_Quarterly_Earnings_n.jpg" as(pdf), replace
+graph export "/Users/ewhitley/Desktop/chartoftheday_3171_Apples_Historic_Quarterly_Earnings_n.jpg", as(pdf), replace
 **<<<
 

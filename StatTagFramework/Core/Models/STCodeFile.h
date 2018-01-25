@@ -7,8 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "STJSONAble.h"
-
+#import "STBase.h"
 
 @class STTag;
 @class STFileHandler;
@@ -19,7 +18,7 @@
  in a statistical package (e.g. Stata, R, SAS), and will be used within
  a Word document to derive values that are placed into the document text.
 */
-@interface STCodeFile : NSObject <NSCopying, STJSONAble> {
+@interface STCodeFile : STBase <NSCopying> {
   NSString* _StatisticalPackage;
   NSString* _FilePath;
   NSURL* _FilePathURL;

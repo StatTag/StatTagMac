@@ -7,11 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "STJSONAble.h"
+#import "STBase.h"
 
 @protocol STIValueFormatter;
 
-@interface STValueFormat : NSObject <NSCopying, STJSONAble> {
+@interface STValueFormat : STBase <NSCopying> {
   NSString* _FormatType;
   NSInteger _DecimalPlaces;
   BOOL _UseThousands;

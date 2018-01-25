@@ -18,7 +18,7 @@
 
 @class STDocumentManager;
 @class ManageCodeFilesViewController;
-@class STPropertiesManager;
+@class STSettingsManager;
 //@class STLogManager;
 @class StatTagNeedsWordViewController;
 @class SettingsViewController;
@@ -36,7 +36,7 @@
   STMSWord2011Application* _app;
   STMSWord2011Document* _doc;
   STDocumentManager* _docManager;
-  STPropertiesManager* _propertiesManager;
+  STSettingsManager* _settingsManager;
   STLogManager* _logManager;
   NSRect _archivedWindowFrame;
   
@@ -54,7 +54,7 @@
 @property (strong, nonatomic, nullable) STMSWord2011Application* app;
 @property (strong, nonatomic, nullable) STMSWord2011Document* doc;
 @property (strong, nonatomic, nullable) STDocumentManager* docManager;
-@property (strong, nonatomic, nullable) STPropertiesManager* propertiesManager;
+@property (strong, nonatomic, nullable) STSettingsManager* settingsManager;
 @property (strong, nonatomic, nullable) STLogManager* logManager;
 @property (strong, nonatomic, nullable) StatTagNeedsWordViewController* needsWordController;
 @property (strong, nonatomic, nullable) ManageCodeFilesViewController* codeFilesViewController;

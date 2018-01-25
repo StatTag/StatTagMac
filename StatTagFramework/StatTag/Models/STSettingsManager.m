@@ -1,16 +1,16 @@
 //
-//  STPropertiesManager.m
+//  STSettingsManager.m
 //  StatTag
 //
 //  Created by Eric Whitley on 8/1/16.
 //  Copyright © 2016 StatTag. All rights reserved.
 //
 
-#import "STPropertiesManager.h"
-#import "STProperties.h"
+#import "STSettingsManager.h"
+#import "STUserSettings.h"
 #import "STCocoaUtil.h"
 
-@implementation STPropertiesManager
+@implementation STSettingsManager
 
 //NSString* const ApplicationKey = @"Software\\Northwestern University\\StatTag";
 static NSString* const StataLocationKey = @"Stata Location";
@@ -18,12 +18,12 @@ static NSString* const LogLocationKey = @"Log Location";
 static NSString* const LogEnabledKey = @"Logging Enabled";
 static NSString* const RunCodeOnOpenKey = @"Autorun Code";
 
-@synthesize Properties = _Properties;
+@synthesize Settings = _Settings;
 
 -(instancetype)init {
   self = [super init];
   if(self) {
-    _Properties = [[STProperties alloc] init];
+    _Settings = [[STUserSettings alloc] init];
   }
   return self;
 }
@@ -37,10 +37,10 @@ static NSString* const RunCodeOnOpenKey = @"Autorun Code";
   NSMutableDictionary* prefs = [[NSMutableDictionary alloc] initWithDictionary:[[NSUserDefaults standardUserDefaults] persistentDomainForName:[STCocoaUtil currentBundleIdentifier]]];
 
   //NSMutableDictionary* prefsDict = [[NSMutableDictionary alloc] init];
-  [prefs setValue:[_Properties StataLocation] forKey:StataLocationKey];
-  [prefs setValue:[_Properties LogLocation] forKey:LogLocationKey];
-  [prefs setValue:[NSNumber numberWithBool:[_Properties EnableLogging]] forKey:LogEnabledKey];
-  [prefs setValue:[NSNumber numberWithBool:[_Properties RunCodeOnOpen]] forKey:RunCodeOnOpenKey];
+  [prefs setValue:[_Settings StataLocation] forKey:StataLocationKey];
+  [prefs setValue:[_Settings LogLocation] forKey:LogLocationKey];
+  [prefs setValue:[NSNumber numberWithBool:[_Settings EnableLogging]] forKey:LogEnabledKey];
+  [prefs setValue:[NSNumber numberWithBool:[_Settings RunCodeOnOpen]] forKey:RunCodeOnOpenKey];
 
   [[NSUserDefaults standardUserDefaults] setPersistentDomain:prefs forName:[STCocoaUtil currentBundleIdentifier]];
   [[NSUserDefaults standardUserDefaults] synchronize];
@@ -61,10 +61,10 @@ static NSString* const RunCodeOnOpenKey = @"Autorun Code";
 {
   //NSLog(@"[STCocoaUtil currentBundleIdentifier] : %@", [STCocoaUtil currentBundleIdentifier]);
   NSDictionary* prefsDict = [[NSUserDefaults standardUserDefaults] persistentDomainForName:[STCocoaUtil currentBundleIdentifier]];
-  _Properties.StataLocation = [prefsDict valueForKey:StataLocationKey];
-  _Properties.LogLocation = [prefsDict valueForKey:LogLocationKey];
-  _Properties.EnableLogging = [[prefsDict objectForKey:LogEnabledKey] boolValue];
-  _Properties.RunCodeOnOpen = [[prefsDict objectForKey:RunCodeOnOpenKey] boolValue];
+  _Settings.StataLocation = [prefsDict valueForKey:StataLocationKey];
+  _Settings.LogLocation = [prefsDict valueForKey:LogLocationKey];
+  _Settings.EnableLogging = [[prefsDict objectForKey:LogEnabledKey] boolValue];
+  _Settings.RunCodeOnOpen = [[prefsDict objectForKey:RunCodeOnOpenKey] boolValue];
 
 // we can't use the app-based domain because it will be the host app and not the StatTag framework's domain
 //  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];

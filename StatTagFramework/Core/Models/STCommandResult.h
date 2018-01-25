@@ -7,10 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "STJSONAble.h"
+#import "STBase.h"
+
+
 @class STTable;
 
-@interface STCommandResult : NSObject<STJSONAble> {
+@interface STCommandResult : STBase {
   NSString* _ValueResult;
   NSString* _FigureResult;
   STTable* _TableResult;

@@ -192,13 +192,15 @@
 		387A0E461D25C9BA00F1FE9C /* StatTagGeneratorValueGeneratorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 387A0E451D25C9B900F1FE9C /* StatTagGeneratorValueGeneratorTests.m */; };
 		3884513C1D19DCB3004C2B40 /* STValueParameterParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 3884513A1D19DCB3004C2B40 /* STValueParameterParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3884513D1D19DCB3004C2B40 /* STValueParameterParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3884513B1D19DCB3004C2B40 /* STValueParameterParser.m */; };
+		3888FAC3201A3EE80090176D /* STBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 3888FAC1201A3EE80090176D /* STBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3888FAC4201A3EE80090176D /* STBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 3888FAC2201A3EE80090176D /* STBase.m */; };
 		388ABF881DA5B1F600F08956 /* ViewUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 388ABF871DA5B1F500F08956 /* ViewUtils.m */; };
 		389591B51E8A991F003FE9E3 /* DocumentBrowserTagSummary.m in Sources */ = {isa = PBXBuildFile; fileRef = 389591B41E8A991F003FE9E3 /* DocumentBrowserTagSummary.m */; };
 		389B20561F3E01D400D853EF /* STDocumentManager+CodeFileManagement.m in Sources */ = {isa = PBXBuildFile; fileRef = 389B20551F3E01D400D853EF /* STDocumentManager+CodeFileManagement.m */; };
 		38A7CE981D4FDFB600B06AFF /* STGridDataItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 38A7CE961D4FDFB600B06AFF /* STGridDataItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38A7CE991D4FDFB600B06AFF /* STGridDataItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A7CE971D4FDFB600B06AFF /* STGridDataItem.m */; };
-		38A7CE9C1D4FE29400B06AFF /* STPropertiesManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 38A7CE9A1D4FE29400B06AFF /* STPropertiesManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		38A7CE9D1D4FE29400B06AFF /* STPropertiesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A7CE9B1D4FE29400B06AFF /* STPropertiesManager.m */; };
+		38A7CE9C1D4FE29400B06AFF /* STSettingsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 38A7CE9A1D4FE29400B06AFF /* STSettingsManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		38A7CE9D1D4FE29400B06AFF /* STSettingsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A7CE9B1D4FE29400B06AFF /* STSettingsManager.m */; };
 		38A877CD1D9AEEA7002F37DA /* Scintilla.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38A877CB1D9AEEA0002F37DA /* Scintilla.framework */; };
 		38A877CE1D9AEEA7002F37DA /* Scintilla.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 38A877CB1D9AEEA0002F37DA /* Scintilla.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		38A8C6791FFFDF820082781B /* StatTagModelTableFormatTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 380A679C1D1061490045B72B /* StatTagModelTableFormatTests.m */; };
@@ -213,6 +215,9 @@
 		38B04FD01DF61ED50070BD2E /* STTableData.m in Sources */ = {isa = PBXBuildFile; fileRef = 38B04FCE1DF61ED50070BD2E /* STTableData.m */; };
 		38B53A1E1E8A9D3700F29A7C /* DocumentBrowserCodeFilesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38ACBA251E8A981C0052636E /* DocumentBrowserCodeFilesViewController.xib */; };
 		38B53A1F1E8A9D3E00F29A7C /* DocumentBrowserCodeFilesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38ACBA241E8A981C0052636E /* DocumentBrowserCodeFilesViewController.m */; };
+		38B91248201120F300A17458 /* STDocumentMetadata.h in Headers */ = {isa = PBXBuildFile; fileRef = 38B91246201120F300A17458 /* STDocumentMetadata.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		38B91249201120F300A17458 /* STDocumentMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = 38B91247201120F300A17458 /* STDocumentMetadata.m */; };
+		38B9124B20114C5C00A17458 /* StatTagDocumentMetadataTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38B9124A20114C5C00A17458 /* StatTagDocumentMetadataTests.m */; };
 		38BE59AC1D52AA1000FF9E99 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38C91F4A1D37AC710048A95E /* Cocoa.framework */; };
 		38C2C44D1EB25BB500B95EEA /* UnlinkedTagsGroupRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C2C44C1EB25BB500B95EEA /* UnlinkedTagsGroupRowView.m */; };
 		38C2C4501EB25F7500B95EEA /* UnlinkedTagGroupEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C2C44F1EB25F7500B95EEA /* UnlinkedTagGroupEntry.m */; };
@@ -314,8 +319,8 @@
 		38FF47201DFF185100A65893 /* STLogManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 38FF471E1DFF185100A65893 /* STLogManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38FF47211DFF185100A65893 /* STLogManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 38FF471F1DFF185100A65893 /* STLogManager.m */; };
 		38FF47221DFF18D200A65893 /* STBaseManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 38516FC41DF5AF06006989BC /* STBaseManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		38FF47251DFF19A000A65893 /* STProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 38FF47231DFF19A000A65893 /* STProperties.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		38FF47261DFF19A000A65893 /* STProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 38FF47241DFF19A000A65893 /* STProperties.m */; };
+		38FF47251DFF19A000A65893 /* STUserSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 38FF47231DFF19A000A65893 /* STUserSettings.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		38FF47261DFF19A000A65893 /* STUserSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 38FF47241DFF19A000A65893 /* STUserSettings.m */; };
 		38FF472C1DFF490000A65893 /* STRParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 38FF47281DFF490000A65893 /* STRParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38FF472D1DFF490000A65893 /* STRParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 38FF47291DFF490000A65893 /* STRParser.m */; };
 		38FF472E1DFF490000A65893 /* STSASParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 38FF472A1DFF490000A65893 /* STSASParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -493,7 +498,7 @@
 		382C28D71D19DACC00697D6F /* STTableParameterParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STTableParameterParser.h; sourceTree = "<group>"; };
 		382C28D91D19DAD500697D6F /* STTableParameterParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STTableParameterParser.m; sourceTree = "<group>"; };
 		382C8D231D0F672F00FE6878 /* StatTagFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StatTagFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		382C8D261D0F672F00FE6878 /* StatTagFramework.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StatTagFramework.h; sourceTree = "<group>"; };
+		382C8D261D0F672F00FE6878 /* StatTagFramework.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = StatTagFramework.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		382C8D281D0F672F00FE6878 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		382C8D351D0F68B200FE6878 /* STCodeFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STCodeFile.h; sourceTree = "<group>"; };
 		382C8D361D0F68B200FE6878 /* STCodeFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STCodeFile.m; sourceTree = "<group>"; };
@@ -505,7 +510,7 @@
 		382C8D4C1D101CE000FE6878 /* TestSourceTextFile.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TestSourceTextFile.txt; sourceTree = "<group>"; };
 		3836F54A1D92C89900BF0DD4 /* StatTag.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StatTag.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3836F54C1D92C89900BF0DD4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		3836F54D1D92C89900BF0DD4 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		3836F54D1D92C89900BF0DD4 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = AppDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		3836F5501D92C89900BF0DD4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		3836F5551D92C89900BF0DD4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3836F5581D92C89900BF0DD4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -514,8 +519,8 @@
 		3836F5631D92C89900BF0DD4 /* StatTagTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StatTagTests.m; sourceTree = "<group>"; };
 		3836F5651D92C89900BF0DD4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3836F57C1D92C8EA00BF0DD4 /* StatTag.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = StatTag.sdef; sourceTree = "<group>"; };
-		3836F59D1D92D03D00BF0DD4 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
-		3836F59E1D92D03D00BF0DD4 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		3836F59D1D92D03D00BF0DD4 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SettingsViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		3836F59E1D92D03D00BF0DD4 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SettingsViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		3836F59F1D92D03D00BF0DD4 /* SettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
 		3836F5A21D92D07700BF0DD4 /* ManageCodeFilesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ManageCodeFilesViewController.h; sourceTree = "<group>"; };
 		3836F5A31D92D07700BF0DD4 /* ManageCodeFilesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ManageCodeFilesViewController.m; sourceTree = "<group>"; };
@@ -572,11 +577,11 @@
 		385FDD2A1D32F70100AE0FE2 /* STDocumentManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STDocumentManager.h; sourceTree = "<group>"; };
 		385FDD2B1D32F70100AE0FE2 /* STDocumentManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STDocumentManager.m; sourceTree = "<group>"; };
 		385FDD2E1D33C88300AE0FE2 /* STMSWord2011.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STMSWord2011.h; sourceTree = "<group>"; };
-		385FDD311D33CEEE00AE0FE2 /* STThisAddIn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STThisAddIn.h; sourceTree = "<group>"; };
-		385FDD321D33CEEE00AE0FE2 /* STThisAddIn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STThisAddIn.m; sourceTree = "<group>"; };
+		385FDD311D33CEEE00AE0FE2 /* STThisAddIn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = STThisAddIn.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		385FDD321D33CEEE00AE0FE2 /* STThisAddIn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = STThisAddIn.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		385FDD351D33D02800AE0FE2 /* STGlobals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STGlobals.h; sourceTree = "<group>"; };
 		385FDD361D33D02800AE0FE2 /* STGlobals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STGlobals.m; sourceTree = "<group>"; };
-		385FDD3D1D33FA1800AE0FE2 /* StatTagWord2011AutomationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagWord2011AutomationTests.m; sourceTree = "<group>"; };
+		385FDD3D1D33FA1800AE0FE2 /* StatTagWord2011AutomationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = StatTagWord2011AutomationTests.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		385FDD411D35681400AE0FE2 /* STFieldGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STFieldGenerator.h; sourceTree = "<group>"; };
 		385FDD421D35681400AE0FE2 /* STFieldGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STFieldGenerator.m; sourceTree = "<group>"; };
 		386652E71E6C5F0300F3150E /* MacroInstallerUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacroInstallerUtility.h; sourceTree = "<group>"; };
@@ -641,6 +646,8 @@
 		3884513A1D19DCB3004C2B40 /* STValueParameterParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STValueParameterParser.h; sourceTree = "<group>"; };
 		3884513B1D19DCB3004C2B40 /* STValueParameterParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STValueParameterParser.m; sourceTree = "<group>"; };
 		3885B0F01E1EC902001CE9FA /* AppKitCompatibilityDeclarations.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppKitCompatibilityDeclarations.h; sourceTree = "<group>"; };
+		3888FAC1201A3EE80090176D /* STBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STBase.h; sourceTree = "<group>"; };
+		3888FAC2201A3EE80090176D /* STBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STBase.m; sourceTree = "<group>"; };
 		388ABF861DA5B1F500F08956 /* ViewUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewUtils.h; sourceTree = "<group>"; };
 		388ABF871DA5B1F500F08956 /* ViewUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewUtils.m; sourceTree = "<group>"; };
 		389591B31E8A991F003FE9E3 /* DocumentBrowserTagSummary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentBrowserTagSummary.h; sourceTree = "<group>"; };
@@ -650,8 +657,8 @@
 		38A7CE901D4E2E4400B06AFF /* readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = readme.md; sourceTree = "<group>"; };
 		38A7CE961D4FDFB600B06AFF /* STGridDataItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STGridDataItem.h; sourceTree = "<group>"; };
 		38A7CE971D4FDFB600B06AFF /* STGridDataItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STGridDataItem.m; sourceTree = "<group>"; };
-		38A7CE9A1D4FE29400B06AFF /* STPropertiesManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STPropertiesManager.h; sourceTree = "<group>"; };
-		38A7CE9B1D4FE29400B06AFF /* STPropertiesManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STPropertiesManager.m; sourceTree = "<group>"; };
+		38A7CE9A1D4FE29400B06AFF /* STSettingsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = STSettingsManager.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		38A7CE9B1D4FE29400B06AFF /* STSettingsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = STSettingsManager.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		38A843A21D9B051100357727 /* readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = readme.md; sourceTree = "<group>"; };
 		38A877CB1D9AEEA0002F37DA /* Scintilla.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Scintilla.framework; sourceTree = "<group>"; };
 		38AB41831DA1564C00EA464C /* TagEditorViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TagEditorViewController.xib; sourceTree = "<group>"; };
@@ -666,6 +673,9 @@
 		38B04FCB1DF607270070BD2E /* StatTagModelFilterFormatTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagModelFilterFormatTests.m; sourceTree = "<group>"; };
 		38B04FCD1DF61ED50070BD2E /* STTableData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STTableData.h; sourceTree = "<group>"; };
 		38B04FCE1DF61ED50070BD2E /* STTableData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STTableData.m; sourceTree = "<group>"; };
+		38B91246201120F300A17458 /* STDocumentMetadata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STDocumentMetadata.h; sourceTree = "<group>"; };
+		38B91247201120F300A17458 /* STDocumentMetadata.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STDocumentMetadata.m; sourceTree = "<group>"; };
+		38B9124A20114C5C00A17458 /* StatTagDocumentMetadataTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagDocumentMetadataTests.m; sourceTree = "<group>"; };
 		38C2C44B1EB25BB500B95EEA /* UnlinkedTagsGroupRowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnlinkedTagsGroupRowView.h; sourceTree = "<group>"; };
 		38C2C44C1EB25BB500B95EEA /* UnlinkedTagsGroupRowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnlinkedTagsGroupRowView.m; sourceTree = "<group>"; };
 		38C2C44E1EB25F7500B95EEA /* UnlinkedTagGroupEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnlinkedTagGroupEntry.h; sourceTree = "<group>"; };
@@ -706,15 +716,15 @@
 		38C9B20D1D10A2B2003B571E /* STStataBaseValueFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STStataBaseValueFormatter.m; sourceTree = "<group>"; };
 		38C9B2101D10A3B9003B571E /* StatTagValueFormatterBaseValueFormatterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagValueFormatterBaseValueFormatterTests.m; sourceTree = "<group>"; };
 		38C9B2121D10A4D4003B571E /* StatTagValueFormatterStataTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagValueFormatterStataTests.m; sourceTree = "<group>"; };
-		38C9B2161D10A8CF003B571E /* STTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STTag.h; sourceTree = "<group>"; };
-		38C9B2171D10A8CF003B571E /* STTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STTag.m; sourceTree = "<group>"; };
+		38C9B2161D10A8CF003B571E /* STTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = STTag.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		38C9B2171D10A8CF003B571E /* STTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = STTag.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		38C9B21A1D10AA55003B571E /* STBaseParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STBaseParser.h; sourceTree = "<group>"; };
 		38C9B21B1D10AA55003B571E /* STBaseParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STBaseParser.m; sourceTree = "<group>"; };
 		38D0C1E21D1AD7F8001CC013 /* StatTagUtilityGeneralUtilTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagUtilityGeneralUtilTests.m; sourceTree = "<group>"; };
 		38D0C1E41D1AD935001CC013 /* StatTagUtilityTagUtilTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagUtilityTagUtilTests.m; sourceTree = "<group>"; };
 		38D0C1ED1D1B26A6001CC013 /* StatTagModelFieldAnnotationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagModelFieldAnnotationTests.m; sourceTree = "<group>"; };
-		38D8B1A41D94928600BF878A /* StatTagShared.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatTagShared.h; sourceTree = "<group>"; };
-		38D8B1A51D94928600BF878A /* StatTagShared.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagShared.m; sourceTree = "<group>"; };
+		38D8B1A41D94928600BF878A /* StatTagShared.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = StatTagShared.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		38D8B1A51D94928600BF878A /* StatTagShared.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = StatTagShared.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		38D8B1BF1D9586D200BF878A /* UpdateOutputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateOutputViewController.h; sourceTree = "<group>"; };
 		38D8B1C01D9586D200BF878A /* UpdateOutputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateOutputViewController.m; sourceTree = "<group>"; };
 		38D8B1C11D9586D200BF878A /* UpdateOutputViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UpdateOutputViewController.xib; sourceTree = "<group>"; };
@@ -722,7 +732,7 @@
 		38D8B1C51D95872A00BF878A /* UpdateOutputProgressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateOutputProgressViewController.m; sourceTree = "<group>"; };
 		38D8B1C61D95872A00BF878A /* UpdateOutputProgressViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UpdateOutputProgressViewController.xib; sourceTree = "<group>"; };
 		38E20DF11E0898A500B524CE /* StatTagModelStataTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagModelStataTests.m; sourceTree = "<group>"; };
-		38E20DF31E097B7A00B524CE /* StatTagModelLogManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagModelLogManagerTests.m; sourceTree = "<group>"; };
+		38E20DF31E097B7A00B524CE /* StatTagModelLogManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = StatTagModelLogManagerTests.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		38E20DF51E09A4F600B524CE /* StatTagUtilityTableUtilTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagUtilityTableUtilTests.m; sourceTree = "<group>"; };
 		38E20DF81E09E6D300B524CE /* sample_png.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sample_png.png; sourceTree = "<group>"; };
 		38E20DFA1E09E92200B524CE /* sample_pdf.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = sample_pdf.pdf; sourceTree = "<group>"; };
@@ -785,10 +795,10 @@
 		38FF47161DFF021800A65893 /* STIStatAutomation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STIStatAutomation.h; sourceTree = "<group>"; };
 		38FF471A1DFF058900A65893 /* STTableUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STTableUtil.h; sourceTree = "<group>"; };
 		38FF471B1DFF058900A65893 /* STTableUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STTableUtil.m; sourceTree = "<group>"; };
-		38FF471E1DFF185100A65893 /* STLogManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STLogManager.h; sourceTree = "<group>"; };
-		38FF471F1DFF185100A65893 /* STLogManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STLogManager.m; sourceTree = "<group>"; };
-		38FF47231DFF19A000A65893 /* STProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STProperties.h; sourceTree = "<group>"; };
-		38FF47241DFF19A000A65893 /* STProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STProperties.m; sourceTree = "<group>"; };
+		38FF471E1DFF185100A65893 /* STLogManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = STLogManager.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		38FF471F1DFF185100A65893 /* STLogManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = STLogManager.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		38FF47231DFF19A000A65893 /* STUserSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = STUserSettings.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		38FF47241DFF19A000A65893 /* STUserSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = STUserSettings.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		38FF47281DFF490000A65893 /* STRParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STRParser.h; sourceTree = "<group>"; };
 		38FF47291DFF490000A65893 /* STRParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STRParser.m; sourceTree = "<group>"; };
 		38FF472A1DFF490000A65893 /* STSASParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STSASParser.h; sourceTree = "<group>"; };
@@ -1018,8 +1028,8 @@
 				384CE6781DF5F2FC0076FBDB /* STFilterFormat.m */,
 				38FF471E1DFF185100A65893 /* STLogManager.h */,
 				38FF471F1DFF185100A65893 /* STLogManager.m */,
-				38FF47231DFF19A000A65893 /* STProperties.h */,
-				38FF47241DFF19A000A65893 /* STProperties.m */,
+				38FF47231DFF19A000A65893 /* STUserSettings.h */,
+				38FF47241DFF19A000A65893 /* STUserSettings.m */,
 				380A67981D1061100045B72B /* STTable.h */,
 				380A67991D1061100045B72B /* STTable.m */,
 				38B04FCD1DF61ED50070BD2E /* STTableData.h */,
@@ -1032,6 +1042,8 @@
 				382C28AF1D1992E900697D6F /* STUpdatePair.m */,
 				382C28591D133BCD00697D6F /* STValueFormat.h */,
 				382C285A1D133BCD00697D6F /* STValueFormat.m */,
+				38B91246201120F300A17458 /* STDocumentMetadata.h */,
+				38B91247201120F300A17458 /* STDocumentMetadata.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1045,6 +1057,8 @@
 				382C28631D14552100697D6F /* STIResultCommandList.h */,
 				38FF47161DFF021800A65893 /* STIStatAutomation.h */,
 				382C289E1D182CA400697D6F /* STJSONAble.h */,
+				3888FAC1201A3EE80090176D /* STBase.h */,
+				3888FAC2201A3EE80090176D /* STBase.m */,
 			);
 			path = Interfaces;
 			sourceTree = "<group>";
@@ -1415,8 +1429,8 @@
 				38A7CE961D4FDFB600B06AFF /* STGridDataItem.h */,
 				38A7CE971D4FDFB600B06AFF /* STGridDataItem.m */,
 				385FDD2E1D33C88300AE0FE2 /* STMSWord2011.h */,
-				38A7CE9A1D4FE29400B06AFF /* STPropertiesManager.h */,
-				38A7CE9B1D4FE29400B06AFF /* STPropertiesManager.m */,
+				38A7CE9A1D4FE29400B06AFF /* STSettingsManager.h */,
+				38A7CE9B1D4FE29400B06AFF /* STSettingsManager.m */,
 				38788F921D30100F00299789 /* STStatsManager.h */,
 				38788F931D30100F00299789 /* STStatsManager.m */,
 				385FDD261D32F6DD00AE0FE2 /* STTagManager.h */,
@@ -1437,6 +1451,7 @@
 		387A0E3E1D25BA6D00F1FE9C /* Generator */ = {
 			isa = PBXGroup;
 			children = (
+				38B9124A20114C5C00A17458 /* StatTagDocumentMetadataTests.m */,
 				387A0E3F1D25BAB900F1FE9C /* StatTagGeneratorBaseGeneratorTests.m */,
 				387A0E411D25C6E500F1FE9C /* StatTagGeneratorFigureGeneratorTests.m */,
 				387A0E431D25C92600F1FE9C /* StatTagGeneratorTableParameterGeneratorTests.m */,
@@ -1776,7 +1791,7 @@
 				38C9B2001D109B40003B571E /* STExecutionStep.h in Headers */,
 				38FF47341E08449F00A65893 /* STDuplicateTagResults.h in Headers */,
 				382C289F1D182CA400697D6F /* STJSONAble.h in Headers */,
-				38FF47251DFF19A000A65893 /* STProperties.h in Headers */,
+				38FF47251DFF19A000A65893 /* STUserSettings.h in Headers */,
 				38C91F3F1D36D1970048A95E /* WordHelpers.h in Headers */,
 				382C28D51D19D8E900697D6F /* STFigureParameterParser.h in Headers */,
 				38C9B20B1D109FA8003B571E /* STIValueFormatter.h in Headers */,
@@ -1812,7 +1827,7 @@
 				38B04FCF1DF61ED50070BD2E /* STTableData.h in Headers */,
 				382C28601D14539C00697D6F /* STIFileHandler.h in Headers */,
 				38516FCF1DF5C751006989BC /* CHCSVParser.h in Headers */,
-				38A7CE9C1D4FE29400B06AFF /* STPropertiesManager.h in Headers */,
+				38A7CE9C1D4FE29400B06AFF /* STSettingsManager.h in Headers */,
 				38516FCA1DF5B279006989BC /* STCSVToTable.h in Headers */,
 				382C28621D1454D900697D6F /* STIResultCommandFormatter.h in Headers */,
 				382C28C71D19A23100697D6F /* STValueParameterGenerator.h in Headers */,
@@ -1833,6 +1848,8 @@
 				386992D61DBD10D400852B6E /* STUIUtility.h in Headers */,
 				38EDF02E1D2C005700ACD77B /* STStataCommands.h in Headers */,
 				382C28BC1D199ED000697D6F /* STFigureGenerator.h in Headers */,
+				3888FAC3201A3EE80090176D /* STBase.h in Headers */,
+				38B91248201120F300A17458 /* STDocumentMetadata.h in Headers */,
 				38C9B2081D109F6B003B571E /* STBaseValueFormatter.h in Headers */,
 				382C28A41D18322900697D6F /* STJSONUtility.h in Headers */,
 				382C28561D13306400697D6F /* STTableFormat.h in Headers */,
@@ -2152,6 +2169,7 @@
 				380A67A51D106FBB0045B72B /* STCommandResult.m in Sources */,
 				38F8035D1D9DB2C800C8F1EA /* STSASCommands.m in Sources */,
 				384CE67A1DF5F2FC0076FBDB /* STFilterFormat.m in Sources */,
+				3888FAC4201A3EE80090176D /* STBase.m in Sources */,
 				38FF473C1E08674F00A65893 /* STRCommands.m in Sources */,
 				382C285C1D133BCD00697D6F /* STValueFormat.m in Sources */,
 				380A679B1D1061110045B72B /* STTable.m in Sources */,
@@ -2176,6 +2194,7 @@
 				382C28D21D19C5DC00697D6F /* STGeneralUtil.m in Sources */,
 				38516FD01DF5C751006989BC /* CHCSVParser.m in Sources */,
 				38C9B2191D10A8CF003B571E /* STTag.m in Sources */,
+				38B91249201120F300A17458 /* STDocumentMetadata.m in Sources */,
 				38C9B2091D109F6B003B571E /* STBaseValueFormatter.m in Sources */,
 				38EDF0331D2C2E6900ACD77B /* STCocoaUtil.m in Sources */,
 				38A7CE991D4FDFB600B06AFF /* STGridDataItem.m in Sources */,
@@ -2187,7 +2206,7 @@
 				38788F951D30100F00299789 /* STStatsManager.m in Sources */,
 				38C9B21D1D10AA55003B571E /* STBaseParser.m in Sources */,
 				38FF47111DFEEC1D00A65893 /* STSASBaseGenerator.m in Sources */,
-				38FF47261DFF19A000A65893 /* STProperties.m in Sources */,
+				38FF47261DFF19A000A65893 /* STUserSettings.m in Sources */,
 				382C28581D13307200697D6F /* STTableFormat.m in Sources */,
 				385FDD291D32F6DD00AE0FE2 /* STTagManager.m in Sources */,
 				38C91F751D37FAEC0048A95E /* WordASOC.applescript in Sources */,
@@ -2199,7 +2218,7 @@
 				385FDD341D33CEEE00AE0FE2 /* STThisAddIn.m in Sources */,
 				38C9B20F1D10A2B2003B571E /* STStataBaseValueFormatter.m in Sources */,
 				38AD75C71E4923D30099752E /* NSString+MD5.m in Sources */,
-				38A7CE9D1D4FE29400B06AFF /* STPropertiesManager.m in Sources */,
+				38A7CE9D1D4FE29400B06AFF /* STSettingsManager.m in Sources */,
 				38E20DF01E08968600B524CE /* STBaseManager.m in Sources */,
 				3884513D1D19DCB3004C2B40 /* STValueParameterParser.m in Sources */,
 				35AE14831F4DE2F100A162C4 /* STCodeParserUtil.m in Sources */,
@@ -2251,6 +2270,7 @@
 				38516FDB1DF5D23E006989BC /* StatTagModelCSVToTableTests.m in Sources */,
 				38C9B2111D10A3B9003B571E /* StatTagValueFormatterBaseValueFormatterTests.m in Sources */,
 				38D0C1E51D1AD935001CC013 /* StatTagUtilityTagUtilTests.m in Sources */,
+				38B9124B20114C5C00A17458 /* StatTagDocumentMetadataTests.m in Sources */,
 				38E20DF41E097B7A00B524CE /* StatTagModelLogManagerTests.m in Sources */,
 				380A67AA1D107A820045B72B /* StatTagModelConstantsTests.m in Sources */,
 				387A0E3D1D24376F00F1FE9C /* StatTagParserBaseParserStataTests.m in Sources */,

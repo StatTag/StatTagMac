@@ -24,6 +24,7 @@
 @class STMSWord2011Variable;
 @class STMSWord2011Document;
 @class STStatsManagerExecuteResult;
+@class STSettingsManager;
 
 @interface STDocumentManager : STBaseManager {
   NSMutableDictionary<NSString*, NSMutableArray<STCodeFile*>*>* DocumentCodeFiles;
@@ -35,6 +36,8 @@
   NSNumber* _wordFieldsTotal;
   NSNumber* _wordFieldsUpdated;
   NSString* _wordFieldUpdateStatus;
+  
+  STSettingsManager* _SettingsManager;
 }
 
 @property (strong, nonatomic) STTagManager* TagManager;
@@ -44,6 +47,7 @@
 @property (copy, nonatomic) NSNumber* wordFieldsTotal;
 @property (copy, nonatomic) NSNumber* wordFieldsUpdated;
 @property (copy, nonatomic) NSString* wordFieldUpdateStatus;
+@property (strong, nonatomic) STSettingsManager* SettingsManager;
 
 -(NSArray<STTag*>*)GetTags;
 -(NSDictionary<NSString*, NSArray<STTag*>*>*)FindAllUnlinkedTags;

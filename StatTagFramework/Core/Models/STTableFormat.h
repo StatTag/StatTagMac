@@ -8,14 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import "STIValueFormatter.h"
-#import "STJSONAble.h"
+#import "STBase.h"
 
 @class STTable;
 @class STBaseValueFormatter;
 @class STFilterFormat;
 @class STTableData;
 
-@interface STTableFormat : NSObject <NSCopying, STJSONAble> {
+@interface STTableFormat : STBase <NSCopying> {
   STFilterFormat* _RowFilter;
   STFilterFormat* _ColumnFilter;
 }

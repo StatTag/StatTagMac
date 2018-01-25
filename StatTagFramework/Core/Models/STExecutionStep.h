@@ -7,11 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "STJSONAble.h"
+#import "STBase.h"
 
 @class STTag;
 
-@interface STExecutionStep : NSObject<STJSONAble> {
+@interface STExecutionStep : STBase {
   NSInteger _Type;
   NSMutableArray<NSString*>* _Code;
   NSMutableArray<NSString*>* _Result;

@@ -8,8 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class STProperties;
-@class STPropertiesManager;
+@class STUserSettings;
+@class STSettingsManager;
 @class STLogManager;
 
 
@@ -23,8 +23,8 @@ IB_DESIGNABLE
   __weak NSTextField *labelFilePath;
   __weak NSView *boxView;
   __weak NSBox *boxGeneral;
-  STProperties* _properties;
-  STPropertiesManager* _propertiesManager;
+  STUserSettings* _settings;
+  STSettingsManager* _settingsManager;
   STLogManager* _logManager;
 }
 
@@ -36,8 +36,8 @@ IB_DESIGNABLE
 @property (weak) IBOutlet NSView *boxView;
 @property (weak) IBOutlet NSBox *boxGeneral;
 
-@property (strong, nonatomic) STProperties* properties;
-@property (strong, nonatomic) STPropertiesManager* propertiesManager;
+@property (strong, nonatomic) STUserSettings* settings;
+@property (strong, nonatomic) STSettingsManager* settingsManager;
 @property (strong, nonatomic) STLogManager* logManager;
 
 @property (weak) IBOutlet NSPathControl *logPathControl;

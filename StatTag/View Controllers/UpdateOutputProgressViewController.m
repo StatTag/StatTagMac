@@ -119,7 +119,7 @@
       else
       {
   
-        STStatsManager* stats = [[STStatsManager alloc] init:_documentManager];
+        STStatsManager* stats = [[STStatsManager alloc] initWithDocumentManager:_documentManager andSettingsManager:nil];
         #pragma unused (stats)
         
         dispatch_async(dispatch_get_main_queue(), ^{

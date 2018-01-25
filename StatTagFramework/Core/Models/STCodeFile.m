@@ -154,7 +154,8 @@ NSObject<STIFileHandler>* _FileHandler;
 //MARK: copying
 -(id)copyWithZone:(NSZone *)zone
 {
-  STCodeFile *codeFile = [[[self class] allocWithZone:zone] init];
+//  STCodeFile *codeFile = [[[self class] allocWithZone:zone] init];
+  STCodeFile *codeFile = (STCodeFile*)[super copyWithZone:zone];
 
   codeFile.StatisticalPackage = [_StatisticalPackage copyWithZone:zone];
   codeFile.FilePath = [_FilePath copyWithZone:zone];
@@ -304,7 +305,8 @@ the cached results in another tag.
 //MARK: JSON
 //NOTE: go back later and figure out if/how the bulk of this can be centralized in some sort of generic or category (if possible)
 -(NSDictionary *)toDictionary {
-  NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
+  NSMutableDictionary* dict = [NSMutableDictionary dictionaryWithDictionary:[super toDictionary]];
+
   [dict setValue:[self StatisticalPackage] forKey:@"StatisticalPackage"];
   [dict setValue:[self FilePath] forKey:@"FilePath"];
   [dict setValue:[STJSONUtility convertDateToDateString:self.LastCached] forKey:@"LastCached"]; //format?
@@ -312,90 +314,115 @@ the cached results in another tag.
   return dict;
 }
 
--(void)setWithDictionary:(NSDictionary*)dict {
-  if(dict == nil || [dict isKindOfClass:[[NSNull null] class]])
-  {
-    return;
-  }
 
-  for (NSString* key in dict) {
-    if([key isEqualToString:@"FilePath"]) {
-      //[self setValue:[[NSURL alloc] initWithString:[dict valueForKey:key]] forKey:key];
-      [self setValue:[dict valueForKey:key] forKey:key];
-    } else if([key isEqualToString:@"LastCached"]) {
-      [self setValue:[STJSONUtility dateFromString:[dict valueForKey:key]] forKey:key];
-      ////NSLog(@"LastCached : %@", [self LastCached]);
-    } else {
-      [self setValue:[dict valueForKey:key] forKey:key];
-    }
+-(bool)setCustomObjectPropertyFromJSONObject:(id)object forKey:(NSString*)key
+{
+  if([key isEqualToString:@"FilePath"]) {
+    //[self setValue:[[NSURL alloc] initWithString:[dict valueForKey:key]] forKey:key];
+    [self setValue:object forKey:key];
+  } else if([key isEqualToString:@"LastCached"]) {
+    [self setValue:[STJSONUtility dateFromString:object] forKey:key];
+    ////NSLog(@"LastCached : %@", [self LastCached]);
+  } else {
+    return false;
   }
+  return true;
+}
+
+-(void)afterSetWithDictionary
+{
+  [super afterSetWithDictionary];
   if(_FileHandler == nil) {
     _FileHandler = [[STFileHandler alloc] init];
   }
 }
 
--(NSString*)Serialize:(NSError**)error
-{
-  return [STJSONUtility SerializeObject:self error:nil];
-}
 
-/**
- Utility method to serialize the list of code files into a JSON array.
- */
-+(NSString*)SerializeList:(NSArray<NSObject<STJSONAble>*>*)list error:(NSError**)outError {
-  return [STJSONUtility SerializeList:list error:nil];
-}
-
-/**
- Utility method to take a JSON array string and convert it back into a list of
- CodeFile objects.  This does not resolve the list of tags that may be
- associated with the CodeFile.
- */
-//+(NSArray<STCodeFile*>*)DeserializeList:(NSString*)List error:(NSError**)outError
-+(NSArray<STCodeFile*>*)DeserializeList:(id)List error:(NSError**)outError
-{
-  NSMutableArray<STCodeFile*>* ar = [[NSMutableArray<STCodeFile*> alloc] init];
-  for(id x in [STJSONUtility DeserializeList:List forClass:[self class] error:nil]) {
-    if([x isKindOfClass:[self class]])
-    {
-      [ar addObject:x];
-    }
-  }
-  return ar;
-}
-
--(instancetype)initWithDictionary:(NSDictionary*)dict
-{
-  self = [super init];
-  if (self) {
-    if(dict != nil  && ![dict isKindOfClass:[[NSNull null] class]])
-    {
-      [self setWithDictionary:dict];
-    }
-  }
-  return self;
-}
-
--(instancetype)initWithJSONString:(NSString*)JSONString error:(NSError**)outError
-{
-  self = [super init];
-  if (self) {
-    NSError *error = nil;
-    NSData *JSONData = [JSONString dataUsingEncoding:NSUTF8StringEncoding];
-    NSDictionary *JSONDictionary = [NSJSONSerialization JSONObjectWithData:JSONData options:0 error:&error];
-    
-    if (!error && JSONDictionary) {
-      [self setWithDictionary:JSONDictionary];
-    } else {
-      if (outError) {
-        *outError = [NSError errorWithDomain:STStatTagErrorDomain
-                                        code:[error code]
-                                    userInfo:@{NSUnderlyingErrorKey: error}];
-      }
-    }
-  }
-  return self;
-}
+//
+//-(void)setWithDictionary:(NSDictionary*)dict {
+//  if(dict == nil || [dict isKindOfClass:[[NSNull null] class]])
+//  {
+//    return;
+//  }
+//
+//  for (NSString* key in dict) {
+//    if([key isEqualToString:@"FilePath"]) {
+//      //[self setValue:[[NSURL alloc] initWithString:[dict valueForKey:key]] forKey:key];
+//      [self setValue:[dict valueForKey:key] forKey:key];
+//    } else if([key isEqualToString:@"LastCached"]) {
+//      [self setValue:[STJSONUtility dateFromString:[dict valueForKey:key]] forKey:key];
+//      ////NSLog(@"LastCached : %@", [self LastCached]);
+//    } else {
+//      [self setValue:[dict valueForKey:key] forKey:key];
+//    }
+//  }
+//  if(_FileHandler == nil) {
+//    _FileHandler = [[STFileHandler alloc] init];
+//  }
+//}
+//
+//-(NSString*)Serialize:(NSError**)error
+//{
+//  return [STJSONUtility SerializeObject:self error:nil];
+//}
+//
+///**
+// Utility method to serialize the list of code files into a JSON array.
+// */
+//+(NSString*)SerializeList:(NSArray<NSObject<STJSONAble>*>*)list error:(NSError**)outError {
+//  return [STJSONUtility SerializeList:list error:nil];
+//}
+//
+///**
+// Utility method to take a JSON array string and convert it back into a list of
+// CodeFile objects.  This does not resolve the list of tags that may be
+// associated with the CodeFile.
+// */
+////+(NSArray<STCodeFile*>*)DeserializeList:(NSString*)List error:(NSError**)outError
+//+(NSArray<STCodeFile*>*)DeserializeList:(id)List error:(NSError**)outError
+//{
+//  NSMutableArray<STCodeFile*>* ar = [[NSMutableArray<STCodeFile*> alloc] init];
+//  for(id x in [STJSONUtility DeserializeList:List forClass:[self class] error:nil]) {
+//    if([x isKindOfClass:[self class]])
+//    {
+//      [ar addObject:x];
+//    }
+//  }
+//  return ar;
+//}
+//
+//-(instancetype)initWithDictionary:(NSDictionary*)dict
+//{
+//  self = [super init];
+//  if (self) {
+//    if(dict != nil  && ![dict isKindOfClass:[[NSNull null] class]])
+//    {
+//      [self setWithDictionary:dict];
+//    }
+//  }
+//  return self;
+//}
+//
+//-(instancetype)initWithJSONString:(NSString*)JSONString error:(NSError**)outError
+//{
+//  self = [super init];
+//  if (self) {
+//    NSError *error = nil;
+//    NSData *JSONData = [JSONString dataUsingEncoding:NSUTF8StringEncoding];
+//    NSDictionary *JSONDictionary = [NSJSONSerialization JSONObjectWithData:JSONData options:0 error:&error];
+//    
+//    if (!error && JSONDictionary) {
+//      [self setWithDictionary:JSONDictionary];
+//    } else {
+//      if (outError) {
+//        *outError = [NSError errorWithDomain:STStatTagErrorDomain
+//                                        code:[error code]
+//                                    userInfo:@{NSUnderlyingErrorKey: error}];
+//      }
+//    }
+//  }
+//  return self;
+//}
 
 
 

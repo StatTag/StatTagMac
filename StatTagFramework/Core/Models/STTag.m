@@ -20,6 +20,13 @@
 
 @implementation STTag
 
+
+NSString* const TagIdentifierDelimiter = @"--";
+NSString* const CurrentTagFormatVersion = @"1.0.0";
++(NSString*)CurrentTagFormatVersion {
+  return CurrentTagFormatVersion;
+}
+
 @synthesize CodeFile = _CodeFile;
 @synthesize Type = _Type;
 @synthesize Name = _Name;
@@ -30,8 +37,9 @@
 @synthesize CachedResult = _CachedResult;
 @synthesize LineStart = _LineStart;
 @synthesize LineEnd = _LineEnd;
+//@synthesize ExtraMetadata = _ExtraMetadata;
 
-NSString* const TagIdentifierDelimiter = @"--";
+
 
 @synthesize Id = _Id;
 - (NSString*) Id {
@@ -101,17 +109,22 @@ NSString* const TagIdentifierDelimiter = @"--";
 
 -(instancetype)init{
   self = [super init];
-  
+  if(self){
+    [self configure];
+  }
+  return self;
+}
+
+-(void)configure {
+  [super configure];
   //different from our original c# - we want these initialized so they're available later
   // tag type will govern whether or not we care about them
   self.TableFormat = [[STTableFormat alloc] init];
   self.ValueFormat = [[STValueFormat alloc] init];
- // self.ValueFormat.FormatType = [STConstantsValueFormatType Default];
+  // self.ValueFormat.FormatType = [STConstantsValueFormatType Default];
   self.FigureFormat = [[STFigureFormat alloc] init];
   self.Name = @"";
-  _StatTagJSONErrata = [[NSMutableDictionary alloc] init];
-  
-  return self;
+//  self.ExtraMetadata = [[NSMutableDictionary alloc] init];
 }
 
 -(instancetype)initWithTag:(STTag*)tag {
@@ -132,7 +145,7 @@ NSString* const TagIdentifierDelimiter = @"--";
     self.LineEnd = [[tag LineEnd] copy];
     self.CachedResult = [[tag CachedResult] copy];
     [self setCodeFilePath:[tag CodeFilePath]];
-    _StatTagJSONErrata = [[NSMutableDictionary alloc] init];
+    [self setExtraMetadata:[tag ExtraMetadata]];
     //NSLog(@"tag CachedResult = %@", [tag CachedResult]);
     //NSLog(@"self CachedResult = %@", [self CachedResult]);
     //NSLog(@"tag(self) FormattedResult : %@", [self FormattedResult]);
@@ -149,6 +162,9 @@ NSString* const TagIdentifierDelimiter = @"--";
   }
   if(self.FigureFormat == nil) {
     self.FigureFormat = [[STFigureFormat alloc] init];
+  }
+  if([self ExtraMetadata] == nil){
+    self.ExtraMetadata = [[NSMutableDictionary alloc] init];
   }
   // self.ValueFormat.FormatType = [STConstantsValueFormatType Default];
 
@@ -172,8 +188,10 @@ NSString* const TagIdentifierDelimiter = @"--";
 {
   //NSLog(@"tag - copyWithZone");
 
-  STTag *tag = [[[self class] allocWithZone:zone] init];
+//  STTag *tag = [[[self class] allocWithZone:zone] init];
+  STTag *tag = (STTag*)[super copyWithZone:zone];
 
+  
   tag.CodeFile = [_CodeFile copyWithZone: zone];
   tag.Type = [_Type copy];
   tag.Name = [STTag NormalizeName:_Name]; //Name = NormalizeName(tag.Name);
@@ -194,8 +212,8 @@ NSString* const TagIdentifierDelimiter = @"--";
 -(NSDictionary *)toDictionary {
   
   //NSError* error;
-  
-  NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
+  NSMutableDictionary* dict = [NSMutableDictionary dictionaryWithDictionary:[super toDictionary]];
+
   //note: codefile is flagged as "jsonignore"
   [dict setValue:_Type forKey:@"Type"];
   [dict setValue:[STTag NormalizeName:_Name] forKey:@"Name"];
@@ -225,135 +243,190 @@ NSString* const TagIdentifierDelimiter = @"--";
   
   //retain any unknown / unsupported keys/values we may have
   //these might be legacy StatTag items or newer items we don't yet know about - we don't want to break document compatibility
-  [dict addEntriesFromDictionary:_StatTagJSONErrata];
+  //NSLog(@"toDictionary ExtraMetadata : %@", [self ExtraMetadata]);
   
   return dict;
   
 }
 
--(void)setWithDictionary:(NSDictionary*)dict {
-  if(dict == nil || [dict isKindOfClass:[[NSNull null] class]])
-  {
-    return;
-  }
-  
+-(bool)setCustomObjectPropertyFromJSONObject:(id)object forKey:(NSString*)key
+{
   NSError* error;
-  
-  for (NSString* key in dict) {
-    if([key isEqualToString:@"Id"]) {
-      //skip the read-only properties
-    } else if([key isEqualToString:@"CodeFilePath"] || [key isEqualToString:@"TableCellIndex"] ) {
-      //skip the properties from fieldtag
-    } else if([key isEqualToString:@"CodeFile"]) {
-      ////NSLog(@"STTag - attempting to recover CodeFile with value %@", [dict valueForKey:key]);
-      id aValue = [dict valueForKey:key];
-      NSDictionary *objDict = aValue;
-      if(objDict != nil) {
-        [self setValue:[[STCodeFile alloc] initWithDictionary:objDict] forKey:key];
-      }
-    } else if([key isEqualToString:@"Name"]) {
-      ////NSLog(@"STTag - attempting to recover normalized Name with value %@, normalized value: %@", [dict valueForKey:key], [STTag NormalizeName:[dict valueForKey:key]]);
-      [self setValue:[[self class] NormalizeName:[dict valueForKey:key]] forKey:key];
-    } else if([key isEqualToString:@"CachedResult"]) {
-      //[self setValue:[[self class] Deserialize:[dict valueForKey:key] error:&error] forKey:key];
-      [self setValue:[STCommandResult DeserializeList:[dict valueForKey:key] error:&error] forKey:key];
-      //NSLog(@"NSError: %@", [error localizedDescription]);
-    } else if([key isEqualToString:@"FigureFormat"]) {
-      [self setValue:[[STFigureFormat alloc] initWithDictionary:[dict valueForKey:key]] forKey:key];
-    } else if([key isEqualToString:@"ValueFormat"]) {
-      [self setValue:[[STValueFormat alloc] initWithDictionary:[dict valueForKey:key]] forKey:key];
-    } else if([key isEqualToString:@"TableFormat"]) {
-      [self setValue:[[STTableFormat alloc] initWithDictionary:[dict valueForKey:key]] forKey:key];
-    } else {
-      if ([self respondsToSelector:NSSelectorFromString(key)])
-      {
-        [self setValue:[dict valueForKey:key] forKey:key];
-      } else {
-        //archive our property info, even if unknown
-        // we want to avoid "shaving off" unused properties that may break document compatibility
-        // EX: if there is a property in a newer version of the StatTag content format we might just not know about it - so let's not toss
-        // everything out
-        // we're going to make the assumption (whether right or wrong) that a given key can exist ONCE and ONLY ONCE
-        // if we have a second instance of that key, it will overwrite the existing value
-        [_StatTagJSONErrata setValue:[dict valueForKey:key] forKey:key];
-      }
-    }
-  }
-  
-  self.Name = [[self class] NormalizeName:[self Name]];
 
+  if([key isEqualToString:@"Id"]) {
+    //skip the read-only properties
+  } else if([key isEqualToString:@"CodeFilePath"] || [key isEqualToString:@"TableCellIndex"] ) {
+    //skip the properties from fieldtag
+  } else if([key isEqualToString:@"CodeFile"]) {
+    ////NSLog(@"STTag - attempting to recover CodeFile with value %@", [dict valueForKey:key]);
+    id aValue = object;
+    NSDictionary *objDict = aValue;
+    if(objDict != nil) {
+      [self setValue:[[STCodeFile alloc] initWithDictionary:objDict] forKey:key];
+    }
+  } else if([key isEqualToString:@"Name"]) {
+    ////NSLog(@"STTag - attempting to recover normalized Name with value %@, normalized value: %@", [dict valueForKey:key], [STTag NormalizeName:[dict valueForKey:key]]);
+    [self setValue:[[self class] NormalizeName:object] forKey:key];
+  } else if([key isEqualToString:@"CachedResult"]) {
+    //[self setValue:[[self class] Deserialize:[dict valueForKey:key] error:&error] forKey:key];
+    [self setValue:[STCommandResult DeserializeList:object error:&error] forKey:key];
+    //NSLog(@"NSError: %@", [error localizedDescription]);
+  } else if([key isEqualToString:@"FigureFormat"]) {
+    [self setValue:[[STFigureFormat alloc] initWithDictionary:object] forKey:key];
+  } else if([key isEqualToString:@"ValueFormat"]) {
+    [self setValue:[[STValueFormat alloc] initWithDictionary:object] forKey:key];
+  } else if([key isEqualToString:@"TableFormat"]) {
+    [self setValue:[[STTableFormat alloc] initWithDictionary:object] forKey:key];
+  } else {
+    return false;
+  }
+  return true;
+}
+-(void)afterSetWithDictionary
+{
+  self.Name = [[self class] NormalizeName:[self Name]];
 }
 
-/**
- Serialize the current object, excluding circular elements like CodeFile
- */
--(NSString*)Serialize:(NSError**)error
+-(void)BeforeSerialize
 {
   _Name = [[self class] NormalizeName:[self Name]];
-  return [STJSONUtility SerializeObject:self error:nil];
 }
 
-/**
- Create a new Tag object given a JSON string
- */
-+(instancetype)Deserialize:(NSString*)json error:(NSError**)outError
-{
-  //moved to dictionary setup for consistency - that method is called from all deserializers
-  //leaving this here so it's clear why we deviate from the c#
-  //NSError* error;
-  //STTag* tag = [[[self class] alloc] initWithJSONString:json error:&error];
-  //tag.Name = [[self class] NormalizeName:[tag Name]];
-  //return tag;
-  NSError* error;
-  return [[[self class] alloc] initWithJSONString:json error:&error];
-}
+//-(void)setWithDictionary:(NSDictionary*)dict {
+//  if(dict == nil || [dict isKindOfClass:[[NSNull null] class]])
+//  {
+//    return;
+//  }
+//  
+//  //NSError* error;
+//  [super setWithDictionary:dict];
+////  for (NSString* key in dict) {
+////    if(![self setObjectPropertyFromJSONObject:[dict valueForKey:key] forKey:key])
+////    {
+////      [self setUnknownJSONObject:[dict valueForKey:key] forKey:key];
+////    }
+////    if([key isEqualToString:@"Id"]) {
+////      //skip the read-only properties
+////    } else if([key isEqualToString:@"CodeFilePath"] || [key isEqualToString:@"TableCellIndex"] ) {
+////      //skip the properties from fieldtag
+////    } else if([key isEqualToString:@"CodeFile"]) {
+////      ////NSLog(@"STTag - attempting to recover CodeFile with value %@", [dict valueForKey:key]);
+////      id aValue = [dict valueForKey:key];
+////      NSDictionary *objDict = aValue;
+////      if(objDict != nil) {
+////        [self setValue:[[STCodeFile alloc] initWithDictionary:objDict] forKey:key];
+////      }
+////    } else if([key isEqualToString:@"Name"]) {
+////      ////NSLog(@"STTag - attempting to recover normalized Name with value %@, normalized value: %@", [dict valueForKey:key], [STTag NormalizeName:[dict valueForKey:key]]);
+////      [self setValue:[[self class] NormalizeName:[dict valueForKey:key]] forKey:key];
+////    } else if([key isEqualToString:@"CachedResult"]) {
+////      //[self setValue:[[self class] Deserialize:[dict valueForKey:key] error:&error] forKey:key];
+////      [self setValue:[STCommandResult DeserializeList:[dict valueForKey:key] error:&error] forKey:key];
+////      //NSLog(@"NSError: %@", [error localizedDescription]);
+////    } else if([key isEqualToString:@"FigureFormat"]) {
+////      [self setValue:[[STFigureFormat alloc] initWithDictionary:[dict valueForKey:key]] forKey:key];
+////    } else if([key isEqualToString:@"ValueFormat"]) {
+////      [self setValue:[[STValueFormat alloc] initWithDictionary:[dict valueForKey:key]] forKey:key];
+////    } else if([key isEqualToString:@"TableFormat"]) {
+////      [self setValue:[[STTableFormat alloc] initWithDictionary:[dict valueForKey:key]] forKey:key];
+////    } else {
+////      [self setUnknownJSONObject:[dict valueForKey:key] forKey:key];
+////      if ([self respondsToSelector:NSSelectorFromString(key)])
+////      {
+////        //NSLog(@"setWithDictionary - setting property for Key '%@' and value '%@'", key, [dict valueForKey:key]);
+////        [self setValue:[dict valueForKey:key] forKey:key];
+////      } else {
+////        //archive our property info, even if unknown
+////        // we want to avoid "shaving off" unused properties that may break document compatibility
+////        // EX: if there is a property in a newer version of the StatTag content format we might just not know about it - so let's not toss
+////        // everything out
+////        // we're going to make the assumption (whether right or wrong) that a given key can exist ONCE and ONLY ONCE
+////        // if we have a second instance of that key, it will overwrite the existing value
+////        //NSLog(@"setWithDictionary - setting ExtraMetadata for Key '%@' and value '%@'", key, [dict valueForKey:key]);
+////        //NSLog(@"ExtraMetadata class = %@", [[self ExtraMetadata] class]);
+////        [[self ExtraMetadata] setObject:[dict valueForKey:key] forKey:key];
+////      }
+//    //}
+////  }
+//  
+//  self.Name = [[self class] NormalizeName:[self Name]];
+//
+//  //NSLog(@"setWithDictionary ExtraMetadata : %@", [self ExtraMetadata]);
+//
+//}
 
-+(NSString*)SerializeList:(NSArray<NSObject<STJSONAble>*>*)list error:(NSError**)outError {
-  return [STJSONUtility SerializeList:list error:nil];
-}
+///**
+// Serialize the current object, excluding circular elements like CodeFile
+// */
+//-(NSString*)Serialize:(NSError**)error
+//{
+//  _Name = [[self class] NormalizeName:[self Name]];
+//  return [STJSONUtility SerializeObject:self error:nil];
+//}
+//
+///**
+// Create a new Tag object given a JSON string
+// */
+//+(instancetype)Deserialize:(NSString*)json error:(NSError**)outError
+//{
+//  //moved to dictionary setup for consistency - that method is called from all deserializers
+//  //leaving this here so it's clear why we deviate from the c#
+//  //NSError* error;
+//  //STTag* tag = [[[self class] alloc] initWithJSONString:json error:&error];
+//  //tag.Name = [[self class] NormalizeName:[tag Name]];
+//  //return tag;
+//  NSError* error;
+//  return [[[self class] alloc] initWithJSONString:json error:&error];
+//}
+//
+//+(NSString*)SerializeList:(NSArray<NSObject<STJSONAble>*>*)list error:(NSError**)outError {
+//  return [STJSONUtility SerializeList:list error:nil];
+//}
+//
+//+(NSArray<STTag*>*)DeserializeList:(id)List error:(NSError**)outError
+//{
+//  NSMutableArray<STTag*>* ar = [[NSMutableArray<STTag*> alloc] init];
+//  for(id x in [STJSONUtility DeserializeList:List forClass:[self class] error:nil]) {
+//    if([x isKindOfClass:[self class]])
+//    {
+//      [ar addObject:x];
+//    }
+//  }
+//  return ar;
+//}
 
-+(NSArray<STTag*>*)DeserializeList:(id)List error:(NSError**)outError
-{
-  NSMutableArray<STTag*>* ar = [[NSMutableArray<STTag*> alloc] init];
-  for(id x in [STJSONUtility DeserializeList:List forClass:[self class] error:nil]) {
-    if([x isKindOfClass:[self class]])
-    {
-      [ar addObject:x];
-    }
-  }
-  return ar;
-}
-
--(instancetype)initWithDictionary:(NSDictionary*)dict
-{
-  self = [super init];
-  if (self) {
-    [self setWithDictionary:dict];
-  }
-  return self;
-}
-
--(instancetype)initWithJSONString:(NSString*)JSONString error:(NSError**)outError
-{
-  self = [super init];
-  if (self) {
-    
-    NSError *error = nil;
-    NSData *JSONData = [JSONString dataUsingEncoding:NSUTF8StringEncoding];
-    NSDictionary *JSONDictionary = [NSJSONSerialization JSONObjectWithData:JSONData options:0 error:&error];
-    
-    if (!error && JSONDictionary) {
-      [self setWithDictionary:JSONDictionary];
-    } else {
-      if (outError) {
-        *outError = [NSError errorWithDomain:STStatTagErrorDomain
-                                        code:[error code]
-                                    userInfo:@{NSUnderlyingErrorKey: error}];
-      }
-    }
-  }
-  return self;
-}
+//-(instancetype)initWithDictionary:(NSDictionary*)dict
+//{
+//  self = [super init];
+//  if (self) {
+//    [self configure];
+//    [self setWithDictionary:dict];
+//  }
+//  return self;
+//}
+//
+//-(instancetype)initWithJSONString:(NSString*)JSONString error:(NSError**)outError
+//{
+//  self = [super init];
+//  if (self) {
+//    [self configure];
+//    
+//    NSError *error = nil;
+//    NSData *JSONData = [JSONString dataUsingEncoding:NSUTF8StringEncoding];
+//    NSDictionary *JSONDictionary = [NSJSONSerialization JSONObjectWithData:JSONData options:0 error:&error];
+//    
+//    if (!error && JSONDictionary) {
+//      [self setWithDictionary:JSONDictionary];
+//    } else {
+//      if (outError) {
+//        *outError = [NSError errorWithDomain:STStatTagErrorDomain
+//                                        code:[error code]
+//                                    userInfo:@{NSUnderlyingErrorKey: error}];
+//      }
+//    }
+//  }
+//  return self;
+//}
 
 
 
@@ -395,6 +468,19 @@ NSString* const TagIdentifierDelimiter = @"--";
   return [_CodeFile isEqual:[tag CodeFile]];
 }
 
+-(BOOL) Equals:(STTag*)other usePosition:(BOOL)usePosition
+{
+  return (usePosition) ? [self EqualsWithPosition:other] : [self isEqual:other];
+}
+
+
+- (BOOL) EqualsWithPosition:(STTag*)tag {
+  return [self isEqual:tag] && [_LineStart integerValue] == [[tag LineStart] integerValue] && [_LineEnd integerValue] == [[tag LineEnd] integerValue];
+  //return [self isEqual:tag] && [_LineStart isEqual:[tag LineStart]] && [_LineEnd isEqual:[tag LineEnd]];
+}
+
+//MARK: descriptions
+
 - (NSString*)ToString {
   return [self description];
 }
@@ -415,16 +501,7 @@ NSString* const TagIdentifierDelimiter = @"--";
   //return [super description];
 }
 
--(BOOL) Equals:(STTag*)other usePosition:(BOOL)usePosition
-{
-  return (usePosition) ? [self EqualsWithPosition:other] : [self isEqual:other];
-}
 
-
-- (BOOL) EqualsWithPosition:(STTag*)tag {
-  return [self isEqual:tag] && [_LineStart integerValue] == [[tag LineStart] integerValue] && [_LineEnd integerValue] == [[tag LineEnd] integerValue];
-  //return [self isEqual:tag] && [_LineStart isEqual:[tag LineStart]] && [_LineEnd isEqual:[tag LineEnd]];
-}
 
 + (NSString*)NormalizeName:(NSString*)label {
 

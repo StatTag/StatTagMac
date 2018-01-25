@@ -1,5 +1,5 @@
 //
-//  STPropertiesManager.h
+//  STSettingsManager.h
 //  StatTag
 //
 //  Created by Eric Whitley on 8/1/16.
@@ -8,13 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
-@class STProperties;
+@class STUserSettings;
 
-@interface STPropertiesManager : NSObject {
-  STProperties* _Properties;
+@interface STSettingsManager : NSObject {
+  STUserSettings* _Settings;
 }
 
-@property (strong, nonatomic) STProperties* Properties;
+@property (strong, nonatomic) STUserSettings* Settings;
 
 
 /**

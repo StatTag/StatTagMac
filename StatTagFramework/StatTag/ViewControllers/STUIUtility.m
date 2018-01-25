@@ -83,6 +83,9 @@
   //MessageBox.Show(userMessage, GetAddInName(), MessageBoxButtons.OK, MessageBoxIcon.Error);
 }
 
-
++(NSString*)GetVersionLabel
+{
+  return [NSString stringWithFormat:@"StatagTag v%@", [STCocoaUtil bundleVersionInfo]];
+}
 
 @end

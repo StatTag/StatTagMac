@@ -7,19 +7,20 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "STJSONAble.h"
+#import "STBase.h"
 @class STCodeFile;
 @class STCommandResult;
 @class STTableFormat;
 @class STValueFormat;
 @class STFigureFormat;
 
+
 /**
   A tag is a sequence of lines in a CodeFile that is defined by special
   comment tags.  It contains configuration information on how to interpret and
   format the result of the code block within the document.
 */
-@interface STTag : NSObject <STJSONAble, NSCopying> {
+@interface STTag : STBase <NSCopying> {
   STCodeFile* _CodeFile;
   NSString* _Type;
   NSString* _Name;
@@ -35,10 +36,13 @@
   NSNumber* _LineStart;
   NSNumber* _LineEnd;
   
-  NSMutableDictionary* _StatTagJSONErrata;
+  //NSMutableDictionary* _ExtraMetadata;
 }
 
+
 extern NSString* const TagIdentifierDelimiter;
+extern NSString* const CurrentTagFormatVersion;
++(NSString*)CurrentTagFormatVersion;
 
 //MARK: properties
 @property (strong, nonatomic) STCodeFile *CodeFile;
@@ -78,6 +82,8 @@ extern NSString* const TagIdentifierDelimiter;
  @brief The ending line is the 0-based line index where the closing tag tag exists.
  */
 @property (copy, nonatomic) NSNumber *LineEnd; //nil-able int
+
+//@property (strong, nonatomic) NSMutableDictionary* ExtraMetadata;
 
 
 //MARK: initializers

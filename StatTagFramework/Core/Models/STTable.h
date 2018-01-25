@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "STJSONAble.h"
+#import "STBase.h"
 #import "STConstants.h"
 @class STTableData;
 
@@ -16,7 +16,7 @@
   statistical packages.  It provides a consistent interface across the statistical
   package representations, but is not necessarily an optimized view of the data.
  */
-@interface STTable : NSObject<STJSONAble> {
+@interface STTable : STBase {
   NSInteger _RowSize;
   NSInteger _ColumnSize;
   STTableData* _Data; //type is double

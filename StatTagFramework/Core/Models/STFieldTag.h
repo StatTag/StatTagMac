@@ -51,6 +51,7 @@ within the table.</remarks>
 /**
  Create a new Tag object given a JSON string
 */
++(instancetype)Deserialize:(NSString*)json error:(NSError**)outError;
 +(instancetype)Deserialize:(NSString*)json withFiles:(NSArray<STCodeFile*>*)files error:(NSError**)outError;
 +(NSArray<STFieldTag*>*)DeserializeList:(id)List error:(NSError**)outError;
 

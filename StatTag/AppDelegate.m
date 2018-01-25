@@ -116,10 +116,10 @@
   SettingsViewController* settings = (SettingsViewController*)self.preferencesWindowController.contentViewController;
   
   StatTagShared* shared = [StatTagShared sharedInstance];
-  settings.propertiesManager = [shared propertiesManager];
+  settings.settingsManager = [shared settingsManager];
   settings.logManager = [shared logManager];
-  [[settings propertiesManager] Load];
-  settings.properties = [[shared propertiesManager] Properties]; //just for setup
+  [[settings settingsManager] Load];
+  settings.settings = [[shared settingsManager] Settings]; //just for setup
   
   [[self preferencesWindowController] showWindow:self]; // show the window
 }

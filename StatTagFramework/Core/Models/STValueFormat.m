@@ -34,8 +34,10 @@
 
 -(id)copyWithZone:(NSZone *)zone
 {
-  STValueFormat *format = [[[self class] allocWithZone:zone] init];//[[STValueFormat alloc] init];
+//  STValueFormat *format = [[[self class] allocWithZone:zone] init];//[[STValueFormat alloc] init];
+  STValueFormat *format = (STValueFormat*)[super copyWithZone:zone];
 
+  
   format.FormatType = [_FormatType copyWithZone:zone];
   format.DecimalPlaces = _DecimalPlaces;
   format.UseThousands = _UseThousands;
@@ -253,7 +255,7 @@
 
 //MARK: JSON
 -(NSDictionary *)toDictionary {
-  NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
+  NSMutableDictionary* dict = [NSMutableDictionary dictionaryWithDictionary:[super toDictionary]];
   [dict setValue:[self FormatType] forKey:@"FormatType"];
   [dict setValue:@([self DecimalPlaces]) forKey:@"DecimalPlaces"];
   [dict setValue:@([[NSNumber numberWithInteger:[self UseThousands]] boolValue]) forKey:@"UseThousands"];
@@ -263,79 +265,85 @@
   return dict;
 }
 
--(void)setWithDictionary:(NSDictionary*)dict {
-  if(dict == nil || [dict isKindOfClass:[[NSNull null] class]])
-  {
-    return;
-  }
-
-  for (NSString* key in dict) {
-    //    if([key isEqualToString:@"FilePath"]) {
-    //      [self setValue:[NSURL fileURLWithPath:[dict valueForKey:key]] forKey:key];
-    //    } else if([key isEqualToString:@"LastCached"]) {
-    //      [self setValue:[STJSONUtility dateFromString:[dict valueForKey:key]] forKey:key];
-    //    } else {
-    [self setValue:[dict valueForKey:key] forKey:key];
-    //    }
-  }
-}
-
--(NSString*)Serialize:(NSError**)outError
+-(bool)setCustomObjectPropertyFromJSONObject:(id)object forKey:(NSString*)key
 {
-  return [STJSONUtility SerializeObject:self error:nil];
+  return false;
 }
 
-+(NSString*)SerializeList:(NSArray<NSObject<STJSONAble>*>*)list error:(NSError**)outError {
-  return [STJSONUtility SerializeList:list error:nil];
-}
-
-+(NSArray<STValueFormat*>*)DeserializeList:(NSString*)List error:(NSError**)outError
-{
-  NSMutableArray<STValueFormat*>* ar = [[NSMutableArray<STValueFormat*> alloc] init];
-  for(id x in [STJSONUtility DeserializeList:List forClass:[self class] error:nil]) {
-    if([x isKindOfClass:[self class]])
-    {
-      [ar addObject:x];
-    }
-  }
-  return ar;
-}
-
--(instancetype)initWithDictionary:(NSDictionary*)dict
-{
-  self = [super init];
-  if (self) {
-    if(dict != nil  && ![dict isKindOfClass:[[NSNull null] class]])
-    {
-      [self setWithDictionary:dict];
-    }
-  }
-  return self;
-}
-
--(instancetype)initWithJSONString:(NSString*)JSONString error:(NSError**)outError
-{
-  self = [super init];
-  if (self) {
-    
-    NSError *error = nil;
-    NSData *JSONData = [JSONString dataUsingEncoding:NSUTF8StringEncoding];
-    NSDictionary *JSONDictionary = [NSJSONSerialization JSONObjectWithData:JSONData options:0 error:&error];
-    
-    if (!error && JSONDictionary) {
-      [self setWithDictionary:JSONDictionary];
-    } else {
-      if (outError) {
-        *outError = [NSError errorWithDomain:STStatTagErrorDomain
-                                        code:[error code]
-                                    userInfo:@{NSUnderlyingErrorKey: error}];
-      }
-    }
-  }
-  return self;
-}
-
-
+//
+//-(void)setWithDictionary:(NSDictionary*)dict {
+//  if(dict == nil || [dict isKindOfClass:[[NSNull null] class]])
+//  {
+//    return;
+//  }
+//
+//  for (NSString* key in dict) {
+//    //    if([key isEqualToString:@"FilePath"]) {
+//    //      [self setValue:[NSURL fileURLWithPath:[dict valueForKey:key]] forKey:key];
+//    //    } else if([key isEqualToString:@"LastCached"]) {
+//    //      [self setValue:[STJSONUtility dateFromString:[dict valueForKey:key]] forKey:key];
+//    //    } else {
+//    [self setValue:[dict valueForKey:key] forKey:key];
+//    //    }
+//  }
+//}
+//
+//-(NSString*)Serialize:(NSError**)outError
+//{
+//  return [STJSONUtility SerializeObject:self error:nil];
+//}
+//
+//+(NSString*)SerializeList:(NSArray<NSObject<STJSONAble>*>*)list error:(NSError**)outError {
+//  return [STJSONUtility SerializeList:list error:nil];
+//}
+//
+//+(NSArray<STValueFormat*>*)DeserializeList:(NSString*)List error:(NSError**)outError
+//{
+//  NSMutableArray<STValueFormat*>* ar = [[NSMutableArray<STValueFormat*> alloc] init];
+//  for(id x in [STJSONUtility DeserializeList:List forClass:[self class] error:nil]) {
+//    if([x isKindOfClass:[self class]])
+//    {
+//      [ar addObject:x];
+//    }
+//  }
+//  return ar;
+//}
+//
+//-(instancetype)initWithDictionary:(NSDictionary*)dict
+//{
+//  self = [super init];
+//  if (self) {
+//    if(dict != nil  && ![dict isKindOfClass:[[NSNull null] class]])
+//    {
+//      [self setWithDictionary:dict];
+//    }
+//  }
+//  return self;
+//}
+//
+//-(instancetype)initWithJSONString:(NSString*)JSONString error:(NSError**)outError
+//{
+//  self = [super init];
+//  if (self) {
+//    
+//    NSError *error = nil;
+//    NSData *JSONData = [JSONString dataUsingEncoding:NSUTF8StringEncoding];
+//    NSDictionary *JSONDictionary = [NSJSONSerialization JSONObjectWithData:JSONData options:0 error:&error];
+//    
+//    if (!error && JSONDictionary) {
+//      [self setWithDictionary:JSONDictionary];
+//    } else {
+//      if (outError) {
+//        *outError = [NSError errorWithDomain:STStatTagErrorDomain
+//                                        code:[error code]
+//                                    userInfo:@{NSUnderlyingErrorKey: error}];
+//      }
+//    }
+//  }
+//  return self;
+//}
+//
+//
 
 
 

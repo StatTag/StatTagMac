@@ -20,25 +20,30 @@
 #import "STUIUtility.h"
 #import "STFilterFormat.h"
 #import "STTableUtil.h"
+#import "STSettingsManager.h"
+#import "STDocumentMetadata.h"
 
 @implementation STDocumentManager
 
 @synthesize TagManager = _TagManager;
 @synthesize StatsManager = _StatsManager;
 @synthesize FieldManager = _FieldManager;
+@synthesize SettingsManager = _SettingsManager;
 
 @synthesize wordFieldsTotal = _wordFieldsTotal;
 @synthesize wordFieldsUpdated = _wordFieldsUpdated;
 @synthesize wordFieldUpdateStatus = _wordFieldUpdateStatus;
 
 NSString* const ConfigurationAttribute = @"StatTag Configuration";
+NSString* const MetadataAttribute = @"StatTag Metadata";
 
 -(instancetype) init {
   self = [super init];
   if(self){
+    _SettingsManager = nil;
     DocumentCodeFiles = [[NSMutableDictionary<NSString*, NSMutableArray<STCodeFile*>*> alloc] init];
     _TagManager = [[STTagManager alloc] init:self];
-    _StatsManager = [[STStatsManager alloc] init:self];
+    _StatsManager = [[STStatsManager alloc] initWithDocumentManager:self andSettingsManager:[self SettingsManager]];
     _FieldManager = [[STFieldGenerator alloc] init];
     
     _wordFieldsTotal = @0;
@@ -60,6 +65,20 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
   STMSWord2011Document* document = [app activeDocument];
   return document;
+}
+
+
+-(void)SetSettingsManager:(STSettingsManager*)settingsManager
+{
+  [self SetSettingsManager:settingsManager];
+  if([self StatsManager] == nil)
+  {
+    self.StatsManager = [[STStatsManager alloc] initWithDocumentManager:self andSettingsManager:[self SettingsManager]];
+  }
+  else
+  {
+    [[self StatsManager] setSettingsManager:[self SettingsManager]];
+  }
 }
 
 /**
@@ -87,6 +106,100 @@ NSString* const ConfigurationAttribute = @"StatTag Configuration";
   return false;
 }
 
+
+//MARK: document metadata
+
+/**
+Creates a document metadata container that will hold information about the StatTag environment
+used to create the Word document.
+*/
+-(STDocumentMetadata*)CreateDocumentMetadata
+{
+  STDocumentMetadata* metadata = [[STDocumentMetadata alloc] init];
+  
+  metadata.StatTagVersion = [STUIUtility GetVersionLabel];
+  metadata.RepresentMissingValues = [[[self SettingsManager] Settings] RepresentMissingValues];
+  metadata.CustomMissingValue = [[[self SettingsManager] Settings] CustomMissingValue];
+  metadata.MetadataFormatVersion = [STDocumentMetadata CurrentMetadataFormatVersion];
+  metadata.TagFormatVersion = [STTag CurrentTagFormatVersion];
+
+  return metadata;
+}
+
+/**
+ Saves associated metadata about StatTag to the properties in the supplied document.
+@param document: The Word Document object we are saving the metadata to
+@param metadata: The metadata object to be serialized and saved
+*/
+-(void)SaveMetadataToDocument:(STMSWord2011Document*)document metadata:(STDocumentMetadata*)metadata
+{
+  //Log("SaveMetadataToDocument - Started");
+
+  SBElementArray<STMSWord2011Variable*>* variables = [document variables];
+  STMSWord2011Variable* variable = [variables objectWithName:MetadataAttribute];
+  
+  //var variable = variables[MetadataAttribute];
+  if(metadata == nil)
+  {
+    metadata = [self CreateDocumentMetadata];
+  }
+  NSString* attribute = [metadata Serialize:nil];
+
+  if (![self DocumentVariableExists:variable])
+  {
+    //Log(string.Format("Metadata variable does not exist.  Adding attribute value of {0}", attribute));
+    [WordHelpers createOrUpdateDocumentVariableWithName:MetadataAttribute andValue:attribute];
+  }
+  else
+  {
+    //Log(string.Format("Metadata variable already exists.  Updating attribute value to {0}", attribute));
+    [WordHelpers createOrUpdateDocumentVariableWithName:MetadataAttribute andValue:attribute];
+  }
+
+  // Historically we just saved the code file list.  Starting in v3.1 we save more metadata, so the original
+  // call to save the code file list is just called afterwards.
+  [self SaveCodeFileListToDocument:document];
+  //  Log("SaveMetadataToDocument - Finished");
+}
+
+-(STDocumentMetadata*)LoadMetadataFromCurrentDocument:(bool)createIfEmpty
+{
+  STMSWord2011Document* document = [[[STGlobals sharedInstance] ThisAddIn] SafeGetActiveDocument];
+  
+  return [self LoadMetadataFromDocument:document createIfEmpty:createIfEmpty];
+}
+
+
+/**
+ Loads associated metadata about StatTag from the properties in the supplied document.
+@param document: The Word document of interest
+@param createIfEmpty: If true, and there is no metadata for the document, a default instance of the metadata will be created.  If false, and no metadata exists, null will be returned.
+*/
+-(STDocumentMetadata*)LoadMetadataFromDocument:(STMSWord2011Document*)document createIfEmpty:(bool)createIfEmpty
+{
+  //Log("LoadMetadataFromDocument - Started");
+  STDocumentMetadata* metadata = nil;
+  // Right now, we don't worry about holding on to metadata from the document (outside of the code file list),
+  // we just read it and log it so we know a little more about the document.
+
+  SBElementArray<STMSWord2011Variable*>* variables = [document variables];
+  STMSWord2011Variable* variable = [variables objectWithName:MetadataAttribute];
+
+  if([self DocumentVariableExists:variable])
+  {
+    metadata = [STDocumentMetadata Deserialize:[variable variableValue] error:nil];
+  }
+  else if (createIfEmpty)
+  {
+    metadata = [self CreateDocumentMetadata];
+  }
+  
+  //Log("LoadMetadataFromDocument - Finished");
+  
+  return metadata;
+}
+
+//MARK: other... stuff.
 /**
  Save the referenced code files to the current Word document.
  @param document: The Word document of interest

@@ -219,7 +219,8 @@
   
   NSLog(@"GetTags : %@", [manager GetTags]);
   
-  STStatsManager* stats = [[STStatsManager alloc] init:manager];
+  
+  STStatsManager* stats = [[STStatsManager alloc] initWithDocumentManager:manager andSettingsManager:nil];
   for(STCodeFile* cf in [manager GetCodeFileList]) {
     NSLog(@"codeFile content: %@", [cf Content]);
     NSLog(@"original codeFile tags");
@@ -257,6 +258,11 @@
 -(void)testWordAPI_UpdateTagFieldsFromCodeFile {
   //InsertFieldWithFieldTag
   
+  XCTAssertTrue(false);
+  //NOTE: intentionally failing this case here right now. For some reason we're getting a hard crash _after_ UpdateFields completes below
+  //Not sure why (yet), so I want to force this to fail right now so we have to circle back
+  //May have to do with executing the code below outside of the background thread
+  
   //go read this about field codes
   //https://groups.google.com/forum/#!msg/microsoft.public.mac.office.word/jzksDl1ebCw/YGddKCkIJdYJ
   
@@ -267,7 +273,7 @@
   
   [manager GetTags];
   
-  STStatsManager* stats = [[STStatsManager alloc] init:manager];
+  STStatsManager* stats = [[STStatsManager alloc] initWithDocumentManager:manager andSettingsManager:nil];
   for(STCodeFile* cf in [manager GetCodeFileList]) {
     STStatsManagerExecuteResult* result __unused = [stats ExecuteStatPackage:cf filterMode:[STConstantsParserFilterMode IncludeAll]];
   }
@@ -564,7 +570,7 @@
 }
 
 -(void)testPreferences {
-  STPropertiesManager* manager = [[STPropertiesManager alloc] init];
+  STSettingsManager* manager = [[STSettingsManager alloc] init];
   
 //  manager.Properties.StataLocation = @"My Stata Location";
 //  manager.Properties.EnableLogging = NO;
@@ -594,7 +600,7 @@
   
   [manager GetTags];
   
-  STStatsManager* stats = [[STStatsManager alloc] init:manager];
+  STStatsManager* stats = [[STStatsManager alloc] initWithDocumentManager:manager andSettingsManager:nil];
   for(STCodeFile* cf in [manager GetCodeFileList]) {
     STStatsManagerExecuteResult* result __unused = [stats ExecuteStatPackage:cf filterMode:[STConstantsParserFilterMode IncludeAll]];
   }

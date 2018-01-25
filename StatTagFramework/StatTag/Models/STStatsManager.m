@@ -9,6 +9,7 @@
 #import "STStatsManager.h"
 #import "StatTagFramework.h"
 #import "STDocumentManager.h"
+#import "STSettingsManager.h"
 #import "STIStatAutomation.h"
 #import "STICodeFileParser.h"
 
@@ -38,13 +39,15 @@ BOOL Globals_Application_ScreenUpdating = true;
 
 
 const NSInteger RefreshStepInterval = 5;
-@synthesize Manager = _Manager;
+@synthesize DocumentManager = _DocumentManager;
+@synthesize SettingsManager = _SettingsManager;
 
 
--(instancetype)init:(STDocumentManager*)manager {
+-(instancetype)initWithDocumentManager:(STDocumentManager*)documentManager andSettingsManager:(STSettingsManager*)settingsManager {
   self = [super init];
   if(self) {
-   self.Manager = manager;
+   self.DocumentManager = documentManager;
+    self.SettingsManager = settingsManager;
   }
   return self;
 }
@@ -198,7 +201,7 @@ const NSInteger RefreshStepInterval = 5;
         continue;
       }
       
-      STTag* tag = [[self Manager] FindTag:[[step Tag] Id]];
+      STTag* tag = [[self DocumentManager] FindTag:[[step Tag] Id]];
       activeTag = tag;
       NSArray<STCommandResult*>* results = [automation RunCommands:[step Code] tag:[step Tag]];
       
