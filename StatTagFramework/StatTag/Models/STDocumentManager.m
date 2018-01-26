@@ -91,9 +91,13 @@ NSString* const MetadataAttribute = @"StatTag Metadata";
   
   @try {
     NSString* value = [variable variableValue];
-    #pragma unused(value)
+    if(value != nil) //do we want to do  && [value length] > 0 ?
+    {
+      return true;
+    }
+    //#pragma unused(value)
     //NSLog(@"DocumentVariableExists: variable: %@ has value: %@", [variable name], value);
-    return true;
+    return false;
   }
   @catch (NSException *exception) {
     //NSLog(@"%@", exception.reason);
@@ -108,6 +112,16 @@ NSString* const MetadataAttribute = @"StatTag Metadata";
 
 
 //MARK: document metadata
+
+-(void)SimpleSaveChanges
+{
+  STDocumentMetadata* metadata = [self LoadMetadataFromDocument:[self activeDocument] createIfEmpty:true];
+//  var metadata = Manager.LoadMetadataFromDocument(ActiveDocument, true);
+//  metadata.RepresentMissingValues = missingValueSettings1.GetMissingValuesSelection();
+//  metadata.CustomMissingValue = missingValueSettings1.GetCustomMissingValueString();
+  [self SaveMetadataToDocument:[self activeDocument] metadata:metadata];
+//  Manager.SaveMetadataToDocument(ActiveDocument, metadata);
+}
 
 /**
 Creates a document metadata container that will hold information about the StatTag environment
@@ -137,6 +151,8 @@ used to create the Word document.
 
   SBElementArray<STMSWord2011Variable*>* variables = [document variables];
   STMSWord2011Variable* variable = [variables objectWithName:MetadataAttribute];
+  
+  //NSString* value = [variable variableValue];
   
   //var variable = variables[MetadataAttribute];
   if(metadata == nil)
@@ -185,8 +201,14 @@ used to create the Word document.
   SBElementArray<STMSWord2011Variable*>* variables = [document variables];
   STMSWord2011Variable* variable = [variables objectWithName:MetadataAttribute];
 
+//  NSString* value = [variable variableValue];
+//  NSLog(@"value: %@", value);
+
+  
   if([self DocumentVariableExists:variable])
   {
+//    NSLog(@"variable: %@", variable);
+//    NSLog(@"variableValue: %@", [variable variableValue]);
     metadata = [STDocumentMetadata Deserialize:[variable variableValue] error:nil];
   }
   else if (createIfEmpty)
@@ -213,7 +235,7 @@ used to create the Word document.
   //NSLog(@"SaveCodeFileListToDocument - Started");
   SBElementArray<STMSWord2011Variable*>* variables = [document variables];
   STMSWord2011Variable* variable = [variables objectWithName:ConfigurationAttribute];
-
+  
   @try {
     NSMutableArray<STCodeFile*>* files = [self GetCodeFileList:document];
     BOOL hasCodeFiles = (files != nil && [files count] > 0);

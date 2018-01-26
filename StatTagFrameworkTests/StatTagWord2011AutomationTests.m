@@ -359,7 +359,9 @@
   NSLog(@" ");
   NSLog(@"SAVING variable list");
   NSLog(@"=====================");
-  [manager SaveCodeFileListToDocument:doc];
+  
+  [manager SaveMetadataToDocument:doc metadata:[manager LoadMetadataFromDocument:doc createIfEmpty:true]];
+//  [manager SaveCodeFileListToDocument:doc];
   
   NSLog(@" ");
   NSLog(@"LOADING variable list");

@@ -170,7 +170,8 @@
   
   @try
   {
-    [[self DocumentManager] SaveCodeFileListToDocument:doc];
+    [[self DocumentManager] SaveMetadataToDocument:doc metadata:[[self DocumentManager] LoadMetadataFromDocument:doc createIfEmpty:true]];
+    //[[self DocumentManager] SaveCodeFileListToDocument:doc];
   }
   @catch (NSException* exc)
   {

@@ -109,7 +109,8 @@
 
 - (void)insertObject:(STCodeFile *)cf inCodeFilesAtIndex:(NSUInteger)index {
   [_documentManager AddCodeFile:[cf FilePath]];
-  [_documentManager SaveCodeFileListToDocument:nil];
+  [_documentManager SimpleSaveChanges];
+  //[_documentManager SaveCodeFileListToDocument:nil];
 }
 
 //go back and review - this isn't fired (should be...)
@@ -117,7 +118,8 @@
 - (void)removeObjectFromCodeFilesAtIndex:(NSUInteger)index {
   
   [_codeFiles removeObjectAtIndex:index];
-  [_documentManager SaveCodeFileListToDocument:nil];
+  [_documentManager SimpleSaveChanges];
+  //[_documentManager SaveCodeFileListToDocument:nil];
 }
 
 - (IBAction)addFile:(id)sender {

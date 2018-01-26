@@ -91,6 +91,9 @@
   self.codeFiles = [[self documentManager] GetCodeFileList];
   [arrayController rearrangeObjects];
 
+  //var documentMetadata = Manager.LoadMetadataFromCurrentDocument(false);
+  
+  
   // [_documentManager LoadCodeFileListFromDocument:[[StatTagShared sharedInstance] doc]];
   // [self beginLoadingUnlinkedTags];
   [self updateTagSummary];
@@ -206,7 +209,10 @@
 
 - (void)insertObject:(STCodeFile *)cf inCodeFilesAtIndex:(NSUInteger)index {
   [_documentManager AddCodeFile:[cf FilePath]];
-  [_documentManager SaveCodeFileListToDocument:nil];
+//  [_documentManager SaveCodeFileListToDocument:nil];
+  [_documentManager SaveMetadataToDocument:[_documentManager activeDocument] metadata:[_documentManager LoadMetadataFromDocument:[_documentManager activeDocument] createIfEmpty:true]];
+
+  
   [_codeFiles addObject:cf];
   [_documentManager monitorCodeFile:cf];
   //[[StatTagShared sharedInstance] monitorCodeFile:cf];
@@ -221,7 +227,10 @@
   [_documentManager stopMonitoringCodeFile:[_codeFiles objectAtIndex:index]];
   [_codeFiles removeObjectAtIndex:index];
   [_documentManager SetCodeFileList:_codeFiles document:nil];
-  [_documentManager SaveCodeFileListToDocument:nil];
+//  [_documentManager SaveCodeFileListToDocument:nil];
+  [_documentManager SimpleSaveChanges];
+//  [_documentManager SaveMetadataToDocument:[_documentManager activeDocument] metadata:[_documentManager LoadMetadataFromDocument:[_documentManager activeDocument] createIfEmpty:true]];
+
   [self updateTagSummary];
 
   //  [_documentManager SetCodeFileList:<#(NSArray<STCodeFile *> *)#> document:<#(STMSWord2011Document *)#>]

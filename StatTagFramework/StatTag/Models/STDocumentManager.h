@@ -25,6 +25,7 @@
 @class STMSWord2011Document;
 @class STStatsManagerExecuteResult;
 @class STSettingsManager;
+@class STDocumentMetadata;
 
 @interface STDocumentManager : STBaseManager {
   NSMutableDictionary<NSString*, NSMutableArray<STCodeFile*>*>* DocumentCodeFiles;
@@ -53,6 +54,12 @@
 -(NSDictionary<NSString*, NSArray<STTag*>*>*)FindAllUnlinkedTags;
 -(STTag*)FindTag:(NSString*)tagID;
 
+
+-(void)SimpleSaveChanges;
+-(void)SaveMetadataToDocument:(STMSWord2011Document*)document metadata:(STDocumentMetadata*)metadata;
+-(STDocumentMetadata*)CreateDocumentMetadata;
+-(STDocumentMetadata*)LoadMetadataFromCurrentDocument:(bool)createIfEmpty;
+-(STDocumentMetadata*)LoadMetadataFromDocument:(STMSWord2011Document*)document createIfEmpty:(bool)createIfEmpty;
 
 -(void)SaveCodeFileListToDocument:(STMSWord2011Document*)document;
 -(void)LoadCodeFileListFromDocument:(STMSWord2011Document*)document;
