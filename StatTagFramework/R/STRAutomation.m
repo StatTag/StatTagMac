@@ -43,7 +43,9 @@ static NSString* const MATRIX_DIMENSION_NAMES_ATTRIBUTE = @"dimnames";
     // Since Initialize is called once per file execution, we want to make sure this
     // is called here so any subsequent code execution where the working directory
     // is changed is respected and we don't overwrite it.
-    [self RunCommand:[NSString stringWithFormat:@"setwd(dirname('%@'))", codeFile.FilePath]];
+    STTag* valueTag = [[STTag alloc] init];
+    valueTag.Type = [STConstantsTagType Value];
+    [self RunCommand:[NSString stringWithFormat:@"setwd(dirname('%@'))", codeFile.FilePath] tag:valueTag];
   }
 
   return (Engine != nil);
@@ -108,39 +110,42 @@ static NSString* const MATRIX_DIMENSION_NAMES_ATTRIBUTE = @"dimnames";
 {
     @autoreleasepool {
         RCSymbolicExpression* result = [Engine Evaluate:command];
-        //RCSymbolicExpression* result = [[RCEngine mainEngine] Evaluate:command];
         if (result == nil) {
             return nil;
         }
 
-        // We take a hint from the tag type to identify tables.  Because of how open R is with its
-        // return of results, a user can just specify a variable and get the result.
-        if (tag != nil && [[tag Type] isEqualToString:[STConstantsTagType Table]]) {
+        // If there is no tag associated with the command that was run, we aren't going to bother
+        // parsing and processing the results.  This is for blocks of codes in between tags
+        if (tag != nil) {
+          // We take a hint from the tag type to identify tables.  Because of how open R is with its
+          // return of results, a user can just specify a variable and get the result.
+          if ([[tag Type] isEqualToString:[STConstantsTagType Table]]) {
             STCommandResult* commandResult = [[STCommandResult alloc] init];
             commandResult.TableResult = [self GetTableResult:result];
             return commandResult;
-        }
+          }
 
-        // Image comes next, because everything else we will count as a value type.
-        if ([Parser IsImageExport:command]) {
+          // Image comes next, because everything else we will count as a value type.
+          if ([Parser IsImageExport:command]) {
             STTag* tmpTag = [[STTag alloc] init];
             tmpTag.Type = [STConstantsTagType Value];
             STCommandResult* imageLocation = [self RunCommand:[Parser GetImageSaveLocation:command] tag:tmpTag];
             STCommandResult* commandResult = [[STCommandResult alloc] init];
             commandResult.FigureResult = imageLocation.ValueResult;
             return commandResult;
-        }
+          }
 
-        // If we have a value command, we will pull out the last relevant line from the output.
-        // Because we treat every type of output as a possible value result, we are only going
-        // to capture the result if it's flagged as a tag.
-        if (tag != nil && [[tag Type] isEqualToString:[STConstantsTagType Value]]) {
+          // If we have a value command, we will pull out the last relevant line from the output.
+          // Because we treat every type of output as a possible value result, we are only going
+          // to capture the result if it's flagged as a tag.
+          if ([[tag Type] isEqualToString:[STConstantsTagType Value]]) {
             NSArray* data = [result AsCharacter];
             if (data != nil) {
-                STCommandResult* valueResult = [[STCommandResult alloc] init];
-                valueResult.ValueResult = [self GetValueResult:result];
-                return valueResult;
+              STCommandResult* valueResult = [[STCommandResult alloc] init];
+              valueResult.ValueResult = [self GetValueResult:result];
+              return valueResult;
             }
+          }
         }
     }
   return nil;
