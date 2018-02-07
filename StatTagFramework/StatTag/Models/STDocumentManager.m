@@ -1194,7 +1194,7 @@ Insert an StatTag field at the currently specified document range.
                                           
                                           [STFieldGenerator FieldOpen],
                                           [STConstantsFieldDetails MacroButtonName],
-                                          displayValue,
+                                          [STFieldGenerator escapeMacroContent:displayValue],
                                           [STFieldGenerator FieldOpen],
                                           tagIdentifier,
                                           [STFieldGenerator FieldClose],

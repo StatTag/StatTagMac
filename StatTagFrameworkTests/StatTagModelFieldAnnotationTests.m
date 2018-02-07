@@ -395,5 +395,17 @@
   
 }
 
+-(void)testMacroContentEscaping
+{
+  
+  NSLog(@"%@", [STFieldGenerator escapeMacroContent:@"hello"]);
+  NSLog(@"%@", [STFieldGenerator escapeMacroContent:@"hello > 0.1"]);
+  NSLog(@"%@", [STFieldGenerator escapeMacroContent:@"hello < 0.1"]);
+  NSLog(@"%@", [STFieldGenerator escapeMacroContent:@"\"hello!\" he said"]);
+  NSLog(@"%@", [STFieldGenerator escapeMacroContent:@"hello 0.0 < 0.1 and 0.2 > 0.1"]);
+  NSLog(@"%@", [STFieldGenerator escapeMacroContent:@"hello 0.0 < 0.1 and 0.2 > 0.1 but {something} said \"HELLO!\""]);
+  
+}
+
 
 @end

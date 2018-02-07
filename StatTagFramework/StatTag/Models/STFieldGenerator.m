@@ -37,10 +37,12 @@
 
 
 +(NSString*)FieldOpen {
-  return @"<";
+  return @"\U000E0053";
+  //return @"<";
 }
 +(NSString*)FieldClose {
-  return @">";
+  return @"\U000E0054";
+  //  return @">";
 }
 
 
@@ -59,7 +61,7 @@
   //FieldOpen,
   //FieldClose));
   @autoreleasepool {
-    NSArray<STMSWord2011Field*>* fields = [[self class] InsertField:range theString:[NSString stringWithFormat:@"%@MacroButton %@ %@%@ADDIN %@%@%@", [self FieldOpen], [STConstantsFieldDetails MacroButtonName], displayValue, [self FieldOpen], tagIdentifier, [self FieldClose], [self FieldClose] ]];
+    NSArray<STMSWord2011Field*>* fields = [[self class] InsertField:range theString:[NSString stringWithFormat:@"%@MacroButton %@ %@%@ADDIN %@%@%@", [self FieldOpen], [STConstantsFieldDetails MacroButtonName], [[self class] escapeMacroContent:displayValue] , [self FieldOpen], tagIdentifier, [self FieldClose], [self FieldClose] ]];
     
     STMSWord2011Field* dataField = [fields firstObject];
     dataField.fieldText = [tag Serialize:nil];
@@ -71,6 +73,15 @@
   }
 }
 
++(NSString*)escapeMacroContent:(NSString*)content
+{
+  
+//  NSError *error = nil;
+//  NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"([\"{}><])" options:NSRegularExpressionCaseInsensitive error:&error];
+//  NSString *modifiedString = [regex stringByReplacingMatchesInString:content options:0 range:NSMakeRange(0, [content length]) withTemplate:@"\\\\$1"];
+
+  return content;
+}
 
 +(void)offsetAllRanges:(NSMutableArray<STMSWord2011TextRange*>*)ranges EndsBy:(NSInteger)removeEnd {
   @autoreleasepool {
