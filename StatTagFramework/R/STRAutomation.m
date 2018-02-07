@@ -109,20 +109,39 @@ static NSString* const MATRIX_DIMENSION_NAMES_ATTRIBUTE = @"dimnames";
 -(STCommandResult*)RunCommand:(NSString*)command tag:(STTag*)tag
 {
     @autoreleasepool {
-        RCSymbolicExpression* result = [Engine Evaluate:command];
+      NSLog(@"%@", command);
+      
+      NSDictionary *errorInfo;
+
+      RCSymbolicExpression* result;
+      @try {
+        result = [Engine Evaluate:command];
+      }@catch(NSException* exception)
+      {
+        errorInfo = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInteger:0], @"ErrorCode", [STConstantsStatisticalPackages R], @"StatisticalPackage", [exception reason], @"ErrorDescription", nil];
+        @throw [NSException exceptionWithName:NSGenericException
+                                       reason:[NSString stringWithFormat:@"There was an error while parsing the R command: %@", command]
+                                     userInfo:errorInfo];
+      }@finally {
+      }
+
+
+      
         if (result == nil) {
             return nil;
         }
 
+      
+      @try {
         // If there is no tag associated with the command that was run, we aren't going to bother
         // parsing and processing the results.  This is for blocks of codes in between tags
         if (tag != nil) {
           // We take a hint from the tag type to identify tables.  Because of how open R is with its
           // return of results, a user can just specify a variable and get the result.
           if ([[tag Type] isEqualToString:[STConstantsTagType Table]]) {
-            STCommandResult* commandResult = [[STCommandResult alloc] init];
-            commandResult.TableResult = [self GetTableResult:result];
-            return commandResult;
+              STCommandResult* commandResult = [[STCommandResult alloc] init];
+              commandResult.TableResult = [self GetTableResult:result];
+              return commandResult;
           }
 
           // Image comes next, because everything else we will count as a value type.
@@ -147,6 +166,17 @@ static NSString* const MATRIX_DIMENSION_NAMES_ATTRIBUTE = @"dimnames";
             }
           }
         }
+      }
+      @catch(NSException* exception)
+      {
+        errorInfo = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInteger:0], @"ErrorCode", [STConstantsStatisticalPackages R], @"StatisticalPackage", [exception reason], @"ErrorDescription", nil];
+        @throw [NSException exceptionWithName:NSGenericException
+                                       reason:[NSString stringWithFormat:@"There was an error while running the R command: %@", command]
+                                     userInfo:errorInfo];
+      }@finally {
+      }
+        
+        
     }
   return nil;
 }
