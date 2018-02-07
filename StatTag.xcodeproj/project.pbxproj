@@ -271,9 +271,9 @@
 		38E22ABB1E9D4388005DFFE9 /* TagCodePeekViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38E22AB91E9D4388005DFFE9 /* TagCodePeekViewController.xib */; };
 		38E22ABF1E9D5FBC005DFFE9 /* ScintillaEmbeddedViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 38E22ABD1E9D5FBC005DFFE9 /* ScintillaEmbeddedViewController.mm */; };
 		38E22AC01E9D5FBC005DFFE9 /* ScintillaEmbeddedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38E22ABE1E9D5FBC005DFFE9 /* ScintillaEmbeddedViewController.xib */; };
-		38E2D0B720289E9C00512B8C /* RCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3500D5CC1EE066DA006AA0ED /* RCocoa.framework */; };
-		38E2D0B820289ED400512B8C /* RCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3500D5CC1EE066DA006AA0ED /* RCocoa.framework */; };
 		38E2D0B920289EF600512B8C /* RCocoa.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3500D5CC1EE066DA006AA0ED /* RCocoa.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		38E2D0C3202A0F9000512B8C /* RCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38E2D0C02028A36100512B8C /* RCocoa.framework */; };
+		38E2D0CF202A1A8300512B8C /* RCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38E2D0C02028A36100512B8C /* RCocoa.framework */; };
 		38E56FD41FFEC97B008988BE /* StatTagModelJSONTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 385906ED1D1C6E280088A0D7 /* StatTagModelJSONTests.m */; };
 		38E56FD61FFECE25008988BE /* StatTagRParserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 35AE14801F4DC69900A162C4 /* StatTagRParserTests.m */; };
 		38E96E8D1F29589A00DF9B85 /* RestorableWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38E96E8C1F29589A00DF9B85 /* RestorableWindowController.m */; };
@@ -376,6 +376,20 @@
 			remoteGlobalIDString = 350C8C7A1E1E8FF0003DE3F8;
 			remoteInfo = RCocoaTests;
 		};
+		38E2D0DB202A76BD00512B8C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 38E2D0BA2028A36100512B8C /* RCocoa.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 350C8C6F1E1E8FEF003DE3F8;
+			remoteInfo = RCocoa;
+		};
+		38E2D0E5202A7BBC00512B8C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 38E2D0BA2028A36100512B8C /* RCocoa.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 350C8C6F1E1E8FEF003DE3F8;
+			remoteInfo = RCocoa;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -411,6 +425,15 @@
 				38A877CE1D9AEEA7002F37DA /* Scintilla.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		38E2D0E7202A7CDD00512B8C /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -849,8 +872,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				38E2D0CF202A1A8300512B8C /* RCocoa.framework in Frameworks */,
 				3500D5CF1EE066F7006AA0ED /* R.framework in Frameworks */,
-				38E2D0B720289E9C00512B8C /* RCocoa.framework in Frameworks */,
 				38BE59AC1D52AA1000FF9E99 /* Cocoa.framework in Frameworks */,
 				38C91F461D36FC8A0048A95E /* AppleScriptObjC.framework in Frameworks */,
 				382C28711D180CB900697D6F /* SystemConfiguration.framework in Frameworks */,
@@ -870,7 +893,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				38E2D0B820289ED400512B8C /* RCocoa.framework in Frameworks */,
+				38E2D0C3202A0F9000512B8C /* RCocoa.framework in Frameworks */,
 				38D8B1B21D9496C300BF878A /* StatTagFramework.framework in Frameworks */,
 				38A877CD1D9AEEA7002F37DA /* Scintilla.framework in Frameworks */,
 			);
@@ -1916,6 +1939,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 382C8D2B1D0F672F00FE6878 /* Build configuration list for PBXNativeTarget "StatTagFramework" */;
 			buildPhases = (
+				38E2D0E7202A7CDD00512B8C /* CopyFiles */,
 				382C8D1E1D0F672F00FE6878 /* Sources */,
 				382C8D1F1D0F672F00FE6878 /* Frameworks */,
 				382C8D201D0F672F00FE6878 /* Headers */,
@@ -1925,6 +1949,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				38E2D0DC202A76BD00512B8C /* PBXTargetDependency */,
 			);
 			name = StatTagFramework;
 			productName = StatTag;
@@ -1957,13 +1982,14 @@
 			buildPhases = (
 				3836F5461D92C89900BF0DD4 /* Sources */,
 				3836F5471D92C89900BF0DD4 /* Frameworks */,
-				3836F5481D92C89900BF0DD4 /* Resources */,
 				38D8B1B61D9496C300BF878A /* Embed Frameworks */,
+				3836F5481D92C89900BF0DD4 /* Resources */,
 				357B7D391F1D31150009C543 /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				38E2D0E6202A7BBC00512B8C /* PBXTargetDependency */,
 				3816AC021ED5CA5A0045390E /* PBXTargetDependency */,
 				38D8B1B51D9496C300BF878A /* PBXTargetDependency */,
 			);
@@ -2436,6 +2462,16 @@
 			target = 382C8D221D0F672F00FE6878 /* StatTagFramework */;
 			targetProxy = 38D8B1B41D9496C300BF878A /* PBXContainerItemProxy */;
 		};
+		38E2D0DC202A76BD00512B8C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = RCocoa;
+			targetProxy = 38E2D0DB202A76BD00512B8C /* PBXContainerItemProxy */;
+		};
+		38E2D0E6202A7BBC00512B8C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = RCocoa;
+			targetProxy = 38E2D0E5202A7BBC00512B8C /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -2582,6 +2618,7 @@
 		382C8D2C1D0F672F00FE6878 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
@@ -2591,9 +2628,9 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks/**",
 					"$(PROJECT_DIR)",
-					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+					"$(inherited)",
 				);
 				FRAMEWORK_VERSION = A;
 				HEADER_SEARCH_PATHS = "$(LOCAL_LIBRARY_DIR)/Frameworks/R.framework/Headers";
@@ -2602,7 +2639,10 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				ONLY_ACTIVE_ARCH = NO;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"$(inherited)",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = edu.northwestern.nucats.StatTagFramework;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2614,6 +2654,7 @@
 		382C8D2D1D0F672F00FE6878 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
@@ -2625,15 +2666,19 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
-					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks/**",
 				);
 				FRAMEWORK_VERSION = A;
+				GCC_OPTIMIZATION_LEVEL = s;
 				HEADER_SEARCH_PATHS = "$(LOCAL_LIBRARY_DIR)/Frameworks/R.framework/Headers";
 				INFOPLIST_FILE = "$(SRCROOT)/StatTagFramework/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"$(inherited)",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = edu.northwestern.nucats.StatTagFramework;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2708,6 +2753,10 @@
 				INFOPLIST_FILE = StatTag/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks /Library/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = edu.northwestern.nucats.StatTag;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "39b68080-e6d8-4499-990a-64afd83b1006";
@@ -2733,6 +2782,7 @@
 				);
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_INPUT_FILETYPE = automatic;
+				GCC_OPTIMIZATION_LEVEL = s;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/$(PROJECT_NAME)/StatTag-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					SCI_NAMESPACE,
@@ -2741,6 +2791,10 @@
 				INFOPLIST_FILE = StatTag/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks /Library/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = edu.northwestern.nucats.StatTag;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "39b68080-e6d8-4499-990a-64afd83b1006";

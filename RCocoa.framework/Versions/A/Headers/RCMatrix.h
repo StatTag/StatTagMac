@@ -23,6 +23,7 @@
 -(int) ColumnCount;
 -(ObjectType) ElementAt: (int)row column:(int)column;
 -(void) CheckIndices: (int)row column:(int)column;
+-(NSString*)ElementDescriptionAtRow: (int)row andColumn:(int)column;
 
 @end
 
