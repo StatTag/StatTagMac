@@ -82,17 +82,23 @@ UnlinkedFieldCheckProgressViewController* unlinkedFieldProgressController;
 {
   _unlinkedTags = unlinkedTags;
 
-  NSMutableArray<UnlinkedTagGroupEntry*>* tagGroupEntries = [[UnlinkedTagGroupEntry initWithUnlinkedTags:unlinkedTags] mutableCopy];
-  NSArray<STCodeFile*>* impactedCodeFiles = [[NSSet setWithArray:[tagGroupEntries valueForKey:@"codeFile"]] allObjects];
-  for(STCodeFile* cf in [_documentManager unlinkedCodeFiles])
+  NSMutableArray<UnlinkedTagGroupEntry*>* tagGroupEntries;
+  if(unlinkedTags != nil)
   {
-    if(![impactedCodeFiles containsObject:cf])
+    tagGroupEntries = [[UnlinkedTagGroupEntry initWithUnlinkedTags:unlinkedTags] mutableCopy];
+    NSArray<STCodeFile*>* impactedCodeFiles = [[NSSet setWithArray:[tagGroupEntries valueForKey:@"codeFile"]] allObjects];
+    for(STCodeFile* cf in [_documentManager unlinkedCodeFiles])
     {
-      [tagGroupEntries addObject:[[UnlinkedTagGroupEntry alloc] initWithCodeFile:cf andTag:nil isGroup:YES]];
+      if(![impactedCodeFiles containsObject:cf])
+      {
+        [tagGroupEntries addObject:[[UnlinkedTagGroupEntry alloc] initWithCodeFile:cf andTag:nil isGroup:YES]];
+      }
     }
+    
+    self.unlinkedTagsArray = tagGroupEntries;
+  } else {
+    
   }
-  
-  self.unlinkedTagsArray = tagGroupEntries;
   [[self unlinkedTagsArrayController] setContent:[self unlinkedTagsArray]];
   [[self unlinkedTagsTableView] reloadData];
   

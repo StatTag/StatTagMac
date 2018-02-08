@@ -214,11 +214,11 @@
     StatTagWordDocumentFieldTag* priorField = [_priorFieldList objectForKey:n];
 
     //Word Field
-    if([[currentField fieldType] isEqualToString:@"STMSWord2011Field"] && ([[priorField fieldType] isEqualToString:@"STMSWord2011Field"] || priorField == nil))
+    if([[currentField fieldType] isEqualToString:@"STMSWord2011Field"] && (priorField == nil || [[priorField fieldType] isEqualToString:@"STMSWord2011Field"] ))
     {
       //if the fields aren't "the same" (index should already be consistent from the dictionary key)
       // then we want to restore the tag for the field
-      if(![[[[currentField field] fieldCode] content] isEqualToString:[[[priorField field] fieldCode] content]])
+      if(priorField == nil || (![[[[currentField field] fieldCode] content] isEqualToString:[[[priorField field] fieldCode] content]]))
       {
 //        if(currentField != nil)
 //        {
@@ -228,17 +228,23 @@
 //          {
 //            [currentField setFieldTag:tag];
 //          }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
           [newFields setObject:currentField forKey:n];
+        });
 //        }
       } else {
-        [currentField setTag:[priorField tag]];
+        dispatch_async(dispatch_get_main_queue(), ^{
+          [currentField setTag:[priorField tag]];
+        });
       }
     }
     //verbatim tags are "shapes"
-    else if ([[currentField fieldType] isEqualToString:@"STMSWord2011Shape"] && ([[priorField fieldType] isEqualToString:@"STMSWord2011Shape"] || priorField == nil))
+    else if ([[currentField fieldType] isEqualToString:@"STMSWord2011Shape"] && (priorField == nil || [[priorField fieldType] isEqualToString:@"STMSWord2011Shape"]))
     {
-      if(![[currentField tag] isEqual:[priorField tag]])
+      if(priorField == nil || (![[currentField tag] isEqual:[priorField tag]]))
       {
+        //FIXME: this is broken
         [newFields setObject:currentField forKey:n];
       } else {
         [currentField setTag:[priorField tag]];
@@ -323,24 +329,27 @@
       //, @"fieldContent":[[currentField field] fieldText]
     });
 
-    if([[currentField fieldType] isEqualToString:@"STMSWord2011Field"] && [currentField tag] == nil)
-    {
-      [currentField setTag: [[[[StatTagShared sharedInstance] docManager] TagManager] GetFieldTag:[currentField field]]];
-    }
-    
-    STTag* tag = [currentField tag];
-    if(tag != nil) {
-      //if(![[self codeFilePaths] containsObject:[tag CodeFilePath]] || ![[self tags] containsObject:tag]) {
-      if([self isUnlinkedTag:tag])
+    dispatch_async(dispatch_get_main_queue(), ^{
+      if([[currentField fieldType] isEqualToString:@"STMSWord2011Field"] && [currentField tag] == nil)
       {
-        if([[self unlinkedTags] objectForKey:[tag CodeFilePath]] == nil) {
-          //container array does not exist
-          [[self unlinkedTags] setObject:[[NSMutableArray<STTag*> alloc] init] forKey:[tag CodeFilePath]];
-        }
-        //now add our tag to the array for the code file path key
-        [[[self unlinkedTags] objectForKey:[tag CodeFilePath]] addObject:tag];
+        [currentField setTag: [[[[StatTagShared sharedInstance] docManager] TagManager] GetFieldTag:[currentField field]]];
       }
-    }
+      
+      STTag* tag = [currentField tag];
+      if(tag != nil) {
+        //if(![[self codeFilePaths] containsObject:[tag CodeFilePath]] || ![[self tags] containsObject:tag]) {
+        if([self isUnlinkedTag:tag])
+        {
+          if([[self unlinkedTags] objectForKey:[tag CodeFilePath]] == nil) {
+            //container array does not exist
+            [[self unlinkedTags] setObject:[[NSMutableArray<STTag*> alloc] init] forKey:[tag CodeFilePath]];
+          }
+          //now add our tag to the array for the code file path key
+          [[[self unlinkedTags] objectForKey:[tag CodeFilePath]] addObject:tag];
+        }
+      }
+    });
+
     //NSLog(@"%@", [self unlinkedTags]);
     
     dispatch_async(dispatch_get_main_queue(), ^{

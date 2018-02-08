@@ -176,7 +176,9 @@ the DocumentManager instance that contains it.
     //FIXME: very, very unsure of this.. original c# used "Data" and we're using fieldText - which seems to be the closest approximation...
     //  var fieldTag = FieldTag.Deserialize(nestedField.Data.ToString(CultureInfo.InvariantCulture),
     //                                      files);
-    STFieldTag* fieldTag = [STFieldTag Deserialize:nestedFieldText withFiles:files error:nil];
+    //FIXME: check this - something unhappy
+//    STFieldTag* fieldTag = [STFieldTag Deserialize:nestedFieldText withFiles:files error:nil];
+    STFieldTag* fieldTag = [STFieldTag Deserialize:nestedFieldText error:nil];
     return fieldTag;
   }
 }
