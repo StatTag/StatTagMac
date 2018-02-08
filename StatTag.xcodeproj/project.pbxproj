@@ -2741,7 +2741,7 @@
 				FRAMEWORK_VERSION = A;
 				HEADER_SEARCH_PATHS = (
 					"$(LOCAL_LIBRARY_DIR)/Frameworks/R.framework/Headers",
-					"\"/Volumes/Extra HD/Development/StatTag/XlsxReaderWriter/\"/**",
+					"\"$(SRCROOT)/../XlsxReaderWriter/\"/**",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/StatTagFramework/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -2782,7 +2782,7 @@
 				GCC_OPTIMIZATION_LEVEL = s;
 				HEADER_SEARCH_PATHS = (
 					"$(LOCAL_LIBRARY_DIR)/Frameworks/R.framework/Headers",
-					"\"/Volumes/Extra HD/Development/StatTag/XlsxReaderWriter/\"/**",
+					"\"$(SRCROOT)/../XlsxReaderWriter/\"/**",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/StatTagFramework/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -2865,7 +2865,7 @@
 					SCI_LEXER,
 					"DEBUG=1",
 				);
-				HEADER_SEARCH_PATHS = "\"/Volumes/Extra HD/Development/StatTag/XlsxReaderWriter/\"/**";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../XlsxReaderWriter/\"/**";
 				INFOPLIST_FILE = StatTag/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks /Library/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
@@ -2907,7 +2907,7 @@
 					SCI_NAMESPACE,
 					SCI_LEXER,
 				);
-				HEADER_SEARCH_PATHS = "\"/Volumes/Extra HD/Development/StatTag/XlsxReaderWriter/\"/**";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../XlsxReaderWriter/\"/**";
 				INFOPLIST_FILE = StatTag/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks /Library/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
