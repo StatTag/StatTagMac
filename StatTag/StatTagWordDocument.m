@@ -192,7 +192,7 @@
   // we'll need to compare by position and content (NOT the innert text - which is what we should really be using)
   // accessing inner text has a huge performance penalty
   //NOTE (2) - Reminder - we cannot currently deal with images as they are simply file path references
-  NSLog(@"validateFieldCache");
+//  NSLog(@"validateFieldCache");
   [self loadDocument];//refresh just in case there were changes we didn't pick up on changed code files, etc.
   
   //NSLog(@"validateFieldCache - enter");
