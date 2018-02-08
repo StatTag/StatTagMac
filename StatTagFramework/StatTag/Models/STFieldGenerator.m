@@ -37,11 +37,13 @@
 
 
 +(NSString*)FieldOpen {
-  return @"\U000E0053";
+  return @"<<||$$";
+  //return @"\U000E0053";
   //return @"<";
 }
 +(NSString*)FieldClose {
-  return @"\U000E0054";
+  return @"$$||>>";
+  //return @"\U000E0054";
   //  return @">";
 }
 
