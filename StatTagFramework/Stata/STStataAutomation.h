@@ -120,6 +120,7 @@ extern NSString* const EndLoggingCommand;
 +(BOOL)UnregisterAutomationAPI:(NSString*) path;
 +(BOOL)RegisterAutomationAPI:(NSString*) path;
 
+-(NSString*)ReplaceMacroWithValue:(NSString*)originalString macro:(NSString*)macro value:(NSString*)value;
 
 -(NSString*)GetInitializationErrorMessage;
 

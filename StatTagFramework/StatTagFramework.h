@@ -49,7 +49,7 @@ FOUNDATION_EXPORT const unsigned char StatTagVersionString[];
 #import <StatTagFramework/STStatsManager.h>
 #import <StatTagFramework/STTagManager.h>
 #import <StatTagFramework/STLogManager.h>
-#import <StatTagFramework/STCSVToTable.h>
+#import <StatTagFramework/STDataFileToTable.h>
 #import <StatTagFramework/STFilterFormat.h>
 #import <StatTagFramework/STLogManager.h>
 

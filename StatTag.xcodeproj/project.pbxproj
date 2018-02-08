@@ -8,10 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		3500D5CF1EE066F7006AA0ED /* R.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3500D5CE1EE066F7006AA0ED /* R.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		3537430B202BF97100325941 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3537430A202BF97100325941 /* libz.tbd */; };
+		35374311202BFB1600325941 /* libXlsxReaderWriter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 35F649A9202BA7FB00CEC7D8 /* libXlsxReaderWriter.a */; };
+		35374313202BFB1D00325941 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 35374312202BFB1D00325941 /* libz.tbd */; };
+		35A70E2C202B5CB4001E3259 /* NSString+SymlinksAndAliases.h in Headers */ = {isa = PBXBuildFile; fileRef = 35A70E2A202B5CB4001E3259 /* NSString+SymlinksAndAliases.h */; };
+		35A70E2D202B5CB4001E3259 /* NSString+SymlinksAndAliases.m in Sources */ = {isa = PBXBuildFile; fileRef = 35A70E2B202B5CB4001E3259 /* NSString+SymlinksAndAliases.m */; };
 		35AE14831F4DE2F100A162C4 /* STCodeParserUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 35AE14821F4DE2F100A162C4 /* STCodeParserUtil.m */; };
 		35AE14851F4DE69A00A162C4 /* STCodeParserUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 35AE14841F4DE2FE00A162C4 /* STCodeParserUtil.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		35AE14871F4E253000A162C4 /* StatTagUtilityCodeParserUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 35AE14861F4E253000A162C4 /* StatTagUtilityCodeParserUtilTests.m */; };
 		35CE4F9C1F141EBF00B1221B /* STRVerbatimDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 35CE4F9B1F141EBF00B1221B /* STRVerbatimDevice.m */; };
+		35DD5320202BAFB000449124 /* libXlsxReaderWriter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 35F649A9202BA7FB00CEC7D8 /* libXlsxReaderWriter.a */; };
 		35F2E7321EE1A93E0086F9D0 /* STRBaseValueFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 35F2E7311EE1A93E0086F9D0 /* STRBaseValueFormatter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		35F2E7341EE1A94A0086F9D0 /* STRBaseValueFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F2E7331EE1A94A0086F9D0 /* STRBaseValueFormatter.m */; };
 		380A67971D102FFA0045B72B /* TestDestinationTextFile.txt in Resources */ = {isa = PBXBuildFile; fileRef = 380A67961D102FFA0045B72B /* TestDestinationTextFile.txt */; };
@@ -118,14 +124,14 @@
 		384CE6741DF5D5930076FBDB /* testArrayFile.txt in Resources */ = {isa = PBXBuildFile; fileRef = 384CE6731DF5D5930076FBDB /* testArrayFile.txt */; };
 		384CE6791DF5F2FC0076FBDB /* STFilterFormat.h in Headers */ = {isa = PBXBuildFile; fileRef = 384CE6771DF5F2FC0076FBDB /* STFilterFormat.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		384CE67A1DF5F2FC0076FBDB /* STFilterFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = 384CE6781DF5F2FC0076FBDB /* STFilterFormat.m */; };
-		38516FCA1DF5B279006989BC /* STCSVToTable.h in Headers */ = {isa = PBXBuildFile; fileRef = 38516FC81DF5B279006989BC /* STCSVToTable.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		38516FCB1DF5B279006989BC /* STCSVToTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 38516FC91DF5B279006989BC /* STCSVToTable.m */; };
+		38516FCA1DF5B279006989BC /* STDataFileToTable.h in Headers */ = {isa = PBXBuildFile; fileRef = 38516FC81DF5B279006989BC /* STDataFileToTable.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		38516FCB1DF5B279006989BC /* STDataFileToTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 38516FC91DF5B279006989BC /* STDataFileToTable.m */; };
 		38516FCF1DF5C751006989BC /* CHCSVParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 38516FCD1DF5C751006989BC /* CHCSVParser.h */; };
 		38516FD01DF5C751006989BC /* CHCSVParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 38516FCE1DF5C751006989BC /* CHCSVParser.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		38516FD71DF5D20A006989BC /* balanced.csv in Resources */ = {isa = PBXBuildFile; fileRef = 38516FD41DF5D20A006989BC /* balanced.csv */; };
 		38516FD81DF5D20A006989BC /* empty.csv in Resources */ = {isa = PBXBuildFile; fileRef = 38516FD51DF5D20A006989BC /* empty.csv */; };
 		38516FD91DF5D20A006989BC /* unbalanced.csv in Resources */ = {isa = PBXBuildFile; fileRef = 38516FD61DF5D20A006989BC /* unbalanced.csv */; };
-		38516FDB1DF5D23E006989BC /* StatTagModelCSVToTableTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38516FDA1DF5D23E006989BC /* StatTagModelCSVToTableTests.m */; };
+		38516FDB1DF5D23E006989BC /* StatTagModelDataFileToTableTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38516FDA1DF5D23E006989BC /* StatTagModelDataFileToTableTests.m */; };
 		385221C51DAD5D0B005E804B /* SCPerLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 385221C41DAD5D0B005E804B /* SCPerLine.m */; };
 		385221C91DAE90CF005E804B /* SCMarker.mm in Sources */ = {isa = PBXBuildFile; fileRef = 385221C81DAE90CF005E804B /* SCMarker.mm */; };
 		385221CC1DAE98CB005E804B /* SCMarkerCollection.mm in Sources */ = {isa = PBXBuildFile; fileRef = 385221CB1DAE98CB005E804B /* SCMarkerCollection.mm */; };
@@ -341,6 +347,41 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		3537430F202BFB0B00325941 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 35F649A0202BA7FA00CEC7D8 /* XlsxReaderWriter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 22156D571C46B42500BB5779;
+			remoteInfo = "XlsxReaderWriter Mac";
+		};
+		35F649A8202BA7FB00CEC7D8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 35F649A0202BA7FA00CEC7D8 /* XlsxReaderWriter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 45B6E23A1A148F7500288A78;
+			remoteInfo = XlsxReaderWriter;
+		};
+		35F649AA202BA7FB00CEC7D8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 35F649A0202BA7FA00CEC7D8 /* XlsxReaderWriter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 45B6E2451A148F7500288A78;
+			remoteInfo = XlsxReaderWriterTests;
+		};
+		35F649AC202BA7FB00CEC7D8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 35F649A0202BA7FA00CEC7D8 /* XlsxReaderWriter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 22156D581C46B42500BB5779;
+			remoteInfo = "XlsxReaderWriter Mac";
+		};
+		35F649B1202BABA000CEC7D8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 35F649A0202BA7FA00CEC7D8 /* XlsxReaderWriter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 22156D571C46B42500BB5779;
+			remoteInfo = "XlsxReaderWriter Mac";
+		};
 		3816AC011ED5CA5A0045390E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 382C8D1A1D0F672F00FE6878 /* Project object */;
@@ -441,14 +482,20 @@
 /* Begin PBXFileReference section */
 		3500D5CC1EE066DA006AA0ED /* RCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RCocoa.framework; sourceTree = "<group>"; };
 		3500D5CE1EE066F7006AA0ED /* R.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = R.framework; path = ../../../../Library/Frameworks/R.framework; sourceTree = "<group>"; };
+		3537430A202BF97100325941 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		35374312202BFB1D00325941 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/usr/lib/libz.tbd; sourceTree = DEVELOPER_DIR; };
+		35A70E2A202B5CB4001E3259 /* NSString+SymlinksAndAliases.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SymlinksAndAliases.h"; sourceTree = "<group>"; };
+		35A70E2B202B5CB4001E3259 /* NSString+SymlinksAndAliases.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SymlinksAndAliases.m"; sourceTree = "<group>"; };
 		35AE14801F4DC69900A162C4 /* StatTagRParserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagRParserTests.m; sourceTree = "<group>"; };
 		35AE14821F4DE2F100A162C4 /* STCodeParserUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STCodeParserUtil.m; sourceTree = "<group>"; };
 		35AE14841F4DE2FE00A162C4 /* STCodeParserUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = STCodeParserUtil.h; sourceTree = "<group>"; };
 		35AE14861F4E253000A162C4 /* StatTagUtilityCodeParserUtilTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagUtilityCodeParserUtilTests.m; sourceTree = "<group>"; };
+		35C8025B202B8E4B004A2DA5 /* XLSX */ = {isa = PBXFileReference; lastKnownFileType = folder; path = XLSX; sourceTree = "<group>"; };
 		35CE4F9A1F141EAF00B1221B /* STRVerbatimDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = STRVerbatimDevice.h; sourceTree = "<group>"; };
 		35CE4F9B1F141EBF00B1221B /* STRVerbatimDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STRVerbatimDevice.m; sourceTree = "<group>"; };
 		35F2E7311EE1A93E0086F9D0 /* STRBaseValueFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STRBaseValueFormatter.h; sourceTree = "<group>"; };
 		35F2E7331EE1A94A0086F9D0 /* STRBaseValueFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STRBaseValueFormatter.m; sourceTree = "<group>"; };
+		35F649A0202BA7FA00CEC7D8 /* XlsxReaderWriter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = XlsxReaderWriter.xcodeproj; path = ../XlsxReaderWriter/XlsxReaderWriter.xcodeproj; sourceTree = "<group>"; };
 		380A67961D102FFA0045B72B /* TestDestinationTextFile.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TestDestinationTextFile.txt; sourceTree = "<group>"; };
 		380A67981D1061100045B72B /* STTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STTable.h; sourceTree = "<group>"; };
 		380A67991D1061100045B72B /* STTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STTable.m; sourceTree = "<group>"; };
@@ -590,14 +637,14 @@
 		384CE6781DF5F2FC0076FBDB /* STFilterFormat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STFilterFormat.m; sourceTree = "<group>"; };
 		38516FC41DF5AF06006989BC /* STBaseManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STBaseManager.h; sourceTree = "<group>"; };
 		38516FC51DF5AF06006989BC /* STBaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STBaseManager.m; sourceTree = "<group>"; };
-		38516FC81DF5B279006989BC /* STCSVToTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STCSVToTable.h; sourceTree = "<group>"; };
-		38516FC91DF5B279006989BC /* STCSVToTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STCSVToTable.m; sourceTree = "<group>"; };
+		38516FC81DF5B279006989BC /* STDataFileToTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STDataFileToTable.h; sourceTree = "<group>"; };
+		38516FC91DF5B279006989BC /* STDataFileToTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STDataFileToTable.m; sourceTree = "<group>"; };
 		38516FCD1DF5C751006989BC /* CHCSVParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHCSVParser.h; sourceTree = "<group>"; };
 		38516FCE1DF5C751006989BC /* CHCSVParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHCSVParser.m; sourceTree = "<group>"; };
 		38516FD41DF5D20A006989BC /* balanced.csv */ = {isa = PBXFileReference; fileEncoding = 1; lastKnownFileType = text; path = balanced.csv; sourceTree = "<group>"; };
 		38516FD51DF5D20A006989BC /* empty.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = empty.csv; sourceTree = "<group>"; };
 		38516FD61DF5D20A006989BC /* unbalanced.csv */ = {isa = PBXFileReference; fileEncoding = 1; lastKnownFileType = text; path = unbalanced.csv; sourceTree = "<group>"; };
-		38516FDA1DF5D23E006989BC /* StatTagModelCSVToTableTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagModelCSVToTableTests.m; sourceTree = "<group>"; };
+		38516FDA1DF5D23E006989BC /* StatTagModelDataFileToTableTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagModelDataFileToTableTests.m; sourceTree = "<group>"; };
 		385221C31DAD5D0B005E804B /* SCPerLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCPerLine.h; sourceTree = "<group>"; };
 		385221C41DAD5D0B005E804B /* SCPerLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCPerLine.m; sourceTree = "<group>"; };
 		385221C71DAE90CE005E804B /* SCMarker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMarker.h; sourceTree = "<group>"; };
@@ -872,6 +919,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				35374313202BFB1D00325941 /* libz.tbd in Frameworks */,
+				35374311202BFB1600325941 /* libXlsxReaderWriter.a in Frameworks */,
 				38E2D0CF202A1A8300512B8C /* RCocoa.framework in Frameworks */,
 				3500D5CF1EE066F7006AA0ED /* R.framework in Frameworks */,
 				38BE59AC1D52AA1000FF9E99 /* Cocoa.framework in Frameworks */,
@@ -893,6 +942,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3537430B202BF97100325941 /* libz.tbd in Frameworks */,
+				35DD5320202BAFB000449124 /* libXlsxReaderWriter.a in Frameworks */,
 				38E2D0C3202A0F9000512B8C /* RCocoa.framework in Frameworks */,
 				38D8B1B21D9496C300BF878A /* StatTagFramework.framework in Frameworks */,
 				38A877CD1D9AEEA7002F37DA /* Scintilla.framework in Frameworks */,
@@ -912,10 +963,22 @@
 		3500D5CB1EE066DA006AA0ED /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				35374312202BFB1D00325941 /* libz.tbd */,
+				3537430A202BF97100325941 /* libz.tbd */,
 				3500D5CE1EE066F7006AA0ED /* R.framework */,
 				3500D5CC1EE066DA006AA0ED /* RCocoa.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		35F649A1202BA7FA00CEC7D8 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				35F649A9202BA7FB00CEC7D8 /* libXlsxReaderWriter.a */,
+				35F649AB202BA7FB00CEC7D8 /* XlsxReaderWriterTests.xctest */,
+				35F649AD202BA7FB00CEC7D8 /* XlsxReaderWriter.framework */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		380CBD401E89C141006E92D1 /* DocumentBrowser */ = {
@@ -979,6 +1042,7 @@
 		382C8D191D0F672F00FE6878 = {
 			isa = PBXGroup;
 			children = (
+				35F649A0202BA7FA00CEC7D8 /* XlsxReaderWriter.xcodeproj */,
 				38E2D0BA2028A36100512B8C /* RCocoa.xcodeproj */,
 				38A877CB1D9AEEA0002F37DA /* Scintilla.framework */,
 				38C91F4A1D37AC710048A95E /* Cocoa.framework */,
@@ -1052,8 +1116,8 @@
 				380A67A31D106FBB0045B72B /* STCommandResult.m */,
 				380A67A81D1077550045B72B /* STConstants.h */,
 				380A67A61D1077490045B72B /* STConstants.m */,
-				38516FC81DF5B279006989BC /* STCSVToTable.h */,
-				38516FC91DF5B279006989BC /* STCSVToTable.m */,
+				38516FC81DF5B279006989BC /* STDataFileToTable.h */,
+				38516FC91DF5B279006989BC /* STDataFileToTable.m */,
 				38FF47331E08449F00A65893 /* STDuplicateTagResults.h */,
 				38C9B1FE1D109B40003B571E /* STExecutionStep.h */,
 				38C9B1FF1D109B40003B571E /* STExecutionStep.m */,
@@ -1281,6 +1345,8 @@
 		38516FCC1DF5C712006989BC /* ThirdParty */ = {
 			isa = PBXGroup;
 			children = (
+				35A70E2A202B5CB4001E3259 /* NSString+SymlinksAndAliases.h */,
+				35A70E2B202B5CB4001E3259 /* NSString+SymlinksAndAliases.m */,
 				38516FCD1DF5C751006989BC /* CHCSVParser.h */,
 				38516FCE1DF5C751006989BC /* CHCSVParser.m */,
 			);
@@ -1290,6 +1356,7 @@
 		38516FD21DF5D1EA006989BC /* Fixtures */ = {
 			isa = PBXGroup;
 			children = (
+				35C8025B202B8E4B004A2DA5 /* XLSX */,
 				38E20DFC1E09EC3400B524CE /* Sample_Code_Files */,
 				38E20DF71E09E6BC00B524CE /* Embedded_Files */,
 				38516FD31DF5D1FA006989BC /* CSV */,
@@ -1495,7 +1562,7 @@
 				387A0E411D25C6E500F1FE9C /* StatTagGeneratorFigureGeneratorTests.m */,
 				387A0E431D25C92600F1FE9C /* StatTagGeneratorTableParameterGeneratorTests.m */,
 				387A0E451D25C9B900F1FE9C /* StatTagGeneratorValueGeneratorTests.m */,
-				38516FDA1DF5D23E006989BC /* StatTagModelCSVToTableTests.m */,
+				38516FDA1DF5D23E006989BC /* StatTagModelDataFileToTableTests.m */,
 				38E20DF11E0898A500B524CE /* StatTagModelStataTests.m */,
 				38EDF0341D2C2FC200ACD77B /* StatTagStataAutomationTests.m */,
 			);
@@ -1868,6 +1935,7 @@
 				38FF47201DFF185100A65893 /* STLogManager.h in Headers */,
 				38EDC0611EE3101100A7BFD2 /* STVerbatimGenerator.h in Headers */,
 				38FF471C1DFF058900A65893 /* STTableUtil.h in Headers */,
+				35A70E2C202B5CB4001E3259 /* NSString+SymlinksAndAliases.h in Headers */,
 				382C28C41D19A00D00697D6F /* STTableParameterGenerator.h in Headers */,
 				38FF47181DFF021800A65893 /* STIStatAutomation.h in Headers */,
 				38A7CE981D4FDFB600B06AFF /* STGridDataItem.h in Headers */,
@@ -1876,7 +1944,7 @@
 				382C28601D14539C00697D6F /* STIFileHandler.h in Headers */,
 				38516FCF1DF5C751006989BC /* CHCSVParser.h in Headers */,
 				38A7CE9C1D4FE29400B06AFF /* STSettingsManager.h in Headers */,
-				38516FCA1DF5B279006989BC /* STCSVToTable.h in Headers */,
+				38516FCA1DF5B279006989BC /* STDataFileToTable.h in Headers */,
 				382C28621D1454D900697D6F /* STIResultCommandFormatter.h in Headers */,
 				382C28C71D19A23100697D6F /* STValueParameterGenerator.h in Headers */,
 				38FF472E1DFF490000A65893 /* STSASParser.h in Headers */,
@@ -1949,6 +2017,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				35374310202BFB0B00325941 /* PBXTargetDependency */,
 				38E2D0DC202A76BD00512B8C /* PBXTargetDependency */,
 			);
 			name = StatTagFramework;
@@ -1989,6 +2058,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				35F649B2202BABA000CEC7D8 /* PBXTargetDependency */,
 				38E2D0E6202A7BBC00512B8C /* PBXTargetDependency */,
 				3816AC021ED5CA5A0045390E /* PBXTargetDependency */,
 				38D8B1B51D9496C300BF878A /* PBXTargetDependency */,
@@ -2064,6 +2134,10 @@
 					ProductGroup = 38E2D0BB2028A36100512B8C /* Products */;
 					ProjectRef = 38E2D0BA2028A36100512B8C /* RCocoa.xcodeproj */;
 				},
+				{
+					ProductGroup = 35F649A1202BA7FA00CEC7D8 /* Products */;
+					ProjectRef = 35F649A0202BA7FA00CEC7D8 /* XlsxReaderWriter.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -2077,6 +2151,27 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		35F649A9202BA7FB00CEC7D8 /* libXlsxReaderWriter.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libXlsxReaderWriter.a;
+			remoteRef = 35F649A8202BA7FB00CEC7D8 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		35F649AB202BA7FB00CEC7D8 /* XlsxReaderWriterTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = XlsxReaderWriterTests.xctest;
+			remoteRef = 35F649AA202BA7FB00CEC7D8 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		35F649AD202BA7FB00CEC7D8 /* XlsxReaderWriter.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = XlsxReaderWriter.framework;
+			remoteRef = 35F649AC202BA7FB00CEC7D8 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		38E2D0C02028A36100512B8C /* RCocoa.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -2263,7 +2358,7 @@
 				382C28AD1D195C2500697D6F /* STFieldTag.m in Sources */,
 				382C28C91D19A24200697D6F /* STValueParameterGenerator.m in Sources */,
 				35F2E7341EE1A94A0086F9D0 /* STRBaseValueFormatter.m in Sources */,
-				38516FCB1DF5B279006989BC /* STCSVToTable.m in Sources */,
+				38516FCB1DF5B279006989BC /* STDataFileToTable.m in Sources */,
 				382C28D21D19C5DC00697D6F /* STGeneralUtil.m in Sources */,
 				38516FD01DF5C751006989BC /* CHCSVParser.m in Sources */,
 				38C9B2191D10A8CF003B571E /* STTag.m in Sources */,
@@ -2299,6 +2394,7 @@
 				385FDD2D1D32F70100AE0FE2 /* STDocumentManager.m in Sources */,
 				35CE4F9C1F141EBF00B1221B /* STRVerbatimDevice.m in Sources */,
 				387A0E261D22BC5F00F1FE9C /* STStataParser.m in Sources */,
+				35A70E2D202B5CB4001E3259 /* NSString+SymlinksAndAliases.m in Sources */,
 				382C28CD1D19ADA000697D6F /* STTagUtil.m in Sources */,
 				38EDC0631EE3101E00A7BFD2 /* STVerbatimGenerator.m in Sources */,
 				38C91F401D36D1970048A95E /* WordHelpers.m in Sources */,
@@ -2340,7 +2436,7 @@
 				387A0E421D25C6E500F1FE9C /* StatTagGeneratorFigureGeneratorTests.m in Sources */,
 				387A0E1D1D21BEFD00F1FE9C /* StatTagModelTagTests.m in Sources */,
 				387A0E461D25C9BA00F1FE9C /* StatTagGeneratorValueGeneratorTests.m in Sources */,
-				38516FDB1DF5D23E006989BC /* StatTagModelCSVToTableTests.m in Sources */,
+				38516FDB1DF5D23E006989BC /* StatTagModelDataFileToTableTests.m in Sources */,
 				38C9B2111D10A3B9003B571E /* StatTagValueFormatterBaseValueFormatterTests.m in Sources */,
 				38D0C1E51D1AD935001CC013 /* StatTagUtilityTagUtilTests.m in Sources */,
 				38B9124B20114C5C00A17458 /* StatTagDocumentMetadataTests.m in Sources */,
@@ -2447,6 +2543,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		35374310202BFB0B00325941 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "XlsxReaderWriter Mac";
+			targetProxy = 3537430F202BFB0B00325941 /* PBXContainerItemProxy */;
+		};
+		35F649B2202BABA000CEC7D8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "XlsxReaderWriter Mac";
+			targetProxy = 35F649B1202BABA000CEC7D8 /* PBXContainerItemProxy */;
+		};
 		3816AC021ED5CA5A0045390E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 3816ABF51ED5C1B10045390E /* StatTagHelp */;
@@ -2542,7 +2648,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "Developer ID Application: Northwestern University";
+				CODE_SIGN_IDENTITY = "";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -2592,7 +2698,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "Developer ID Application: Northwestern University";
+				CODE_SIGN_IDENTITY = "";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -2620,7 +2726,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -2633,7 +2739,10 @@
 					"$(inherited)",
 				);
 				FRAMEWORK_VERSION = A;
-				HEADER_SEARCH_PATHS = "$(LOCAL_LIBRARY_DIR)/Frameworks/R.framework/Headers";
+				HEADER_SEARCH_PATHS = (
+					"$(LOCAL_LIBRARY_DIR)/Frameworks/R.framework/Headers",
+					"\"/Volumes/Extra HD/Development/StatTag/XlsxReaderWriter/\"/**",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/StatTagFramework/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
@@ -2642,6 +2751,7 @@
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"$(inherited)",
+					"-lz",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = edu.northwestern.nucats.StatTagFramework;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2656,7 +2766,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -2670,7 +2780,10 @@
 				);
 				FRAMEWORK_VERSION = A;
 				GCC_OPTIMIZATION_LEVEL = s;
-				HEADER_SEARCH_PATHS = "$(LOCAL_LIBRARY_DIR)/Frameworks/R.framework/Headers";
+				HEADER_SEARCH_PATHS = (
+					"$(LOCAL_LIBRARY_DIR)/Frameworks/R.framework/Headers",
+					"\"/Volumes/Extra HD/Development/StatTag/XlsxReaderWriter/\"/**",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/StatTagFramework/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
@@ -2678,6 +2791,7 @@
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"$(inherited)",
+					"-lz",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = edu.northwestern.nucats.StatTagFramework;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2730,6 +2844,7 @@
 		3836F5721D92C89A00BF0DD4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon_circle;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -2750,24 +2865,28 @@
 					SCI_LEXER,
 					"DEBUG=1",
 				);
+				HEADER_SEARCH_PATHS = "\"/Volumes/Extra HD/Development/StatTag/XlsxReaderWriter/\"/**";
 				INFOPLIST_FILE = StatTag/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks /Library/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
+					"-all_load",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = edu.northwestern.nucats.StatTag;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "39b68080-e6d8-4499-990a-64afd83b1006";
 				PROVISIONING_PROFILE_SPECIFIER = "StatTag DeveloperID";
 				SDKROOT = macosx10.12;
+				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Debug;
 		};
 		3836F5731D92C89A00BF0DD4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon_circle;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -2788,18 +2907,21 @@
 					SCI_NAMESPACE,
 					SCI_LEXER,
 				);
+				HEADER_SEARCH_PATHS = "\"/Volumes/Extra HD/Development/StatTag/XlsxReaderWriter/\"/**";
 				INFOPLIST_FILE = StatTag/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks /Library/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
+					"-all_load",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = edu.northwestern.nucats.StatTag;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "39b68080-e6d8-4499-990a-64afd83b1006";
 				PROVISIONING_PROFILE_SPECIFIER = "StatTag DeveloperID";
 				SDKROOT = macosx10.12;
+				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Release;
 		};
@@ -2809,10 +2931,10 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = E74ZKF37E6;
 				INFOPLIST_FILE = StatTagTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
@@ -2829,10 +2951,10 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = E74ZKF37E6;
 				INFOPLIST_FILE = StatTagTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;

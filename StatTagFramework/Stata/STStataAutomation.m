@@ -30,6 +30,8 @@ NSString* const EndLoggingCommand = @"log close";
 NSString* const CapturePrefix = @"capture {\r\nnoisily {\r\n";
 NSString* const CaptureSuffix = @"\r\n}\r\n}";
 
+NSString* const DisplayWorkingDirectoryCommand = @"display \"`c(pwd)'\"";
+
 //NSString* StaticAppBundleIdentifier;// = @"com.stata.stata14";
 @synthesize AppBundleIdentifier = _AppBundleIdentifier;
 
@@ -285,7 +287,7 @@ const NSInteger ShowStata = 3;
         }
       }
       
-      
+      [self ResolveCommandPromises:commandResults];
     }
     return commandResults;
   }
@@ -313,6 +315,22 @@ const NSInteger ShowStata = 3;
   }
   @finally {
   }
+}
+
+// Iterate through a list of command results and resolve any outstanding promises on the results.
+-(void)ResolveCommandPromises:(NSMutableArray<STCommandResult*>*)commandResults
+{
+    for (int index = 0; index < [commandResults count]; index++) {
+        STCommandResult* result = [commandResults objectAtIndex:index];
+        if (![STGeneralUtil IsStringNullOrEmpty:[result TableResultPromise]]) {
+            // Yes, we are expanding the file paths twice.  The problem is that depending on how the file is written (putexcel
+            // being the first example we ran into), it may not actually be on disk when teh first GetExpandedFilePath is called.
+            // Because that method requires a file to exist before it will accept it, we need to do the expansion again since
+            // otherwise we could have just a relative path.
+            result.TableResult = [STDataFileToTable GetTableResult:[self GetExpandedFilePath:[result TableResultPromise]]];
+            result.TableResultPromise = nil;
+        }
+    }
 }
 
 
@@ -501,6 +519,37 @@ const NSInteger ShowStata = 3;
     [cleanedData addObject:([data[index]doubleValue] >= missingValue) ? (NSString*)[NSNull null] : [NSString stringWithFormat:@"%@", data[index]]];
   }
   return cleanedData;
+}
+
+// Return an expanded, full file path - accounting for variables, functions, relative paths, etc.
+-(NSString*)GetExpandedFilePath:(NSString*)saveLocation
+{
+    // If the save location is not a macro, and it appears to be a relative path, translate it into a fully
+    // qualified path based on Stata's current environment.
+    if([saveLocation containsString:[[STStataParser MacroDelimitersCharacters] firstObject]]) {
+        NSMutableArray<NSString*>* macros = [Parser GetMacros:saveLocation];
+        for (NSString* macro in macros) {
+            NSString* result = [self GetMacroValue:macro];
+            saveLocation = [self ReplaceMacroWithValue:saveLocation macro:macro value:result];
+        }
+    }
+    else if ([Parser IsRelativePath:saveLocation]) {
+        // Attempt to find the current working directory.  If we are not able to find it, or the value we end up
+        // creating doesn't exist, we will ust proceed with whatever image location we had previously.
+        NSArray<NSString*>* displayCommand = @[DisplayWorkingDirectoryCommand];
+        STTag* valueTag = [[STTag alloc] init];
+        valueTag.Type = [STConstantsTagType Value];
+        NSArray<STCommandResult*>* results = [self RunCommands:displayCommand tag:valueTag];
+        if (results != nil && [results count] > 0) {
+            NSString* path = [[results firstObject] ValueResult];
+            NSString* correctedPath = [[path stringByAppendingPathComponent:saveLocation] stringByResolvingSymlinksInPath];
+            if ([[NSFileManager defaultManager] fileExistsAtPath:correctedPath]) {
+                saveLocation = correctedPath;
+            }
+        }
+    }
+
+    return saveLocation;
 }
 
 -(STCommandResult*)RunCommand:(NSString*)command

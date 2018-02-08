@@ -6,23 +6,24 @@
 //  Copyright © 2016 StatTag. All rights reserved.
 //
 
-#import "STCSVToTable.h"
+#import "STDataFileToTable.h"
 #import "STTable.h"
 #import "CHCSVParser.h"
 #import "STFileHandler.h"
 #import "STTableData.h"
+#import <BRAOfficeDocumentPackage.h>
 
-@implementation STCSVToTable
+@implementation STDataFileToTable
 
 
 /**
  returns: An array containing the dimensions (R x C), or NULL if it could not determine the table size.
  */
-+(NSArray<NSNumber*>*)GetTableDimensions:(NSString*)tableFilePath
++(NSArray<NSNumber*>*)GetCSVTableDimensions:(NSString*)tableFilePath
 {
   if(tableFilePath != nil){
     NSURL* p = [NSURL fileURLWithPath:tableFilePath];
-    return [STCSVToTable GetTableDimensionsForPath:p];
+    return [STDataFileToTable GetCSVTableDimensionsForPath:p];
   }
   return nil;
 }
@@ -31,7 +32,7 @@
  returns: An array containing the dimensions (R x C), or NULL if it could not determine the table size.
  */
 //public static int[] GetTableDimensions(string tableFilePath)
-+(NSArray<NSNumber*>*)GetTableDimensionsForPath:(NSURL*)tableFilePath
++(NSArray<NSNumber*>*)GetCSVTableDimensionsForPath:(NSURL*)tableFilePath
 {
   
   NSError* err;
@@ -70,7 +71,7 @@
 {
   if(tableFilePath != nil){
     NSURL* p = [NSURL fileURLWithPath:tableFilePath];
-    return [STCSVToTable GetTableResultForPath:p];
+    return [STDataFileToTable GetTableResultForPath:p];
   }
   return nil;
 }
@@ -80,9 +81,52 @@
  */
 +(STTable*)GetTableResultForPath:(NSURL*)tableFilePath
 {
+  if ([[tableFilePath pathExtension] isEqualToString:@"xlsx"]) {
+    return [STDataFileToTable GetXLSXTableResultForPath:tableFilePath];
+  }
+  else if ([[tableFilePath pathExtension] isEqualToString:@"xls"]) {
+    NSException* exc = [NSException
+        exceptionWithName:@"FileNotSupportedException"
+        reason:@"StatTag is unable to import data from older Excel files (those ending in .XLS).  If possible, please use the newer .XLSX format, or use a .CSV"
+        userInfo:nil];
+    @throw exc;
+  }
+  else {
+    return [STDataFileToTable GetCSVTableResultForPath:tableFilePath];
+  }
+}
+
++(STTable*)GetXLSXTableResultForPath:(NSURL*)tableFilePath
+{
+  STTable* table = [[STTable alloc] init];
+  if ([[NSFileManager defaultManager] fileExistsAtPath:[tableFilePath absoluteString]]) {
+    return table;
+  }
+  BRAOfficeDocumentPackage* spreadsheet = [BRAOfficeDocumentPackage open:tableFilePath];
+  if (spreadsheet == nil || spreadsheet.workbook == nil || spreadsheet.workbook.worksheets == nil || [spreadsheet.workbook.worksheets count] == 0) {
+    return table;
+  }
+
+  // Right now, we will only use the first sheet in a workbook
+  BRAWorksheet* sheet = spreadsheet.workbook.worksheets[0];
+
+  // If any of the necessary objects (sheet, cells, etc.) are null, we will assume the data in
+  // the workbook is empty, and we can just return a blank table structre.
+  if (sheet == nil || sheet.cells == nil || [sheet.cells count] == 0) {
+    return table;
+  }
+
+  // Dimensions will give you top/bottom and left/right indices
+  BRACellRange* dimensions = sheet.dimension;
   
-  //[NSException raise:@"NOT YET IMPLEMENTED - STCSVToTable GetTableResultForPath" format:@"NOT YET IMPLEMENTED - STCSVToTable GetTableResultForPath"];
-  
+  return nil;
+}
+
+/**
+ Combines the different components of a matrix command into a single structure.
+ */
++(STTable*)GetCSVTableResultForPath:(NSURL*)tableFilePath
+{
   STTable* table = [[STTable alloc] init];
 
   if(tableFilePath != nil)
@@ -93,7 +137,7 @@
       return table;
     }
 
-    NSArray<NSNumber*>* dimensions = [STCSVToTable GetTableDimensionsForPath:tableFilePath];
+    NSArray<NSNumber*>* dimensions = [STDataFileToTable GetCSVTableDimensionsForPath:tableFilePath];
     
     if(dimensions == nil || [dimensions containsObject:@0] || [dimensions count] < 2)
     {
@@ -134,7 +178,6 @@
   }
   return table;
 }
-
 
 
 @end
