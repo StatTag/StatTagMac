@@ -109,7 +109,6 @@ static NSString* const MATRIX_DIMENSION_NAMES_ATTRIBUTE = @"dimnames";
 -(STCommandResult*)RunCommand:(NSString*)command tag:(STTag*)tag
 {
     @autoreleasepool {
-      NSLog(@"%@", command);
       
       NSDictionary *errorInfo;
 
