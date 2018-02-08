@@ -19,6 +19,7 @@
 
 @synthesize StartTagRegEx = _StartTagRegEx;
 @synthesize EndTagRegEx = _EndTagRegEx;
+@synthesize MacFileProtocolRegEx = _MacFileProtocolRegEx;
 
 -(NSString*)CommentCharacter {
   return @"";
@@ -61,6 +62,12 @@
     _EndTagRegEx = [NSRegularExpression regularExpressionWithPattern:[NSString stringWithFormat:@"\\s*[\\%@]{2,}\\s*%@", [self CommentCharacter], [STConstantsTagTags EndTag]] options:0 error:&error] ;
     if(error != nil){
       //NSLog(@"%@ - EndTagRegEx: %@", NSStringFromSelector(_cmd), error);
+    }
+  }
+  if (_MacFileProtocolRegEx == nil) {
+    _MacFileProtocolRegEx = [NSRegularExpression regularExpressionWithPattern:@"^[A-Za-z]+:\\/{2,}" options:0 error:&error];
+    if (error != nil) {
+      //NSLog(@"%@ - MacFileProtocolRegEx: %@", NSStringFromSelector(_cmd), error);
     }
   }
 }
@@ -388,5 +395,16 @@
   return false;
 }
 
+// Determine if the file path appears to be relative.  This looks for a starting slash, or a
+// starting protocol.
+-(BOOL)IsRelativePath:(NSString*)filePath
+{
+    NSString* trimmedFilePath = [filePath stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    if ([trimmedFilePath hasPrefix:@"/"]) {
+        return false;
+    }
+
+    return ![STBaseParser regexIsMatch:_MacFileProtocolRegEx inString:trimmedFilePath];
+}
 
 @end

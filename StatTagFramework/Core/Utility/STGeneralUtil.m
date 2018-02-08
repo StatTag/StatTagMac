@@ -27,6 +27,9 @@
 //  return data.Select(x => x as object).ToArray();
 }
 
-
++(BOOL)IsStringNullOrEmpty:(NSString*)str
+{
+    return (str == nil || ([str length] == 0));
+}
 
 @end

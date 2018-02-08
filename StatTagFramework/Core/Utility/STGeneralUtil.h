@@ -19,5 +19,6 @@
  @Nil if the string array is null, otherwise an object-cast array representation of the original string array.
  */
 +(NSArray*)StringArrayToObjectArray:(NSArray<NSString*>*) data;
++(BOOL)IsStringNullOrEmpty:(NSString*)str;
 
 @end

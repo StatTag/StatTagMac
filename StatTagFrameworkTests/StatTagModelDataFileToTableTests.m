@@ -1,5 +1,5 @@
 //
-//  StatTagModelCSVToTableTests.m
+//  StatTagModelDataFileToTableTests.m
 //  StatTag
 //
 //  Created by Eric Whitley on 12/5/16.
@@ -10,7 +10,7 @@
 #import "StatTagFramework.h"
 #import "CHCSVParser.h"
 
-@interface StatTagModelCSVToTableTests : XCTestCase {
+@interface StatTagModelDataFileToTableTests : XCTestCase {
   NSBundle *bundle;
   NSURL *sourceFileUrl;
   NSURL *destFileUrl;
@@ -19,7 +19,7 @@
 
 @end
 
-@implementation StatTagModelCSVToTableTests
+@implementation StatTagModelDataFileToTableTests
 
 
 - (void)setUp {
@@ -43,7 +43,7 @@
 - (void)testBasicCSVFileRowsAndCols {
   NSString *sourceFilePath = [bundle pathForResource:@"testArrayFile" ofType:@"txt"];
   sourceFileUrl = [[NSURL alloc] initFileURLWithPath:sourceFilePath];
-  NSArray<NSNumber*>* n = [STCSVToTable GetTableDimensionsForPath:sourceFileUrl];
+  NSArray<NSNumber*>* n = [STDataFileToTable GetCSVTableDimensionsForPath:sourceFileUrl];
   XCTAssertEqual(6, [[n objectAtIndex:0] integerValue]);
   XCTAssertEqual(7, [[n objectAtIndex:1] integerValue]);
 }
@@ -52,7 +52,7 @@
 - (void) testGetTableDimensions_NonExistant
 {
   NSString *sourceFilePath = [bundle pathForResource:@"notarealfile.csv" ofType:@"csv"];
-  NSArray<NSNumber*>* n = [STCSVToTable GetTableDimensions:sourceFilePath];
+  NSArray<NSNumber*>* n = [STDataFileToTable GetCSVTableDimensions:sourceFilePath];
   XCTAssertNil(n);
 }
 
@@ -62,7 +62,7 @@
 {
   NSString *sourceFilePath = [bundle pathForResource:@"empty" ofType:@"csv"];
   sourceFileUrl = [[NSURL alloc] initFileURLWithPath:sourceFilePath];
-  NSArray<NSNumber*>* n = [STCSVToTable GetTableDimensionsForPath:sourceFileUrl];
+  NSArray<NSNumber*>* n = [STDataFileToTable GetCSVTableDimensionsForPath:sourceFileUrl];
   XCTAssertEqual(0, [[n objectAtIndex:0] integerValue]);
   XCTAssertEqual(0, [[n objectAtIndex:1] integerValue]);
 }
@@ -71,7 +71,7 @@
 {
   NSString *sourceFilePath = [bundle pathForResource:@"unbalanced" ofType:@"csv"];
   sourceFileUrl = [[NSURL alloc] initFileURLWithPath:sourceFilePath];
-  NSArray<NSNumber*>* n = [STCSVToTable GetTableDimensionsForPath:sourceFileUrl];
+  NSArray<NSNumber*>* n = [STDataFileToTable GetCSVTableDimensionsForPath:sourceFileUrl];
   XCTAssertEqual(10, [[n objectAtIndex:0] integerValue]);
   XCTAssertEqual(5, [[n objectAtIndex:1] integerValue]);
   //ar folder = TestUtil.GetTestDataFolder("CSV");
@@ -84,7 +84,7 @@
 {
   NSString *sourceFilePath = [bundle pathForResource:@"balanced" ofType:@"csv"];
   sourceFileUrl = [[NSURL alloc] initFileURLWithPath:sourceFilePath];
-  NSArray<NSNumber*>* n = [STCSVToTable GetTableDimensionsForPath:sourceFileUrl];
+  NSArray<NSNumber*>* n = [STDataFileToTable GetCSVTableDimensionsForPath:sourceFileUrl];
   XCTAssertEqual(4, [[n objectAtIndex:0] integerValue]);
   XCTAssertEqual(3, [[n objectAtIndex:1] integerValue]);
   //ar folder = TestUtil.GetTestDataFolder("CSV");
@@ -97,7 +97,7 @@
 {
   NSString *sourceFilePath = [bundle pathForResource:@"notarealfile" ofType:@"csv"];
   //sourceFileUrl = [[NSURL alloc] initFileURLWithPath:sourceFilePath];
-  STTable* table = [STCSVToTable GetTableResult:sourceFilePath];
+  STTable* table = [STDataFileToTable GetTableResult:sourceFilePath];
   XCTAssertEqual(0, [table RowSize]);
   XCTAssertEqual(0, [table ColumnSize]);
   //ar folder = TestUtil.GetTestDataFolder("CSV");
@@ -107,27 +107,31 @@
   //Assert.IsNull(table.Data);
 }
 
-- (void) testGetTableResultss_Empty
+- (void) testGetTableResults_CSV_Empty
 {
   NSString *sourceFilePath = [bundle pathForResource:@"empty" ofType:@"csv"];
   sourceFileUrl = [[NSURL alloc] initFileURLWithPath:sourceFilePath];
-  STTable* table = [STCSVToTable GetTableResultForPath:sourceFileUrl];
+  STTable* table = [STDataFileToTable GetTableResultForPath:sourceFileUrl];
   XCTAssertEqual(0, [table RowSize]);
   XCTAssertEqual(0, [table ColumnSize]);
-  //ar folder = TestUtil.GetTestDataFolder("CSV");
-  //ar table = CSVToTable.GetTableResult(Path.Combine(folder, "empty.csv"));
-  //Assert.AreEqual(0, table.RowSize);
-  //Assert.AreEqual(0, table.ColumnSize);
-  //Assert.IsNull(table.Data);
 }
 
-- (void) testGetTableResults_Unbalanced
+- (void) testGetTableResults_XLSX_Empty
+{
+  NSString *sourceFilePath = [bundle pathForResource:@"empty" ofType:@"xlsx"];
+  sourceFileUrl = [[NSURL alloc] initFileURLWithPath:sourceFilePath];
+  STTable* table = [STDataFileToTable GetTableResultForPath:sourceFileUrl];
+  XCTAssertEqual(0, [table RowSize]);
+  XCTAssertEqual(0, [table ColumnSize]);
+}
+
+- (void) testGetTableResults_CSV_Unbalanced
 {
   NSString *sourceFilePath = [bundle pathForResource:@"unbalanced" ofType:@"csv"];
   sourceFileUrl = [[NSURL alloc] initFileURLWithPath:sourceFilePath];
   
   
-  STTable* table = [STCSVToTable GetTableResultForPath:sourceFileUrl];
+  STTable* table = [STDataFileToTable GetTableResultForPath:sourceFileUrl];
 
   XCTAssertEqual(10, [table RowSize]);
   XCTAssertEqual(5, [table ColumnSize]);
@@ -139,42 +143,55 @@
   XCTAssert([@"" isEqualToString:[[table Data] valueAtRow:0 andColumn:3]]);
   XCTAssert([@"" isEqualToString:[[table Data] valueAtRow:0 andColumn:4]]);
   XCTAssert([@"Table of role_name by Status" isEqualToString:[[table Data] valueAtRow:1 andColumn:0]]);
-
-  
-  //ar folder = TestUtil.GetTestDataFolder("CSV");
-  //ar table = CSVToTable.GetTableResult(Path.Combine(folder, "unbalanced.csv"));
-
-  //Assert.AreEqual(10, table.RowSize);
-  //Assert.AreEqual(5, table.ColumnSize);
-  //Assert.AreEqual((table.RowSize * table.ColumnSize), table.Data.Length);
-  //Assert.AreEqual(string.Empty, table.Data[0,0]);
-  //Assert.AreEqual("Frequency", table.Data[0,1]);
-  //Assert.AreEqual(string.Empty, table.Data[0,2]);
-  //Assert.AreEqual(string.Empty, table.Data[0,3]);
-  //Assert.AreEqual(string.Empty, table.Data[0,4]);
-  //Assert.AreEqual("Table of role_name by Status", table.Data[1,0]);
 }
 
-- (void) testGetTableResults_Balanced
+- (void) testGetTableResults_XLSX_Unbalanced
+{
+  NSString *sourceFilePath = [bundle pathForResource:@"unbalanced" ofType:@"xlsx"];
+  sourceFileUrl = [[NSURL alloc] initFileURLWithPath:sourceFilePath];
+  
+  
+  STTable* table = [STDataFileToTable GetTableResultForPath:sourceFileUrl];
+
+  XCTAssertEqual(10, [table RowSize]);
+  XCTAssertEqual(5, [table ColumnSize]);
+  XCTAssertEqual([table RowSize] * [table ColumnSize], [[table Data] numItems]);
+
+  XCTAssert([@"" isEqualToString:[[table Data] valueAtRow:0 andColumn:0]]);
+  XCTAssert([@"Frequency" isEqualToString:[[table Data] valueAtRow:0 andColumn:1]]);
+  XCTAssert([@"" isEqualToString:[[table Data] valueAtRow:0 andColumn:2]]);
+  XCTAssert([@"" isEqualToString:[[table Data] valueAtRow:0 andColumn:3]]);
+  XCTAssert([@"" isEqualToString:[[table Data] valueAtRow:0 andColumn:4]]);
+  XCTAssert([@"Table of role_name by Status" isEqualToString:[[table Data] valueAtRow:1 andColumn:0]]);
+}
+
+
+- (void) testGetTableResults_CSV_Balanced
 {
   NSString *sourceFilePath = [bundle pathForResource:@"balanced" ofType:@"csv"];
   sourceFileUrl = [[NSURL alloc] initFileURLWithPath:sourceFilePath];
 
-  STTable* table = [STCSVToTable GetTableResultForPath:sourceFileUrl];
+  STTable* table = [STDataFileToTable GetTableResultForPath:sourceFileUrl];
 
   XCTAssertEqual(4, [table RowSize]);
   XCTAssertEqual(3, [table ColumnSize]);
   XCTAssertEqual([table RowSize] * [table ColumnSize], [[table Data] numItems]);
   XCTAssert([@"Status" isEqualToString:[[table Data] valueAtRow:0 andColumn:0]]);
   XCTAssert([@"11.54" isEqualToString:[[table Data] valueAtRow:3 andColumn:2]]);
-  
-  //ar folder = TestUtil.GetTestDataFolder("CSV");
-  //ar table = CSVToTable.GetTableResult(Path.Combine(folder, "balanced.csv"));
-  //Assert.AreEqual(4, table.RowSize);
-  //Assert.AreEqual(3, table.ColumnSize);
-  //Assert.AreEqual((table.RowSize * table.ColumnSize), table.Data.Length);
-  //Assert.AreEqual("Status", table.Data[0,0]);
-  //Assert.AreEqual("11.54", table.Data[3,2]);
+}
+
+- (void) testGetTableResults_XLSX_Balanced
+{
+  NSString *sourceFilePath = [bundle pathForResource:@"balanced" ofType:@"xlsx"];
+  sourceFileUrl = [[NSURL alloc] initFileURLWithPath:sourceFilePath];
+
+  STTable* table = [STDataFileToTable GetTableResultForPath:sourceFileUrl];
+
+  XCTAssertEqual(4, [table RowSize]);
+  XCTAssertEqual(3, [table ColumnSize]);
+  XCTAssertEqual([table RowSize] * [table ColumnSize], [[table Data] numItems]);
+  XCTAssert([@"Status" isEqualToString:[[table Data] valueAtRow:0 andColumn:0]]);
+  XCTAssert([@"11.54" isEqualToString:[[table Data] valueAtRow:3 andColumn:2]]);
 }
 
 
