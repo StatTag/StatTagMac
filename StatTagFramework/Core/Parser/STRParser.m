@@ -51,10 +51,24 @@
 }
 
 
++(NSArray<NSString*>*)TableCommands {
+  return [NSArray<NSString*> arrayWithObjects:@"write.csv", @"write.csv2", @"write.table", nil];
+}
+
++(NSRegularExpression*)TableRegex {
+  NSError* error;
+  NSRegularExpression* regex =   [NSRegularExpression
+                                  regularExpressionWithPattern:[NSString stringWithFormat:@"^\\s*(?:%@)\\s*\\((\\s*?[\\s\\S]*)\\)", [[[self class] TableCommands]componentsJoinedByString:@"|"]]
+                                  options:0
+                                  error:&error];
+  return regex;
+}
+
 unichar const KeyValueDelimiter = '=';
 unichar const ArgumentDelimiter = ',';
 unichar const CommandDelimiter = ';';
-NSString* const FileParameterName = @"filename";
+NSString* const ImageFileParameterName = @"filename";
+NSString* const TableFileParameterName = @"file";
 
 -(NSMutableArray<STRParserFunctionParam*>*) ParseFunctionParameters:(NSString*) arguments
 {
@@ -151,10 +165,33 @@ NSString* const FileParameterName = @"filename";
   return parameters;
 }
 
+// This will return the exact parameter that represents the save location of a file written in R.  This may be an R function (e.g., paste)
+// to construct the file path, a variable, or a string literal.  String literals will include enclosing quotes.  This is
+// because the output of this method is sent to R as an expression for evaluation.  That way R handles converting everything
+// into an exact file path that we can then utilize.
+//
+// Returns a string containing the file path, if a file path is specified in the command.  If not, an empty string is returned.
+-(NSString*)GetTableDataPath:(NSString*)command
+{
+  NSString* result = [self GetSaveLocation:command regex:[STRParser TableRegex] fileParameter:TableFileParameterName fileParameterIndex:2];
+  return result;
+}
+
 /**
 This will return the exact parameter that represents the image save location.  This may be an R function (e.g., paste) to construct the file path, a variable, or a string literal.  String literals will include enclosing quotes.  This is because the output of this method is sent to R as an expression for evaluation.  That way R handles converting everything into an exact file path that we can then utilize.
 */
 -(NSString*)GetImageSaveLocation:(NSString*)command
+{
+  return [self GetSaveLocation:command regex:[STRParser FigureRegex] fileParameter:ImageFileParameterName fileParameterIndex:1];
+}
+
+// This will return the exact parameter that represents the save location of a file written in R.  This may be an R function (e.g., paste)
+// to construct the file path, a variable, or a string literal.  String literals will include enclosing quotes.  This is
+// because the output of this method is sent to R as an expression for evaluation.  That way R handles converting everything
+// into an exact file path that we can then utilize.
+//
+// Returns a string containing the file path, if a file path is specified in the command.  If not, an empty string is returned.
+-(NSString*)GetSaveLocation:(NSString*)command regex:(NSRegularExpression*)regex fileParameter:(NSString*)fileParameter fileParameterIndex:(int)fileParameterIndex
 {
   // In order to account for a command string that actually has multiple commands embedded in it,
   // we want to find the right fragment that has the image command.  We will take the first one
@@ -163,7 +200,7 @@ This will return the exact parameter that represents the image save location.  T
   NSArray<NSString*>* commandLines = [command componentsSeparatedByString:[NSString stringWithFormat: @"%C", CommandDelimiter]];
   for (int index = 0; index < [commandLines count]; index++) {
     NSString* commandLine = commandLines[index];
-    match = [[[self class] FigureRegex] matchesInString:commandLines[index]
+    match = [regex matchesInString:commandLines[index]
                                                 options:0
                                                   range:NSMakeRange(0, [commandLine length])];
     if ([match count] > 0 && ([[match firstObject] numberOfRanges] > 0)) {
@@ -171,93 +208,42 @@ This will return the exact parameter that represents the image save location.  T
     }
   }
 
-  if([match count] == 0)
-  {
+  // If there was no successful match, there's no known image command that we should try to process, so we'll exit
+  // and return an empty string.
+  if([match count] == 0){
     return @"";
   }
-  if([[match firstObject] numberOfRanges] == 0)
-  {
+  if([[match firstObject] numberOfRanges] == 0) {
     return @"";
   }
 
   NSRange matchRange = [[match firstObject] rangeAtIndex:1];
   NSString* arguments = [command substringWithRange:matchRange];
   NSMutableArray<STRParserFunctionParam*>* parameters = [self ParseFunctionParameters:arguments];
-  
-
-//  NSArray *matches = [[[self class] FigureParameterRegex] matchesInString:arguments
-//                                                       options:0
-//                                                         range:NSMakeRange(0, [arguments length])];
-//  if([matches count] == 0)
-//  {
-//    return @"";
-//  }
-//  NSRange matchRange = [[match firstObject] rangeAtIndex:1];
-//  NSString* arguments = [command substringWithRange:matchRange];
-
-//  NSMutableArray<STRParserFunctionParam*>* parameters = [[NSMutableArray<STRParserFunctionParam*> alloc] init];
   NSCharacterSet *ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
-//
-//  for (NSInteger index = 0; index < [matches count]; index++)
-//  {
-//    NSTextCheckingResult* tc = [matches objectAtIndex:index];
-//    //we can't continue if we don't have 3 - we'll explode
-//    if([tc numberOfRanges] < 3)
-//    {
-//      continue;
-//    }
-//
-//    NSString* t1 = @"";
-//    NSString* t2 = @"";
-//    NSString* t3 = @"";
-//    NSRange m1 = [tc rangeAtIndex:1];
-//      if (m1.length > 0) {
-//          t1 = [arguments substringWithRange:m1];
-//      }
-//
-//    NSRange m2 = [tc rangeAtIndex:2];
-//      if (m2.length > 0) {
-//          t2 = [arguments substringWithRange:m2];
-//      }
-//
-//    NSRange m3 = [tc rangeAtIndex:3];
-//      if (m3.length > 0) {
-//          t3 = [arguments substringWithRange:m3];
-//      }
-//
-//    STRParserFunctionParam* fp = [[STRParserFunctionParam alloc] init];
-//    [fp setIndex:index];
-//    [fp setKey:t1];
-//    [fp setValue:([[t2 stringByTrimmingCharactersInSet:ws] length] > 0 ? t2 : t3)];
-//
-//    [parameters addObject:fp];
-//  }
 
   // Follow R's approach to argument matching (http://adv-r.had.co.nz/Functions.html#function-arguments)
-  
   STRParserFunctionParam* matchingArg;
-  for(STRParserFunctionParam* p in parameters)
-  {
-    if([p.Key caseInsensitiveCompare:FileParameterName] == NSOrderedSame)
-    {
+  for(STRParserFunctionParam* p in parameters) {
+    if([p.Key caseInsensitiveCompare:fileParameter] == NSOrderedSame) {
       // First, look for exact name (perfect matching)
       matchingArg = p;
       return [p Value];
       break;
-    } else if ([[[p Key] stringByTrimmingCharactersInSet:ws] length] > 0 && [FileParameterName hasPrefix:[p.Key lowercaseString]]) {
+    } else if ([[[p Key] stringByTrimmingCharactersInSet:ws] length] > 0 && [fileParameter hasPrefix:[p.Key lowercaseString]]) {
       // Next look by prefix matching
       matchingArg = p;
       return [p Value];
       break;
     }
   }
-  if (matchingArg != nil)
-  {
+
+  if (matchingArg != nil) {
     return [matchingArg Value];
   }
   
   NSArray<STRParserFunctionParam*>* sortedArray;
-  // Finally, look for the first unnamed argument.
+  // Finally, look for the nth unnamed argument (defined in the method parameters)
   sortedArray = [parameters filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(STRParserFunctionParam* p, NSDictionary *bindings) {
     return [[[p Key] stringByTrimmingCharactersInSet:ws] length] == 0;
   }]];
@@ -267,13 +253,15 @@ This will return the exact parameter that represents the image save location.  T
     NSNumber* second = [NSNumber numberWithInteger:[b Index]];
     return [first compare:second];
   }];
+
+  fileParameterIndex = fileParameterIndex - 1;
+  STRParserFunctionParam* firstUnnamed = nil;
+  if ([sortedArray count] > fileParameterIndex) {
+    firstUnnamed = [sortedArray objectAtIndex:fileParameterIndex];
+  }
   
-  STRParserFunctionParam* firstUnnamed = [sortedArray firstObject];
+  //STRParserFunctionParam* firstUnnamed = [sortedArray firstObject];
   return firstUnnamed == nil ? @"" : [firstUnnamed Value];
-  
-  //var filteredParameters = parameters.Where(x => string.IsNullOrWhiteSpace(x.Key)).OrderBy(x => x.Index);
-  //var firstUnnamed = filteredParameters.FirstOrDefault();
-  //return (firstUnnamed == null) ? string.Empty : firstUnnamed.Value;
 }
 
 -(NSString*)CommentCharacter {

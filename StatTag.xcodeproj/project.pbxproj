@@ -11,6 +11,9 @@
 		3537430B202BF97100325941 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3537430A202BF97100325941 /* libz.tbd */; };
 		35374311202BFB1600325941 /* libXlsxReaderWriter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 35F649A9202BA7FB00CEC7D8 /* libXlsxReaderWriter.a */; };
 		35374313202BFB1D00325941 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 35374312202BFB1D00325941 /* libz.tbd */; };
+		353D75A4202E191E006CF435 /* balanced.xlsx in Resources */ = {isa = PBXBuildFile; fileRef = 353D75A1202E191E006CF435 /* balanced.xlsx */; };
+		353D75A5202E191E006CF435 /* empty.xlsx in Resources */ = {isa = PBXBuildFile; fileRef = 353D75A2202E191E006CF435 /* empty.xlsx */; };
+		353D75A6202E191E006CF435 /* unbalanced.xlsx in Resources */ = {isa = PBXBuildFile; fileRef = 353D75A3202E191E006CF435 /* unbalanced.xlsx */; };
 		35A70E2C202B5CB4001E3259 /* NSString+SymlinksAndAliases.h in Headers */ = {isa = PBXBuildFile; fileRef = 35A70E2A202B5CB4001E3259 /* NSString+SymlinksAndAliases.h */; };
 		35A70E2D202B5CB4001E3259 /* NSString+SymlinksAndAliases.m in Sources */ = {isa = PBXBuildFile; fileRef = 35A70E2B202B5CB4001E3259 /* NSString+SymlinksAndAliases.m */; };
 		35AE14831F4DE2F100A162C4 /* STCodeParserUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 35AE14821F4DE2F100A162C4 /* STCodeParserUtil.m */; };
@@ -484,6 +487,9 @@
 		3500D5CE1EE066F7006AA0ED /* R.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = R.framework; path = ../../../../Library/Frameworks/R.framework; sourceTree = "<group>"; };
 		3537430A202BF97100325941 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		35374312202BFB1D00325941 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/usr/lib/libz.tbd; sourceTree = DEVELOPER_DIR; };
+		353D75A1202E191E006CF435 /* balanced.xlsx */ = {isa = PBXFileReference; lastKnownFileType = file; name = balanced.xlsx; path = XLSX/balanced.xlsx; sourceTree = "<group>"; };
+		353D75A2202E191E006CF435 /* empty.xlsx */ = {isa = PBXFileReference; lastKnownFileType = file; name = empty.xlsx; path = XLSX/empty.xlsx; sourceTree = "<group>"; };
+		353D75A3202E191E006CF435 /* unbalanced.xlsx */ = {isa = PBXFileReference; lastKnownFileType = file; name = unbalanced.xlsx; path = XLSX/unbalanced.xlsx; sourceTree = "<group>"; };
 		35A70E2A202B5CB4001E3259 /* NSString+SymlinksAndAliases.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SymlinksAndAliases.h"; sourceTree = "<group>"; };
 		35A70E2B202B5CB4001E3259 /* NSString+SymlinksAndAliases.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SymlinksAndAliases.m"; sourceTree = "<group>"; };
 		35AE14801F4DC69900A162C4 /* StatTagRParserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagRParserTests.m; sourceTree = "<group>"; };
@@ -971,6 +977,17 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		353D75A0202E18FE006CF435 /* XLSX */ = {
+			isa = PBXGroup;
+			children = (
+				353D75A1202E191E006CF435 /* balanced.xlsx */,
+				353D75A2202E191E006CF435 /* empty.xlsx */,
+				353D75A3202E191E006CF435 /* unbalanced.xlsx */,
+				35C8025B202B8E4B004A2DA5 /* XLSX */,
+			);
+			name = XLSX;
+			sourceTree = "<group>";
+		};
 		35F649A1202BA7FA00CEC7D8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -1356,7 +1373,7 @@
 		38516FD21DF5D1EA006989BC /* Fixtures */ = {
 			isa = PBXGroup;
 			children = (
-				35C8025B202B8E4B004A2DA5 /* XLSX */,
+				353D75A0202E18FE006CF435 /* XLSX */,
 				38E20DFC1E09EC3400B524CE /* Sample_Code_Files */,
 				38E20DF71E09E6BC00B524CE /* Embedded_Files */,
 				38516FD31DF5D1FA006989BC /* CSV */,
@@ -2211,12 +2228,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				384CE6741DF5D5930076FBDB /* testArrayFile.txt in Resources */,
+				353D75A4202E191E006CF435 /* balanced.xlsx in Resources */,
 				38E20DFB1E09E92200B524CE /* sample_pdf.pdf in Resources */,
 				38E20E021E09EC5700B524CE /* simple-macro-test-2.do in Resources */,
 				380A67971D102FFA0045B72B /* TestDestinationTextFile.txt in Resources */,
 				38E20E031E09EC5700B524CE /* simple-macro-test.do in Resources */,
+				353D75A5202E191E006CF435 /* empty.xlsx in Resources */,
 				38516FD91DF5D20A006989BC /* unbalanced.csv in Resources */,
 				38516FD71DF5D20A006989BC /* balanced.csv in Resources */,
+				353D75A6202E191E006CF435 /* unbalanced.xlsx in Resources */,
 				38E20E011E09EC5700B524CE /* fake-file.do in Resources */,
 				38E20DF91E09E6D300B524CE /* sample_png.png in Resources */,
 				38516FD81DF5D20A006989BC /* empty.csv in Resources */,
@@ -2741,7 +2761,7 @@
 				FRAMEWORK_VERSION = A;
 				HEADER_SEARCH_PATHS = (
 					"$(LOCAL_LIBRARY_DIR)/Frameworks/R.framework/Headers",
-					"\"/Volumes/Extra HD/Development/StatTag/XlsxReaderWriter/\"/**",
+					"\"$(SRCROOT)/../XlsxReaderWriter/\"/**",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/StatTagFramework/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -2782,7 +2802,7 @@
 				GCC_OPTIMIZATION_LEVEL = s;
 				HEADER_SEARCH_PATHS = (
 					"$(LOCAL_LIBRARY_DIR)/Frameworks/R.framework/Headers",
-					"\"/Volumes/Extra HD/Development/StatTag/XlsxReaderWriter/\"/**",
+					"\"$(SRCROOT)/../XlsxReaderWriter/\"/**",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/StatTagFramework/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -2865,7 +2885,7 @@
 					SCI_LEXER,
 					"DEBUG=1",
 				);
-				HEADER_SEARCH_PATHS = "\"/Volumes/Extra HD/Development/StatTag/XlsxReaderWriter/\"/**";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../XlsxReaderWriter/\"/**";
 				INFOPLIST_FILE = StatTag/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks /Library/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
@@ -2907,7 +2927,7 @@
 					SCI_NAMESPACE,
 					SCI_LEXER,
 				);
-				HEADER_SEARCH_PATHS = "\"/Volumes/Extra HD/Development/StatTag/XlsxReaderWriter/\"/**";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../XlsxReaderWriter/\"/**";
 				INFOPLIST_FILE = StatTag/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks /Library/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
