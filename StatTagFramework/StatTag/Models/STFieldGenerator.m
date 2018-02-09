@@ -101,11 +101,6 @@
   }
 }
 
-//-(NSString*)padStringWithString:(NSString*)padString nTimes:(NSInteger)nTimes
-//{
-//  
-//}
-
 /**
  Adds one or more new Word.Field to the specified Word.Range.
  
