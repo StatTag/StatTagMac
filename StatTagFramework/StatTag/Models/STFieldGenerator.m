@@ -312,17 +312,18 @@
   //FIXME: end section for "end of document insert" bug
   //=============================================
   //OK, now that we're at the end of this, go back and if we were forced to insert padding P to avoid the whole issue with Word text ranges eating back _up_ into content, remove the padding characters
-    if(padRange != nil)
-    {
-      @autoreleasepool {
-        docEndOfContent = [[[[[[STGlobals sharedInstance] ThisAddIn] Application] activeDocument] textObject] endOfContent];
-        //right - this is weird. We should have -1 here, but when we insert multiple fields we have issues and it eats content.
-        //again - not a lot of time to debug this, so it will leave some extra P in here. For right now we're just going with it.
-        [WordHelpers setRange:&padRange Start:docEndOfContent - fieldCloseLength + 1 end:docEndOfContent];
-        [WordHelpers select:padRange];
-        [[[[[STGlobals sharedInstance] ThisAddIn] Application] selection] setContent:@""];
-      }
-    }
+  //disabling this for now because we're having (predictable) issues with tables - complex multi-field structures
+//    if(padRange != nil)
+//    {
+//      @autoreleasepool {
+//        docEndOfContent = [[[[[[STGlobals sharedInstance] ThisAddIn] Application] activeDocument] textObject] endOfContent];
+//        //right - this is weird. We should have -1 here, but when we insert multiple fields we have issues and it eats content.
+//        //again - not a lot of time to debug this, so it will leave some extra P in here. For right now we're just going with it.
+//        [WordHelpers setRange:&padRange Start:docEndOfContent - fieldCloseLength + 1 end:docEndOfContent];
+//        [WordHelpers select:padRange];
+//        [[[[[STGlobals sharedInstance] ThisAddIn] Application] selection] setContent:@""];
+//      }
+//    }
   
     return fields;
   
