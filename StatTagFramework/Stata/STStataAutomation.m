@@ -286,9 +286,9 @@ const NSInteger ShowStata = 3;
           [self RunCommand:[NSString stringWithFormat:@"log using \"%@\"", [logToRead LogPath]]];
         }
       }
-      
-      [self ResolveCommandPromises:commandResults];
     }
+
+    [self ResolveCommandPromises:commandResults];
     return commandResults;
   }
   @catch (NSException* exception) {
@@ -604,28 +604,7 @@ const NSInteger ShowStata = 3;
       command = [command stringByReplacingOccurrencesOfString:result withString:newFile];
     }
   }
-  /*
-  
 
-            if (!IsTrackingVerbatim && tag != null && tag.Type == Constants.TagType.Table &&
-                Parser.IsTableResult(command) && Parser.IsTable1Command(command))
-            {
-                var result = Parser.GetTableDataPath(command);
-                // We want to force XLS -> XLSX for the table1 command, and will convert CSV (which isn't valid, but people can still do it) to XLSX.
-                // Since the command has already run, we do have an extra step to rename the file to the extension we want.  Keeping in mind that the
-                // table1 can only create Excel files, so we are allowed to make assumptions about formats.
-                if (result.EndsWith(".xls"))
-                {
-                    command = command.Replace(result, result + "x");
-                }
-                else if (result.EndsWith(".csv"))
-                {
-                    var newFile = result.Substring(0, result.Length - 4) + ".xlsx";
-                    command = command.Replace(result, newFile);
-                }
-            }
-  */
-  
   command = [NSString stringWithFormat:@"%@%@%@", CapturePrefix, command, CaptureSuffix];
   NSDictionary *errorInfo;
   
@@ -656,24 +635,29 @@ const NSInteger ShowStata = 3;
   //FIXME: removing our capture commands before we process the image information - for now - until we can review the regex
   command = [command substringFromIndex:[CapturePrefix length]];
   command = [command substringToIndex:[command length] - [CaptureSuffix length]];
-  
-  if([Parser IsImageExport:command] && !IsTrackingVerbatim && tag != nil) {
-    
-    NSString* imageLocation = [Parser GetImageSaveLocation:command];
-    if([imageLocation containsString:[[STStataParser MacroDelimitersCharacters] firstObject]])
-    {
-      NSArray<NSString*>* macros = [Parser GetMacros:imageLocation];
-      for(NSString* macro in macros)
-      {
-        NSString* result = [self GetMacroValue:macro];
-        imageLocation = [self ReplaceMacroWithValue:imageLocation macro:macro value:result];
-      }
+
+  if (!IsTrackingVerbatim && tag != nil) {
+    if ([Parser IsImageExport:command]) {
+      /*NSString* imageLocation = [Parser GetImageSaveLocation:command];
+      if([imageLocation containsString:[[STStataParser MacroDelimitersCharacters] firstObject]]) {
+        NSArray<NSString*>* macros = [Parser GetMacros:imageLocation];
+        for(NSString* macro in macros) {
+          NSString* result = [self GetMacroValue:macro];
+          imageLocation = [self ReplaceMacroWithValue:imageLocation macro:macro value:result];
+        }
+      }*/
       
+      STCommandResult* result = [[STCommandResult alloc] init];
+      //result.FigureResult = imageLocation;
+      result.FigureResult = [self GetExpandedFilePath:[Parser GetImageSaveLocation:command]];
+      return result;
     }
-    
-    STCommandResult* result = [[STCommandResult alloc] init];
-    result.FigureResult = imageLocation;
-    return result;
+
+    if ([[tag Type] isEqualToString: [STConstantsTagType Table]] && [Parser IsTableResult:command]) {
+      STCommandResult* result = [[STCommandResult alloc] init];
+      result.TableResultPromise = [self GetExpandedFilePath:[Parser GetTableDataPath:command]];
+      return result;
+    }
   }
   return nil;
 }
