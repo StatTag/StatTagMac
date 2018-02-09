@@ -6,6 +6,7 @@
 //  Copyright © 2016 StatTag. All rights reserved.
 //
 
+#import "StatTagFramework.h"
 #import "STRAutomation.h"
 #import "STRParser.h"
 #import "STCommandResult.h"
@@ -14,6 +15,7 @@
 #import "STTable.h"
 #import "STTableUtil.h"
 #import "STRVerbatimDevice.h"
+#import "STGeneralUtil.h"
 
 @implementation STRAutomation
 
@@ -139,7 +141,7 @@ static NSString* const MATRIX_DIMENSION_NAMES_ATTRIBUTE = @"dimnames";
           // return of results, a user can just specify a variable and get the result.
           if ([[tag Type] isEqualToString:[STConstantsTagType Table]]) {
               STCommandResult* commandResult = [[STCommandResult alloc] init];
-              commandResult.TableResult = [self GetTableResult:result];
+              commandResult.TableResult = [self GetTableResult:command result:result];
               return commandResult;
           }
 
@@ -258,8 +260,38 @@ static NSString* const MATRIX_DIMENSION_NAMES_ATTRIBUTE = @"dimnames";
     return [self GetMatrixDimensionNames:exp rowNames:false];
 }
 
--(STTable*) GetTableResult:(RCSymbolicExpression*)result
+// Return an expanded, full file path - accounting for variables, functions, relative paths, etc.
+-(NSString*) GetExpandedFilePath:(NSString*) saveLocation
 {
+  STTag* valueTag = [[STTag alloc] init];
+  valueTag.Type = [STConstantsTagType Value];
+  STCommandResult* fileLocation = [self RunCommand:saveLocation tag:valueTag];
+  if ([Parser IsRelativePath:fileLocation.ValueResult]) {
+    // Attempt to find the current working directory.  IF we are not able to find it, or the value we end up
+    // creating doesn't exist, we will just proceed with whatever image location we had previously.
+    STCommandResult* workingDirResult = [self RunCommand:@"getwd()" tag:valueTag];
+    if (workingDirResult != nil) {
+      NSString* path = workingDirResult.ValueResult;
+      NSString* correctedPath = [[path stringByAppendingPathComponent:fileLocation.ValueResult] stringByResolvingSymlinksInPath];
+      if ([[NSFileManager defaultManager] fileExistsAtPath:correctedPath]) {
+        fileLocation.ValueResult = correctedPath;
+      }
+    }
+  }
+
+  return fileLocation.ValueResult;
+}
+
+-(STTable*) GetTableResult:(NSString*)command result:(RCSymbolicExpression*)result
+{
+  // Check to see if we can identify a file name that contains our table data.  If one exists,
+  // we will start by returning that.  If there is no file name specified, we will proceed and
+  // assume we are pulling data out of some R type.
+  NSString* dataFile = [Parser GetTableDataPath:command];
+  if (![STGeneralUtil IsStringNullOrEmpty:dataFile]) {
+    return [STDataFileToTable GetTableResult:[self GetExpandedFilePath:dataFile]];
+  }
+
     // You'll notice that regardless of the type, we convert everything to a string.  This
     // is just a simplification that StatTag makes about the results.  Often times we are
     // doing additional formatting and will do a conversion from the string type to the right

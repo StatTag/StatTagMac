@@ -567,19 +567,64 @@ const NSInteger ShowStata = 3;
   // If we are tracking verbatim, we don't do any special tag processing.  Likewise, if we don't have
   // a tag, we don't want to do any special handling or processing of results.  This way any non-
   // tagged code is going to go ahead and be executed.
-  if(!IsTrackingVerbatim && tag != nil)
-  {
+  if (!IsTrackingVerbatim && tag != nil) {
     if([Parser IsValueDisplay:command]) {
       STCommandResult* result = [[STCommandResult alloc] init];
       result.ValueResult = [self GetDisplayResult:command];
       return result;
     }
-    if([Parser IsTableResult:command]) {
+
+    // Because we are being more open what we allow for tables, we are now going
+    // to only allow table results when we have a tag that is a table type.  Note that
+    // we will short-circuit executing the command ONLY when we have a matrix type
+    // of result.  If we think we have a data file, we need to execute the command.  That
+    // is why we make two checks within this method for table results, the first one here for
+    // matrix results, and the second one for any table result.
+    if([[tag Type] isEqualToString: [STConstantsTagType Table]] && [Parser IsMatrix:command]) {
       STCommandResult* result = [[STCommandResult alloc] init];
       result.TableResult = [self GetTableResult:command];
       return result;
     }
   }
+
+  // Additional special handling for table1.  In order to force the output of table1 to be an XLSX file,
+  // we need to trap its creation.  Here we detect if it looks like a non-XLSX file extension (with two
+  // common types - this is not an exhaustive list) and change the command appropriately.
+  if (!IsTrackingVerbatim && tag != nil && [[tag Type] isEqualToString: [STConstantsTagType Table]]
+    && [Parser IsTableResult:command] && [Parser IsTable1Command:command]) {
+    NSString* result = [Parser GetTableDataPath:command];
+    // We want to force XLS -> XLSX for the table1 command, and will convert CSV (which isn't valid, but people can still do it) to XLSX.
+    // Since the command has already run, we do have an extra step to rename the file to the extension we want.  Keeping in mind that the
+    // table1 can only create Excel files, so we are allowed to make assumptions about formats.
+    if ([[result pathExtension] isEqualToString:@"xls"]) {
+      command = [command stringByReplacingOccurrencesOfString:result withString:[result stringByAppendingString:@"x"]];
+    }
+    else if ([[result pathExtension] isEqualToString:@"xlsx"]) {
+      NSString* newFile = [[result substringToIndex:[result length] - 4] stringByAppendingString:@".xlsx"];
+      command = [command stringByReplacingOccurrencesOfString:result withString:newFile];
+    }
+  }
+  /*
+  
+
+            if (!IsTrackingVerbatim && tag != null && tag.Type == Constants.TagType.Table &&
+                Parser.IsTableResult(command) && Parser.IsTable1Command(command))
+            {
+                var result = Parser.GetTableDataPath(command);
+                // We want to force XLS -> XLSX for the table1 command, and will convert CSV (which isn't valid, but people can still do it) to XLSX.
+                // Since the command has already run, we do have an extra step to rename the file to the extension we want.  Keeping in mind that the
+                // table1 can only create Excel files, so we are allowed to make assumptions about formats.
+                if (result.EndsWith(".xls"))
+                {
+                    command = command.Replace(result, result + "x");
+                }
+                else if (result.EndsWith(".csv"))
+                {
+                    var newFile = result.Substring(0, result.Length - 4) + ".xlsx";
+                    command = command.Replace(result, newFile);
+                }
+            }
+  */
   
   command = [NSString stringWithFormat:@"%@%@%@", CapturePrefix, command, CaptureSuffix];
   NSDictionary *errorInfo;

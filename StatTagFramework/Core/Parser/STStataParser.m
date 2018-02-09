@@ -9,6 +9,7 @@
 #import "STStataParser.h"
 #import "STCocoaUtil.h"
 #import "STCodeParserUtil.h"
+#import "STGeneralUtil.h"
 
 
 @implementation STStataParserLog
@@ -26,7 +27,10 @@
 
 @implementation STStataParser
 
-NSString* const macroChars = @"`'";
+NSString* const startCommandSegmentChars = @" ,\"(";
+NSString* const endCommandSegmentChars = @" ,\")";
+NSString* const quotedSegmentChars = @"\"";
+NSString* const macroChars = @"`'$";
 NSString* const calcChars = @"*/-+";
 NSString* const CommentStart = @"/*";
 NSString* const CommendEnd = @"*/";
@@ -37,6 +41,18 @@ NSString* const CommendEnd = @"*/";
 }
 +(NSCharacterSet*)CalculationOperators {
   NSCharacterSet* chars = [NSCharacterSet characterSetWithCharactersInString:calcChars];
+  return chars;
+}
++(NSCharacterSet*)StartCommandSegmentDelimiters {
+  NSCharacterSet* chars = [NSCharacterSet characterSetWithCharactersInString:startCommandSegmentChars];
+  return chars;
+}
++(NSCharacterSet*)EndCommandSegmentDelimiters {
+  NSCharacterSet* chars = [NSCharacterSet characterSetWithCharactersInString:endCommandSegmentChars];
+  return chars;
+}
++(NSCharacterSet*)QuotedSegmentDelimiters {
+  NSCharacterSet* chars = [NSCharacterSet characterSetWithCharactersInString:quotedSegmentChars];
   return chars;
 }
 
@@ -123,10 +139,25 @@ NSString* const CommendEnd = @"*/";
 }
 +(NSRegularExpression*)TableRegex {
   return [NSRegularExpression
-          regularExpressionWithPattern:[NSString stringWithFormat:@"^\\s*%@\\s+([^,]*?)(?:\\r|\\n|$)", [[[[self class] TableCommands]componentsJoinedByString:@"|"] stringByReplacingOccurrencesOfString:@" " withString:@"\\s+" ]]
+          regularExpressionWithPattern:[NSString stringWithFormat:@"^\\s*%@\\s+([^,]*?)(?:,|\\r|\\n|$)", [[[[self class] TableCommands]componentsJoinedByString:@"|"] stringByReplacingOccurrencesOfString:@" " withString:@"\\s+" ]]
           options:0
           error:nil];
 }
+
++(NSRegularExpression*)DataFileRegex {
+  return [NSRegularExpression
+          regularExpressionWithPattern:@"[\\\\\\/]*(\\.(?:csv|txt|xlsx|xls))"
+          options:NSRegularExpressionCaseInsensitive
+          error:nil];
+}
+
++(NSRegularExpression*)Table1Regex {
+  return [NSRegularExpression
+          regularExpressionWithPattern:@"(?:^|\\s+)table1\\s*,"
+          options:0
+          error:nil];
+}
+
 
 //MARK: additional regex properties
 +(NSRegularExpression*)LogKeywordRegex {
@@ -161,7 +192,7 @@ NSString* const CommendEnd = @"*/";
 
 +(NSRegularExpression*)MacroRegex {
   return [NSRegularExpression
-          regularExpressionWithPattern:@"`([\\S]*?)'"
+          regularExpressionWithPattern:@"`([\\S]*?)'|\\$([\\S]+?\\b)"
           options:NSRegularExpressionAnchorsMatchLines
           error:nil];
 }
@@ -173,7 +204,7 @@ This is used to test/extract a macro display value.
 */
 +(NSRegularExpression*)MacroValueRegex {
   return [NSRegularExpression
-   regularExpressionWithPattern:@"^\\s*`(.+)'"
+   regularExpressionWithPattern:@"^\\s*(?:`(.+)'|\\$([\\S]+))"
    options:0
    error:nil];
 }
@@ -362,10 +393,116 @@ This is used to test/extract a macro display value.
   //return GetValueName(command).Trim(MacroDelimiters);
 }
 
-
+// Determine if a command references some type of table result - either froma  matrix or a data file.
 -(BOOL) IsTableResult:(NSString*)command
 {
+  return [self IsMatrix:command] || [self CommandHasDataFileOrMacroHeuristic:command];
+}
+
+// Determine if a command references a matrix.
+// Stata's API has special handling for accessing matrices.  To account for this, we need to detect commands
+// that create/access a matrix result.  That tells the rest of the StatTag code to use the API to get results.
+// This requires different handling from referencing a data file on disk.
+-(BOOL) IsMatrix:(NSString*)command
+{
   return [[self class] regexIsMatch:[[self class] TableKeywordRegex] inString:command];
+}
+
+// Detect if the command references the table1 package.
+// This is a very specialized function - we are promoting the use of the table1 package (which is not a core
+// Stata command), since it makes generating tables much easier within Stata for StatTag.  Because the table1
+// package only allows exporting to Excel, we created this detection so that we can manipulate it and enforce
+// XLSX output (as opposed to legacy XLS).
+-(BOOL) IsTable1Command:(NSString*)command
+{
+  return [[self class] regexIsMatch:[[self class] Table1Regex] inString:command];
+}
+
+-(NSString*)GetMacroAnchorInCommand:(NSString*)command
+{
+  NSArray<NSString*>* macro = [self GetMacros:command trimDelimiters:FALSE];
+  if (macro == nil || [macro count] == 0) {
+    return @"";
+  }
+  return [macro firstObject];
+}
+
+-(NSString*)GetFileExtensionAnchorInCommand:(NSString*)command
+{
+  NSString* extension =  [self MatchRegexReturnGroup:command regex:[[self class] DataFileRegex] groupNum:1];
+  return extension;
+}
+
+// Determines the path of a file where table data is located.
+-(NSString*)GetTableDataPath:(NSString*)command
+{
+  // How do we detect filenames?  There are a few easy ways that we could do with regex, but we
+  // will walk through the command string for some trigger strings, since in some situations we
+  // may need to back-track.
+
+  // A file must have either: a) one of our expected file extensions, or b) a macro.  This is going
+  // to be our anchor.
+  NSString* macro = [self GetMacroAnchorInCommand:command];
+  if (macro == nil) {
+    macro = @"";
+  }
+  NSString* fileExt = [self GetFileExtensionAnchorInCommand:command];
+  if (fileExt == nil) {
+    fileExt = @"";
+  }
+
+  if (![STGeneralUtil IsStringNullOrEmpty:macro] || ![STGeneralUtil IsStringNullOrEmpty:fileExt]) {
+    NSRange anchorRange = [command rangeOfString:fileExt options:NSCaseInsensitiveSearch];
+    if (anchorRange.location == NSNotFound || [STGeneralUtil IsStringNullOrEmpty:fileExt]) {
+      anchorRange = [command rangeOfString:macro options:NSCaseInsensitiveSearch];
+    }
+    int anchorIndex = anchorRange.location;
+
+    // Look ahead to some delimiter that indicates we're at the end of a file path.  This could be
+    // whitespace, a comma or a closing quote.  If no end index is found, assume the end of our
+    // file extension is the end index.
+    NSRange searchRange = NSMakeRange(anchorIndex, [command length] - anchorIndex);
+    NSRange endRange = [command rangeOfCharacterFromSet:[STStataParser EndCommandSegmentDelimiters] options:0 range:searchRange];
+    int endIndex = endRange.location;
+    if (endRange.location == NSNotFound) {
+      endIndex = anchorIndex + [fileExt length];
+    }
+
+    // Now look behind to find the beginning of the file name.  This could be from the same list
+    // of delimiters too.  If for some reason we don't find anything, we're going to assume that
+    // we need to start at the beginning of the string.  This seems highly unlikely that it will
+    // be correct, but it gives us a response we can send back, and the downstream failure should
+    // be handled when we try to expand the path or find the file.
+    unichar foundChar = [command characterAtIndex:endIndex];
+    BOOL isQuoted = [[STStataParser QuotedSegmentDelimiters] characterIsMember:foundChar];
+    NSCharacterSet* searchSet = (isQuoted == TRUE) ? [STStataParser QuotedSegmentDelimiters] : [STStataParser StartCommandSegmentDelimiters];
+    NSRange backSearchRange = NSMakeRange(0, anchorIndex);
+    NSRange startRange = [command rangeOfCharacterFromSet:searchSet options:NSBackwardsSearch range:backSearchRange];
+    int startIndex = startRange.location;
+    if (startRange.location == NSNotFound) {
+      startIndex = 0;
+    }
+
+    NSRange range = NSMakeRange(startIndex + 1, (endIndex - startIndex - 1));
+    return [[command substringWithRange:range] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+  }
+
+  return @"";
+}
+
+// Determine if a command may contain a reference to a data file that we could use within a table.
+// We perform simple heuristic checks for simplicity.
+-(BOOL)CommandHasDataFileOrMacroHeuristic:(NSString*)command
+{
+  // Determine if the command looks like a data file is referenced, because there is a file extension we associate
+  // with data files present.
+  if ([[self class] regexIsMatch:[[self class] DataFileRegex] inString:command]) {
+    return true;
+  }
+
+  // Otherwise, if there is a macro present, be optimistic in that it will expand to a file path.
+  NSArray<NSString*>* macros = [self GetMacros:command];
+  return (macros != nil) && ([macros count] > 0);
 }
 
 -(NSString*) GetTableName:(NSString*)command
@@ -401,20 +538,44 @@ Given a command string, extract all macros that are present.  This will remove m
 */
 -(NSArray<NSString*>*)GetMacros:(NSString*)command
 {
+  return [self GetMacros:command trimDelimiters:true];
+}
+
+-(NSArray<NSString*>*)GetMacros:(NSString*)command trimDelimiters:(BOOL)trimDelimiters
+{
   NSMutableArray<NSString*>* macroNames = [[NSMutableArray<NSString*> alloc] init];
   NSCharacterSet *ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
-  //  temp = [temp stringByTrimmingCharactersInSet: ws];
-
-  if([[command stringByTrimmingCharactersInSet:ws] length] > 0)
-  {
+  if([[command stringByTrimmingCharactersInSet:ws] length] > 0) {
     NSArray *matches = [[[self class] MacroRegex] matchesInString:command options:0 range:NSMakeRange(0, command.length)];
-    
-    if ([matches count] > 0)
-    {
-      for (int index = 0; index < [matches count]; index++)
-      {
-        //macroNames.Add(matches[index].Groups[1].Value);
-        [macroNames addObject:[command substringWithRange:[[matches objectAtIndex:index] rangeAtIndex:1]]];
+    int count = [matches count];
+    if (count > 0) {
+      for (int index = 0; index < count; index++) {
+        NSMutableString* macroName = [[NSMutableString alloc] init];
+        NSTextCheckingResult* result = [matches objectAtIndex:index];
+        NSRange firstRange = [result rangeAtIndex:1];
+        NSRange secondRange = [result rangeAtIndex:2];
+        if (firstRange.location == NSNotFound) {
+          if (!trimDelimiters) {
+            [macroName appendString:@"$"];
+          }
+          [macroName appendString:[command substringWithRange:secondRange]];
+        }
+        else {
+          if (!trimDelimiters) {
+            [macroName appendString:@"`"];
+          }
+          [macroName appendString:[command substringWithRange:firstRange]];
+          if (!trimDelimiters) {
+            [macroName appendString:@"'"];
+          }
+        }
+
+        //NSRange matchRange = [[matches objectAtIndex:index] rangeAtIndex:1];
+        //NSRange matchRange2 = [[matches objectAtIndex:index] rangeAtIndex:2];
+        //if (matchRange.location != NSNotFound) {
+        //  [macroNames addObject:[command substringWithRange:[[matches objectAtIndex:index] rangeAtIndex:1]]];
+        //}
+        [macroNames addObject:macroName];
       }
     }
   }

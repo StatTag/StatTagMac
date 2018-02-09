@@ -81,6 +81,23 @@
   XCTAssertTrue([parser IsTableResult: @"matrix list r(coefs)"]);
 }
 
+-(void)testIsTableResult_DataFile
+{
+  STStataParser* parser = [[STStataParser alloc] init];
+  XCTAssertTrue([parser IsTableResult:@"estadd using test.csv"]);  // Even though this isn't allowed for data export ("estadd"), we are just checking the presence of file paths
+  XCTAssertTrue([parser IsTableResult:@"estout using test.csv"]);
+  XCTAssertTrue([parser IsTableResult:@"estout using C:\\test.csv"]);
+  XCTAssertTrue([parser IsTableResult:@"estout using /c:/test.csv"]);
+  XCTAssertTrue([parser IsTableResult:@"esttab using example.csv, replace wide plain"]);
+  XCTAssertTrue([parser IsTableResult:@"  esttab  using  example.csv ,  replace  wide  plain "]);
+  XCTAssertFalse([parser IsTableResult:@"estadd using test csv"]);
+
+  // Handle local and global macro values - they MAY contain a filename, so the heuristic check should allow them
+  XCTAssertTrue([parser IsTableResult:@"estout using `filename'"]);
+  XCTAssertTrue([parser IsTableResult:@"estout using $filename"]);
+  XCTAssertFalse([parser IsTableResult:@"estout using $ filename"]);
+}
+
 -(void)testIsStartingLog
 {
   STStataParser* parser = [[STStataParser alloc] init];
@@ -208,6 +225,7 @@
   STStataParser* parser = [[STStataParser alloc] init];
 
   XCTAssertTrue([ @"x2" isEqualToString: [parser GetMacroValueName: @"display  `x2'"]]);
+  XCTAssertTrue([ @"x2" isEqualToString: [parser GetMacroValueName: @"display  $x2"]]);
   XCTAssertTrue([ @"x2" isEqualToString: [parser GetMacroValueName: @"display  `x2'\r\n\r\n*Some comments following"]]);
   XCTAssertTrue([ @"test" isEqualToString: [parser GetMacroValueName: @"display test"]]);   // This isn't a proper Stata macro value, but is the expected return
 }
@@ -223,8 +241,47 @@
   XCTAssert([@"test" isEqualToString: [parser GetTableName: @"mat list test"]]);
   XCTAssert([@"test" isEqualToString: [parser GetTableName: @"mat l test"]]);
   XCTAssert([@"r(coefs)" isEqualToString: [parser GetTableName: @"mat l r(coefs)"]]);
+  XCTAssert([@"test" isEqualToString: [parser GetTableName: @"mat l test, format(%5.0g)"]]);
   XCTAssert([@"r ( coefs )" isEqualToString: [parser GetTableName: @"mat list r ( coefs ) "]]);
   XCTAssert([@"B" isEqualToString: [parser GetTableName: @"matrix list B\r\n\r\n*Some comments following"]]);
+}
+
+-(void)testGetTableDataPath
+{
+  STStataParser* parser = [[STStataParser alloc] init];
+
+  // Check for file names
+  XCTAssert([@"example.csv" isEqualToString: [parser GetTableDataPath: @"esttab using example.csv, replace wide plain"]]);
+  XCTAssert([@"example.csv" isEqualToString: [parser GetTableDataPath: @"esttab using example.csv , replace wide plain"]]);
+  XCTAssert([@"example 2.csv" isEqualToString: [parser GetTableDataPath: @"esttab using \"example 2.csv\", replace wide plain"]]);
+
+  // Check for file paths
+  XCTAssert([@"C:\\example.csv" isEqualToString: [parser GetTableDataPath: @"esttab using C:\\example.csv, replace wide plain"]]);
+  XCTAssert([@"C:\\data path\\example.csv" isEqualToString: [parser GetTableDataPath: @"esttab using \"C:\\data path\\example.csv\", replace wide plain"]]);
+  XCTAssert([@"..\\example.csv" isEqualToString: [parser GetTableDataPath: @"esttab using ..\\example.csv, replace wide plain"]]);
+  XCTAssert([@"C:/example.csv" isEqualToString: [parser GetTableDataPath: @"esttab using C:/example.csv, replace wide plain"]]);
+
+  // Commands with parentheses
+  XCTAssert([@"testing.csv" isEqualToString: [parser GetTableDataPath: @"table1, vars(gender cat \\ race cat \\ ridageyr contn %4.2f \\ married cat \\ income cat \\ education cat \\ bmxht contn %4.2f \\ bmxwt conts \\ bmxbmi conts \\ bmxwaist contn %4.2f \\ lbdhdd contn %4.2f \\ lbdldl contn %4.2f \\ lbxtr conts \\ lbxglu conts \\ lbxin conts) saving(testing.csv, replace)"]]);
+  XCTAssert([@"testing.csv" isEqualToString: [parser GetTableDataPath: @"table1, vars(gender cat \\ race cat \\ ridageyr contn %4.2f \\ married cat \\ income cat \\ education cat \\ bmxht contn %4.2f \\ bmxwt conts \\ bmxbmi conts \\ bmxwaist contn %4.2f \\ lbdhdd contn %4.2f \\ lbdldl contn %4.2f \\ lbxtr conts \\ lbxglu conts \\ lbxin conts) saving(  testing.csv , replace)"]]);
+  XCTAssert([@"testing 2.csv" isEqualToString: [parser GetTableDataPath: @"table1, vars(gender cat \\ race cat \\ ridageyr contn %4.2f \\ married cat \\ income cat \\ education cat \\ bmxht contn %4.2f \\ bmxwt conts \\ bmxbmi conts \\ bmxwaist contn %4.2f \\ lbdhdd contn %4.2f \\ lbdldl contn %4.2f \\ lbxtr conts \\ lbxglu conts \\ lbxin conts) saving(\"testing 2.csv\", replace)"]]);
+
+  // Check for macros
+  XCTAssert([@"`filename'" isEqualToString: [parser GetTableDataPath: @"esttab using `filename', replace wide plain"]]);
+  XCTAssert([@"$filename" isEqualToString: [parser GetTableDataPath: @"esttab using $filename, replace wide plain"]]);
+
+  // Don't forget you can mix paths and macros
+  XCTAssert([@"C:\\`file'" isEqualToString: [parser GetTableDataPath: @"esttab using C:\\`file', replace wide plain"]]);
+  XCTAssert([@"C:\\data path\\`file'" isEqualToString: [parser GetTableDataPath: @"esttab using \"C:\\data path\\`file'\", replace wide plain"]]);
+}
+
+-(void)testIsTable1Command
+{
+  STStataParser* parser = [[STStataParser alloc] init];
+  XCTAssertTrue([parser IsTable1Command:@"table1, vars(gender cat \\ race cat \\ ridageyr contn %4.2f \\ married cat \\ income cat \\ education cat \\ bmxht contn %4.2f \\ bmxwt conts \\ bmxbmi conts \\ bmxwaist contn %4.2f \\ lbdhdd contn %4.2f \\ lbdldl contn %4.2f \\ lbxtr conts \\ lbxglu conts \\ lbxin conts) saving(table1.xls, replace)"]);
+  XCTAssertTrue([parser IsTable1Command:@"table1 ,  vars(gender cat \\ race cat \\ ridageyr contn %4.2f \\ married cat \\ income cat \\ education cat \\ bmxht contn %4.2f \\ bmxwt conts \\ bmxbmi conts \\ bmxwaist contn %4.2f \\ lbdhdd contn %4.2f \\ lbdldl contn %4.2f \\ lbxtr conts \\ lbxglu conts \\ lbxin conts) saving(table1.xls, replace)"]);
+  XCTAssertFalse([parser IsTable1Command:@"esttab using table1.csv, replace wide plain"]);
+  XCTAssertFalse([parser IsTable1Command:@"esttab using $table1, replace wide plain"]);
 }
 
 -(void)testPreProcessContent_Empty
@@ -389,6 +446,21 @@
   XCTAssertEqual(2, [result count]);
   XCTAssert([@"x" isEqualToString:[result objectAtIndex:0]]);
   XCTAssert([@"y" isEqualToString:[result objectAtIndex:1]]);
+
+  result = [parser GetMacros:@"display `x'\\$y"];
+  XCTAssertEqual(2, [result count]);
+  XCTAssert([@"x" isEqualToString:[result objectAtIndex:0]]);
+  XCTAssert([@"y" isEqualToString:[result objectAtIndex:1]]);
+}
+
+-(void) testIsSavedResultCommand
+{
+  STStataParser* parser = [[STStataParser alloc] init];
+  XCTAssertTrue([parser IsSavedResultCommand:@" c(pwd) "]);
+  XCTAssertTrue([parser IsSavedResultCommand:@"e(N)"]);
+  XCTAssertTrue([parser IsSavedResultCommand:@"r(N)"]);
+  XCTAssertFalse([parser IsSavedResultCommand:@"p(N)"]);
+  XCTAssertFalse([parser IsSavedResultCommand:@" c ( N ) "]);  // Not valid in Stata because of the space between c and (
 }
 
 @end

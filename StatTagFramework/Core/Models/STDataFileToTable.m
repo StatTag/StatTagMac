@@ -96,13 +96,28 @@
   }
 }
 
++(NSString*)CellReferenceFromPositions:(long)row column:(long)column
+{
+  long dividend = column + 1;
+  long modulo;
+  NSMutableString* columnName = [[NSMutableString alloc] init];
+  while (dividend > 0) {
+    modulo = (dividend - 1) % 26;
+    [columnName appendString:[NSString stringWithFormat:@"%c", (int)(65 + modulo)]];
+    dividend = (int)((dividend - modulo) / 26);
+  }
+
+  return [NSString stringWithFormat:@"%@%ld", columnName, (row + 1)];
+}
+
+
 +(STTable*)GetXLSXTableResultForPath:(NSURL*)tableFilePath
 {
   STTable* table = [[STTable alloc] init];
   if ([[NSFileManager defaultManager] fileExistsAtPath:[tableFilePath absoluteString]]) {
     return table;
   }
-  BRAOfficeDocumentPackage* spreadsheet = [BRAOfficeDocumentPackage open:tableFilePath];
+  BRAOfficeDocumentPackage* spreadsheet = [BRAOfficeDocumentPackage open:[tableFilePath path]];
   if (spreadsheet == nil || spreadsheet.workbook == nil || spreadsheet.workbook.worksheets == nil || [spreadsheet.workbook.worksheets count] == 0) {
     return table;
   }
@@ -118,9 +133,31 @@
 
   // Dimensions will give you top/bottom and left/right indices
   BRACellRange* dimensions = sheet.dimension;
+  long columnCount = dimensions.rightColumnIndex - dimensions.leffColumnIndex + 1;
+  long rowCount = dimensions.bottomRowIndex - dimensions.topRowIndex + 1;
+
+  STTableData* data = [[STTableData alloc] initWithRows:rowCount andCols:columnCount];
+  for (long row = 0; row < rowCount; row++) {
+    for (long column = 0; column < columnCount; column++) {
+      NSString* ref = [STDataFileToTable CellReferenceFromPositions:row column:column];
+      BRACell* cell = [sheet cellForCellReference:ref shouldCreate:FALSE];
+      if (cell != nil) {
+        [data addValue:[cell stringValue] atRow:row andColumn:column];
+      }
+      else {
+        [data addValue:@"" atRow:row andColumn:column];
+      }
+    }
+  }
+
+  [table setRowSize:rowCount];
+  [table setColumnSize:columnCount];
+  [table setData:data];
+  [[table Data] balanceData]; //balance the data
   
-  return nil;
+  return table;
 }
+
 
 /**
  Combines the different components of a matrix command into a single structure.

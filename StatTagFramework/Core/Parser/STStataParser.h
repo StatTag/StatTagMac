@@ -61,6 +61,9 @@
 -(NSArray<NSString*>*)PreProcessContent:(NSArray<NSString*>*)originalContent;
 -(NSString*) GetMacroValueName:(NSString*)command;
 -(BOOL) IsSavedResultCommand:(NSString*)command;
+-(BOOL) IsMatrix:(NSString*)command;
+-(BOOL) IsTable1Command:(NSString*)command;
+-(NSString*)GetTableDataPath:(NSString*)command;
 
 
 @end

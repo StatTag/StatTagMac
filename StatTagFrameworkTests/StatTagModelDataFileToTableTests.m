@@ -153,7 +153,7 @@
   
   STTable* table = [STDataFileToTable GetTableResultForPath:sourceFileUrl];
 
-  XCTAssertEqual(10, [table RowSize]);
+  XCTAssertEqual(11, [table RowSize]);
   XCTAssertEqual(5, [table ColumnSize]);
   XCTAssertEqual([table RowSize] * [table ColumnSize], [[table Data] numItems]);
 
@@ -162,7 +162,7 @@
   XCTAssert([@"" isEqualToString:[[table Data] valueAtRow:0 andColumn:2]]);
   XCTAssert([@"" isEqualToString:[[table Data] valueAtRow:0 andColumn:3]]);
   XCTAssert([@"" isEqualToString:[[table Data] valueAtRow:0 andColumn:4]]);
-  XCTAssert([@"Table of role_name by Status" isEqualToString:[[table Data] valueAtRow:1 andColumn:0]]);
+  XCTAssert([@"Table of role_name by Status" isEqualToString:[[table Data] valueAtRow:2 andColumn:0]]);
 }
 
 
