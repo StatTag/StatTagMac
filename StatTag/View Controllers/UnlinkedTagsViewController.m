@@ -82,17 +82,23 @@ UnlinkedFieldCheckProgressViewController* unlinkedFieldProgressController;
 {
   _unlinkedTags = unlinkedTags;
 
-  NSMutableArray<UnlinkedTagGroupEntry*>* tagGroupEntries = [[UnlinkedTagGroupEntry initWithUnlinkedTags:unlinkedTags] mutableCopy];
-  NSArray<STCodeFile*>* impactedCodeFiles = [[NSSet setWithArray:[tagGroupEntries valueForKey:@"codeFile"]] allObjects];
-  for(STCodeFile* cf in [_documentManager unlinkedCodeFiles])
+  NSMutableArray<UnlinkedTagGroupEntry*>* tagGroupEntries;
+  if(unlinkedTags != nil)
   {
-    if(![impactedCodeFiles containsObject:cf])
+    tagGroupEntries = [[UnlinkedTagGroupEntry initWithUnlinkedTags:unlinkedTags] mutableCopy];
+    NSArray<STCodeFile*>* impactedCodeFiles = [[NSSet setWithArray:[tagGroupEntries valueForKey:@"codeFile"]] allObjects];
+    for(STCodeFile* cf in [_documentManager unlinkedCodeFiles])
     {
-      [tagGroupEntries addObject:[[UnlinkedTagGroupEntry alloc] initWithCodeFile:cf andTag:nil isGroup:YES]];
+      if(![impactedCodeFiles containsObject:cf])
+      {
+        [tagGroupEntries addObject:[[UnlinkedTagGroupEntry alloc] initWithCodeFile:cf andTag:nil isGroup:YES]];
+      }
     }
+    
+    self.unlinkedTagsArray = tagGroupEntries;
+  } else {
+    
   }
-  
-  self.unlinkedTagsArray = tagGroupEntries;
   [[self unlinkedTagsArrayController] setContent:[self unlinkedTagsArray]];
   [[self unlinkedTagsTableView] reloadData];
   
@@ -143,7 +149,7 @@ UnlinkedFieldCheckProgressViewController* unlinkedFieldProgressController;
         [[self documentManager] AddCodeFile:[filePath path]];
         [[self documentManager] startMonitoringCodeFiles];
         
-        NSLog(@"RELINKING CODE FILE");
+//        NSLog(@"RELINKING CODE FILE");
         [self unlinkedTagsDidChange:self forCodeFilePath:oldCodeFilePath];
         //the above handles all of the code file and tag relinking
       }
@@ -200,7 +206,7 @@ UnlinkedFieldCheckProgressViewController* unlinkedFieldProgressController;
   NSPopUpButton* btn = (NSPopUpButton*)sender;
   NSInteger row = [[self unlinkedTagsTableView] rowForView:sender];
   STTag* t = [[[self unlinkedTagsArray] objectAtIndex:row] tag];
-  NSLog(@"selected tag action - %@ for row %ld with tag: %ld", [btn selectedItem], row, [[btn selectedItem] tag]);
+//  NSLog(@"selected tag action - %@ for row %ld with tag: %ld", [btn selectedItem], row, [[btn selectedItem] tag]);
   if([[btn selectedItem] tag] == 1)
   {
     //tag 1 = link to existing code file
@@ -426,9 +432,9 @@ UnlinkedFieldCheckProgressViewController* unlinkedFieldProgressController;
 -(void)syncUnlinkedTags
 {
   [[[StatTagShared sharedInstance] activeStatTagWordDocument] loadDocument];
-  NSLog(@"CODE FILE PATHS: %@", [[[StatTagShared sharedInstance] activeStatTagWordDocument] codeFilePaths]);
+//  NSLog(@"CODE FILE PATHS: %@", [[[StatTagShared sharedInstance] activeStatTagWordDocument] codeFilePaths]);
   [self setUnlinkedTags:[[[StatTagShared sharedInstance] activeStatTagWordDocument] unlinkedTags]];
-  NSLog(@"UNLINKED TAGS: %@", [self unlinkedTags]);
+//  NSLog(@"UNLINKED TAGS: %@", [self unlinkedTags]);
 }
 
 

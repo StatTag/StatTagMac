@@ -124,7 +124,33 @@
 +(NSArray<STMSWord2011Field*>*)InsertField:(STMSWord2011TextRange*)range theString:(NSString*)theString fieldOpen:(NSString*)fieldOpen fieldClose:(NSString*)fieldClose
 {
   
-
+  //FIXME:Start of "end of document insert bug"
+  //=============================================
+  // There's a gnarly issue where if we insert a tag at the end of the document, we can actually wind up looping back up to the top because we don't have enough space to insert.
+  // This is related to the # of characters in our field close. We need -at least- the same # of padding characters at the end of the document to account for our field close or Word skips back up to the top of the document and continues along. Probably has to do with our moving to the next position as we continue through our text.
+  // I don't have the time to deal with debugging a real fix right now, so I'm going to pad the end of the area with P IF AND ONLY IF we're near the end of the document.
+  // I've left this gross/simple code to be intentional about what we're doing
+  NSInteger fieldCloseLength = [fieldClose length];
+  NSInteger textRangeStart = [range startOfContent];
+  NSInteger textRangeEnd = [range endOfContent];
+  NSInteger docEndOfContent = [[[[[[STGlobals sharedInstance] ThisAddIn] Application] activeDocument] textObject] endOfContent];
+  
+  STMSWord2011TextRange* padRange;
+  
+  if(textRangeEnd + fieldCloseLength > docEndOfContent)
+  {
+    padRange = [WordHelpers DuplicateRange:range];
+    [WordHelpers setRange:&padRange Start:textRangeEnd end:textRangeEnd];
+    
+    for(NSInteger i = 0; i < fieldCloseLength; i++)
+    {
+      [WordHelpers insertParagraphAtRange:padRange];
+    }
+    [WordHelpers setRange:&padRange Start:[padRange startOfContent] end:[padRange endOfContent] + fieldCloseLength];
+    [WordHelpers setRange:&range Start:textRangeStart end:textRangeEnd];
+  }
+  //=============================================
+  
     NSCharacterSet *ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
 
     if(range == nil) {
@@ -283,6 +309,21 @@
       [result updateField];
     }
 
+  //FIXME: end section for "end of document insert" bug
+  //=============================================
+  //OK, now that we're at the end of this, go back and if we were forced to insert padding P to avoid the whole issue with Word text ranges eating back _up_ into content, remove the padding characters
+    if(padRange != nil)
+    {
+      @autoreleasepool {
+        docEndOfContent = [[[[[[STGlobals sharedInstance] ThisAddIn] Application] activeDocument] textObject] endOfContent];
+        //right - this is weird. We should have -1 here, but when we insert multiple fields we have issues and it eats content.
+        //again - not a lot of time to debug this, so it will leave some extra P in here. For right now we're just going with it.
+        [WordHelpers setRange:&padRange Start:docEndOfContent - fieldCloseLength + 1 end:docEndOfContent];
+        [WordHelpers select:padRange];
+        [[[[[STGlobals sharedInstance] ThisAddIn] Application] selection] setContent:@""];
+      }
+    }
+  
     return fields;
   
 }

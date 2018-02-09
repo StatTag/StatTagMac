@@ -123,7 +123,7 @@
 -(void)testWordAPI_FieldInsert {
   //- (void) createNewFieldTextRange:(STMSWord2011TextRange *)textRange fieldType:(STMSWord2011E183)fieldType fieldText:(NSString *)fieldText preserveFormatting:(BOOL)preserveFormatting;  // Create a new field
 
-  NSString* theText = @"<test field>";
+  NSString* theText = [NSString stringWithFormat:@"%@test field%@", [STFieldGenerator FieldOpen], [STFieldGenerator FieldClose]];
   
 //  STMSWord2011TextRange* aRange = [doc createRangeStart:[[doc textObject] startOfContent] end:([[doc textObject] startOfContent] + [theText length])];
 
