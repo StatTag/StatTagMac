@@ -80,6 +80,17 @@ static NSString* const MATRIX_DIMENSION_NAMES_ATTRIBUTE = @"dimnames";
 
 -(NSArray<STCommandResult*>*)RunCommands:(NSArray<NSString*>*)commands tag:(STTag*)tag
 {
+  // If there is no tag, and we're just running a big block of code, it's much easier if we can just
+  // send that to the R engine at once.  Otherwise we have to worry about collapsing commands, function
+  // definitions, etc.
+  if (tag == nil) {
+    NSString* singleCommand = [commands componentsJoinedByString:@"\r\n"];
+    commands = @[ singleCommand ];
+  }
+  else {
+    commands = [Parser CollapseMultiLineCommands:commands];
+  }
+
   NSMutableArray<STCommandResult*>* commandResults = [[NSMutableArray<STCommandResult*> alloc] init];
   BOOL isVerbatimTag = (tag != nil && [[tag Type] isEqualToString:[STConstantsTagType Verbatim]]);
   for (NSString* command in commands) {
@@ -111,14 +122,12 @@ static NSString* const MATRIX_DIMENSION_NAMES_ATTRIBUTE = @"dimnames";
 -(STCommandResult*)RunCommand:(NSString*)command tag:(STTag*)tag
 {
     @autoreleasepool {
-      
       NSDictionary *errorInfo;
-
       RCSymbolicExpression* result;
       @try {
         result = [Engine Evaluate:command];
-      }@catch(NSException* exception)
-      {
+      }
+      @catch(NSException* exception) {
         errorInfo = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInteger:0], @"ErrorCode", [STConstantsStatisticalPackages R], @"StatisticalPackage", [exception reason], @"ErrorDescription", nil];
         @throw [NSException exceptionWithName:NSGenericException
                                        reason:[NSString stringWithFormat:@"There was an error while parsing the R command: %@", command]
@@ -126,11 +135,9 @@ static NSString* const MATRIX_DIMENSION_NAMES_ATTRIBUTE = @"dimnames";
       }@finally {
       }
 
-
-      
-        if (result == nil) {
-            return nil;
-        }
+      if (result == nil) {
+        return nil;
+      }
 
       
       @try {
@@ -147,11 +154,8 @@ static NSString* const MATRIX_DIMENSION_NAMES_ATTRIBUTE = @"dimnames";
 
           // Image comes next, because everything else we will count as a value type.
           if ([Parser IsImageExport:command]) {
-            STTag* tmpTag = [[STTag alloc] init];
-            tmpTag.Type = [STConstantsTagType Value];
-            STCommandResult* imageLocation = [self RunCommand:[Parser GetImageSaveLocation:command] tag:tmpTag];
             STCommandResult* commandResult = [[STCommandResult alloc] init];
-            commandResult.FigureResult = imageLocation.ValueResult;
+            commandResult.FigureResult = [self GetExpandedFilePath:[Parser GetImageSaveLocation:command]];
             return commandResult;
           }
 
