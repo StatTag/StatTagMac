@@ -637,7 +637,9 @@ used to create the Word document.
     dispatch_async(dispatch_get_main_queue(), ^{
       [[NSNotificationCenter defaultCenter] postNotificationName:@"tagUpdateStart" object:self userInfo:@{@"tagName":[[tagUpdatePair New] Name], @"codeFileName":[[[tagUpdatePair New] CodeFile] FileName], @"type" : @"field"}];
     });
-    
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+
     BOOL tableDimensionChange = [self IsTableTagChangingDimensions:tagUpdatePair];
     if (tableDimensionChange)
     {
@@ -710,9 +712,21 @@ used to create the Word document.
         [_TagManager UpdateTagFieldData:field tag:tag];
       }
       
+      //turnign this off for now - this doesn't address changing tag definitions - ex: hey, our formatting specs changed
+      // since we're storign json in the field itself this is a problem
       //NSLog(@"Inserting field for tag: %@", tag.Name);
-      [WordHelpers select:field];
-      [self InsertField:tag];
+      //let's see if we can avoid udpating content that already matches our desired result
+      // this is insanely inefficient and risky, but for now we're going to just see if it works
+//      NSString* fieldText = [[[field fieldCode] formattedText] content];
+//      NSRange r1 = [fieldText rangeOfString:[NSString stringWithFormat:@"MacroButton %@ ", [STConstantsFieldDetails MacroButtonName]]];
+//      NSRange r2 = [fieldText rangeOfString:@" ADDIN "];
+//      NSRange fieldContentRange = NSMakeRange(r1.location + r1.length, r2.location - r1.location - r1.length);
+//      NSString* fieldContent = [fieldText substringWithRange:fieldContentRange];
+//      if(![fieldContent isEqualToString:[tag FormattedResult]])
+//      {
+        [WordHelpers select:field];
+        [self InsertField:tag];
+//      }
       
       [self setValue:[NSNumber numberWithInteger:index+1] forKey:@"wordFieldsUpdated"];
       
@@ -738,7 +752,7 @@ used to create the Word document.
       //NSLog(@"after UpdateVerbatimEntries");
       
     }
-
+    });
     
   }
   @catch (NSException *exception) {
@@ -853,6 +867,36 @@ used to create the Word document.
 -(void)InsertTable:(STMSWord2011SelectionObject*)selection tag:(STTag*)tag {
 
   //NSLog(@"InsertTable - Started");
+
+  //FIXME: more "end of document padding"
+  //we're going to insert a pad after the table for the moment - same issue we have with field insertions at the end of the document
+  NSInteger selectionStart = [selection selectionStart];
+  NSInteger selectionEnd = [selection selectionEnd];
+  
+  NSInteger fieldCloseLength = [[STFieldGenerator FieldClose] length];
+  NSInteger docEndOfContent = [[[[[[STGlobals sharedInstance] ThisAddIn] Application] activeDocument] textObject] endOfContent];
+  
+  STMSWord2011TextRange* padRange;
+  STMSWord2011TextRange* selectionRange = [selection textObject];
+  
+  if(selectionEnd + fieldCloseLength > docEndOfContent)
+  {
+    STMSWord2011TextRange* padRange = [WordHelpers DuplicateRange:selectionRange];
+    [WordHelpers setRange:&padRange Start:selectionEnd end:selectionEnd];
+    
+    NSLog(@"startOfContent: %ld", [padRange startOfContent]);
+    NSLog(@"endOfContent: %ld", [padRange endOfContent]);
+    
+    for(NSInteger i = 0; i < fieldCloseLength; i++)
+    {
+      [WordHelpers insertParagraphAtRange:padRange];
+    }
+    [WordHelpers setRange:&padRange Start:[padRange startOfContent] end:[padRange endOfContent] + fieldCloseLength];
+    [WordHelpers selectTextAtRangeStart:selectionStart andEnd:selectionEnd];
+    selection = [[[[STGlobals sharedInstance] ThisAddIn] Application] selection];
+  }
+
+  
   
   if (tag == nil)
   {
@@ -1354,6 +1398,7 @@ Insert an StatTag field at the currently specified document range.
   {
     NSMutableArray<STTag*>* updatedTags = [[NSMutableArray<STTag*> alloc] init];
     NSMutableArray<STCodeFile*>* refreshedFiles = [[NSMutableArray<STCodeFile*> alloc] init];
+    
     for (STTag* tag in tags)
     {
       if(![refreshedFiles containsObject:[tag CodeFile]])
@@ -1370,6 +1415,12 @@ Insert an StatTag field at the currently specified document range.
         
         [updatedTags addObjectsFromArray:[result UpdatedTags]];
         [refreshedFiles addObject:[tag CodeFile]];
+      }
+      
+      //update our tag's cached result
+      if([updatedTags containsObject:tag])
+      {
+        tag.CachedResult = [[updatedTags objectAtIndex:[updatedTags indexOfObject:tag]] CachedResult];
       }
       
       @try
