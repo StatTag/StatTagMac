@@ -599,7 +599,7 @@ const NSInteger ShowStata = 3;
     if ([[result pathExtension] isEqualToString:@"xls"]) {
       command = [command stringByReplacingOccurrencesOfString:result withString:[result stringByAppendingString:@"x"]];
     }
-    else if ([[result pathExtension] isEqualToString:@"xlsx"]) {
+    else if ([[result pathExtension] isEqualToString:@"csv"]) {
       NSString* newFile = [[result substringToIndex:[result length] - 4] stringByAppendingString:@".xlsx"];
       command = [command stringByReplacingOccurrencesOfString:result withString:newFile];
     }
