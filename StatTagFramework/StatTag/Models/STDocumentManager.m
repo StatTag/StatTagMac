@@ -884,8 +884,8 @@ used to create the Word document.
     STMSWord2011TextRange* padRange = [WordHelpers DuplicateRange:selectionRange];
     [WordHelpers setRange:&padRange Start:selectionEnd end:selectionEnd];
     
-    NSLog(@"startOfContent: %ld", [padRange startOfContent]);
-    NSLog(@"endOfContent: %ld", [padRange endOfContent]);
+    //NSLog(@"startOfContent: %ld", [padRange startOfContent]);
+    //NSLog(@"endOfContent: %ld", [padRange endOfContent]);
     
     for(NSInteger i = 0; i < fieldCloseLength; i++)
     {
