@@ -141,9 +141,14 @@
 +(NSString*)SerializeObject:(NSObject<STJSONAble>*)object error:(NSError**)outError
 {
   NSError* error;
-  NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[object toDictionary] options:0 error:&error];
-  NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-  return jsonString;
+  NSDictionary* dataDictionary = [object toDictionary];
+  if ([NSJSONSerialization isValidJSONObject:dataDictionary]) {
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dataDictionary options:0 error:&error];
+    NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    return jsonString;
+  }
+
+  return nil;
 }
 
 //MARK: list serialization helpers
