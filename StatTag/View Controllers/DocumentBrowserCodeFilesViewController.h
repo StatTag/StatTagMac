@@ -7,19 +7,28 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <StatTagFramework/STDuplicateTagResults.h>
+#import "DocumentBrowserTagSummary.h"
+
 @class STCodeFile;
 @class STDocumentManager;
 @class STMSWord2011Document;
 
+@protocol DocumentBrowserDocumentDelegate;
+
 @class DocumentBrowserCodeFilesViewController;
 @protocol DocumentBrowserCodeFilesDelegate <NSObject>
-- (void)selectedCodeFileDidChange:(DocumentBrowserCodeFilesViewController*)controller;
+//- (void)selectedCodeFileDidChange:(DocumentBrowserCodeFilesViewController*)controller;
+//- (void)selectedTagSummaryDidChange:(DocumentBrowserCodeFilesViewController*)controller;
+-(void)codeFilesSetFocusOnTags:(DocumentBrowserCodeFilesViewController*)controller;
+-(void)codeFilesSetFocusOnDuplicateTags:(DocumentBrowserCodeFilesViewController*)controller;
+-(void)codeFilesSetFocusOnUnlinkedTags:(DocumentBrowserCodeFilesViewController*)controller;
 @end
 
+//FIXME: this is a global... we should move this somewhere else managed by the framework
+//static NSString* const allowedExtensions_CodeFiles = @"do/DO";
 
-static NSString* const allowedExtensions_CodeFiles = @"do/DO";
-
-@interface DocumentBrowserCodeFilesViewController : NSViewController <NSTableViewDelegate> {
+@interface DocumentBrowserCodeFilesViewController : NSViewController <NSTableViewDelegate, NSTableViewDataSource> {
   NSArrayController *arrayController;
   __weak NSTableView *fileTableView;
   
@@ -36,12 +45,19 @@ static NSString* const allowedExtensions_CodeFiles = @"do/DO";
 
 @property (strong) IBOutlet NSArrayController *tagSummaryArrayController;
 
+-(void)beginLoadingUnlinkedTags;
+-(void)completeLoadingUnlinkedTags;
+@property BOOL loadingUnlinkedTags;
 
 @property (nonatomic, weak) id<DocumentBrowserCodeFilesDelegate> delegate;
+//@property (nonatomic, weak) id<DocumentBrowserDocumentDelegate> documentBrowserDelegate;
 
+
+@property (strong, nonatomic)STDuplicateTagResults* duplicateTags;
+@property (strong, nonatomic)NSDictionary<NSString*, NSArray<STTag*>*>* unlinkedTags;
 
 -(void)configure;
 -(void)updateTagSummary;
--(void)viewAllTags;
+-(void)focusOnTags:(TagIndicatorViewTagFocus)tagFocus;
 
 @end

@@ -12,7 +12,7 @@
 /**
 A specialized version of Tag that lives inside of fields within the
 Word document.  This contains some additional attributes that pertain to an
-instance of an Attribute within the documment, and not the general specification
+instance of an Attribute within the document, and not the general specification
 of the Attribute.
 
 @remark A good example is with a Table tag.  The Tag defines how the
@@ -27,11 +27,6 @@ within the table.</remarks>
 }
 
 @property (nonatomic, copy) NSNumber* TableCellIndex;
-/**
- Shortcut to the file path of the CodeFile.  This is used for serialization.
- */
-@property (nonatomic, copy) NSURL* CodeFilePathURL;
-@property (nonatomic, copy) NSString* CodeFilePath;
 
 //MARK: initializers
 -(instancetype)initWithTag:(STTag*)tag;
@@ -56,6 +51,7 @@ within the table.</remarks>
 /**
  Create a new Tag object given a JSON string
 */
++(instancetype)Deserialize:(NSString*)json error:(NSError**)outError;
 +(instancetype)Deserialize:(NSString*)json withFiles:(NSArray<STCodeFile*>*)files error:(NSError**)outError;
 +(NSArray<STFieldTag*>*)DeserializeList:(id)List error:(NSError**)outError;
 

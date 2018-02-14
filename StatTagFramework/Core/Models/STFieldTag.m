@@ -17,33 +17,6 @@
 
 @synthesize TableCellIndex = _TableCellIndex;
 
-- (NSString*) CodeFilePath {
-  if(_CodeFile != nil) {
-    return [_CodeFile FilePath];
-  }
-  return nil;
-}
-- (void) setCodeFilePath:(NSString *)c {
-  if (_CodeFile == nil)
-  {
-    _CodeFile = [[STCodeFile alloc] init];
-    _CodeFile.FilePath = c;
-  }
-}
-- (NSURL*) CodeFilePathURL {
-  if(_CodeFile != nil) {
-    return [_CodeFile FilePathURL];
-  }
-  return nil;
-}
-- (void) setCodeFilePathURL:(NSURL *)c {
-  if (_CodeFile == nil)
-  {
-    _CodeFile = [[STCodeFile alloc] init];
-    _CodeFile.FilePathURL = c;
-  }
-}
-
 //MARK: initializers
 
 -(instancetype)init{
@@ -75,16 +48,16 @@
 -(instancetype)initWithTag:(STTag*)tag andFieldTag:(STFieldTag*)fieldTag{
   if(tag != nil) {
     self = [super initWithTag:tag];
-    NSLog(@"initWithTag: using STTag");
+    //NSLog(@"initWithTag: using STTag");
   } else {
     self = [super initWithTag:fieldTag];
-    NSLog(@"initWithTag: using STFieldTag");
+    //NSLog(@"initWithTag: using STFieldTag");
   }
   if(self){
     _TableCellIndex = [fieldTag TableCellIndex];
     [self setCodeFilePath:[fieldTag CodeFilePath]]; //= [fieldTag CodeFilePath];
     [self SetCachedValue];
-    NSLog(@"initWithTag:andFieldTag: - FormattedResult : %@", [self FormattedResult]);
+    //NSLog(@"initWithTag:andFieldTag: - FormattedResult : %@", [self FormattedResult]);
   }
   return self;
 }
@@ -190,68 +163,62 @@
   return self;
 }
 
--(void)setWithDictionary:(NSDictionary*)dict {
-  if(dict == nil || [dict isKindOfClass:[[NSNull null] class]])
-  {
-    return;
+-(bool)setCustomObjectPropertyFromJSONObject:(id)object forKey:(NSString*)key
+{
+  if([key isEqualToString:@"CodeFilePath"]) {
+    [self setValue:object forKey:key];
+  } else if([key isEqualToString:@"TableCellIndex"]) {
+    [self setValue:object forKey:key];
+  } else {
+    //this is a subclass, so we need to set the parent's properties
+    //right - I know. This is getting ugly.
+    return [super setCustomObjectPropertyFromJSONObject:object forKey:key];
   }
+  return true;
+}
 
-  [super setWithDictionary:dict];
+
+//-(void)setWithDictionary:(NSDictionary*)dict {
+//  if(dict == nil || [dict isKindOfClass:[[NSNull null] class]])
+//  {
+//    return;
+//  }
+//
+//  [super setWithDictionary:dict];
 //  for (NSString* key in dict) {
-//    if([key isEqualToString:@"FilePath"]) {
-//      [dict setObject:_TableCellIndex forKey:@"TableCellIndex"];
-//    } else if([key isEqualToString:@"LastCached"]) {
-//      [dict setObject:[[self CodeFilePath] path] forKey:@"CodeFilePath"];
+//    if([key isEqualToString:@"CodeFilePath"]) {
+//      [self setValue:[dict valueForKey:key] forKey:key];
+//    } else if([key isEqualToString:@"TableCellIndex"]) {
+//        [self setValue:[dict valueForKey:key] forKey:key];
 //    }
 //  }
-  
-  for (NSString* key in dict) {
-//    if([key isEqualToString:@"CodeFile"]) {
-//      //NSLog(@"STTag - attempting to recover CodeFile with value %@", [dict valueForKey:key]);
-//      id aValue = [dict valueForKey:key];
-//      NSDictionary *objDict = aValue;
-//      if(objDict != nil) {
-//        [self setValue:[[STCodeFile alloc] initWithDictionary:objDict] forKey:key];
-//      }
-//    } else
-    if([key isEqualToString:@"CodeFilePath"]) {
-      [self setValue:[dict valueForKey:key] forKey:key];
-      //[self setValue:[[NSURL alloc] initWithString:[dict valueForKey:key]] forKey:key];
-    } else if([key isEqualToString:@"TableCellIndex"]) {
-        [self setValue:[dict valueForKey:key] forKey:key];
-    //    } else {
-//      [self setValue:[dict valueForKey:key] forKey:key];
-    }
-  }
+//}
 
-  
-}
-
-
-/**
- Create a new Tag object given a JSON string
- */
-+(instancetype)Deserialize:(NSString*)json withFiles:(NSArray<STCodeFile*>*)files error:(NSError**)outError
-{
-  NSLog(@"STFieldTag -> Deserialize json : %@", json);
-  NSError* error;
-  STFieldTag* tag = (STFieldTag*)[super Deserialize:json error:&error];
-  //tag.Name = [[self class] NormalizeName:[tag Name]]; //should be in the parent
-  [[self class] LinkToCodeFile:tag CodeFile:files];
-  return tag;
-}
-
-+(NSArray<STFieldTag*>*)DeserializeList:(id)List error:(NSError**)outError
-{
-  NSMutableArray<STFieldTag*>* ar = [[NSMutableArray<STFieldTag*> alloc] init];
-  for(id x in [STJSONUtility DeserializeList:List forClass:[self class] error:nil]) {
-    if([x isKindOfClass:[self class]])
-    {
-      [ar addObject:x];
-    }
-  }
-  return ar;
-}
-
+//
+///**
+// Create a new Tag object given a JSON string
+// */
+//+(instancetype)Deserialize:(NSString*)json withFiles:(NSArray<STCodeFile*>*)files error:(NSError**)outError
+//{
+//  //NSLog(@"STFieldTag -> Deserialize json : %@", json);
+//  NSError* error;
+//  STFieldTag* tag = (STFieldTag*)[super Deserialize:json error:&error];
+//  //tag.Name = [[self class] NormalizeName:[tag Name]]; //should be in the parent
+//  [[self class] LinkToCodeFile:tag CodeFile:files];
+//  return tag;
+//}
+//
+//+(NSArray<STFieldTag*>*)DeserializeList:(id)List error:(NSError**)outError
+//{
+//  NSMutableArray<STFieldTag*>* ar = [[NSMutableArray<STFieldTag*> alloc] init];
+//  for(id x in [STJSONUtility DeserializeList:List forClass:[self class] error:nil]) {
+//    if([x isKindOfClass:[self class]])
+//    {
+//      [ar addObject:x];
+//    }
+//  }
+//  return ar;
+//}
+//
 
 @end

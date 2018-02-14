@@ -27,8 +27,8 @@
 @synthesize boxGeneral;
 
 
-@synthesize properties = _properties;
-@synthesize propertiesManager = _propertiesManager;
+@synthesize settings = _settings;
+@synthesize settingsManager = _settingsManager;
 @synthesize logManager = _logManager;
 
 //we don't need this one...
@@ -46,12 +46,12 @@ NSString* const defaultLogFileName = @"StatTag.log";
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  //NSLog(@"SettingsViewController loaded");
+  ////NSLog(@"SettingsViewController loaded");
 }
 
 -(void)viewWillAppear {
-  [[self propertiesManager] Load];
-  self.properties = [[self propertiesManager] Properties]; //just for setup
+  [[self settingsManager] Load];
+  self.settings = [[self settingsManager] Settings]; //just for setup
   [self setup];
 }
 
@@ -82,9 +82,9 @@ NSString* const defaultLogFileName = @"StatTag.log";
 }
 
 -(void)setup {
-  [[self checkboxLogging] setState: [[self properties] EnableLogging] ? NSOnState : NSOffState];
-  if([[self properties] LogLocation] != nil && [[[self properties] LogLocation] length] > 0 && ![[[self properties] LogLocation] isEqualToString:@"Log Path Not Set"] && [[self logManager] IsValidLogPath: [[self properties] LogLocation]]) {
-    [[self labelFilePath] setStringValue: [[self properties] LogLocation]];
+  [[self checkboxLogging] setState: [[self settings] EnableLogging] ? NSOnState : NSOffState];
+  if([[self settings] LogLocation] != nil && [[[self settings] LogLocation] length] > 0 && ![[[self settings] LogLocation] isEqualToString:@"Log Path Not Set"] && [[self logManager] IsValidLogPath: [[self settings] LogLocation]]) {
+    [[self labelFilePath] setStringValue: [[self settings] LogLocation]];
   } else {
     [self setDefaultPath];
   }
@@ -117,7 +117,7 @@ NSString* const defaultLogFileName = @"StatTag.log";
   BOOL isDir;
   NSFileManager* fileManager = [NSFileManager defaultManager];
   
-  if ( [openPanel runModal] == NSOKButton )
+  if ( [openPanel runModal] == NSModalResponseOK )
   {
     NSArray<NSURL*>* files = [openPanel URLs];
     
@@ -139,16 +139,16 @@ NSString* const defaultLogFileName = @"StatTag.log";
 }
 
 -(void)saveSettings {
-  [[self properties] setEnableLogging:[[self checkboxLogging] state ] == NSOnState ? YES : NO ];
-  [[self properties] setLogLocation:[labelFilePath stringValue]];
+  [[self settings] setEnableLogging:[[self checkboxLogging] state ] == NSOnState ? YES : NO ];
+  [[self settings] setLogLocation:[labelFilePath stringValue]];
   
-  if ([[self properties] EnableLogging] && ![[self logManager] IsValidLogPath: [[self properties] LogLocation]])
+  if ([[self settings] EnableLogging] && ![[self logManager] IsValidLogPath: [[self settings] LogLocation]])
   {
-    [STUIUtility WarningMessageBox:@"The debug file you have selected appears to be invalid, or you do not have rights to access it.\r\nPlease select a valid path for the debug file, or disable debugging." logger:nil];
+    [STUIUtility WarningMessageBoxWithTitle:@"Unable to access debug file." andDetail:@"The debug file you have selected appears to be invalid, or you do not have rights to access it.\r\nPlease select a valid path for the debug file, or disable debugging." logger:nil];
   } else {
-    [[self propertiesManager] setProperties:[self properties]];
-    [[self propertiesManager] Save];
-    [[self logManager] UpdateSettings:[self properties]];
+    [[self settingsManager] setSettings:[self settings]];
+    [[self settingsManager] Save];
+    [[self logManager] UpdateSettings:[self settings]];
     //[[self logManager] UpdateSettings:[self properties]];
   }
 }

@@ -13,11 +13,13 @@
 #import "STValueParameterParser.h"
 #import "STTableParameterParser.h"
 #import "STFigureParameterParser.h"
+#import "STVerbatimParameterParser.h"
 
 @implementation STBaseParser
 
 @synthesize StartTagRegEx = _StartTagRegEx;
 @synthesize EndTagRegEx = _EndTagRegEx;
+@synthesize MacFileProtocolRegEx = _MacFileProtocolRegEx;
 
 -(NSString*)CommentCharacter {
   return @"";
@@ -53,13 +55,19 @@
   if(_StartTagRegEx == nil){
     _StartTagRegEx = [NSRegularExpression regularExpressionWithPattern:[NSString stringWithFormat:@"\\s*[\\%@]{2,}\\s*%@\\s*%@(.*)", [self CommentCharacter], [STConstantsTagTags StartTag], [STConstantsTagTags TagPrefix]] options:0 error:&error] ;
     if(error != nil){
-      NSLog(@"%@ - StartTagRegEx: %@", NSStringFromSelector(_cmd), error);
+      //NSLog(@"%@ - StartTagRegEx: %@", NSStringFromSelector(_cmd), error);
     }
   }
   if(_EndTagRegEx == nil){
     _EndTagRegEx = [NSRegularExpression regularExpressionWithPattern:[NSString stringWithFormat:@"\\s*[\\%@]{2,}\\s*%@", [self CommentCharacter], [STConstantsTagTags EndTag]] options:0 error:&error] ;
     if(error != nil){
-      NSLog(@"%@ - EndTagRegEx: %@", NSStringFromSelector(_cmd), error);
+      //NSLog(@"%@ - EndTagRegEx: %@", NSStringFromSelector(_cmd), error);
+    }
+  }
+  if (_MacFileProtocolRegEx == nil) {
+    _MacFileProtocolRegEx = [NSRegularExpression regularExpressionWithPattern:@"^[A-Za-z]+:\\/{2,}" options:0 error:&error];
+    if (error != nil) {
+      //NSLog(@"%@ - MacFileProtocolRegEx: %@", NSStringFromSelector(_cmd), error);
     }
   }
 }
@@ -113,9 +121,6 @@
   }
   
   NSNumber *startIndex;
-  //http://stackoverflow.com/questions/895495/how-do-i-test-if-a-primitive-in-objective-c-is-nil
-  //NSNumber *num = [NSNumber numberWithInteger:0];
-  //[num intValue]
   
   STTag *tag;
   for (NSInteger index = 0; index < [lines count]; index++) {
@@ -169,6 +174,27 @@
 }
 
 
+-(bool)IsTagStart:(NSString*)line
+{
+  NSArray* matches = [_StartTagRegEx matchesInString:line options:0 range: NSMakeRange(0, line.length)];
+  if([matches count] > 0)
+  {
+    return YES;
+  }
+  return NO;
+}
+
+-(bool)IsTagEnd:(NSString*)line
+{
+  NSArray* matches = [_EndTagRegEx matchesInString:line options:0 range: NSMakeRange(0, line.length)];
+  if([matches count] > 0)
+  {
+    return YES;
+  }
+  return NO;
+}
+
+
 -(NSArray<STExecutionStep*>*)GetExecutionSteps:(STCodeFile*)file{
   return [self GetExecutionSteps:file filterMode:[STConstantsParserFilterMode IncludeAll] tagsToRun:nil];
 }
@@ -194,6 +220,7 @@
     
     if(step == nil){
       step = [[STExecutionStep alloc]init];
+      //[step setLineStart:(index + 1)];
     }
     
     NSArray* matches = [_StartTagRegEx matchesInString:line options:0 range: NSMakeRange(0, line.length)];
@@ -201,6 +228,7 @@
     if([matches count] > 0){
       // If the previous code block had content, save it off and create a new one
       if([[step Code] count] > 0){
+        //[step setLineEnd:([step lineStart] + [[step Code] count] - 1)];
         [executionSteps addObject:step];
         step = [[STExecutionStep alloc] init];
       }
@@ -274,6 +302,9 @@
     tag.Type = [STConstantsTagType Table];
     [STTableParameterParser Parse:tagText tag:tag];
     [STValueParameterParser Parse:tagText tag:tag];
+  } else if([tagText hasPrefix:[STConstantsTagType Verbatim]]) {
+    tag.Type = [STConstantsTagType Verbatim];
+    [STVerbatimParameterParser Parse:tagText tag:tag];
   } else {
     //FIXME: go back and fix the whole issue with passing errors in and pointer references, etc.
     //populate error
@@ -285,7 +316,7 @@
 //                               };
 //    //*error = [NSError errorWithDomain:STStatTagErrorDomain code:NSURLErrorFileDoesNotExist userInfo:userInfo];
 //    error = [NSError errorWithDomain:STStatTagErrorDomain code:NSURLErrorFileDoesNotExist userInfo:userInfo];
-    NSLog(@"Invalid tag '%@' found in ProcessTag (%@)", tagText, [self class]);
+    //NSLog(@"Invalid tag '%@' found in ProcessTag (%@)", tagText, [self class]);
   }
 
 }
@@ -364,5 +395,16 @@
   return false;
 }
 
+// Determine if the file path appears to be relative.  This looks for a starting slash, or a
+// starting protocol.
+-(BOOL)IsRelativePath:(NSString*)filePath
+{
+    NSString* trimmedFilePath = [filePath stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    if ([trimmedFilePath hasPrefix:@"/"]) {
+        return false;
+    }
+
+    return ![STBaseParser regexIsMatch:_MacFileProtocolRegEx inString:trimmedFilePath];
+}
 
 @end

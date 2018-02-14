@@ -29,7 +29,7 @@ static WordHelpers* sharedInstance = nil;
   if (self = [super init]) {
     NSBundle *frameworkBundle = [NSBundle bundleForClass:[self class]];
     [frameworkBundle loadAppleScriptObjectiveCScripts];
-    NSLog(@"just set our bundle shared instance");
+    //NSLog(@"just set our bundle shared instance");
   }
   return self;
 }
@@ -127,7 +127,7 @@ static WordHelpers* sharedInstance = nil;
     BOOL exists = [[NSFileManager defaultManager] fileExistsAtPath:filePath isDirectory:&isDir];
     BOOL readable = [[NSFileManager defaultManager] isReadableFileAtPath:filePath];
     if (!exists || isDir || !readable) {
-      NSLog(@"Couldn't insert image at path. isDir : %hhd, exists : %hhd, readable : %hhd", isDir, exists, readable);
+      //NSLog(@"Couldn't insert image at path. isDir : %hhd, exists : %hhd, readable : %hhd", isDir, exists, readable);
       return false;
     } else {
       NSURL* theFileURL = [NSURL fileURLWithPath:filePath];
@@ -140,7 +140,7 @@ static WordHelpers* sharedInstance = nil;
       }
       //we need a better way of logging this - the entire approach to logging needs to be reviewed
       [[STLogManager sharedInstance] WriteException:[NSString stringWithFormat:@"Couldn't insert image at path. NSImage can't read file : %@", theFileURL]];
-      NSLog(@"Couldn't insert image at path. NSImage can't read file : %@", theFileURL);
+      //NSLog(@"Couldn't insert image at path. NSImage can't read file : %@", theFileURL);
       return false;
 
 //      NSString *loweredExtension = [[theFileURL pathExtension] lowercaseString];
@@ -148,7 +148,7 @@ static WordHelpers* sharedInstance = nil;
 //      if ([validImageExtensions containsObject:loweredExtension]) {
 //        return true;
 //      } else {
-//        NSLog(@"Couldn't insert image at path. NSImage does not support extension : %@", loweredExtension);
+//        //NSLog(@"Couldn't insert image at path. NSImage does not support extension : %@", loweredExtension);
 //        return false;
 //      }
     }
@@ -156,7 +156,7 @@ static WordHelpers* sharedInstance = nil;
   return false;
 }
 
-+(void)insertImageAtPath:(NSString*)filePath {
++(BOOL)insertImageAtPath:(NSString*)filePath {
   //@autoreleasepool {
     //FIXME: we need some better error handling, etc. for all of this
     [[self class] sharedInstance];
@@ -176,8 +176,10 @@ static WordHelpers* sharedInstance = nil;
        
        We should probably go back and change the AppleScript, then circle back and fix this
        */
-      [asoc insertImageAtPath:hfsPath];
+      BOOL inserted = [[asoc insertImageAtPath:hfsPath] boolValue];
+      return inserted;//[[asoc insertImageAtPath:hfsPath] boolValue];
     }
+  return false;
   //}
   
 //  if(filePath != nil) {
@@ -185,7 +187,7 @@ static WordHelpers* sharedInstance = nil;
 //    //applescript wants file paths separators as ":" instead of "/"
 //    NSURL* theFileURL = [NSURL fileURLWithPath:filePath];
 //
-//    NSLog(@"reading file path %@", filePath);
+//    //NSLog(@"reading file path %@", filePath);
 //    
 //    BOOL isDir;
 //    BOOL exists = [[NSFileManager defaultManager] fileExistsAtPath:filePath isDirectory:&isDir];
@@ -195,7 +197,7 @@ static WordHelpers* sharedInstance = nil;
 //      // 1) We can't specify a directory
 //      // 2) File should exist
 //      // 3) File should be readable
-//      NSLog(@"Couldn't insert image at path. isDir : %hhd, exists : %hhd, readable : %hhd", isDir, exists, readable);
+//      //NSLog(@"Couldn't insert image at path. isDir : %hhd, exists : %hhd, readable : %hhd", isDir, exists, readable);
 //    } else {
 //      //great example - http://stackoverflow.com/questions/12044450/case-insensitive-checking-of-suffix-of-nsstring
 //      NSString *loweredExtension = [[theFileURL pathExtension] lowercaseString];
@@ -205,7 +207,7 @@ static WordHelpers* sharedInstance = nil;
 //        [asoc insertImageAtPath:hfsPath];
 //      } else {
 //        //format not supported - throw error
-//        NSLog(@"Couldn't insert image at path. NSImage does not support extension : %@", loweredExtension);
+//        //NSLog(@"Couldn't insert image at path. NSImage does not support extension : %@", loweredExtension);
 //      }
 //    }
 //    
@@ -287,7 +289,7 @@ static WordHelpers* sharedInstance = nil;
   /*
    tried alternatives to doing this in AppleScript
    
-   1) SB to call into "initWithProperties" and add to tables - didn'tw ork
+   1) SB to call into "initWithProperties" and add to tables - didn't work
    2) random "be lazy" and try to message over the type to SB directly, hoping it would infer types - nope
    3) tried to see if we could be really really lazy and just throw NSData at the object... nope.
    
@@ -300,7 +302,7 @@ static WordHelpers* sharedInstance = nil;
   //  NSData *data = [result data];
   //  STMSWord2011Table* myTable;
   //  [data getBytes:&myTable length:[data length]];
-  //  NSLog(@"table class kind : %@", NSStringFromClass([table class]));
+  //  //NSLog(@"table class kind : %@", NSStringFromClass([table class]));
   
   
   
@@ -318,8 +320,8 @@ static WordHelpers* sharedInstance = nil;
 //                                                  nil]];
 //  if(table) {
 //    [[doc tables] addObject:table];
-////    NSLog(@"test string something %d", [[[table rows] get] count]);
-////    NSLog(@"table has rows : %d, columns : %d", [[table rows] count], [[table columns] count]);
+////    //NSLog(@"test string something %d", [[[table rows] get] count]);
+////    //NSLog(@"table has rows : %d, columns : %d", [[table rows] count], [[table columns] count]);
 //    //STMSWord2011Table *thisTable = [[[doc tables] lastObject] get];
 //    
 //    //return thisTable;
@@ -353,15 +355,15 @@ static WordHelpers* sharedInstance = nil;
     //Word 2011 supports the "select" method - 2016 does NOT - it was removed
     if([wordObject respondsToSelector:@selector(select)]){
       // 2011...
-      if ([wordObject respondsToSelector:@selector(fieldCode)]) {
-        STMSWord2011Field* field = (STMSWord2011Field*)wordObject;
-        STMSWord2011TextRange* tr = [field fieldCode];
-        NSLog(@"WordHelpers - select (%ld,%ld)", [tr startOfContent], [tr endOfContent]);
-      }
+      //if ([wordObject respondsToSelector:@selector(fieldCode)]) {
+      //  STMSWord2011Field* field = (STMSWord2011Field*)wordObject;
+        //STMSWord2011TextRange* tr = [field fieldCode];
+        //NSLog(@"WordHelpers - select (%ld,%ld)", [tr startOfContent], [tr endOfContent]);
+      //}
       [wordObject select];
       
-      STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
-      NSLog(@"WordHelpers - selection (%ld,%ld)", [[app selection] selectionStart], [[app selection] selectionEnd]);
+      //STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
+      //NSLog(@"WordHelpers - selection (%ld,%ld)", [[app selection] selectionStart], [[app selection] selectionEnd]);
     }
     else {
       // 2016...
@@ -380,7 +382,7 @@ static WordHelpers* sharedInstance = nil;
       //
       // There may be a better way to do this with Obj-C. Not clear to me if that's the case.
       NSString* woClass = NSStringFromClass([wordObject class]);
-      //NSLog(@"className : %@", woClass);
+      ////NSLog(@"className : %@", woClass);
       
       if([woClass isEqualToString:@"MicrosoftWordField"]) {
         //field requires we offset the start/end character positions because they use escape sequences
@@ -388,13 +390,15 @@ static WordHelpers* sharedInstance = nil;
         // aren't included
         STMSWord2011Field* field = (STMSWord2011Field*)wordObject;
         STMSWord2011TextRange* tr = [field fieldCode];
-        NSLog(@"WordHelpers - select (%ld,%ld)", [tr startOfContent], [tr endOfContent]);
+        //NSLog(@"WordHelpers - select (%ld,%ld)", [tr startOfContent], [tr endOfContent]);
         if(tr != nil) {
           NSInteger start = [tr startOfContent];
           NSInteger end = [tr endOfContent] + 1;
           if(start > 0) {
             start = start - 1;
           }
+          //NSLog(@"WordHelpers - select: (MicrosoftWordField) tr (%ld,%ld)", [tr startOfContent], [tr endOfContent]);
+
           [WordHelpers selectTextAtRangeStart:start andEnd:end];
         }
       } else if ([woClass isEqualToString:@"MicrosoftWordTable"]) {
@@ -405,6 +409,8 @@ static WordHelpers* sharedInstance = nil;
       } else if ([woClass isEqualToString:@"MicrosoftWordTextRange"]) {
         //text range
         STMSWord2011TextRange* tr = (STMSWord2011TextRange*)wordObject;
+
+        //NSLog(@"WordHelpers - select: (MicrosoftWordTextRange) tr (%ld,%ld)", [tr startOfContent], [tr endOfContent]);
         [WordHelpers selectTextInRange:tr];
       }
     }
@@ -413,7 +419,27 @@ static WordHelpers* sharedInstance = nil;
 
 +(void)selectTextAtRangeStart:(NSInteger)rangeStart andEnd:(NSInteger)rangeEnd {
   @autoreleasepool {
-    STMSWord2011SelectionObject* selection = [[[[STGlobals sharedInstance] ThisAddIn] Application] selection];//.activeWindow.selection;
+    // This duplicate setting of the selection range is done to handle selection ranges across table cells.
+    // Imagine you have two table cells Left and Right.  The cursor is in Right, and this method is being
+    // called to select a range of text that is entirely within Left.  When we get the current selection,
+    // the start and end positions represent the same spot - the cursor.  When we make the call to change
+    // selectionStart, Word treats it as if we were dragging the cursor all the way over from the current
+    // cursor position in the Right cell to the position in the Left cell.  You'll notice that when you
+    // drag your cursor in Word, what happens is once you cross that table cell boundary it selects the entire
+    // cell of both Left and Right.  So now the selection represents these two cells.  When we call to set
+    // the selectionEnd, it moves the selection to the end position within the Left cell.  The problem is that
+    // because it had the entire Left cell selected (and so the selectionStart position gets reset to the
+    // beginning of the Left cell) it ends up selecting all the text in the cell.  This means we have a lot
+    // more text selected than we actually wanted.
+    // To address this, if we know we are probably crossing cell boundaries - detected if the selection we
+    // start with is in a cell - we will call the selection twice.  The second call to set the selectionStart
+    // and selectionEnd will work as expected, since we are doing it within the cell where the range is located.
+    STMSWord2011SelectionObject* selection = [[[[STGlobals sharedInstance] ThisAddIn] Application] selection];
+    if ([[selection cells] count] > 0) {
+      selection.selectionStart = rangeStart;
+      selection.selectionEnd = rangeEnd;
+      selection = [[[[STGlobals sharedInstance] ThisAddIn] Application] selection];
+    }
     selection.selectionStart = rangeStart;
     selection.selectionEnd = rangeEnd;
   }
@@ -422,9 +448,7 @@ static WordHelpers* sharedInstance = nil;
 +(void)selectTextInRange:(STMSWord2011TextRange*)textRange {
   @autoreleasepool {
     if(textRange != nil) {
-      STMSWord2011SelectionObject* selection = [[[[STGlobals sharedInstance] ThisAddIn] Application] selection];//.activeWindow.selection;
-      selection.selectionStart = [textRange startOfContent];
-      selection.selectionEnd = [textRange endOfContent];
+      [self selectTextAtRangeStart:[textRange startOfContent] andEnd:[textRange endOfContent]];
     }
   }
 }
@@ -444,5 +468,19 @@ static WordHelpers* sharedInstance = nil;
   return [doc name];
 }
 
+
++(void)insertTextboxAtRangeStart:(NSInteger)theRangeStart andRangeEnd:(NSInteger)theRangeEnd forShapeName:(NSString*)shapeName withShapetext:(NSString*)shapeText andFontSize:(double)fontSize andFontFace:(NSString*)fontFace
+{
+  [[self class] sharedInstance];
+
+  /*
+   Why are we replacing the \r\n's with \n?
+   When we send the text over to AppleScript (again - because of Word issues), AppleScript has to count the # of characters - which includes the line breaks and carriage returns in order to calculate the incoming text size. We then extend the text selection to that length (which should… ideally… be the length of the verbatim result.) Turns out - there are issues. The “\r\n” are counted. BUT when we insert the text, “\r\n” is converted to a single line feed character. So - for every “\r\n” in the original text we’re losing _one_ character - because it’s replaced with (linefeed). So - we’re slowly eating away at the following text. For each missing “\r” we eat one character by incorrectly extended the text range into the subsequent content.
+   */
+  shapeText = [shapeText stringByReplacingOccurrencesOfString:@"\r\n" withString:@"\n"];
+  
+  WordASOC *asoc = [[NSClassFromString(@"WordASOC") alloc] init];
+  [asoc insertTextboxAtRangeStart:[NSNumber numberWithInteger:theRangeStart] andRangeEnd:[NSNumber numberWithInteger:theRangeEnd] forShapeName:shapeName withShapetext:shapeText andFontSize:[NSNumber numberWithDouble:fontSize] andFontFace:fontFace];
+}
 
 @end

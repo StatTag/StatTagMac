@@ -20,8 +20,6 @@ FOUNDATION_EXPORT const unsigned char StatTagVersionString[];
 
 //NOTE: make sure you tag this as "public" in the framework target membership
 
-
-
 //======================================
 // StatTag
 //======================================
@@ -45,21 +43,18 @@ FOUNDATION_EXPORT const unsigned char StatTagVersionString[];
 #import <StatTagFramework/STDuplicateTagResults.h>
 #import <StatTagFramework/STFieldGenerator.h>
 #import <StatTagFramework/STGridDataItem.h>
-#import <StatTagFramework/STProperties.h>
-#import <StatTagFramework/STPropertiesManager.h>
+#import <StatTagFramework/STUserSettings.h>
+#import <StatTagFramework/STSettingsManager.h>
 #import <StatTagFramework/STMSWord2011.h>
 #import <StatTagFramework/STStatsManager.h>
 #import <StatTagFramework/STTagManager.h>
 #import <StatTagFramework/STLogManager.h>
-#import <StatTagFramework/STCSVToTable.h>
+#import <StatTagFramework/STDataFileToTable.h>
 #import <StatTagFramework/STFilterFormat.h>
 #import <StatTagFramework/STLogManager.h>
 
 #import <StatTagFramework/STUIUtility.h>
 #import <StatTagFramework/STTableData.h>
-
-
-
 
 
 //======================================
@@ -85,6 +80,7 @@ FOUNDATION_EXPORT const unsigned char StatTagVersionString[];
 #import <StatTagFramework/STFigureGenerator.h>
 #import <StatTagFramework/STIGenerator.h>
 #import <StatTagFramework/STStataBaseGenerator.h>
+#import <StatTagFramework/STRBaseGenerator.h>
 #import <StatTagFramework/STTableParameterGenerator.h>
 #import <StatTagFramework/STValueParameterGenerator.h>
 
@@ -95,6 +91,7 @@ FOUNDATION_EXPORT const unsigned char StatTagVersionString[];
 #import <StatTagFramework/STIResultCommandList.h>
 #import <StatTagFramework/STICodeFileParser.h>
 #import <StatTagFramework/STIStatAutomation.h>
+#import <StatTagFramework/STBase.h> //this isn't an interface, but for now we're leaving it here
 
 
 //--Models
@@ -102,6 +99,7 @@ FOUNDATION_EXPORT const unsigned char StatTagVersionString[];
 #import <StatTagFramework/STCodeFileAction.h>
 #import <StatTagFramework/STCommandResult.h>
 #import <StatTagFramework/STConstants.h>
+#import <StatTagFramework/STDocumentMetadata.h>
 #import <StatTagFramework/STExecutionStep.h>
 #import <StatTagFramework/STFieldTag.h>
 #import <StatTagFramework/STFigureFormat.h>
@@ -112,11 +110,13 @@ FOUNDATION_EXPORT const unsigned char StatTagVersionString[];
 #import <StatTagFramework/STUpdatePair.h>
 #import <StatTagFramework/STValueFormat.h>
 
+
 //--Parser
 #import <StatTagFramework/STBaseParameterParser.h>
 #import <StatTagFramework/STBaseParser.h>
 #import <StatTagFramework/STStataParser.h>
 #import <StatTagFramework/STSASParser.h>
+#import <StatTagFramework/STRParser.h>
 #import <StatTagFramework/STFigureParameterParser.h>
 #import <StatTagFramework/STICodeFileParser.h>
 #import <StatTagFramework/STTableParameterParser.h>
@@ -128,12 +128,14 @@ FOUNDATION_EXPORT const unsigned char StatTagVersionString[];
 #import <StatTagFramework/STTagUtil.h>
 #import <StatTagFramework/STGeneralUtil.h>
 #import <StatTagFramework/STTableUtil.h>
+#import <StatTagFramework/STCodeParserUtil.h>
 
 
 //--ValueFormatter
 #import <StatTagFramework/STBaseValueFormatter.h>
 #import <StatTagFramework/STIValueFormatter.h>
 #import <StatTagFramework/STStataBaseValueFormatter.h>
+#import <StatTagFramework/STRBaseValueFormatter.h>
 
 //--Factories
 #import <StatTagFramework/STFactories.h>

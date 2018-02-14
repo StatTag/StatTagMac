@@ -38,5 +38,12 @@
   XCTAssert([@"Test2" isEqualToString:result[1]]);
 }
 
+- (void)testIsStringNullOrEmpty {
+    XCTAssert([STGeneralUtil IsStringNullOrEmpty:nil]);
+    XCTAssert([STGeneralUtil IsStringNullOrEmpty:@""]);
+    XCTAssertFalse([STGeneralUtil IsStringNullOrEmpty:@" "]);
+    XCTAssertFalse([STGeneralUtil IsStringNullOrEmpty:@"Test"]);
+}
+
 
 @end

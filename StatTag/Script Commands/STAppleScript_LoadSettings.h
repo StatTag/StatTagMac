@@ -14,6 +14,9 @@
 @interface STAppleScript_OpenAbout : NSScriptCommand
 @end
 
+@interface STAppleScript_OpenHelp : NSScriptCommand
+@end
+
 @interface STAppleScript_OpenManageCodeFiles : NSScriptCommand
 @end
 

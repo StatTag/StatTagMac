@@ -20,6 +20,9 @@
 -(NSObject<STIResultCommandList>*)TableResultCommands {
   return [[STRCommandsTableCommands alloc] init];
 }
+-(NSObject<STIResultCommandList>*)VerbatimResultCommands {
+    return [[STRCommandsVerbatimCommands alloc] init];
+}
 
 @end
 
@@ -27,34 +30,25 @@
 //MARK: "nested" classes for R Commands
 
 @implementation STRCommandsValueCommands
-//-(NSString*)Display {
-//  return @"(Any command that returns a value)";
-//}
 -(NSArray<NSString*>*)GetCommands {
-  return [NSArray arrayWithObjects:
-          @"(Any command that returns a value)"
-          , nil];
+    return [NSArray<NSString*> arrayWithObject: @"(Any command that returns a value)"];
 }
 @end
 
 @implementation STRCommandsFigureCommands
-//-(NSString*)GraphExport {
-//  return @"graph export";
-//}
 -(NSArray<NSString*>*)GetCommands {
   return [STRParser FigureCommands];
 }
 @end
 
-
 @implementation STRCommandsTableCommands
-//-(NSString*)MatrixList {
-//  return @"matrix list";
-//}
 -(NSArray<NSString*>*)GetCommands {
+  return [NSArray<NSString*> arrayWithObject: @"(Any command that returns a data frame, matrix, vector or list)"];
+}
+@end
 
-  return [NSArray arrayWithObjects:
-          @"(Any command that returns a data frame, matrix, vector or list)"
-          , nil];
+@implementation STRCommandsVerbatimCommands
+-(NSArray<NSString*>*)GetCommands {
+    return [NSArray<NSString*> arrayWithObject:@"(Any command)"];
 }
 @end

@@ -37,8 +37,8 @@ static STGlobals* sharedInstance = nil;
   @autoreleasepool {
     STMSWord2011Application* application = [[[STGlobals sharedInstance] ThisAddIn] Application];
     STMSWord2011Document* document = [application activeDocument];
+    #pragma unused(document)
   }
-  #pragma unused(document)
 }
 
 -(STThisAddIn*)ThisAddIn {

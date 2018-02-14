@@ -20,7 +20,7 @@
 @end
 
 @interface STRParser : STBaseParser {
-  
+
 }
 
 
@@ -29,9 +29,10 @@
 +(NSRegularExpression*)FigureRegex;
 +(NSRegularExpression*)FigureParameterRegex;
 
+-(NSString*)GetTableDataPath:(NSString*)command;
 
 //-(BOOL) IsStartingLog:(NSString*)command;
 -(NSArray<NSString*>*)PreProcessContent:(NSArray<NSString*>*)originalContent;
-
+-(NSArray<NSString*>*)CollapseMultiLineCommands:(NSArray<NSString*>*)originalContent;
 
 @end

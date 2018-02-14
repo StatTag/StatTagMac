@@ -12,8 +12,8 @@
 #import "STLogManager.h"
 #import "STDocumentManager.h"
 #import "STStatsManager.h"
-#import "STPropertiesManager.h"
-#import "STProperties.h"
+#import "STSettingsManager.h"
+#import "STUserSettings.h"
 #import "STUIUtility.h"
 #import "STFileHandler.h"
 #import "STCodeFile.h"
@@ -26,7 +26,7 @@
 @synthesize LogManager = _LogManager;
 @synthesize DocumentManager = _DocumentManager;
 @synthesize StatsManager = _StatsManager;
-@synthesize PropertiesManager = _PropertiesManager;
+@synthesize SettingsManager = _SettingsManager;
 @synthesize applicationVersion = _applicationVersion;
 
 +(NSArray<NSString*>*) ProcessNames {
@@ -62,11 +62,11 @@
       _LogManager = [STLogManager sharedInstance];//[[STLogManager alloc] init];
       _DocumentManager = [[STDocumentManager alloc] init];
       
-      _StatsManager = [[STStatsManager alloc] init:[self DocumentManager]];
-      _PropertiesManager = [[STPropertiesManager alloc] init];
+      _StatsManager = [[STStatsManager alloc] initWithDocumentManager:[self DocumentManager] andSettingsManager:[self SettingsManager] ];
+      _SettingsManager = [[STSettingsManager alloc] init];
 
-      [[self PropertiesManager] Load];
-      [[self LogManager] UpdateSettings:[[[self PropertiesManager] Properties] EnableLogging]  filePath:[[[self PropertiesManager] Properties] LogLocation]];
+      [[self SettingsManager] Load];
+      [[self LogManager] UpdateSettings:[[[self SettingsManager] Settings] EnableLogging]  filePath:[[[self SettingsManager] Settings] LogLocation]];
       _DocumentManager.Logger = [self LogManager];
       
     }
@@ -112,7 +112,7 @@
   //FIXME: Word will happily return a reference to a non-existent object - it will NOT be nil
   @try {
     STMSWord2011Document* doc = [[self Application] activeDocument];
-    if([doc name] != nil) {
+    if(doc && [doc name] != nil) {
       //we can actually get an invalid document reference from the API
       //(name is nil - name should never be nil - return nil if we don't have a doc name)
       return doc;
@@ -121,11 +121,11 @@
     }
   }
   @catch (NSException* exception) {
-    NSLog(@"%@", exception.reason);
-    NSLog(@"method: %@, line : %d", NSStringFromSelector(_cmd), __LINE__);
-    NSLog(@"%@", [NSThread callStackSymbols]);
+    //NSLog(@"%@", exception.reason);
+    //NSLog(@"method: %@, line : %d", NSStringFromSelector(_cmd), __LINE__);
+    //NSLog(@"%@", [NSThread callStackSymbols]);
 
-    NSLog(@"Getting ActiveDocument threw an exception : %@", exception.reason);
+    //NSLog(@"Getting ActiveDocument threw an exception : %@", exception.reason);
   }
   @finally {
   }
@@ -136,12 +136,12 @@
  Called when the add-in is started up.  This performs basic initialization and one-time setup for running in a Word session.
 */
 -(void)ThisAddIn_Startup {
-  _StatsManager = [[STStatsManager alloc] init:[self DocumentManager]];
+  _StatsManager = [[STStatsManager alloc] initWithDocumentManager:[self DocumentManager] andSettingsManager:[self SettingsManager]];
 
   // We'll load at Startup but won't save on Shutdown.  We only save when the user makes
   // a change and then confirms it through the Settings dialog.
-  [[self PropertiesManager] Load];
-  [[self LogManager] UpdateSettings:[[[self PropertiesManager] Properties] EnableLogging]  filePath:[[[self PropertiesManager] Properties] LogLocation]];
+  [[self SettingsManager] Load];
+  [[self LogManager] UpdateSettings:[[[self SettingsManager] Settings] EnableLogging]  filePath:[[[self SettingsManager] Settings] LogLocation]];
   [[self LogManager] WriteMessage:@"Startup completed"];
   _DocumentManager.Logger = [self LogManager];
 
@@ -170,7 +170,8 @@
   
   @try
   {
-    [[self DocumentManager] SaveCodeFileListToDocument:doc];
+    [[self DocumentManager] SaveMetadataToDocument:doc metadata:[[self DocumentManager] LoadMetadataFromDocument:doc createIfEmpty:true]];
+    //[[self DocumentManager] SaveCodeFileListToDocument:doc];
   }
   @catch (NSException* exc)
   {
@@ -182,7 +183,7 @@
 
 
 /**
- Handle initailization when a document is opened.  This may be called multiple times in a single Word session.
+ Handle initialization when a document is opened.  This may be called multiple times in a single Word session.
 */
 -(void)Application_DocumentOpen:(STMSWord2011Document*)doc {
   [[self LogManager] WriteMessage:@"DocumentOpen - Started"];
@@ -210,7 +211,7 @@
         [[self LogManager] WriteMessage:[NSString stringWithFormat:@"Executed the statistical code for file, with success = %hhd", results.Success]];
       }
       @catch (NSException* exc) {
-        NSLog(@"StatTag encountered an exception while attempting to load and execute tags from the codefile : %@", [file FilePath]);
+        //NSLog(@"StatTag encountered an exception while attempting to load and execute tags from the codefile : %@", [file FilePath]);
       }
       @finally
       {
@@ -223,7 +224,7 @@
     
     NSString* alertText = [NSString stringWithFormat:@"The following source code files were referenced by this document, but could not be found on this device:\r\n\r\n%@", [[filesNotFound valueForKey:@"FilePath"] componentsJoinedByString:@"\r\n"]];
     NSAlert *alert = [[NSAlert alloc] init];
-    [alert setMessageText:@"StatTag fan't find some code files"];
+    [alert setMessageText:@"StatTag can't find some code files"];
     [alert setInformativeText:alertText];
     [alert setAlertStyle:NSWarningAlertStyle];
     [alert addButtonWithTitle:@"Ok"];

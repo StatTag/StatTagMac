@@ -12,7 +12,7 @@
 
 @protocol STIStatAutomation <NSObject>
 
--(BOOL)Initialize;
+-(BOOL)Initialize:(STCodeFile*)codeFile;
 -(NSArray<STCommandResult*>*)RunCommands:(NSArray<NSString*>*)commands;
 -(NSArray<STCommandResult*>*)RunCommands:(NSArray<NSString*>*)commands tag:(STTag*)tag;
 -(BOOL)IsReturnable:(NSString*)command;

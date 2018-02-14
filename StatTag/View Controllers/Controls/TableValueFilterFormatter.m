@@ -87,7 +87,7 @@
 }
 
 //continuous validation - filter disallowed characters
-// we don't directly show an error mesage here - our delegate handles it
+// we don't directly show an error message here - our delegate handles it
 - (BOOL)isPartialStringValid:(NSString **)partialStringPtr
        proposedSelectedRange:(NSRangePointer)proposedSelRangePtr
               originalString:(NSString *)origString
@@ -100,8 +100,8 @@
     
     if(firstMatch.location != NSNotFound)
     {
-      NSString* foundModel = [*partialStringPtr substringWithRange:firstMatch];
-      NSLog(@"found : '%@'", foundModel);
+      //NSString* foundModel = [*partialStringPtr substringWithRange:firstMatch];
+      //NSLog(@"found : '%@'", foundModel);
       
       if(_invalidEntryError != nil)
       {

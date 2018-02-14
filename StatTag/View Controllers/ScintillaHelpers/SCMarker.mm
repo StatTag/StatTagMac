@@ -11,7 +11,7 @@
 #import "Scintilla/Scintilla.h"
 #import "Scintilla/ScintillaView.h"
 
-#import "SCSCintilla.h"
+#import "SCScintilla.h"
 #import "SCHelpers.h"
 
 
@@ -131,12 +131,12 @@
 
 //MARK: constants
 
-/// An unsigned 32-bit mask of all <see cref="Margin" /> indexes where each bit cooresponds to a margin index.
+/// An unsigned 32-bit mask of all <see cref="Margin" /> indexes where each bit corresponds to a margin index.
 -(uint)MaskAll
 {
   return (uint)-1;
 }
-/// An unsigned 32-bit mask of folder <see cref="Margin" /> indexes (25 through 31) where each bit cooresponds to a margin index.
+/// An unsigned 32-bit mask of folder <see cref="Margin" /> indexes (25 through 31) where each bit corresponds to a margin index.
 /// <seealso cref="Margin.Mask" />
 -(uint)MaskFolders
 {

@@ -40,7 +40,7 @@
 }
 
 - (void)testInitialize {
-  bool passed = [[[STStataAutomation alloc] init] Initialize];
+  bool passed = [[[STStataAutomation alloc] init] Initialize:nil];
   XCTAssert(passed);
 }
 

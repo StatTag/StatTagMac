@@ -15,6 +15,8 @@
 
 @implementation TagIndicatorView
 
+@synthesize isLoading = _isLoading;
+
 /*
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -22,8 +24,11 @@
 }
 */
 
+//fixme a LOT of this should be done lazily and stored. We're dynamically recreating images on the fly here (bad)
+
 -(instancetype)init
 {
+  NSLog(@"lading TagIndicatorView - init()");
   self = [super init];
   if(self){
     
@@ -31,59 +36,85 @@
   return self;
 }
 
--(instancetype)initWithType:(TagIndicatorViewTagType)tagType andLabel:(NSString*)label
+- (void)drawRect:(NSRect)dirtyRect {
+  [super drawRect:dirtyRect];
+}
+
+-(instancetype)initWithStyle:(TagIndicatorViewTagStyle)tagStyle andLabel:(NSString*)label
 {
+  NSLog(@"lading TagIndicatorView - initWithStyle()");
+
   self = [super init];
   if(self){
-    [self setTagType:tagType];
+    [self setTagStyle:tagStyle];
     [[self tagLabel] setStringValue:label];
   }
   return self;
 }
 
-
--(void)setTagType:(TagIndicatorViewTagType)tagType
+-(BOOL)isLoading
 {
-  _tagType = tagType;
+  return _isLoading;
+}
+
+-(void)setIsLoading:(BOOL)loading;
+{
+  _isLoading = loading;
+}
+
+
+-(void)setTagStyle:(TagIndicatorViewTagStyle)tagStyle
+{
+  _tagStyle = tagStyle;
   [self setTagFormat];
 }
--(TagIndicatorViewTagType)tagType
+-(TagIndicatorViewTagStyle)tagStyle
 {
-  return _tagType;
+  return _tagStyle;
 }
 
 -(void)setTagFormat
 {
-  switch(_tagType)
+  switch(_tagStyle)
   {
-    case TagIndicatorViewTagTypeNormal:
+    case TagIndicatorViewTagStyleNormal:
       [[self tagImageView] setImage:[[self class] colorImage:[[self tagImageView] image] withTint:[NSColor blueColor]]];
       break;
-    case TagIndicatorViewTagTypeWarning:
+    case TagIndicatorViewTagStyleWarning:
       [[self tagImageView] setImage:[[self class] colorImage:[[self tagImageView] image] withTint:[NSColor orangeColor]]];
       break;
-    case TagIndicatorViewTagTypeError:
+    case TagIndicatorViewTagStyleError:
       [[self tagImageView] setImage:[[self class] colorImage:[[self tagImageView] image] withTint:[NSColor redColor]]];
+      break;
+    case TagIndicatorViewTagStyleUnlinked:
+      [[self tagImageView] setImage:[[self class] colorImage:[[self unlinkedTagImageView] image] withTint:[NSColor blueColor]]];
       break;
     default:
       [[self tagImageView] setImage:[[self class] colorImage:[[self tagImageView] image] withTint:[NSColor blueColor]]];
       break;
   }
+  [[self unlinkedTagImageView] setHidden:TRUE];
+}
+
+//+ (nonnull NSColor*)colorFromRGBRed:(CGFloat)r  green:(CGFloat)g blue:(CGFloat)b alpha:(CGFloat)a;
++(NSColor*)greenColor
+{
+  return [StatTagShared colorFromRGBRed:30.0 green:206.0 blue:66.0 alpha:1.0];
 }
 
 //tinting
-+ (NSImage *)colorImage:(NSImage*)image forTagIndicatorViewTagType:(TagIndicatorViewTagType)type
++ (NSImage *)colorImage:(NSImage*)image forTagIndicatorViewTagStyle:(TagIndicatorViewTagStyle)style
 {
   NSImage* copiedImage;
-  switch(type)
+  switch(style)
   {
-    case TagIndicatorViewTagTypeNormal:
-      copiedImage = [[self class] colorImage:image withTint:[NSColor greenColor]];
+    case TagIndicatorViewTagStyleNormal:
+      copiedImage = [[self class] colorImage:image withTint:[[self class] greenColor]];
       break;
-    case TagIndicatorViewTagTypeWarning:
+    case TagIndicatorViewTagStyleWarning:
       copiedImage = [[self class] colorImage:image withTint:[NSColor orangeColor]];
       break;
-    case TagIndicatorViewTagTypeError:
+    case TagIndicatorViewTagStyleError:
       copiedImage = [[self class] colorImage:image withTint:[NSColor redColor]];
       break;
     default:

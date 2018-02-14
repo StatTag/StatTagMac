@@ -8,28 +8,12 @@
 
 #import <Cocoa/Cocoa.h>
 
-//@class MainTabViewController;
-//@class STMSWord2011Application;
-//@class STMSWord2011Document;
-//@class STDocumentManager;
-//@class ManageCodeFilesViewController;
-
-
 @interface AppDelegate : NSObject <NSApplicationDelegate> {
-//  MainTabViewController* _mainVC;
-//  STMSWord2011Application* _app;
-//  STMSWord2011Document* _doc;
-//  STDocumentManager* _manager;
 }
 
-//@property (strong, nonatomic) STMSWord2011Application* app;
-//@property (strong, nonatomic) STMSWord2011Document* doc;
-//@property (strong, nonatomic) STDocumentManager* manager;
-//
-//@property (strong, nonatomic) MainTabViewController* mainVC; //weak?
 @property NSWindowController *preferencesWindowController;
 @property NSWindowController *aboutWindowController;
-
+@property NSWindowController *samplesWindowController;
 
 @property (weak) NSWindow* window;
 
@@ -37,9 +21,7 @@
 
 -(void)openPreferences;
 -(void)openAboutWindow;
-
-//-(void)update;
-//-(BOOL)enablePreferences;
+- (IBAction)openSamplesInstallerWindow:(id)sender;
 
 @end
 

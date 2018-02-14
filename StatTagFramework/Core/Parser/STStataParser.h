@@ -9,6 +9,25 @@
 #import <Foundation/Foundation.h>
 #import "STBaseParser.h"
 
+@interface STStataCommentBlock : NSObject {
+  long _Start;
+  long _End;
+  BOOL _IsNested;
+}
+@property long Start;
+@property long End;
+@property BOOL IsNested;
+@end
+
+@interface STStataParserLog : NSObject {
+}
+  @property (strong, nonatomic) NSString* LogType;
+  @property (strong, nonatomic) NSString* LogPath;
+  @property (strong, nonatomic) NSString* LiteralLogEntry;
+
+@end
+
+
 @interface STStataParser : STBaseParser {
   
 }
@@ -34,10 +53,17 @@
 -(BOOL) IsMacroDisplayValue:(NSString*)command;
 -(BOOL) IsStartingLog:(NSString*)command;
 -(NSArray<NSString*>*) GetLogType:(NSString*)command;
+-(NSArray<NSString*>*) GetLogFile:(NSString*)command;
+-(NSArray<STStataParserLog*>*)GetLogs:(NSString*)command;
+
 -(BOOL) IsCalculatedDisplayValue:(NSString*)command;
 -(NSArray<NSString*>*)GetMacros:(NSString*)command;
 -(NSArray<NSString*>*)PreProcessContent:(NSArray<NSString*>*)originalContent;
 -(NSString*) GetMacroValueName:(NSString*)command;
+-(BOOL) IsSavedResultCommand:(NSString*)command;
+-(BOOL) IsMatrix:(NSString*)command;
+-(BOOL) IsTable1Command:(NSString*)command;
+-(NSString*)GetTableDataPath:(NSString*)command;
 
 
 @end

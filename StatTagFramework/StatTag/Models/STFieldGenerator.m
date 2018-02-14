@@ -18,7 +18,7 @@
  
  That's just to start
  
- The entire approach isn't particularly good. It desperatley needs to be refactored.
+ The entire approach isn't particularly good. It needs to be refactored.
 
  */
  
@@ -37,10 +37,14 @@
 
 
 +(NSString*)FieldOpen {
-  return @"<";
+  return @"<<||$$";
+  //return @"\U000E0053";
+  //return @"<";
 }
 +(NSString*)FieldClose {
-  return @">";
+  return @"$$||>>";
+  //return @"\U000E0054";
+  //  return @">";
 }
 
 
@@ -59,7 +63,7 @@
   //FieldOpen,
   //FieldClose));
   @autoreleasepool {
-    NSArray<STMSWord2011Field*>* fields = [[self class] InsertField:range theString:[NSString stringWithFormat:@"%@MacroButton %@ %@%@ADDIN %@%@%@", [self FieldOpen], [STConstantsFieldDetails MacroButtonName], displayValue, [self FieldOpen], tagIdentifier, [self FieldClose], [self FieldClose] ]];
+    NSArray<STMSWord2011Field*>* fields = [[self class] InsertField:range theString:[NSString stringWithFormat:@"%@MacroButton %@ %@%@ADDIN %@%@%@", [self FieldOpen], [STConstantsFieldDetails MacroButtonName], [[self class] escapeMacroContent:displayValue] , [self FieldOpen], tagIdentifier, [self FieldClose], [self FieldClose] ]];
     
     STMSWord2011Field* dataField = [fields firstObject];
     dataField.fieldText = [tag Serialize:nil];
@@ -71,18 +75,27 @@
   }
 }
 
++(NSString*)escapeMacroContent:(NSString*)content
+{
+  
+//  NSError *error = nil;
+//  NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"([\"{}><])" options:NSRegularExpressionCaseInsensitive error:&error];
+//  NSString *modifiedString = [regex stringByReplacingMatchesInString:content options:0 range:NSMakeRange(0, [content length]) withTemplate:@"\\\\$1"];
+
+  return content;
+}
 
 +(void)offsetAllRanges:(NSMutableArray<STMSWord2011TextRange*>*)ranges EndsBy:(NSInteger)removeEnd {
   @autoreleasepool {
     for (NSInteger index = 0; index < [ranges count] ; index++) {
       STMSWord2011TextRange* range = [ranges objectAtIndex:index];
       if(([range endOfContent] - removeEnd) > 0 && [range startOfContent] != [range endOfContent]) {
-        //NSLog(@"OFFSETTING range -> ( %ld, %ld) content : %@", (long)[range startOfContent], (long)[range endOfContent], [range content]);
-        //NSLog(@"trying to set end to %d", [range endOfContent] - removeEnd);
+        ////NSLog(@"OFFSETTING range -> ( %ld, %ld) content : %@", (long)[range startOfContent], (long)[range endOfContent], [range content]);
+        ////NSLog(@"trying to set end to %d", [range endOfContent] - removeEnd);
         [WordHelpers setRange:&range Start:[range startOfContent] end:([range endOfContent] - removeEnd)];
         [ranges replaceObjectAtIndex:index withObject:range];
         
-        //NSLog(@"OFFSETTING range -> ( %ld, %ld) content : %@", (long)[range startOfContent], (long)[range endOfContent], [range content]);
+        ////NSLog(@"OFFSETTING range -> ( %ld, %ld) content : %@", (long)[range startOfContent], (long)[range endOfContent], [range content]);
       }
     }
   }
@@ -111,7 +124,33 @@
 +(NSArray<STMSWord2011Field*>*)InsertField:(STMSWord2011TextRange*)range theString:(NSString*)theString fieldOpen:(NSString*)fieldOpen fieldClose:(NSString*)fieldClose
 {
   
-
+  //FIXME:Start of "end of document insert bug"
+  //=============================================
+  // There's a gnarly issue where if we insert a tag at the end of the document, we can actually wind up looping back up to the top because we don't have enough space to insert.
+  // This is related to the # of characters in our field close. We need -at least- the same # of padding characters at the end of the document to account for our field close or Word skips back up to the top of the document and continues along. Probably has to do with our moving to the next position as we continue through our text.
+  // I don't have the time to deal with debugging a real fix right now, so I'm going to pad the end of the area with P IF AND ONLY IF we're near the end of the document.
+  // I've left this gross/simple code to be intentional about what we're doing
+  NSInteger fieldCloseLength = [fieldClose length];
+  NSInteger textRangeStart = [range startOfContent];
+  NSInteger textRangeEnd = [range endOfContent];
+  NSInteger docEndOfContent = [[[[[[STGlobals sharedInstance] ThisAddIn] Application] activeDocument] textObject] endOfContent];
+  
+  STMSWord2011TextRange* padRange;
+  
+  if(textRangeEnd + fieldCloseLength > docEndOfContent)
+  {
+    padRange = [WordHelpers DuplicateRange:range];
+    [WordHelpers setRange:&padRange Start:textRangeEnd end:textRangeEnd];
+    
+    for(NSInteger i = 0; i < fieldCloseLength; i++)
+    {
+      [WordHelpers insertParagraphAtRange:padRange];
+    }
+    [WordHelpers setRange:&padRange Start:[padRange startOfContent] end:[padRange endOfContent] + fieldCloseLength];
+    [WordHelpers setRange:&range Start:textRangeStart end:textRangeEnd];
+  }
+  //=============================================
+  
     NSCharacterSet *ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
 
     if(range == nil) {
@@ -239,18 +278,28 @@
      so we're going to do something else...
      */
     @autoreleasepool {
+      //NSLog(@"STFieldGenerator - insertField: Touching spaceRange");
       STMSWord2011TextRange* spaceRange = [WordHelpers DuplicateRange:fieldRange];
       [WordHelpers setRange:&spaceRange Start:[spaceRange endOfContent]+2 end:[spaceRange endOfContent]+3];
       [WordHelpers select:spaceRange];
+      //NSLog(@"STFieldGenerator - insertField: spacerange (%ld,%ld)", [spaceRange startOfContent], [spaceRange endOfContent]);
       
       STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
       STMSWord2011SelectionObject* selection = [app selection];
-      [selection typeBackspace];
+      //NSLog(@"STFieldGenerator - insertField: selection (%ld,%ld)", [[selection textObject] startOfContent], [[selection textObject] endOfContent]);
+      //NSLog(@"STFieldGenerator - insertField: selection (BEFORE typeBackspace) - '%@' (%hu), length: %ld", [selection content], [[selection content] characterAtIndex:0], [[selection content] length]);
+      //      [selection typeBackspace]; //EWW - for whatever reason this was not consistently working, so we're going to explicitly replace the content in the range instead (which may or may not result in the same intended behavior if we change how this works later - for now it's OK)
+      [selection setContent:@""];
+      //NSLog(@"STFieldGenerator - insertField: selection (AFTER typeBackspace) - '%@'", [selection content]);
       
       
       // Move the current selection after all inserted fields.
       NSInteger newPos = [fieldRange endOfContent] + [[fieldRange fields] count] + 1;
+      //NSLog(@"STFieldGenerator - insertField: newPos (%ld)", newPos);
+
+      //NSLog(@"STFieldGenerator - insertField: fieldRange BEFORE (%ld,%ld)", [fieldRange startOfContent], [fieldRange endOfContent]);
       [WordHelpers setRange:&fieldRange Start:newPos end:newPos];
+      //NSLog(@"STFieldGenerator - insertField: fieldRange AFTER (%ld,%ld)", [fieldRange startOfContent], [fieldRange endOfContent]);
       
       [WordHelpers select:fieldRange];
     }
@@ -260,6 +309,22 @@
       [result updateField];
     }
 
+  //FIXME: end section for "end of document insert" bug
+  //=============================================
+  //OK, now that we're at the end of this, go back and if we were forced to insert padding P to avoid the whole issue with Word text ranges eating back _up_ into content, remove the padding characters
+  //disabling this for now because we're having (predictable) issues with tables - complex multi-field structures
+//    if(padRange != nil)
+//    {
+//      @autoreleasepool {
+//        docEndOfContent = [[[[[[STGlobals sharedInstance] ThisAddIn] Application] activeDocument] textObject] endOfContent];
+//        //right - this is weird. We should have -1 here, but when we insert multiple fields we have issues and it eats content.
+//        //again - not a lot of time to debug this, so it will leave some extra P in here. For right now we're just going with it.
+//        [WordHelpers setRange:&padRange Start:docEndOfContent - fieldCloseLength + 1 end:docEndOfContent];
+//        [WordHelpers select:padRange];
+//        [[[[[STGlobals sharedInstance] ThisAddIn] Application] selection] setContent:@""];
+//      }
+//    }
+  
     return fields;
   
 }
@@ -317,7 +382,7 @@ Adds a new empty Word.Field to the specified Word.Range.
     
     STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
     [app createNewFieldTextRange:range fieldType:type fieldText:text preserveFormatting:preserveFormatting];
-    NSLog(@"AddFieldToRange - range(%ld, %ld)", [range startOfContent], [range endOfContent]);
+    //NSLog(@"AddFieldToRange - range(%ld, %ld)", [range startOfContent], [range endOfContent]);
     
     return [[range fields] lastObject];
     
@@ -403,7 +468,7 @@ Adds a new empty Word.Field to the specified Word.Range.
    we would ideally have done someting like this...
    -----
      STMSWord2011EFRt resultWorked = [result executeFindFindText:text matchCase:true matchWholeWord:false matchWildcards:false matchSoundsLike:false matchAllWordForms:false matchForward:true wrapFind:STMSWord2011E265FindStop findFormat:false replaceWith:@"" replace:STMSWord2011E273ReplaceNone];
-     NSLog(@"CreateFind : returned %u for range: %@ and text: '%@'", resultWorked, range, text);
+     //NSLog(@"CreateFind : returned %u for range: %@ and text: '%@'", resultWorked, range, text);
 
    So that's a bummer.
    

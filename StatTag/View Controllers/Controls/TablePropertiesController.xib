@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12121" systemVersion="17D47" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12121"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -20,19 +20,19 @@
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView misplaced="YES" id="Hz6-mo-xeY">
-            <rect key="frame" x="0.0" y="0.0" width="437" height="399"/>
+            <rect key="frame" x="0.0" y="0.0" width="534" height="399"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="KpU-hq-ouJ" userLabel="Table Properties Label">
-                    <rect key="frame" x="6" y="378" width="522" height="14"/>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KpU-hq-ouJ" userLabel="Table Properties Label">
+                    <rect key="frame" x="6" y="378" width="523" height="14"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Table Options" id="teb-pV-IBF">
                         <font key="font" metaFont="smallSystemBold"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
-                <button misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WV1-Ig-PLj">
-                    <rect key="frame" x="98" y="262" width="426" height="18"/>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="WV1-Ig-PLj">
+                    <rect key="frame" x="98" y="291" width="427" height="18"/>
                     <buttonCell key="cell" type="check" title="Column(s)" bezelStyle="regularSquare" imagePosition="left" lineBreakMode="truncatingTail" state="on" inset="2" id="KU8-bt-yyz">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="smallSystem"/>
@@ -42,7 +42,7 @@
                         <binding destination="-2" name="value" keyPath="self.tag.TableFormat.ColumnFilter.Enabled" id="J5O-yz-c3n"/>
                     </connections>
                 </button>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2GJ-cn-4Sb">
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" preferredMaxLayoutWidth="80" translatesAutoresizingMaskIntoConstraints="NO" id="2GJ-cn-4Sb">
                     <rect key="frame" x="10" y="293" width="84" height="14"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="80" id="lx7-o4-jG4"/>
@@ -53,17 +53,17 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
-                <box verticalHuggingPriority="750" misplaced="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="Fg3-7e-qXq" userLabel="Horizonal Line Numeric Properties">
-                    <rect key="frame" x="12" y="183" width="510" height="5"/>
+                <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="Fg3-7e-qXq" userLabel="Horizonal Line Numeric Properties">
+                    <rect key="frame" x="12" y="212" width="511" height="5"/>
                 </box>
                 <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="23m-ed-f6Q" userLabel="Horizontal Line Top">
-                    <rect key="frame" x="0.0" y="396" width="534" height="5"/>
+                    <rect key="frame" x="0.0" y="396" width="535" height="5"/>
                 </box>
-                <customView misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pAZ-94-tSh">
-                    <rect key="frame" x="0.0" y="0.0" width="534" height="185"/>
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="pAZ-94-tSh">
+                    <rect key="frame" x="0.0" y="0.0" width="535" height="214"/>
                 </customView>
-                <textField verticalHuggingPriority="750" misplaced="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HBE-wh-e1f">
-                    <rect key="frame" x="119" y="240" width="403" height="19"/>
+                <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HBE-wh-e1f">
+                    <rect key="frame" x="119" y="269" width="404" height="19"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="1, 3-5" drawsBackground="YES" id="nxA-12-R9Y">
                         <customFormatter key="formatter" id="lCi-YD-9GJ" customClass="TableValueFilterFormatter"/>
                         <font key="font" metaFont="smallSystem"/>
@@ -71,13 +71,17 @@
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                     <connections>
-                        <binding destination="-2" name="value" keyPath="self.tag.TableFormat.ColumnFilter.Value" id="h7a-s1-d1y"/>
                         <binding destination="-2" name="toolTip" keyPath="self.filterToolTip" id="GdA-th-SAa"/>
+                        <binding destination="-2" name="value" keyPath="self.tag.TableFormat.ColumnFilter.Value" id="vSW-xD-PE5">
+                            <dictionary key="options">
+                                <bool key="NSContinuouslyUpdatesValue" value="YES"/>
+                            </dictionary>
+                        </binding>
                         <outlet property="delegate" destination="-2" id="g7g-2q-L4O"/>
                     </connections>
                 </textField>
-                <textField verticalHuggingPriority="750" misplaced="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x1s-WS-XLk">
-                    <rect key="frame" x="119" y="194" width="403" height="19"/>
+                <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x1s-WS-XLk">
+                    <rect key="frame" x="119" y="223" width="404" height="19"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="1, 3-5" drawsBackground="YES" id="uQ0-Wj-lh3">
                         <customFormatter key="formatter" id="fL6-B7-I7d" customClass="TableValueFilterFormatter"/>
                         <font key="font" metaFont="smallSystem"/>
@@ -85,13 +89,17 @@
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                     <connections>
-                        <binding destination="-2" name="value" keyPath="self.tag.TableFormat.RowFilter.Value" id="PaI-4m-TAK"/>
                         <binding destination="-2" name="toolTip" keyPath="self.filterToolTip" id="0X6-HW-JWK"/>
+                        <binding destination="-2" name="value" keyPath="self.tag.TableFormat.RowFilter.Value" id="YoS-Tl-YTV">
+                            <dictionary key="options">
+                                <bool key="NSContinuouslyUpdatesValue" value="YES"/>
+                            </dictionary>
+                        </binding>
                         <outlet property="delegate" destination="-2" id="MKb-iD-WsJ"/>
                     </connections>
                 </textField>
-                <button misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hfj-Hb-ZEy">
-                    <rect key="frame" x="98" y="216" width="426" height="18"/>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="hfj-Hb-ZEy">
+                    <rect key="frame" x="98" y="245" width="427" height="18"/>
                     <buttonCell key="cell" type="check" title="Row(s)" bezelStyle="regularSquare" imagePosition="left" lineBreakMode="truncatingTail" state="on" inset="2" id="K0m-ET-xmH">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="smallSystem"/>
@@ -101,8 +109,8 @@
                         <binding destination="-2" name="value" keyPath="self.tag.TableFormat.RowFilter.Enabled" id="hdz-AL-PaZ"/>
                     </connections>
                 </button>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jXK-Eh-A7o">
-                    <rect key="frame" x="117" y="319" width="256" height="47"/>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jXK-Eh-A7o">
+                    <rect key="frame" x="117" y="319" width="408" height="47"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="47" id="v4U-5p-AnN"/>
                     </constraints>
@@ -112,7 +120,7 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NaM-l5-pwg">
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" preferredMaxLayoutWidth="80" translatesAutoresizingMaskIntoConstraints="NO" id="NaM-l5-pwg">
                     <rect key="frame" x="10" y="319" width="84" height="47"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="80" id="DFv-fk-G2z"/>
@@ -159,7 +167,7 @@
                 <constraint firstItem="KpU-hq-ouJ" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="8" id="xqB-UR-e24"/>
                 <constraint firstAttribute="trailing" secondItem="x1s-WS-XLk" secondAttribute="trailing" constant="12" id="zB4-KH-JQj"/>
             </constraints>
-            <point key="canvasLocation" x="-73.5" y="114.5"/>
+            <point key="canvasLocation" x="-182.5" y="114.5"/>
         </customView>
         <userDefaultsController representsSharedInstance="YES" id="6CO-dG-Yr4"/>
         <viewController id="45g-QP-X3f" customClass="NumericValuePropertiesController"/>

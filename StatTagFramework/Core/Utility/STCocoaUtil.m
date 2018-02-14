@@ -33,14 +33,14 @@
     switch(result)
     {
       case noErr:
-        //NSLog(@"the app's URL is: %@",appURL);
+        ////NSLog(@"the app's URL is: %@",appURL);
         url = (__bridge NSURL *)appURL;
         break;
       case kLSApplicationNotFoundErr:
-        NSLog(@"app not found");
+        //NSLog(@"app not found");
         break;
       default:
-        NSLog(@"an error occurred: %ld",(long)result);
+        //NSLog(@"an error occurred: %ld",(long)result);
         break;
     }
     
@@ -102,7 +102,7 @@
 //http://stackoverflow.com/questions/1702870/how-to-collect-system-info-in-osx-using-objective-c
 //http://www.cocoawithlove.com/blog/2016/03/08/swift-wrapper-for-sysctl.html
 
-+(NSArray<NSString*>*)splitStringIntoArrray:(NSString*)str {
++(NSArray<NSString*>*)splitStringIntoArray:(NSString*)str {
   NSMutableArray *chars = [[NSMutableArray alloc] initWithCapacity:[str length]];
   for (int i=0; i < [str length]; i++) {
     [chars addObject:[NSString stringWithFormat:@"%c", [str characterAtIndex:i]]];
@@ -112,6 +112,13 @@
 +(NSString*)currentBundleIdentifier {
   
   NSString *bundleName = [[NSBundle mainBundle] bundleIdentifier];
+  
+  if(bundleName == nil)
+  {
+    NSBundle* bundle = [NSBundle bundleForClass:[self class]];
+    bundleName = [bundle bundleIdentifier];
+  }
+  
   /*
    //originall had this so we could better test the app, but when we do this we get the framework bundle and not
    // the app bundle (when running)

@@ -39,17 +39,17 @@
   XCTAssertNil([tag CodeFile]);
   XCTAssertNil([tag CachedResult]);
   //TEST CASE DEVIATION
-  XCTAssertNotNil([tag FigureFormat]);//original execpted NIL
+  XCTAssertNotNil([tag FigureFormat]);//original expected NIL
   XCTAssertNil([tag LineEnd]);
   XCTAssertNil([tag LineStart]);
   //TEST CASE DEVIATION
-  XCTAssertNotNil([tag Name]);//original execpted NIL
+  XCTAssertNotNil([tag Name]);//original expected NIL
   XCTAssertNil([tag RunFrequency]);
   //TEST CASE DEVIATION
-  XCTAssertNotNil([tag TableFormat]);//original execpted NIL
+  XCTAssertNotNil([tag TableFormat]);//original expected NIL
   XCTAssertNil([tag Type]);
   //TEST CASE DEVIATION
-  XCTAssertNotNil([tag ValueFormat]);//original execpted NIL
+  XCTAssertNotNil([tag ValueFormat]);//original expected NIL
 }
 
 - (void)testEquals_Match {

@@ -33,10 +33,8 @@
     if(builder != nil && [[builder stringByTrimmingCharactersInSet:ws] length] > 0)
     {
       [builder appendFormat:@", "];
-      //builder.AppendFormat(", ");
     }
     
-    //    builder.AppendFormat("{0}{1}={2}, {0}{3}=\"{4}\", {0}{5}=\"{6}\"",
     [builder appendFormat:@"%@%@=%@, %@%@=\"%@\", %@%@=\"%@\"",
         [filter Prefix],
         [STConstantsTableParameters FilterEnabled],

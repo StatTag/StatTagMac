@@ -112,11 +112,6 @@ NSString* const InvalidFilterExceptionMessage = @"The filter value is invalid.  
     return nil;
   }
   
-//  NSRange r = [[self Value] rangeOfCharacterFromSet:ws];
-//  if (r.location != NSNotFound) {
-//    return nil;
-//  }
-  
   NSArray<NSString*>* components = [[self Value] componentsSeparatedByString:[STConstantsReservedCharacters ListDelimiter]];
 
   if([components count] == 0)
@@ -124,7 +119,6 @@ NSString* const InvalidFilterExceptionMessage = @"The filter value is invalid.  
     return nil;
   }
   
-  //NSMutableSet<NSNumber*>* valueList = [[NSMutableSet<NSNumber*> alloc] init];
   NSMutableArray<NSNumber*>* valueList = [[NSMutableArray<NSNumber*> alloc] init];
   
   for(NSString* component in components)
@@ -171,7 +165,8 @@ NSString* const InvalidFilterExceptionMessage = @"The filter value is invalid.  
 //MARK: Copy
 -(id)copyWithZone:(NSZone *)zone
 {
-  STFilterFormat *format = [[[self class] allocWithZone:zone] init];
+//  STFilterFormat *format = [[[self class] allocWithZone:zone] init];
+  STFilterFormat *format = (STFilterFormat*)[super copyWithZone:zone];
   
   format.Prefix = [_Prefix copy];
   format.Enabled = _Enabled;
@@ -184,7 +179,7 @@ NSString* const InvalidFilterExceptionMessage = @"The filter value is invalid.  
 //MARK: JSON
 //NOTE: go back later and figure out if/how the bulk of this can be centralized in some sort of generic or category (if possible)
 -(NSDictionary *)toDictionary {
-  NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
+  NSMutableDictionary* dict = [NSMutableDictionary dictionaryWithDictionary:[super toDictionary]];
   [dict setValue:[self Prefix]  forKey:@"Prefix"];
   [dict setValue:[NSNumber numberWithInteger:[self Enabled]]  forKey:@"Enabled"];
   [dict setValue:[self Type]  forKey:@"Type"];
@@ -192,67 +187,73 @@ NSString* const InvalidFilterExceptionMessage = @"The filter value is invalid.  
   return dict;
 }
 
--(void)setWithDictionary:(NSDictionary*)dict {
-  for (NSString* key in dict) {
-    [self setValue:[dict valueForKey:key] forKey:key];
-  }
-}
-
--(NSString*)Serialize:(NSError**)outError
+-(bool)setCustomObjectPropertyFromJSONObject:(id)object forKey:(NSString*)key
 {
-  return [STJSONUtility SerializeObject:self error:nil];
+  return false;
 }
 
-+(NSString*)SerializeList:(NSArray<NSObject<STJSONAble>*>*)list error:(NSError**)outError {
-  return [STJSONUtility SerializeList:list error:nil];
-}
-
-+(NSArray<STFilterFormat*>*)DeserializeList:(NSString*)List error:(NSError**)outError
-{
-  NSMutableArray<STFilterFormat*>* ar = [[NSMutableArray<STFilterFormat*> alloc] init];
-  for(id x in [STJSONUtility DeserializeList:List forClass:[self class] error:nil]) {
-    if([x isKindOfClass:[self class]])
-    {
-      [ar addObject:x];
-    }
-  }
-  return ar;
-}
-
--(instancetype)initWithDictionary:(NSDictionary*)dict
-{
-  self = [super init];
-  if (self) {
-    if(dict != nil  && ![dict isKindOfClass:[[NSNull null] class]])
-    {
-      [self setWithDictionary:dict];
-    }
-  }
-  return self;
-}
-
--(instancetype)initWithJSONString:(NSString*)JSONString error:(NSError**)outError
-{
-  self = [super init];
-  if (self) {
-    
-    NSError *error = nil;
-    NSData *JSONData = [JSONString dataUsingEncoding:NSUTF8StringEncoding];
-    NSDictionary *JSONDictionary = [NSJSONSerialization JSONObjectWithData:JSONData options:0 error:&error];
-    
-    if (!error && JSONDictionary) {
-      [self setWithDictionary:JSONDictionary];
-    } else {
-      if (outError) {
-        *outError = [NSError errorWithDomain:STStatTagErrorDomain
-                                        code:[error code]
-                                    userInfo:@{NSUnderlyingErrorKey: error}];
-      }
-    }
-  }
-  return self;
-}
-
+//
+//-(void)setWithDictionary:(NSDictionary*)dict {
+//  for (NSString* key in dict) {
+//    [self setValue:[dict valueForKey:key] forKey:key];
+//  }
+//}
+//
+//-(NSString*)Serialize:(NSError**)outError
+//{
+//  return [STJSONUtility SerializeObject:self error:nil];
+//}
+//
+//+(NSString*)SerializeList:(NSArray<NSObject<STJSONAble>*>*)list error:(NSError**)outError {
+//  return [STJSONUtility SerializeList:list error:nil];
+//}
+//
+//+(NSArray<STFilterFormat*>*)DeserializeList:(NSString*)List error:(NSError**)outError
+//{
+//  NSMutableArray<STFilterFormat*>* ar = [[NSMutableArray<STFilterFormat*> alloc] init];
+//  for(id x in [STJSONUtility DeserializeList:List forClass:[self class] error:nil]) {
+//    if([x isKindOfClass:[self class]])
+//    {
+//      [ar addObject:x];
+//    }
+//  }
+//  return ar;
+//}
+//
+//-(instancetype)initWithDictionary:(NSDictionary*)dict
+//{
+//  self = [super init];
+//  if (self) {
+//    if(dict != nil  && ![dict isKindOfClass:[[NSNull null] class]])
+//    {
+//      [self setWithDictionary:dict];
+//    }
+//  }
+//  return self;
+//}
+//
+//-(instancetype)initWithJSONString:(NSString*)JSONString error:(NSError**)outError
+//{
+//  self = [super init];
+//  if (self) {
+//    
+//    NSError *error = nil;
+//    NSData *JSONData = [JSONString dataUsingEncoding:NSUTF8StringEncoding];
+//    NSDictionary *JSONDictionary = [NSJSONSerialization JSONObjectWithData:JSONData options:0 error:&error];
+//    
+//    if (!error && JSONDictionary) {
+//      [self setWithDictionary:JSONDictionary];
+//    } else {
+//      if (outError) {
+//        *outError = [NSError errorWithDomain:STStatTagErrorDomain
+//                                        code:[error code]
+//                                    userInfo:@{NSUnderlyingErrorKey: error}];
+//      }
+//    }
+//  }
+//  return self;
+//}
+//
 
 
 @end

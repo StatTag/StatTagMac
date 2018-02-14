@@ -18,7 +18,6 @@
 #import "UpdateOutputViewController.h"
 #import "StatTagNeedsWordViewController.h"
 
-#import "AppEventListener.h"
 
 #import "ViewUtils.h"
 
@@ -26,6 +25,9 @@
 
 #import <QuartzCore/QuartzCore.h>
 #import <CoreVideo/CoreVideo.h>
+
+#import "STDocumentManager+FileMonitor.h"
+
 
 @interface AppDelegate ()
 
@@ -36,14 +38,7 @@
 @synthesize preferencesWindowController = _preferencesWindowController;
 @synthesize aboutWindowController = _aboutWindowController;
 
-//@synthesize manager = _manager;
-//@synthesize doc = _doc;
-//@synthesize app = _app;
-//@synthesize mainVC = _mainVC;
-//@synthesize mainWindow = _mainWindow;
-
 @synthesize dockTileView = _dockTileView;
-
 
 //http://stackoverflow.com/questions/36681587/os-x-storyboard-calls-viewdidload-before-applicationdidfinishlaunching
 //https://jamesdevnote.wordpress.com/2015/04/22/nswindow-nswindowcontroller-programmatically/
@@ -68,38 +63,17 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 
-//  [self runStatTagWithDocumentBrowser];
+  #if !defined(MAC_OS_X_VERSION_10_12_2) || MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_12_2
+    if ([[NSApplication sharedApplication] respondsToSelector:@selector(isAutomaticCustomizeTouchBarMenuItemEnabled)])
+    {
+      [NSApplication sharedApplication].automaticCustomizeTouchBarMenuItemEnabled = YES;
+    }
+  #endif
 
-/*
-  _window = [[[NSApplication sharedApplication] windows] firstObject];
-  [[StatTagShared sharedInstance] setWindow:_window];
-  [[StatTagShared sharedInstance] initializeWordViews];
-
-  [AppEventListener startListening];
-  //[[StatTagShared sharedInstance] logAppStartup];
-  
   if([[StatTagShared sharedInstance] isFirstLaunch])
   {
     [MacroInstallerUtility installMacros];
   }
-*/
-  
-  //NSDockTile* dockTile = [[NSApplication sharedApplication] dockTile];
-  //[self animateDockTileStart];
-//  //example of logging with a string
-//  LOG_STATTAG_MESSAGE(@"StatTag Finished Launching");
-
-//  //example of logging an error with an exception
-//  NSException* exc = [[NSException alloc] initWithName:@"Test Exception" reason:@"Something bad happened" userInfo:@{@"My Key" : @"My Key Value"}];
-//  LOG_STATTAG_EXCEPTION(exc);
-//
-//  //example of logging an error with a string
-//  NSString* s = @"Test String Exception";
-//  LOG_STATTAG_EXCEPTION(s);
-//
-//  //example of logging an error with an error
-//  NSError* err = [[NSError alloc] initWithDomain:@"StatTag Error" code:1 userInfo:@{NSLocalizedDescriptionKey : @"This is a test error"}];
-//  LOG_STATTAG_EXCEPTION(err);
   
 }
 
@@ -107,25 +81,9 @@
 {
   [[StatTagShared sharedInstance] configureBasicProperties];
 }
--(void)runStatTagWithTabs
-{
-  _window = [[[NSApplication sharedApplication] windows] firstObject];
-  [[StatTagShared sharedInstance] setWindow:_window];
-  [[StatTagShared sharedInstance] initializeWordViews];
-  
-  [AppEventListener startListening];
-  //[[StatTagShared sharedInstance] logAppStartup];
-  
-  if([[StatTagShared sharedInstance] isFirstLaunch])
-  {
-    [MacroInstallerUtility installMacros];
-  }
-}
 
 - (void)applicationDidBecomeActive:(NSNotification *)notification{
   //Posted immediately after the app becomes active.
-  //we're going to check to see if word is active + our active word document collection, etc. here
-  //we're going to replace the active polling method
 }
 
 - (void)applicationDidResignActive:(NSNotification *)notification {
@@ -134,14 +92,16 @@
 
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
-  // Insert code here to tear down your application  
-  [AppEventListener stopListening];
+  // Insert code here to tear down your application
+  [[[StatTagShared sharedInstance] documentManager] stopMonitoringCodeFiles];
 }
 
-//in our case - yes - let's quit if the last window is closed
+// in our case - yes - let's quit if the last window is closed
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication {
-  //FIXME: this is just a quick fix. Circle back and fix this to quit the app when the main window closes
-  return YES;
+  // We want the app to close, but in order to get window position to save appropriately we will return
+  // NO from this method and signal the app to terminate separately.
+  [NSApp performSelector:@selector(terminate:) withObject:nil afterDelay:0.0];
+  return NO;
 }
 
 //FIXME: not yet implemented
@@ -150,29 +110,18 @@
 }
 
 -(void)openPreferences {
-  //https://developer.apple.com/library/content/qa/qa1552/_index.html
-  //  if (![[StatTagShared sharedInstance] settingsViewController])
-  //  {
-  //   // SettingsViewController* _settingsVC = [[SettingsViewController alloc] init];
-  //  } else {
-  //    //[[StatTagShared sharedInstance] settingsViewController] showW
-  //    //[[[StatTagShared sharedInstance] settingsViewController] showWindow:self];
-  //  }
   NSStoryboard *storyBoard = [NSStoryboard storyboardWithName:@"Main" bundle:nil]; // get a reference to the storyboard
   self.preferencesWindowController = [storyBoard instantiateControllerWithIdentifier:@"preferencesWindowController"]; // instantiate your window controller
   
   SettingsViewController* settings = (SettingsViewController*)self.preferencesWindowController.contentViewController;
   
   StatTagShared* shared = [StatTagShared sharedInstance];
-  settings.propertiesManager = [shared propertiesManager];
+  settings.settingsManager = [shared settingsManager];
   settings.logManager = [shared logManager];
-  [[settings propertiesManager] Load];
-  settings.properties = [[shared propertiesManager] Properties]; //just for setup
+  [[settings settingsManager] Load];
+  settings.settings = [[shared settingsManager] Settings]; //just for setup
   
   [[self preferencesWindowController] showWindow:self]; // show the window
-  
-  
-  NSLog(@"open preferences");
 }
 
 
@@ -188,9 +137,24 @@
   
   [[self aboutWindowController] showWindow:self]; // show the window
   
-  NSLog(@"open about");
+  //NSLog(@"open about");
 
 }
+
+- (IBAction)openSamplesInstallerWindow:(id)sender {
+
+  // get a reference to the storyboard
+  NSStoryboard *storyBoard = [NSStoryboard storyboardWithName:@"Main" bundle:nil];
+
+  // instantiate your window controller
+  self.samplesWindowController = [storyBoard instantiateControllerWithIdentifier:@"samplesWindowController"];
+  [[self samplesWindowController] contentViewController];
+  
+  // show the window
+  [[self samplesWindowController] showWindow:self];
+
+}
+
 
 - (IBAction)installWordMacros:(id)sender {
   [MacroInstallerUtility installMacros];

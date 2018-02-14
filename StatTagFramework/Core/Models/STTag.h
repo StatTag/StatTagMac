@@ -7,19 +7,20 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "STJSONable.h"
+#import "STBase.h"
 @class STCodeFile;
 @class STCommandResult;
 @class STTableFormat;
 @class STValueFormat;
 @class STFigureFormat;
 
+
 /**
   A tag is a sequence of lines in a CodeFile that is defined by special
   comment tags.  It contains configuration information on how to interpret and
   format the result of the code block within the document.
 */
-@interface STTag : NSObject <STJSONAble, NSCopying> {
+@interface STTag : STBase <NSCopying> {
   STCodeFile* _CodeFile;
   NSString* _Type;
   NSString* _Name;
@@ -35,12 +36,27 @@
   NSNumber* _LineStart;
   NSNumber* _LineEnd;
   
+  //NSMutableDictionary* _ExtraMetadata;
 }
+
+
+extern NSString* const TagIdentifierDelimiter;
+extern NSString* const CurrentTagFormatVersion;
++(NSString*)CurrentTagFormatVersion;
 
 //MARK: properties
 @property (strong, nonatomic) STCodeFile *CodeFile;
 @property (copy, nonatomic) NSString *Type;
 @property (copy, nonatomic) NSString *Name;
+-(NSString*)CodeFilePath; //non-standard
+
+
+/**
+ Shortcut to the file path of the CodeFile.  This is used for serialization.
+ */
+@property (nonatomic, copy) NSURL* CodeFilePathURL;
+@property (nonatomic, copy) NSString* CodeFilePath;
+
 /**
  String
  */
@@ -52,7 +68,7 @@
 @property (readonly, nonatomic) NSString* Id;
 /**
  Format the results for the tag.  This method assumes that the tag has
- received a cahced copy of the results it should format.  It does not call out to
+ received a cached copy of the results it should format.  It does not call out to
  retrieve results if they are not set.
  */
 @property (readonly, nonatomic) NSString* FormattedResult;
@@ -66,6 +82,8 @@
  @brief The ending line is the 0-based line index where the closing tag tag exists.
  */
 @property (copy, nonatomic) NSNumber *LineEnd; //nil-able int
+
+//@property (strong, nonatomic) NSMutableDictionary* ExtraMetadata;
 
 
 //MARK: initializers

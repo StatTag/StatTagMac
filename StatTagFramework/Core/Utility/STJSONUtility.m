@@ -27,7 +27,7 @@
    
    Why are we doing this two different ways? Why not just one?
    
-   We don't know any of the date/time formats (not really), so using fixed date formatters and extracting the datetime from the string really isn't likely to be effecitve.  Could be "06/01/2016" or could be "June 1, 2016" or even "June First, 2016" - we just don't know.
+   We don't know any of the date/time formats (not really), so using fixed date formatters and extracting the datetime from the string really isn't likely to be effective.  Could be "06/01/2016" or could be "June 1, 2016" or even "June First, 2016" - we just don't know.
    
    We also don't know based on the locale how we should anticipate the string format.
    
@@ -141,9 +141,14 @@
 +(NSString*)SerializeObject:(NSObject<STJSONAble>*)object error:(NSError**)outError
 {
   NSError* error;
-  NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[object toDictionary] options:0 error:&error];
-  NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-  return jsonString;
+  NSDictionary* dataDictionary = [object toDictionary];
+  if ([NSJSONSerialization isValidJSONObject:dataDictionary]) {
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dataDictionary options:0 error:&error];
+    NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    return jsonString;
+  }
+
+  return nil;
 }
 
 //MARK: list serialization helpers
@@ -175,9 +180,9 @@
                                       code:[error code]
                                   userInfo:@{NSUnderlyingErrorKey: error}];
     }
-    NSLog(@"error: %@", [error localizedDescription]);
+    //NSLog(@"error: %@", [error localizedDescription]);
   } else {
-    NSLog(@"invalid json");
+    //NSLog(@"invalid json");
     *outError = [NSError errorWithDomain:STStatTagErrorDomain
                                     code:-1
                                 userInfo:@{NSLocalizedDescriptionKey: @"Invalid JSON"}];

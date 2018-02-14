@@ -15,6 +15,7 @@
 -(NSObject<STIResultCommandList>*)ValueResultCommands;
 -(NSObject<STIResultCommandList>*)FigureResultCommands;
 -(NSObject<STIResultCommandList>*)TableResultCommands;
+-(NSObject<STIResultCommandList>*)VerbatimResultCommands;
 
 @end
 
@@ -31,6 +32,10 @@
 
 @interface STRCommandsTableCommands : NSObject<STIResultCommandList>
 //-(NSString*)MatrixList;
+-(NSArray<NSString*>*)GetCommands;
+@end
+
+@interface STRCommandsVerbatimCommands : NSObject<STIResultCommandList>
 -(NSArray<NSString*>*)GetCommands;
 @end
 

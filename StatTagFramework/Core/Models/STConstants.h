@@ -32,6 +32,7 @@ extern NSString *const STStatTagErrorDomain;
 +(NSString*)Value;
 +(NSString*)Figure;
 +(NSString*)Table;
++(NSString*)Verbatim;
 +(NSArray<NSString *>*)GetList;
 @end
 
@@ -61,6 +62,7 @@ extern NSString *const STStatTagErrorDomain;
 +(NSString*)SupportedLabel;
 +(NSString*)SupportedFileFilters;
 +(NSString*)FormatForOpenFileDialog;
++(NSArray<NSString*>*)SupportedFileFiltersArray;
 @end
 
 @interface STConstantsFileExtensions : NSObject
@@ -184,5 +186,13 @@ extern NSString *const STStatTagErrorDomain;
 @interface STConstantsFilterType : NSObject
 +(NSString*)Exclude;
 +(NSString*)Include;
++(NSArray<NSString *>*)GetList;
+@end
+
+
+@interface STConstantsMissingValueOption : NSObject
++(NSString*)StatPackageDefault;
++(NSString*)CustomValue;
++(NSString*)BlankString;
 +(NSArray<NSString *>*)GetList;
 @end

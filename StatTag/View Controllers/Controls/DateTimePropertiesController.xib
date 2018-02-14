@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11201"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12121"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="DateTimePropertiesController">
@@ -46,8 +47,8 @@
                         </menu>
                     </popUpButtonCell>
                     <connections>
-                        <binding destination="LgA-dK-Rl0" name="content" keyPath="arrangedObjects.title" id="UIw-ph-6Jn"/>
                         <binding destination="LgA-dK-Rl0" name="contentValues" keyPath="arrangedObjects.content" previousBinding="UIw-ph-6Jn" id="3pO-hh-px2"/>
+                        <binding destination="LgA-dK-Rl0" name="content" keyPath="arrangedObjects.title" id="UIw-ph-6Jn"/>
                         <binding destination="-2" name="selectedObject" keyPath="self.tag.ValueFormat.DateFormat" previousBinding="3pO-hh-px2" id="KmG-sV-Iqn"/>
                     </connections>
                 </popUpButton>
@@ -62,7 +63,7 @@
                         <binding destination="-2" name="value" keyPath="self.useTimeFormat" id="f4h-a7-xtj"/>
                     </connections>
                 </button>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="kRh-dj-Wg7">
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" preferredMaxLayoutWidth="80" translatesAutoresizingMaskIntoConstraints="NO" id="kRh-dj-Wg7">
                     <rect key="frame" x="10" y="81" width="84" height="14"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="80" id="qlM-pc-WO1"/>
@@ -73,7 +74,7 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fk6-t5-4a4">
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" preferredMaxLayoutWidth="80" translatesAutoresizingMaskIntoConstraints="NO" id="fk6-t5-4a4">
                     <rect key="frame" x="10" y="36" width="84" height="14"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="80" id="JRp-of-ckB"/>
@@ -98,8 +99,8 @@
                         </menu>
                     </popUpButtonCell>
                     <connections>
-                        <binding destination="4sS-de-x7v" name="content" keyPath="arrangedObjects.title" id="MNE-hQ-kgL"/>
                         <binding destination="4sS-de-x7v" name="contentValues" keyPath="arrangedObjects.content" previousBinding="MNE-hQ-kgL" id="IJP-Rl-QH4"/>
+                        <binding destination="4sS-de-x7v" name="content" keyPath="arrangedObjects.title" id="MNE-hQ-kgL"/>
                         <binding destination="-2" name="selectedObject" keyPath="self.tag.ValueFormat.TimeFormat" previousBinding="IJP-Rl-QH4" id="zMR-G6-OE8"/>
                     </connections>
                 </popUpButton>

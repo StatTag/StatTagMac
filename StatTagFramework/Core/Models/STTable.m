@@ -63,17 +63,12 @@
   }
   
   return [data GetDataAtIndex:index];
-  
-  //NSInteger columns = [data numColumns];
-  //return [data valueAtRow:(index / columns) andColumn:(index % columns)];
-  //  return [[[data Data] objectAtIndex:(index / columns)] objectAtIndex:(index % columns)];
 }
 
 -(NSString*)ToString {
   //FIXME: the original code makes use of ToString in places, but it's not clear how the default implementation works (STTableFormat)
   //for now, it appears the original c# just returns class name as the default ToString
   
-  //return @"Table";
   return NSStringFromClass([self class]);
   
 }
@@ -87,9 +82,8 @@
 
 //MARK: JSON
 -(NSDictionary *)toDictionary {
-  NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];  
-  //[dict setValue:[self RowNames] forKey:@"RowNames"];
-  //[dict setValue:[self ColumnNames] forKey:@"ColumnNames"];
+  NSMutableDictionary* dict = [NSMutableDictionary dictionaryWithDictionary:[super toDictionary]];
+
   [dict setValue:[NSNumber numberWithInteger:[self RowSize]] forKey:@"RowSize"];
   [dict setValue:[NSNumber numberWithInteger:[self ColumnSize]] forKey:@"ColumnSize"];
   [dict setValue:[[self Data] toDictionary] forKey:@"Data"];
@@ -98,79 +92,92 @@
   return dict;
 }
 
--(void)setWithDictionary:(NSDictionary*)dict {
-  if(dict == nil || [dict isKindOfClass:[[NSNull null] class]])
-  {
-    return;
-  }
-
-  for (NSString* key in dict) {
-    if([key isEqualToString:@"Data"]) {
-      id aValue = [dict valueForKey:key];
-      NSDictionary *objDict = aValue;
-      if(objDict != nil) {
-        [self setValue:[[STTableData alloc] initWithDictionary:objDict] forKey:key];
-      }
-    } else {
-      [self setValue:[dict valueForKey:key] forKey:key];
-    }
-  }
-}
-
--(NSString*)Serialize:(NSError**)outError
+-(bool)setCustomObjectPropertyFromJSONObject:(id)object forKey:(NSString*)key
 {
-  return [STJSONUtility SerializeObject:self error:nil];
-}
-
-+(NSString*)SerializeList:(NSArray<NSObject<STJSONAble>*>*)list error:(NSError**)outError {
-  return [STJSONUtility SerializeList:list error:nil];
-}
-
-+(NSArray<STTable*>*)DeserializeList:(id)List error:(NSError**)outError
-{
-  NSMutableArray<STTable*>* ar = [[NSMutableArray<STTable*> alloc] init];
-  for(id x in [STJSONUtility DeserializeList:List forClass:[self class] error:nil]) {
-    if([x isKindOfClass:[self class]])
-    {
-      [ar addObject:x];
+  if([key isEqualToString:@"Data"]) {
+    NSDictionary *objDict = object;
+    if(objDict != nil) {
+      [self setValue:[[STTableData alloc] initWithDictionary:objDict] forKey:key];
     }
+  } else {
+    return false;
   }
-  return ar;
+  return true;
 }
 
--(instancetype)initWithDictionary:(NSDictionary*)dict
-{
-  self = [super init];
-  if (self) {
-    if(dict != nil  && ![dict isKindOfClass:[[NSNull null] class]])
-    {
-      [self setWithDictionary:dict];
-    }
-  }
-  return self;
-}
-
--(instancetype)initWithJSONString:(NSString*)JSONString error:(NSError**)outError
-{
-  self = [super init];
-  if (self) {
-    
-    NSError *error = nil;
-    NSData *JSONData = [JSONString dataUsingEncoding:NSUTF8StringEncoding];
-    NSDictionary *JSONDictionary = [NSJSONSerialization JSONObjectWithData:JSONData options:0 error:&error];
-    
-    if (!error && JSONDictionary) {
-      [self setWithDictionary:JSONDictionary];
-    } else {
-      if (outError) {
-        *outError = [NSError errorWithDomain:STStatTagErrorDomain
-                                        code:[error code]
-                                    userInfo:@{NSUnderlyingErrorKey: error}];
-      }
-    }
-  }
-  return self;
-}
+//-(void)setWithDictionary:(NSDictionary*)dict {
+//  if(dict == nil || [dict isKindOfClass:[[NSNull null] class]])
+//  {
+//    return;
+//  }
+//
+//  for (NSString* key in dict) {
+//    if([key isEqualToString:@"Data"]) {
+//      id aValue = [dict valueForKey:key];
+//      NSDictionary *objDict = aValue;
+//      if(objDict != nil) {
+//        [self setValue:[[STTableData alloc] initWithDictionary:objDict] forKey:key];
+//      }
+//    } else {
+//      [self setValue:[dict valueForKey:key] forKey:key];
+//    }
+//  }
+//}
+//
+//-(NSString*)Serialize:(NSError**)outError
+//{
+//  return [STJSONUtility SerializeObject:self error:nil];
+//}
+//
+//+(NSString*)SerializeList:(NSArray<NSObject<STJSONAble>*>*)list error:(NSError**)outError {
+//  return [STJSONUtility SerializeList:list error:nil];
+//}
+//
+//+(NSArray<STTable*>*)DeserializeList:(id)List error:(NSError**)outError
+//{
+//  NSMutableArray<STTable*>* ar = [[NSMutableArray<STTable*> alloc] init];
+//  for(id x in [STJSONUtility DeserializeList:List forClass:[self class] error:nil]) {
+//    if([x isKindOfClass:[self class]])
+//    {
+//      [ar addObject:x];
+//    }
+//  }
+//  return ar;
+//}
+//
+//-(instancetype)initWithDictionary:(NSDictionary*)dict
+//{
+//  self = [super init];
+//  if (self) {
+//    if(dict != nil  && ![dict isKindOfClass:[[NSNull null] class]])
+//    {
+//      [self setWithDictionary:dict];
+//    }
+//  }
+//  return self;
+//}
+//
+//-(instancetype)initWithJSONString:(NSString*)JSONString error:(NSError**)outError
+//{
+//  self = [super init];
+//  if (self) {
+//    
+//    NSError *error = nil;
+//    NSData *JSONData = [JSONString dataUsingEncoding:NSUTF8StringEncoding];
+//    NSDictionary *JSONDictionary = [NSJSONSerialization JSONObjectWithData:JSONData options:0 error:&error];
+//    
+//    if (!error && JSONDictionary) {
+//      [self setWithDictionary:JSONDictionary];
+//    } else {
+//      if (outError) {
+//        *outError = [NSError errorWithDomain:STStatTagErrorDomain
+//                                        code:[error code]
+//                                    userInfo:@{NSUnderlyingErrorKey: error}];
+//      }
+//    }
+//  }
+//  return self;
+//}
 
 
 @end

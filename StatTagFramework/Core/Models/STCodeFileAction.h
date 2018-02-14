@@ -7,13 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "STJSONable.h"
+#import "STBase.h"
 
 /**
  @brief Used to specify an action to take when a code file is unlinked from a document, and there
         are tags referenced in the document that it depends on.
  */
-@interface STCodeFileAction : NSObject <STJSONAble> {
+@interface STCodeFileAction : STBase {
   NSString* _Label;
   NSInteger _Action;
   id _Parameter;

@@ -7,8 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "STJSONable.h"
-
+#import "STBase.h"
 
 @class STTag;
 @class STFileHandler;
@@ -19,7 +18,7 @@
  in a statistical package (e.g. Stata, R, SAS), and will be used within
  a Word document to derive values that are placed into the document text.
 */
-@interface STCodeFile : NSObject <NSCopying, STJSONAble> {
+@interface STCodeFile : STBase <NSCopying> {
   NSString* _StatisticalPackage;
   NSString* _FilePath;
   NSURL* _FilePathURL;
@@ -36,6 +35,7 @@
 @property (copy, nonatomic) NSDate *LastCached;
 @property (strong, nonatomic) NSMutableArray<STTag *> *Tags;
 
+
 @property (strong, nonatomic) NSMutableArray<NSString *> *Content;
 @property (copy, nonatomic) NSString* ContentString;
 
@@ -49,7 +49,7 @@
 - (void) RefreshContent;
 
 /**
- Using the contents of this file, parse the instrutions and build the list
+ Using the contents of this file, parse the instructions and build the list
  of tags that are present and cache them for later use.
  */
 -(void)LoadTagsFromContent:(BOOL)preserveCache;
@@ -62,6 +62,7 @@
 +(instancetype)codeFileWithFilePath:(NSString*)filePath andTags:(NSArray<STTag*>*)tags;
 
 -(NSString*)FileName;
+-(NSString*)DirectoryPathString;
 
 
 - (NSUInteger)hash;

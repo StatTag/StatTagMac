@@ -26,7 +26,7 @@
 
 //URL form accessor for FilePath
 -(void)setFilePathURL:(NSURL*) u {
-  self.FilePath = [u path];
+  [self setFilePath:[u path]];
 }
 -(NSURL*)FilePathURL {
   NSURL* url;
@@ -34,28 +34,59 @@
     return url;
   }
   @try {
-    //URL CHANGE
-    //url = [[NSURL alloc] initWithString:[[self FilePath] stringByAddingPercentEncodingWithAllowedCharacters: [NSCharacterSet URLHostAllowedCharacterSet]]];//append path at the end so we can deal with spaces, etc.
-    
     url = [NSURL fileURLWithPath:[self FilePath]];
   }
   @catch (NSException * e) {
-    NSLog(@"Exception creating URL (%@): %@", NSStringFromClass([self class]), [self FilePath]);
+    //NSLog(@"Exception creating URL (%@): %@", NSStringFromClass([self class]), [self FilePath]);
   }
   @finally {
   }
   return url;
 }
 
--(NSString*)FileName {
-  return [[self FilePathURL] lastPathComponent];
+//we're using custom setters/getters because there are places where we are overwriting the tag data as an immutable array - we want to avoid that as it breaks some of our updates
+-(NSMutableArray<STTag*>*)Tags
+{
+  if(_Tags == nil)
+  {
+    _Tags = [[NSMutableArray<STTag*> alloc] init];
+    [self LoadTagsFromContent:true];
+  }
+  return _Tags;
 }
+-(void)setTags:(NSArray<STTag*>*)tags
+{
+  _Tags = [[NSMutableArray<STTag*> alloc] initWithArray:tags];
+}
+
+-(NSString*)FileName {
+  NSString* fileName = [[self FilePath] lastPathComponent];
+  if([fileName isEqualToString:[self FilePath]])
+  {
+    //may be a Windows path
+    // I get valid URLs back from these, but can't pluck out just the file name
+    // It's flagged as a valid file URL, but the file name can't be pulled out
+    // can't determine the best way to approach this, so I'm going to try a quick work-around
+    fileName = [[[self FilePath] componentsSeparatedByString:@"\\"] lastObject];
+  }
+  return fileName;
+}
+
+-(NSString*)DirectoryPathString {
+  NSString* folderPath = [self FilePath];
+  NSRange lastFileNamePosition = [[self FilePath] rangeOfString:[self FileName] options:NSBackwardsSearch];
+  if(lastFileNamePosition.location != NSNotFound) {
+    folderPath = [folderPath stringByReplacingCharactersInRange:lastFileNamePosition withString:@""];
+  }
+  return folderPath;
+}
+
 
 -(void)setStatisticalPackage:(NSString *)StatisticalPackage {
   _StatisticalPackage = StatisticalPackage;
 }
 -(NSString*)StatisticalPackage {
-  if(_StatisticalPackage == nil) {
+  if(_StatisticalPackage == nil || [_StatisticalPackage length] <= 0) {
     _StatisticalPackage = [STCodeFile GuessStatisticalPackage:[self FilePath]];
   }
   return _StatisticalPackage;
@@ -117,13 +148,14 @@ NSObject<STIFileHandler>* _FileHandler;
 -(void)initialize:(NSObject<STIFileHandler>*)handler {
   _Tags = [[NSMutableArray<STTag*> alloc] init];
   _FileHandler = handler ? handler :[[STFileHandler alloc] init];
-  NSLog(@"_FileHandler : %@", _FileHandler);
+  //NSLog(@"_FileHandler : %@", _FileHandler);
 }
 
 //MARK: copying
 -(id)copyWithZone:(NSZone *)zone
 {
-  STCodeFile *codeFile = [[[self class] allocWithZone:zone] init];//[[STCodeFile alloc] init];
+//  STCodeFile *codeFile = [[[self class] allocWithZone:zone] init];
+  STCodeFile *codeFile = (STCodeFile*)[super copyWithZone:zone];
 
   codeFile.StatisticalPackage = [_StatisticalPackage copyWithZone:zone];
   codeFile.FilePath = [_FilePath copyWithZone:zone];
@@ -174,11 +206,17 @@ NSObject<STIFileHandler>* _FileHandler;
 */
 - (void) RefreshContent {
   NSError *error;
+  //why is this possibly blowing up if we attempt to access the result directly? and only occasionally?
+//  id result = [_FileHandler ReadAllLines:[self FilePathURL] error:&error];
+//  if(result && [[result class] isEqualTo:[NSArray class]])
+//  {
+//    ContentCache = [result mutableCopy];
+//  }
   ContentCache = [NSMutableArray arrayWithArray:[_FileHandler ReadAllLines:[self FilePathURL] error:&error]];
 }
 
 /**
- Using the contents of this file, parse the instrutions and build the list
+ Using the contents of this file, parse the instructions and build the list
  of tags that are present and cache them for later use.
 */
 -(void)LoadTagsFromContent {
@@ -256,12 +294,7 @@ the cached results in another tag.
  user needs to restore it.
 */
 -(void)SaveBackup:(NSError**)error {
-
-  //URL CHANGE
-  //NSURL *backupFile = [[NSURL alloc] initWithString:[[NSString stringWithFormat:@"%@.%@", [[self FilePathURL] path], [STConstantsFileExtensions Backup]]  stringByAddingPercentEncodingWithAllowedCharacters: [NSCharacterSet URLHostAllowedCharacterSet]] ];
-
   NSURL *backupFile = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@.%@", [[self FilePathURL] path], [STConstantsFileExtensions Backup]]];
-
   
   if (![_FileHandler Exists:backupFile error:error])
   {
@@ -272,7 +305,8 @@ the cached results in another tag.
 //MARK: JSON
 //NOTE: go back later and figure out if/how the bulk of this can be centralized in some sort of generic or category (if possible)
 -(NSDictionary *)toDictionary {
-  NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
+  NSMutableDictionary* dict = [NSMutableDictionary dictionaryWithDictionary:[super toDictionary]];
+
   [dict setValue:[self StatisticalPackage] forKey:@"StatisticalPackage"];
   [dict setValue:[self FilePath] forKey:@"FilePath"];
   [dict setValue:[STJSONUtility convertDateToDateString:self.LastCached] forKey:@"LastCached"]; //format?
@@ -280,90 +314,115 @@ the cached results in another tag.
   return dict;
 }
 
--(void)setWithDictionary:(NSDictionary*)dict {
-  if(dict == nil || [dict isKindOfClass:[[NSNull null] class]])
-  {
-    return;
-  }
 
-  for (NSString* key in dict) {
-    if([key isEqualToString:@"FilePath"]) {
-      //[self setValue:[[NSURL alloc] initWithString:[dict valueForKey:key]] forKey:key];
-      [self setValue:[dict valueForKey:key] forKey:key];
-    } else if([key isEqualToString:@"LastCached"]) {
-      [self setValue:[STJSONUtility dateFromString:[dict valueForKey:key]] forKey:key];
-      //NSLog(@"LastCached : %@", [self LastCached]);
-    } else {
-      [self setValue:[dict valueForKey:key] forKey:key];
-    }
+-(bool)setCustomObjectPropertyFromJSONObject:(id)object forKey:(NSString*)key
+{
+  if([key isEqualToString:@"FilePath"]) {
+    //[self setValue:[[NSURL alloc] initWithString:[dict valueForKey:key]] forKey:key];
+    [self setValue:object forKey:key];
+  } else if([key isEqualToString:@"LastCached"]) {
+    [self setValue:[STJSONUtility dateFromString:object] forKey:key];
+    ////NSLog(@"LastCached : %@", [self LastCached]);
+  } else {
+    return false;
   }
+  return true;
+}
+
+-(void)afterSetWithDictionary
+{
+  [super afterSetWithDictionary];
   if(_FileHandler == nil) {
     _FileHandler = [[STFileHandler alloc] init];
   }
 }
 
--(NSString*)Serialize:(NSError**)error
-{
-  return [STJSONUtility SerializeObject:self error:nil];
-}
 
-/**
- Utility method to serialize the list of code files into a JSON array.
- */
-+(NSString*)SerializeList:(NSArray<NSObject<STJSONAble>*>*)list error:(NSError**)outError {
-  return [STJSONUtility SerializeList:list error:nil];
-}
-
-/**
- Utility method to take a JSON array string and convert it back into a list of
- CodeFile objects.  This does not resolve the list of tags that may be
- associated with the CodeFile.
- */
-//+(NSArray<STCodeFile*>*)DeserializeList:(NSString*)List error:(NSError**)outError
-+(NSArray<STCodeFile*>*)DeserializeList:(id)List error:(NSError**)outError
-{
-  NSMutableArray<STCodeFile*>* ar = [[NSMutableArray<STCodeFile*> alloc] init];
-  for(id x in [STJSONUtility DeserializeList:List forClass:[self class] error:nil]) {
-    if([x isKindOfClass:[self class]])
-    {
-      [ar addObject:x];
-    }
-  }
-  return ar;
-}
-
--(instancetype)initWithDictionary:(NSDictionary*)dict
-{
-  self = [super init];
-  if (self) {
-    if(dict != nil  && ![dict isKindOfClass:[[NSNull null] class]])
-    {
-      [self setWithDictionary:dict];
-    }
-  }
-  return self;
-}
-
--(instancetype)initWithJSONString:(NSString*)JSONString error:(NSError**)outError
-{
-  self = [super init];
-  if (self) {
-    NSError *error = nil;
-    NSData *JSONData = [JSONString dataUsingEncoding:NSUTF8StringEncoding];
-    NSDictionary *JSONDictionary = [NSJSONSerialization JSONObjectWithData:JSONData options:0 error:&error];
-    
-    if (!error && JSONDictionary) {
-      [self setWithDictionary:JSONDictionary];
-    } else {
-      if (outError) {
-        *outError = [NSError errorWithDomain:STStatTagErrorDomain
-                                        code:[error code]
-                                    userInfo:@{NSUnderlyingErrorKey: error}];
-      }
-    }
-  }
-  return self;
-}
+//
+//-(void)setWithDictionary:(NSDictionary*)dict {
+//  if(dict == nil || [dict isKindOfClass:[[NSNull null] class]])
+//  {
+//    return;
+//  }
+//
+//  for (NSString* key in dict) {
+//    if([key isEqualToString:@"FilePath"]) {
+//      //[self setValue:[[NSURL alloc] initWithString:[dict valueForKey:key]] forKey:key];
+//      [self setValue:[dict valueForKey:key] forKey:key];
+//    } else if([key isEqualToString:@"LastCached"]) {
+//      [self setValue:[STJSONUtility dateFromString:[dict valueForKey:key]] forKey:key];
+//      ////NSLog(@"LastCached : %@", [self LastCached]);
+//    } else {
+//      [self setValue:[dict valueForKey:key] forKey:key];
+//    }
+//  }
+//  if(_FileHandler == nil) {
+//    _FileHandler = [[STFileHandler alloc] init];
+//  }
+//}
+//
+//-(NSString*)Serialize:(NSError**)error
+//{
+//  return [STJSONUtility SerializeObject:self error:nil];
+//}
+//
+///**
+// Utility method to serialize the list of code files into a JSON array.
+// */
+//+(NSString*)SerializeList:(NSArray<NSObject<STJSONAble>*>*)list error:(NSError**)outError {
+//  return [STJSONUtility SerializeList:list error:nil];
+//}
+//
+///**
+// Utility method to take a JSON array string and convert it back into a list of
+// CodeFile objects.  This does not resolve the list of tags that may be
+// associated with the CodeFile.
+// */
+////+(NSArray<STCodeFile*>*)DeserializeList:(NSString*)List error:(NSError**)outError
+//+(NSArray<STCodeFile*>*)DeserializeList:(id)List error:(NSError**)outError
+//{
+//  NSMutableArray<STCodeFile*>* ar = [[NSMutableArray<STCodeFile*> alloc] init];
+//  for(id x in [STJSONUtility DeserializeList:List forClass:[self class] error:nil]) {
+//    if([x isKindOfClass:[self class]])
+//    {
+//      [ar addObject:x];
+//    }
+//  }
+//  return ar;
+//}
+//
+//-(instancetype)initWithDictionary:(NSDictionary*)dict
+//{
+//  self = [super init];
+//  if (self) {
+//    if(dict != nil  && ![dict isKindOfClass:[[NSNull null] class]])
+//    {
+//      [self setWithDictionary:dict];
+//    }
+//  }
+//  return self;
+//}
+//
+//-(instancetype)initWithJSONString:(NSString*)JSONString error:(NSError**)outError
+//{
+//  self = [super init];
+//  if (self) {
+//    NSError *error = nil;
+//    NSData *JSONData = [JSONString dataUsingEncoding:NSUTF8StringEncoding];
+//    NSDictionary *JSONDictionary = [NSJSONSerialization JSONObjectWithData:JSONData options:0 error:&error];
+//    
+//    if (!error && JSONDictionary) {
+//      [self setWithDictionary:JSONDictionary];
+//    } else {
+//      if (outError) {
+//        *outError = [NSError errorWithDomain:STStatTagErrorDomain
+//                                        code:[error code]
+//                                    userInfo:@{NSUnderlyingErrorKey: error}];
+//      }
+//    }
+//  }
+//  return self;
+//}
 
 
 
@@ -460,6 +519,9 @@ the cached results in another tag.
       otherTag.LineEnd = [NSNumber numberWithInteger:_lineEnd];
     }
   }
+  
+  [self setContent:ContentCache];
+  
 }
 
 
@@ -488,10 +550,6 @@ the cached results in another tag.
   #pragma unused(content) //touching this just forces things to work - ignore the variable not being used
 
   if(oldTag != nil) {
-    //var refreshedOldTag = (matchWithPosition ? Tags.FirstOrDefault(tag => oldTag.EqualsWithPosition(tag)) : Tags.FirstOrDefault(tag => oldTag.Equals(tag)));
-
-    //this is all wrong
-    //STTag* refreshedOldTag = _Tags.FirstOrDefault(tag => oldTag.Equals(tag, matchWithPosition));
     NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(STTag *aTag, NSDictionary *bindings) {
       //return [aTag isEqual:oldTag];
       return [aTag Equals:oldTag usePosition:matchWithPosition];
@@ -538,7 +596,7 @@ the cached results in another tag.
     //FIXME: this should be replaced with better nsindexset search and removal
     /* NOTE: leaving this in here for reference so we don't repeat the same mistake I did initially.
      
-     We CANNOT use object equality to find tags here. The initial predicate match is fine, but the later "remove objects in array" uses an equality comparison, which basically undoes our specialized "match with positiion" logic below.
+     We CANNOT use object equality to find tags here. The initial predicate match is fine, but the later "remove objects in array" uses an equality comparison, which basically undoes our specialized "match with position" logic below.
      
      Instead, we're going to do what I should have done initially - and what Luke did in the original c# - which is find and remove by _index_.
      
@@ -604,14 +662,10 @@ the cached results in another tag.
       if([duplicates objectForKey:[distinct objectForKey:searchLabel]] == nil)
       {
         [duplicates setObject:[[NSMutableArray<STTag*> alloc] init] forKey:[distinct objectForKey:searchLabel]];
-        //duplicates.Add(distinct[searchLabel], new List<Tag>());
       }
-      //http://stackoverflow.com/questions/5526941/nsdictionary-containing-an-nsarray
-      //apparently the array reference is a pointer so we can just add things to it... should check this.
       NSMutableArray<STTag*>* someTags = [duplicates objectForKey:[distinct objectForKey:searchLabel]];
       [someTags addObject:tag];
       [duplicates setObject:someTags forKey:[distinct objectForKey:searchLabel]];
-      //duplicates[distinct[searchLabel]].Add(tag);
     }
     else
     {

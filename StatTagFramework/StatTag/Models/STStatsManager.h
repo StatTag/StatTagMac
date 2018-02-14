@@ -15,6 +15,7 @@
 @class STDocumentManager;
 @class STCodeFile;
 @class STTag;
+@class STSettingsManager;
 
 /**
  Used exclusively by ExecuteStatPackage as its return value type.
@@ -22,6 +23,7 @@
 @interface STStatsManagerExecuteResult : NSObject {
   BOOL _Success;
   NSMutableArray<STTag*>* UpdatedTags;
+  NSMutableArray<STTag*>* FailedTags;
 }
 
 /**
@@ -33,6 +35,7 @@
  were originally inserted into the document
 */
 @property (strong, nonatomic) NSMutableArray<STTag*>* UpdatedTags;
+@property (strong, nonatomic) NSMutableArray<STTag*>* FailedTags;
 
 
 @end
@@ -42,12 +45,14 @@
  Manages the execution of code files in the correct statistical package.
  */
 @interface STStatsManager : NSObject {
-  STDocumentManager* _Manager;
+  STDocumentManager* _DocumentManager;
+  STSettingsManager* _SettingsManager;
 }
 
-@property (strong, nonatomic) STDocumentManager* Manager;
+@property (strong, nonatomic) STDocumentManager* DocumentManager;
+@property (strong, nonatomic) STSettingsManager* SettingsManager;
 
--(instancetype)init:(STDocumentManager*)manager;
+-(instancetype)initWithDocumentManager:(STDocumentManager*)documentManager andSettingsManager:(STSettingsManager*)settingsManager;
 
 +(id<STIStatAutomation>)GetStatAutomation:(STCodeFile*) file;
 +(id<STICodeFileParser>)GetCodeFileParser:(STCodeFile*) file;

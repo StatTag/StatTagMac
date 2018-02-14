@@ -56,10 +56,10 @@
 
 - (void)testConstructor_TagWithFieldTag {
   
-  
-  STTag* tag = [STTag tagWithName:@"Test" andCodeFile:nil andType:[STConstantsTagType Table]];
+  STCodeFile* codeFile = [[STCodeFile alloc] init];
+  codeFile.FilePath = @"Test.do";
+  STTag* tag = [STTag tagWithName:@"Test" andCodeFile:codeFile andType:[STConstantsTagType Table]];
   STFieldTag* fieldTag = [[STFieldTag alloc] init];
-  fieldTag.CodeFilePath = @"Test.do";
   fieldTag.TableCellIndex = @10;
   
   STFieldTag *newFieldTag = [[STFieldTag alloc] initWithTag:tag andFieldTag:fieldTag];
@@ -144,7 +144,7 @@
 
 -(void)testSerialize_NormalizesObjectName
 {
-  // The Serailize function will modify the Name property to a normalized value.
+  // The Serialize function will modify the Name property to a normalized value.
   // We expect this and explicitly confirm it's intended behavior.
   STFieldTag* tag = [[STFieldTag alloc] init];
   
@@ -196,8 +196,8 @@
   XCTAssertEqual([[tag LineEnd] integerValue], [[recreatedTag LineEnd] integerValue]);
   XCTAssertEqual([[tag LineStart] integerValue], [[recreatedTag LineStart] integerValue]);
   
-  //how are these matching if tag.Name is (nil) and the rormalized recreatedTag.Name is ""?
-  //NOTE: spoke w/ Luke - normalize occurs before we serialize/desserialize, so the value will be "" for both
+  //how are these matching if tag.Name is (nil) and the normalized recreatedTag.Name is ""?
+  //NOTE: spoke w/ Luke - normalize occurs before we serialize/deserialize, so the value will be "" for both
   XCTAssert([[tag Name] isEqualToString:[recreatedTag Name]]);
 
   //both are nil
@@ -294,8 +294,8 @@
 //  XCTAssertEqual([[tag LineEnd] integerValue], [[recreatedTag LineEnd] integerValue]);
 //  XCTAssertEqual([[tag LineStart] integerValue], [[recreatedTag LineStart] integerValue]);
 //  
-//  //how are these matching if tag.Name is (nil) and the rormalized recreatedTag.Name is ""?
-//  //NOTE: spoke w/ Luke - normalize occurs before we serialize/desserialize, so the value will be "" for both
+//  //how are these matching if tag.Name is (nil) and the normalized recreatedTag.Name is ""?
+//  //NOTE: spoke w/ Luke - normalize occurs before we serialize/deserialize, so the value will be "" for both
 //  XCTAssert([[tag Name] isEqualToString:[recreatedTag Name]]);
 //  
 //  //both are nil
@@ -392,6 +392,18 @@
   [STFieldTag LinkToCodeFile:tag CodeFile:files];
   XCTAssertNotEqual(files[0], [tag CodeFile]);
   XCTAssertNotEqual(files[1], [tag CodeFile]);
+  
+}
+
+-(void)testMacroContentEscaping
+{
+  
+  NSLog(@"%@", [STFieldGenerator escapeMacroContent:@"hello"]);
+  NSLog(@"%@", [STFieldGenerator escapeMacroContent:@"hello > 0.1"]);
+  NSLog(@"%@", [STFieldGenerator escapeMacroContent:@"hello < 0.1"]);
+  NSLog(@"%@", [STFieldGenerator escapeMacroContent:@"\"hello!\" he said"]);
+  NSLog(@"%@", [STFieldGenerator escapeMacroContent:@"hello 0.0 < 0.1 and 0.2 > 0.1"]);
+  NSLog(@"%@", [STFieldGenerator escapeMacroContent:@"hello 0.0 < 0.1 and 0.2 > 0.1 but {something} said \"HELLO!\""]);
   
 }
 

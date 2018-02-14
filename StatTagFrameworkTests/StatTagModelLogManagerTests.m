@@ -80,7 +80,7 @@
 //  var manager = new LogManager();
 //  Assert.IsFalse(manager.Enabled);
 //  Assert.IsNull(manager.LogFilePath);
-  STProperties* properties = [[STProperties alloc] init];
+  STUserSettings* properties = [[STUserSettings alloc] init];
   properties.EnableLogging = YES;
   properties.LogLocation = @"Test.log";
 

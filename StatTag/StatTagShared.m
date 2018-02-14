@@ -15,10 +15,13 @@
 #import "SettingsViewController.h"
 #import "UpdateOutputViewController.h"
 #import "StatTagNeedsWordViewController.h"
-#import "AppEventListener.h"
 #import "ViewUtils.h"
 #import "FileMonitor.h"
-
+#import "STCodeFile+FileMonitor.h"
+#import "STDocumentManager+FileMonitor.h"
+#import "StatTagWordDocument.h"
+#import "StatTagWordDocumentPendingValidations.h"
+#import "StatTagWordDocumentUnlinkedTagValidator.h"
 
 @implementation StatTagShared
 
@@ -27,12 +30,22 @@
 @synthesize app = _app;
 @synthesize mainVC = _mainVC;
 
-@synthesize propertiesManager = _propertiesManager;
+@synthesize settingsManager = _settingsManager;
 @synthesize logManager = _logManager;
-@synthesize fileMonitors = _fileMonitors;
+//@synthesize fileMonitors = _fileMonitors;
 @synthesize lastLaunchedAppVersion = _lastLaunchedAppVersion;
 
+@synthesize StatTagWordDocuments = _StatTagWordDocuments;
+@synthesize activeStatTagWordDocument = _activeStatTagWordDocument;
+
+@synthesize pendingValidations = _pendingValidations;
+
+//@synthesize fileNotifications = _fileNotifications;
+
 static StatTagShared *sharedInstance = nil;
+
+NSString* const kStatTagErrorDomain = @"STErrorDomain";
+
 
 + (StatTagShared*)sharedInstance {
   if (sharedInstance == nil) {
@@ -42,24 +55,77 @@ static StatTagShared *sharedInstance = nil;
   return sharedInstance;
 }
 
+/*
+-(void)validateDocument:(StatTagWordDocument*)doc
+{
+  if(doc == nil)
+  {
+    //NSLog(@"Attempted to start validation with nil document");
+    return;
+  }
+  StatTagWordDocumentUnlinkedTagValidator* tv = (StatTagWordDocumentUnlinkedTagValidator*)[[[self pendingValidations] validationsInProgress] objectForKey:[[doc document] name]];
+  if(tv && [tv isExecuting]){
+    //already have one in queue - but we should add another into the queue because this means someone tabbed around
+    //leaving this like this so it's clear why we're allowing a second item to be added
+    //NSLog(@"Validation task already running for doc %@", [[doc document] name]);
+    return;//don't do another one right now
+  }
+  tv = [[StatTagWordDocumentUnlinkedTagValidator alloc] initWithStatTagWordDocument:doc];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [self notifyUnlinkedTagProcessingBegan:doc];
+  });
+  if(tv)
+  {
+    [tv setCompletionBlock:^{
+      dispatch_async(dispatch_get_main_queue(), ^{
+        [self notifyUnlinkedTagProcessingCompleted:doc];
+      });
+    }];
+  }
+  [[[self pendingValidations] validationsInProgress] setValue:tv forKey:[[doc document] name]];
+  [[[self pendingValidations] validationQueue] addOperation:tv];
+}
+
+-(void)notifyUnlinkedTagProcessingBegan:(StatTagWordDocument*)doc
+{
+  [[NSNotificationCenter defaultCenter] postNotificationName:@"UnlinkedTagProcessingBegan" object:self userInfo: @{@"doc":[[self doc] name]}];
+}
+
+-(void)notifyUnlinkedTagProcessingCompleted:(StatTagWordDocument*)doc
+{
+  [[NSNotificationCenter defaultCenter] postNotificationName:@"UnlinkedTagProcessingCompleted" object:self userInfo: @{@"doc":[[self doc] name]}];
+}
+*/
+
+//FIXME: go back and redo things like "add document" "remove document" so we can wire up and cancel the pending operations
+
 - (id)init
 {
   self = [super init];
   if (self) {
     [self setWordAppStatusMessage:@""];
-    [self setFileMonitors:[[NSMutableArray<FileMonitor*> alloc] init]];
+//    [self setFileMonitors:[[NSMutableArray<FileMonitor*> alloc] init]];
     [self setLogManager:[[STLogManager alloc] init]];
+//    [self setFileNotifications:[[NSMutableArray<NSDictionary*> alloc] init]];
+    [self setStatTagWordDocuments:[[NSMutableDictionary<NSString*, StatTagWordDocument*> alloc] init]];
+    
+    [self setDocManager: [[STDocumentManager alloc] init]];
+    [self setLogManager: [[STLogManager alloc] init]];
+    [self setSettingsManager: [[STSettingsManager alloc] init]];
+    [self setPendingValidations: [[StatTagWordDocumentPendingValidations alloc] init]];
+
   }
   return self;
 }
 
 -(void)dealloc
 {
-  for(FileMonitor* fm in [self fileMonitors])
+  for(FileMonitor* fm in [[self docManager] fileMonitors])
   {
     [fm stopMonitoring];
   }
 }
+
 
 + (id)allocWithZone:(NSZone*)zone {
   return [self sharedInstance];
@@ -77,11 +143,45 @@ static StatTagShared *sharedInstance = nil;
     d = [[[StatTagShared sharedInstance] app] activeDocument];
     _doc = d;
   }
+  //[self setActiveStatTagWordDoc:_doc];
   return _doc;
 }
 -(void)setDoc:(STMSWord2011Document *)doc
 {
+  //NSLog(@"StatTagShared - setting word doc");
   _doc = doc;
+  [self setActiveStatTagWordDoc:_doc];
+}
+
+-(void)setActiveStatTagWordDoc:(STMSWord2011Document*)doc
+{
+  //why are we using "name"? Because that's the only property we can get that's semi-unique and can be stored
+  // path - empty if not saved
+  // doc itself - not able to be archived / copied
+  // no other object identifiers will be consistently re-generated
+  StatTagWordDocument* d = [[self StatTagWordDocuments] objectForKey:[doc name]];
+  if(d == nil)
+  {
+    //NSLog(@"setActiveStatTagWordDoc - document is nil for key: [%@]", [doc name]);
+    d = [[StatTagWordDocument alloc] initWithDocument:doc];
+    [[self StatTagWordDocuments] setObject:d forKey:[doc name]];
+  } else {
+    //NSLog(@"setActiveStatTagWordDoc - document restored for key: [%@]", [doc name]);
+  }
+  [self setActiveStatTagWordDocument:d];
+}
+
+//FIXME: figure out where / why this is being called ~20 times...
+-(void)setActiveStatTagWordDocument:(StatTagWordDocument *)activeStatTagWordDocument
+{
+  //NSLog(@"setting document");
+  _activeStatTagWordDocument = activeStatTagWordDocument;
+  //[activeStatTagWordDocument validateDocument];
+}
+
+-(StatTagWordDocument*)activeStatTagWordDocument
+{
+  return _activeStatTagWordDocument;
 }
 
 + (NSColor*)colorFromRGBRed:(CGFloat)r  green:(CGFloat)g blue:(CGFloat)b alpha:(CGFloat)a
@@ -102,109 +202,23 @@ static StatTagShared *sharedInstance = nil;
 
   //set up some of our shared stattag stuff
   shared.app= [[[STGlobals sharedInstance] ThisAddIn] Application];
-  shared.doc = [[shared app] activeDocument]; //this will be problematic ongoing when we open / close documents, etc.
-  shared.docManager = [[STDocumentManager alloc] init];
-  
-  shared.logManager = [[STLogManager alloc] init];
-  shared.propertiesManager = [[STPropertiesManager alloc] init];
-  
-  [[shared propertiesManager] Load];
-  //self.properties = [[self propertiesManager] Properties]; //just for setup
-  
-  shared.logManager.Enabled = shared.propertiesManager.Properties.EnableLogging;
-  if(shared.propertiesManager.Properties.LogLocation != nil)
+//  shared.doc = [[shared app] activeDocument]; //this will be problematic ongoing when we open / close documents, etc.
+//  shared.docManager = [[STDocumentManager alloc] init];
+
+//  shared.logManager = [[STLogManager alloc] init];
+//  shared.settingsManager = [[STSettingsManager alloc] init];
+
+  [[shared settingsManager] Load];
+  //self.properties = [[self settingsManager] Properties]; //just for setup
+
+  shared.logManager.Enabled = shared.settingsManager.Settings.EnableLogging;
+  if(shared.settingsManager.Settings.LogLocation != nil)
   {
-    shared.logManager.LogFilePath = [NSURL fileURLWithPath:shared.propertiesManager.Properties.LogLocation];
+    shared.logManager.LogFilePath = [NSURL fileURLWithPath:shared.settingsManager.Settings.LogLocation];
   }
 
 }
 
--(void)initializeWordViews
-{
-  //mainWindow was hit or miss, so we're not using it - really unclear to me why this is nil during setup
-  //  self.mainVC = (MainTabViewController*)[[[[NSApplication sharedApplication] mainWindow] windowController] contentViewController];//[[NSApp mainWindow] windowController];
-  
-  StatTagShared* shared = [StatTagShared sharedInstance];
-  
-  NSWindow *window = [[[NSApplication sharedApplication] windows] firstObject];
-
-  
-  //get our root view controller
-  //  shared.mainVC = (MainTabViewController*)[[window windowController] contentViewController];
-  //hrm... I wonder if we're screwing this up by assigning this here...
-
-  MainTabViewController* t = [[NSStoryboard storyboardWithName:@"Main" bundle:nil] instantiateControllerWithIdentifier:@"MainTabViewController"];
-  [[window windowController] setContentViewController:t];
-  shared.mainVC = t;
-    
-  //set up some of our shared stattag stuff
-  shared.app= [[[STGlobals sharedInstance] ThisAddIn] Application];
-  shared.doc = [[shared app] activeDocument]; //this will be problematic ongoing when we open / close documents, etc.
-  shared.docManager = [[STDocumentManager alloc] init];
-  
-  shared.logManager = [[STLogManager alloc] init];
-  shared.propertiesManager = [[STPropertiesManager alloc] init];
-
-  [[shared propertiesManager] Load];
-  //self.properties = [[self propertiesManager] Properties]; //just for setup
-  
-  shared.logManager.Enabled = shared.propertiesManager.Properties.EnableLogging;
-  if(shared.propertiesManager.Properties.LogLocation != nil)
-  {
-    shared.logManager.LogFilePath = [NSURL fileURLWithPath:shared.propertiesManager.Properties.LogLocation];
-  }
-  
-  //get our code file list on startup
-  //  [[shared docManager] LoadCodeFileListFromDocument:[shared doc]];
-  
-  // Set up Code File Manager
-  //-----------
-  //send over our managers, etc.
-  ManageCodeFilesViewController* codeFilesVC = (ManageCodeFilesViewController*)[[[[shared mainVC ] tabView] tabViewItemAtIndex:(StatTagTabIndexes)ManageCodeFiles] viewController];
-  shared.codeFilesViewController = codeFilesVC;
-  codeFilesVC.documentManager = [shared docManager];
-  //  codeFilesVC.codeFiles = [[shared docManager] GetCodeFileList]; //just for setup
-  
-  // Set up Preferences Manager
-  //-----------
-  SettingsViewController* settingsVC = (SettingsViewController*)[[[[shared mainVC ] tabView] tabViewItemAtIndex:(StatTagTabIndexes)Settings] viewController];
-  settingsVC.propertiesManager = [shared propertiesManager];
-  settingsVC.logManager = [shared logManager];
-  [[settingsVC propertiesManager] Load];
-  settingsVC.properties = [[shared propertiesManager] Properties]; //just for setup
-  [[StatTagShared sharedInstance] setSettingsViewController: settingsVC];
-  //  [propertiesManager Load];
-  
-  
-  // Set up Code File Manager
-  //-----------
-  //send over our managers, etc.
-  UpdateOutputViewController* updateOutputVC = (UpdateOutputViewController*)[[[[shared mainVC ] tabView] tabViewItemAtIndex:(StatTagTabIndexes)UpdateOutput] viewController];
-  updateOutputVC.documentManager = [shared docManager];
-  shared.tagsViewController = updateOutputVC;
-  //updateOutputVC.codeFiles = [[shared docManager] GetCodeFileList]; //just for setup
-  
-  
-  NSStoryboard* storyBoard = [NSStoryboard storyboardWithName:@"Main" bundle:nil];
-  if(storyBoard != nil) {
-    StatTagNeedsWordViewController* wc = [storyBoard instantiateControllerWithIdentifier:@"StatTagNeedsWordViewController"];
-    shared.needsWordController = wc;
-    
-    //    [AppEventListener updateWordViewController];
-    
-    if([AppEventListener wordIsOK]) {
-      [[shared docManager] LoadCodeFileListFromDocument:[shared doc]];
-      codeFilesVC.codeFiles = [[shared docManager] GetCodeFileList]; //just for setup
-      [[window windowController] setContentViewController:shared.mainVC ];
-      [window setStyleMask:[window styleMask] | NSResizableWindowMask];
-    } else {
-      [[window windowController] setContentViewController:shared.needsWordController ];
-      [window setStyleMask:[window styleMask] & ~NSResizableWindowMask];
-    }
-  }
-  
-  [self logAppStartup];
-}
 
 -(void)setArchivedWindowFrame:(NSRect)archivedWindowFrame
 {
@@ -255,6 +269,7 @@ static StatTagShared *sharedInstance = nil;
   NSString *currentAppVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
   
   if ([self lastLaunchedAppVersion] != nil) {
+    [self setLastLaunchedAppVersion:currentAppVersion];
     return NO;
   }
   
@@ -299,16 +314,6 @@ static StatTagShared *sharedInstance = nil;
 {
   [[self logManager] WriteMessage:[NSString stringWithFormat:@"Starting StatTag... OS: %@; Hardware: %@; RAM: %@", [STCocoaUtil macOSVersion], [STCocoaUtil machineModel], [STCocoaUtil physicalMemory]]];
 }
-
-//-(void)logMessage:(NSString*)message
-//{
-//  [[self logManager] WriteMessage:message];
-//}
-//
-//-(void)logException:(NSException*)exception
-//{
-//  [[self logManager] WriteException: exception];
-//}
 
 
 @end

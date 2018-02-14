@@ -12,10 +12,9 @@
 @class STDocumentManager;
 @class STTag;
 
-
 @class UpdateOutputProgressViewController;
 @protocol UpdateOutputProgressDelegate <NSObject>
-- (void)dismissUpdateOutputProgressController:(UpdateOutputProgressViewController*)controller withReturnCode:(StatTagResponseState)returnCode andFailedTags:(NSArray<STTag*>*)failedTags;
+- (void)dismissUpdateOutputProgressController:(UpdateOutputProgressViewController*)controller withReturnCode:(StatTagResponseState)returnCode andFailedTags:(NSArray<STTag*>*)failedTags withErrors:(NSDictionary<STTag*, NSException*>*)errors;
 @end
 
 
@@ -25,8 +24,10 @@
   
   NSMutableArray<STTag*>* _tagsToProcess;
   STDocumentManager* _documentManager;
+  
   BOOL _insert;
   NSMutableArray<STTag*>*_failedTags;
+  NSMutableDictionary<STTag*, NSException*>* _failedTagErrors;
 }
 
 @property (strong, nonatomic) NSMutableArray<STTag*>* tagsToProcess;
@@ -45,6 +46,7 @@
 @property (weak) IBOutlet NSTextField *progressCountLabel;
 
 @property (strong, nonatomic) NSMutableArray<STTag*>*failedTags;
+@property (strong, nonatomic) NSMutableDictionary<STTag*, NSException*>*failedTagErrors;
 
 @property BOOL insert;
 

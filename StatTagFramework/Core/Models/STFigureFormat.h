@@ -7,10 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "STJSONable.h"
+#import "STBase.h"
 
 
-@interface STFigureFormat : NSObject <NSCopying, STJSONAble>
+@interface STFigureFormat : STBase <NSCopying>
 
 
 //MARK: JSON

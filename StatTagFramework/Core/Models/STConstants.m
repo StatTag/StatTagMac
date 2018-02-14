@@ -31,8 +31,9 @@ NSString *const STStatTagErrorDomain = @"StatTagErrorDomain";
 +(NSString*)Value { return @"Value";}
 +(NSString*)Figure { return @"Figure";}
 +(NSString*)Table { return @"Table";}
++(NSString*)Verbatim { return @"Verbatim";}
 +(NSArray<NSString *>*)GetList {
-  return [[NSArray alloc] initWithObjects:[STConstantsTagType Value], [STConstantsTagType Figure], [STConstantsTagType Table], nil];
+  return [[NSArray alloc] initWithObjects:[STConstantsTagType Value], [STConstantsTagType Figure], [STConstantsTagType Table], [STConstantsTagType Verbatim], nil];
 }
 @end
 
@@ -57,16 +58,24 @@ NSString *const STStatTagErrorDomain = @"StatTagErrorDomain";
 
 @implementation STConstantsFileFilters
 +(NSString*)StataLabel { return @"Stata Do Files";}
-+(NSString*)StataFilter { return @"*.do;*.ado";}
++(NSString*)StataFilter { return @"*do;*.ado";}//"*.do;*.ado"
 +(NSString*)SASLabel { return @"SAS";}
-+(NSString*)SASFilter { return @"*.sas";}
++(NSString*)SASFilter { return @"*.sas";} //"*.sas"
 +(NSString*)RLabel { return @"R";}
-+(NSString*)RFilter { return @"*.r";}
++(NSString*)RFilter { return @"*.r";} //"*.r"
 +(NSString*)AllLabel { return @"All files";}
-+(NSString*)AllFilter { return @"*.*";}
++(NSString*)AllFilter { return @"*.*";}//never use this
 +(NSString*)SupportedLabel { return @"Supported files";}
++(NSArray<NSString*>*)SupportedFileFiltersArray
+{
+  //FIXME: don't do this... this is a shim to avoid changing the Windows pathing
+  NSString* allFilters = [NSString stringWithFormat:@"%@;%@;%@", [[self class] StataFilter], [[self class] SASFilter], [[self class] RFilter]];
+  NSCharacterSet *removeChars = [NSCharacterSet characterSetWithCharactersInString:@"*."];
+  allFilters = [[allFilters componentsSeparatedByCharactersInSet: removeChars] componentsJoinedByString: @""];
+  return [allFilters componentsSeparatedByString:@";"];
+}
 +(NSString*)SupportedFileFilters {
-  return [[NSArray<NSString*> arrayWithObjects:[[self class] StataFilter], [[self class] SASFilter], [[self class] RFilter], nil] componentsJoinedByString:@"," ];
+  return [[NSArray<NSString*> arrayWithObjects:[[self class] StataFilter], [[self class] SASFilter], [[self class] RFilter], nil] componentsJoinedByString:@";" ];
 }
 +(NSString*)FormatForOpenFileDialog {
   return [NSString stringWithFormat:@"%@|%@|%@|%@|%@|%@|%@|%@|%@|%@",
@@ -211,5 +220,13 @@ NSString *const STStatTagErrorDomain = @"StatTagErrorDomain";
 +(NSArray<NSString *>*)GetList {
   return [[NSArray alloc] initWithObjects:[STConstantsFilterType Exclude], [STConstantsFilterType Include], nil];
 }
+@end
 
+@implementation STConstantsMissingValueOption
++(NSString*)StatPackageDefault { return @"StatPackageDefault";}
++(NSString*)CustomValue { return @"CustomValue";}
++(NSString*)BlankString { return @"BlankString";}
++(NSArray<NSString *>*)GetList {
+  return [[NSArray alloc] initWithObjects:[STConstantsMissingValueOption StatPackageDefault], [STConstantsMissingValueOption CustomValue], [STConstantsMissingValueOption BlankString], nil];
+}
 @end

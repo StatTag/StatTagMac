@@ -7,9 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "STJSONAble.h"
+#import "STBase.h"
 
-@interface STFilterFormat : NSObject <NSCopying, STJSONAble> {
+
+@interface STFilterFormat : STBase <NSCopying> {
   NSString* _Prefix;
   BOOL _Enabled;
   NSString* _Type;

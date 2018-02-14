@@ -14,6 +14,7 @@
 -(NSObject<STIResultCommandList>*)ValueResultCommands;
 -(NSObject<STIResultCommandList>*)FigureResultCommands;
 -(NSObject<STIResultCommandList>*)TableResultCommands;
+-(NSObject<STIResultCommandList>*)VerbatimResultCommands;
 
 @end
 
@@ -34,3 +35,6 @@
 -(NSArray<NSString*>*)GetCommands;
 @end
 
+@interface STStataVerbatimCommands : NSObject<STIResultCommandList>
+-(NSArray<NSString*>*)GetCommands;
+@end

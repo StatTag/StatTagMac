@@ -13,8 +13,8 @@
 #import "ValuePropertiesController.h"
 #import "TablePropertiesController.h"
 
+@class ScintillaEmbeddedViewController;
 
-@class ScintillaView;
 @class STTag;
 @class STCodeFile;
 @class STDocumentManager;
@@ -25,28 +25,23 @@
 
 @class TagEditorViewController;
 @protocol TagEditorViewControllerDelegate <NSObject>
-- (void)dismissTagEditorController:(TagEditorViewController*)controller withReturnCode:(StatTagResponseState)returnCode;
+- (void)dismissTagEditorController:(TagEditorViewController*)controller withReturnCode:(StatTagResponseState)returnCode andTag:(STTag*)tag;
 @end
 
-@class SCNotification;
-@protocol ScintillaNotificationProtocol
-- (void)notification: (SCNotification*)notification;
-@end
-
-
-@interface TagEditorViewController : NSViewController <NSTextFieldDelegate, TagBasicPropertiesControllerDelegate, ValuePropertiesControllerDelegate, TablePropertiesControllerDelegate, ScintillaNotificationProtocol> {
+@interface TagEditorViewController : NSViewController <NSTextFieldDelegate, TagBasicPropertiesControllerDelegate, ValuePropertiesControllerDelegate, TablePropertiesControllerDelegate> {
   STTag* _tag;
   STDocumentManager* _documentManager;
   
   NSArrayController* _codeFileList;
   
-  ScintillaView* _sourceEditor;
+  ScintillaEmbeddedViewController* _sourceEditor;
   
   NSMutableAttributedString* _instructionTitleText;
   NSString* _allowedCommandsText;
   
   BOOL _showTagValuePropertiesView;
   BOOL _editable;
+  STCodeFile* _originallySelectedCodeFile;
 }
 
 @property (strong, nonatomic) STTag* tag;
@@ -56,8 +51,10 @@
 @property (strong) IBOutlet NSArrayController *codeFileList;
 @property (weak) IBOutlet NSPopUpButton *listCodeFile;
 
+//the code file that was selected (if any) in the code file list prior to
+@property (strong, nonatomic) STCodeFile* originallySelectedCodeFile;
 
-@property (strong, nonatomic) ScintillaView *sourceEditor;
+@property (strong) IBOutlet ScintillaEmbeddedViewController *sourceEditor;
 @property (weak) IBOutlet NSView *sourceView;
 
 //delegate since this is probably opened modally
@@ -97,6 +94,13 @@
 @property (weak) IBOutlet NSView *codeEditingPanel;
 
 @property BOOL editable;
+
+/**
+ Cancel all actions and close editor
+ we're making this public so our "something changed with the code file" notifications can cancel/close the editor when necessary
+*/
+- (IBAction)cancel:(id)sender;
+
 
 /*
  EWW:

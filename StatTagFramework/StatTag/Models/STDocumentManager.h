@@ -23,6 +23,9 @@
 @class STMSWord2011SelectionObject;
 @class STMSWord2011Variable;
 @class STMSWord2011Document;
+@class STStatsManagerExecuteResult;
+@class STSettingsManager;
+@class STDocumentMetadata;
 
 @interface STDocumentManager : STBaseManager {
   NSMutableDictionary<NSString*, NSMutableArray<STCodeFile*>*>* DocumentCodeFiles;
@@ -34,6 +37,8 @@
   NSNumber* _wordFieldsTotal;
   NSNumber* _wordFieldsUpdated;
   NSString* _wordFieldUpdateStatus;
+  
+  STSettingsManager* _SettingsManager;
 }
 
 @property (strong, nonatomic) STTagManager* TagManager;
@@ -43,11 +48,18 @@
 @property (copy, nonatomic) NSNumber* wordFieldsTotal;
 @property (copy, nonatomic) NSNumber* wordFieldsUpdated;
 @property (copy, nonatomic) NSString* wordFieldUpdateStatus;
+@property (strong, nonatomic) STSettingsManager* SettingsManager;
 
 -(NSArray<STTag*>*)GetTags;
 -(NSDictionary<NSString*, NSArray<STTag*>*>*)FindAllUnlinkedTags;
 -(STTag*)FindTag:(NSString*)tagID;
 
+
+-(void)SimpleSaveChanges;
+-(void)SaveMetadataToDocument:(STMSWord2011Document*)document metadata:(STDocumentMetadata*)metadata;
+-(STDocumentMetadata*)CreateDocumentMetadata;
+-(STDocumentMetadata*)LoadMetadataFromCurrentDocument:(bool)createIfEmpty;
+-(STDocumentMetadata*)LoadMetadataFromDocument:(STMSWord2011Document*)document createIfEmpty:(bool)createIfEmpty;
 
 -(void)SaveCodeFileListToDocument:(STMSWord2011Document*)document;
 -(void)LoadCodeFileListFromDocument:(STMSWord2011Document*)document;
@@ -82,6 +94,13 @@
 -(void)AddCodeFile:(NSString*)fileName;
 -(void)AddCodeFile:(NSString*)fileName document:(STMSWord2011Document*)document;
 
+-(void)RemoveCodeFile:(NSString*)fileName document:(STMSWord2011Document*)document;
+-(void)RemoveCodeFile:(NSString*)fileName;
+
+-(void)LoadAllTagsFromCodeFiles;
+
+-(void) UpdateRenamedTags:(NSArray<STUpdatePair<STTag*>*>*) updates;
+
 -(NSMutableArray<STCodeFile*>*)GetCodeFileList;
 -(NSMutableArray<STCodeFile*>*)GetCodeFileList:(STMSWord2011Document*)document;
 -(void)SetCodeFileList:(NSArray<STCodeFile*>*)files;
@@ -94,7 +113,7 @@
 
 -(void) InsertField:(id)tag;
 
--(void)InsertTagsInDocument:(NSArray<STTag*>*)tags;
+-(STStatsManagerExecuteResult*)InsertTagsInDocument:(NSArray<STTag*>*)tags;
 
 -(BOOL)EditTag:(STTag*)tag existingTag:(STTag*)existingTag;
 

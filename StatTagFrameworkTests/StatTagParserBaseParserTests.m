@@ -512,6 +512,19 @@
 //  Assert.AreEqual("(?:test1|test2)", BaseParser.FormatCommandListAsNonCapturingGroup(new[] { "test1", "test2" }));
 }
 
+-(void)testIsRelativePath
+{
+    StubParser* parser = [[StubParser alloc] init];
+    XCTAssertFalse([parser IsRelativePath:@"/Users/test/code"]);
+    XCTAssertFalse([parser IsRelativePath:@"  /Users/test/code  "]);
+    XCTAssertFalse([parser IsRelativePath:@"smb://Users/test/code"]);
+    XCTAssertFalse([parser IsRelativePath:@" smb://Users/test/code "]);
+
+    XCTAssert([parser IsRelativePath:@"~/code"]);
+    XCTAssert([parser IsRelativePath:@"code"]);
+    XCTAssert([parser IsRelativePath:@" code "]);
+    XCTAssert([parser IsRelativePath:@"../test/code"]);
+}
 
 @end
 

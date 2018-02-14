@@ -13,15 +13,17 @@
 @class STStataParser;
 @class STCommandResult;
 @class STTable;
+@class STStataParserLog;
 
 @interface STStataAutomation : NSObject <STIStatAutomation> {
   STStataApplication* Application;
   STStataParser* Parser;
-  NSMutableArray<NSString*>* OpenLogs;
+  NSMutableArray<STStataParserLog*>* OpenLogs;
+  bool IsTrackingVerbatim;
   
-  const NSInteger StataHidden;
-  const NSInteger MinimizeStata;
-  const NSInteger ShowStata;
+//  const NSInteger StataHidden;
+//  const NSInteger MinimizeStata;
+//  const NSInteger ShowStata;
 
   NSString* _AppBundleIdentifier;
 }
@@ -30,15 +32,20 @@
 
 //+ (instancetype)sharedInstance;
 
-extern NSString *const LocalMacroPrefix;
+extern NSString* const LocalMacroPrefix;
 /**
   This is a special local macro name that is being used within StatTag.
 */
-extern NSString *const StatTagTempMacroName;
-extern NSString *const DisablePagingCommand;
+extern NSString* const StatTagTempMacroName;
+extern NSString* const DisablePagingCommand;
 // The following are constants used to manage the Stata Automation API
-extern NSString *const RegisterParameter;
-extern NSString *const UnregisterParameter;
+extern NSString* const RegisterParameter;
+extern NSString* const UnregisterParameter;
+
+extern NSString* const StatTagVerbatimLogName;
+extern NSString* const StatTagVerbatimLogIdentifier;
+
+extern NSString* const EndLoggingCommand;
 
 /**
  Our list of Cocoa bundle identifiers
@@ -62,7 +69,7 @@ extern NSString *const UnregisterParameter;
 -(void)Show;
 -(void)Hide;
 
--(BOOL)Initialize;
+-(BOOL)Initialize:(STCodeFile*)codeFile;
 
 /**
  Determine if a command is one that would return a result of some sort.
@@ -108,10 +115,12 @@ extern NSString *const UnregisterParameter;
  @returns The result of the command, or null if the command does not provide a result.
  */
 -(STCommandResult*)RunCommand:(NSString*) command;
+-(STCommandResult*)RunCommand:(NSString*) command tag:(STTag*)tag;
 
 +(BOOL)UnregisterAutomationAPI:(NSString*) path;
 +(BOOL)RegisterAutomationAPI:(NSString*) path;
 
+-(NSString*)ReplaceMacroWithValue:(NSString*)originalString macro:(NSString*)macro value:(NSString*)value;
 
 -(NSString*)GetInitializationErrorMessage;
 

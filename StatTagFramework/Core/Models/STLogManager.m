@@ -7,7 +7,7 @@
 //
 
 #import "STLogManager.h"
-#import "STProperties.h"
+#import "STUserSettings.h"
 #import "STCocoaUtil.h"
 #import "STFileHandler.h"
 
@@ -37,7 +37,7 @@ static STLogManager *sharedInstance = nil;
     [self setLogFilePath:url];
   }
   @catch (NSException * e) {
-    NSLog(@"Exception creating URL (%@): %@", NSStringFromClass([self class]), p);
+    //NSLog(@"Exception creating URL (%@): %@", NSStringFromClass([self class]), p);
   }
   @finally {
   }
@@ -103,9 +103,6 @@ static STLogManager *sharedInstance = nil;
   @try
   {
     // Check write access
-    //stream = FileHandler.OpenWrite(logFilePath);
-    
-    // Check write access
     NSURL* logPath = [NSURL fileURLWithPath:logFilePath];
     NSFileHandle* __unused stream = [[self FileHandler] OpenWrite: logPath];
   }
@@ -118,50 +115,24 @@ static STLogManager *sharedInstance = nil;
   }
   
   return true;
-  
-  //
-//  NSError *error;
-//  NSStringEncoding encoding;
-//  NSString *fileContents = [NSString stringWithContentsOfFile:logFilePath
-//                                                 usedEncoding:&encoding
-//                                                        error:&error];
-//
-//  NSLog(@"logFilePath : %@", logFilePath);
-//  NSLog(@"error : %@", [error localizedDescription]);
-//  
-//  if(fileContents != nil) {
-//    //this returns YES for some invalid paths... ex: "my awesome file" (not a path) so we should probably review
-//    // http://stackoverflow.com/questions/2455735/why-does-nsfilemanager-return-true-on-fileexistsatpath-when-there-is-no-such-fil
-//    return [[NSFileManager defaultManager] isWritableFileAtPath:logFilePath];
-//  } else {
-//    //also - go back and review this. This apparently also returns YES if the file already exists... so we may not need all of the checks.
-//    BOOL createdFile = [[NSFileManager defaultManager] createFileAtPath:logFilePath contents:nil attributes:nil];
-//    /*
-//     From: https://developer.apple.com/library/ios/documentation/Cocoa/Reference/Foundation/Classes/NSFileManager_Class/index.html#//apple_ref/occ/instm/NSFileManager/createFileAtPath:contents:attributes:
-//     If you specify nil for the attributes parameter, this method uses a default set of values for the owner, group, and permissions of any newly created directories in the path.
-//     */
-//    //do we want to alert the user if this fails?
-//    return createdFile;
-//  }
-//  
 }
 
 
 /**
- Updates the internal settings used by this log manager, when given a set of application properties.
+ Updates the internal settings used by this log manager, when given a set of application settings.
 
- @remark : This should ba called any time the application properties are loaded or updated.
+ @remark : This should ba called any time the application settings are loaded or updated.
 
- @param properties : Application properties
+ @param settings : Application settings
  */
--(void)UpdateSettings:(STProperties*)properties {
-  [self UpdateSettings:[properties EnableLogging] filePath:[properties LogLocation]];
+-(void)UpdateSettings:(STUserSettings*)settings {
+  [self UpdateSettings:[settings EnableLogging] filePath:[settings LogLocation]];
 }
 
 /**
- Updates the internal settings used by this log manager, when given a set of application properties.
+ Updates the internal settings used by this log manager, when given a set of application settings.
 
- @remark : This should ba called any time the application properties are loaded or updated. If the log path is not valid, we will disable logging.
+ @remark : This should ba called any time the application settings are loaded or updated. If the log path is not valid, we will disable logging.
  
   @param enabled : If logging is enabled by the user
   @param filePath : The path of the log file to write to.
@@ -182,19 +153,8 @@ static STLogManager *sharedInstance = nil;
 {
   if (_Enabled && [self IsValidLogPath:[[self LogFilePath] path]])
   {
-
-    //                FileHandler.AppendAllText(LogFilePath, string.Format("{0} - {1}\r\n", DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss.fff"), text));
-
-    NSLog(@"Log Message: %@", text);
     NSError* err;
     [[self FileHandler] AppendAllText:[self LogFilePath] withContent:[NSString stringWithFormat:@"%@ - %@\r\n", [dateFormatter stringFromDate:[NSDate date]], text] error:&err];
-    
-//    NSFileHandle *myHandle = [NSFileHandle fileHandleForWritingAtPath:[self LogFilePath]];
-//    if(myHandle) {
-//      [myHandle seekToEndOfFile];
-//      
-//      [myHandle writeData:[[NSString stringWithFormat:@"%@ - %@\r\n", [dateFormatter stringFromDate:[NSDate date]], text] dataUsingEncoding:NSUTF8StringEncoding]];
-//    }
   }
 }
 
@@ -205,10 +165,6 @@ static STLogManager *sharedInstance = nil;
 */
 -(void)WriteException:(id) exc
 {
-//  NSLog(@"Log Exception: %@", [exc description]);
-//  NSArray* stackTrace = [exc callStackSymbols];
-//  [self WriteMessage:[NSString stringWithFormat:@"Error: %@\r\nmacOS: %@\r\nHardware: %@\r\nStack trace: %@", [exc description], [STCocoaUtil macOSVersion], [STCocoaUtil machineModel], stackTrace]];
-
   if(exc == nil) { return; }
 
   NSArray* stackTrace;
@@ -227,7 +183,7 @@ static STLogManager *sharedInstance = nil;
     errorDescription = exc;
   }
   
-  NSLog(@"Log Exception: %@", [exc description]);
+  //NSLog(@"Log Exception: %@", [exc description]);
   [self WriteMessage:[NSString stringWithFormat:@"Error: %@, macOS: %@, Hardware: %@, Stack trace: %@", errorDescription, [STCocoaUtil macOSVersion], [STCocoaUtil machineModel], stackTrace]];
 
 }

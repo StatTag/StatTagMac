@@ -7,26 +7,26 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
+#import "DocumentBrowserTagSummary.h"
 
 // ClassB.h
-typedef enum {
-  TagIndicatorViewTagTypeNormal,
-  TagIndicatorViewTagTypeWarning,
-  TagIndicatorViewTagTypeError
-} TagIndicatorViewTagType;
 
 
 @interface TagIndicatorView : NSTableCellView {
-  TagIndicatorViewTagType _tagType;
+  TagIndicatorViewTagStyle _tagStyle;
 }
 
 @property (weak) IBOutlet NSImageView *tagImageView;
+@property (weak) IBOutlet NSImageView *unlinkedTagImageView;
 @property (weak) IBOutlet NSTextField *tagLabel;
+@property (weak) IBOutlet NSProgressIndicator *tagProgressIndicator;
+@property (weak) IBOutlet NSTextField *tagCountLabel;
 
-@property TagIndicatorViewTagType tagType;
--(instancetype)initWithType:(TagIndicatorViewTagType)tagType andLabel:(NSString*)label;
-+ (NSImage *)colorImage:(NSImage*)image forTagIndicatorViewTagType:(TagIndicatorViewTagType)type;
+@property BOOL isLoading;
+
+@property TagIndicatorViewTagStyle tagStyle;
+-(instancetype)initWithStyle:(TagIndicatorViewTagStyle)tagStyle andLabel:(NSString*)label;
++ (NSImage *)colorImage:(NSImage*)image forTagIndicatorViewTagStyle:(TagIndicatorViewTagStyle)style;
 
 + (NSImage *)colorImage:(NSImage*)image withTint:(NSColor *)tint;
 

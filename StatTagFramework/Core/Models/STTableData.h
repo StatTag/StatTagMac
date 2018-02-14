@@ -7,9 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "STJSONAble.h"
+#import "STBase.h"
 
-@interface STTableData : NSObject <NSCopying, STJSONAble> {
+@interface STTableData : STBase <NSCopying> {
   NSMutableArray<NSMutableArray<NSString*>*>* _Data;
 }
 @property (strong, nonatomic) NSMutableArray<NSMutableArray<NSString*>*>* Data;

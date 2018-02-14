@@ -28,17 +28,17 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  NSLog(@"ManageCodeFilesViewController loaded");
+  //NSLog(@"ManageCodeFilesViewController loaded");
 
-  [[NSNotificationCenter defaultCenter] addObserver:self
-                                           selector:@selector(codeFileEdited:)
-                                               name:@"codeFileEdited"
-                                             object:nil];
-
-  [[NSNotificationCenter defaultCenter] addObserver:self
-                                           selector:@selector(codeFileRenamed:)
-                                               name:@"codeFileRenamed"
-                                             object:nil];
+//  [[NSNotificationCenter defaultCenter] addObserver:self
+//                                           selector:@selector(codeFileEdited:)
+//                                               name:@"codeFileEdited"
+//                                             object:nil];
+//
+//  [[NSNotificationCenter defaultCenter] addObserver:self
+//                                           selector:@selector(codeFileRenamed:)
+//                                               name:@"codeFileRenamed"
+//                                             object:nil];
 
   
 }
@@ -49,27 +49,28 @@
 
 -(void)viewDidAppear
 {
-  [self startMonitoringCodeFiles];
+  //[self startMonitoringCodeFiles];
 }
 
 -(void)viewWillDisappear {
-  [self stopMonitoringCodeFiles];
+  //[self stopMonitoringCodeFiles];
 }
 
--(void)startMonitoringCodeFiles
-{
-  [[self documentManager] startMonitoringCodeFiles];
-}
-
--(void)stopMonitoringCodeFiles
-{
-  [[self documentManager] stopMonitoringCodeFiles];
-}
+//-(void)startMonitoringCodeFiles
+//{
+//  [[self documentManager] startMonitoringCodeFiles];
+//}
+//
+//-(void)stopMonitoringCodeFiles
+//{
+//  [[self documentManager] stopMonitoringCodeFiles];
+//}
 
 
 - (void)awakeFromNib {
 }
 
+/*
 -(void)codeFileEdited:(NSNotification *)notification
 {
   //FIXME: go back and do this as an alert sheet
@@ -96,7 +97,8 @@
   [alert runModal];
 
 }
-
+*/
+ 
 -(id) initWithCoder:(NSCoder *)coder {
   self = [super initWithCoder:coder];
   if(self) {
@@ -107,14 +109,17 @@
 
 - (void)insertObject:(STCodeFile *)cf inCodeFilesAtIndex:(NSUInteger)index {
   [_documentManager AddCodeFile:[cf FilePath]];
-  [_documentManager SaveCodeFileListToDocument:nil];
+  [_documentManager SimpleSaveChanges];
+  //[_documentManager SaveCodeFileListToDocument:nil];
 }
 
 //go back and review - this isn't fired (should be...)
 //FIXME: not sure why this isn't being called
 - (void)removeObjectFromCodeFilesAtIndex:(NSUInteger)index {
+  
   [_codeFiles removeObjectAtIndex:index];
-  [_documentManager SaveCodeFileListToDocument:nil];
+  [_documentManager SimpleSaveChanges];
+  //[_documentManager SaveCodeFileListToDocument:nil];
 }
 
 - (IBAction)addFile:(id)sender {
@@ -133,7 +138,7 @@
   //BOOL isDir;
   //NSFileManager* fileManager = [NSFileManager defaultManager];
   
-  if ( [openPanel runModal] == NSOKButton )
+  if ( [openPanel runModal] == NSModalResponseOK )
   {
     NSArray<NSURL*>* files = [openPanel URLs];
     
@@ -151,7 +156,7 @@
       //add to array controller
       [arrayController addObject:cf];
       
-      //re-sort in case the user has sorteda column
+      //re-sort in case the user has sorted column
       [arrayController rearrangeObjects];
       
     }

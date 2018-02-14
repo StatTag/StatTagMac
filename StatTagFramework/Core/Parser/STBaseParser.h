@@ -14,6 +14,7 @@
 @interface STBaseParser : NSObject <STICodeFileParser> {
   NSRegularExpression* _StartTagRegEx;
   NSRegularExpression* _EndTagRegEx;
+  NSRegularExpression* _MacFileProtocolRegEx;
 }
 
 
@@ -22,6 +23,9 @@
 -(NSArray<STTag*>*)Parse:(STCodeFile*)file filterMode:(NSInteger)filterMode tagsToRun:(NSArray<STTag*>*)tagsToRun;
 -(NSArray<STTag*>*)Parse:(STCodeFile*)file filterMode:(NSInteger)filterMode;
 -(NSArray<STTag*>*)Parse:(STCodeFile*)file;
+
+-(bool)IsTagStart:(NSString*)line;
+-(bool)IsTagEnd:(NSString*)line;
 
 -(NSArray<STExecutionStep*>*)GetExecutionSteps:(STCodeFile*)file filterMode:(NSInteger)filterMode tagsToRun:(NSArray<STTag*>*)tagsToRun;
 -(NSArray<STExecutionStep*>*)GetExecutionSteps:(STCodeFile*)file filterMode:(NSInteger)filterMode;
@@ -41,6 +45,7 @@
 //MARK: other methods and properties
 @property (copy, nonatomic) NSRegularExpression* StartTagRegEx;
 @property (copy, nonatomic) NSRegularExpression* EndTagRegEx;
+@property (copy, nonatomic) NSRegularExpression* MacFileProtocolRegEx;
 
 -(NSString*)CommentCharacter;
 
@@ -63,5 +68,7 @@
 
 //FIXME: move this somewhere else
 +(BOOL)regexIsMatch:(NSRegularExpression*)regex inString:(NSString*)string;
+
+-(BOOL)IsRelativePath:(NSString*)filePath;
 
 @end

@@ -1,21 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12118"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12120"/>
         <capability name="box content view" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
-        <capability name="system font weights other than Regular or Bold" minToolsVersion="7.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="DocumentBrowserViewController">
             <connections>
-                <outlet property="codeFilesView" destination="eFX-Yi-366" id="jos-Mx-aeg"/>
-                <outlet property="codeFilesViewController" destination="lBR-wS-t4X" id="2Ln-7S-0QW"/>
+                <outlet property="documentBrowserDocumentView" destination="qqD-xq-xMg" id="dmy-aP-JE8"/>
+                <outlet property="documentBrowserDocumentViewController" destination="uDW-ps-Zxi" id="N72-kh-sWp"/>
                 <outlet property="documentsArrayController" destination="Tmg-8e-Yto" id="mi3-yo-uz6"/>
                 <outlet property="documentsTableView" destination="tL3-6A-LkR" id="GD5-eC-PT1"/>
-                <outlet property="focusView" destination="qqD-xq-xMg" id="drE-Vd-Uhy"/>
-                <outlet property="tagListViewController" destination="70V-Fe-1i5" id="BOj-Yt-oPL"/>
-                <outlet property="unlinkedTagsViewController" destination="lCS-5R-PTn" id="DE0-j5-SNo"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
             </connections>
         </customObject>
@@ -28,9 +24,6 @@
                 <box horizontalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="xA1-JN-GTo">
                     <rect key="frame" x="238" y="0.0" width="5" height="400"/>
                 </box>
-                <box horizontalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="Ah1-3x-mXb">
-                    <rect key="frame" x="471" y="0.0" width="5" height="400"/>
-                </box>
                 <box boxType="custom" borderType="line" borderWidth="0.0" title="Box" translatesAutoresizingMaskIntoConstraints="NO" id="63T-gx-hZb">
                     <rect key="frame" x="0.0" y="330" width="240" height="20"/>
                     <view key="contentView" id="Jyk-2t-YL4">
@@ -40,7 +33,7 @@
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wxg-3H-hFh">
                                 <rect key="frame" x="2" y="2" width="236" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="OPEN WORD DOCUMENTS" id="dwp-oQ-1wE">
-                                    <font key="font" metaFont="systemSemibold" size="12"/>
+                                    <font key="font" metaFont="systemBold" size="12"/>
                                     <color key="textColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
@@ -140,14 +133,8 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
                 </scrollView>
-                <customView translatesAutoresizingMaskIntoConstraints="NO" id="eFX-Yi-366">
-                    <rect key="frame" x="241" y="0.0" width="232" height="350"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="232" id="Yuf-ba-6hF"/>
-                    </constraints>
-                </customView>
                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="qqD-xq-xMg">
-                    <rect key="frame" x="474" y="0.0" width="475" height="350"/>
+                    <rect key="frame" x="241" y="0.0" width="708" height="350"/>
                     <constraints>
                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="400" id="Yfj-Yb-NWM"/>
                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="350" id="hXj-AC-ih0"/>
@@ -180,37 +167,29 @@
                 </box>
             </subviews>
             <constraints>
+                <constraint firstItem="qqD-xq-xMg" firstAttribute="leading" secondItem="xA1-JN-GTo" secondAttribute="trailing" id="1hf-uY-DmN"/>
                 <constraint firstAttribute="bottom" secondItem="Qg9-Xy-nMv" secondAttribute="bottom" id="6Ib-4F-hTC"/>
-                <constraint firstItem="qqD-xq-xMg" firstAttribute="leading" secondItem="Ah1-3x-mXb" secondAttribute="trailing" id="8we-iX-myb"/>
                 <constraint firstAttribute="trailing" secondItem="qqD-xq-xMg" secondAttribute="trailing" id="9zn-hi-wk8"/>
-                <constraint firstItem="Ah1-3x-mXb" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="GxV-yP-eyo"/>
                 <constraint firstItem="Wxg-3H-hFh" firstAttribute="top" secondItem="Cn2-Ea-Oo9" secondAttribute="bottom" constant="2" id="Mln-rZ-Vj4"/>
                 <constraint firstItem="63T-gx-hZb" firstAttribute="width" secondItem="Qg9-Xy-nMv" secondAttribute="width" id="MxF-Xr-Nmn"/>
                 <constraint firstItem="xA1-JN-GTo" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="OHX-xT-4MW"/>
-                <constraint firstItem="eFX-Yi-366" firstAttribute="leading" secondItem="xA1-JN-GTo" secondAttribute="trailing" id="OQ0-Jb-v98"/>
                 <constraint firstItem="6ln-TP-G8J" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="OWD-ZR-d6z"/>
                 <constraint firstItem="63T-gx-hZb" firstAttribute="top" secondItem="6ln-TP-G8J" secondAttribute="bottom" id="ROL-Sb-VCc"/>
-                <constraint firstAttribute="bottom" secondItem="eFX-Yi-366" secondAttribute="bottom" id="V7i-EZ-OU8"/>
                 <constraint firstItem="6ln-TP-G8J" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="Xcb-K0-7p7"/>
                 <constraint firstItem="63T-gx-hZb" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="Ydr-GZ-mf5"/>
                 <constraint firstItem="Qg9-Xy-nMv" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="aqH-uG-vQy"/>
-                <constraint firstAttribute="bottom" secondItem="Ah1-3x-mXb" secondAttribute="bottom" id="dOL-uP-VCu"/>
                 <constraint firstItem="Qg9-Xy-nMv" firstAttribute="top" secondItem="63T-gx-hZb" secondAttribute="bottom" id="lNJ-XW-1tF"/>
                 <constraint firstAttribute="bottom" secondItem="xA1-JN-GTo" secondAttribute="bottom" id="m7n-RP-qfV"/>
-                <constraint firstItem="eFX-Yi-366" firstAttribute="top" secondItem="6ln-TP-G8J" secondAttribute="bottom" id="pHX-x6-Vda"/>
                 <constraint firstItem="xA1-JN-GTo" firstAttribute="leading" secondItem="Qg9-Xy-nMv" secondAttribute="trailing" id="wZV-pi-3MP"/>
                 <constraint firstItem="qqD-xq-xMg" firstAttribute="top" secondItem="6ln-TP-G8J" secondAttribute="bottom" id="xdM-HH-ygq"/>
                 <constraint firstAttribute="trailing" secondItem="6ln-TP-G8J" secondAttribute="trailing" id="yQv-FD-MMX"/>
-                <constraint firstItem="Ah1-3x-mXb" firstAttribute="leading" secondItem="eFX-Yi-366" secondAttribute="trailing" id="yYp-MY-zlh"/>
                 <constraint firstAttribute="bottom" secondItem="qqD-xq-xMg" secondAttribute="bottom" id="ysL-78-kfl"/>
             </constraints>
             <point key="canvasLocation" x="366.5" y="192"/>
         </customView>
         <arrayController selectsInsertedObjects="NO" id="Tmg-8e-Yto" userLabel="Documents Array Controller"/>
         <userDefaultsController representsSharedInstance="YES" id="Tuo-5q-6gX"/>
-        <viewController nibName="DocumentBrowserCodeFilesViewController" id="lBR-wS-t4X" customClass="DocumentBrowserCodeFilesViewController"/>
-        <viewController id="70V-Fe-1i5" customClass="UpdateOutputViewController"/>
-        <viewController title="Unlinked Tags" nibName="UnlinkedTagsViewController" id="lCS-5R-PTn" customClass="UnlinkedTagsViewController"/>
+        <viewController title="Document View Controller" nibName="DocumentBrowserDocumentViewController" id="uDW-ps-Zxi" customClass="DocumentBrowserDocumentViewController"/>
     </objects>
     <resources>
         <image name="stattag_logo_text_white" width="512" height="149"/>

@@ -12,7 +12,7 @@
 @class STLogManager;
 @class STDocumentManager;
 @class STStatsManager;
-@class STPropertiesManager;
+@class STSettingsManager;
 
 @interface STThisAddIn : NSObject {
   STMSWord2011Application* _Application;
@@ -20,7 +20,7 @@
   NSString* _AppBundleIdentifier;
   STDocumentManager* _DocumentManager;
   STStatsManager* _StatsManager;
-  STPropertiesManager* _PropertiesManager;
+  STSettingsManager* _SettingsManager;
   NSNumber* _applicationVersion;
 }
 
@@ -29,7 +29,7 @@
 @property STMSWord2011Application* Application;
 @property STDocumentManager* DocumentManager;
 @property STStatsManager* StatsManager;
-@property STPropertiesManager* PropertiesManager;
+@property STSettingsManager* SettingsManager;
 @property NSNumber* applicationVersion;
 
 /**
@@ -58,7 +58,7 @@
 -(void)Application_DocumentBeforeSave:(STMSWord2011Document*)doc;
 
 /**
- Handle initailization when a document is opened.  This may be called multiple times in a single Word session.
+ Handle initialization when a document is opened.  This may be called multiple times in a single Word session.
  */
 -(void)Application_DocumentOpen:(STMSWord2011Document*)doc;
 

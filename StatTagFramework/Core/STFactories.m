@@ -16,7 +16,9 @@
 #import "STRParser.h"
 #import "STBaseGenerator.h"
 #import "STStataBaseGenerator.h"
+#import "STRBaseGenerator.h"
 #import "STStataBaseValueFormatter.h"
+#import "STRBaseValueFormatter.h"
 
 @implementation STFactories
 
@@ -41,6 +43,9 @@
     if([[file StatisticalPackage] isEqualToString: [STConstantsStatisticalPackages Stata] ]) {
        return [[STStataBaseGenerator alloc] init];
     }
+    else if([[file StatisticalPackage] isEqualToString: [STConstantsStatisticalPackages R] ]) {
+        return [[STRBaseGenerator alloc] init];
+    }
   }
   return nil;
 }
@@ -50,6 +55,9 @@
   {
     if([[file StatisticalPackage] isEqualToString: [STConstantsStatisticalPackages Stata] ]) {
       return [[STStataBaseValueFormatter alloc] init];
+    }
+    else if([[file StatisticalPackage] isEqualToString: [STConstantsStatisticalPackages R] ]) {
+      return [[STRBaseValueFormatter alloc] init];
     }
   }
   return [[STBaseValueFormatter alloc] init];

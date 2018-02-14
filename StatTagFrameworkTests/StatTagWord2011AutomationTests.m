@@ -123,7 +123,7 @@
 -(void)testWordAPI_FieldInsert {
   //- (void) createNewFieldTextRange:(STMSWord2011TextRange *)textRange fieldType:(STMSWord2011E183)fieldType fieldText:(NSString *)fieldText preserveFormatting:(BOOL)preserveFormatting;  // Create a new field
 
-  NSString* theText = @"<test field>";
+  NSString* theText = [NSString stringWithFormat:@"%@test field%@", [STFieldGenerator FieldOpen], [STFieldGenerator FieldClose]];
   
 //  STMSWord2011TextRange* aRange = [doc createRangeStart:[[doc textObject] startOfContent] end:([[doc textObject] startOfContent] + [theText length])];
 
@@ -219,7 +219,8 @@
   
   NSLog(@"GetTags : %@", [manager GetTags]);
   
-  STStatsManager* stats = [[STStatsManager alloc] init:manager];
+  
+  STStatsManager* stats = [[STStatsManager alloc] initWithDocumentManager:manager andSettingsManager:nil];
   for(STCodeFile* cf in [manager GetCodeFileList]) {
     NSLog(@"codeFile content: %@", [cf Content]);
     NSLog(@"original codeFile tags");
@@ -257,6 +258,11 @@
 -(void)testWordAPI_UpdateTagFieldsFromCodeFile {
   //InsertFieldWithFieldTag
   
+  XCTAssertTrue(false);
+  //NOTE: intentionally failing this case here right now. For some reason we're getting a hard crash _after_ UpdateFields completes below
+  //Not sure why (yet), so I want to force this to fail right now so we have to circle back
+  //May have to do with executing the code below outside of the background thread
+  
   //go read this about field codes
   //https://groups.google.com/forum/#!msg/microsoft.public.mac.office.word/jzksDl1ebCw/YGddKCkIJdYJ
   
@@ -267,7 +273,7 @@
   
   [manager GetTags];
   
-  STStatsManager* stats = [[STStatsManager alloc] init:manager];
+  STStatsManager* stats = [[STStatsManager alloc] initWithDocumentManager:manager andSettingsManager:nil];
   for(STCodeFile* cf in [manager GetCodeFileList]) {
     STStatsManagerExecuteResult* result __unused = [stats ExecuteStatPackage:cf filterMode:[STConstantsParserFilterMode IncludeAll]];
   }
@@ -353,7 +359,9 @@
   NSLog(@" ");
   NSLog(@"SAVING variable list");
   NSLog(@"=====================");
-  [manager SaveCodeFileListToDocument:doc];
+  
+  [manager SaveMetadataToDocument:doc metadata:[manager LoadMetadataFromDocument:doc createIfEmpty:true]];
+//  [manager SaveCodeFileListToDocument:doc];
   
   NSLog(@" ");
   NSLog(@"LOADING variable list");
@@ -564,7 +572,7 @@
 }
 
 -(void)testPreferences {
-  STPropertiesManager* manager = [[STPropertiesManager alloc] init];
+  STSettingsManager* manager = [[STSettingsManager alloc] init];
   
 //  manager.Properties.StataLocation = @"My Stata Location";
 //  manager.Properties.EnableLogging = NO;
@@ -594,7 +602,7 @@
   
   [manager GetTags];
   
-  STStatsManager* stats = [[STStatsManager alloc] init:manager];
+  STStatsManager* stats = [[STStatsManager alloc] initWithDocumentManager:manager andSettingsManager:nil];
   for(STCodeFile* cf in [manager GetCodeFileList]) {
     STStatsManagerExecuteResult* result __unused = [stats ExecuteStatPackage:cf filterMode:[STConstantsParserFilterMode IncludeAll]];
   }
@@ -615,7 +623,8 @@
     NSLog(@"==================");
     NSLog(@"fieldText : %@", [field fieldText]);
     
-    if ([[manager TagManager] IsStatTagField:field]) {
+//    if ([[manager TagManager] IsStatTagField:field]) {
+    if ([STTagManager IsStatTagField:field]) {
       STFieldTag* fieldTag = [[manager TagManager] GetFieldTag:field];
       NSLog(@"fieldTag FormattedResult : %@", [fieldTag FormattedResult]);
     } else {
@@ -686,5 +695,18 @@
   
 }
  */
+
+
+
+ -(void)testInsertingVerbatimTag
+{
+  NSString* shapeText = @"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+
+  NSInteger rangeStart = [[[app selection] textObject] startOfContent];
+  NSInteger rangeEnd = [[[app selection] textObject] endOfContent];
+  
+  [WordHelpers insertTextboxAtRangeStart:rangeStart andRangeEnd:rangeEnd forShapeName: @"my shape id" withShapetext:shapeText andFontSize:9.0 andFontFace: @"Courier New"];
+}
+
 
 @end

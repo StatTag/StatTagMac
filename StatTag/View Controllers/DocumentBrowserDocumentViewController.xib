@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12121" systemVersion="16F2073" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12121"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="DocumentBrowserDocumentViewController">
+            <connections>
+                <outlet property="codeFilesView" destination="zWV-C1-XJY" id="kmJ-Ar-s9d"/>
+                <outlet property="codeFilesViewController" destination="SaB-ML-Jdr" id="fSc-Ze-vJU"/>
+                <outlet property="duplicateTagsViewController" destination="Jo1-Bs-tdk" id="Trl-od-aao"/>
+                <outlet property="focusView" destination="iWr-N5-qZt" id="fM0-O8-HDz"/>
+                <outlet property="tagListViewController" destination="biz-vd-XGN" id="aTN-1g-dt2"/>
+                <outlet property="unlinkedTagsViewController" destination="Yuu-uq-xSn" id="f13-n1-lnp"/>
+                <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="Hz6-mo-xeY">
+            <rect key="frame" x="0.0" y="0.0" width="480" height="272"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="zWV-C1-XJY">
+                    <rect key="frame" x="0.0" y="0.0" width="232" height="272"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="232" id="THf-fN-lSX"/>
+                    </constraints>
+                </customView>
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="iWr-N5-qZt">
+                    <rect key="frame" x="233" y="0.0" width="247" height="272"/>
+                </customView>
+                <box horizontalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="EhP-gv-U15">
+                    <rect key="frame" x="230" y="0.0" width="5" height="272"/>
+                </box>
+            </subviews>
+            <constraints>
+                <constraint firstItem="EhP-gv-U15" firstAttribute="leading" secondItem="zWV-C1-XJY" secondAttribute="trailing" id="9c7-gO-dPr"/>
+                <constraint firstItem="zWV-C1-XJY" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="BSI-UO-O2O"/>
+                <constraint firstAttribute="trailing" secondItem="iWr-N5-qZt" secondAttribute="trailing" id="Cb8-iG-GZ3"/>
+                <constraint firstAttribute="bottom" secondItem="iWr-N5-qZt" secondAttribute="bottom" id="K0L-fD-er9"/>
+                <constraint firstItem="iWr-N5-qZt" firstAttribute="leading" secondItem="EhP-gv-U15" secondAttribute="trailing" id="Nqr-Fs-sOM"/>
+                <constraint firstItem="EhP-gv-U15" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="Skn-qS-5iJ"/>
+                <constraint firstItem="iWr-N5-qZt" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="jMe-jp-xZE"/>
+                <constraint firstAttribute="bottom" secondItem="EhP-gv-U15" secondAttribute="bottom" id="qiP-XU-EM8"/>
+                <constraint firstAttribute="bottom" secondItem="zWV-C1-XJY" secondAttribute="bottom" id="su7-98-bSf"/>
+                <constraint firstItem="zWV-C1-XJY" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="yqG-pY-EOK"/>
+            </constraints>
+        </customView>
+        <viewController title="Code Files View Controller" nibName="DocumentBrowserCodeFilesViewController" id="SaB-ML-Jdr" customClass="DocumentBrowserCodeFilesViewController"/>
+        <viewController title="Tag List VIew Controller" nibName="UpdateOutputViewController" id="biz-vd-XGN" customClass="UpdateOutputViewController"/>
+        <viewController title="Unlinked Tags" nibName="UnlinkedTagsViewController" id="Yuu-uq-xSn" customClass="UnlinkedTagsViewController"/>
+        <viewController title="Duplicate Tags" nibName="DuplicateTagsViewController" id="Jo1-Bs-tdk" userLabel="Duplicate Tags View Controller" customClass="DuplicateTagsViewController"/>
+    </objects>
+</document>

@@ -1,5 +1,5 @@
 //
-//  StatTageGeneratorBaseGeneratorTests.m
+//  StatTagGeneratorBaseGeneratorTests.m
 //  StatTag
 //
 //  Created by Eric Whitley on 6/30/16.

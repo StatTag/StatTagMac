@@ -12,13 +12,14 @@
 
 @implementation STUIUtility
 
-+(void)WarningMessageBox:(NSString*)text logger:(STLogManager*)logger {
++(void)WarningMessageBoxWithTitle:(NSString*)title andDetail:(NSString*)detail logger:(STLogManager*)logger {
   if(logger != nil) {
-    [logger WriteMessage:text];
+    [logger WriteMessage:[NSString stringWithFormat:@"%@ %@", title, detail]];
   }
   
   NSAlert *alert = [[NSAlert alloc] init];
-  [alert setMessageText:text];
+  [alert setMessageText:title];
+  [alert setInformativeText:detail];
   [alert setAlertStyle:NSWarningAlertStyle];
   [alert addButtonWithTitle:@"Ok"];
   [alert runModal];
@@ -78,10 +79,13 @@
   [alert runModal];
 
   
-  NSLog(@"*** FIX ME *** Later on we should see an alert panel... when we have any sort of UI");
+  //NSLog(@"*** FIX ME *** Later on we should see an alert panel... when we have any sort of UI");
   //MessageBox.Show(userMessage, GetAddInName(), MessageBoxButtons.OK, MessageBoxIcon.Error);
 }
 
-
++(NSString*)GetVersionLabel
+{
+  return [NSString stringWithFormat:@"StatagTag v%@", [STCocoaUtil bundleVersionInfo]];
+}
 
 @end

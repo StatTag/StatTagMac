@@ -81,6 +81,23 @@
   XCTAssertTrue([parser IsTableResult: @"matrix list r(coefs)"]);
 }
 
+-(void)testIsTableResult_DataFile
+{
+  STStataParser* parser = [[STStataParser alloc] init];
+  XCTAssertTrue([parser IsTableResult:@"estadd using test.csv"]);  // Even though this isn't allowed for data export ("estadd"), we are just checking the presence of file paths
+  XCTAssertTrue([parser IsTableResult:@"estout using test.csv"]);
+  XCTAssertTrue([parser IsTableResult:@"estout using C:\\test.csv"]);
+  XCTAssertTrue([parser IsTableResult:@"estout using /c:/test.csv"]);
+  XCTAssertTrue([parser IsTableResult:@"esttab using example.csv, replace wide plain"]);
+  XCTAssertTrue([parser IsTableResult:@"  esttab  using  example.csv ,  replace  wide  plain "]);
+  XCTAssertFalse([parser IsTableResult:@"estadd using test csv"]);
+
+  // Handle local and global macro values - they MAY contain a filename, so the heuristic check should allow them
+  XCTAssertTrue([parser IsTableResult:@"estout using `filename'"]);
+  XCTAssertTrue([parser IsTableResult:@"estout using $filename"]);
+  XCTAssertFalse([parser IsTableResult:@"estout using $ filename"]);
+}
+
 -(void)testIsStartingLog
 {
   STStataParser* parser = [[STStataParser alloc] init];
@@ -185,12 +202,22 @@
 {
   STStataParser* parser = [[STStataParser alloc] init];
 
+  XCTAssertFalse([parser IsCalculatedDisplayValue: nil]);
   XCTAssertFalse([parser IsCalculatedDisplayValue: @""]);
   XCTAssertFalse([parser IsCalculatedDisplayValue: @"2*3"]);
   XCTAssertTrue([parser IsCalculatedDisplayValue: @"display (5*2)"]);
   XCTAssertTrue([parser IsCalculatedDisplayValue: @"display(5*2+(7*8])"]);
   XCTAssertTrue([parser IsCalculatedDisplayValue: @"display 5*2"]);
   XCTAssertFalse([parser IsCalculatedDisplayValue: @"display r[n]"]);
+
+  XCTAssertTrue([parser IsCalculatedDisplayValue: @"display 5"]);
+  XCTAssertTrue([parser IsCalculatedDisplayValue: @"display 00005"]);
+  XCTAssertTrue([parser IsCalculatedDisplayValue: @"display 5."]);
+  XCTAssertTrue([parser IsCalculatedDisplayValue: @"display 0.3059"]);
+  XCTAssertTrue([parser IsCalculatedDisplayValue: @"display .3059"]);
+  XCTAssertTrue([parser IsCalculatedDisplayValue: @"display 5e-10"]);
+  XCTAssertFalse([parser IsCalculatedDisplayValue: @"display 5test"]);
+  XCTAssertFalse([parser IsCalculatedDisplayValue: @"display 5,000"]);
 }
 
 -(void)testGetMacroValueName
@@ -198,6 +225,7 @@
   STStataParser* parser = [[STStataParser alloc] init];
 
   XCTAssertTrue([ @"x2" isEqualToString: [parser GetMacroValueName: @"display  `x2'"]]);
+  XCTAssertTrue([ @"x2" isEqualToString: [parser GetMacroValueName: @"display  $x2"]]);
   XCTAssertTrue([ @"x2" isEqualToString: [parser GetMacroValueName: @"display  `x2'\r\n\r\n*Some comments following"]]);
   XCTAssertTrue([ @"test" isEqualToString: [parser GetMacroValueName: @"display test"]]);   // This isn't a proper Stata macro value, but is the expected return
 }
@@ -213,8 +241,47 @@
   XCTAssert([@"test" isEqualToString: [parser GetTableName: @"mat list test"]]);
   XCTAssert([@"test" isEqualToString: [parser GetTableName: @"mat l test"]]);
   XCTAssert([@"r(coefs)" isEqualToString: [parser GetTableName: @"mat l r(coefs)"]]);
+  XCTAssert([@"test" isEqualToString: [parser GetTableName: @"mat l test, format(%5.0g)"]]);
   XCTAssert([@"r ( coefs )" isEqualToString: [parser GetTableName: @"mat list r ( coefs ) "]]);
   XCTAssert([@"B" isEqualToString: [parser GetTableName: @"matrix list B\r\n\r\n*Some comments following"]]);
+}
+
+-(void)testGetTableDataPath
+{
+  STStataParser* parser = [[STStataParser alloc] init];
+
+  // Check for file names
+  XCTAssert([@"example.csv" isEqualToString: [parser GetTableDataPath: @"esttab using example.csv, replace wide plain"]]);
+  XCTAssert([@"example.csv" isEqualToString: [parser GetTableDataPath: @"esttab using example.csv , replace wide plain"]]);
+  XCTAssert([@"example 2.csv" isEqualToString: [parser GetTableDataPath: @"esttab using \"example 2.csv\", replace wide plain"]]);
+
+  // Check for file paths
+  XCTAssert([@"C:\\example.csv" isEqualToString: [parser GetTableDataPath: @"esttab using C:\\example.csv, replace wide plain"]]);
+  XCTAssert([@"C:\\data path\\example.csv" isEqualToString: [parser GetTableDataPath: @"esttab using \"C:\\data path\\example.csv\", replace wide plain"]]);
+  XCTAssert([@"..\\example.csv" isEqualToString: [parser GetTableDataPath: @"esttab using ..\\example.csv, replace wide plain"]]);
+  XCTAssert([@"C:/example.csv" isEqualToString: [parser GetTableDataPath: @"esttab using C:/example.csv, replace wide plain"]]);
+
+  // Commands with parentheses
+  XCTAssert([@"testing.csv" isEqualToString: [parser GetTableDataPath: @"table1, vars(gender cat \\ race cat \\ ridageyr contn %4.2f \\ married cat \\ income cat \\ education cat \\ bmxht contn %4.2f \\ bmxwt conts \\ bmxbmi conts \\ bmxwaist contn %4.2f \\ lbdhdd contn %4.2f \\ lbdldl contn %4.2f \\ lbxtr conts \\ lbxglu conts \\ lbxin conts) saving(testing.csv, replace)"]]);
+  XCTAssert([@"testing.csv" isEqualToString: [parser GetTableDataPath: @"table1, vars(gender cat \\ race cat \\ ridageyr contn %4.2f \\ married cat \\ income cat \\ education cat \\ bmxht contn %4.2f \\ bmxwt conts \\ bmxbmi conts \\ bmxwaist contn %4.2f \\ lbdhdd contn %4.2f \\ lbdldl contn %4.2f \\ lbxtr conts \\ lbxglu conts \\ lbxin conts) saving(  testing.csv , replace)"]]);
+  XCTAssert([@"testing 2.csv" isEqualToString: [parser GetTableDataPath: @"table1, vars(gender cat \\ race cat \\ ridageyr contn %4.2f \\ married cat \\ income cat \\ education cat \\ bmxht contn %4.2f \\ bmxwt conts \\ bmxbmi conts \\ bmxwaist contn %4.2f \\ lbdhdd contn %4.2f \\ lbdldl contn %4.2f \\ lbxtr conts \\ lbxglu conts \\ lbxin conts) saving(\"testing 2.csv\", replace)"]]);
+
+  // Check for macros
+  XCTAssert([@"`filename'" isEqualToString: [parser GetTableDataPath: @"esttab using `filename', replace wide plain"]]);
+  XCTAssert([@"$filename" isEqualToString: [parser GetTableDataPath: @"esttab using $filename, replace wide plain"]]);
+
+  // Don't forget you can mix paths and macros
+  XCTAssert([@"C:\\`file'" isEqualToString: [parser GetTableDataPath: @"esttab using C:\\`file', replace wide plain"]]);
+  XCTAssert([@"C:\\data path\\`file'" isEqualToString: [parser GetTableDataPath: @"esttab using \"C:\\data path\\`file'\", replace wide plain"]]);
+}
+
+-(void)testIsTable1Command
+{
+  STStataParser* parser = [[STStataParser alloc] init];
+  XCTAssertTrue([parser IsTable1Command:@"table1, vars(gender cat \\ race cat \\ ridageyr contn %4.2f \\ married cat \\ income cat \\ education cat \\ bmxht contn %4.2f \\ bmxwt conts \\ bmxbmi conts \\ bmxwaist contn %4.2f \\ lbdhdd contn %4.2f \\ lbdldl contn %4.2f \\ lbxtr conts \\ lbxglu conts \\ lbxin conts) saving(table1.xls, replace)"]);
+  XCTAssertTrue([parser IsTable1Command:@"table1 ,  vars(gender cat \\ race cat \\ ridageyr contn %4.2f \\ married cat \\ income cat \\ education cat \\ bmxht contn %4.2f \\ bmxwt conts \\ bmxbmi conts \\ bmxwaist contn %4.2f \\ lbdhdd contn %4.2f \\ lbdldl contn %4.2f \\ lbxtr conts \\ lbxglu conts \\ lbxin conts) saving(table1.xls, replace)"]);
+  XCTAssertFalse([parser IsTable1Command:@"esttab using table1.csv, replace wide plain"]);
+  XCTAssertFalse([parser IsTable1Command:@"esttab using $table1, replace wide plain"]);
 }
 
 -(void)testPreProcessContent_Empty
@@ -230,20 +297,24 @@
 {
   STStataParser* parser = [[STStataParser alloc] init];
   NSArray<NSString*>* testList;
-  
+
+  // Note that all of the returned arrays have 1 more element than you would
+  // expect.  This is because we inject a "clear all" command whenever we
+  // pre-process the content and we need to account for it in the output.
+
   testList = [NSArray<NSString*> arrayWithObjects:
                                   @"First line",
                                   @"Second line",
                                   @"Third line",
                                   nil];
-  XCTAssertEqual(3, [[parser PreProcessContent:testList] count]);
+  XCTAssertEqual(4, [[parser PreProcessContent:testList] count]);
   
   testList = [NSArray<NSString*> arrayWithObjects:
               @"First line",
               @"Second line ///",
               @"Third line",
               nil];
-  XCTAssertEqual(2, [[parser PreProcessContent:testList] count]);
+  XCTAssertEqual(3, [[parser PreProcessContent:testList] count]);
   /*
    Result:
    "First line",
@@ -256,7 +327,7 @@
               @"Second line ///",
               @"Third line ///",
               nil];
-  XCTAssertEqual(1, [[parser PreProcessContent:testList] count]);
+  XCTAssertEqual(2, [[parser PreProcessContent:testList] count]);
   
 }
 
@@ -265,14 +336,19 @@
   STStataParser* parser = [[STStataParser alloc] init];
   NSArray<NSString*>* testList;
 
+  // Note that all of the returned arrays have 1 more element than you would
+  // expect.  This is because we inject a "clear all" command whenever we
+  // pre-process the content and we need to account for it in the output.
+
   //1
   testList = [NSArray<NSString*> arrayWithObjects:
               @"First line",
               @"Second line /*",
               @"*/Third line",
               nil];
-  XCTAssertEqual(2, [[parser PreProcessContent:testList] count]);
-  XCTAssert([@"First line\r\nSecond line  Third line" isEqualToString:[[parser PreProcessContent:testList] componentsJoinedByString:@"\r\n"]]);
+  NSArray<NSString*>* results = [parser PreProcessContent:testList];
+  XCTAssertEqual(3, [results count]);
+  XCTAssert([@"clear all\r\nFirst line\r\nSecond line Third line" isEqualToString:[results componentsJoinedByString:@"\r\n"]]);
 
   //2
   testList = [NSArray<NSString*> arrayWithObjects:
@@ -280,8 +356,9 @@
               @"Second line ///",
               @"Third line */",
               nil];
-  XCTAssertEqual(1, [[parser PreProcessContent:testList] count]);
-  XCTAssert([@"First line  " isEqualToString:[[parser PreProcessContent:testList] componentsJoinedByString:@"\r\n"]]);
+  results = [parser PreProcessContent:testList];
+  XCTAssertEqual(2, [results count]);
+  XCTAssert([@"clear all\r\nFirst line" isEqualToString:[results componentsJoinedByString:@"\r\n"]]);
 
   
   //3
@@ -291,13 +368,70 @@
               @"Third line */",
               @"Fourth line */",
               nil];
-  XCTAssertEqual(1, [[parser PreProcessContent:testList] count]);
-  XCTAssert([@"First line  " isEqualToString:[[parser PreProcessContent:testList] componentsJoinedByString:@"\r\n"]]);
-  
+  results = [parser PreProcessContent:testList];
+  XCTAssertEqual(2, [results count]);
+  XCTAssert([@"clear all\r\nFirst line" isEqualToString:[results componentsJoinedByString:@"\r\n"]]);
+
+
+  // This was in response to an issue reported by a user.  The code file had multiple comments in it, and our regex
+  // was being too greedy and pulling extra code out (until it found the last closing comment indicator)
+  testList = [NSArray<NSString*> arrayWithObjects:
+              @"/*First line*/",
+              @"Second line",
+              @"/*Third line*/",
+              @"Fourth line",
+              nil];
+  results = [parser PreProcessContent:testList];
+  XCTAssertEqual(5, [results count]);
+  XCTAssert([@"clear all\r\n\r\nSecond line\r\n\r\nFourth line" isEqualToString:[results componentsJoinedByString:@"\r\n"]]);
+
+  testList = [NSArray<NSString*> arrayWithObjects:
+              @"/*First line*/",
+              @"/*Second line*/ /*More on the same line*/",
+              @"/*Third line*/",
+              @"Fourth line",
+              nil];
+  results = [parser PreProcessContent:testList];
+  XCTAssertEqual(5, [results count]);
+  XCTAssert([@"clear all\r\n\r\n \r\n\r\nFourth line" isEqualToString:[results componentsJoinedByString:@"\r\n"]]);
+
+  // This is to test unbalanced comments (missing whitespace near the end so it is treated like
+  // an unending comment.
+  testList = [NSArray<NSString*> arrayWithObjects:
+              @"/*First line",
+              @"/*Second line*//*More on the same line*/",
+              @"/*Third line",
+              @"Fourth line*/*/",
+              nil];
+  results = [parser PreProcessContent:testList];
+  XCTAssertEqual(5, [results count]);
+  XCTAssert([@"clear all\r\n/*First line\r\n/*Second line*//*More on the same line*/\r\n/*Third line\r\nFourth line*/*/" isEqualToString:[results componentsJoinedByString:@"\r\n"]]);
+
+  testList = [NSArray<NSString*> arrayWithObjects:
+              @"/*First line",
+              @"/*Second line*/ /*More on the same line*/",
+              @"/*Third line",
+              @"Fourth line*/ */",
+              nil];
+  results = [parser PreProcessContent:testList];
+  XCTAssertEqual(1, [results count]);
+  XCTAssert([@"clear all" isEqualToString:[results componentsJoinedByString:@"\r\n"]]);
+
+  testList = [NSArray<NSString*> arrayWithObjects:
+              @"/**/First line",
+              nil];
+  XCTAssertEqual(2, [[parser PreProcessContent:testList] count]);
+  XCTAssert([@"clear all\r\nFirst line" isEqualToString:[[parser PreProcessContent:testList] componentsJoinedByString:@"\r\n"]]);
+
+  testList = [NSArray<NSString*> arrayWithObjects:
+              @"First line/**/",
+              nil];
+  XCTAssertEqual(2, [[parser PreProcessContent:testList] count]);
+  XCTAssert([@"clear all\r\nFirst line" isEqualToString:[[parser PreProcessContent:testList] componentsJoinedByString:@"\r\n"]]);
 }
 
 
--(void) GetMacros
+-(void) testGetMacros
 {
   STStataParser* parser = [[STStataParser alloc] init];
   XCTAssertEqual(0, [[parser GetMacros:nil] count]);
@@ -311,7 +445,22 @@
   result = [parser GetMacros:@"display `x'\\`y'"];
   XCTAssertEqual(2, [result count]);
   XCTAssert([@"x" isEqualToString:[result objectAtIndex:0]]);
-  XCTAssert([@"y" isEqualToString:[result objectAtIndex:2]]);
+  XCTAssert([@"y" isEqualToString:[result objectAtIndex:1]]);
+
+  result = [parser GetMacros:@"display `x'\\$y"];
+  XCTAssertEqual(2, [result count]);
+  XCTAssert([@"x" isEqualToString:[result objectAtIndex:0]]);
+  XCTAssert([@"y" isEqualToString:[result objectAtIndex:1]]);
+}
+
+-(void) testIsSavedResultCommand
+{
+  STStataParser* parser = [[STStataParser alloc] init];
+  XCTAssertTrue([parser IsSavedResultCommand:@" c(pwd) "]);
+  XCTAssertTrue([parser IsSavedResultCommand:@"e(N)"]);
+  XCTAssertTrue([parser IsSavedResultCommand:@"r(N)"]);
+  XCTAssertFalse([parser IsSavedResultCommand:@"p(N)"]);
+  XCTAssertFalse([parser IsSavedResultCommand:@" c ( N ) "]);  // Not valid in Stata because of the space between c and (
 }
 
 @end

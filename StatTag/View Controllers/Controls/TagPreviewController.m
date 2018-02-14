@@ -36,7 +36,7 @@ static BOOL valuePreviewsEnabled = NO;
 
 //graph preview
 /**
- 1) colum headers?
+ 1) column headers?
  2) row headers?
  */
 
@@ -64,7 +64,7 @@ static BOOL valuePreviewsEnabled = NO;
             context:TagTableFormatContext];
   
   [self addObserver:self
-         forKeyPath:@"tag.TableFormat.RowFilter.Enabled"
+         forKeyPath:@"tag.TableFormat.ColumnFilter.Enabled"
             options:(NSKeyValueObservingOptionNew |
                      NSKeyValueObservingOptionOld)
             context:TagTableFormatContext];
@@ -161,7 +161,10 @@ static BOOL valuePreviewsEnabled = NO;
   
   NSString* previewText;
   
-  if([[[tag ValueFormat] FormatType] isEqualToString:[STConstantsValueFormatType Numeric]] ) {
+  if([[tag Type] isEqualToString:[STConstantsTagType Verbatim]])
+  {
+    previewText = @"(Exactly as Generated)";
+  } else if([[[tag ValueFormat] FormatType] isEqualToString:[STConstantsValueFormatType Numeric]] ) {
     NSString* result;
     if(valuePreviewsEnabled == YES)
     {
@@ -263,6 +266,16 @@ static BOOL valuePreviewsEnabled = NO;
       //if we can't access our original image (or we can't interpret the format)
       // then just use the default placeholder image
       preview = [NSImage imageNamed:@"figure_preview"]; //move this to a property later
+    }
+  } else if ([tag Type] == [STConstantsTagType Verbatim]) {
+    //preview = [NSImage imageNamed:@"preview_verbatim_console"]; //move this to a property later
+  } else if ([tag Type] == [STConstantsTagType Value]) {
+    if([[[tag ValueFormat] FormatType] isEqualToString: [STConstantsValueFormatType Percentage]])
+    {
+      //preview = [NSImage imageNamed:@"preview_percent"];
+    } else if([[[tag ValueFormat] FormatType] isEqualToString: [STConstantsValueFormatType Numeric]]) {
+      //preview = [NSImage imageNamed:@"preview_number"];
+    } else if([[[tag ValueFormat] FormatType] isEqualToString: [STConstantsValueFormatType DateTime]]) {
     }
   }
   

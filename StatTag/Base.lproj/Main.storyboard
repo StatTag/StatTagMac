@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12118"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13529"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -668,6 +669,12 @@
                                                 <action selector="showHelp:" target="Ady-hI-5gd" id="y7X-2Q-9no"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="Download Latest StatTag Samples" id="Nib-Mw-zeR">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="openSamplesInstallerWindow:" target="Voe-Tx-rLC" id="e1c-Yp-svp"/>
+                                            </connections>
+                                        </menuItem>
                                     </items>
                                 </menu>
                             </menuItem>
@@ -700,6 +707,9 @@
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="196" y="240" width="480" height="270"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
+                        <connections>
+                            <outlet property="delegate" destination="W7G-iM-ke7" id="WON-7G-Z5J"/>
+                        </connections>
                     </window>
                     <connections>
                         <segue destination="rbg-pG-S9r" kind="relationship" relationship="window.shadowedContentViewController" id="onL-Z6-w62"/>
@@ -718,6 +728,9 @@
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="196" y="240" width="480" height="270"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
+                        <connections>
+                            <outlet property="delegate" destination="ECo-6X-mpQ" id="qf3-BO-cjM"/>
+                        </connections>
                     </window>
                     <connections>
                         <segue destination="Vix-qB-mqC" kind="relationship" relationship="window.shadowedContentViewController" id="Pjo-14-PgI"/>
@@ -726,6 +739,40 @@
                 <customObject id="3BB-vw-vkV" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1561" y="925"/>
+        </scene>
+        <!--Samples Installer Window Controller-->
+        <scene sceneID="qVc-T3-3nh">
+            <objects>
+                <windowController storyboardIdentifier="samplesWindowController" id="39s-jH-hwS" userLabel="Samples Installer Window Controller" sceneMemberID="viewController">
+                    <window key="window" title="Download StatTag Samples" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="ugJ-X3-CnF">
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+                        <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+                        <rect key="contentRect" x="196" y="240" width="480" height="270"/>
+                        <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
+                        <connections>
+                            <outlet property="delegate" destination="39s-jH-hwS" id="lwA-T5-QyB"/>
+                        </connections>
+                    </window>
+                    <connections>
+                        <segue destination="qrR-Lf-UNx" kind="relationship" relationship="window.shadowedContentViewController" id="zVD-q1-CaY"/>
+                    </connections>
+                </windowController>
+                <customObject id="w2v-lG-oBS" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1561" y="1286"/>
+        </scene>
+        <!--Samples Installer View Controller-->
+        <scene sceneID="ko9-r8-mgh">
+            <objects>
+                <viewController id="qrR-Lf-UNx" customClass="SamplesInstallerViewController" sceneMemberID="viewController">
+                    <view key="view" id="Cu8-iS-Epy">
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </view>
+                </viewController>
+                <customObject id="dRx-J9-wkK" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1015" y="1278"/>
         </scene>
         <!--Settings View Controller-->
         <scene sceneID="HSq-7s-Ahd">
@@ -756,12 +803,15 @@
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">
             <objects>
-                <windowController storyboardIdentifier="mainWindowController" id="B8D-0N-5wS" sceneMemberID="viewController">
-                    <window key="window" title="StatTag" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
+                <windowController storyboardIdentifier="mainWindowController" id="B8D-0N-5wS" customClass="RestorableWindowController" sceneMemberID="viewController">
+                    <window key="window" title="StatTag" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="MainWindow" animationBehavior="default" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-                        <rect key="contentRect" x="196" y="240" width="480" height="270"/>
+                        <rect key="contentRect" x="196" y="240" width="800" height="600"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
+                        <connections>
+                            <outlet property="delegate" destination="B8D-0N-5wS" id="0ol-s5-w63"/>
+                        </connections>
                     </window>
                     <connections>
                         <segue destination="orG-Tx-oXQ" kind="relationship" relationship="window.shadowedContentViewController" id="h3g-b8-ixH"/>
@@ -769,7 +819,7 @@
                 </windowController>
                 <customObject id="Oky-zY-oP4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="66" y="246"/>
+            <point key="canvasLocation" x="244" y="298"/>
         </scene>
         <!--Main Tab View Controller-->
         <scene sceneID="mf0-Dv-ps6">
@@ -790,6 +840,7 @@
                         </connections>
                     </tabView>
                     <connections>
+                        <outlet property="tabView" destination="bgG-rZ-LXd" id="fYo-Hz-ujA"/>
                         <segue destination="W9p-NN-bND" kind="relationship" relationship="tabItems" id="L8p-MV-O6a"/>
                         <segue destination="diY-aM-9tA" kind="relationship" relationship="tabItems" id="TGs-BS-ZQY"/>
                         <segue destination="7rQ-kh-Vt3" kind="relationship" relationship="tabItems" id="VmU-hw-oSf"/>
@@ -797,7 +848,7 @@
                 </tabViewController>
                 <customObject id="43s-Bz-SoD" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="707"/>
+            <point key="canvasLocation" x="69" y="1100"/>
         </scene>
         <!--Document Browser View Controller-->
         <scene sceneID="5MY-Gi-C9b">
@@ -810,7 +861,7 @@
                 </viewController>
                 <customObject id="Mul-a9-Apt" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="632" y="345"/>
+            <point key="canvasLocation" x="984" y="291"/>
         </scene>
         <!--Stat Tag Needs Word View Controller-->
         <scene sceneID="drC-66-AVK">
@@ -823,7 +874,7 @@
                 </viewController>
                 <customObject id="b80-DQ-Qdr" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="564" y="707"/>
+            <point key="canvasLocation" x="564" y="1100"/>
         </scene>
         <!--Settings View Controller-->
         <scene sceneID="1RD-ZK-BIx">
@@ -847,7 +898,7 @@
                 </viewController>
                 <customObject id="HYD-hq-8cd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-199" y="1183"/>
+            <point key="canvasLocation" x="-167" y="1546"/>
         </scene>
         <!--Manage Code Files View Controller-->
         <scene sceneID="ffM-D5-daC">
@@ -871,7 +922,7 @@
                 </viewController>
                 <customObject id="pDO-si-G9J" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="319" y="1183"/>
+            <point key="canvasLocation" x="350" y="1546"/>
         </scene>
         <!--Update Output View Controller-->
         <scene sceneID="hR8-5X-Xcl">
@@ -884,7 +935,20 @@
                 </viewController>
                 <customObject id="f3o-Zj-qNo" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="841" y="1183"/>
+            <point key="canvasLocation" x="849" y="1546"/>
+        </scene>
+        <!--Unlinked Tags-->
+        <scene sceneID="pXJ-Sx-1w9">
+            <objects>
+                <viewController title="Unlinked Tags" storyboardIdentifier="unlinkedTagsViewController" id="uXc-oW-YjN" customClass="UnlinkedTagsViewController" sceneMemberID="viewController">
+                    <view key="view" id="yit-dd-KXU">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </view>
+                </viewController>
+                <customObject id="bdP-Fu-dgg" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="852" y="1912"/>
         </scene>
         <!--Updating Tags-->
         <scene sceneID="BfN-SS-AO9">
@@ -897,7 +961,20 @@
                 </viewController>
                 <customObject id="PmH-fk-VWh" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="319" y="1608"/>
+            <point key="canvasLocation" x="350" y="1908"/>
+        </scene>
+        <!--Checking Unlinked Tags-->
+        <scene sceneID="Udb-y5-uo0">
+            <objects>
+                <viewController title="Checking Unlinked Tags" storyboardIdentifier="unlinkedFieldProgressWindow" id="BBQ-Fr-leg" customClass="UnlinkedFieldCheckProgressViewController" sceneMemberID="viewController">
+                    <view key="view" id="Zgn-Xc-tu5">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </view>
+                </viewController>
+                <customObject id="Kyk-IA-duS" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-173" y="1914"/>
         </scene>
     </scenes>
     <resources>
