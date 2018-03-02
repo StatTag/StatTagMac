@@ -16,9 +16,11 @@
 +(NSString*)FieldClose;
 
 
++(NSArray<STMSWord2011Field*>*)InsertField:(STMSWord2011TextRange*)range theString:(NSString*)theString fieldOpen:(NSString*)fieldOpen fieldClose:(NSString*)fieldClose withDoc:(STMSWord2011Document*)doc;
 +(NSArray<STMSWord2011Field*>*)InsertField:(STMSWord2011TextRange*)range theString:(NSString*)theString fieldOpen:(NSString*)fieldOpen fieldClose:(NSString*)fieldClose;
 +(NSArray<STMSWord2011Field*>*)InsertField:(STMSWord2011TextRange*)range;
 +(NSArray<STMSWord2011Field*>*)InsertField:(STMSWord2011TextRange*)range theString:(NSString*)theString;
++(NSArray<STMSWord2011Field*>*)InsertField:(STMSWord2011TextRange*)range theString:(NSString*)theString withDoc:(STMSWord2011Document*)doc;
 +(NSArray<STMSWord2011Field*>*)InsertField:(STMSWord2011TextRange*)range theString:(NSString*)theString fieldOpen:(NSString*)fieldOpen;
 
 +(NSString*)escapeMacroContent:(NSString*)content;

@@ -92,7 +92,7 @@
       if(([range endOfContent] - removeEnd) > 0 && [range startOfContent] != [range endOfContent]) {
         ////NSLog(@"OFFSETTING range -> ( %ld, %ld) content : %@", (long)[range startOfContent], (long)[range endOfContent], [range content]);
         ////NSLog(@"trying to set end to %d", [range endOfContent] - removeEnd);
-        [WordHelpers setRange:&range Start:[range startOfContent] end:([range endOfContent] - removeEnd)];
+        [WordHelpers setRange:&range start:[range startOfContent] end:([range endOfContent] - removeEnd)];
         [ranges replaceObjectAtIndex:index withObject:range];
         
         ////NSLog(@"OFFSETTING range -> ( %ld, %ld) content : %@", (long)[range startOfContent], (long)[range endOfContent], [range content]);
@@ -121,9 +121,16 @@
  @remark A solution for VBA has been taken from [this](http://stoptyping.co.uk/word/nested-fields-in-vba)
  article and adopted for C# by the author.
 */
-+(NSArray<STMSWord2011Field*>*)InsertField:(STMSWord2011TextRange*)range theString:(NSString*)theString fieldOpen:(NSString*)fieldOpen fieldClose:(NSString*)fieldClose
++(NSArray<STMSWord2011Field*>*)InsertField:(STMSWord2011TextRange*)range theString:(NSString*)theString fieldOpen:(NSString*)fieldOpen fieldClose:(NSString*)fieldClose withDoc:(STMSWord2011Document*)doc
 {
-  
+  NSMutableArray<STMSWord2011Field*>* fields = [[NSMutableArray<STMSWord2011Field*> alloc] init];
+  @autoreleasepool {
+  // Load the doc variable if it's not explicitly set
+  if (doc == nil) {
+    STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
+    doc = [app activeDocument];
+  }
+
   //FIXME:Start of "end of document insert bug"
   //=============================================
   // There's a gnarly issue where if we insert a tag at the end of the document, we can actually wind up looping back up to the top because we don't have enough space to insert.
@@ -135,19 +142,15 @@
   NSInteger textRangeEnd = [range endOfContent];
   NSInteger docEndOfContent = [[[[[[STGlobals sharedInstance] ThisAddIn] Application] activeDocument] textObject] endOfContent];
   
-  STMSWord2011TextRange* padRange;
-  
-  if(textRangeEnd + fieldCloseLength > docEndOfContent)
-  {
-    padRange = [WordHelpers DuplicateRange:range];
-    [WordHelpers setRange:&padRange Start:textRangeEnd end:textRangeEnd];
+  if(textRangeEnd + fieldCloseLength > docEndOfContent) {
+    STMSWord2011TextRange* padRange = [WordHelpers DuplicateRange:range forDoc:doc];
+    [WordHelpers setRange:&padRange start:textRangeEnd end:textRangeEnd withDoc:doc];
     
-    for(NSInteger i = 0; i < fieldCloseLength; i++)
-    {
+    for(NSInteger i = 0; i < fieldCloseLength; i++) {
       [WordHelpers insertParagraphAtRange:padRange];
     }
-    [WordHelpers setRange:&padRange Start:[padRange startOfContent] end:[padRange endOfContent] + fieldCloseLength];
-    [WordHelpers setRange:&range Start:textRangeStart end:textRangeEnd];
+    [WordHelpers setRange:&padRange start:[padRange startOfContent] end:[padRange endOfContent] + fieldCloseLength withDoc:doc];
+    [WordHelpers setRange:&range start:textRangeStart end:textRangeEnd withDoc:doc];
   }
   //=============================================
   
@@ -166,11 +169,10 @@
       [NSException raise:@"Missing required value" format:@"theString does not contain fieldOpen and fieldClose"];
     }
 
-    NSMutableArray<STMSWord2011Field*>* fields = [[NSMutableArray<STMSWord2011Field*> alloc] init];
+
     // Special case. If we do not check this, the algorithm breaks.
     if([theString isEqualToString:[NSString stringWithFormat:@"%@%@", fieldOpen, fieldClose]]){
       [fields addObject:[self InsertEmpty:range]];
-
       return fields;
     }
     
@@ -187,7 +189,7 @@
     
     [fieldStack push:range];
 
-    STMSWord2011TextRange* searchRange = [WordHelpers DuplicateRange:range];
+    STMSWord2011TextRange* searchRange = [WordHelpers DuplicateRange:range forDoc:doc];
     
     STMSWord2011TextRange* fieldRange = nil;
     NSInteger loop = 0;
@@ -196,8 +198,8 @@
 
       loop = loop + 1;
 
-      STMSWord2011TextRange* nextOpen = [[self class] FindNextOpen:[WordHelpers DuplicateRange:searchRange] text:fieldOpen];
-      STMSWord2011TextRange* nextClose = [[self class] FindNextClose:[WordHelpers DuplicateRange:searchRange] text:fieldClose];
+      STMSWord2011TextRange* nextOpen = [[self class] FindNextOpen:[WordHelpers DuplicateRange:searchRange forDoc:doc] text:fieldOpen forDoc:doc];
+      STMSWord2011TextRange* nextClose = [[self class] FindNextClose:[WordHelpers DuplicateRange:searchRange forDoc:doc] text:fieldClose forDoc:doc];
 
       if(nextClose == nil) {
         break;
@@ -209,10 +211,10 @@
         
         [self offsetAllRanges:fieldStack EndsBy:[fieldOpen length]];
         //our ranges don't update on content changes...
-        [WordHelpers setRange:&searchRange Start:[nextOpen endOfContent] end:([searchRange endOfContent] - [fieldOpen length])];
+        [WordHelpers setRange:&searchRange start:[nextOpen endOfContent] end:([searchRange endOfContent] - [fieldOpen length]) withDoc:doc];
         
         // Field open, so push a new range to the stack.
-        [fieldStack push:[WordHelpers DuplicateRange:nextOpen]];
+        [fieldStack push:[WordHelpers DuplicateRange:nextOpen forDoc:doc]];
       } else {
 
         [WordHelpers updateContent:@"" inRange:&nextClose];
@@ -221,20 +223,19 @@
 
         // Move start of main search region onwards past the end marker.
         //searchRange = [WordHelpers setRangeStart:[nextClose endOfContent] end:[searchRange endOfContent] - [fieldClose length]];
-        [WordHelpers setRange:&searchRange Start:[nextClose endOfContent] end:([searchRange endOfContent] - [fieldClose length])];
+        [WordHelpers setRange:&searchRange start:[nextClose endOfContent] end:([searchRange endOfContent] - [fieldClose length]) withDoc:doc];
         
         // Field close, so pop the last range from the stack and insert the field.
         fieldRange = [fieldStack pop];
-        [WordHelpers setRange:&fieldRange Start:[fieldRange startOfContent] end:[nextClose endOfContent]];
+        [WordHelpers setRange:&fieldRange start:[fieldRange startOfContent] end:[nextClose endOfContent] withDoc:doc];
         
         result = [self InsertEmpty:fieldRange];
         result.showCodes = NO;
-        result.showCodes = NO;
-        //result.showCodes = ![result showCodes];
-        //result.showCodes = ![result showCodes];
-        
+        // TODO - ADD BACK IN THE 2ND CALL TO SET SHOWCODES = NO.  TOOK IT OUT HOPING IT COULD OFFER SOME PERFORMANCE BENEFITS.
+        //result.showCodes = NO;
+
         //offset our range by 2 because we've introduced a field (with braces internally)
-        [WordHelpers setRange:&searchRange Start:[searchRange startOfContent]+4 end:([searchRange endOfContent]+4 )];
+        [WordHelpers setRange:&searchRange start:[searchRange startOfContent]+4 end:([searchRange endOfContent]+4 ) withDoc:doc];
 
         [fields addObject:result];
         
@@ -277,14 +278,17 @@
      
      so we're going to do something else...
      */
-    @autoreleasepool {
+    //@autoreleasepool {
+      STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
+      //STMSWord2011Document* doc = [app activeDocument];
+
       //NSLog(@"STFieldGenerator - insertField: Touching spaceRange");
       STMSWord2011TextRange* spaceRange = [WordHelpers DuplicateRange:fieldRange];
-      [WordHelpers setRange:&spaceRange Start:[spaceRange endOfContent]+2 end:[spaceRange endOfContent]+3];
+      [WordHelpers setRange:&spaceRange start:[spaceRange endOfContent]+2 end:[spaceRange endOfContent]+3 withDoc:doc];
       [WordHelpers select:spaceRange];
       //NSLog(@"STFieldGenerator - insertField: spacerange (%ld,%ld)", [spaceRange startOfContent], [spaceRange endOfContent]);
       
-      STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
+      //STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
       STMSWord2011SelectionObject* selection = [app selection];
       //NSLog(@"STFieldGenerator - insertField: selection (%ld,%ld)", [[selection textObject] startOfContent], [[selection textObject] endOfContent]);
       //NSLog(@"STFieldGenerator - insertField: selection (BEFORE typeBackspace) - '%@' (%hu), length: %ld", [selection content], [[selection content] characterAtIndex:0], [[selection content] length]);
@@ -298,16 +302,16 @@
       //NSLog(@"STFieldGenerator - insertField: newPos (%ld)", newPos);
 
       //NSLog(@"STFieldGenerator - insertField: fieldRange BEFORE (%ld,%ld)", [fieldRange startOfContent], [fieldRange endOfContent]);
-      [WordHelpers setRange:&fieldRange Start:newPos end:newPos];
+      [WordHelpers setRange:&fieldRange start:newPos end:newPos withDoc:doc];
       //NSLog(@"STFieldGenerator - insertField: fieldRange AFTER (%ld,%ld)", [fieldRange startOfContent], [fieldRange endOfContent]);
       
       [WordHelpers select:fieldRange];
-    }
 
     // Update the result of the outer field object.
     if(result != nil) {
       [result updateField];
     }
+  }
 
   //FIXME: end section for "end of document insert" bug
   //=============================================
@@ -334,10 +338,15 @@
 +(NSArray<STMSWord2011Field*>*)InsertField:(STMSWord2011TextRange*)range theString:(NSString*)theString {
   return [self InsertField:range theString:theString fieldOpen:[[self class]FieldOpen] fieldClose:[[self class]FieldClose]];
 }
++(NSArray<STMSWord2011Field*>*)InsertField:(STMSWord2011TextRange*)range theString:(NSString*)theString withDoc:(STMSWord2011Document*)doc {
+  return [self InsertField:range theString:theString fieldOpen:[[self class]FieldOpen] fieldClose:[[self class]FieldClose] withDoc:doc];
+}
 +(NSArray<STMSWord2011Field*>*)InsertField:(STMSWord2011TextRange*)range theString:(NSString*)theString fieldOpen:(NSString*)fieldOpen {
   return [self InsertField:range theString:theString fieldOpen:fieldOpen fieldClose:[[self class]FieldClose]];
 }
-
++(NSArray<STMSWord2011Field*>*)InsertField:(STMSWord2011TextRange*)range theString:(NSString*)theString fieldOpen:(NSString*)fieldOpen fieldClose:(NSString*)fieldClose {
+  return [self InsertField:range theString:theString fieldOpen:fieldOpen fieldClose:fieldClose withDoc:nil];
+}
 
 
 
@@ -416,10 +425,10 @@ Adds a new empty Word.Field to the specified Word.Range.
 }
 
 
-+(STMSWord2011TextRange*)FindNextOpen:(STMSWord2011TextRange*)range text:(NSString*)text {
++(STMSWord2011TextRange*)FindNextOpen:(STMSWord2011TextRange*)range text:(NSString*)text forDoc:(STMSWord2011Document*)doc {
   @autoreleasepool {
     BOOL found = [[self class] CreateFind:&range text:text];
-    STMSWord2011TextRange* result = [WordHelpers DuplicateRange:range];
+    STMSWord2011TextRange* result = [WordHelpers DuplicateRange:range forDoc:doc];
 
     if(!found) {
       // Make sure that the next closing field will be found first.
@@ -430,14 +439,14 @@ Adds a new empty Word.Field to the specified Word.Range.
   }
 }
 
-+(STMSWord2011TextRange*)FindNextClose:(STMSWord2011TextRange*)range text:(NSString*)text {
++(STMSWord2011TextRange*)FindNextClose:(STMSWord2011TextRange*)range text:(NSString*)text forDoc:(STMSWord2011Document*)doc {
   //FIXME: review use of "duplicate" vs "copy" - unclear based on the C# API
   // API: https://msdn.microsoft.com/en-us/library/office/ff837543.aspx?f=255&MSPPError=-2147217396
   // Maybe? If this is really just a flat copy then this should work?
   // apparently with scripting bridge you have to use a dedicated "duplicateTo" method?
   // http://stackoverflow.com/questions/3293053/how-to-perform-equivalent-of-applescript-copy-command-from-scripting-bridge
   if([self CreateFind:&range text:text] == true) {
-    return [WordHelpers DuplicateRange:range];
+    return [WordHelpers DuplicateRange:range forDoc:doc];
   }
   
   return nil;
@@ -486,7 +495,7 @@ Adds a new empty Word.Field to the specified Word.Range.
     if(contentString != nil) {
       NSRange rangeOfTextInContent = [contentString rangeOfString: text];
       if (rangeOfTextInContent.location != NSNotFound) {
-        [WordHelpers setRange:range Start:([*range startOfContent] + rangeOfTextInContent.location) end:([*range startOfContent] + rangeOfTextInContent.location + rangeOfTextInContent.length)];
+        [WordHelpers setRange:range start:([*range startOfContent] + rangeOfTextInContent.location) end:([*range startOfContent] + rangeOfTextInContent.location + rangeOfTextInContent.length)];
       }
     }
   }

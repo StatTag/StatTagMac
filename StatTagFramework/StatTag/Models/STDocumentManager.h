@@ -107,17 +107,18 @@
 -(void)SetCodeFileList:(NSArray<STCodeFile*>*)files document:(STMSWord2011Document*)document;
 
 -(void) InsertImage:(STTag*) tag;
--(void) InsertTable:(STMSWord2011SelectionObject*)selection tag:(STTag*) tag;
+-(NSArray<NSNumber*>*) InsertTable:(STMSWord2011SelectionObject*)selection tag:(STTag*) tag;
 
 -(void)InsertNewLineAndMoveDown:(STMSWord2011SelectionObject*) selection;
 
--(void) InsertField:(id)tag;
+-(NSArray<NSNumber*>*) InsertField:(id)tag;
 
 -(STStatsManagerExecuteResult*)InsertTagsInDocument:(NSArray<STTag*>*)tags;
 
 -(BOOL)EditTag:(STTag*)tag existingTag:(STTag*)existingTag;
 
--(void)UpdateFields:(STUpdatePair<STTag*>*)tagUpdatePair matchOnPosition:(BOOL)matchOnPosition;
+-(void)UpdateFields:(STUpdatePair<STTag*>*)tagUpdatePair matchOnPosition:(BOOL)matchOnPosition ignoreIndexes:(NSArray<NSNumber*>*)ignoreIndexes;
+-(void)UpdateFields:(STUpdatePair<STTag*>*)tagUpdatePair ignoreIndexes:(NSArray<NSNumber*>*)ignoreIndexes;
 -(void)UpdateFields:(STUpdatePair<STTag*>*)tagUpdatePair;
 -(void)UpdateFields;
 

@@ -30,7 +30,8 @@
  */
 +(void)updateContent:(NSString*)text inRange:(STMSWord2011TextRange**)range;
 //+(STMSWord2011TextRange*)setRangeStart:(NSInteger)start end:(NSInteger)end;
-+(void)setRange:(STMSWord2011TextRange**)range Start:(NSInteger)start end:(NSInteger)end;
++(void)setRange:(STMSWord2011TextRange**)range start:(NSInteger)start end:(NSInteger)end;
++(void)setRange:(STMSWord2011TextRange**)range start:(NSInteger)start end:(NSInteger)end withDoc:(STMSWord2011Document*)doc;
 
 +(void)createOrUpdateDocumentVariableWithName:(NSString*)variableName andValue:(NSString*)variableValue;
 

@@ -183,6 +183,7 @@ script WordASOC
       set theDoc to active document
       set theRange to create range active document start theRangeStart end theRangeEnd
       set theTable to make new table at theDoc with properties {text object: theRange, number of rows:numRows, number of columns:numCols}
+      select theTable  -- Select the table so that we have it in an active selection when we get back to Obj-C
       return true --theTable
     end tell
     return false
