@@ -670,17 +670,19 @@ used to create the Word document.
           continue;
         }
 
-        NSNumber* entryIndex = [NSNumber numberWithInteger:[field entry_index]];
-        NSUInteger matchingIndex = [ignoreIndexes indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
-          if ([(NSNumber *)obj compare:entryIndex] == 0) {
-            *stop = YES;
-            return YES;
-          }
-          return NO;
-        }];
+        if (ignoreIndexes != nil && [ignoreIndexes count] > 0) {
+          NSNumber *entryIndex = [NSNumber numberWithInteger:[field entry_index]];
+          NSUInteger matchingIndex = [ignoreIndexes indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+              if ([(NSNumber *) obj compare:entryIndex] == 0) {
+                *stop = YES;
+                return YES;
+              }
+              return NO;
+          }];
 
-        if (matchingIndex != NSNotFound) {
-          continue;
+          if (matchingIndex != NSNotFound) {
+            continue;
+          }
         }
 
         //NSLog(@"Processing StatTag field");
