@@ -477,4 +477,33 @@ on insertTextboxAtRangeStart:theRangeStart andRangeEnd:theRangeEnd forShapeName:
 
 end insertTextboxAtRangeStart:andRangeEnd:forShapeName:withShapetext:andFontSize:andFontFace:
 
+
+on insertFieldAtRangeStart:theRangeStart andRangeEnd:theRangeEnd forFieldType:fieldType withText:fieldText
+
+  #fieldType -> https://msdn.microsoft.com/en-us/vba/word-vba/articles/wdfieldtype-enumeration-word?f=255&MSPPError=-2147217396
+  #wdFieldMacroButton = 51
+  #wdFieldAddin = 81
+
+  #type coercion
+  set theRangeStart to theRangeStart as integer
+  set theRangeEnd to theRangeEnd as integer
+  set fieldType to fieldType as integer
+  set fieldText to fieldText as string
+
+  tell application "Microsoft Word"
+
+    set myDoc to active document
+    set myRange to create range myDoc start (theRangeStart) end (theRangeEnd)
+    set selection start of selection to theRangeStart
+    set selection end of selection to theRangeEnd
+
+    create new field text range (text object of selection) field type (fieldType) field text (fieldText) preserve formatting (false)
+    
+  end tell
+
+end insertFieldAtRangeStart:andRangeEnd:forFieldType:withText:
+
+
+
+
 end script

@@ -61,4 +61,6 @@
 
 +(void)insertTextboxAtRangeStart:(NSInteger)theRangeStart andRangeEnd:(NSInteger)theRangeEnd forShapeName:(NSString*)shapeName withShapetext:(NSString*)shapeText andFontSize:(double)fontSize andFontFace:(NSString*)fontFace;
 
++(void)insertFieldAtRangeStart:(NSInteger)theRangeStart andRangeEnd:(NSInteger)theRangeEnd forFieldType:(NSInteger)fieldType withText:(NSString*)fieldText;
+
 @end

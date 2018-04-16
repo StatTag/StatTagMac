@@ -1225,13 +1225,15 @@ Insert an StatTag field at the currently specified document range.
   //    Constants.FieldDetails.MacroButtonName, displayValue, tagIdentifier, FieldCreator.FieldOpen, FieldCreator.FieldClose));
   //Log(string.Format("Inserted field with identifier {0} and display value {1}", tagIdentifier, displayValue));
   
-  
+  NSArray<STMSWord2011Field*>* fields = [[_FieldManager class] InsertField:range displayValue:[STFieldGenerator escapeMacroContent:displayValue] macroButtonName:[STConstantsFieldDetails MacroButtonName] tagIdentifier:tagIdentifier withDoc:doc];
+
+  /*
   NSArray<STMSWord2011Field*>* fields = [[_FieldManager class] InsertField:range theString:
                                          
                                          [NSString stringWithFormat:@"%@MacroButton %@ %@%@ADDIN %@%@%@",
                                           
                                           [STFieldGenerator FieldOpen],
-                                          [STConstantsFieldDetails MacroButtonName],
+                                          [STConstantsFieldDetails MacroButtonName], //StatTag
                                           [STFieldGenerator escapeMacroContent:displayValue],
                                           [STFieldGenerator FieldOpen],
                                           tagIdentifier,
@@ -1247,12 +1249,16 @@ Insert an StatTag field at the currently specified document range.
                                           ]
                                          withDoc: doc
                                          ];
+  */
   
 //  [STGlobals activateDocument];
-  STMSWord2011Field* dataField = [fields firstObject];
+  STMSWord2011Field* macroField = [fields firstObject];
+  STMSWord2011Field* dataField = [fields lastObject];
 //  [STGlobals activateDocument];
   dataField.fieldText = [tag Serialize:nil];
-  return [dataField previousField];
+  return macroField;
+  
+  //return [dataField previousField];
   //NSLog(@"CreateTagField - Finished");
 }
 
