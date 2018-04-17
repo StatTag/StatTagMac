@@ -56,7 +56,7 @@ NSString* const MetadataAttribute = @"StatTag Metadata";
 -(NSNumber*)wordFieldsTotal {
   STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
   STMSWord2011Document* document = [app activeDocument];
-  SBElementArray<STMSWord2011Field*>* fields = [document fields];
+  NSMutableArray<STMSWord2011Field*>* fields = [WordHelpers getAllFieldsInDocument:document];
   NSInteger fieldsCount = [fields count];
   return [NSNumber numberWithInteger:fieldsCount];
 }
@@ -404,7 +404,7 @@ used to create the Word document.
 
 
   //NSLog(@"RefreshTableTagFields - Started");
-  SBElementArray<STMSWord2011Field*>* fields = [document fields];
+  NSMutableArray<STMSWord2011Field*>* fields = [WordHelpers getAllFieldsInDocument:document];
   NSInteger fieldsCount = [fields count];
   bool tableRefreshed = false;
   
@@ -649,7 +649,7 @@ used to create the Word document.
         }
       }
       
-      SBElementArray<STMSWord2011Field*>* fields = [document fields];
+      NSMutableArray<STMSWord2011Field*>* fields = [WordHelpers getAllFieldsInDocument:document];
       NSInteger fieldsCount = [fields count];
       // Fields is a 1-based index
       //NSLog(@"Preparing to process %ld fields", fieldsCount);

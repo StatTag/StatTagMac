@@ -358,6 +358,34 @@ static WordHelpers* sharedInstance = nil;
   //}
 }
 
+// Returns all of the fields that we may need to process from a Word document.  This needs to be
+// used instead of [document fields], as the document fields collection only returns the fields that
+// are in the main document text.  This method will ensure we get embedded fields in shapes, etc.
++(NSMutableArray<STMSWord2011Field*>*) getAllFieldsInDocument:(STMSWord2011Document*)document
+{
+  NSMutableArray<STMSWord2011Field*>* allFields = [[NSMutableArray alloc] init];
+  SBElementArray<STMSWord2011Shape*>* shapes = [document shapes];
+  NSInteger shapesCount = [shapes count];
+  for (NSInteger shapeIndex = 0; shapeIndex < shapesCount; shapeIndex++) {
+    STMSWord2011Shape* shape = shapes[shapeIndex];
+    if ([shape textFrame] != nil && [[shape textFrame] textRange] != nil && [[[shape textFrame] textRange] fields] != nil) {
+      SBElementArray<STMSWord2011Field*>* fields = [[[shape textFrame] textRange] fields];
+      NSInteger fieldsCount = [fields count];
+      for (NSInteger fieldIndex = 0; fieldIndex < fieldsCount; fieldIndex++) {
+        [allFields addObject:fields[fieldIndex]];
+      }
+    }
+  }
+
+  SBElementArray<STMSWord2011Field*>* fields = [document fields];
+  NSInteger fieldsCount = [fields count];
+  for (NSInteger fieldIndex = 0; fieldIndex < fieldsCount; fieldIndex++) {
+    [allFields addObject:fields[fieldIndex]];
+  }
+
+  return allFields;
+}
+
 +(void)select:(STMSWord2011BaseObject*)wordObject {
   @autoreleasepool {
     //Word 2011 supports the "select" method - 2016 does NOT - it was removed

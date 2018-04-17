@@ -12,6 +12,7 @@
 @class STMSWord2011LinkFormat;
 @class STMSWord2011Table;
 @class STMSWord2011BaseObject;
+@class STMSWord2011Field;
 
 @interface WordHelpers : NSObject
 
@@ -54,6 +55,8 @@
 
 +(void)selectTextAtRangeStart:(NSInteger)rangeStart andEnd:(NSInteger)rangeEnd;
 +(void)selectTextInRange:(STMSWord2011TextRange*)textRange;
+
++(NSMutableArray<STMSWord2011Field*>*) getAllFieldsInDocument:(STMSWord2011Document*)document;
 
 +(void)setActiveDocumentByDocName:(NSString*)theName;
 +(NSString*)getActiveDocumentName;
