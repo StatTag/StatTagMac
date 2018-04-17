@@ -1256,6 +1256,8 @@ Insert an StatTag field at the currently specified document range.
   STMSWord2011Field* dataField = [fields lastObject];
 //  [STGlobals activateDocument];
   dataField.fieldText = [tag Serialize:nil];
+  
+  
   return macroField;
   
   //return [dataField previousField];

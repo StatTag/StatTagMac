@@ -140,14 +140,12 @@
   [WordHelpers insertFieldAtRangeStart:[range startOfContent] andRangeEnd:[range endOfContent] forFieldType:STMSWord2011E183FieldMacroButton withText:formattedValue];
   
   STMSWord2011Application* wordApp = [[[STGlobals sharedInstance] ThisAddIn] Application];
-  //NSLog(@"range: %ld - %ld", [range startOfContent], [range endOfContent]);
   [WordHelpers selectTextAtRangeStart:([range endOfContent] -1) andEnd:([range endOfContent])];
-  //NSLog(@"selection: %ld - %ld", [[wordApp selection] selectionStart], [[wordApp selection] selectionEnd]);
 
   STMSWord2011SelectionObject* aSelection = [wordApp selection];
-  //NSLog(@"%ld", [[aSelection fields] count]);
 
   STMSWord2011Field* outerField = [[aSelection fields] firstObject];
+  
   STMSWord2011TextRange* outerRange = [outerField resultRange];
   
   NSInteger selectionStart = [range startOfContent];
@@ -156,13 +154,8 @@
   if(outerField)
   {
     
-    STMSWord2011TextRange* innerRange = [WordHelpers DuplicateRange:outerRange];
-    
-    //NSLog(@"range: %ld - %ld", [outerRange startOfContent], [outerRange endOfContent]);
-    //[WordHelpers setRange:&innerRange start:([outerRange endOfContent] - ([formattedValue length]+2)) end:([outerRange endOfContent] - ([formattedValue length]+2)) withDoc:doc];
+    STMSWord2011TextRange* innerRange = [WordHelpers DuplicateRange:outerRange];    
     [WordHelpers setRange:&innerRange start:([outerRange endOfContent] - 1) end:([outerRange endOfContent] - 1) withDoc:doc];
-    
-    //NSLog(@"range: %ld - %ld", [innerRange startOfContent], [innerRange endOfContent]);
     
     //NOTE NOTE NOTE
     //Here we're using the Obj-C method to create a field and NOT our custom AppleScript wrapper. Why? When we use our AppleScript wrapper we cannot seem to insert a field within a field. For some reason if we attempt to insert a field within a range that's contained within a field it simply overwrites the entire field. In testing, this method lets us insert a nested field within a pre-existing field's range (which we need for StatTag fields)
@@ -172,7 +165,13 @@
   }
   
   [WordHelpers selectTextAtRangeStart:selectionStart andEnd:selectionEnd];
-  //NSLog(@"%ld", [[aSelection fields] count]);
+  aSelection = [wordApp selection];
+  
+  for(STMSWord2011Field* f in [aSelection fields])
+  {
+    [f setShowCodes:NO];
+  }
+  
   return [aSelection fields];
 
 }
