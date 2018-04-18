@@ -47,7 +47,8 @@ static NSString* const MATRIX_DIMENSION_NAMES_ATTRIBUTE = @"dimnames";
     // is changed is respected and we don't overwrite it.
     STTag* valueTag = [[STTag alloc] init];
     valueTag.Type = [STConstantsTagType Value];
-    [self RunCommand:[NSString stringWithFormat:@"setwd(dirname('%@'))", codeFile.FilePath] tag:valueTag];
+    NSString* escapedPath = [codeFile.FilePath stringByReplacingOccurrencesOfString:@"'" withString:@"\\'"];
+    [self RunCommand:[NSString stringWithFormat:@"setwd(dirname('%@'))", escapedPath] tag:valueTag];
   }
 
   return (Engine != nil);
