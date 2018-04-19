@@ -157,9 +157,21 @@
     STMSWord2011TextRange* innerRange = [WordHelpers DuplicateRange:outerRange];    
     [WordHelpers setRange:&innerRange start:([outerRange endOfContent] - 1) end:([outerRange endOfContent] - 1) withDoc:doc];
     
+    //we need to now move our cursor based on the existing selection so we can insert the nested field
+    //we had all sorts of issues with inserting fields within fields when inside of text boxes
+    //this isn't particularly elegant, but it seems to work
+    //the challenge is that the shape has its own concept of range start/end, so if we try to explicitly set the range (as we were doing before) we wind up using the _document_ range and our nested field goes off into the nether nether
+    //by explicitly retainin the selection and simply offsetting the existng selection by a certain number of characters we can use the relative position for the field insertion and everything seems to be happy
+    //move the start position to the end of the field text range - 1 - so we retain our brace "}"
+    //do the same thing with the end
+    // right now we should be just before the ending brace of the field
+    [[[wordApp selection] textObject] moveStartOfRangeBy:STMSWord2011E129ACharacterItem count:[[[outerField resultRange] content] length] - 1];
+    [[[wordApp selection] textObject] moveEndOfRangeBy:STMSWord2011E129ACharacterItem count:-1];
+        
     //NOTE NOTE NOTE
     //Here we're using the Obj-C method to create a field and NOT our custom AppleScript wrapper. Why? When we use our AppleScript wrapper we cannot seem to insert a field within a field. For some reason if we attempt to insert a field within a range that's contained within a field it simply overwrites the entire field. In testing, this method lets us insert a nested field within a pre-existing field's range (which we need for StatTag fields)
-    [wordApp createNewFieldTextRange:innerRange fieldType:STMSWord2011E183FieldAddin fieldText:tagIdentifier preserveFormatting:NO];
+//    [wordApp createNewFieldTextRange:innerRange fieldType:STMSWord2011E183FieldAddin fieldText:tagIdentifier preserveFormatting:NO];
+    [wordApp createNewFieldTextRange:[[wordApp selection] textObject] fieldType:STMSWord2011E183FieldAddin fieldText:tagIdentifier preserveFormatting:NO];
 
     selectionEnd = [innerRange endOfContent] + 1;
   }

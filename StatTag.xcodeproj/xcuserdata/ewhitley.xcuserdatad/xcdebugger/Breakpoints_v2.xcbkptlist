@@ -1376,11 +1376,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StatTagFramework/StatTag/Models/STFieldGenerator.m"
-            timestampString = "545662183.500676"
+            timestampString = "545858966.267199"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "254"
-            endingLineNumber = "254"
+            startingLineNumber = "275"
+            endingLineNumber = "275"
             landmarkName = "@implementation STFieldGenerator"
             landmarkType = "3">
          </BreakpointContent>
@@ -1392,11 +1392,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StatTagFramework/StatTag/Models/STFieldGenerator.m"
-            timestampString = "545662183.500676"
+            timestampString = "545858966.267199"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "265"
-            endingLineNumber = "265"
+            startingLineNumber = "286"
+            endingLineNumber = "286"
             landmarkName = "@implementation STFieldGenerator"
             landmarkType = "3">
          </BreakpointContent>
@@ -1408,11 +1408,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StatTagFramework/StatTag/Models/STFieldGenerator.m"
-            timestampString = "545662183.500676"
+            timestampString = "545858966.267199"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "446"
-            endingLineNumber = "446"
+            startingLineNumber = "467"
+            endingLineNumber = "467"
             landmarkName = "@implementation STFieldGenerator"
             landmarkType = "3">
          </BreakpointContent>
@@ -1424,11 +1424,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StatTagFramework/StatTag/Models/STFieldGenerator.m"
-            timestampString = "545662183.500676"
+            timestampString = "545858966.267199"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "257"
-            endingLineNumber = "257"
+            startingLineNumber = "278"
+            endingLineNumber = "278"
             landmarkName = "@implementation STFieldGenerator"
             landmarkType = "3">
          </BreakpointContent>
@@ -1440,11 +1440,27 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StatTagFramework/StatTag/Models/STFieldGenerator.m"
-            timestampString = "545662183.500676"
+            timestampString = "545858966.267199"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "430"
-            endingLineNumber = "430"
+            startingLineNumber = "451"
+            endingLineNumber = "451"
+            landmarkName = "+InsertEmpty:preserveFormatting:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "StatTagFramework/StatTag/Models/STFieldGenerator.m"
+            timestampString = "545858966.267199"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "462"
+            endingLineNumber = "462"
             landmarkName = "@implementation STFieldGenerator"
             landmarkType = "3">
          </BreakpointContent>
@@ -1456,27 +1472,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StatTagFramework/StatTag/Models/STFieldGenerator.m"
-            timestampString = "545662183.500676"
+            timestampString = "545858966.267199"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "441"
-            endingLineNumber = "441"
-            landmarkName = "@implementation STFieldGenerator"
-            landmarkType = "3">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "StatTagFramework/StatTag/Models/STFieldGenerator.m"
-            timestampString = "545662183.500676"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "249"
-            endingLineNumber = "249"
+            startingLineNumber = "270"
+            endingLineNumber = "270"
             landmarkName = "@implementation STFieldGenerator"
             landmarkType = "3">
          </BreakpointContent>
@@ -1792,11 +1792,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StatTagFramework/StatTag/Models/STFieldGenerator.m"
-            timestampString = "545662183.500676"
+            timestampString = "545858966.267199"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "305"
-            endingLineNumber = "305"
+            startingLineNumber = "326"
+            endingLineNumber = "326"
             landmarkName = "@implementation STFieldGenerator"
             landmarkType = "3">
          </BreakpointContent>
@@ -1808,11 +1808,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StatTagFramework/StatTag/Models/STFieldGenerator.m"
-            timestampString = "545662183.500676"
+            timestampString = "545858966.267199"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "239"
-            endingLineNumber = "239"
+            startingLineNumber = "260"
+            endingLineNumber = "260"
             landmarkName = "@implementation STFieldGenerator"
             landmarkType = "3">
          </BreakpointContent>
@@ -1936,11 +1936,43 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StatTagFramework/StatTag/Models/STFieldGenerator.m"
-            timestampString = "545662183.500676"
+            timestampString = "545858966.267199"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "184"
-            endingLineNumber = "184"
+            startingLineNumber = "205"
+            endingLineNumber = "205"
+            landmarkName = "@implementation STFieldGenerator"
+            landmarkType = "3">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "StatTagFramework/StatTag/Models/STFieldGenerator.m"
+            timestampString = "545851485.6950229"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "143"
+            endingLineNumber = "143"
+            landmarkName = "+InsertField:displayValue:macroButtonName:tagIdentifier:withDoc:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "StatTagFramework/StatTag/Models/STFieldGenerator.m"
+            timestampString = "545858966.267199"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "186"
+            endingLineNumber = "186"
             landmarkName = "+InsertField:displayValue:macroButtonName:tagIdentifier:withDoc:"
             landmarkType = "7">
          </BreakpointContent>
