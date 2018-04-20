@@ -156,6 +156,8 @@
     
     STMSWord2011TextRange* innerRange = [WordHelpers DuplicateRange:outerRange];    
     [WordHelpers setRange:&innerRange start:([outerRange endOfContent] - 1) end:([outerRange endOfContent] - 1) withDoc:doc];
+
+    [outerField setShowCodes:YES];
     
     //we need to now move our cursor based on the existing selection so we can insert the nested field
     //we had all sorts of issues with inserting fields within fields when inside of text boxes
@@ -165,7 +167,8 @@
     //move the start position to the end of the field text range - 1 - so we retain our brace "}"
     //do the same thing with the end
     // right now we should be just before the ending brace of the field
-    [[[wordApp selection] textObject] moveStartOfRangeBy:STMSWord2011E129ACharacterItem count:[[[outerField resultRange] content] length] - 1];
+    long offsetCount = [[[wordApp selection] textObject] endOfContent] - 1;
+    [[[wordApp selection] textObject] moveStartOfRangeBy:STMSWord2011E129ACharacterItem count:offsetCount];
     [[[wordApp selection] textObject] moveEndOfRangeBy:STMSWord2011E129ACharacterItem count:-1];
         
     //NOTE NOTE NOTE
