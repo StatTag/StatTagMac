@@ -1276,6 +1276,15 @@ Insert an StatTag field at the currently specified document range.
   
   @try
   {
+    // Save the tag first, before trying to update the tags.  This way even if there is
+    // an error during the updates, our results are saved.
+    NSError* error;
+    [self SaveEditedTag:tag existingTag:existingTag error:&error];
+    if(error != nil)
+    {
+      return false;
+    }
+
     // If the value format has changed, refresh the values in the document with the
     // new formatting of the results.
     // TODO: Sometimes date/time format are null in one and blank strings in the other.  This is causing extra update cycles that aren't needed.
@@ -1292,13 +1301,7 @@ Insert an StatTag field at the currently specified document range.
       [tag UpdateFormattedTableData];
       [self UpdateFields:pair];
     }
-    
-    NSError* error;
-    [self SaveEditedTag:tag existingTag:existingTag error:&error];
-    if(error != nil)
-    {
-      return false;
-    }
+
     return true;
   }
   @catch (NSException* exception)
