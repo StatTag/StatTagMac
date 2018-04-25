@@ -167,16 +167,17 @@
     //move the start position to the end of the field text range - 1 - so we retain our brace "}"
     //do the same thing with the end
     // right now we should be just before the ending brace of the field
-    long offsetCount = [[[wordApp selection] textObject] endOfContent] - 1;
-    [[[wordApp selection] textObject] moveStartOfRangeBy:STMSWord2011E129ACharacterItem count:offsetCount];
-    [[[wordApp selection] textObject] moveEndOfRangeBy:STMSWord2011E129ACharacterItem count:-1];
+    STMSWord2011TextRange* selectionRange = [[wordApp selection] textObject];
+    long offsetCount = [selectionRange endOfContent] - [selectionRange startOfContent] - 1;
+    [selectionRange moveStartOfRangeBy:STMSWord2011E129ACharacterItem count:offsetCount];
+    [selectionRange moveEndOfRangeBy:STMSWord2011E129ACharacterItem count:-1];
         
     //NOTE NOTE NOTE
     //Here we're using the Obj-C method to create a field and NOT our custom AppleScript wrapper. Why? When we use our AppleScript wrapper we cannot seem to insert a field within a field. For some reason if we attempt to insert a field within a range that's contained within a field it simply overwrites the entire field. In testing, this method lets us insert a nested field within a pre-existing field's range (which we need for StatTag fields)
 //    [wordApp createNewFieldTextRange:innerRange fieldType:STMSWord2011E183FieldAddin fieldText:tagIdentifier preserveFormatting:NO];
-    [wordApp createNewFieldTextRange:[[wordApp selection] textObject] fieldType:STMSWord2011E183FieldAddin fieldText:tagIdentifier preserveFormatting:NO];
+    [wordApp createNewFieldTextRange:selectionRange fieldType:STMSWord2011E183FieldAddin fieldText:tagIdentifier preserveFormatting:NO];
 
-    selectionEnd = [innerRange endOfContent] + 1;
+    selectionEnd = [selectionRange endOfContent] + 1;
   }
   
   [WordHelpers selectTextAtRangeStart:selectionStart andEnd:selectionEnd];
