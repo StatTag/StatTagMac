@@ -270,7 +270,7 @@ the DocumentManager instance that contains it.
     //==========================================================
     // FIELDS
     //==========================================================
-    NSArray<STMSWord2011Field*>* fields = [document fields];
+    NSMutableArray<STMSWord2011Field*>* fields = [WordHelpers getAllFieldsInDocument:document];
     NSInteger fieldsCount = [fields count];
     
     //counting backwards
@@ -375,7 +375,7 @@ the DocumentManager instance that contains it.
   STMSWord2011Application* application = [[[STGlobals sharedInstance] ThisAddIn] Application];
   STMSWord2011Document* document = [application activeDocument];
 
-  NSArray<STMSWord2011Field*>* fields = [document fields];
+  NSMutableArray<STMSWord2011Field*>* fields = [WordHelpers getAllFieldsInDocument:document];
   NSInteger fieldsCount = [fields count];
 
   __block NSMutableDictionary<NSString*, STMSWord2011Field*>* unique_fields_dict = [[NSMutableDictionary<NSString*, STMSWord2011Field*> alloc] init];
@@ -426,7 +426,7 @@ the DocumentManager instance that contains it.
     //==========================================================
     // FIELDS
     //==========================================================
-    NSArray<STMSWord2011Field*>* fields = [document fields];
+    NSMutableArray<STMSWord2011Field*>* fields = [WordHelpers getAllFieldsInDocument:document];
     NSInteger fieldsCount = [fields count];
     
     //FIXME: performance fixes
@@ -600,7 +600,7 @@ the DocumentManager instance that contains it.
     STMSWord2011Application* application = [[[STGlobals sharedInstance] ThisAddIn] Application];
     STMSWord2011Document* document = [application activeDocument];
 
-    NSArray<STMSWord2011Field*>* fields = [document fields];
+    NSMutableArray<STMSWord2011Field*>* fields = [WordHelpers getAllFieldsInDocument:document];
     NSInteger fieldsCount = [fields count];
 
     // Fields is a 1-based index

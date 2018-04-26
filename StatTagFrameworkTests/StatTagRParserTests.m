@@ -71,6 +71,7 @@
   XCTAssertEqualObjects(@"\"test.png\"", [parser GetImageSaveLocation:@"png(width=100,f=\"test.png\",height=100)"]);
   XCTAssertEqualObjects(@"'test.png'", [parser GetImageSaveLocation:@"png(width=100,file='test.png',height=100)"]);
   XCTAssertEqualObjects(@"\"C:\\\\Test\\\\Path with spaces\\\\test.pdf\"", [parser GetImageSaveLocation:@"pdf(\"C:\\\\Test\\\\Path with spaces\\\\test.pdf\")"]);
+  XCTAssertEqualObjects(@"\"C:\\\\Test\\\\Path's\\\\test.pdf\"", [parser GetImageSaveLocation:@"pdf(\"C:\\\\Test\\\\Path's\\\\test.pdf\")"]);
   XCTAssertEqualObjects(@"", [parser GetImageSaveLocation:@"png(width=100, height=100)"]); // Here there is no unnamed parameter or file parameter (this would be an error in R)
   XCTAssertEqualObjects(@"", [parser GetImageSaveLocation:@"spng(width=100,'test.png',height=100)"]);
   XCTAssertEqualObjects(@"\"test, file.png\"", [parser GetImageSaveLocation:@"png(width = 100, height=100, filename=\"test, file.png\")"]);

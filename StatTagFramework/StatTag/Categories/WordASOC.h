@@ -37,6 +37,8 @@
 
 -(void)insertTextboxAtRangeStart:(NSNumber*)theRangeStart andRangeEnd:(NSNumber*)theRangeEnd forShapeName:(NSString*)shapeName withShapetext:(NSString*)shapeText andFontSize:(NSNumber*)fontSize andFontFace:(NSString*)fontFace;
 
+-(void)insertFieldAtRangeStart:(NSNumber*)theRangeStart andRangeEnd:(NSNumber*)theRangeEnd forFieldType:(NSNumber*)fieldType withText:(NSString*)fieldText;
+
 //-(void)disableScreenUpdates;
 //-(void)enableScreenUpdates;
 

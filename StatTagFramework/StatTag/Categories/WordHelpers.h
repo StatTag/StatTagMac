@@ -12,6 +12,7 @@
 @class STMSWord2011LinkFormat;
 @class STMSWord2011Table;
 @class STMSWord2011BaseObject;
+@class STMSWord2011Field;
 
 @interface WordHelpers : NSObject
 
@@ -30,7 +31,8 @@
  */
 +(void)updateContent:(NSString*)text inRange:(STMSWord2011TextRange**)range;
 //+(STMSWord2011TextRange*)setRangeStart:(NSInteger)start end:(NSInteger)end;
-+(void)setRange:(STMSWord2011TextRange**)range Start:(NSInteger)start end:(NSInteger)end;
++(void)setRange:(STMSWord2011TextRange**)range start:(NSInteger)start end:(NSInteger)end;
++(void)setRange:(STMSWord2011TextRange**)range start:(NSInteger)start end:(NSInteger)end withDoc:(STMSWord2011Document*)doc;
 
 +(void)createOrUpdateDocumentVariableWithName:(NSString*)variableName andValue:(NSString*)variableValue;
 
@@ -54,10 +56,14 @@
 +(void)selectTextAtRangeStart:(NSInteger)rangeStart andEnd:(NSInteger)rangeEnd;
 +(void)selectTextInRange:(STMSWord2011TextRange*)textRange;
 
++(NSMutableArray<STMSWord2011Field*>*) getAllFieldsInDocument:(STMSWord2011Document*)document;
+
 +(void)setActiveDocumentByDocName:(NSString*)theName;
 +(NSString*)getActiveDocumentName;
 
 
 +(void)insertTextboxAtRangeStart:(NSInteger)theRangeStart andRangeEnd:(NSInteger)theRangeEnd forShapeName:(NSString*)shapeName withShapetext:(NSString*)shapeText andFontSize:(double)fontSize andFontFace:(NSString*)fontFace;
+
++(void)insertFieldAtRangeStart:(NSInteger)theRangeStart andRangeEnd:(NSInteger)theRangeEnd forFieldType:(NSInteger)fieldType withText:(NSString*)fieldText;
 
 @end

@@ -56,7 +56,7 @@ NSString* const MetadataAttribute = @"StatTag Metadata";
 -(NSNumber*)wordFieldsTotal {
   STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
   STMSWord2011Document* document = [app activeDocument];
-  SBElementArray<STMSWord2011Field*>* fields = [document fields];
+  NSMutableArray<STMSWord2011Field*>* fields = [WordHelpers getAllFieldsInDocument:document];
   NSInteger fieldsCount = [fields count];
   return [NSNumber numberWithInteger:fieldsCount];
 }
@@ -404,7 +404,7 @@ used to create the Word document.
 
 
   //NSLog(@"RefreshTableTagFields - Started");
-  SBElementArray<STMSWord2011Field*>* fields = [document fields];
+  NSMutableArray<STMSWord2011Field*>* fields = [WordHelpers getAllFieldsInDocument:document];
   NSInteger fieldsCount = [fields count];
   bool tableRefreshed = false;
   
@@ -611,7 +611,7 @@ used to create the Word document.
  @param matchOnPosition: If set to true, an tag will only be matched if its line numbers (in the code file) are a match.  This is used when updating after disambiguating two tags with the same name, but isn't needed otherwise.
  */
 //public void UpdateFields(UpdatePair<Tag> tagUpdatePair = null, bool matchOnPosition = false)
--(void)UpdateFields:(STUpdatePair<STTag*>*)tagUpdatePair matchOnPosition:(BOOL)matchOnPosition {
+-(void)UpdateFields:(STUpdatePair<STTag*>*)tagUpdatePair matchOnPosition:(BOOL)matchOnPosition ignoreIndexes:(NSArray<NSNumber*>*)ignoreIndexes {
   
   //NSLog(@"UpdateFields - Started");
   
@@ -639,119 +639,122 @@ used to create the Word document.
     });
 
     dispatch_async(dispatch_get_main_queue(), ^{
+      BOOL tableDimensionChange = [self IsTableTagChangingDimensions:tagUpdatePair];
+      if (tableDimensionChange) {
+        //NSLog(@"Attempting to refresh table with tag name: %@", tagUpdatePair.New.Name);
+        [self setValue:@"Updating Table Fields" forKey:@"wordFieldUpdateStatus"];
+        if ([self RefreshTableTagFields:[tagUpdatePair New] document:document]) {
+          //NSLog(@"Completed refreshing table - leaving UpdateFields");
+          return;
+        }
+      }
+      
+      NSMutableArray<STMSWord2011Field*>* fields = [WordHelpers getAllFieldsInDocument:document];
+      NSInteger fieldsCount = [fields count];
+      // Fields is a 1-based index
+      //NSLog(@"Preparing to process %ld fields", fieldsCount);
 
-    BOOL tableDimensionChange = [self IsTableTagChangingDimensions:tagUpdatePair];
-    if (tableDimensionChange)
-    {
-      //NSLog(@"Attempting to refresh table with tag name: %@", tagUpdatePair.New.Name);
-      [self setValue:@"Updating Table Fields" forKey:@"wordFieldUpdateStatus"];
-      if ([self RefreshTableTagFields:[tagUpdatePair New] document:document])
-      {
-        //NSLog(@"Completed refreshing table - leaving UpdateFields");
-        return;
-      }
-    }
-    
-    //Moved below
-//    //NSLog(@"before UpdateInlineShapes");
-//    [self setValue:@"Updating Inline Shapes" forKey:@"wordFieldUpdateStatus"];
-//    [self UpdateInlineShapes:document];
-//    //NSLog(@"after UpdateInlineShapes");
-    
-    SBElementArray<STMSWord2011Field*>* fields = [document fields];
-    NSInteger fieldsCount = [fields count];
-    // Fields is a 1-based index
-    //NSLog(@"Preparing to process %ld fields", fieldsCount);
+      [self setValue:@"Updating Fields" forKey:@"wordFieldUpdateStatus"];
 
-    [self setValue:@"Updating Fields" forKey:@"wordFieldUpdateStatus"];
-    
-    //FIXME: it's 1-based in Windows - but on the Mac? We should check...
-    for (NSInteger index = 0; index < fieldsCount; index++)
-    {
-      
-      STMSWord2011Field* field = fields[index];
-      if (field == nil)
-      {
-        //NSLog(@"Null field detected at index %ld", index);
-        continue;
-      }
-      
-      if (![[_TagManager class] IsStatTagField:field])
-      {
-        [self setValue:[NSNumber numberWithInteger:index+1] forKey:@"wordFieldsUpdated"];
-        continue;
-      }
-      
-      //NSLog(@"Processing StatTag field");
-      //NSLog(@"RefreshTableTagFields -> found field : %@ and json : %@", [[field fieldCode] content], [field fieldText]);
-      
-      STFieldTag* tag = [_TagManager GetFieldTag:field];
-      
-      //NSLog(@"after tag generation");
-      //NSLog(@"tag has FormattedResult : %@", [tag FormattedResult]);
-      
-      if (tag == nil)
-      {
-        //NSLog(@"The field tag is null or could not be found");
-        continue;
-      }
-      
-      // If we are asked to update an tag, we are only going to update that
-      // tag specifically.  Otherwise, we will process all tag fields.
-      if (tagUpdatePair != nil)
-      {
-        // Determine if this is a match, factoring in if we should be doing a more exact match on the tag.
-        if ((!matchOnPosition && ![tag isEqual: tagUpdatePair.Old])
-            || (matchOnPosition && ![tag EqualsWithPosition:tagUpdatePair.Old]))
-        {
+      //FIXME: it's 1-based in Windows - but on the Mac? We should check...
+      for (NSInteger index = 0; index < fieldsCount; index++) {
+        
+        STMSWord2011Field* field = fields[index];
+        if (field == nil) {
+          //NSLog(@"Null field detected at index %ld", index);
           continue;
         }
         
-        //NSLog(@"Processing only a specific tag with label: %@", tagUpdatePair.New.Name);
-        tag = [[STFieldTag alloc] initWithTag:[tagUpdatePair New] andFieldTag:tag];
-        [_TagManager UpdateTagFieldData:field tag:tag];
+        if (![[_TagManager class] IsStatTagField:field]) {
+          [self setValue:[NSNumber numberWithInteger:index+1] forKey:@"wordFieldsUpdated"];
+          continue;
+        }
+
+        if (ignoreIndexes != nil && [ignoreIndexes count] > 0) {
+          NSNumber *entryIndex = [NSNumber numberWithInteger:[field entry_index]];
+          NSUInteger matchingIndex = [ignoreIndexes indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+              if ([(NSNumber *) obj compare:entryIndex] == 0) {
+                *stop = YES;
+                return YES;
+              }
+              return NO;
+          }];
+
+          if (matchingIndex != NSNotFound) {
+            continue;
+          }
+        }
+
+        //NSLog(@"Processing StatTag field");
+        //NSLog(@"RefreshTableTagFields -> found field : %@ and json : %@", [[field fieldCode] content], [field fieldText]);
+        
+        STFieldTag* tag = [_TagManager GetFieldTag:field];
+        
+        //NSLog(@"after tag generation");
+        //NSLog(@"tag has FormattedResult : %@", [tag FormattedResult]);
+        
+        if (tag == nil)
+        {
+          //NSLog(@"The field tag is null or could not be found");
+          continue;
+        }
+        
+        // If we are asked to update an tag, we are only going to update that
+        // tag specifically.  Otherwise, we will process all tag fields.
+        if (tagUpdatePair != nil)
+        {
+          // Determine if this is a match, factoring in if we should be doing a more exact match on the tag.
+          if ((!matchOnPosition && ![tag isEqual: tagUpdatePair.Old])
+              || (matchOnPosition && ![tag EqualsWithPosition:tagUpdatePair.Old]))
+          {
+            continue;
+          }
+          
+          //NSLog(@"Processing only a specific tag with label: %@", tagUpdatePair.New.Name);
+          tag = [[STFieldTag alloc] initWithTag:[tagUpdatePair New] andFieldTag:tag];
+          [_TagManager UpdateTagFieldData:field tag:tag];
+        }
+        
+        //turnign this off for now - this doesn't address changing tag definitions - ex: hey, our formatting specs changed
+        // since we're storign json in the field itself this is a problem
+        //NSLog(@"Inserting field for tag: %@", tag.Name);
+        //let's see if we can avoid udpating content that already matches our desired result
+        // this is insanely inefficient and risky, but for now we're going to just see if it works
+  //      NSString* fieldText = [[[field fieldCode] formattedText] content];
+  //      NSRange r1 = [fieldText rangeOfString:[NSString stringWithFormat:@"MacroButton %@ ", [STConstantsFieldDetails MacroButtonName]]];
+  //      NSRange r2 = [fieldText rangeOfString:@" ADDIN "];
+  //      NSRange fieldContentRange = NSMakeRange(r1.location + r1.length, r2.location - r1.location - r1.length);
+  //      NSString* fieldContent = [fieldText substringWithRange:fieldContentRange];
+  //      if(![fieldContent isEqualToString:[tag FormattedResult]])
+  //      {
+          [WordHelpers select:field];
+          [self InsertField:tag];
+  //      }
+        
+        [self setValue:[NSNumber numberWithInteger:index+1] forKey:@"wordFieldsUpdated"];
+        
       }
       
-      //turnign this off for now - this doesn't address changing tag definitions - ex: hey, our formatting specs changed
-      // since we're storign json in the field itself this is a problem
-      //NSLog(@"Inserting field for tag: %@", tag.Name);
-      //let's see if we can avoid udpating content that already matches our desired result
-      // this is insanely inefficient and risky, but for now we're going to just see if it works
-//      NSString* fieldText = [[[field fieldCode] formattedText] content];
-//      NSRange r1 = [fieldText rangeOfString:[NSString stringWithFormat:@"MacroButton %@ ", [STConstantsFieldDetails MacroButtonName]]];
-//      NSRange r2 = [fieldText rangeOfString:@" ADDIN "];
-//      NSRange fieldContentRange = NSMakeRange(r1.location + r1.length, r2.location - r1.location - r1.length);
-//      NSString* fieldContent = [fieldText substringWithRange:fieldContentRange];
-//      if(![fieldContent isEqualToString:[tag FormattedResult]])
-//      {
-        [WordHelpers select:field];
-        [self InsertField:tag];
-//      }
-      
-      [self setValue:[NSNumber numberWithInteger:index+1] forKey:@"wordFieldsUpdated"];
-      
-    }
-    
-    //Moved here to see about updating after field updates
-    // trying to address the situation where we don't have data in the field before we update it
-    //NOTE: No - this isn't great because we're updating ALL shapes
-    //also adding in a really quick check for "only do this to figures"
-    if([[[tagUpdatePair Old] Type] isEqualToString:[STConstantsTagType Figure]] || [[[tagUpdatePair New] Type] isEqualToString:[STConstantsTagType Figure]])
-    {
-      //NSLog(@"before UpdateInlineShapes");
-      [self setValue:@"Updating Inline Shapes" forKey:@"wordFieldUpdateStatus"];
-      [self UpdateInlineShapes:document];
-      //NSLog(@"after UpdateInlineShapes");
-    }
+      //Moved here to see about updating after field updates
+      // trying to address the situation where we don't have data in the field before we update it
+      //NOTE: No - this isn't great because we're updating ALL shapes
+      //also adding in a really quick check for "only do this to figures"
+      if([[[tagUpdatePair Old] Type] isEqualToString:[STConstantsTagType Figure]] || [[[tagUpdatePair New] Type] isEqualToString:[STConstantsTagType Figure]])
+      {
+        //NSLog(@"before UpdateInlineShapes");
+        [self setValue:@"Updating Inline Shapes" forKey:@"wordFieldUpdateStatus"];
+        [self UpdateInlineShapes:document];
+        //NSLog(@"after UpdateInlineShapes");
+      }
 
-    if([[[tagUpdatePair Old] Type] isEqualToString:[STConstantsTagType Verbatim]] || [[[tagUpdatePair New] Type] isEqualToString:[STConstantsTagType Verbatim]])
-    {
-      //NSLog(@"before UpdateVerbatimEntries");
-      [self setValue:@"Updating Verbatim Field" forKey:@"wordFieldUpdateStatus"];
-      [self UpdateVerbatimEntries:document tagUpdatePair:tagUpdatePair];
-      //NSLog(@"after UpdateVerbatimEntries");
-      
-    }
+      if([[[tagUpdatePair Old] Type] isEqualToString:[STConstantsTagType Verbatim]] || [[[tagUpdatePair New] Type] isEqualToString:[STConstantsTagType Verbatim]])
+      {
+        //NSLog(@"before UpdateVerbatimEntries");
+        [self setValue:@"Updating Verbatim Field" forKey:@"wordFieldUpdateStatus"];
+        [self UpdateVerbatimEntries:document tagUpdatePair:tagUpdatePair];
+        //NSLog(@"after UpdateVerbatimEntries");
+        
+      }
     });
     
   }
@@ -775,11 +778,14 @@ used to create the Word document.
   
   
 }
+-(void)UpdateFields:(STUpdatePair<STTag*>*)tagUpdatePair ignoreIndexes:(NSArray<NSNumber*>*)ignoreIndexes {
+  [self UpdateFields:tagUpdatePair matchOnPosition:false ignoreIndexes:ignoreIndexes];
+}
 -(void)UpdateFields:(STUpdatePair<STTag*>*)tagUpdatePair {
-  [self UpdateFields:tagUpdatePair matchOnPosition:false];
+  [self UpdateFields:tagUpdatePair matchOnPosition:false ignoreIndexes:nil];
 }
 -(void)UpdateFields {
-  [self UpdateFields:nil];
+  [self UpdateFields:nil ignoreIndexes:nil];
 }
 
 /**
@@ -864,52 +870,50 @@ used to create the Word document.
 
  @remark This assumes that the tag is known to be a table result.
  */
--(void)InsertTable:(STMSWord2011SelectionObject*)selection tag:(STTag*)tag {
+-(NSArray<NSNumber*>*)InsertTable:(STMSWord2011SelectionObject*)selection tag:(STTag*)tag {
 
   //NSLog(@"InsertTable - Started");
+  NSMutableArray<NSNumber*>* addedFields = [[NSMutableArray alloc] init];
 
   //FIXME: more "end of document padding"
   //we're going to insert a pad after the table for the moment - same issue we have with field insertions at the end of the document
+  @autoreleasepool {
   NSInteger selectionStart = [selection selectionStart];
   NSInteger selectionEnd = [selection selectionEnd];
-  
+
+  STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
+  STMSWord2011Document* doc = [app activeDocument];
   NSInteger fieldCloseLength = [[STFieldGenerator FieldClose] length];
-  NSInteger docEndOfContent = [[[[[[STGlobals sharedInstance] ThisAddIn] Application] activeDocument] textObject] endOfContent];
-  
-  STMSWord2011TextRange* padRange;
+  NSInteger docEndOfContent = [[doc textObject] endOfContent];
+
   STMSWord2011TextRange* selectionRange = [selection textObject];
-  
-  if(selectionEnd + fieldCloseLength > docEndOfContent)
-  {
+  if((selectionEnd + fieldCloseLength) > docEndOfContent) {
     STMSWord2011TextRange* padRange = [WordHelpers DuplicateRange:selectionRange];
-    [WordHelpers setRange:&padRange Start:selectionEnd end:selectionEnd];
+    [WordHelpers setRange:&padRange start:selectionEnd end:selectionEnd];
     
     //NSLog(@"startOfContent: %ld", [padRange startOfContent]);
     //NSLog(@"endOfContent: %ld", [padRange endOfContent]);
     
-    for(NSInteger i = 0; i < fieldCloseLength; i++)
-    {
+    for(NSInteger i = 0; i < fieldCloseLength; i++) {
       [WordHelpers insertParagraphAtRange:padRange];
     }
-    [WordHelpers setRange:&padRange Start:[padRange startOfContent] end:[padRange endOfContent] + fieldCloseLength];
+    [WordHelpers setRange:&padRange start:[padRange startOfContent] end:[padRange endOfContent] + fieldCloseLength];
     [WordHelpers selectTextAtRangeStart:selectionStart andEnd:selectionEnd];
     selection = [[[[STGlobals sharedInstance] ThisAddIn] Application] selection];
   }
 
   
   
-  if (tag == nil)
-  {
+  if (tag == nil) {
     //NSLog(@"Unable to insert the table because the tag is nil");
-    return;
+    return addedFields;
   }
   
-  if (![tag HasTableData])
-  {
+  if (![tag HasTableData]) {
     STMSWord2011TextRange* selectionRange = [selection textObject];
-    [self CreateTagField:selectionRange tagIdentifier:[tag Id] displayValue:[STConstantsPlaceholders EmptyField] tag:tag];
+    [self CreateTagField:selectionRange tagIdentifier:[tag Id] displayValue:[STConstantsPlaceholders EmptyField] tag:tag withDoc:doc];
     //NSLog(@"Unable to insert the table because there are no cached results for the tag");
-    return;
+    return addedFields;
   }
   
   SBElementArray<STMSWord2011Cell*>* cells = [self GetCells:selection];
@@ -921,10 +925,10 @@ used to create the Word document.
   NSInteger cellsCount = cells == nil ? 0 : [cells count];  // Because of the issue we mention below, pull the cell count right away
   
   // Insert a new table if there is none selected.
-  if (cellsCount == 0)
-  {
+  if (cellsCount == 0) {
     //NSLog(@"No cells selected, creating a new table");
-    [self CreateWordTableForTableResult:selection table:table format:[tag TableFormat] dimensions:dimensions];
+    STMSWord2011Table* wordTable = [self CreateWordTableForTableResult:selection table:table format:[tag TableFormat] dimensions:dimensions];
+    [WordHelpers select:wordTable];
     
     // The table will be the size we need.  Update these tracking variables with the cells and
     // total size so that we can begin inserting data.
@@ -934,29 +938,21 @@ used to create the Word document.
   // Our heuristic is that a single cell selected with the selection being the same position most
   // likely means the user has their cursor in a table.  We are going to assume they want us to
   // fill in that table.
-  else if (cellsCount == 1 && [[selection textObject] startOfContent] == [[selection textObject] endOfContent])
-  {
+  else if (cellsCount == 1 && [[selection textObject] startOfContent] == [[selection textObject] endOfContent]) {
     //NSLog(@"Cursor is in a single table cell, selecting table");
     cells = [self SelectExistingTableRange:[cells firstObject] table:[[selection tables] firstObject] dimensions:dimensions];
-    //cells = SelectExistingTableRange(cells.OfType<Cell>().First(), selection.Tables[1], dimensions);
     cellsCount = [cells count];
   }
   
-  //+(NSArray<NSString*>*)GetDisplayableVector:(STTableData*)data format:(STTableFormat*)format;
-
   NSArray<NSString*>* displayData = [STTableUtil GetDisplayableVector:[table FormattedCells] format:[tag TableFormat]];
-  
-  //if (table.FormattedCells == nil || [[table FormattedCells] count] == 0)
-  if (displayData == nil || [displayData count] == 0)
-  {
+  if (displayData == nil || [displayData count] == 0) {
     [STUIUtility WarningMessageBoxWithTitle:@"There are no table results to insert." andDetail:@"" logger:[self Logger]];
-    return;
+    return addedFields;
   }
   
-  if (cells == nil)
-  {
+  if (cells == nil) {
     //NSLog(@"Unable to insert the table because the cells collection came back as nil.");
-    return;
+    return addedFields;
   }
 
   /*
@@ -992,8 +988,6 @@ used to create the Word document.
   
   STMSWord2011Cell* findCell = [cells firstObject];
   STMSWord2011Table* cellTable;
-  STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
-  STMSWord2011Document* doc = [app activeDocument];
 
   for(STMSWord2011Table* aTable in [doc tables]) {
     STMSWord2011Cell* tableCell = [aTable getCellFromTableRow:[findCell rowIndex] column:[findCell columnIndex]];
@@ -1012,14 +1006,11 @@ used to create the Word document.
   // cells, which caused a crash.  No idea why, and moved to this approach in the interest
   // of time.  Long-term it'd be nice to figure out what was causing the crash.
   NSInteger index = 0;
-  for (NSValue* value in cellPoints)
-  {
-    
+  for (NSValue* value in cellPoints) {
     NSPoint cellPoint = [value pointValue];
     STMSWord2011Cell* cell = [cellTable getCellFromTableRow:cellPoint.x column:cellPoint.y];
     
-    if (index >= [displayData count])
-    {
+    if (index >= [displayData count]) {
       //NSLog(@"Index %ld is beyond result cell length of %ld", index, [displayData count]);
       break;
     }
@@ -1036,7 +1027,8 @@ used to create the Word document.
     STFieldTag* innerTag = [[STFieldTag alloc] initWithTag:tag andTableCellIndex:[NSNumber numberWithInteger:index]];
     innerTag.CachedResult = cachedResult;
     
-    [self CreateTagField:range tagIdentifier:[NSString stringWithFormat:@"%@%@%ld", [tag Name], [STConstantsReservedCharacters TagTableCellDelimiter], index] displayValue:[innerTag FormattedResult] tag:innerTag];
+    STMSWord2011Field* field = [self CreateTagField:range tagIdentifier:[NSString stringWithFormat:@"%@%@%ld", [tag Name], [STConstantsReservedCharacters TagTableCellDelimiter], index] displayValue:[innerTag FormattedResult] tag:innerTag withDoc:doc];
+    [addedFields addObject:[NSNumber numberWithInteger:[field entry_index]]];
     index++;
   }
   
@@ -1048,11 +1040,11 @@ used to create the Word document.
   
   [WordHelpers select:[[selection tables] firstObject]];
   
-  STMSWord2011SelectionObject* tableSelection = [[[[STGlobals sharedInstance] ThisAddIn] Application] selection];
+  STMSWord2011SelectionObject* tableSelection = [app selection];
   [self InsertNewLineAndMoveDown:tableSelection];
-  //Marshal.ReleaseComObject(tableSelection);
-  
+  return addedFields;
   //NSLog(@"InsertTable - Finished");
+  }
 }
 
 
@@ -1073,7 +1065,7 @@ used to create the Word document.
   Create a new table in the Word document at the current selection point.  This assumes we have a
   statistical result containing a table that needs to be inserted.
  */
--(void)CreateWordTableForTableResult:(STMSWord2011SelectionObject*)selection table:(STTable*)table format:(STTableFormat*)format dimensions:(NSArray<NSNumber*>*)dimensions {
+-(STMSWord2011Table*)CreateWordTableForTableResult:(STMSWord2011SelectionObject*)selection table:(STTable*)table format:(STTableFormat*)format dimensions:(NSArray<NSNumber*>*)dimensions {
  
   //NSLog(@"CreateWordTableForTableResult - Started");
 
@@ -1090,12 +1082,12 @@ used to create the Word document.
 
     
     STMSWord2011Table* wordTable = [WordHelpers createTableAtRange:[[app selection] textObject] withRows:rowCount andCols:columnCount];
-
     [WordHelpers select:wordTable];
     
     STMSWord2011BorderOptions* borders = [wordTable borderOptions];
     borders.insideLineStyle = STMSWord2011E167LineStyleSingle;
-    //borders.outsideLineStyle = STMSWord2011E167LineStyleSingle; //for some reason this is yellow...
+    borders.outsideLineStyle = STMSWord2011E167LineStyleSingle; //for some reason this is yellow...
+    return wordTable;
   }
   @catch (NSException *exception) {
     //NSLog(@"%@", exception.reason);
@@ -1106,7 +1098,7 @@ used to create the Word document.
   }
   
   //NSLog(@"CreateWordTableForTableResult - Finished");
-
+  return nil;
 }
 
 
@@ -1136,13 +1128,15 @@ used to create the Word document.
  
  @remark This method assumes the tag result is already refreshed.  It does not attempt to refresh or recalculate it.
  */
--(void) InsertField:(id)tag {
+-(NSMutableArray<NSNumber*>*) InsertField:(id)tag {
   //NSLog(@"InsertField for Tag");
   if([tag isKindOfClass:[STFieldTag class]]) {
-    [self InsertFieldWithFieldTag:tag];
+    return [self InsertFieldWithFieldTag:tag];
   } else if ([tag isKindOfClass:[STTag class]]) {
-    [self InsertFieldWithFieldTag:[[STFieldTag alloc] initWithTag:tag]];
+    return [self InsertFieldWithFieldTag:[[STFieldTag alloc] initWithTag:tag]];
   }
+
+  return nil;
 }
 
 /**
@@ -1150,12 +1144,14 @@ used to create the Word document.
 
  @remark This method assumes the tag result is already refreshed.  It does not attempt to refresh or recalculate it.
  */
--(void) InsertFieldWithFieldTag:(STFieldTag*)tag {
+-(NSMutableArray<NSNumber*>*) InsertFieldWithFieldTag:(STFieldTag*)tag {
   //NSLog(@"InsertField - Started");
+
+  NSArray<NSNumber*>* addedFields = nil;
 
   if(tag == nil) {
     //NSLog(@"The tag is null");
-    return;
+    return addedFields;
   }
 
   dispatch_async(dispatch_get_main_queue(), ^{
@@ -1165,41 +1161,38 @@ used to create the Word document.
   if([[tag Type] isEqualToString:[STConstantsTagType Figure]]) {
     //NSLog(@"Detected a Figure tag");
     [self InsertImage:tag];
-    return;
+    return addedFields;
   }
   
-  STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
-  STMSWord2011Document* __unused doc = [app activeDocument];
-
   @try {
-    STMSWord2011SelectionObject* selection = [app selection];
-    if(selection == nil) {
-      //NSLog(@"There is no active selection");
-      return;
-    }
+    @autoreleasepool {
+      STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
+      STMSWord2011Document* __unused doc = [app activeDocument];
+      STMSWord2011SelectionObject* selection = [app selection];
+      if(selection == nil) {
+        //NSLog(@"There is no active selection");
+        return addedFields;
+      }
 
-    // If the tag is a table, and the cell index is not set, it means we are inserting the entire
-    // table into the document.  Otherwise, we are able to just insert a single table cell.
-    
-    if ([[tag Type] isEqualToString: [STConstantsTagType Verbatim]])
-    {
-      [self Log:@"Inserting verbatim output"];
-      [self InsertVerbatim:selection tag:tag];
+      // If the tag is a table, and the cell index is not set, it means we are inserting the entire
+      // table into the document.  Otherwise, we are able to just insert a single table cell.
+      if ([[tag Type] isEqualToString: [STConstantsTagType Verbatim]])
+      {
+        [self Log:@"Inserting verbatim output"];
+        [self InsertVerbatim:selection tag:tag];
+      }
+      else if([tag IsTableTag] && [tag TableCellIndex] == nil) {
+        //NSLog(@"Inserting a new table tag");
+        addedFields = [self InsertTable:selection tag:tag];
+      } else {
+        //NSLog(@"Inserting a single tag field");
+        STMSWord2011TextRange* range = [selection textObject];
+        [self CreateTagField:range tagIdentifier:[tag Name] displayValue:[tag FormattedResult] tag:tag withDoc:doc];
+      }
     }
-    else if([tag IsTableTag] && [tag TableCellIndex] == nil) {
-      // if (tag.IsTableTag() && !tag.TableCellIndex.HasValue)
-      //NSLog(@"Inserting a new table tag");
-      [self InsertTable:selection tag:tag];
-    } else {
-      //NSLog(@"Inserting a single tag field");
-      STMSWord2011TextRange* range = [selection textObject];
-      [self CreateTagField:range tagIdentifier:[tag Name] displayValue:[tag FormattedResult] tag:tag];
-      //Marshal.ReleaseComObject(range);
-    }
-    //Marshal.ReleaseComObject(selection);
   }
   @catch (NSException *exception) {
-    //NSLog(@"%@", exception.reason);
+    NSLog(@"%@", exception.reason);
     //NSLog(@"method: %@, line : %d", NSStringFromSelector(_cmd), __LINE__);
     //NSLog(@"%@", [NSThread callStackSymbols]);
   }
@@ -1207,6 +1200,7 @@ used to create the Word document.
     //Marshal.ReleaseComObject(document);
   }
 
+  return addedFields;
   //NSLog(@"InsertField - Finished");
 
 }
@@ -1220,7 +1214,7 @@ Insert an StatTag field at the currently specified document range.
 @param displayValue: The value that should display when the field is shown.
 @param tag: The tag to be inserted
  */
--(void)CreateTagField:(STMSWord2011TextRange*)range tagIdentifier:(NSString*)tagIdentifier displayValue:(NSString*)displayValue tag:(STTag*)tag {
+-(STMSWord2011Field*)CreateTagField:(STMSWord2011TextRange*)range tagIdentifier:(NSString*)tagIdentifier displayValue:(NSString*)displayValue tag:(STTag*)tag withDoc:(STMSWord2011Document*)doc {
   //NSLog(@"CreateTagField - Started");
   //NSLog(@"Creating tag with range : (%ld,%ld) and tagIdentifier: %@ and displayValue : %@ with tag : %@", [range startOfContent], [range endOfContent], tagIdentifier, displayValue, tag);
   //C# - XML - can't use it as we don't have support for InsertXML
@@ -1231,13 +1225,15 @@ Insert an StatTag field at the currently specified document range.
   //    Constants.FieldDetails.MacroButtonName, displayValue, tagIdentifier, FieldCreator.FieldOpen, FieldCreator.FieldClose));
   //Log(string.Format("Inserted field with identifier {0} and display value {1}", tagIdentifier, displayValue));
   
-  
+  NSArray<STMSWord2011Field*>* fields = [[_FieldManager class] InsertField:range displayValue:[STFieldGenerator escapeMacroContent:displayValue] macroButtonName:[STConstantsFieldDetails MacroButtonName] tagIdentifier:tagIdentifier withDoc:doc];
+
+  /*
   NSArray<STMSWord2011Field*>* fields = [[_FieldManager class] InsertField:range theString:
                                          
                                          [NSString stringWithFormat:@"%@MacroButton %@ %@%@ADDIN %@%@%@",
                                           
                                           [STFieldGenerator FieldOpen],
-                                          [STConstantsFieldDetails MacroButtonName],
+                                          [STConstantsFieldDetails MacroButtonName], //StatTag
                                           [STFieldGenerator escapeMacroContent:displayValue],
                                           [STFieldGenerator FieldOpen],
                                           tagIdentifier,
@@ -1251,13 +1247,20 @@ Insert an StatTag field at the currently specified document range.
                                           //4    FieldCreator.FieldClose
                                           
                                           ]
+                                         withDoc: doc
                                          ];
+  */
   
 //  [STGlobals activateDocument];
-  STMSWord2011Field* dataField = [fields firstObject];
+  STMSWord2011Field* macroField = [fields firstObject];
+  STMSWord2011Field* dataField = [fields lastObject];
 //  [STGlobals activateDocument];
   dataField.fieldText = [tag Serialize:nil];
   
+  
+  return macroField;
+  
+  //return [dataField previousField];
   //NSLog(@"CreateTagField - Finished");
 }
 
@@ -1273,6 +1276,15 @@ Insert an StatTag field at the currently specified document range.
   
   @try
   {
+    // Save the tag first, before trying to update the tags.  This way even if there is
+    // an error during the updates, our results are saved.
+    NSError* error;
+    [self SaveEditedTag:tag existingTag:existingTag error:&error];
+    if(error != nil)
+    {
+      return false;
+    }
+
     // If the value format has changed, refresh the values in the document with the
     // new formatting of the results.
     // TODO: Sometimes date/time format are null in one and blank strings in the other.  This is causing extra update cycles that aren't needed.
@@ -1289,13 +1301,7 @@ Insert an StatTag field at the currently specified document range.
       [tag UpdateFormattedTableData];
       [self UpdateFields:pair];
     }
-    
-    NSError* error;
-    [self SaveEditedTag:tag existingTag:existingTag error:&error];
-    if(error != nil)
-    {
-      return false;
-    }
+
     return true;
   }
   @catch (NSException* exception)
@@ -1398,7 +1404,8 @@ Insert an StatTag field at the currently specified document range.
   {
     NSMutableArray<STTag*>* updatedTags = [[NSMutableArray<STTag*> alloc] init];
     NSMutableArray<STCodeFile*>* refreshedFiles = [[NSMutableArray<STCodeFile*> alloc] init];
-    
+
+    NSMutableArray<NSNumber*>* addedFields = [[NSMutableArray alloc] init];
     for (STTag* tag in tags)
     {
       if(![refreshedFiles containsObject:[tag CodeFile]])
@@ -1422,10 +1429,13 @@ Insert an StatTag field at the currently specified document range.
       {
         tag.CachedResult = [[updatedTags objectAtIndex:[updatedTags indexOfObject:tag]] CachedResult];
       }
-      
+
       @try
       {
-        [self InsertField:tag];
+        NSArray<NSNumber*>* fields = [self InsertField:tag];
+        if (fields != nil) {
+          [addedFields addObjectsFromArray:fields];
+        }
       }
       @catch (NSException* exception)
       {
@@ -1450,7 +1460,7 @@ Insert an StatTag field at the currently specified document range.
 
     for (STTag* updatedTag in updatedTags)
     {
-      [self UpdateFields:[[STUpdatePair alloc] init:updatedTag newItem:updatedTag]];
+      [self UpdateFields:[[STUpdatePair alloc] init:updatedTag newItem:updatedTag] ignoreIndexes:addedFields];
     }
   }
   @catch (NSException* exception)
@@ -1660,7 +1670,7 @@ Insert an StatTag field at the currently specified document range.
     {
       [affectedCodeFiles addObject:[[update Old] CodeFile]];
     }
-    [self UpdateFields:update matchOnPosition:true];
+    [self UpdateFields:update matchOnPosition:true ignoreIndexes:nil];
     
     // Add the tag to the code file - replacing the old one.  Note that we require the
     // exact line match, so we don't accidentally replace the wrong duplicate named tag.

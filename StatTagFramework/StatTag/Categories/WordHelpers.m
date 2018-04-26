@@ -42,13 +42,21 @@ static WordHelpers* sharedInstance = nil;
   //}
 }
 
-+(void)setRange:(STMSWord2011TextRange**)range Start:(NSInteger)start end:(NSInteger)end {
-  //@autoreleasepool {
++(void)setRange:(STMSWord2011TextRange**)range start:(NSInteger)start end:(NSInteger)end {
+  /*//@autoreleasepool {
     STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
     STMSWord2011Document* doc = [app activeDocument];
     //return [doc createRangeStart:start end:end];
     *range = [doc createRangeStart:start end:end];
-  //}
+  //}*/
+
+  STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
+  STMSWord2011Document* doc = [app activeDocument];
+  [WordHelpers setRange:range start:start end:end withDoc:doc];
+}
+
++(void)setRange:(STMSWord2011TextRange**)range start:(NSInteger)start end:(NSInteger)end withDoc:(STMSWord2011Document*)doc {
+  *range = [doc createRangeStart:start end:end];
 }
 
 +(STMSWord2011TextRange*)DuplicateRange:(STMSWord2011TextRange*)range forDoc:(STMSWord2011Document*)doc {
@@ -110,7 +118,7 @@ static WordHelpers* sharedInstance = nil;
   
   [*range setContent: text];
   
-  [WordHelpers setRange:range Start:[*range startOfContent] end:([*range startOfContent] + [text length])];
+  [WordHelpers setRange:range start:[*range startOfContent] end:([*range startOfContent] + [text length])];
 }
 
 +(void)UpdateLinkFormat:(STMSWord2011LinkFormat*)linkFormat {
@@ -276,10 +284,10 @@ static WordHelpers* sharedInstance = nil;
     WordASOC *asoc = [[NSClassFromString(@"WordASOC") alloc] init];
     BOOL created_table = [[asoc createTableAtRangeStart:[NSNumber numberWithInteger:[range startOfContent]] andRangeEnd:[NSNumber numberWithInteger:[range endOfContent]] withRows:[NSNumber numberWithInteger:rows] andCols:[NSNumber numberWithInteger:cols]] boolValue];
 
+    // If we created a table, get the reference to it.  The range in which we created the table will have the table within its
+    // tables collection.  We will pull back the last one, assuming that there really is only 1 in here.
     if(created_table) {
-      STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
-      STMSWord2011Document* doc = [app activeDocument];
-      STMSWord2011Table* table = [[doc tables] lastObject];
+      STMSWord2011Table* table = [[range tables] lastObject];
       return table;
     }
 
@@ -350,6 +358,34 @@ static WordHelpers* sharedInstance = nil;
   //}
 }
 
+// Returns all of the fields that we may need to process from a Word document.  This needs to be
+// used instead of [document fields], as the document fields collection only returns the fields that
+// are in the main document text.  This method will ensure we get embedded fields in shapes, etc.
++(NSMutableArray<STMSWord2011Field*>*) getAllFieldsInDocument:(STMSWord2011Document*)document
+{
+  NSMutableArray<STMSWord2011Field*>* allFields = [[NSMutableArray alloc] init];
+  SBElementArray<STMSWord2011Shape*>* shapes = [document shapes];
+  NSInteger shapesCount = [shapes count];
+  for (NSInteger shapeIndex = 0; shapeIndex < shapesCount; shapeIndex++) {
+    STMSWord2011Shape* shape = shapes[shapeIndex];
+    if ([shape textFrame] != nil && [[shape textFrame] textRange] != nil && [[[shape textFrame] textRange] fields] != nil) {
+      SBElementArray<STMSWord2011Field*>* fields = [[[shape textFrame] textRange] fields];
+      NSInteger fieldsCount = [fields count];
+      for (NSInteger fieldIndex = 0; fieldIndex < fieldsCount; fieldIndex++) {
+        [allFields addObject:fields[fieldIndex]];
+      }
+    }
+  }
+
+  SBElementArray<STMSWord2011Field*>* fields = [document fields];
+  NSInteger fieldsCount = [fields count];
+  for (NSInteger fieldIndex = 0; fieldIndex < fieldsCount; fieldIndex++) {
+    [allFields addObject:fields[fieldIndex]];
+  }
+
+  return allFields;
+}
+
 +(void)select:(STMSWord2011BaseObject*)wordObject {
   @autoreleasepool {
     //Word 2011 supports the "select" method - 2016 does NOT - it was removed
@@ -381,8 +417,13 @@ static WordHelpers* sharedInstance = nil;
       // We then just (try...) to cast the type and approximate the previous (2011) selection
       //
       // There may be a better way to do this with Obj-C. Not clear to me if that's the case.
+      [wordObject sendEvent:'misc' id:'slct' parameters:'\00\00\00\00', nil];
+      return;
+      
+      /*
       NSString* woClass = NSStringFromClass([wordObject class]);
       ////NSLog(@"className : %@", woClass);
+
       
       if([woClass isEqualToString:@"MicrosoftWordField"]) {
         //field requires we offset the start/end character positions because they use escape sequences
@@ -413,12 +454,14 @@ static WordHelpers* sharedInstance = nil;
         //NSLog(@"WordHelpers - select: (MicrosoftWordTextRange) tr (%ld,%ld)", [tr startOfContent], [tr endOfContent]);
         [WordHelpers selectTextInRange:tr];
       }
+       */
     }
   }
 }
 
 +(void)selectTextAtRangeStart:(NSInteger)rangeStart andEnd:(NSInteger)rangeEnd {
   @autoreleasepool {
+    STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
     // This duplicate setting of the selection range is done to handle selection ranges across table cells.
     // Imagine you have two table cells Left and Right.  The cursor is in Right, and this method is being
     // called to select a range of text that is entirely within Left.  When we get the current selection,
@@ -434,11 +477,11 @@ static WordHelpers* sharedInstance = nil;
     // To address this, if we know we are probably crossing cell boundaries - detected if the selection we
     // start with is in a cell - we will call the selection twice.  The second call to set the selectionStart
     // and selectionEnd will work as expected, since we are doing it within the cell where the range is located.
-    STMSWord2011SelectionObject* selection = [[[[STGlobals sharedInstance] ThisAddIn] Application] selection];
+    STMSWord2011SelectionObject* selection = [app selection];
     if ([[selection cells] count] > 0) {
       selection.selectionStart = rangeStart;
       selection.selectionEnd = rangeEnd;
-      selection = [[[[STGlobals sharedInstance] ThisAddIn] Application] selection];
+      selection = [app selection];
     }
     selection.selectionStart = rangeStart;
     selection.selectionEnd = rangeEnd;
@@ -446,11 +489,11 @@ static WordHelpers* sharedInstance = nil;
 }
 
 +(void)selectTextInRange:(STMSWord2011TextRange*)textRange {
-  @autoreleasepool {
+  //@autoreleasepool {
     if(textRange != nil) {
       [self selectTextAtRangeStart:[textRange startOfContent] andEnd:[textRange endOfContent]];
     }
-  }
+  //}
 }
 
 +(void)setActiveDocumentByDocName:(NSString*)theName {
@@ -481,6 +524,13 @@ static WordHelpers* sharedInstance = nil;
   
   WordASOC *asoc = [[NSClassFromString(@"WordASOC") alloc] init];
   [asoc insertTextboxAtRangeStart:[NSNumber numberWithInteger:theRangeStart] andRangeEnd:[NSNumber numberWithInteger:theRangeEnd] forShapeName:shapeName withShapetext:shapeText andFontSize:[NSNumber numberWithDouble:fontSize] andFontFace:fontFace];
+}
+
++(void)insertFieldAtRangeStart:(NSInteger)theRangeStart andRangeEnd:(NSInteger)theRangeEnd forFieldType:(NSInteger)fieldType withText:(NSString*)fieldText
+{
+  WordASOC *asoc = [[NSClassFromString(@"WordASOC") alloc] init];
+  [asoc insertFieldAtRangeStart:[NSNumber numberWithInteger:theRangeStart] andRangeEnd:[NSNumber numberWithInteger:theRangeEnd] forFieldType:[NSNumber numberWithInteger:fieldType] withText:fieldText];
+  
 }
 
 @end
