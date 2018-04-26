@@ -417,8 +417,13 @@ static WordHelpers* sharedInstance = nil;
       // We then just (try...) to cast the type and approximate the previous (2011) selection
       //
       // There may be a better way to do this with Obj-C. Not clear to me if that's the case.
+      [wordObject sendEvent:'misc' id:'slct' parameters:'\00\00\00\00', nil];
+      return;
+      
+      /*
       NSString* woClass = NSStringFromClass([wordObject class]);
       ////NSLog(@"className : %@", woClass);
+
       
       if([woClass isEqualToString:@"MicrosoftWordField"]) {
         //field requires we offset the start/end character positions because they use escape sequences
@@ -449,6 +454,7 @@ static WordHelpers* sharedInstance = nil;
         //NSLog(@"WordHelpers - select: (MicrosoftWordTextRange) tr (%ld,%ld)", [tr startOfContent], [tr endOfContent]);
         [WordHelpers selectTextInRange:tr];
       }
+       */
     }
   }
 }
