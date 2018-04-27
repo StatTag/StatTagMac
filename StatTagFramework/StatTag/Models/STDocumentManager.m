@@ -1015,8 +1015,12 @@ used to create the Word document.
       break;
     }
     
+    // When inserting a field in a table cell, the cell object will often give us back a range that
+    // extends one character too far.  For some reason (still not known), if we use this range as-is,
+    // we fail to insert a new field.  Instead, we will just insert at the beginning of the cell.
     STMSWord2011TextRange* range = [cell textObject];
-    
+    [WordHelpers setRange:&range start:([range startOfContent]) end:([range startOfContent]) withDoc:doc];
+
     // Make a copy of the tag and set the cell index.  This will let us discriminate which cell an tag
     // value is related with, since we have multiple fields (and therefore multiple copies of the tag) in the
     // document.  Note that we are wiping out the cached value to just have the individual cell value present.
@@ -1147,7 +1151,7 @@ used to create the Word document.
 -(NSMutableArray<NSNumber*>*) InsertFieldWithFieldTag:(STFieldTag*)tag {
   //NSLog(@"InsertField - Started");
 
-  NSArray<NSNumber*>* addedFields = nil;
+  NSMutableArray<NSNumber*>* addedFields = nil;
 
   if(tag == nil) {
     //NSLog(@"The tag is null");

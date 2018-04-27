@@ -136,12 +136,23 @@
   /*We're using our custom AppleScript wrapper for "create new field" because we can insert a field at a specific point in a range and it will NOT overwrite the original content. Why are we using the wrapper insted of the original Obj-C interface to the AppleScript method?
   
    For some reason we cannot specify the macro button text if we do so (and we need macro button text for identifying a StatTag field). When we attempt to send in a string which should be automatically split into the button text and button label the Obj-C method instead inserts the entire string into the label. EX: "StatTag 16.5" should be split into the macro button text ("StatTag") and the display value ("16.5"), but instead the button text is left empty and the display label is set to "StatTag 16.5" (not desired).
-  */
+   */
+  NSInteger originalRangeStart = [range startOfContent];  // This can change after calling insertFieldAtRangeStart, so save it off
   [WordHelpers insertFieldAtRangeStart:[range startOfContent] andRangeEnd:[range endOfContent] forFieldType:STMSWord2011E183FieldMacroButton withText:formattedValue];
-  
-  STMSWord2011Application* wordApp = [[[STGlobals sharedInstance] ThisAddIn] Application];
-  [WordHelpers selectTextAtRangeStart:([range endOfContent] -1) andEnd:([range endOfContent])];
 
+  // After inserting the field, different things can happen to our range.  If the range size is the same value,
+  // that means it probably got inserted into a table cell, and isn't updated to reflect the range of content.
+  // We will then use the formattedValue length to determine the range and set the selection.  Otherwise, we
+  // trust the range and set it back 1 character to pick up the field we just created.  This range is really
+  // just used to detect the field we inserted, since we have no other way to get that back from AppleScript.
+  if ([range endOfContent] != [range startOfContent]) {
+    [WordHelpers selectTextAtRangeStart:([range endOfContent] -1) andEnd:([range endOfContent])];
+  }
+  else {
+    [WordHelpers selectTextAtRangeStart:(originalRangeStart) andEnd:(originalRangeStart + [formattedValue length])];
+  }
+
+  STMSWord2011Application* wordApp = [[[STGlobals sharedInstance] ThisAddIn] Application];
   STMSWord2011SelectionObject* aSelection = [wordApp selection];
 
   STMSWord2011Field* outerField = [[aSelection fields] firstObject];
