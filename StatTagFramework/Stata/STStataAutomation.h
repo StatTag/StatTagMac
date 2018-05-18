@@ -69,7 +69,7 @@ extern NSString* const EndLoggingCommand;
 -(void)Show;
 -(void)Hide;
 
--(BOOL)Initialize:(STCodeFile*)codeFile;
+-(BOOL)Initialize:(STCodeFile*)codeFile withLogManager:(STLogManager*)logManager;
 
 /**
  Determine if a command is one that would return a result of some sort.

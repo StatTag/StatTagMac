@@ -116,7 +116,7 @@ const NSInteger RefreshStepInterval = 5;
   //STStataAutomation* automation = [[STStataAutomation alloc] init];
   NSObject<STIStatAutomation>* automation = [[self class] GetStatAutomation:file];
   
-  if(! [automation Initialize:file]){
+  if(! [automation Initialize:file withLogManager:[[self DocumentManager] Logger]]){
     //FIXME: we should probably do something w/ NSError here?
     /*
      MessageBox.Show(automation.GetInitializationErrorMessage(), UIUtility.GetAddInName());

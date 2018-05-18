@@ -9,10 +9,11 @@
 #import <Foundation/Foundation.h>
 #import "STCommandResult.h"
 #import "STTag.h"
+#import "STLogManager.h"
 
 @protocol STIStatAutomation <NSObject>
 
--(BOOL)Initialize:(STCodeFile*)codeFile;
+-(BOOL)Initialize:(STCodeFile*)codeFile withLogManager:(STLogManager*)logManager;
 -(NSArray<STCommandResult*>*)RunCommands:(NSArray<NSString*>*)commands;
 -(NSArray<STCommandResult*>*)RunCommands:(NSArray<NSString*>*)commands tag:(STTag*)tag;
 -(BOOL)IsReturnable:(NSString*)command;
