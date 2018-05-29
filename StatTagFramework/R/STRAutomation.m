@@ -31,7 +31,7 @@ static NSString* const MATRIX_DIMENSION_NAMES_ATTRIBUTE = @"dimnames";
   return self;
 }
 
--(BOOL)Initialize:(STCodeFile*)codeFile;
+-(BOOL)Initialize:(STCodeFile*)codeFile withLogManager:(STLogManager*)logManager
 {
   if (Engine == nil) {
     Engine = [RCEngine GetInstance:VerbatimLog];
@@ -53,6 +53,7 @@ static NSString* const MATRIX_DIMENSION_NAMES_ATTRIBUTE = @"dimnames";
 
   return (Engine != nil);
 }
+
 -(void)dealloc
 {
     //if (Engine != null)

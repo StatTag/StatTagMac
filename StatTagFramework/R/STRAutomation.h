@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "STRCommands.h"
 #import "STIStatAutomation.h"
+#import "STLogManager.h"
 
 @class STRParser;
 @class RCEngine;
@@ -21,7 +22,7 @@
   STRVerbatimDevice* VerbatimLog;
 }
 
--(BOOL)Initialize:(STCodeFile*)codeFile;
+-(BOOL)Initialize:(STCodeFile*)codeFile withLogManager:(STLogManager*)logManager;
 -(NSString*)GetInitializationErrorMessage;
 
 @end
