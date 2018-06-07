@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "STBaseParser.h"
+#import "STExecutionStep.h"
 
 @interface STStataCommentBlock : NSObject {
   long _Start;
@@ -59,11 +60,13 @@
 -(BOOL) IsCalculatedDisplayValue:(NSString*)command;
 -(NSArray<NSString*>*)GetMacros:(NSString*)command;
 -(NSArray<NSString*>*)PreProcessContent:(NSArray<NSString*>*)originalContent;
+-(NSArray<NSString*>*) PreProcessExecutionStepCode:(STExecutionStep*) step;
 -(NSString*) GetMacroValueName:(NSString*)command;
 -(BOOL) IsSavedResultCommand:(NSString*)command;
 -(BOOL) IsMatrix:(NSString*)command;
 -(BOOL) IsTable1Command:(NSString*)command;
 -(NSString*)GetTableDataPath:(NSString*)command;
+-(BOOL) IsCapturableBlock:(NSString*) command;
 
 
 @end

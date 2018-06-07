@@ -526,6 +526,52 @@
     XCTAssert([parser IsRelativePath:@"../test/code"]);
 }
 
+-(void)testPreProcessExecutionStepCode_Null
+{
+  StubParser* parser = [[StubParser alloc] init];
+  XCTAssertNil([parser PreProcessExecutionStepCode:nil]);
+}
+
+-(void)testPreProcessExecutionStepCode_Tag
+{
+  StubParser* parser = [[StubParser alloc] init];
+  STTag* tag = [[STTag alloc] init];
+  NSMutableArray<NSString*>* code = [[NSMutableArray<NSString*> alloc]
+                               initWithObjects:
+                               @"Line 1",
+                               @"Line 2",
+                               @"Line 3",
+                               @"Line 4",
+                               nil];
+  STExecutionStep* step = [[STExecutionStep alloc] init];
+  step.Code = code;
+  step.Tag = tag;
+  step.Type = [STConstantsExecutionStepType Tag];
+  NSArray<NSString*>* result = [parser PreProcessExecutionStepCode:step];
+  XCTAssertNotNil(result);
+  XCTAssertEqual([code count], [result count]);
+  for (int index = 0; index < [code count]; index++) {
+    XCTAssert([[code objectAtIndex:index] isEqualToString:[result objectAtIndex:index]]);
+  }
+}
+
+-(void)testPreProcessExecutionStepCode_NoTag
+{
+  StubParser* parser = [[StubParser alloc] init];
+  NSMutableArray<NSString*>* code = [[NSMutableArray<NSString*> alloc]
+                                     initWithObjects:
+                                     @"Line 1",
+                                     @"Line 2",
+                                     nil];
+  STExecutionStep* step = [[STExecutionStep alloc] init];
+  step.Code = code;
+  step.Type = [STConstantsExecutionStepType Tag];
+  NSArray<NSString*>* result = [parser PreProcessExecutionStepCode:step];
+  XCTAssertNotNil(result);
+  XCTAssertEqual(1, [result count]);
+  XCTAssert([@"Line 1\r\nLine 2" isEqualToString:[result objectAtIndex:0]]);
+}
+
 @end
 
 

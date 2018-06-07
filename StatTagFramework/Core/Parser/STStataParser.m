@@ -158,6 +158,13 @@ NSString* const CommendEnd = @"*/";
           error:nil];
 }
 
++(NSRegularExpression*)SetMaxvarRegex {
+  return [NSRegularExpression
+          regularExpressionWithPattern:@"set\\s+maxvar\\s+[\\d]+"
+          options:NSRegularExpressionCaseInsensitive
+          error:nil];
+}
+
 
 //MARK: additional regex properties
 +(NSRegularExpression*)LogKeywordRegex {
@@ -748,6 +755,60 @@ Given a command string, extract all macros that are present.  This will remove m
   return [command containsString:@"c("]
     || [command containsString:@"r("]
     || [command containsString:@"e("];
+}
+
+// Determine if the command should be treated specially within our capture/noisily blocks.
+// This was created to deal with a known issue in Stata when capture/noisily is wrapped around a set maxvar command
+-(BOOL) IsCapturableBlock:(NSString*) command
+{
+  if (command == nil || [[command stringByTrimmingCharactersInSet:
+                         [NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""]) {
+    return false;
+  }
+
+  return ![[self class] regexIsMatch:[[self class] SetMaxvarRegex] inString:command];
+}
+
+// Provides a hook to perform any processing on a block of code (one or more
+// lines) before it is executed by the statistical software.  The default
+// behavior is to return the parameter untouched.
+-(NSArray<NSString*>*) PreProcessExecutionStepCode:(STExecutionStep*) step
+{
+  NSArray<NSString*>* code = [super PreProcessExecutionStepCode:step];
+  if (code == nil) {
+    return nil;
+  }
+
+  if ([code count] == 0) {
+    return code;
+  }
+
+  NSMutableArray<NSString*>* setMaxvarLines = [[NSMutableArray alloc] init];
+  NSMutableArray<NSString*>* otherLines = [[NSMutableArray alloc] init];
+  NSCharacterSet* ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+  for (NSString* codeLine in code) {
+    NSString* modifiedCodeLine = codeLine;
+    NSArray *matches = [[[self class] SetMaxvarRegex] matchesInString:modifiedCodeLine options:0 range:NSMakeRange(0, modifiedCodeLine.length)];
+
+    if([matches count] > 0){
+      for (NSTextCheckingResult *match in matches) {
+        NSRange matchRange = [match rangeAtIndex:0];
+        NSString *matchString = [[modifiedCodeLine substringWithRange:matchRange] stringByTrimmingCharactersInSet:ws];
+        [setMaxvarLines addObject:matchString];
+      }
+
+      modifiedCodeLine = [[[[self class] SetMaxvarRegex] stringByReplacingMatchesInString:modifiedCodeLine options:0 range:NSMakeRange(0, [modifiedCodeLine length]) withTemplate:@""] stringByTrimmingCharactersInSet:ws];
+    }
+
+    // If modifiedCodeLine is NOT (null or whitespace only), add it to the array of lines
+    if ((modifiedCodeLine != nil)
+             && !([[modifiedCodeLine stringByTrimmingCharactersInSet: ws] isEqualToString:@""])) {
+      [otherLines addObject:modifiedCodeLine];
+    }
+  }
+
+  [setMaxvarLines addObjectsFromArray:otherLines];
+  return setMaxvarLines;
 }
 
 @end

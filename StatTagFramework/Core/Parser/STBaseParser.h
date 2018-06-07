@@ -41,7 +41,6 @@
 -(BOOL)IsTableResult:(NSString*)command;
 -(NSString*)GetTableName:(NSString*)command;
 
-
 //MARK: other methods and properties
 @property (copy, nonatomic) NSRegularExpression* StartTagRegEx;
 @property (copy, nonatomic) NSRegularExpression* EndTagRegEx;
@@ -58,6 +57,7 @@
  */
 -(NSArray<NSString*>*)PreProcessContent:(NSArray<NSString*>*) originalContent;
 
+-(NSArray<NSString*>*) PreProcessExecutionStepCode:(STExecutionStep*) step;
 
 //MARK: private methods
 //had to make these public so we could use them in subclasses - these should probably be moved to a class extension

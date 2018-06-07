@@ -23,6 +23,8 @@
 -(NSArray<STExecutionStep*>*)GetExecutionSteps:(STCodeFile*)file filterMode:(NSInteger)filterMode;
 -(NSArray<STExecutionStep*>*)GetExecutionSteps:(STCodeFile*)file;
 
+-(NSArray<NSString*>*) PreProcessExecutionStepCode:(STExecutionStep*) step;
+
 -(BOOL)IsImageExport:(NSString*)command;
 -(NSString*)GetImageSaveLocation:(NSString*)command;
 -(BOOL)IsValueDisplay:(NSString*)command;

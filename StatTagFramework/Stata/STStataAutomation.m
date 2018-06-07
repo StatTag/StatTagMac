@@ -606,7 +606,8 @@ const NSInteger ShowStata = 3;
     }
   }
 
-  command = [NSString stringWithFormat:@"%@%@%@", CapturePrefix, command, CaptureSuffix];
+  BOOL isCapturable = [Parser IsCapturableBlock:command];
+  command = isCapturable ? [NSString stringWithFormat:@"%@%@%@", CapturePrefix, command, CaptureSuffix] : command;
   NSDictionary *errorInfo;
   
   NSInteger returnCode = [Application DoCommandAsync:command];
@@ -634,8 +635,10 @@ const NSInteger ShowStata = 3;
   //NSLog(@"stataErrorCode : %ld", stataErrorCode);
 
   //FIXME: removing our capture commands before we process the image information - for now - until we can review the regex
-  command = [command substringFromIndex:[CapturePrefix length]];
-  command = [command substringToIndex:[command length] - [CaptureSuffix length]];
+  if (isCapturable) {
+    command = [command substringFromIndex:[CapturePrefix length]];
+    command = [command substringToIndex:[command length] - [CaptureSuffix length]];
+  }
 
   if (!IsTrackingVerbatim && tag != nil) {
     if ([Parser IsImageExport:command]) {

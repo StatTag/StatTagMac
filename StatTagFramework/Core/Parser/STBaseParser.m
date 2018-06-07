@@ -96,6 +96,25 @@
 }
 
 
+// Provides a hook to perform any processing on a block of code (one or more
+// lines) before it is executed by the statistical software.  The default
+// behavior is to return the parameter untouched.
+-(NSArray<NSString*>*) PreProcessExecutionStepCode:(STExecutionStep*) step
+{
+  if (step == nil) {
+    return nil;
+  }
+
+  // If there is no tag, we will join all of the command code together.  This allows us to have
+  // multi-line statements, such as a for loop.  Because we don't check for return results, we just
+  // process the command and continue.
+  if ([step Tag] == nil) {
+    NSString* combinedCommand = [[step Code] componentsJoinedByString:@"\r\n"];
+    return [NSArray<NSString*> arrayWithObject:combinedCommand];
+  }
+
+  return [step Code];
+}
 
 
 //MARK: protocol implementation - the subclasses will need to actually override this

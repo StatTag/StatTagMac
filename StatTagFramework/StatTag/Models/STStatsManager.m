@@ -190,20 +190,22 @@ const NSInteger RefreshStepInterval = 5;
           //});
         }
       }
-      
+
+      // Call any parser-dependent processing hooks for preparing the code in this step.
+      NSArray<NSString*>* codeToExecute = [parser PreProcessExecutionStepCode:step];
+
       // If there is no tag, we will join all of the command code together.  This allows us to have
       // multi-line statements, such as a for loop.  Because we don't check for return results, we just
       // process the command and continue.
       if ([step Tag] == nil)
       {
-        NSString* combinedCommand = [[step Code] componentsJoinedByString:@"\r\n"];
-        [automation RunCommands:[NSArray<NSString*> arrayWithObject:combinedCommand]];
+        [automation RunCommands:codeToExecute];
         continue;
       }
       
       STTag* tag = [[self DocumentManager] FindTag:[[step Tag] Id]];
       activeTag = tag;
-      NSArray<STCommandResult*>* results = [automation RunCommands:[step Code] tag:[step Tag]];
+      NSArray<STCommandResult*>* results = [automation RunCommands:codeToExecute tag:[step Tag]];
       
       //NSLog(@"results count : %lu", (unsigned long)[results count]);
       //for(STCommandResult* r in results) {
