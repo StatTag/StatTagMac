@@ -469,4 +469,176 @@
   XCTAssertFalse([parser IsSavedResultCommand:@" c ( N ) "]);  // Not valid in Stata because of the space between c and (
 }
 
+-(void)testPreProcessExecutionStepCode_Null
+{
+  STStataParser* parser = [[STStataParser alloc] init];
+  XCTAssertNil([parser PreProcessExecutionStepCode:nil]);
+}
+
+-(void)testPreProcessExecutionStepCode_Empty
+{
+  STStataParser* parser = [[STStataParser alloc] init];
+  STTag* tag = [[STTag alloc] init];
+  NSMutableArray<NSString*>* code = [[NSMutableArray<NSString*> alloc] init];
+  STExecutionStep* step = [[STExecutionStep alloc] init];
+  step.Code = code;
+  step.Tag = tag;
+  step.Type = [STConstantsExecutionStepType Tag];
+  NSArray<NSString*>* result = [parser PreProcessExecutionStepCode:step];
+  XCTAssertNotNil(result);
+  XCTAssertEqual(0, [result count]);
+}
+
+-(void)testPreProcessExecutionStepCode_Tag_Unchanged
+{
+  // This test does duplicate the code in BaseParserTests, but we want to ensure we are still receiving
+  // the same output
+  STStataParser* parser = [[STStataParser alloc] init];
+  STTag* tag = [[STTag alloc] init];
+  NSMutableArray<NSString*>* code = [[NSMutableArray<NSString*> alloc]
+                                     initWithObjects:
+                                     @"Line 1",
+                                     @"Line 2",
+                                     @"Line 3",
+                                     @"Line 4",
+                                     nil];
+  STExecutionStep* step = [[STExecutionStep alloc] init];
+  step.Code = code;
+  step.Tag = tag;
+  step.Type = [STConstantsExecutionStepType Tag];
+  NSArray<NSString*>* result = [parser PreProcessExecutionStepCode:step];
+  XCTAssertNotNil(result);
+  XCTAssertEqual([code count], [result count]);
+  for (int index = 0; index < [code count]; index++) {
+    XCTAssert([[code objectAtIndex:index] isEqualToString:[result objectAtIndex:index]]);
+  }
+}
+
+-(void)testPreProcessExecutionStepCode_NoTag_Unchanged
+{
+  // This test does duplicate the code in BaseParserTests, but we want to ensure we are still receiving
+  // the same output
+  STStataParser* parser = [[STStataParser alloc] init];
+  NSMutableArray<NSString*>* code = [[NSMutableArray<NSString*> alloc]
+                                     initWithObjects:
+                                     @"Line 1",
+                                     @"Line 2",
+                                     nil];
+  STExecutionStep* step = [[STExecutionStep alloc] init];
+  step.Code = code;
+  step.Type = [STConstantsExecutionStepType Tag];
+  NSArray<NSString*>* result = [parser PreProcessExecutionStepCode:step];
+  XCTAssertNotNil(result);
+  XCTAssertEqual(1, [result count]);
+  XCTAssert([@"Line 1\r\nLine 2" isEqualToString:[result objectAtIndex:0]]);
+}
+
+-(void)testPreProcessExecutionStepCode_SetMaxvar_NoTag_Single_SeparateLine
+{
+  STStataParser* parser = [[STStataParser alloc] init];
+  NSMutableArray<NSString*>* code = [[NSMutableArray<NSString*> alloc]
+                                     initWithObjects:
+                                     @"Line 1",
+                                     @"set maxvar 1000",
+                                     @"Line 3",
+                                     nil];
+  STExecutionStep* step = [[STExecutionStep alloc] init];
+  step.Code = code;
+  step.Type = [STConstantsExecutionStepType Tag];
+  NSArray<NSString*>* result = [parser PreProcessExecutionStepCode:step];
+  XCTAssertNotNil(result);
+  XCTAssertEqual(2, [result count]);
+  XCTAssert([@"set maxvar 1000" isEqualToString:[result objectAtIndex:0]]);
+  XCTAssert([@"Line 1\r\n\r\nLine 3" isEqualToString:[result objectAtIndex:1]]);
+}
+
+-(void)testPreProcessExecutionStepCode_SetMaxvar_NoTag_Multiple_SeparateLine
+{
+  STStataParser* parser = [[STStataParser alloc] init];
+  NSMutableArray<NSString*>* code = [[NSMutableArray<NSString*> alloc]
+                                     initWithObjects:
+                                     @"Line 1",
+                                     @"set maxvar 1000\r\nLine 2\r\nset maxvar 2000",
+                                     nil];
+  STExecutionStep* step = [[STExecutionStep alloc] init];
+  step.Code = code;
+  step.Type = [STConstantsExecutionStepType Tag];
+  NSArray<NSString*>* result = [parser PreProcessExecutionStepCode:step];
+  XCTAssertNotNil(result);
+  XCTAssertEqual(3, [result count]);
+  XCTAssert([@"set maxvar 1000" isEqualToString:[result objectAtIndex:0]]);
+  XCTAssert([@"set maxvar 2000" isEqualToString:[result objectAtIndex:1]]);
+  XCTAssert([@"Line 1\r\n\r\nLine 2" isEqualToString:[result objectAtIndex:2]]);
+}
+
+-(void)testPreProcessExecutionStepCode_SetMaxvar_NoTag_Multiple_SameLine
+{
+  STStataParser* parser = [[STStataParser alloc] init];
+  NSMutableArray<NSString*>* code = [[NSMutableArray<NSString*> alloc]
+                                     initWithObjects:
+                                     @"Line 1\r\n set  maxvar  500  ",
+                                     @"set maxvar 1000\r\nset maxvar 10000",
+                                     @"Line 3\r\nsetmaxvar 100",
+                                     nil];
+  STExecutionStep* step = [[STExecutionStep alloc] init];
+  step.Code = code;
+  step.Type = [STConstantsExecutionStepType Tag];
+  NSArray<NSString*>* result = [parser PreProcessExecutionStepCode:step];
+  XCTAssertNotNil(result);
+  XCTAssertEqual(4, [result count]);
+  XCTAssert([@"set  maxvar  500" isEqualToString:[result objectAtIndex:0]]);
+  XCTAssert([@"set maxvar 1000" isEqualToString:[result objectAtIndex:1]]);
+  XCTAssert([@"set maxvar 10000" isEqualToString:[result objectAtIndex:2]]);
+  XCTAssert([@"Line 1\r\n   \r\n\r\n\r\nLine 3\r\nsetmaxvar 100" isEqualToString:[result objectAtIndex:3]]);  // It's not a valid "set maxvar", so it should be included with
+}
+
+-(void)testPreProcessExecutionStepCode_SetMaxvar_Tag_Multiple_SameLine
+{
+  STStataParser* parser = [[STStataParser alloc] init];
+  NSMutableArray<NSString*>* code = [[NSMutableArray<NSString*> alloc]
+                                     initWithObjects:
+                                     @"Line 1\r\n set  maxvar  500  ",
+                                     @"set maxvar 1000\r\nset maxvar 10000",
+                                     @"Line 3\r\nsetmaxvar 100",
+                                     nil];
+  STExecutionStep* step = [[STExecutionStep alloc] init];
+  step.Code = code;
+  step.Type = [STConstantsExecutionStepType Tag];
+  step.Tag = [[STTag alloc] init];
+  NSArray<NSString*>* result = [parser PreProcessExecutionStepCode:step];
+  XCTAssertNotNil(result);
+  XCTAssertEqual(5, [result count]);
+  XCTAssert([@"set  maxvar  500" isEqualToString:[result objectAtIndex:0]]);
+  XCTAssert([@"set maxvar 1000" isEqualToString:[result objectAtIndex:1]]);
+  XCTAssert([@"set maxvar 10000" isEqualToString:[result objectAtIndex:2]]);
+  XCTAssert([@"Line 1" isEqualToString:[result objectAtIndex:3]]);
+  XCTAssert([@"Line 3\r\nsetmaxvar 100" isEqualToString:[result objectAtIndex:4]]);  // It's not a valid "set maxvar", so it should be included with
+}
+
+-(void)testIsCapturableBlock_NullEmpty
+{
+  STStataParser* parser = [[STStataParser alloc] init];
+  XCTAssertFalse([parser IsCapturableBlock:nil]);
+  XCTAssertFalse([parser IsCapturableBlock:@""]);
+  XCTAssertFalse([parser IsCapturableBlock:@"  \r\n   "]);
+}
+
+-(void)testIsCapturableBlock_NoSetMaxvar
+{
+  STStataParser* parser = [[STStataParser alloc] init];
+  XCTAssertTrue([parser IsCapturableBlock:@"test 1"]);
+  XCTAssertTrue([parser IsCapturableBlock:@"test 1\r\ntest2"]);
+  XCTAssertTrue([parser IsCapturableBlock:@"setmaxvar 1000"]);
+  XCTAssertTrue([parser IsCapturableBlock:@"set maxvar abcd"]);
+  XCTAssertTrue([parser IsCapturableBlock:@"set maxvar"]);
+}
+
+-(void)testIsCapturableBlock_SetMaxvar
+{
+  STStataParser* parser = [[STStataParser alloc] init];
+  XCTAssertFalse([parser IsCapturableBlock:@"test 1\r\nset maxvar 100\r\n"]);
+  XCTAssertFalse([parser IsCapturableBlock:@"set maxvar 5000000"]);
+  XCTAssertFalse([parser IsCapturableBlock:@"set maxvar 1000\r\nset maxvar 1000\r\ntest 1\r\n test2"]);
+}
+
 @end
