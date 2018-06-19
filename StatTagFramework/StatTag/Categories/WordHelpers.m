@@ -417,7 +417,10 @@ static WordHelpers* sharedInstance = nil;
       // We then just (try...) to cast the type and approximate the previous (2011) selection
       //
       // There may be a better way to do this with Obj-C. Not clear to me if that's the case.
+      //#pragma clang diagnostic push
+      //#pragma clang diagnostic ignored "-Weverything"
       [wordObject sendEvent:'misc' id:'slct' parameters:'\00\00\00\00', nil];
+      //#pragma clang diagnostic pop
       return;
       
       /*
