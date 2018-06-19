@@ -86,6 +86,11 @@
   //Posted immediately after the app becomes active.
   
   //mainWindow / keyWindow are nil if minimized / hidden
+  if([NSApp isHidden] == NO)
+  {
+    [NSApp unhide:self];
+  }
+  
   NSWindow* win = [[[NSApplication sharedApplication] windows] firstObject];
   if([win isMiniaturized])
   {
