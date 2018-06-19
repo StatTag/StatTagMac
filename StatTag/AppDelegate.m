@@ -84,7 +84,15 @@
 
 - (void)applicationDidBecomeActive:(NSNotification *)notification{
   //Posted immediately after the app becomes active.
+  
+  //mainWindow / keyWindow are nil if minimized / hidden
+  NSWindow* win = [[[NSApplication sharedApplication] windows] firstObject];
+  if([win isMiniaturized])
+  {
+    [win deminiaturize:self];
+  }
 }
+
 
 - (void)applicationDidResignActive:(NSNotification *)notification {
   //Posted immediately after the app gives up its active status to another app.
