@@ -428,7 +428,7 @@ const NSInteger ShowStata = 3;
 
   if ([[result stringByTrimmingCharactersInSet:ws] length] == 0)
   {
-    NSString* result = [Application MacroValue:name];
+    result = [Application MacroValue:name];
   }
   if ([[result stringByTrimmingCharactersInSet:ws] length] == 0)
   {
@@ -527,11 +527,11 @@ const NSInteger ShowStata = 3;
 {
     // If the save location is not a macro, and it appears to be a relative path, translate it into a fully
     // qualified path based on Stata's current environment.
-    if([saveLocation containsString:[[STStataParser MacroDelimitersCharacters] firstObject]]) {
-        NSMutableArray<NSString*>* macros = [Parser GetMacros:saveLocation];
+    if([Parser HasMacroInCommand:saveLocation]) {
+        NSArray<NSString*>* macros = [Parser GetMacros:saveLocation];
         for (NSString* macro in macros) {
             NSString* result = [self GetMacroValue:macro];
-            saveLocation = [self ReplaceMacroWithValue:saveLocation macro:macro value:result];
+            saveLocation = [Parser ReplaceMacroWithValue:saveLocation macro:macro value:result];
         }
     }
     else if ([Parser IsRelativePath:saveLocation]) {
@@ -664,16 +664,6 @@ const NSInteger ShowStata = 3;
     }
   }
   return nil;
-}
-
-
-/**
- Given a macro name that appears in a command string, replace it with its expanded value
-*/
--(NSString*)ReplaceMacroWithValue:(NSString*)originalString macro:(NSString*)macro value:(NSString*)value
-{
-  NSString* n = [NSString stringWithFormat:@"%@%@%@", [[STStataParser MacroDelimitersCharacters] objectAtIndex:0], macro, [[STStataParser MacroDelimitersCharacters] objectAtIndex:1]];
-  return [originalString stringByReplacingOccurrencesOfString:n withString:value];
 }
 
 -(void)dealloc

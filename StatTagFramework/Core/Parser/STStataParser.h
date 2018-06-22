@@ -52,6 +52,7 @@
 +(NSRegularExpression*)MacroRegex;
 
 -(BOOL) IsMacroDisplayValue:(NSString*)command;
+-(BOOL) HasMacroInCommand:(NSString*)command;
 -(BOOL) IsStartingLog:(NSString*)command;
 -(NSArray<NSString*>*) GetLogType:(NSString*)command;
 -(NSArray<NSString*>*) GetLogFile:(NSString*)command;
@@ -67,6 +68,6 @@
 -(BOOL) IsTable1Command:(NSString*)command;
 -(NSString*)GetTableDataPath:(NSString*)command;
 -(BOOL) IsCapturableBlock:(NSString*) command;
-
+-(NSString*)ReplaceMacroWithValue:(NSString*)originalString macro:(NSString*)macro value:(NSString*)value;
 
 @end
