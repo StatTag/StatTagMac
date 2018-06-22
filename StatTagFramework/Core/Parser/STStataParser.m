@@ -406,6 +406,11 @@ This is used to test/extract a macro display value.
   return [self IsMatrix:command] || [self CommandHasDataFileOrMacroHeuristic:command];
 }
 
+-(BOOL) HasMacroInCommand:(NSString*)command
+{
+  return [[self class] regexIsMatch:[[self class] MacroRegex] inString:command];
+}
+
 // Determine if a command references a matrix.
 // Stata's API has special handling for accessing matrices.  To account for this, we need to detect commands
 // that create/access a matrix result.  That tells the rest of the StatTag code to use the API to get results.
@@ -438,6 +443,19 @@ This is used to test/extract a macro display value.
 {
   NSString* extension =  [self MatchRegexReturnGroup:command regex:[[self class] DataFileRegex] groupNum:1];
   return extension;
+}
+
+/**
+ Given a macro name that appears in a command string, replace it with its expanded value
+ */
+-(NSString*)ReplaceMacroWithValue:(NSString*)originalString macro:(NSString*)macro value:(NSString*)value;
+{
+  NSString* localMacro = [NSString stringWithFormat:@"%@%@%@", [[STStataParser MacroDelimitersCharacters] objectAtIndex:0], macro, [[STStataParser MacroDelimitersCharacters] objectAtIndex:1]];
+  NSString* globalMacro = [NSString stringWithFormat:@"%@%@", [[STStataParser MacroDelimitersCharacters] objectAtIndex:2], macro];
+
+  NSString* modifiedString = [[originalString stringByReplacingOccurrencesOfString:localMacro withString:value]
+                              stringByReplacingOccurrencesOfString:globalMacro withString:value];
+  return modifiedString;
 }
 
 // Determines the path of a file where table data is located.
