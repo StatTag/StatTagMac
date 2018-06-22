@@ -9,11 +9,11 @@
 #import <XCTest/XCTest.h>
 #import "StatTagFramework.h"
 
-@interface StatTagParserBaseParserStataTests : XCTestCase
+@interface StatTagStataParserTests : XCTestCase
 
 @end
 
-@implementation StatTagParserBaseParserStataTests
+@implementation StatTagStataParserTests
 
 - (void)setUp {
   [super setUp];
