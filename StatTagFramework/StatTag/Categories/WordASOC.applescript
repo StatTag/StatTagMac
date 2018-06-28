@@ -417,7 +417,7 @@ on insertTextboxAtRangeStart:theRangeStart andRangeEnd:theRangeEnd forShapeName:
 
       #create the textbox - NOTE you can't store the reference to the created object from here - why? no idea!
       create textbox selection
-      
+
       #get and store our new list of shapes so we can compare to the original and find the new one
       set updatedShapes to (get shapes of active document)
       
@@ -435,7 +435,6 @@ on insertTextboxAtRangeStart:theRangeStart andRangeEnd:theRangeEnd forShapeName:
       set pageWidth to page width of page setup of active document
       set pageWidth to (pageWidth - (2 * lMargin))
       
-      
       repeat with myShape in newShapes
         #	display dialog (name of aShape as string)
         set name of myShape to shapeName
@@ -451,9 +450,11 @@ on insertTextboxAtRangeStart:theRangeStart andRangeEnd:theRangeEnd forShapeName:
         --https://msdn.microsoft.com/en-us/library/bb214041%28v=office.12%29.aspx?f=255&MSPPError=-2147217396
         #set wrap type of wrap format of myShape to 7
         # NOTE: using the constant value of 7 sets the wrap format correctly, but (for some reason) changes
-        # the myShape reference to point to the NEXT textbox shape in the document.  We are using the top/bottom
-        # wrapping style as it produces similar layout to inline (7), and doesn't cause this issue.
-        set wrap type of wrap format of myShape to wrap top bottom
+        # the myShape reference to point to the NEXT textbox shape in the document.  We are using the square
+        # wrapping style as it produces similar layout to inline (7), and doesn't cause this issue.  Note that
+        # also previously tried top/bottom wrapping style, but this also casued problems where the textbox
+        # would appear before the text where it was inserted.
+        set wrap type of wrap format of myShape to wrap square
         set allow overlap of wrap format of myShape to false
 
         --we need to compute the size of the shape and then resize to fit the contents
@@ -472,7 +473,6 @@ on insertTextboxAtRangeStart:theRangeStart andRangeEnd:theRangeEnd forShapeName:
       #set selection start of selection to theRangeEnd
       #set selection end of selection to theRangeEnd
       type paragraph selection
-
   end tell
 
 end insertTextboxAtRangeStart:andRangeEnd:forShapeName:withShapetext:andFontSize:andFontFace:
