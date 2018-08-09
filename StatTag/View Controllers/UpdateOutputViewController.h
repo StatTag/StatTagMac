@@ -22,7 +22,6 @@ IB_DESIGNABLE
 -(void)allTagsDidChange:(UpdateOutputViewController*)controller;
 @end
 
-
 @interface UpdateOutputViewController : NSViewController <UpdateOutputProgressDelegate, TagEditorViewControllerDelegate, NSTableViewDelegate> {
   __weak NSTextField *labelOnDemandSearchText;
   __weak NSButton *buttonOnDemandSelectAll;
@@ -48,6 +47,7 @@ IB_DESIGNABLE
 @property (weak) IBOutlet NSButton *buttonOnDemandSelectNone;
 @property (weak) IBOutlet NSTableView *tableViewOnDemand;
 @property (weak) IBOutlet NSButton *buttonRefresh;
+@property (weak) IBOutlet NSButton *buttonInsert;
 
 @property (strong) IBOutlet NSArrayController *onDemandTags;
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12121" systemVersion="17F77" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12121"/>
         <capability name="box content view" minToolsVersion="7.0"/>
@@ -10,12 +10,12 @@
         <customObject id="-2" userLabel="File's Owner" customClass="TagEditorViewController">
             <connections>
                 <outlet property="buttonCancel" destination="NoP-JE-Fei" id="YVQ-hZ-G9P"/>
-                <outlet property="buttonSave" destination="ADP-pv-QJY" id="4gs-IM-oIc"/>
                 <outlet property="codeEditingPanel" destination="7d6-L2-EtB" id="ZW1-yz-fvD"/>
                 <outlet property="codeFileList" destination="4lW-4l-jLh" id="rr8-pY-skf"/>
                 <outlet property="labelInstructionText" destination="27e-Xe-bfn" id="clo-uc-hoO"/>
                 <outlet property="listCodeFile" destination="XiB-LI-d7f" id="b7h-oc-8PC"/>
                 <outlet property="propertiesStackView" destination="asj-x8-Tj3" id="Ien-dk-Tjf"/>
+                <outlet property="saveSegment" destination="KG1-jb-j30" id="Oxw-tr-39N"/>
                 <outlet property="sourceEditor" destination="rGg-7P-f2W" id="LXO-OU-gnL"/>
                 <outlet property="sourceView" destination="6Lh-06-MJS" id="1t5-JA-11G"/>
                 <outlet property="tagBasicProperties" destination="qi8-eH-f6G" id="qiB-si-JRX"/>
@@ -233,18 +233,8 @@
                         <constraint firstItem="MwM-vN-j9x" firstAttribute="top" secondItem="Ohh-Td-ZVq" secondAttribute="bottom" id="wrm-LR-xPj"/>
                     </constraints>
                 </customView>
-                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ADP-pv-QJY">
-                    <rect key="frame" x="885" y="13" width="70" height="32"/>
-                    <buttonCell key="cell" type="push" title="Save" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="NGe-8s-ba0">
-                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
-                    </buttonCell>
-                    <connections>
-                        <action selector="save:" target="-2" id="Pfm-Vl-O7J"/>
-                    </connections>
-                </button>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="NoP-JE-Fei">
-                    <rect key="frame" x="795" y="13" width="82" height="32"/>
+                    <rect key="frame" x="780" y="13" width="82" height="32"/>
                     <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Il9-AR-kOE">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
@@ -256,19 +246,44 @@ Gw
                         <action selector="cancel:" target="-2" id="QgG-DO-jfC"/>
                     </connections>
                 </button>
+                <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="KG1-jb-j30">
+                    <rect key="frame" x="874" y="18" width="77" height="24"/>
+                    <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="momentary" id="Tmx-sO-9P5" customClass="NSSegmentedCellNoDelay">
+                        <font key="font" metaFont="system"/>
+                        <segments>
+                            <segment label="Save" tag="1"/>
+                            <segment image="NSTouchBarGoDownTemplate" width="16">
+                                <nil key="label"/>
+                                <menu key="menu" id="rOs-Nk-V5k">
+                                    <items>
+                                        <menuItem title="Save and Define Another" id="6Fc-ap-m9y">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="saveAndCreateAnother:" target="-2" id="HlD-GZ-SN0"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </segment>
+                        </segments>
+                        <connections>
+                            <action selector="saveButtonClick:" target="-2" id="2pC-ap-faU"/>
+                        </connections>
+                    </segmentedCell>
+                </segmentedControl>
             </subviews>
             <constraints>
+                <constraint firstAttribute="trailing" secondItem="KG1-jb-j30" secondAttribute="trailing" constant="20" id="0Yv-a9-8CM"/>
                 <constraint firstItem="7d6-L2-EtB" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="0qG-Zm-gJs"/>
-                <constraint firstItem="NoP-JE-Fei" firstAttribute="centerY" secondItem="ADP-pv-QJY" secondAttribute="centerY" id="Cxp-Yi-jeT"/>
-                <constraint firstAttribute="trailing" secondItem="ADP-pv-QJY" secondAttribute="trailing" constant="20" id="MCd-97-fDi"/>
-                <constraint firstAttribute="bottom" secondItem="ADP-pv-QJY" secondAttribute="bottom" constant="20" id="MZ8-DW-hkl"/>
                 <constraint firstAttribute="trailing" secondItem="9bD-7j-Tah" secondAttribute="trailing" id="OBY-RZ-lNg"/>
                 <constraint firstItem="9bD-7j-Tah" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="OKO-Jn-62V"/>
+                <constraint firstItem="KG1-jb-j30" firstAttribute="top" secondItem="9bD-7j-Tah" secondAttribute="bottom" constant="20" id="UE6-pz-61x"/>
                 <constraint firstAttribute="bottom" secondItem="7d6-L2-EtB" secondAttribute="bottom" id="UNQ-FB-Ohb"/>
                 <constraint firstItem="NoP-JE-Fei" firstAttribute="top" secondItem="9bD-7j-Tah" secondAttribute="bottom" constant="20" id="bqL-9N-GuJ"/>
                 <constraint firstItem="9bD-7j-Tah" firstAttribute="leading" secondItem="7d6-L2-EtB" secondAttribute="trailing" id="hx2-MX-b6F"/>
                 <constraint firstItem="7d6-L2-EtB" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="pJ3-6W-fhj"/>
-                <constraint firstItem="ADP-pv-QJY" firstAttribute="leading" secondItem="NoP-JE-Fei" secondAttribute="trailing" constant="20" id="pPH-W5-9ol"/>
+                <constraint firstAttribute="bottom" secondItem="KG1-jb-j30" secondAttribute="bottom" constant="20" id="tP2-xi-8N5"/>
+                <constraint firstItem="KG1-jb-j30" firstAttribute="leading" secondItem="NoP-JE-Fei" secondAttribute="trailing" constant="20" id="zcp-Fe-gHR"/>
             </constraints>
             <point key="canvasLocation" x="292.5" y="488"/>
         </customView>
@@ -285,4 +300,7 @@ Gw
         <viewController id="22w-xs-BC6" userLabel="Tag Preview Disclosure View Controller" customClass="DisclosureViewController"/>
         <viewController id="rGg-7P-f2W" customClass="ScintillaEmbeddedViewController"/>
     </objects>
+    <resources>
+        <image name="NSTouchBarGoDownTemplate" width="16" height="30"/>
+    </resources>
 </document>

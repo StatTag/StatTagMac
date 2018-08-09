@@ -554,11 +554,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StatTag/View Controllers/UpdateOutputViewController.m"
-            timestampString = "532531386.04932"
+            timestampString = "554244633.001917"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "386"
-            endingLineNumber = "386"
+            startingLineNumber = "390"
+            endingLineNumber = "390"
             landmarkName = "-editTag:"
             landmarkType = "7">
          </BreakpointContent>
@@ -570,11 +570,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StatTag/View Controllers/UpdateOutputViewController.m"
-            timestampString = "532531386.049559"
+            timestampString = "554244633.001917"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "92"
-            endingLineNumber = "92"
+            startingLineNumber = "93"
+            endingLineNumber = "93"
             landmarkName = "-viewDidAppear"
             landmarkType = "7">
          </BreakpointContent>
@@ -1403,8 +1403,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "467"
             endingLineNumber = "467"
-            landmarkName = "@implementation STFieldGenerator"
-            landmarkType = "3">
+            landmarkName = "+InsertEmpty:preserveFormatting:"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1478,11 +1478,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StatTagFramework/StatTag/Models/STDocumentManager.m"
-            timestampString = "545661023.031914"
+            timestampString = "554315881.564977"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1437"
-            endingLineNumber = "1437"
+            startingLineNumber = "1448"
+            endingLineNumber = "1448"
             landmarkName = "-InsertTagsInDocument:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1494,11 +1494,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StatTagFramework/StatTag/Models/STDocumentManager.m"
-            timestampString = "545661023.031914"
+            timestampString = "554315881.564977"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1417"
-            endingLineNumber = "1417"
+            startingLineNumber = "1428"
+            endingLineNumber = "1428"
             landmarkName = "-InsertTagsInDocument:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1558,11 +1558,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StatTagFramework/StatTag/Models/STDocumentManager.m"
-            timestampString = "545661023.031914"
+            timestampString = "554315881.564977"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1430"
-            endingLineNumber = "1430"
+            startingLineNumber = "1441"
+            endingLineNumber = "1441"
             landmarkName = "-InsertTagsInDocument:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1574,11 +1574,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StatTagFramework/StatTag/Models/STDocumentManager.m"
-            timestampString = "545661023.031914"
+            timestampString = "554315881.564977"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1415"
-            endingLineNumber = "1415"
+            startingLineNumber = "1426"
+            endingLineNumber = "1426"
             landmarkName = "-InsertTagsInDocument:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1718,11 +1718,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "StatTagFramework/StatTag/Models/STDocumentManager.m"
-            timestampString = "545661023.031914"
+            timestampString = "554315881.564977"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1456"
-            endingLineNumber = "1456"
+            startingLineNumber = "1467"
+            endingLineNumber = "1467"
             landmarkName = "-InsertTagsInDocument:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1999,6 +1999,38 @@
             continueAfterRunningActions = "No"
             scope = "0"
             stopOnStyle = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "StatTagFramework/StatTag/Models/STFieldGenerator.m"
+            timestampString = "554314944.0252939"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "202"
+            endingLineNumber = "202"
+            landmarkName = "+InsertField:displayValue:macroButtonName:tagIdentifier:withDoc:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "StatTag/View Controllers/TagEditorViewController.m"
+            timestampString = "555532864.476656"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "536"
+            endingLineNumber = "536"
+            landmarkName = "-saveAndClose:"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -26,6 +26,7 @@
 @class TagEditorViewController;
 @protocol TagEditorViewControllerDelegate <NSObject>
 - (void)dismissTagEditorController:(TagEditorViewController*)controller withReturnCode:(StatTagResponseState)returnCode andTag:(STTag*)tag;
+- (void)tagsShouldRefreshForCodeFile:(STCodeFile*)codeFile;
 @end
 
 @interface TagEditorViewController : NSViewController <NSTextFieldDelegate, TagBasicPropertiesControllerDelegate, ValuePropertiesControllerDelegate, TablePropertiesControllerDelegate> {
@@ -100,6 +101,12 @@
  we're making this public so our "something changed with the code file" notifications can cancel/close the editor when necessary
 */
 - (IBAction)cancel:(id)sender;
+
+
+@property (weak) IBOutlet NSSegmentedControl *saveSegment;
+
+- (IBAction)saveAndCreateAnother:(id)sender;
+- (IBAction)saveButtonClick:(id)sender;
 
 
 /*

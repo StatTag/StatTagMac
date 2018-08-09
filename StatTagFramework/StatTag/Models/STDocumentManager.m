@@ -1193,6 +1193,12 @@ used to create the Word document.
         STMSWord2011TextRange* range = [selection textObject];
         [self CreateTagField:range tagIdentifier:[tag Name] displayValue:[tag FormattedResult] tag:tag withDoc:doc];
       }
+      
+      //reset the selection so we don't overwrite our new field(s)
+      //move the selection to the end of the current selection
+      [app selection].selectionStart = [[app selection] selectionEnd];
+      [app selection].selectionEnd = [[app selection] selectionEnd];
+      
     }
   }
   @catch (NSException *exception) {
@@ -1204,6 +1210,8 @@ used to create the Word document.
     //Marshal.ReleaseComObject(document);
   }
 
+  
+  
   return addedFields;
   //NSLog(@"InsertField - Finished");
 
@@ -1403,6 +1411,9 @@ Insert an StatTag field at the currently specified document range.
   //NSInteger responseStatus = 0;
   STStatsManagerExecuteResult* allResults = [[STStatsManagerExecuteResult alloc] init];
   allResults.Success = true;
+
+  STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
+
   
   @try
   {

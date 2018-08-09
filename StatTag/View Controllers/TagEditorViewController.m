@@ -58,7 +58,7 @@
 STCodeFile* codeFile;
 STTag* _originalTag;
 //NSString* TagType;
-
+bool SaveOccurred;
 
 //NSString* instructionTitleText;
 //NSString* allowedCommandsText;
@@ -67,6 +67,12 @@ STTag* _originalTag;
 //https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/CocoaBindings/Tasks/images.html
 
 static void *TagTypeContext = &TagTypeContext;
+
+
+typedef enum {
+  SaveActionTypeSaveAndClose = 1,
+  SaveActionTypeSaveAndCreateAnother = 2
+} SaveActionType;
 
 
 -(void)startObservingEditorDirectives
@@ -159,16 +165,19 @@ static void *TagTypeContext = &TagTypeContext;
 }
 
 -(void)viewDidLayout {
-  
 }
 
 -(void)viewDidAppear {
   [self startObservingEditorDirectives];
+  [self initializeTagInfo];
+}
 
+-(void)initializeTagInfo
+{
   if(_documentManager != nil) {
     //every time this view appears we need to completely refresh all code files
     [_codeFileList removeObjects:[_codeFileList arrangedObjects]];
-
+    
     //add the code files - but only the accessible code files
     
     //NSPredicate* predicate = [NSPredicate predicateWithFormat:@"fileAccessibleAtPath == %@", @"YES"];
@@ -185,12 +194,12 @@ static void *TagTypeContext = &TagTypeContext;
     
     //in either case - we're going to default to the top-most object in the code file list
     [self setCodeFile:nil];
-
+    
     if(_tag != nil) {
       if([[self tag] Name] == nil) {
         [[self tag] setName:@""];
       }
-
+      
       if([[self tag] ValueFormat] == nil) {
         [[self tag] setValueFormat:[[STValueFormat alloc] init]];
       }
@@ -235,14 +244,14 @@ static void *TagTypeContext = &TagTypeContext;
     } else {
       //probably a new tag
       _originalTag = nil;
-
+      
       
       [[self tag] setName:@""];
       //create a new tag and set some defaults
       [self setTag:[[STTag alloc] init]];
       [[self tag] setType:[STConstantsTagType Value]];
       //ack... I'd rather get this from the array controller, but...
-
+      
       //if we have a code file that was active in the tag list UI, try to set the code file selection to that if we're editing
       if([self originallySelectedCodeFile])
       {
@@ -262,7 +271,7 @@ static void *TagTypeContext = &TagTypeContext;
       [[self tag] setFigureFormat:f];
       [[self tag] setType:[STConstantsTagType Value]];
       [self UpdateForType:[[self tag] Type]];
-
+      
       
       //EWW - not doing this - we're going to just let cocoa bindings handle it
       // that _is_ different - we're selecting the code file and not saying "hey, choose a code file"
@@ -368,7 +377,18 @@ static void *TagTypeContext = &TagTypeContext;
 }
 
 
-- (IBAction)save:(id)sender {
+- (IBAction)saveAndCreateAnother:(id)sender
+{
+  [self validateSave:SaveActionTypeSaveAndCreateAnother];
+}
+
+- (IBAction)saveButtonClick:(id)sender
+{
+  [self validateSave:SaveActionTypeSaveAndClose];
+}
+
+-(void)validateSave:(SaveActionType)actionAfterSave
+{
   //NOTE: we're not saving yet - this is all save VALIDATION
   
   NSError* saveError;
@@ -407,16 +427,16 @@ static void *TagTypeContext = &TagTypeContext;
       }
     }
     //}
-
+    
   }
   else {
     NSMutableDictionary *errorDetail;
     errorDetail = [NSMutableDictionary dictionary];
     [errorDetail setValue:[NSString stringWithFormat:@"Please supply a tag name"] forKey:NSLocalizedDescriptionKey];
     saveError = [NSError errorWithDomain:@"com.stattag.StatTag" code:100 userInfo:errorDetail];
-
+    
   }
-
+  
   if(saveError == nil)
   {
     NSArray<NSNumber*>* selectedIndices = [[self sourceEditor ] GetSelectedIndices];
@@ -443,7 +463,7 @@ static void *TagTypeContext = &TagTypeContext;
       [[self tag] setLineEnd:[selectedIndices valueForKeyPath:@"@max.self"]];
     }
   }
-
+  
   if(saveError == nil)
   {
     if([[[self tag] Type] isEqualToString:[STConstantsTagType Value]]) {
@@ -457,7 +477,7 @@ static void *TagTypeContext = &TagTypeContext;
       saveError = [NSError errorWithDomain:@"com.stattag.StatTag" code:100 userInfo:errorDetail];
     }
   }
-
+  
   if(saveError != nil) {
     //oops! something bad happened - tell the user
     [NSApp presentError:saveError];
@@ -473,21 +493,32 @@ static void *TagTypeContext = &TagTypeContext;
     [alert beginSheetModalForWindow:[[self view] window] completionHandler:^(NSModalResponse returnCode) {
       //button orders are the order in which they're created above
       if (returnCode == NSAlertSecondButtonReturn) {
-        [self saveAndClose];
+        [self saveAndClose:actionAfterSave];
       }
     }];
   } else {
-    [self saveAndClose];
+    [self saveAndClose:actionAfterSave];
   }
-  
-  
 }
 
--(void)saveAndClose {
+- (IBAction)save:(id)sender {
+  [self validateSave:SaveActionTypeSaveAndClose];
+}
+
+-(void)createNewEmptyTag
+{
+  _tag = nil;
+  [self initializeTagInfo];
+}
+
+-(void)saveAndClose:(SaveActionType)actionAfterSave {
   
   //NOTE: this assumes validation already occured in "save"
   
+  SaveOccurred = YES;
+  
   NSError* saveError;
+  NSMutableDictionary *errorDetail = [NSMutableDictionary dictionary];
   
   [[[self tag] CodeFile] setContent:[NSMutableArray arrayWithArray:[[_sourceEditor string] componentsSeparatedByString: @"\r\n"]]];
   BOOL edited = [[self documentManager] EditTag:[self tag] existingTag:_originalTag];
@@ -497,14 +528,40 @@ static void *TagTypeContext = &TagTypeContext;
     return;
   }
 
-  NSMutableDictionary *errorDetail = [NSMutableDictionary dictionary];
-  if(edited == YES || [errorDetail count] == 0)
+
+  if(actionAfterSave == SaveActionTypeSaveAndCreateAnother)
   {
-    [self stopObservingNotifications];
-    [_delegate dismissTagEditorController:self withReturnCode:(StatTagResponseState)OK andTag:[self tag]];
+    //FIXME: this is wrong - just shimming this in here for the moment, but we should handle this differently
+    //now that we've updated the code file, reload the editor so we can pull in the updated code file
+    [self setCodeFile:nil];
+    //[[self documentManager] LoadAllTagsFromCodeFiles];//expensive - can we refesh the tag list from just one code file? (the selected one)
+    
+    for(STCodeFile* file in [_documentManager GetCodeFileList]) {
+      if([file FilePath] == [[[self tag] CodeFile] FilePath])
+      {
+        [file LoadTagsFromContent];
+        if ([_delegate respondsToSelector:@selector(respondsToSelector:)])
+        {
+          [[self delegate] tagsShouldRefreshForCodeFile:file];
+        }
+        //FIXME: we also need to call back to the delegate to refresh its tag list - otherwise, on cancel, the tag list is wrong
+      }
+    }
+    
+    [self createNewEmptyTag];
+    //FIXME: should we stop observing notifications? revisit
     return;
+  } else   if(actionAfterSave == SaveActionTypeSaveAndClose)
+  {
+    if(edited == YES || [errorDetail count] == 0)
+    {
+      [self stopObservingNotifications];
+      [_delegate dismissTagEditorController:self withReturnCode:(StatTagResponseState)OK andTag:[self tag]];
+      return;
+    }
   }
   
+  //FIXME: we're never going to hit this
   //something bad happened... we should probably have better error handling...
   [errorDetail setValue:[NSString stringWithFormat:@"StatTag was not able to save changes"] forKey:NSLocalizedDescriptionKey];
   saveError = [NSError errorWithDomain:@"com.stattag.StatTag" code:100 userInfo:errorDetail];
