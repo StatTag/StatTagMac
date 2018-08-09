@@ -1127,41 +1127,34 @@ used to create the Word document.
 
 //MARK: add / update
 
+-(NSMutableArray<NSNumber*>*) InsertField:(id)tag
+{
+  return [self InsertField:tag insertPlaceholder:FALSE];
+}
+
 /**
  Given an tag, insert the result into the document at the current cursor position.
  
  @remark This method assumes the tag result is already refreshed.  It does not attempt to refresh or recalculate it.
  */
--(NSMutableArray<NSNumber*>*) InsertField:(id)tag {
+-(NSMutableArray<NSNumber*>*) InsertField:(id)tag insertPlaceholder:(BOOL)insertPlaceholder {
   //NSLog(@"InsertField for Tag");
   if([tag isKindOfClass:[STFieldTag class]]) {
-    return [self InsertFieldWithFieldTag:tag];
+    return [self InsertFieldWithFieldTag:tag insertPlaceholder:insertPlaceholder];
   } else if ([tag isKindOfClass:[STTag class]]) {
-    return [self InsertFieldWithFieldTag:[[STFieldTag alloc] initWithTag:tag]];
+    return [self InsertFieldWithFieldTag:[[STFieldTag alloc] initWithTag:tag] insertPlaceholder:insertPlaceholder];
   }
 
   return nil;
 }
 
-/**
- Given a tag, insert a placeholder field into the document at the current cursor position.
- */
--(NSMutableArray<NSNumber*>*) InsertFieldPlaceholder:(id)tag {
-  if([tag isKindOfClass:[STFieldTag class]]) {
-    return [self InsertFieldPlaceholderWithFieldTag:tag];
-  } else if ([tag isKindOfClass:[STTag class]]) {
-    return [self InsertFieldPlaceholderWithFieldTag:[[STFieldTag alloc] initWithTag:tag]];
-  }
-
-  return nil;
-}
 
 /**
  Given an tag, insert the result into the document at the current cursor position.
 
  @remark This method assumes the tag result is already refreshed.  It does not attempt to refresh or recalculate it.
  */
--(NSMutableArray<NSNumber*>*) InsertFieldWithFieldTag:(STFieldTag*)tag {
+-(NSMutableArray<NSNumber*>*) InsertFieldWithFieldTag:(STFieldTag*)tag insertPlaceholder:(BOOL)insertPlaceholder {
   //NSLog(@"InsertField - Started");
 
   NSMutableArray<NSNumber*>* addedFields = nil;
@@ -1175,7 +1168,7 @@ used to create the Word document.
     [[NSNotificationCenter defaultCenter] postNotificationName:@"tagUpdateStart" object:self userInfo:@{@"tagName":[tag Name], @"codeFileName":[[tag CodeFile] FileName], @"type" : @"field"}];
   });
   
-  if([[tag Type] isEqualToString:[STConstantsTagType Figure]]) {
+  if(!insertPlaceholder && [[tag Type] isEqualToString:[STConstantsTagType Figure]]) {
     //NSLog(@"Detected a Figure tag");
     [self InsertImage:tag];
     return addedFields;
@@ -1193,18 +1186,19 @@ used to create the Word document.
 
       // If the tag is a table, and the cell index is not set, it means we are inserting the entire
       // table into the document.  Otherwise, we are able to just insert a single table cell.
-      if ([[tag Type] isEqualToString: [STConstantsTagType Verbatim]])
+      if (!insertPlaceholder && [[tag Type] isEqualToString: [STConstantsTagType Verbatim]])
       {
         [self Log:@"Inserting verbatim output"];
         [self InsertVerbatim:selection tag:tag];
       }
-      else if([tag IsTableTag] && [tag TableCellIndex] == nil) {
+      else if(!insertPlaceholder && [tag IsTableTag] && [tag TableCellIndex] == nil) {
         //NSLog(@"Inserting a new table tag");
         addedFields = [self InsertTable:selection tag:tag];
       } else {
         //NSLog(@"Inserting a single tag field");
         STMSWord2011TextRange* range = [selection textObject];
-        [self CreateTagField:range tagIdentifier:[tag Name] displayValue:[tag FormattedResult] tag:tag withDoc:doc];
+        NSString* displayName = (insertPlaceholder ? [NSString stringWithFormat:@"[ %@ ]", [tag Name]] : [tag FormattedResult]);
+        [self CreateTagField:range tagIdentifier:[tag Name] displayValue:displayName tag:tag withDoc:doc];
       }
       
       //reset the selection so we don't overwrite our new field(s)
@@ -1229,51 +1223,6 @@ used to create the Word document.
   //NSLog(@"InsertField - Finished");
 
 }
-
-/**
- Given a tag, insert a placeholder field into the document at the current cursor position.
- */
--(NSMutableArray<NSNumber*>*) InsertFieldPlaceholderWithFieldTag:(STFieldTag*)tag {
-  //NSLog(@"InsertField - Started");
-
-  NSMutableArray<NSNumber*>* addedFields = nil;
-
-  if(tag == nil) {
-    //NSLog(@"The tag is null");
-    return addedFields;
-  }
-
-  dispatch_async(dispatch_get_main_queue(), ^{
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"tagUpdateStart" object:self userInfo:@{@"tagName":[tag Name], @"codeFileName":[[tag CodeFile] FileName], @"type" : @"field"}];
-  });
-
-  @try {
-    @autoreleasepool {
-      STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
-      STMSWord2011Document* __unused doc = [app activeDocument];
-      STMSWord2011SelectionObject* selection = [app selection];
-      if(selection == nil) {
-        //NSLog(@"There is no active selection");
-        return addedFields;
-      }
-
-      STMSWord2011TextRange* range = [selection textObject];
-      NSString* displayName = [NSString stringWithFormat:@"[ %@ ]", [tag Name]];
-      [self CreateTagField:range tagIdentifier:[tag Name] displayValue:displayName tag:tag withDoc:doc];
-
-      //reset the selection so we don't overwrite our new field(s)
-      //move the selection to the end of the current selection
-      [app selection].selectionStart = [[app selection] selectionEnd];
-      [app selection].selectionEnd = [[app selection] selectionEnd];
-    }
-  }
-  @catch (NSException *exception) {
-    NSLog(@"%@", exception.reason);
-  }
-
-  return addedFields;
-}
-
 
 /**
 Insert an StatTag field at the currently specified document range.
@@ -1460,7 +1409,7 @@ Insert an StatTag field at the currently specified document range.
 /**
   Performs the insertion of tags into a document as fields.
 */
--(STStatsManagerExecuteResult*)InsertTagsInDocument:(NSArray<STTag*>*)tags
+-(STStatsManagerExecuteResult*)InsertTagsInDocument:(NSArray<STTag*>*)tags insertPlaceholder:(BOOL)insertPlaceholder
 {
 //  Cursor.Current = Cursors.WaitCursor;
 //  Globals.ThisAddIn.Application.ScreenUpdating = false;
@@ -1504,7 +1453,7 @@ Insert an StatTag field at the currently specified document range.
 
       @try
       {
-        NSArray<NSNumber*>* fields = [self InsertField:tag];
+        NSArray<NSNumber*>* fields = [self InsertField:tag insertPlaceholder:insertPlaceholder];
         if (fields != nil) {
           [addedFields addObjectsFromArray:fields];
         }
@@ -1530,9 +1479,10 @@ Insert an StatTag field at the currently specified document range.
     NSSet<STTag*> *uniqueTags = [orderedSet set];
     updatedTags = [[NSMutableArray<STTag*> alloc] initWithArray:[uniqueTags allObjects]];
 
-    for (STTag* updatedTag in updatedTags)
-    {
-      [self UpdateFields:[[STUpdatePair alloc] init:updatedTag newItem:updatedTag] ignoreIndexes:addedFields];
+    if (!insertPlaceholder) {
+      for (STTag* updatedTag in updatedTags) {
+        [self UpdateFields:[[STUpdatePair alloc] init:updatedTag newItem:updatedTag] ignoreIndexes:addedFields];
+      }
     }
   }
   @catch (NSException* exception)
@@ -1556,47 +1506,6 @@ Insert an StatTag field at the currently specified document range.
 //  [[NSNotificationCenter defaultCenter] postNotificationName:@"allTagUpdatesComplete" object:self userInfo:@{@"responseState":[NSNumber numberWithInteger:responseStatus]}];
   return allResults;
 
-}
-
-/**
- Performs the insertion of tag placeholders into a document as fields.
- */
--(STStatsManagerExecuteResult*)InsertTagPlaceholdersInDocument:(NSArray<STTag*>*)tags
-{
-  STStatsManagerExecuteResult* allResults = [[STStatsManagerExecuteResult alloc] init];
-  allResults.Success = true;
-
-  @try
-  {
-    NSMutableArray<STTag*>* updatedTags = [[NSMutableArray<STTag*> alloc] init];
-    NSMutableArray<STCodeFile*>* refreshedFiles = [[NSMutableArray<STCodeFile*> alloc] init];
-
-    NSMutableArray<NSNumber*>* addedFields = [[NSMutableArray alloc] init];
-    for (STTag* tag in tags)
-    {
-      @try
-      {
-        NSArray<NSNumber*>* fields = [self InsertFieldPlaceholder:tag];
-        if (fields != nil) {
-          [addedFields addObjectsFromArray:fields];
-        }
-      }
-      @catch (NSException* exception)
-      {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"tagUpdateComplete" object:self userInfo:@{@"tagName":[tag Name], @"tagID":[tag Id], @"codeFileName":[[tag CodeFile] FileName], @"type" : @"tag", @"no_result" : [NSNumber numberWithBool:YES], @"exception":exception}];
-        allResults.Success = false;
-        [[allResults FailedTags] addObject:tag];
-      }
-    }
-
-  }
-  @catch (NSException* exception)
-  {
-    [[self Logger] WriteException:exception];
-    @throw exception;
-  }
-
-  return allResults;
 }
 
 
