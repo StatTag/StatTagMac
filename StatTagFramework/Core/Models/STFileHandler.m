@@ -39,7 +39,8 @@
   }
   
   NSString *fileString = [NSString stringWithContentsOfURL:urlWithScheme encoding:NSUTF8StringEncoding error:error];
-  NSArray *stringArray = [fileString componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+  NSString *modifiedString = [fileString stringByReplacingOccurrencesOfString:@"\r\n" withString:@"\n"];
+  NSArray *stringArray = [modifiedString componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
   return stringArray;
 }
 + (NSString*) ReadAllLinesAsStringBlock:(NSURL*)filePath error:(NSError**)error {

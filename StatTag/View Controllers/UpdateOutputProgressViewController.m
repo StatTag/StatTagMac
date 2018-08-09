@@ -102,7 +102,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
           [progressText setStringValue:@"Starting to insert tags..."];
         });
-        STStatsManagerExecuteResult* result = [_documentManager InsertTagsInDocument:[self tagsToProcess]];
+        STStatsManagerExecuteResult* result = [_documentManager InsertTagPlaceholdersInDocument:[self tagsToProcess]];
         dispatch_async(dispatch_get_main_queue(), ^{
           
           [progressIndicator setIndeterminate:YES];
