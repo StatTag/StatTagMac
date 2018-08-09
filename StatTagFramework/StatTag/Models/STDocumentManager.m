@@ -1260,6 +1260,11 @@ used to create the Word document.
       STMSWord2011TextRange* range = [selection textObject];
       NSString* displayName = [NSString stringWithFormat:@"[ %@ ]", [tag Name]];
       [self CreateTagField:range tagIdentifier:[tag Name] displayValue:displayName tag:tag withDoc:doc];
+
+      //reset the selection so we don't overwrite our new field(s)
+      //move the selection to the end of the current selection
+      [app selection].selectionStart = [[app selection] selectionEnd];
+      [app selection].selectionEnd = [[app selection] selectionEnd];
     }
   }
   @catch (NSException *exception) {
