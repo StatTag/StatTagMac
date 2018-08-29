@@ -53,7 +53,8 @@
 -(void)resetTagUI
 {
   NSLog(@"TagBasicPropertiesController - resetting tag UI");
-  [[self tagNameTextbox] setStringValue:[[self tag] Name]];
+  NSString* tagName = [[self tag] Name] == nil ? @"" : [[self tag] Name];
+  [[self tagNameTextbox] setStringValue:tagName];
   [[self tagTypeList] selectItemAtIndex:0];
 
   if([[self delegate] respondsToSelector:@selector(tagTypeDidChange:)]) {
