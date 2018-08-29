@@ -43,6 +43,8 @@
   BOOL _showTagValuePropertiesView;
   BOOL _editable;
   STCodeFile* _originallySelectedCodeFile;
+  
+  NSInteger _scintillaLastLineNumber;
 }
 
 @property (strong, nonatomic) STTag* tag;

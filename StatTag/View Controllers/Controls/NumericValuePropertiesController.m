@@ -26,6 +26,20 @@
   }
 }
 
+-(void)resetTagUI
+{
+  NSLog(@"NumericValuePropertiesController - resetting tag UI");
+
+  [self setDecimalPlaces:0];
+  [self setUseThousands:NO];
+  if([[self delegate] respondsToSelector:@selector(decimalPlacesDidChange:)]) {
+    [[self delegate] decimalPlacesDidChange:self];
+  }
+  if([[self delegate] respondsToSelector:@selector(useThousandsSeparatorDidChange:)]) {
+    [[self delegate] useThousandsSeparatorDidChange:self];
+  }
+}
+
 - (IBAction)stepperChangeDecimalPlaces:(id)sender {
   if([[self delegate] respondsToSelector:@selector(decimalPlacesDidChange:)]) {
     [[self delegate] decimalPlacesDidChange:self];

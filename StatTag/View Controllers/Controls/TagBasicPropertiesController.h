@@ -23,7 +23,7 @@
 @class STTag;
 
 @interface TagBasicPropertiesController : NSViewController {
-  
+  STTag* _tag;
 }
 
 @property (strong) STTag* tag;
@@ -41,8 +41,9 @@
 @property (weak) IBOutlet NSPopUpButton *tagTypeList;
 @property (strong) IBOutlet NSArrayController *tagTypeArrayController;
 
-
 //delegate
 @property (nonatomic, weak) id<TagBasicPropertiesControllerDelegate> delegate;
+
+//-(void)resetTagUI;
 
 @end

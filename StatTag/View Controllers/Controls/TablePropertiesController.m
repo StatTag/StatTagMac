@@ -141,5 +141,21 @@
   [alert runModal];
 }
 
+-(void)resetTagUI
+{
+  NSLog(@"TablePropertiesController - resetting tag UI");
+}
+
+-(STTag*)tag
+{
+  return _tag;
+}
+
+-(void)setTag:(STTag *)tag
+{
+  _tag = tag;
+  [self resetTagUI];
+}
+
 
 @end

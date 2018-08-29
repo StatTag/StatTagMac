@@ -23,7 +23,9 @@
 
 @class STTag;
 
-@interface ValuePropertiesController : NSViewController <NumericValuePropertiesControllerDelegate, PercentagePropertiesControllerDelegate>
+@interface ValuePropertiesController : NSViewController <NumericValuePropertiesControllerDelegate, PercentagePropertiesControllerDelegate> {
+  STTag* _tag;
+}
 
 @property (strong) STTag* tag;
 
@@ -55,6 +57,6 @@
 @property (strong) IBOutlet PercentagePropertiesController *percentagePropertiesController;
 @property (strong) IBOutlet DateTimePropertiesController *dateTimePropertiesController;
 
-
+//-(void)resetTagUI;
 
 @end

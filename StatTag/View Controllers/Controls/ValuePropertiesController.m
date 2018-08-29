@@ -37,8 +37,12 @@
     self.tag.ValueFormat = f;
     [self didChangeValueForKey:@"self.tag.ValueFormat.FormatType"];
   }
+  [self setUIPropertiesForTag];
   
-  
+}
+
+-(void)setUIPropertiesForTag
+{
   self.numericPropertiesController.decimalPlaces = [[[self tag] ValueFormat] DecimalPlaces];
   self.numericPropertiesController.useThousands = [[[self tag] ValueFormat] UseThousands];
   self.numericPropertiesController.enableThousandsControl = YES;
@@ -50,6 +54,7 @@
   self.dateTimePropertiesController.tag = [self tag]; // being a wee bit inconsistent here...
   
   [self displayChildViews];
+
 }
 
 -(void)displayChildViews {
@@ -79,12 +84,23 @@
   return self;
 }
 
+-(void)resetTagUI
+{
+  NSLog(@"ValuePropertiesController - resetting tag UI");
+
+  [self setUIPropertiesForTag];
+  [[self numericPropertiesController] resetTagUI];
+  
+//  [self setUIPropertiesForTag];
+
+//  [_delegate valueTypeDidChange:self];
+//  [[self numericPropertiesController] resetTagUI];
+}
 
 - (IBAction)selectValueType:(id)sender {
   [self displayChildViews];
   [_delegate valueTypeDidChange:self];
 }
-
 
 - (void)decimalPlacesDidChange:(NumericValuePropertiesController*)controller {
   [[[self tag] ValueFormat] setDecimalPlaces:[controller decimalPlaces]];
@@ -95,5 +111,15 @@
 }
 
 
+-(STTag*)tag
+{
+  return _tag;
+}
+
+-(void)setTag:(STTag *)tag
+{
+  _tag = tag;
+  [self resetTagUI];
+}
 
 @end

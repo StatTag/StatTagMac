@@ -32,7 +32,6 @@
   return [super initWithNibName:@"TagBasicPropertiesController" bundle:nil];
 }
 
-
 -(id) initWithCoder:(NSCoder *)coder {
   self = [super initWithCoder:coder];
   if(self) {
@@ -51,14 +50,41 @@
   }
 }
 
+-(void)resetTagUI
+{
+  NSLog(@"TagBasicPropertiesController - resetting tag UI");
+  [[self tagNameTextbox] setStringValue:[[self tag] Name]];
+  [[self tagTypeList] selectItemAtIndex:0];
+
+  if([[self delegate] respondsToSelector:@selector(tagTypeDidChange:)]) {
+    [[self delegate] tagTypeDidChange:self];
+  }
+}
+
 - (IBAction)tagFrequencySelectionChanged:(id)sender {
-  [_delegate tagFrequencyDidChange:self];
+  if([[self delegate] respondsToSelector:@selector(tagFrequencyDidChange:)]) {
+    [[self delegate] tagFrequencyDidChange:self];
+  }
 }
 
 - (IBAction)tagTypeChanged:(id)sender {
-  [_delegate tagTypeDidChange:self];
+  if([[self delegate] respondsToSelector:@selector(tagTypeDidChange:)]) {
+    [[self delegate] tagTypeDidChange:self];
+  }
 }
 
+
+-(STTag*)tag
+{
+  return _tag;
+}
+
+-(void)setTag:(STTag *)tag
+{
+  _tag = tag;
+  
+  [self resetTagUI];
+}
 
 
 //http://www.tomdalling.com/blog/cocoa/implementing-your-own-cocoa-bindings/

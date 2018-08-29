@@ -10,7 +10,9 @@
 
 @class STTag;
 
-@interface TagPreviewController : NSViewController
+@interface TagPreviewController : NSViewController {
+  STTag* _tag;
+}
 
 @property STTag* tag;
 

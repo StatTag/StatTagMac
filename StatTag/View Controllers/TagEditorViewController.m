@@ -54,6 +54,7 @@
 
 @synthesize originallySelectedCodeFile = _originallySelectedCodeFile;
 
+
 //@synthesize propertiesStackView = _propertiesStackView;
 STCodeFile* codeFile;
 STTag* _originalTag;
@@ -245,11 +246,18 @@ typedef enum {
       //probably a new tag
       _originalTag = nil;
       
-      
       [[self tag] setName:@""];
       //create a new tag and set some defaults
       [self setTag:[[STTag alloc] init]];
+
       [[self tag] setType:[STConstantsTagType Value]];
+      STValueFormat* v = [[STValueFormat alloc] init];
+      STTableFormat* t = [[STTableFormat alloc] init];
+      STFigureFormat* f = [[STFigureFormat alloc] init];
+      [v setFormatType:[STConstantsValueFormatType Default]];
+      [[self tag] setValueFormat:v];
+      [[self tag] setTableFormat:t];
+      [[self tag] setFigureFormat:f];
       //ack... I'd rather get this from the array controller, but...
       
       //if we have a code file that was active in the tag list UI, try to set the code file selection to that if we're editing
@@ -262,14 +270,8 @@ typedef enum {
       
       [self setCodeFile:[[self tag] CodeFile]];
       [[self tag] setRunFrequency:[STConstantsRunFrequency OnDemand]];
-      STValueFormat* v = [[STValueFormat alloc] init];
-      STTableFormat* t = [[STTableFormat alloc] init];
-      STFigureFormat* f = [[STFigureFormat alloc] init];
-      [v setFormatType:[STConstantsValueFormatType Default]];
-      [[self tag] setValueFormat:v];
-      [[self tag] setTableFormat:t];
-      [[self tag] setFigureFormat:f];
-      [[self tag] setType:[STConstantsTagType Value]];
+
+      //      [[self tag] setType:[STConstantsTagType Value]];
       [self UpdateForType:[[self tag] Type]];
       
       
@@ -301,10 +303,15 @@ typedef enum {
 
 -(void) SetInstructionText
 {
-  
+  NSString* statPackage;
+
+  //FIXME: this is bogus and gross... need to fix this to check for the "No Value" selection when we have a default list set
+  if([[self listCodeFile] selectedItem] == nil || [[self listCodeFile] indexOfSelectedItem] < 0 || ![[[[[self listCodeFile] selectedItem] representedObject] className] isEqualToString:@"STCodeFile"])
+  {
+    return;
+  }
   STCodeFile* selectedCodeFile = (STCodeFile*)[[[self listCodeFile] selectedItem] representedObject];
-  NSString* statPackage = (selectedCodeFile == nil) ? @"tag" : [selectedCodeFile StatisticalPackage];
-  
+  statPackage = (selectedCodeFile == nil) ? @"tag" : [selectedCodeFile StatisticalPackage];
 
   [self willChangeValueForKey:@"instructionTitleText"];
   // ----------- BOLD OUR KEYWORDS
@@ -505,10 +512,50 @@ typedef enum {
   [self validateSave:SaveActionTypeSaveAndClose];
 }
 
+//-(void)resetTagUI
+//{
+////  [self initializeStackView];
+////  [[self tagBasicProperties] setTag:[self tag]];
+////  [[self tagValueProperties] setTag:[self tag]];
+////  [[self tagTableProperties] setTag:[self tag]];
+//  
+////  [[self tagBasicProperties] resetTagUI];
+////  [[self tagValueProperties] resetTagUI];
+////  [[self tagTableProperties] resetTagUI];
+////  [[self tagPreviewView] resetTagUI];
+//  //and reset the ui
+//}
+
 -(void)createNewEmptyTag
 {
-  _tag = nil;
+  //reset the tag
+  //[self willChangeValueForKey:@"tag"];
+  //_tag = nil;
+  [self setTag:nil];
+  //[self didChangeValueForKey:@"tag"];
   [self initializeTagInfo];
+  
+  
+  [[self tagBasicProperties] setTag:[self tag]];
+  [[self tagValueProperties] setTag:[self tag]];
+  [[self tagTableProperties] setTag:[self tag]];
+ 
+  
+//  [self resetTagUI];
+
+//  [self tagTableProperties] reset
+  
+//  [[[self tagBasicProperties] tagNameTextbox] setStringValue:[[self tag] Name]];
+//  [[[self tagBasicProperties] tagTypeList] selectItemAtIndex:0];
+//  [self tagValueProperties] ta
+  
+  //  [[self tagNameTextbox] setStringValue:@""];
+  //  [[self tagTypeList] selectItemAtIndex:0];
+
+  
+  //reset the position of our selected line in scintilla so we bounce around less
+  [_sourceEditor scrollToLine:_scintillaLastLineNumber];
+
 }
 
 -(void)saveAndClose:(SaveActionType)actionAfterSave {
@@ -516,6 +563,11 @@ typedef enum {
   //NOTE: this assumes validation already occured in "save"
   
   SaveOccurred = YES;
+  
+  //this isn't quite right, but leaving as is for now
+  // we don't want the first selected line - we want the first VISIBLE line
+  // for that to happen we'd need to extend the editor wrapper
+  _scintillaLastLineNumber = [[[_sourceEditor GetSelectedIndices] firstObject] integerValue];
   
   NSError* saveError;
   NSMutableDictionary *errorDetail = [NSMutableDictionary dictionary];
@@ -534,7 +586,7 @@ typedef enum {
     //FIXME: this is wrong - just shimming this in here for the moment, but we should handle this differently
     //now that we've updated the code file, reload the editor so we can pull in the updated code file
     [self setCodeFile:nil];
-    //[[self documentManager] LoadAllTagsFromCodeFiles];//expensive - can we refesh the tag list from just one code file? (the selected one)
+    [[self documentManager] LoadAllTagsFromCodeFiles];//expensive - can we refesh the tag list from just one code file? (the selected one)
     
     for(STCodeFile* file in [_documentManager GetCodeFileList]) {
       if([file FilePath] == [[[self tag] CodeFile] FilePath])
@@ -598,9 +650,9 @@ typedef enum {
       [[self tag] setValueFormat:numeric];
     }
   }
-
   
-  [self updateTagTypeInformation:[[[controller tagTypeList] selectedItem] representedObject]];
+  [self updateTagTypeInformation: [[self tag] Type]];
+  //[self updateTagTypeInformation:[[[controller tagTypeList] selectedItem] representedObject]];
 }
 
 -(void)updateTagTypeInformation:(NSString*)tagType {
