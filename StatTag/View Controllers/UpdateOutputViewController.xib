@@ -14,6 +14,8 @@
                 <outlet property="buttonRefresh" destination="Ayh-TV-JDO" id="CP4-s1-FGp"/>
                 <outlet property="labelOnDemandSearchText" destination="z0B-2V-ur8" id="3bB-yd-K1z"/>
                 <outlet property="onDemandTags" destination="2Pn-me-eZS" id="683-KG-qRR"/>
+                <outlet property="popoverView" destination="tBB-8X-KQE" id="7mq-z9-bCb"/>
+                <outlet property="popoverViewController" destination="Nzx-UT-rTN" id="x7B-oj-bcV"/>
                 <outlet property="removeTagButton" destination="E2A-ht-I8P" id="Zda-Tc-1vA"/>
                 <outlet property="tableViewOnDemand" destination="j0b-3T-J9s" id="jlN-zb-RZY"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
@@ -216,6 +218,38 @@
                                             <binding destination="2Pn-me-eZS" name="value" keyPath="arrangedObjects.self" id="d57-CJ-B7Y"/>
                                         </connections>
                                     </tableColumn>
+                                    <tableColumn identifier="" width="22" minWidth="10" maxWidth="3.4028234663852886e+38" id="DlA-Ll-fmN">
+                                        <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
+                                            <font key="font" metaFont="smallSystem"/>
+                                            <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </tableHeaderCell>
+                                        <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" title="Text Cell" id="1rP-Wk-GYg">
+                                            <font key="font" metaFont="system"/>
+                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                        <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                        <prototypeCellViews>
+                                            <tableCellView id="tOU-te-LCN">
+                                                <rect key="frame" x="507" y="6" width="22" height="17"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <subviews>
+                                                    <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bc2-fc-kvq">
+                                                        <rect key="frame" x="1" y="0.0" width="20" height="20"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSQuickLookTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="Gxo-dP-IuS">
+                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                            <font key="font" metaFont="system"/>
+                                                        </buttonCell>
+                                                        <connections>
+                                                            <action selector="peekAtCode:" target="-2" id="1CQ-XF-4HZ"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                            </tableCellView>
+                                        </prototypeCellViews>
+                                    </tableColumn>
                                     <tableColumn identifier="" width="177" minWidth="40" maxWidth="1000" hidden="YES" id="n3I-0V-z2H" userLabel="Refresh Frequency">
                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Refresh">
                                             <font key="font" metaFont="systemMedium" size="11"/>
@@ -362,10 +396,17 @@
             </connections>
         </arrayController>
         <userDefaultsController representsSharedInstance="YES" id="LhO-aM-weO"/>
+        <viewController id="Nzx-UT-rTN" userLabel="Popover View Controller" customClass="TagCodePeekViewController"/>
+        <popover behavior="t" id="tBB-8X-KQE">
+            <connections>
+                <outlet property="contentViewController" destination="Nzx-UT-rTN" id="HJj-l5-Xu9"/>
+            </connections>
+        </popover>
     </objects>
     <resources>
         <image name="NSActionTemplate" width="14" height="14"/>
         <image name="NSAddTemplate" width="11" height="11"/>
+        <image name="NSQuickLookTemplate" width="19" height="12"/>
         <image name="NSRemoveTemplate" width="11" height="11"/>
         <image name="stattag_tag_purple" width="512" height="512"/>
     </resources>

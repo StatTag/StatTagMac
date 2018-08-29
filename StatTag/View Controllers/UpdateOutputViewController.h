@@ -9,6 +9,8 @@
 #import <Cocoa/Cocoa.h>
 @class STTag;
 @class STDocumentManager;
+@class TagCodePeekViewController;
+
 
 #import "UpdateOutputProgressViewController.h" //for protocol UpdateOutputProgressDelegate
 #import "TagEditorViewController.h"
@@ -22,7 +24,7 @@ IB_DESIGNABLE
 -(void)allTagsDidChange:(UpdateOutputViewController*)controller;
 @end
 
-@interface UpdateOutputViewController : NSViewController <UpdateOutputProgressDelegate, TagEditorViewControllerDelegate, NSTableViewDelegate> {
+@interface UpdateOutputViewController : NSViewController <UpdateOutputProgressDelegate, TagEditorViewControllerDelegate, NSTableViewDelegate, NSPopoverDelegate> {
   __weak NSTextField *labelOnDemandSearchText;
   __weak NSButton *buttonOnDemandSelectAll;
   __weak NSButton *buttonOnDemandSelectNone;
@@ -38,6 +40,8 @@ IB_DESIGNABLE
   NSString* _filterTagFrequency;
   NSString* _filterTagType;
   NSArray<STCodeFile*>* _activeCodeFiles;
+  
+  NSString* _peekTitle;
 }
 
 @property (nonatomic, weak) id<AllTagsDelegate> delegate;
@@ -76,6 +80,12 @@ IB_DESIGNABLE
 
 -(void)loadAllTags;
 -(void)loadTagsForCodeFiles:(NSArray<STCodeFile*>*)codeFiles;
+
+- (IBAction)peekAtCode:(id)sender;
+@property (strong, nonnull) IBOutlet TagCodePeekViewController *popoverViewController;
+@property (strong, nonnull) IBOutlet NSPopover *popoverView;
+@property (strong, nonatomic, nonnull) NSString* peekTitle;
+
 
 //-(BOOL)enableAddTagButton;
 //-(BOOL)enableRemoveTagButton;

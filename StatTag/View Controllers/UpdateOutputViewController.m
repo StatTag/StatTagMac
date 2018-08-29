@@ -14,6 +14,8 @@
 #import "TagEditorViewController.h"
 #import "STDocumentManager+FileMonitor.h"
 #import "NSURL+FileAccess.h"
+#import "TagCodePeekViewController.h"
+
 
 @interface UpdateOutputViewController ()
 
@@ -30,6 +32,8 @@
 @synthesize documentTags = _documentTags;
 @synthesize documentManager = _documentManager;
 @synthesize activeCodeFiles = _activeCodeFiles;
+@synthesize peekTitle = _peekTitle;
+
 
 UpdateOutputProgressViewController* tagUpdateProgressController;
 TagEditorViewController* tagEditorController;
@@ -80,6 +84,9 @@ TagEditorViewController* tagEditorController;
 
 - (void)viewDidLoad {
   [super viewDidLoad];
+  
+  _popoverViewController = [[TagCodePeekViewController alloc] init];
+  _peekTitle = @"Peek";
 }
 
 
@@ -586,6 +593,88 @@ TagEditorViewController* tagEditorController;
   if([[self delegate] respondsToSelector:@selector(allTagsDidChange:)]) {
     [[self delegate] allTagsDidChange:controller];
   }
+}
+
+//MARK: peek popover
+
+- (IBAction)peekAtCode:(id)sender
+{
+  NSLog(@"peeking");
+  
+  [self createPopover];
+  //NOTE: NOT the selected view - the view for the sender
+  NSInteger row = [[self tableViewOnDemand] rowForView:sender];
+
+  if(row == -1) {
+    row = [[self tableViewOnDemand] clickedRow];
+  }
+  if(row > -1)
+  {
+    STTag* peekedTag = [[onDemandTags arrangedObjects] objectAtIndex:row];
+    if(peekedTag != nil)
+    {
+      [[self popoverViewController] setTag:peekedTag];
+      self.popoverView.contentViewController = [self popoverViewController]; //not sure why we have to rebind this
+      [[self popoverView] showRelativeToRect:[sender bounds] ofView:sender preferredEdge:NSMaxYEdge];
+    }
+    else
+    {
+      [[self popoverView] close];
+    }
+  } else {
+    [[self popoverView] close];
+  }
+}
+
+- (void)createPopover
+{
+  if (self.popoverView == nil)
+  {
+    _popoverView = [[NSPopover alloc] init];
+    self.popoverView.contentViewController = [self popoverViewController];
+    self.popoverView.appearance = [NSAppearance appearanceNamed:NSAppearanceNameVibrantLight];
+    self.popoverView.animates = YES;
+    self.popoverView.behavior = NSPopoverBehaviorTransient;
+    self.popoverView.delegate = self;
+  }
+}
+
+
+- (void)popoverWillShow:(NSNotification *)notification
+{
+  NSPopover *popover = notification.object;
+  if (popover != nil)
+  {
+  }
+}
+
+- (void)popoverDidShow:(NSNotification *)notification
+{
+}
+
+- (void)popoverWillClose:(NSNotification *)notification
+{
+  NSString *closeReason = [notification.userInfo valueForKey:NSPopoverCloseReasonKey];
+  if (closeReason)
+  {
+    // closeReason can be:
+    //      NSPopoverCloseReasonStandard
+    //      NSPopoverCloseReasonDetachToWindow
+  }
+}
+
+- (void)popoverDidClose:(NSNotification *)notification
+{
+  NSString *closeReason = [notification.userInfo valueForKey:NSPopoverCloseReasonKey];
+  if (closeReason)
+  {
+    // closeReason can be:
+    //      NSPopoverCloseReasonStandard
+    //      NSPopoverCloseReasonDetachToWindow
+  }
+  
+  // release our popover since it closed
+  _popoverView = nil;
 }
 
 
