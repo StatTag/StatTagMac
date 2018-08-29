@@ -113,8 +113,7 @@
 
 -(NSArray<NSNumber*>*) InsertField:(id)tag;
 
--(STStatsManagerExecuteResult*)InsertTagsInDocument:(NSArray<STTag*>*)tags;
--(STStatsManagerExecuteResult*)InsertTagPlaceholdersInDocument:(NSArray<STTag*>*)tags;
+-(STStatsManagerExecuteResult*)InsertTagsInDocument:(NSArray<STTag*>*)tags insertPlaceholder:(BOOL)insertPlaceholder;
 
 -(BOOL)EditTag:(STTag*)tag existingTag:(STTag*)existingTag;
 
