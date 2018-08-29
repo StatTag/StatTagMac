@@ -72,7 +72,7 @@
                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                 <tableColumns>
-                                    <tableColumn identifier="" width="50" minWidth="10" maxWidth="3.4028234663852886e+38" id="LfL-6H-pQ9">
+                                    <tableColumn identifier="" width="50" minWidth="10" maxWidth="3.4028234663852886e+38" id="LfL-6H-pQ9" userLabel="Icon">
                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
                                             <font key="font" metaFont="smallSystem"/>
                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -142,6 +142,17 @@
                                                             <binding destination="b4b-dR-9Ur" name="value" keyPath="objectValue.CodeFile.FileName" id="rzU-Bf-6FM"/>
                                                         </connections>
                                                     </textField>
+                                                    <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XGm-4g-CaF">
+                                                        <rect key="frame" x="3" y="-2" width="16" height="16"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSQuickLookTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="8Dn-Ig-ckV">
+                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                            <font key="font" metaFont="system"/>
+                                                        </buttonCell>
+                                                        <connections>
+                                                            <action selector="peekAtCode:" target="-2" id="Ugm-7K-6uy"/>
+                                                        </connections>
+                                                    </button>
                                                 </subviews>
                                             </tableCellView>
                                         </prototypeCellViews>
@@ -218,7 +229,7 @@
                                             <binding destination="2Pn-me-eZS" name="value" keyPath="arrangedObjects.self" id="d57-CJ-B7Y"/>
                                         </connections>
                                     </tableColumn>
-                                    <tableColumn identifier="" width="22" minWidth="10" maxWidth="3.4028234663852886e+38" id="DlA-Ll-fmN">
+                                    <tableColumn identifier="" width="22" minWidth="10" maxWidth="3.4028234663852886e+38" hidden="YES" id="DlA-Ll-fmN" userLabel="Peek column">
                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
                                             <font key="font" metaFont="smallSystem"/>
                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -232,7 +243,7 @@
                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                         <prototypeCellViews>
                                             <tableCellView id="tOU-te-LCN">
-                                                <rect key="frame" x="507" y="6" width="22" height="17"/>
+                                                <rect key="frame" x="1" y="6" width="22" height="17"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bc2-fc-kvq">
