@@ -57,8 +57,6 @@ static STCodeFile* codeFile;
 - (void)viewDidLoad {
   [super viewDidLoad];
   // Do view setup here.
-  [[self sourceEditor] setUsesInfoBar:NO];
-  [[self sourceEditor] setEditable:YES];
 }
 
 
@@ -68,6 +66,11 @@ static STCodeFile* codeFile;
   //they still exist, but aren't in the view hierarchy
   //unclear on what I'm missing here
   [ViewUtils fillView:[self sourceView] withView:[[self sourceEditor] view]];
+
+  [[self sourceEditor] hideLineNumbers];
+  [[self sourceEditor] hideSelectionMargin];
+  [[self sourceEditor] setUsesInfoBar:NO];
+  [[self sourceEditor] setEditable:NO];
 }
 
 -(STTag*)tag

@@ -45,5 +45,10 @@
 -(void)setLinMarkerAtIndex:(NSInteger)index;
 -(void)scrollToLine:(NSInteger)startIndex;
 
+-(void)showLineNumbers;
+-(void)hideLineNumbers;
+
+-(void)showSelectionMargin;
+-(void)hideSelectionMargin;
 
 @end
