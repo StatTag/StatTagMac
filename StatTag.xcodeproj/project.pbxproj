@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		3500D5CF1EE066F7006AA0ED /* R.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3500D5CE1EE066F7006AA0ED /* R.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		350943C9214831AC00DAAADC /* STTagCollisionResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 350943C8214831AC00DAAADC /* STTagCollisionResult.m */; };
+		350943CB2148496D00DAAADC /* STTagCollisionResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 350943CA214831C100DAAADC /* STTagCollisionResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3537430B202BF97100325941 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3537430A202BF97100325941 /* libz.tbd */; };
 		35374311202BFB1600325941 /* libXlsxReaderWriter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 35F649A9202BA7FB00CEC7D8 /* libXlsxReaderWriter.a */; };
 		35374313202BFB1D00325941 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 35374312202BFB1D00325941 /* libz.tbd */; };
@@ -486,6 +488,8 @@
 /* Begin PBXFileReference section */
 		3500D5CC1EE066DA006AA0ED /* RCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RCocoa.framework; sourceTree = "<group>"; };
 		3500D5CE1EE066F7006AA0ED /* R.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = R.framework; path = ../../../../Library/Frameworks/R.framework; sourceTree = "<group>"; };
+		350943C8214831AC00DAAADC /* STTagCollisionResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STTagCollisionResult.m; sourceTree = "<group>"; };
+		350943CA214831C100DAAADC /* STTagCollisionResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = STTagCollisionResult.h; sourceTree = "<group>"; };
 		3537430A202BF97100325941 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		35374312202BFB1D00325941 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/usr/lib/libz.tbd; sourceTree = DEVELOPER_DIR; };
 		353D75A1202E191E006CF435 /* balanced.xlsx */ = {isa = PBXFileReference; lastKnownFileType = file; name = balanced.xlsx; path = XLSX/balanced.xlsx; sourceTree = "<group>"; };
@@ -1167,6 +1171,8 @@
 				382C285A1D133BCD00697D6F /* STValueFormat.m */,
 				38B91246201120F300A17458 /* STDocumentMetadata.h */,
 				38B91247201120F300A17458 /* STDocumentMetadata.m */,
+				350943CA214831C100DAAADC /* STTagCollisionResult.h */,
+				350943C8214831AC00DAAADC /* STTagCollisionResult.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1920,6 +1926,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				350943CB2148496D00DAAADC /* STTagCollisionResult.h in Headers */,
 				38C9B2041D109D0A003B571E /* STFigureFormat.h in Headers */,
 				382C28B41D1994DE00697D6F /* STBaseGenerator.h in Headers */,
 				38AD75C81E4924870099752E /* NSString+MD5.h in Headers */,
@@ -2381,6 +2388,7 @@
 				38C9B2051D109D0A003B571E /* STFigureFormat.m in Sources */,
 				386992D71DBD10D400852B6E /* STUIUtility.m in Sources */,
 				382C28AD1D195C2500697D6F /* STFieldTag.m in Sources */,
+				350943C9214831AC00DAAADC /* STTagCollisionResult.m in Sources */,
 				382C28C91D19A24200697D6F /* STValueParameterGenerator.m in Sources */,
 				35F2E7341EE1A94A0086F9D0 /* STRBaseValueFormatter.m in Sources */,
 				38516FCB1DF5B279006989BC /* STDataFileToTable.m in Sources */,

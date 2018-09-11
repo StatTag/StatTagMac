@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 @class STTag;
 @class STCodeFile;
+@class STTagCollisionResult;
 
 @interface STTagUtil : NSObject
 
@@ -37,5 +38,5 @@
  */
 +(BOOL)IsDuplicateLabelInSameFile:(STTag*)tag result:(NSDictionary<STCodeFile*, NSArray<NSNumber*>*>*)result;
 
-
++(STTagCollisionResult*) DetectTagCollision:(STTag*)tag;
 @end
