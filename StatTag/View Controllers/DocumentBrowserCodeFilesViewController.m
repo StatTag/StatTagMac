@@ -107,6 +107,7 @@
   NSInteger numGoodTags = 0;
   NSInteger numDuplicateTags = 0;
   NSInteger numUnlinkedTags = 0;
+  NSInteger numOverlappingTags = 0;
   
   for(STCodeFile* file in [self codeFiles]) {
     [file LoadTagsFromContent];
@@ -124,6 +125,7 @@
   
   //STDuplicateTagResults* duplicateTags = [[[self documentManager] TagManager] FindAllDuplicateTags];
   [self setDuplicateTags: [[[self documentManager] TagManager] FindAllDuplicateTags]];
+  [self setOverlappingTags: [[[self documentManager] TagManager] FindAllOverlappingTags]];
 
   numGoodTags = [tags count];
   for(STTag* t in [self duplicateTags]) {

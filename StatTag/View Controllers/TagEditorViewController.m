@@ -394,13 +394,52 @@ typedef enum {
   [self validateSave:SaveActionTypeSaveAndClose];
 }
 
+-(NSError*) detectStoppableCollision
+{
+  if ([self tag] == nil) {
+    return nil;
+  }
+
+  STTagCollisionResult* collisionResult = [STTagUtil DetectTagCollision:[self tag]];
+  if (collisionResult == nil) {
+    // Unable to fully assess tag collision - assuming there are no issues
+    return nil;
+  }
+  else if ([collisionResult Collision] == NoOverlap) {
+    // There is no overlap detected with this tag and others
+    return nil;
+  }
+  else if ([collisionResult CollidingTag] == nil) {
+    // No coliding tag returned, so we can't really warn the user...
+    return nil;
+  }
+  // FIXME: HANDLE THIS SITUATION
+  // So now we know there's some type of collision.  If we are editing a tag, and the tag collides
+  // with itself, that's fine.  We will properly remove the old tag boundaries and apply the new ones.
+  /*
+   if (OriginalTag != null && collisionResult.CollidingTag.Equals(OriginalTag))
+   {
+   Manager.Logger.WriteMessage(
+   string.Format("Tag collision of type {0}, but tag collides with itself",
+   collisionResult.Collision));
+   return false;
+   }
+   */
+
+  NSMutableDictionary *errorDetail = [NSMutableDictionary dictionary];
+  STTag* collidingTag = [collisionResult CollidingTag];
+  [errorDetail setValue:[NSString stringWithFormat:@"The code that you have selected for your new tag overlaps with an existing tag ('%@').", [collidingTag Name]] forKey:NSLocalizedDescriptionKey];
+  NSError* error = [NSError errorWithDomain:@"com.stattag.StatTag" code:100 userInfo:errorDetail];
+  return error;
+}
+
 -(void)validateSave:(SaveActionType)actionAfterSave
 {
   //NOTE: we're not saving yet - this is all save VALIDATION
-  
+
   NSError* saveError;
   NSError* saveWarning;
-  
+
   NSCharacterSet *ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
   if([[self tag] Name] != nil && [[[[self tag] Name] stringByTrimmingCharactersInSet: ws] length] > 0 )
   {
@@ -412,7 +451,7 @@ typedef enum {
     
     //tag names must be unique within a code file
     // it's allowed (but not ideal) for them to be duplicated between code files
-    
+
     for(STCodeFile* cf in [_documentManager GetCodeFileList]) {
       for(STTag* aTag in [cf Tags]) {
         //FIXME:
@@ -443,7 +482,7 @@ typedef enum {
     saveError = [NSError errorWithDomain:@"com.stattag.StatTag" code:100 userInfo:errorDetail];
     
   }
-  
+
   if(saveError == nil)
   {
     NSArray<NSNumber*>* selectedIndices = [[self sourceEditor ] GetSelectedIndices];
@@ -469,6 +508,10 @@ typedef enum {
       [[self tag] setLineStart:[selectedIndices valueForKeyPath:@"@min.self"]];
       [[self tag] setLineEnd:[selectedIndices valueForKeyPath:@"@max.self"]];
     }
+  }
+
+  if (saveError == nil) {
+    saveError = [self detectStoppableCollision];
   }
   
   if(saveError == nil)

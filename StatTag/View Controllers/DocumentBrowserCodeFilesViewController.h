@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import <StatTagFramework/STDuplicateTagResults.h>
+#import <StatTagFramework/STOverlappingTagResults.h>
 #import "DocumentBrowserTagSummary.h"
 
 @class STCodeFile;
@@ -54,6 +55,7 @@
 
 
 @property (strong, nonatomic)STDuplicateTagResults* duplicateTags;
+@property (strong, nonatomic)STOverlappingTagResults* overlappingTags;
 @property (strong, nonatomic)NSDictionary<NSString*, NSArray<STTag*>*>* unlinkedTags;
 
 -(void)configure;

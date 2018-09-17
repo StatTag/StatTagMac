@@ -16,6 +16,7 @@
 		353D75A4202E191E006CF435 /* balanced.xlsx in Resources */ = {isa = PBXBuildFile; fileRef = 353D75A1202E191E006CF435 /* balanced.xlsx */; };
 		353D75A5202E191E006CF435 /* empty.xlsx in Resources */ = {isa = PBXBuildFile; fileRef = 353D75A2202E191E006CF435 /* empty.xlsx */; };
 		353D75A6202E191E006CF435 /* unbalanced.xlsx in Resources */ = {isa = PBXBuildFile; fileRef = 353D75A3202E191E006CF435 /* unbalanced.xlsx */; };
+		35599224214C5644008B136D /* STOverlappingTagResults.h in Headers */ = {isa = PBXBuildFile; fileRef = 35599220214C55A6008B136D /* STOverlappingTagResults.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		35A70E2C202B5CB4001E3259 /* NSString+SymlinksAndAliases.h in Headers */ = {isa = PBXBuildFile; fileRef = 35A70E2A202B5CB4001E3259 /* NSString+SymlinksAndAliases.h */; };
 		35A70E2D202B5CB4001E3259 /* NSString+SymlinksAndAliases.m in Sources */ = {isa = PBXBuildFile; fileRef = 35A70E2B202B5CB4001E3259 /* NSString+SymlinksAndAliases.m */; };
 		35AE14831F4DE2F100A162C4 /* STCodeParserUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 35AE14821F4DE2F100A162C4 /* STCodeParserUtil.m */; };
@@ -495,6 +496,7 @@
 		353D75A1202E191E006CF435 /* balanced.xlsx */ = {isa = PBXFileReference; lastKnownFileType = file; name = balanced.xlsx; path = XLSX/balanced.xlsx; sourceTree = "<group>"; };
 		353D75A2202E191E006CF435 /* empty.xlsx */ = {isa = PBXFileReference; lastKnownFileType = file; name = empty.xlsx; path = XLSX/empty.xlsx; sourceTree = "<group>"; };
 		353D75A3202E191E006CF435 /* unbalanced.xlsx */ = {isa = PBXFileReference; lastKnownFileType = file; name = unbalanced.xlsx; path = XLSX/unbalanced.xlsx; sourceTree = "<group>"; };
+		35599220214C55A6008B136D /* STOverlappingTagResults.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = STOverlappingTagResults.h; sourceTree = "<group>"; };
 		35A70E2A202B5CB4001E3259 /* NSString+SymlinksAndAliases.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SymlinksAndAliases.h"; sourceTree = "<group>"; };
 		35A70E2B202B5CB4001E3259 /* NSString+SymlinksAndAliases.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SymlinksAndAliases.m"; sourceTree = "<group>"; };
 		35AE14801F4DC69900A162C4 /* StatTagRParserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagRParserTests.m; sourceTree = "<group>"; };
@@ -1173,6 +1175,7 @@
 				38B91247201120F300A17458 /* STDocumentMetadata.m */,
 				350943CA214831C100DAAADC /* STTagCollisionResult.h */,
 				350943C8214831AC00DAAADC /* STTagCollisionResult.m */,
+				35599220214C55A6008B136D /* STOverlappingTagResults.h */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -2004,6 +2007,7 @@
 				38C9B2181D10A8CF003B571E /* STTag.h in Headers */,
 				35F2E7321EE1A93E0086F9D0 /* STRBaseValueFormatter.h in Headers */,
 				382C286A1D1488F200697D6F /* STIGenerator.h in Headers */,
+				35599224214C5644008B136D /* STOverlappingTagResults.h in Headers */,
 				35AE14851F4DE69A00A162C4 /* STCodeParserUtil.h in Headers */,
 				38FF472C1DFF490000A65893 /* STRParser.h in Headers */,
 				385FDD2C1D32F70100AE0FE2 /* STDocumentManager.h in Headers */,
