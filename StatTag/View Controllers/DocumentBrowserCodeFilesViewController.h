@@ -24,6 +24,7 @@
 -(void)codeFilesSetFocusOnTags:(DocumentBrowserCodeFilesViewController*)controller;
 -(void)codeFilesSetFocusOnDuplicateTags:(DocumentBrowserCodeFilesViewController*)controller;
 -(void)codeFilesSetFocusOnUnlinkedTags:(DocumentBrowserCodeFilesViewController*)controller;
+-(void)codeFilesSetFocusOnOverlappingTags:(DocumentBrowserCodeFilesViewController*)controller;
 @end
 
 //FIXME: this is a global... we should move this somewhere else managed by the framework

@@ -226,7 +226,7 @@ typedef enum {
         for (int index = startIndex; index <= endIndex; index++)
         {
           ////NSLog(@"trying to add line at index: %d", index);
-          [_sourceEditor setLinMarkerAtIndex:index];
+          [_sourceEditor setLineMarkerAtIndex:index];
         }
         [_sourceEditor scrollToLine:startIndex];
       }
@@ -413,18 +413,11 @@ typedef enum {
     // No coliding tag returned, so we can't really warn the user...
     return nil;
   }
-  // FIXME: HANDLE THIS SITUATION
   // So now we know there's some type of collision.  If we are editing a tag, and the tag collides
   // with itself, that's fine.  We will properly remove the old tag boundaries and apply the new ones.
-  /*
-   if (OriginalTag != null && collisionResult.CollidingTag.Equals(OriginalTag))
-   {
-   Manager.Logger.WriteMessage(
-   string.Format("Tag collision of type {0}, but tag collides with itself",
-   collisionResult.Collision));
-   return false;
-   }
-   */
+  else if (_originalTag != nil && [[collisionResult CollidingTag] Equals:_originalTag usePosition:FALSE]) {
+    return nil;
+  }
 
   NSMutableDictionary *errorDetail = [NSMutableDictionary dictionary];
   STTag* collidingTag = [collisionResult CollidingTag];

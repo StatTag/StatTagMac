@@ -17,11 +17,16 @@
 		353D75A5202E191E006CF435 /* empty.xlsx in Resources */ = {isa = PBXBuildFile; fileRef = 353D75A2202E191E006CF435 /* empty.xlsx */; };
 		353D75A6202E191E006CF435 /* unbalanced.xlsx in Resources */ = {isa = PBXBuildFile; fileRef = 353D75A3202E191E006CF435 /* unbalanced.xlsx */; };
 		35599224214C5644008B136D /* STOverlappingTagResults.h in Headers */ = {isa = PBXBuildFile; fileRef = 35599220214C55A6008B136D /* STOverlappingTagResults.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		359A93E22159630000F071CA /* OverlappingTagGroupEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 359A93DD2159630000F071CA /* OverlappingTagGroupEntry.m */; };
+		359A93E32159630000F071CA /* OverlappingTagsDetailRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 359A93DF2159630000F071CA /* OverlappingTagsDetailRowView.m */; };
+		359A93E42159630000F071CA /* OverlappingTagsGroupRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 359A93E12159630000F071CA /* OverlappingTagsGroupRowView.m */; };
 		35A70E2C202B5CB4001E3259 /* NSString+SymlinksAndAliases.h in Headers */ = {isa = PBXBuildFile; fileRef = 35A70E2A202B5CB4001E3259 /* NSString+SymlinksAndAliases.h */; };
 		35A70E2D202B5CB4001E3259 /* NSString+SymlinksAndAliases.m in Sources */ = {isa = PBXBuildFile; fileRef = 35A70E2B202B5CB4001E3259 /* NSString+SymlinksAndAliases.m */; };
 		35AE14831F4DE2F100A162C4 /* STCodeParserUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 35AE14821F4DE2F100A162C4 /* STCodeParserUtil.m */; };
 		35AE14851F4DE69A00A162C4 /* STCodeParserUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 35AE14841F4DE2FE00A162C4 /* STCodeParserUtil.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		35AE14871F4E253000A162C4 /* StatTagUtilityCodeParserUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 35AE14861F4E253000A162C4 /* StatTagUtilityCodeParserUtilTests.m */; };
+		35C218E22152C81E00E16BC7 /* OverlappingTagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35C218E02152C81E00E16BC7 /* OverlappingTagsViewController.m */; };
+		35C218E32152C81E00E16BC7 /* OverlappingTagsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 35C218E12152C81E00E16BC7 /* OverlappingTagsViewController.xib */; };
 		35CE4F9C1F141EBF00B1221B /* STRVerbatimDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 35CE4F9B1F141EBF00B1221B /* STRVerbatimDevice.m */; };
 		35DD5320202BAFB000449124 /* libXlsxReaderWriter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 35F649A9202BA7FB00CEC7D8 /* libXlsxReaderWriter.a */; };
 		35F2E7321EE1A93E0086F9D0 /* STRBaseValueFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 35F2E7311EE1A93E0086F9D0 /* STRBaseValueFormatter.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -497,12 +502,21 @@
 		353D75A2202E191E006CF435 /* empty.xlsx */ = {isa = PBXFileReference; lastKnownFileType = file; name = empty.xlsx; path = XLSX/empty.xlsx; sourceTree = "<group>"; };
 		353D75A3202E191E006CF435 /* unbalanced.xlsx */ = {isa = PBXFileReference; lastKnownFileType = file; name = unbalanced.xlsx; path = XLSX/unbalanced.xlsx; sourceTree = "<group>"; };
 		35599220214C55A6008B136D /* STOverlappingTagResults.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = STOverlappingTagResults.h; sourceTree = "<group>"; };
+		359A93DC2159630000F071CA /* OverlappingTagGroupEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OverlappingTagGroupEntry.h; sourceTree = "<group>"; };
+		359A93DD2159630000F071CA /* OverlappingTagGroupEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OverlappingTagGroupEntry.m; sourceTree = "<group>"; };
+		359A93DE2159630000F071CA /* OverlappingTagsDetailRowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OverlappingTagsDetailRowView.h; sourceTree = "<group>"; };
+		359A93DF2159630000F071CA /* OverlappingTagsDetailRowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OverlappingTagsDetailRowView.m; sourceTree = "<group>"; };
+		359A93E02159630000F071CA /* OverlappingTagsGroupRowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OverlappingTagsGroupRowView.h; sourceTree = "<group>"; };
+		359A93E12159630000F071CA /* OverlappingTagsGroupRowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OverlappingTagsGroupRowView.m; sourceTree = "<group>"; };
 		35A70E2A202B5CB4001E3259 /* NSString+SymlinksAndAliases.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SymlinksAndAliases.h"; sourceTree = "<group>"; };
 		35A70E2B202B5CB4001E3259 /* NSString+SymlinksAndAliases.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SymlinksAndAliases.m"; sourceTree = "<group>"; };
 		35AE14801F4DC69900A162C4 /* StatTagRParserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagRParserTests.m; sourceTree = "<group>"; };
 		35AE14821F4DE2F100A162C4 /* STCodeParserUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STCodeParserUtil.m; sourceTree = "<group>"; };
 		35AE14841F4DE2FE00A162C4 /* STCodeParserUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = STCodeParserUtil.h; sourceTree = "<group>"; };
 		35AE14861F4E253000A162C4 /* StatTagUtilityCodeParserUtilTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagUtilityCodeParserUtilTests.m; sourceTree = "<group>"; };
+		35C218DF2152C81E00E16BC7 /* OverlappingTagsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OverlappingTagsViewController.h; sourceTree = "<group>"; };
+		35C218E02152C81E00E16BC7 /* OverlappingTagsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OverlappingTagsViewController.m; sourceTree = "<group>"; };
+		35C218E12152C81E00E16BC7 /* OverlappingTagsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OverlappingTagsViewController.xib; sourceTree = "<group>"; };
 		35C8025B202B8E4B004A2DA5 /* XLSX */ = {isa = PBXFileReference; lastKnownFileType = folder; path = XLSX; sourceTree = "<group>"; };
 		35CE4F9A1F141EAF00B1221B /* STRVerbatimDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = STRVerbatimDevice.h; sourceTree = "<group>"; };
 		35CE4F9B1F141EBF00B1221B /* STRVerbatimDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STRVerbatimDevice.m; sourceTree = "<group>"; };
@@ -997,6 +1011,22 @@
 			name = XLSX;
 			sourceTree = "<group>";
 		};
+		35C218E42152C82500E16BC7 /* OverlappingTags */ = {
+			isa = PBXGroup;
+			children = (
+				359A93DC2159630000F071CA /* OverlappingTagGroupEntry.h */,
+				359A93DD2159630000F071CA /* OverlappingTagGroupEntry.m */,
+				359A93DE2159630000F071CA /* OverlappingTagsDetailRowView.h */,
+				359A93DF2159630000F071CA /* OverlappingTagsDetailRowView.m */,
+				359A93E02159630000F071CA /* OverlappingTagsGroupRowView.h */,
+				359A93E12159630000F071CA /* OverlappingTagsGroupRowView.m */,
+				35C218DF2152C81E00E16BC7 /* OverlappingTagsViewController.h */,
+				35C218E02152C81E00E16BC7 /* OverlappingTagsViewController.m */,
+				35C218E12152C81E00E16BC7 /* OverlappingTagsViewController.xib */,
+			);
+			name = OverlappingTags;
+			sourceTree = "<group>";
+		};
 		35F649A1202BA7FA00CEC7D8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -1350,6 +1380,7 @@
 				386689611E9CF58C00A5A1CB /* DuplicateTags */,
 				3828F33D1EDB20B600DABA43 /* ScintillaViews */,
 				3828F33C1EDB20A300DABA43 /* SamplesInstaller */,
+				35C218E42152C82500E16BC7 /* OverlappingTags */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -2303,6 +2334,7 @@
 				38B53A1E1E8A9D3700F29A7C /* DocumentBrowserCodeFilesViewController.xib in Resources */,
 				38C3CC771DA428E700CEA70C /* DisclosureViewController.xib in Resources */,
 				38AB41841DA1564C00EA464C /* TagEditorViewController.xib in Resources */,
+				35C218E32152C81E00E16BC7 /* OverlappingTagsViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2537,6 +2569,7 @@
 				385AE28F1FBC980A001F4DA1 /* UnlinkedFieldCheckProgressViewController.m in Sources */,
 				38F803461D9C4CEB00C8F1EA /* SCMarkerHandle.mm in Sources */,
 				38C3CC7A1DA4298E00CEA70C /* TagEditorViewController.m in Sources */,
+				359A93E42159630000F071CA /* OverlappingTagsGroupRowView.m in Sources */,
 				387632411DA7D70500680898 /* PercentagePropertiesController.m in Sources */,
 				38FFDD161E8C3937004D92C3 /* STCodeFile+PackageIcon.m in Sources */,
 				386992CF1DB6CE2A00852B6E /* STDocumentManager+FileMonitor.m in Sources */,
@@ -2546,6 +2579,7 @@
 				381CC7641EFFFF8D00CC220E /* STTag+StatisticalPackage.m in Sources */,
 				386992CC1DB6C72300852B6E /* STCodeFile+FileMonitor.m in Sources */,
 				38C4656A1FA2399C0080586E /* StatTagWordDocumentPendingValidations.m in Sources */,
+				359A93E32159630000F071CA /* OverlappingTagsDetailRowView.m in Sources */,
 				38E22ABA1E9D4388005DFFE9 /* TagCodePeekViewController.m in Sources */,
 				384764B01DA52D6400FCDABE /* TablePropertiesController.m in Sources */,
 				38FACC821E894E3200E3BB82 /* DocumentBrowserViewController.m in Sources */,
@@ -2556,6 +2590,7 @@
 				38D8B1C71D95872A00BF878A /* UpdateOutputProgressViewController.m in Sources */,
 				385221CC1DAE98CB005E804B /* SCMarkerCollection.mm in Sources */,
 				3828C8161E9D0AB8000A4159 /* DuplicateTagDetailRowView.m in Sources */,
+				359A93E22159630000F071CA /* OverlappingTagGroupEntry.m in Sources */,
 				38F803531D9DAF7800C8F1EA /* UIUtility.m in Sources */,
 				383F3B981DA679AE0069C78E /* TagPreviewController.m in Sources */,
 				3836F5A91D92EBCB00BF0DD4 /* MainTabViewController.m in Sources */,
@@ -2567,6 +2602,7 @@
 				3871BA6A1E9E919600B00C22 /* UnlinkedTagsDetailRowView.m in Sources */,
 				38C2C4531EB2907600B95EEA /* STCodeFile+FileHelper.m in Sources */,
 				38F8034C1D9C579000C8F1EA /* SCLineCollection.mm in Sources */,
+				35C218E22152C81E00E16BC7 /* OverlappingTagsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

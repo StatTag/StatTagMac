@@ -9,11 +9,13 @@
 #import <Cocoa/Cocoa.h>
 #import "DocumentBrowserCodeFilesViewController.h"
 #import <StatTagFramework/STDuplicateTagResults.h>
+#import <StatTagFramework/STOverlappingTagResults.h>
 
 
 #import "DuplicateTagsViewController.h"
 #import "UpdateOutputViewController.h"
 #import "UnlinkedTagsViewController.h"
+#import "OverlappingTagsViewController.h"
 
 
 @class STMSWord2011Document;
@@ -22,6 +24,7 @@
 @class DocumentBrowserCodeFilesViewController;
 @class UnlinkedTagsViewController;
 @class DuplicateTagsViewController;
+@class OverlappingTagsViewController;
 @class STTag;
 //@protocol DuplicateTagManagerDelegate;
 //@protocol UnlinkedTagsManagerDelegate;
@@ -42,6 +45,7 @@
   NSMutableArray<STTag*>* _tags;
   STDuplicateTagResults* _duplicateTags;
   NSDictionary<NSString*, NSArray<STTag*>*>* _unlinkedTags;
+  STOverlappingTagResults* _overlappingTags;
 }
 
 @property (nonatomic, strong) STMSWord2011Document* document;
@@ -54,11 +58,12 @@
 @property (strong) IBOutlet UpdateOutputViewController *tagListViewController;
 @property (strong) IBOutlet UnlinkedTagsViewController *unlinkedTagsViewController;
 @property (strong) IBOutlet DuplicateTagsViewController *duplicateTagsViewController;
-
+@property (strong) IBOutlet OverlappingTagsViewController *overlappingTagsViewController;
 
 @property (strong, nonatomic)NSMutableArray<STTag*>* tags;
 @property (strong, nonatomic)STDuplicateTagResults* duplicateTags;
 @property (strong, nonatomic)NSDictionary<NSString*, NSArray<STTag*>*>* unlinkedTags;
+@property (strong, nonatomic)STOverlappingTagResults* overlappingTags;
 
 -(void)startMonitoringCodeFiles;
 -(void)stopMonitoringCodeFiles;
