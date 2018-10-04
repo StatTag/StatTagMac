@@ -298,4 +298,16 @@ static BOOL valuePreviewsEnabled = NO;
   
 }
 
+
+-(STTag*)tag
+{
+  return _tag;
+}
+
+-(void)setTag:(STTag *)tag
+{
+  _tag = tag;
+}
+
+
 @end

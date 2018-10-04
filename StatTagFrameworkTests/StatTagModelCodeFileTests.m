@@ -211,12 +211,15 @@
 -(void)testGuessStatisticalPackage_Valid {
 
   XCTAssert([[STConstantsStatisticalPackages Stata] isEqualToString:[STCodeFile GuessStatisticalPackage:@"C:\\test.do"]]);
+  XCTAssert([[STConstantsStatisticalPackages Stata] isEqualToString:[STCodeFile GuessStatisticalPackage:@"C:\\test.DO"]]);
   XCTAssert([[STConstantsStatisticalPackages Stata] isEqualToString:[STCodeFile GuessStatisticalPackage:@"  C:\\test.do  "]]);
   
   XCTAssert([[STConstantsStatisticalPackages R] isEqualToString:[STCodeFile GuessStatisticalPackage:@"C:\\test.r"]]);
+  XCTAssert([[STConstantsStatisticalPackages R] isEqualToString:[STCodeFile GuessStatisticalPackage:@"C:\\test.R"]]);
   XCTAssert([[STConstantsStatisticalPackages R] isEqualToString:[STCodeFile GuessStatisticalPackage:@"  C:\\test.r  "]]);
 
   XCTAssert([[STConstantsStatisticalPackages SAS] isEqualToString:[STCodeFile GuessStatisticalPackage:@"C:\\test.sas"]]);
+  XCTAssert([[STConstantsStatisticalPackages SAS] isEqualToString:[STCodeFile GuessStatisticalPackage:@"C:\\test.SAS"]]);
   XCTAssert([[STConstantsStatisticalPackages SAS] isEqualToString:[STCodeFile GuessStatisticalPackage:@"  C:\\test.sas  "]]);
 
 }
@@ -226,6 +229,10 @@
   XCTAssert([@"" isEqualToString:[STCodeFile GuessStatisticalPackage:@"C:\\test.txt"]]);
   XCTAssert([@"" isEqualToString:[STCodeFile GuessStatisticalPackage:@"C:\\test.dor"]]);
   XCTAssert([@"" isEqualToString:[STCodeFile GuessStatisticalPackage:@"C:\\test.r t"]]);
+  XCTAssert([@"" isEqualToString:[STCodeFile GuessStatisticalPackage:@"C:\\test.sa"]]);
+  XCTAssert([@"" isEqualToString:[STCodeFile GuessStatisticalPackage:@"C:\\testsas"]]);
+  XCTAssert([@"" isEqualToString:[STCodeFile GuessStatisticalPackage:@"C:\\testr"]]);
+  XCTAssert([@"" isEqualToString:[STCodeFile GuessStatisticalPackage:@"C:\\testdo"]]);
 
 }
 
@@ -639,6 +646,190 @@
   [codeFile RemoveTag:[STTag tagWithName:@"Test" andCodeFile:nil andType:[STConstantsTagType Value]]];
   XCTAssertEqual(2, [[codeFile Tags] count]);
   XCTAssertEqual(9, [[codeFile Content] count]);
+}
+
+-(void)testRemoveCollidingTagsMixedOuterInner
+{
+  MockIFileHandler* mock = [[MockIFileHandler alloc] init];
+  NSArray<NSString*>* lines = [NSArray<NSString*> arrayWithObjects:
+                               @"attach(mtcars)",
+                               @"##>>>ST:Table(Label=\"Tag 1\", Frequency=\"Always\", Type=\"Numeric\", AllowInvalid=True, Decimals=1, Thousands=False)",
+                               @"mtcars$mpg",
+                               @"##>>>ST:Table(Label=\"Tag 2\", Frequency=\"Always\", Type=\"Numeric\", AllowInvalid=True, Decimals=0, Thousands=False)",
+                               @"mtcars",
+                               @"##<<<",
+                               @"##<<<",
+                               @"##>>>ST:Table(Label=\"Tag 3\", Frequency=\"Always\", Type=\"Numeric\", AllowInvalid=True, Decimals=1, Thousands=False)",
+                               @"mtcars$mpg",
+                               @"##>>>ST:Table(Label=\"Tag 4\", Frequency=\"Always\", Type=\"Numeric\", AllowInvalid=True, Decimals=0, Thousands=False)",
+                               @"mtcars",
+                               @"##<<<",
+                               @"##<<<",
+                               @"detach(mtcars)",
+                               @"##>>>ST:Verbatim(Label=\"Tag 5\", Frequency=\"Always\")",
+                               @"mtcars$mpg",
+                               @"##<<<",
+                               nil];
+  mock.lines = lines;
+
+  STCodeFile* codeFile = [[STCodeFile alloc] init:mock];
+  codeFile.StatisticalPackage = [STConstantsStatisticalPackages R];
+  [codeFile LoadTagsFromContent];
+  XCTAssertEqual(3, [[codeFile Tags] count]);  // Only detects 3 out of the 5
+
+  STTag *removeTag = [STTag tagWithName:@"Tag 1" andCodeFile:codeFile];
+  removeTag.LineStart = [NSNumber numberWithInt:1];
+  removeTag.LineEnd = [NSNumber numberWithInt:6];
+  [codeFile RemoveCollidingTag:removeTag];
+  
+  // Note that we offset lines by 2 (from 9, 11), since we are removing an earlier tag first
+  removeTag = [STTag tagWithName:@"Tag 4" andCodeFile:codeFile];
+  removeTag.LineStart = [NSNumber numberWithInt:7];
+  removeTag.LineEnd = [NSNumber numberWithInt:9];
+  [codeFile RemoveCollidingTag:removeTag];
+
+  NSArray<NSString*>* expectedLines = [NSArray<NSString*> arrayWithObjects:
+                               @"attach(mtcars)",
+                               @"mtcars$mpg",
+                               @"##>>>ST:Table(Label=\"Tag 2\", Frequency=\"Always\", Type=\"Numeric\", AllowInvalid=True, Decimals=0, Thousands=False)",
+                               @"mtcars",
+                               @"##<<<",
+                               @"##>>>ST:Table(Label=\"Tag 3\", Frequency=\"Always\", Type=\"Numeric\", AllowInvalid=True, Decimals=1, Thousands=False)",
+                               @"mtcars$mpg",
+                               @"mtcars",
+                               @"##<<<",
+                               @"detach(mtcars)",
+                               @"##>>>ST:Verbatim(Label=\"Tag 5\", Frequency=\"Always\")",
+                               @"mtcars$mpg",
+                               @"##<<<",
+                               nil];
+  NSString* expectedString = [expectedLines componentsJoinedByString:@"\n"];
+  NSString* actualString = [[codeFile Content] componentsJoinedByString:@"\n"];
+
+  XCTAssertEqual(13, [[codeFile Content] count]);
+  XCTAssertEqualObjects(expectedString, actualString);
+}
+
+-(void)testRemoveCollidingTagsBothOuter
+{
+  MockIFileHandler* mock = [[MockIFileHandler alloc] init];
+  NSArray<NSString*>* lines = [NSArray<NSString*> arrayWithObjects:
+                               @"attach(mtcars)",
+                               @"##>>>ST:Table(Label=\"Tag 1\", Frequency=\"Always\", Type=\"Numeric\", AllowInvalid=True, Decimals=1, Thousands=False)",
+                               @"mtcars$mpg",
+                               @"##>>>ST:Table(Label=\"Tag 2\", Frequency=\"Always\", Type=\"Numeric\", AllowInvalid=True, Decimals=0, Thousands=False)",
+                               @"mtcars",
+                               @"##<<<",
+                               @"##<<<",
+                               @"##>>>ST:Table(Label=\"Tag 3\", Frequency=\"Always\", Type=\"Numeric\", AllowInvalid=True, Decimals=1, Thousands=False)",
+                               @"mtcars$mpg",
+                               @"##>>>ST:Table(Label=\"Tag 4\", Frequency=\"Always\", Type=\"Numeric\", AllowInvalid=True, Decimals=0, Thousands=False)",
+                               @"mtcars",
+                               @"##<<<",
+                               @"##<<<",
+                               @"detach(mtcars)",
+                               @"##>>>ST:Verbatim(Label=\"Tag 5\", Frequency=\"Always\")",
+                               @"mtcars$mpg",
+                               @"##<<<",
+                               nil];
+  mock.lines = lines;
+
+  STCodeFile* codeFile = [[STCodeFile alloc] init:mock];
+  codeFile.StatisticalPackage = [STConstantsStatisticalPackages R];
+  [codeFile LoadTagsFromContent];
+  XCTAssertEqual(3, [[codeFile Tags] count]);  // Only detects 3 out of the 5
+
+  STTag *removeTag = [STTag tagWithName:@"Tag 3" andCodeFile:codeFile];
+  removeTag.LineStart = [NSNumber numberWithInt:7];
+  removeTag.LineEnd = [NSNumber numberWithInt:12];
+  [codeFile RemoveCollidingTag:removeTag];
+
+  removeTag = [STTag tagWithName:@"Tag 1" andCodeFile:codeFile];
+  removeTag.LineStart = [NSNumber numberWithInt:1];
+  removeTag.LineEnd = [NSNumber numberWithInt:6];
+  [codeFile RemoveCollidingTag:removeTag];
+
+  NSArray<NSString*>* expectedLines = [NSArray<NSString*> arrayWithObjects:
+                                       @"attach(mtcars)",
+                                       @"mtcars$mpg",
+                                       @"##>>>ST:Table(Label=\"Tag 2\", Frequency=\"Always\", Type=\"Numeric\", AllowInvalid=True, Decimals=0, Thousands=False)",
+                                       @"mtcars",
+                                       @"##<<<",
+                                       @"mtcars$mpg",
+                                       @"##>>>ST:Table(Label=\"Tag 4\", Frequency=\"Always\", Type=\"Numeric\", AllowInvalid=True, Decimals=0, Thousands=False)",
+                                       @"mtcars",
+                                       @"##<<<",
+                                       @"detach(mtcars)",
+                                       @"##>>>ST:Verbatim(Label=\"Tag 5\", Frequency=\"Always\")",
+                                       @"mtcars$mpg",
+                                       @"##<<<",
+                                       nil];
+  NSString* expectedString = [expectedLines componentsJoinedByString:@"\n"];
+  NSString* actualString = [[codeFile Content] componentsJoinedByString:@"\n"];
+  
+  XCTAssertEqual(13, [[codeFile Content] count]);
+  XCTAssertEqualObjects(expectedString, actualString);
+}
+
+-(void)testRemoveCollidingTagsBothInner
+{
+  MockIFileHandler* mock = [[MockIFileHandler alloc] init];
+  NSArray<NSString*>* lines = [NSArray<NSString*> arrayWithObjects:
+                               @"attach(mtcars)",
+                               @"##>>>ST:Table(Label=\"Tag 1\", Frequency=\"Always\", Type=\"Numeric\", AllowInvalid=True, Decimals=1, Thousands=False)",
+                               @"mtcars$mpg",
+                               @"##>>>ST:Table(Label=\"Tag 2\", Frequency=\"Always\", Type=\"Numeric\", AllowInvalid=True, Decimals=0, Thousands=False)",
+                               @"mtcars",
+                               @"##<<<",
+                               @"##<<<",
+                               @"##>>>ST:Table(Label=\"Tag 3\", Frequency=\"Always\", Type=\"Numeric\", AllowInvalid=True, Decimals=1, Thousands=False)",
+                               @"mtcars$mpg",
+                               @"##>>>ST:Table(Label=\"Tag 4\", Frequency=\"Always\", Type=\"Numeric\", AllowInvalid=True, Decimals=0, Thousands=False)",
+                               @"mtcars",
+                               @"##<<<",
+                               @"##<<<",
+                               @"detach(mtcars)",
+                               @"##>>>ST:Verbatim(Label=\"Tag 5\", Frequency=\"Always\")",
+                               @"mtcars$mpg",
+                               @"##<<<",
+                               nil];
+  mock.lines = lines;
+
+  STCodeFile* codeFile = [[STCodeFile alloc] init:mock];
+  codeFile.StatisticalPackage = [STConstantsStatisticalPackages R];
+  [codeFile LoadTagsFromContent];
+  XCTAssertEqual(3, [[codeFile Tags] count]);  // Only detects 3 out of the 5
+
+  STTag *removeTag = [STTag tagWithName:@"Tag 4" andCodeFile:codeFile];
+  removeTag.LineStart = [NSNumber numberWithInt:9];
+  removeTag.LineEnd = [NSNumber numberWithInt:11];
+  [codeFile RemoveCollidingTag:removeTag];
+
+  removeTag = [STTag tagWithName:@"Tag 2" andCodeFile:codeFile];
+  removeTag.LineStart = [NSNumber numberWithInt:3];
+  removeTag.LineEnd = [NSNumber numberWithInt:5];
+  [codeFile RemoveCollidingTag:removeTag];
+
+  NSArray<NSString*>* expectedLines = [NSArray<NSString*> arrayWithObjects:
+                                       @"attach(mtcars)",
+                                       @"##>>>ST:Table(Label=\"Tag 1\", Frequency=\"Always\", Type=\"Numeric\", AllowInvalid=True, Decimals=1, Thousands=False)",
+                                       @"mtcars$mpg",
+                                       @"mtcars",
+                                       @"##<<<",
+                                       @"##>>>ST:Table(Label=\"Tag 3\", Frequency=\"Always\", Type=\"Numeric\", AllowInvalid=True, Decimals=1, Thousands=False)",
+                                       @"mtcars$mpg",
+                                       @"mtcars",
+                                       @"##<<<",
+                                       @"detach(mtcars)",
+                                       @"##>>>ST:Verbatim(Label=\"Tag 5\", Frequency=\"Always\")",
+                                       @"mtcars$mpg",
+                                       @"##<<<",
+                                       nil];
+  NSString* expectedString = [expectedLines componentsJoinedByString:@"\n"];
+  NSString* actualString = [[codeFile Content] componentsJoinedByString:@"\n"];
+
+  XCTAssertEqual(13, [[codeFile Content] count]);
+  XCTAssertEqualObjects(expectedString, actualString);
 }
 
 -(void)testUpdateContent {

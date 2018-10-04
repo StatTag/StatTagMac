@@ -9,11 +9,11 @@
 #import <XCTest/XCTest.h>
 #import "StatTagFramework.h"
 
-@interface StatTagParserBaseParserStataTests : XCTestCase
+@interface StatTagStataParserTests : XCTestCase
 
 @end
 
-@implementation StatTagParserBaseParserStataTests
+@implementation StatTagStataParserTests
 
 - (void)setUp {
   [super setUp];
@@ -639,6 +639,38 @@
   XCTAssertFalse([parser IsCapturableBlock:@"test 1\r\nset maxvar 100\r\n"]);
   XCTAssertFalse([parser IsCapturableBlock:@"set maxvar 5000000"]);
   XCTAssertFalse([parser IsCapturableBlock:@"set maxvar 1000\r\nset maxvar 1000\r\ntest 1\r\n test2"]);
+}
+
+
+-(void)testReplaceMacroWithValue
+{
+  STStataParser* parser = [[STStataParser alloc] init];
+  // Test for the `macro' syntax
+  XCTAssert([@"C:\\test\\./test.csv" isEqualToString:[parser ReplaceMacroWithValue:@"`Path'./test.csv" macro:@"Path" value:@"C:\\test\\"]]);
+
+  // Test for the $macro syntax
+  XCTAssert([@"C:\\test\\./test.csv" isEqualToString:[parser ReplaceMacroWithValue:@"$Path./test.csv" macro:@"Path" value:@"C:\\test\\"]]);
+
+  // Not actually a macro, so no replacement
+  XCTAssert([@"Path'./test.csv" isEqualToString:[parser ReplaceMacroWithValue:@"Path'./test.csv" macro:@"Path" value:@"C:\\test\\"]]);
+
+  // Test multiple replacements.  Probably not a realistic code example, but verifying what we expect for output
+  // from the function.
+  XCTAssert([@"C:\\test\\test.csv" isEqualToString:[parser ReplaceMacroWithValue:@"C:\\$Path\\$Path.csv" macro:@"Path" value:@"test"]]);
+  XCTAssert([@"C:\\test\\test.csv" isEqualToString:[parser ReplaceMacroWithValue:@"C:\\`Path'\\`Path'.csv" macro:@"Path" value:@"test"]]);
+  XCTAssert([@"C:\\test\\test.csv" isEqualToString:[parser ReplaceMacroWithValue:@"C:\\`Path'\\$Path.csv" macro:@"Path" value:@"test"]]);
+}
+
+-(void)testHasMacroInCommand
+{
+  STStataParser* parser = [[STStataParser alloc] init];
+  XCTAssertTrue([parser HasMacroInCommand:@"di $Path"]);
+  XCTAssertTrue([parser HasMacroInCommand:@"di `Path'"]);
+  XCTAssertTrue([parser HasMacroInCommand:@"di `Path'  ** Test here"]);
+  XCTAssertTrue([parser HasMacroInCommand:@"  ** Yes, even commented out code: di `Path'  "]);
+
+  XCTAssertFalse([parser HasMacroInCommand:@"di Path'"]);
+  XCTAssertFalse([parser HasMacroInCommand:@"di `Path "]);
 }
 
 @end

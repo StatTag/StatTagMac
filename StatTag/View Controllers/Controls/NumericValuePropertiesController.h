@@ -29,4 +29,6 @@
 
 @property BOOL enableThousandsControl;
 
+-(void)resetTagUI;
+
 @end

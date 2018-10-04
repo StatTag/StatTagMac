@@ -124,12 +124,12 @@ static NSString* PACKAGE_R = @"R";
   [_sourceEditor setColorProperty: SCI_STYLESETFORE parameter: STYLE_LINENUMBER fromHTML: @"#F0F0F0"];
   [_sourceEditor setColorProperty: SCI_STYLESETBACK parameter: STYLE_LINENUMBER fromHTML: @"#808080"];
   
-  [_sourceEditor setGeneralProperty: SCI_SETMARGINTYPEN parameter: 0 value: SC_MARGIN_NUMBER];
-  [_sourceEditor setGeneralProperty: SCI_SETMARGINWIDTHN parameter: 0 value: 40];
+  [self showLineNumbers];
+//  [_sourceEditor setGeneralProperty: SCI_SETMARGINTYPEN parameter: 0 value: SC_MARGIN_NUMBER];
+//  [_sourceEditor setGeneralProperty: SCI_SETMARGINWIDTHN parameter: 0 value: 40];
   
-  // Markers.
-  [_sourceEditor setGeneralProperty: SCI_SETMARGINWIDTHN parameter: TagMargin value: 20];
-  [_sourceEditor setGeneralProperty: SCI_SETMARGINSENSITIVEN parameter: TagMargin value: 1];
+  [self showSelectionMargin];
+  
   //[_sourceEditor setGeneralProperty: SCI_SETMARGINTYPEN parameter: TagMargin value: SC_MARGIN_SYMBOL];
   
   //ntilla.DirectMessage(NativeMethods.SCI_MARKERSETBACK, new IntPtr(Index), new IntPtr(colour));
@@ -151,6 +151,7 @@ static NSString* PACKAGE_R = @"R";
    public const uint MaskAll = unchecked((uint)-1);
    */
   [_sourceEditor setGeneralProperty: SCI_SETMARGINCURSORN parameter: TagMargin value: SC_CURSORARROW];
+
   
   
   [_sourceEditor setColorProperty: SCI_STYLESETBACK parameter: TagMarker value: [StatTagShared colorFromRGBRed:204 green:196 blue:223 alpha:1.0]];
@@ -173,9 +174,9 @@ static NSString* PACKAGE_R = @"R";
   if([self usesInfoBar])
   {
     InfoBar* infoBar = [[InfoBar alloc] initWithFrame: NSMakeRect(0, 0, 400, 0)] ;
-    [infoBar setDisplay: IBShowAll];
+    [infoBar setDisplay: IBShowZoom];//IBShowAll
     [_sourceEditor setInfoBar: infoBar top: NO];
-    [_sourceEditor setStatusText: @"Operation complete"];
+    [_sourceEditor setStatusText: @""];
   }
   
   
@@ -195,6 +196,33 @@ static NSString* PACKAGE_R = @"R";
 -(void)EmptyUndoBuffer
 {
   [scintillaHelper EmptyUndoBuffer];
+}
+
+-(void)showLineNumbers
+{
+  [_sourceEditor setGeneralProperty: SCI_SETMARGINTYPEN parameter: 0 value: SC_MARGIN_NUMBER];
+  [_sourceEditor setGeneralProperty: SCI_SETMARGINWIDTHN parameter: 0 value: 40];
+}
+
+-(void)hideLineNumbers
+{
+  //line.margin.visible=1
+  [_sourceEditor setGeneralProperty: SCI_SETMARGINTYPEN parameter: 0 value: SC_MARGIN_NUMBER];
+  [_sourceEditor setGeneralProperty: SCI_SETMARGINWIDTHN parameter: 0 value: 0];
+}
+
+
+-(void)showSelectionMargin
+{
+  // Markers.
+  [_sourceEditor setGeneralProperty: SCI_SETMARGINWIDTHN parameter: TagMargin value: 20];
+  [_sourceEditor setGeneralProperty: SCI_SETMARGINSENSITIVEN parameter: TagMargin value: 1];
+}
+
+-(void)hideSelectionMargin
+{
+  [_sourceEditor setGeneralProperty: SCI_SETMARGINWIDTHN parameter: TagMargin value: 0];
+  [_sourceEditor setGeneralProperty: SCI_SETMARGINSENSITIVEN parameter: TagMargin value: 1];
 }
 
 -(void)loadSource:(NSString*)source withPackageIdentifier:(NSString*)packageType {
@@ -517,7 +545,7 @@ static NSString* PACKAGE_R = @"R";
   }
   return (NSArray<SCLine*>*)lines;
 }
--(void)setLinMarkerAtIndex:(NSInteger)index
+-(void)setLineMarkerAtIndex:(NSInteger)index
 {
   [self SetLineMarker:[[[scintillaHelper Lines] Lines] objectAtIndex: index ] andMark:YES];
 }

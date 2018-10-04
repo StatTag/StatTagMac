@@ -343,5 +343,217 @@ NSMutableArray<STCodeFile*>* DistinctTags;
   XCTAssertTrue([STTagUtil IsDuplicateLabelInSameFile:tagInFile result:results]);
 }
 
+-(void)testDetectTagCollisionNullEmpty {
+  XCTAssertNil([STTagUtil DetectTagCollision:nil]);
+  XCTAssertNil([STTagUtil DetectTagCollision:[[STTag alloc] init]]);
+  STCodeFile* emptyCodeFile = [[STCodeFile alloc] init];
+  STTag* tag = [[STTag alloc] init];
+  tag.CodeFile = emptyCodeFile;
+  XCTAssertNil([STTagUtil DetectTagCollision:tag]);
+}
+
+-(void)testDetectTagCollisionNoOverlap {
+  STCodeFile* codeFile = [[STCodeFile alloc] init];
+  codeFile.Tags = [[NSMutableArray<STTag*> alloc] init];
+
+  STTag* existingTag = [STTag tagWithName:@"Test 1" andCodeFile:codeFile];
+  existingTag.LineStart = [NSNumber numberWithInteger:5];
+  existingTag.LineEnd = [NSNumber numberWithInteger:10];
+  [[codeFile Tags] addObject:existingTag];
+
+  // Add the new tag after the first tag
+  STTag* newTag = [STTag tagWithName:@"Test 2" andCodeFile:codeFile];
+  newTag.LineStart = [NSNumber numberWithInteger:15];
+  newTag.LineEnd = [NSNumber numberWithInteger:20];
+
+  STTagCollisionResult* result = [STTagUtil DetectTagCollision:newTag];
+  XCTAssertEqual(NoOverlap, [result Collision]);
+  [[codeFile Tags] addObject:newTag];
+
+  // Add another new tag before the first tag
+  STTag* tag3 = [STTag tagWithName:@"Test 3" andCodeFile:codeFile];
+  tag3.LineStart = [NSNumber numberWithInteger:1];
+  tag3.LineEnd = [NSNumber numberWithInteger:4];
+
+  result = [STTagUtil DetectTagCollision:tag3];
+  XCTAssertEqual(NoOverlap, [result Collision]);
+  [[codeFile Tags] addObject:tag3];
+
+  // Add one more in the middle of existing tags
+  STTag* tag4 = [STTag tagWithName:@"Test 4" andCodeFile:codeFile];
+  tag4.LineStart = [NSNumber numberWithInteger:11];
+  tag4.LineEnd = [NSNumber numberWithInteger:14];
+
+  result = [STTagUtil DetectTagCollision:tag4];
+  XCTAssertEqual(NoOverlap, [result Collision]);
+  [[codeFile Tags] addObject:tag4];
+}
+
+-(void)testDetectTagCollisionEmbeddedWithin {
+  STCodeFile* codeFile = [[STCodeFile alloc] init];
+  codeFile.Tags = [[NSMutableArray<STTag*> alloc] init];
+
+  STTag* existingTag = [STTag tagWithName:@"Test 1" andCodeFile:codeFile];
+  existingTag.LineStart = [NSNumber numberWithInteger:1];
+  existingTag.LineEnd = [NSNumber numberWithInteger:10];
+  [[codeFile Tags] addObject:existingTag];
+
+  // Add the new tag immediately within the existing tag
+  STTag* newTag = [STTag tagWithName:@"Test 2" andCodeFile:codeFile];
+  newTag.LineStart = [NSNumber numberWithInteger:2];
+  newTag.LineEnd = [NSNumber numberWithInteger:9];
+
+  STTagCollisionResult* result = [STTagUtil DetectTagCollision:newTag];
+  XCTAssertEqual(EmbeddedWithin, [result Collision]);
+  XCTAssertEqual(existingTag, [result CollidingTag]);
+  [[codeFile Tags] addObject:newTag];
+
+  // Add the new tag within the 2nd tag (to show we can detect multiple
+  // levels of nesting)
+  STTag* tag3 = [STTag tagWithName:@"Test 3" andCodeFile:codeFile];
+  tag3.LineStart = [NSNumber numberWithInteger:4];
+  tag3.LineEnd = [NSNumber numberWithInteger:7];
+
+  result = [STTagUtil DetectTagCollision:tag3];
+  XCTAssertEqual(EmbeddedWithin, [result Collision]);
+  XCTAssertEqual(existingTag, [result CollidingTag]);
+}
+
+-(void)testDetectTagCollisionEmbeddedWithinBoundaryConditions {
+  STCodeFile* codeFile = [[STCodeFile alloc] init];
+  codeFile.Tags = [[NSMutableArray<STTag*> alloc] init];
+
+  STTag* existingTag = [STTag tagWithName:@"Test 1" andCodeFile:codeFile];
+  existingTag.LineStart = [NSNumber numberWithInteger:2];
+  existingTag.LineEnd = [NSNumber numberWithInteger:4];
+  [[codeFile Tags] addObject:existingTag];
+
+  // The new tag starts at the same position as the old tag, and ends within it
+  STTag* newTag = [STTag tagWithName:@"Test 2" andCodeFile:codeFile];
+  newTag.LineStart = [NSNumber numberWithInteger:2];
+  newTag.LineEnd = [NSNumber numberWithInteger:3];
+
+  STTagCollisionResult* result = [STTagUtil DetectTagCollision:newTag];
+  XCTAssertEqual(EmbeddedWithin, [result Collision]);
+  XCTAssertEqual(existingTag, [result CollidingTag]);
+  [[codeFile Tags] addObject:newTag];
+
+  // The new tag starts inside the old tag, and ends at the same position as the old tag
+  STTag* tag3 = [STTag tagWithName:@"Test 3" andCodeFile:codeFile];
+  tag3.LineStart = [NSNumber numberWithInteger:3];
+  tag3.LineEnd = [NSNumber numberWithInteger:4];
+
+  result = [STTagUtil DetectTagCollision:tag3];
+  XCTAssertEqual(EmbeddedWithin, [result Collision]);
+  XCTAssertEqual(existingTag, [result CollidingTag]);
+}
+
+-(void)testDetectTagCollisionOverlapsFront {
+  STCodeFile* codeFile = [[STCodeFile alloc] init];
+  codeFile.Tags = [[NSMutableArray<STTag*> alloc] init];
+
+  STTag* existingTag = [STTag tagWithName:@"Test 1" andCodeFile:codeFile];
+  existingTag.LineStart = [NSNumber numberWithInteger:5];
+  existingTag.LineEnd = [NSNumber numberWithInteger:10];
+  [[codeFile Tags] addObject:existingTag];
+
+  // First we do a true overlap, where the start and end are at different indexes
+  // Note that we are NOT adding these to the code file as we go along, we're replacing
+  // each of the tags with a new one for these tests
+  STTag* newTag = [STTag tagWithName:@"Test 2" andCodeFile:codeFile];
+  newTag.LineStart = [NSNumber numberWithInteger:1];
+  newTag.LineEnd = [NSNumber numberWithInteger:6];
+
+  STTagCollisionResult* result = [STTagUtil DetectTagCollision:newTag];
+  XCTAssertEqual(OverlapsFront, [result Collision]);
+  XCTAssertEqual(existingTag, [result CollidingTag]);
+
+  // Next, overlap where the end of the new tag just touches the start of the existing tag
+  newTag = [STTag tagWithName:@"Test 2" andCodeFile:codeFile];
+  newTag.LineStart = [NSNumber numberWithInteger:1];
+  newTag.LineEnd = [NSNumber numberWithInteger:5];
+
+  result = [STTagUtil DetectTagCollision:newTag];
+  XCTAssertEqual(OverlapsFront, [result Collision]);
+  XCTAssertEqual(existingTag, [result CollidingTag]);
+
+  // Finally, overlap where the end of the new tag touches the end of the existing tag
+  newTag = [STTag tagWithName:@"Test 2" andCodeFile:codeFile];
+  newTag.LineStart = [NSNumber numberWithInteger:1];
+  newTag.LineEnd = [NSNumber numberWithInteger:10];
+
+  result = [STTagUtil DetectTagCollision:newTag];
+  XCTAssertEqual(OverlapsFront, [result Collision]);
+  XCTAssertEqual(existingTag, [result CollidingTag]);
+}
+
+-(void)testDetectTagCollisionOverlapsBack {
+  STCodeFile* codeFile = [[STCodeFile alloc] init];
+  codeFile.Tags = [[NSMutableArray<STTag*> alloc] init];
+
+  STTag* existingTag = [STTag tagWithName:@"Test 1" andCodeFile:codeFile];
+  existingTag.LineStart = [NSNumber numberWithInteger:5];
+  existingTag.LineEnd = [NSNumber numberWithInteger:10];
+  [[codeFile Tags] addObject:existingTag];
+
+  // First we do a true overlap, where the start and end are at different indexes
+  // Note that we are NOT adding these to the code file as we go along, we're replacing
+  // each of the tags with a new one for these tests
+  STTag* newTag = [STTag tagWithName:@"Test 2" andCodeFile:codeFile];
+  newTag.LineStart = [NSNumber numberWithInteger:6];
+  newTag.LineEnd = [NSNumber numberWithInteger:11];
+
+  STTagCollisionResult* result = [STTagUtil DetectTagCollision:newTag];
+  XCTAssertEqual(OverlapsBack, [result Collision]);
+  XCTAssertEqual(existingTag, [result CollidingTag]);
+
+  // Next, overlap where the start of the new tag just touches the start of the existing tag
+  newTag = [STTag tagWithName:@"Test 2" andCodeFile:codeFile];
+  newTag.LineStart = [NSNumber numberWithInteger:5];
+  newTag.LineEnd = [NSNumber numberWithInteger:11];
+
+  result = [STTagUtil DetectTagCollision:newTag];
+  XCTAssertEqual(OverlapsBack, [result Collision]);
+  XCTAssertEqual(existingTag, [result CollidingTag]);
+
+  // Finally, overlap where the start of the new tag touches the end of the existing tag
+  newTag = [STTag tagWithName:@"Test 2" andCodeFile:codeFile];
+  newTag.LineStart = [NSNumber numberWithInteger:10];
+  newTag.LineEnd = [NSNumber numberWithInteger:15];
+
+  result = [STTagUtil DetectTagCollision:newTag];
+  XCTAssertEqual(OverlapsBack, [result Collision]);
+  XCTAssertEqual(existingTag, [result CollidingTag]);
+}
+
+-(void)testDetectTagCollisionEmbedds {
+  STCodeFile* codeFile = [[STCodeFile alloc] init];
+  codeFile.Tags = [[NSMutableArray<STTag*> alloc] init];
+
+  STTag* existingTag = [STTag tagWithName:@"Test 1" andCodeFile:codeFile];
+  existingTag.LineStart = [NSNumber numberWithInteger:5];
+  existingTag.LineEnd = [NSNumber numberWithInteger:10];
+  [[codeFile Tags] addObject:existingTag];
+
+  // Add the new tag immediately within the existing tag
+  STTag* newTag = [STTag tagWithName:@"Test 2" andCodeFile:codeFile];
+  newTag.LineStart = [NSNumber numberWithInteger:4];
+  newTag.LineEnd = [NSNumber numberWithInteger:11];
+
+  STTagCollisionResult* result = [STTagUtil DetectTagCollision:newTag];
+  XCTAssertEqual(Embeds, [result Collision]);
+  XCTAssertEqual(existingTag, [result CollidingTag]);
+  [[codeFile Tags] addObject:newTag];
+
+  // Add the new tag within the 2nd tag (to show we can detect multiple
+  // levels of nesting)
+  STTag* tag3 = [STTag tagWithName:@"Test 3" andCodeFile:codeFile];
+  tag3.LineStart = [NSNumber numberWithInteger:3];
+  tag3.LineEnd = [NSNumber numberWithInteger:12];
+
+  result = [STTagUtil DetectTagCollision:tag3];
+  XCTAssertEqual(Embeds, [result Collision]);
+  XCTAssertEqual(existingTag, [result CollidingTag]);
+}
 
 @end

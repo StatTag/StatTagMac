@@ -6,6 +6,7 @@
 //  Copyright © 2016 StatTag. All rights reserved.
 //
 
+#import "NSMutableArray+Stack.h"
 #import "STBaseParser.h"
 #import "STConstants.h"
 #import "STTag.h"
@@ -134,8 +135,7 @@
   }
 
   NSMutableArray *lines = [file LoadFileContent];
-  if(lines == nil){
-    //FIXME: what about 0 count?
+  if(lines == nil || [lines count] == 0){
     return tags;
   }
   
@@ -192,6 +192,59 @@
   
 }
 
+-(NSArray<STTag*>*)ParseIncludingInvalidTags:(STCodeFile*)file
+{
+  [self SetupRegEx];
+
+  NSMutableArray *tags = [[NSMutableArray alloc] init];
+  if(file == nil){
+    return tags;
+  }
+
+  NSMutableArray *lines = [file LoadFileContent];
+  if (lines == nil || [lines count] == 0){
+    return tags;
+  }
+
+  NSMutableArray<STTag*> *foundTagStack = [[NSMutableArray<STTag*> alloc] init];
+  BOOL hasOpenTag = FALSE;
+  STTag *tag;
+  for (NSInteger index = 0; index < [lines count]; index++) {
+    NSString *line = [[lines objectAtIndex:index] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSArray* matches = [_StartTagRegEx matchesInString:line options:0 range: NSMakeRange(0, line.length)];
+
+    if([matches count] > 0){
+      tag = [[STTag alloc] init];
+      tag.LineStart = @(index);
+      tag.CodeFile = file;
+
+      hasOpenTag = TRUE;
+
+      NSRange group1 = [matches[0] rangeAtIndex:1];
+      NSString *matchText = [line substringWithRange:group1];
+      [self ProcessTag:matchText Tag:tag error:nil];
+      [foundTagStack push:tag];
+    } else if (hasOpenTag) {
+      matches = [_EndTagRegEx matchesInString:line options:0 range: NSMakeRange(0, line.length)];
+      if([matches count] > 0){
+        tag = [foundTagStack pop];
+        tag.LineEnd = @(index);
+        [tags addObject:tag];
+        hasOpenTag = ([foundTagStack count] > 0);
+      }
+    }
+  }
+
+  if ([foundTagStack count] > 0) {
+    [tags addObjectsFromArray:foundTagStack];
+  }
+
+  NSArray *sortedArray = [tags sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
+    return [[a LineStart] compare:[b LineStart]];
+  }];
+
+  return sortedArray;
+}
 
 -(bool)IsTagStart:(NSString*)line
 {

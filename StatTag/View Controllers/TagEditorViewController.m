@@ -54,11 +54,12 @@
 
 @synthesize originallySelectedCodeFile = _originallySelectedCodeFile;
 
+
 //@synthesize propertiesStackView = _propertiesStackView;
 STCodeFile* codeFile;
 STTag* _originalTag;
 //NSString* TagType;
-
+bool SaveOccurred;
 
 //NSString* instructionTitleText;
 //NSString* allowedCommandsText;
@@ -67,6 +68,12 @@ STTag* _originalTag;
 //https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/CocoaBindings/Tasks/images.html
 
 static void *TagTypeContext = &TagTypeContext;
+
+
+typedef enum {
+  SaveActionTypeSaveAndClose = 1,
+  SaveActionTypeSaveAndCreateAnother = 2
+} SaveActionType;
 
 
 -(void)startObservingEditorDirectives
@@ -159,16 +166,19 @@ static void *TagTypeContext = &TagTypeContext;
 }
 
 -(void)viewDidLayout {
-  
 }
 
 -(void)viewDidAppear {
   [self startObservingEditorDirectives];
+  [self initializeTagInfo];
+}
 
+-(void)initializeTagInfo
+{
   if(_documentManager != nil) {
     //every time this view appears we need to completely refresh all code files
     [_codeFileList removeObjects:[_codeFileList arrangedObjects]];
-
+    
     //add the code files - but only the accessible code files
     
     //NSPredicate* predicate = [NSPredicate predicateWithFormat:@"fileAccessibleAtPath == %@", @"YES"];
@@ -185,12 +195,12 @@ static void *TagTypeContext = &TagTypeContext;
     
     //in either case - we're going to default to the top-most object in the code file list
     [self setCodeFile:nil];
-
+    
     if(_tag != nil) {
       if([[self tag] Name] == nil) {
         [[self tag] setName:@""];
       }
-
+      
       if([[self tag] ValueFormat] == nil) {
         [[self tag] setValueFormat:[[STValueFormat alloc] init]];
       }
@@ -216,7 +226,7 @@ static void *TagTypeContext = &TagTypeContext;
         for (int index = startIndex; index <= endIndex; index++)
         {
           ////NSLog(@"trying to add line at index: %d", index);
-          [_sourceEditor setLinMarkerAtIndex:index];
+          [_sourceEditor setLineMarkerAtIndex:index];
         }
         [_sourceEditor scrollToLine:startIndex];
       }
@@ -235,14 +245,21 @@ static void *TagTypeContext = &TagTypeContext;
     } else {
       //probably a new tag
       _originalTag = nil;
-
       
       [[self tag] setName:@""];
       //create a new tag and set some defaults
       [self setTag:[[STTag alloc] init]];
-      [[self tag] setType:[STConstantsTagType Value]];
-      //ack... I'd rather get this from the array controller, but...
 
+      [[self tag] setType:[STConstantsTagType Value]];
+      STValueFormat* v = [[STValueFormat alloc] init];
+      STTableFormat* t = [[STTableFormat alloc] init];
+      STFigureFormat* f = [[STFigureFormat alloc] init];
+      [v setFormatType:[STConstantsValueFormatType Default]];
+      [[self tag] setValueFormat:v];
+      [[self tag] setTableFormat:t];
+      [[self tag] setFigureFormat:f];
+      //ack... I'd rather get this from the array controller, but...
+      
       //if we have a code file that was active in the tag list UI, try to set the code file selection to that if we're editing
       if([self originallySelectedCodeFile])
       {
@@ -253,16 +270,10 @@ static void *TagTypeContext = &TagTypeContext;
       
       [self setCodeFile:[[self tag] CodeFile]];
       [[self tag] setRunFrequency:[STConstantsRunFrequency OnDemand]];
-      STValueFormat* v = [[STValueFormat alloc] init];
-      STTableFormat* t = [[STTableFormat alloc] init];
-      STFigureFormat* f = [[STFigureFormat alloc] init];
-      [v setFormatType:[STConstantsValueFormatType Default]];
-      [[self tag] setValueFormat:v];
-      [[self tag] setTableFormat:t];
-      [[self tag] setFigureFormat:f];
-      [[self tag] setType:[STConstantsTagType Value]];
-      [self UpdateForType:[[self tag] Type]];
 
+      //      [[self tag] setType:[STConstantsTagType Value]];
+      [self UpdateForType:[[self tag] Type]];
+      
       
       //EWW - not doing this - we're going to just let cocoa bindings handle it
       // that _is_ different - we're selecting the code file and not saying "hey, choose a code file"
@@ -292,10 +303,15 @@ static void *TagTypeContext = &TagTypeContext;
 
 -(void) SetInstructionText
 {
-  
+  NSString* statPackage;
+
+  //FIXME: this is bogus and gross... need to fix this to check for the "No Value" selection when we have a default list set
+  if([[self listCodeFile] selectedItem] == nil || [[self listCodeFile] indexOfSelectedItem] < 0 || ![[[[[self listCodeFile] selectedItem] representedObject] className] isEqualToString:@"STCodeFile"])
+  {
+    return;
+  }
   STCodeFile* selectedCodeFile = (STCodeFile*)[[[self listCodeFile] selectedItem] representedObject];
-  NSString* statPackage = (selectedCodeFile == nil) ? @"tag" : [selectedCodeFile StatisticalPackage];
-  
+  statPackage = (selectedCodeFile == nil) ? @"tag" : [selectedCodeFile StatisticalPackage];
 
   [self willChangeValueForKey:@"instructionTitleText"];
   // ----------- BOLD OUR KEYWORDS
@@ -368,12 +384,55 @@ static void *TagTypeContext = &TagTypeContext;
 }
 
 
-- (IBAction)save:(id)sender {
+- (IBAction)saveAndCreateAnother:(id)sender
+{
+  [self validateSave:SaveActionTypeSaveAndCreateAnother];
+}
+
+- (IBAction)saveButtonClick:(id)sender
+{
+  [self validateSave:SaveActionTypeSaveAndClose];
+}
+
+-(NSError*) detectStoppableCollision
+{
+  if ([self tag] == nil) {
+    return nil;
+  }
+
+  STTagCollisionResult* collisionResult = [STTagUtil DetectTagCollision:[self tag]];
+  if (collisionResult == nil) {
+    // Unable to fully assess tag collision - assuming there are no issues
+    return nil;
+  }
+  else if ([collisionResult Collision] == NoOverlap) {
+    // There is no overlap detected with this tag and others
+    return nil;
+  }
+  else if ([collisionResult CollidingTag] == nil) {
+    // No coliding tag returned, so we can't really warn the user...
+    return nil;
+  }
+  // So now we know there's some type of collision.  If we are editing a tag, and the tag collides
+  // with itself, that's fine.  We will properly remove the old tag boundaries and apply the new ones.
+  else if (_originalTag != nil && [[collisionResult CollidingTag] Equals:_originalTag usePosition:FALSE]) {
+    return nil;
+  }
+
+  NSMutableDictionary *errorDetail = [NSMutableDictionary dictionary];
+  STTag* collidingTag = [collisionResult CollidingTag];
+  [errorDetail setValue:[NSString stringWithFormat:@"The code that you have selected for your new tag overlaps with an existing tag ('%@').", [collidingTag Name]] forKey:NSLocalizedDescriptionKey];
+  NSError* error = [NSError errorWithDomain:@"com.stattag.StatTag" code:100 userInfo:errorDetail];
+  return error;
+}
+
+-(void)validateSave:(SaveActionType)actionAfterSave
+{
   //NOTE: we're not saving yet - this is all save VALIDATION
-  
+
   NSError* saveError;
   NSError* saveWarning;
-  
+
   NSCharacterSet *ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
   if([[self tag] Name] != nil && [[[[self tag] Name] stringByTrimmingCharactersInSet: ws] length] > 0 )
   {
@@ -385,7 +444,7 @@ static void *TagTypeContext = &TagTypeContext;
     
     //tag names must be unique within a code file
     // it's allowed (but not ideal) for them to be duplicated between code files
-    
+
     for(STCodeFile* cf in [_documentManager GetCodeFileList]) {
       for(STTag* aTag in [cf Tags]) {
         //FIXME:
@@ -407,14 +466,14 @@ static void *TagTypeContext = &TagTypeContext;
       }
     }
     //}
-
+    
   }
   else {
     NSMutableDictionary *errorDetail;
     errorDetail = [NSMutableDictionary dictionary];
     [errorDetail setValue:[NSString stringWithFormat:@"Please supply a tag name"] forKey:NSLocalizedDescriptionKey];
     saveError = [NSError errorWithDomain:@"com.stattag.StatTag" code:100 userInfo:errorDetail];
-
+    
   }
 
   if(saveError == nil)
@@ -444,6 +503,10 @@ static void *TagTypeContext = &TagTypeContext;
     }
   }
 
+  if (saveError == nil) {
+    saveError = [self detectStoppableCollision];
+  }
+  
   if(saveError == nil)
   {
     if([[[self tag] Type] isEqualToString:[STConstantsTagType Value]]) {
@@ -457,7 +520,7 @@ static void *TagTypeContext = &TagTypeContext;
       saveError = [NSError errorWithDomain:@"com.stattag.StatTag" code:100 userInfo:errorDetail];
     }
   }
-
+  
   if(saveError != nil) {
     //oops! something bad happened - tell the user
     [NSApp presentError:saveError];
@@ -473,21 +536,77 @@ static void *TagTypeContext = &TagTypeContext;
     [alert beginSheetModalForWindow:[[self view] window] completionHandler:^(NSModalResponse returnCode) {
       //button orders are the order in which they're created above
       if (returnCode == NSAlertSecondButtonReturn) {
-        [self saveAndClose];
+        [self saveAndClose:actionAfterSave];
       }
     }];
   } else {
-    [self saveAndClose];
+    [self saveAndClose:actionAfterSave];
   }
-  
-  
 }
 
--(void)saveAndClose {
+- (IBAction)save:(id)sender {
+  [self validateSave:SaveActionTypeSaveAndClose];
+}
+
+//-(void)resetTagUI
+//{
+////  [self initializeStackView];
+////  [[self tagBasicProperties] setTag:[self tag]];
+////  [[self tagValueProperties] setTag:[self tag]];
+////  [[self tagTableProperties] setTag:[self tag]];
+//  
+////  [[self tagBasicProperties] resetTagUI];
+////  [[self tagValueProperties] resetTagUI];
+////  [[self tagTableProperties] resetTagUI];
+////  [[self tagPreviewView] resetTagUI];
+//  //and reset the ui
+//}
+
+-(void)createNewEmptyTag
+{
+  //reset the tag
+  //[self willChangeValueForKey:@"tag"];
+  //_tag = nil;
+  [self setTag:nil];
+  //[self didChangeValueForKey:@"tag"];
+  [self initializeTagInfo];
+  
+  
+  [[self tagBasicProperties] setTag:[self tag]];
+  [[self tagValueProperties] setTag:[self tag]];
+  [[self tagTableProperties] setTag:[self tag]];
+ 
+  
+//  [self resetTagUI];
+
+//  [self tagTableProperties] reset
+  
+//  [[[self tagBasicProperties] tagNameTextbox] setStringValue:[[self tag] Name]];
+//  [[[self tagBasicProperties] tagTypeList] selectItemAtIndex:0];
+//  [self tagValueProperties] ta
+  
+  //  [[self tagNameTextbox] setStringValue:@""];
+  //  [[self tagTypeList] selectItemAtIndex:0];
+
+  
+  //reset the position of our selected line in scintilla so we bounce around less
+  [_sourceEditor scrollToLine:_scintillaLastLineNumber];
+
+}
+
+-(void)saveAndClose:(SaveActionType)actionAfterSave {
   
   //NOTE: this assumes validation already occured in "save"
   
+  SaveOccurred = YES;
+  
+  //this isn't quite right, but leaving as is for now
+  // we don't want the first selected line - we want the first VISIBLE line
+  // for that to happen we'd need to extend the editor wrapper
+  _scintillaLastLineNumber = [[[_sourceEditor GetSelectedIndices] firstObject] integerValue];
+  
   NSError* saveError;
+  NSMutableDictionary *errorDetail = [NSMutableDictionary dictionary];
   
   [[[self tag] CodeFile] setContent:[NSMutableArray arrayWithArray:[[_sourceEditor string] componentsSeparatedByString: @"\r\n"]]];
   BOOL edited = [[self documentManager] EditTag:[self tag] existingTag:_originalTag];
@@ -497,14 +616,40 @@ static void *TagTypeContext = &TagTypeContext;
     return;
   }
 
-  NSMutableDictionary *errorDetail = [NSMutableDictionary dictionary];
-  if(edited == YES || [errorDetail count] == 0)
+
+  if(actionAfterSave == SaveActionTypeSaveAndCreateAnother)
   {
-    [self stopObservingNotifications];
-    [_delegate dismissTagEditorController:self withReturnCode:(StatTagResponseState)OK andTag:[self tag]];
+    //FIXME: this is wrong - just shimming this in here for the moment, but we should handle this differently
+    //now that we've updated the code file, reload the editor so we can pull in the updated code file
+    [self setCodeFile:nil];
+    [[self documentManager] LoadAllTagsFromCodeFiles];//expensive - can we refesh the tag list from just one code file? (the selected one)
+    
+    for(STCodeFile* file in [_documentManager GetCodeFileList]) {
+      if([file FilePath] == [[[self tag] CodeFile] FilePath])
+      {
+        [file LoadTagsFromContent];
+        if ([_delegate respondsToSelector:@selector(respondsToSelector:)])
+        {
+          [[self delegate] tagsShouldRefreshForCodeFile:file];
+        }
+        //FIXME: we also need to call back to the delegate to refresh its tag list - otherwise, on cancel, the tag list is wrong
+      }
+    }
+    
+    [self createNewEmptyTag];
+    //FIXME: should we stop observing notifications? revisit
     return;
+  } else   if(actionAfterSave == SaveActionTypeSaveAndClose)
+  {
+    if(edited == YES || [errorDetail count] == 0)
+    {
+      [self stopObservingNotifications];
+      [_delegate dismissTagEditorController:self withReturnCode:(StatTagResponseState)OK andTag:[self tag]];
+      return;
+    }
   }
   
+  //FIXME: we're never going to hit this
   //something bad happened... we should probably have better error handling...
   [errorDetail setValue:[NSString stringWithFormat:@"StatTag was not able to save changes"] forKey:NSLocalizedDescriptionKey];
   saveError = [NSError errorWithDomain:@"com.stattag.StatTag" code:100 userInfo:errorDetail];
@@ -541,9 +686,9 @@ static void *TagTypeContext = &TagTypeContext;
       [[self tag] setValueFormat:numeric];
     }
   }
-
   
-  [self updateTagTypeInformation:[[[controller tagTypeList] selectedItem] representedObject]];
+  [self updateTagTypeInformation: [[self tag] Type]];
+  //[self updateTagTypeInformation:[[[controller tagTypeList] selectedItem] representedObject]];
 }
 
 -(void)updateTagTypeInformation:(NSString*)tagType {

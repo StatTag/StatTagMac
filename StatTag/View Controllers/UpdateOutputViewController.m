@@ -14,6 +14,8 @@
 #import "TagEditorViewController.h"
 #import "STDocumentManager+FileMonitor.h"
 #import "NSURL+FileAccess.h"
+#import "TagCodePeekViewController.h"
+
 
 @interface UpdateOutputViewController ()
 
@@ -30,9 +32,12 @@
 @synthesize documentTags = _documentTags;
 @synthesize documentManager = _documentManager;
 @synthesize activeCodeFiles = _activeCodeFiles;
+@synthesize peekTitle = _peekTitle;
+
 
 UpdateOutputProgressViewController* tagUpdateProgressController;
 TagEditorViewController* tagEditorController;
+
 
 
 //BOOL breakLoop = YES;
@@ -79,6 +84,9 @@ TagEditorViewController* tagEditorController;
 
 - (void)viewDidLoad {
   [super viewDidLoad];
+  
+  _popoverViewController = [[TagCodePeekViewController alloc] init];
+  _peekTitle = @"Peek";
 }
 
 
@@ -220,6 +228,9 @@ TagEditorViewController* tagEditorController;
   //OK, I expect this to break... our range end should be count - 1, not count, but... the selection is one item short if we do that
   [onDemandTags setSelectionIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [[onDemandTags arrangedObjects] count])]];
 }
+
+
+
 
 
 - (IBAction)refreshTags:(id)sender {
@@ -489,6 +500,41 @@ TagEditorViewController* tagEditorController;
 }
 
 
+- (void)tableViewSelectionDidChange:(NSNotification *)notification
+{
+  
+  //these should be moved to localization files and loaded
+  NSString* buttonInsertTextTemplate = @"Insert %@Tag%@ Into Document";
+  NSString* buttonRefreshTextTemplate = @"Refresh %@Tag%@";
+
+  NSInteger numSelected = [[onDemandTags selectedObjects] count];
+  NSString* pluralSuffix = @"";
+  NSString* numSelectedText = @"";
+
+  if(numSelected > 0)
+  {
+    //let's set the button title to include the # selected
+    //[[self buttonInsert] setTitle:@""];
+    [[self buttonInsert] setEnabled:YES];
+    [[self buttonRefresh] setEnabled:YES];
+    
+    numSelectedText = [NSString stringWithFormat:@"%ld ", numSelected];//note the trailing space
+    if(numSelected > 1){ //this might be an English only thing, so we should also put the suffix in the internationalization file
+      pluralSuffix = @"s";
+    }
+    
+    [[self buttonRefresh] setTitle:[NSString stringWithFormat:buttonRefreshTextTemplate, numSelectedText, pluralSuffix]];
+    [[self buttonInsert] setTitle:[NSString stringWithFormat:buttonInsertTextTemplate, numSelectedText, pluralSuffix]];
+    
+  } else {
+    [[self buttonInsert] setEnabled:NO];
+    [[self buttonRefresh] setEnabled:NO];
+    [[self buttonRefresh] setTitle:[NSString stringWithFormat:buttonRefreshTextTemplate, numSelectedText, pluralSuffix]];
+    [[self buttonInsert] setTitle:[NSString stringWithFormat:buttonInsertTextTemplate, numSelectedText, pluralSuffix]];
+  }
+  NSLog(@"");
+}
+
 - (void)dismissTagEditorController:(TagEditorViewController *)controller withReturnCode:(StatTagResponseState)returnCode andTag:(STTag*)tag {
   //FIXME: need to handle errors from worker sheet
   [self dismissViewController:controller];
@@ -509,6 +555,26 @@ TagEditorViewController* tagEditorController;
   }
 }
 
+- (void)tagsShouldRefreshForCodeFile:(STCodeFile*)codeFile
+{
+  //if our active code files include the code file we just changed, reload it
+  //we're doing this here because we have situations where the editor changes code file contents, but then the user hits "cancel"
+  //in that scenario, we get out of sync w/ what's on screen
+  if([[self activeCodeFiles] count] > 0)
+  {
+    for(STCodeFile* file in [self activeCodeFiles]) {
+      if([file FilePath] == [codeFile FilePath])
+      {
+        [self loadTagsForCodeFiles:[self activeCodeFiles]];
+      }
+    }
+  } else {
+    //no single code file is selected, so we should recycle everything (for now... yes, this needs to be fixed to be more efficient)
+    [self loadAllTags];
+  }
+}
+
+
 -(NSString*)tagPreviewText:(STTag*)tag {
   return @"hello";
 }
@@ -527,6 +593,88 @@ TagEditorViewController* tagEditorController;
   if([[self delegate] respondsToSelector:@selector(allTagsDidChange:)]) {
     [[self delegate] allTagsDidChange:controller];
   }
+}
+
+//MARK: peek popover
+
+- (IBAction)peekAtCode:(id)sender
+{
+  NSLog(@"peeking");
+  
+  [self createPopover];
+  //NOTE: NOT the selected view - the view for the sender
+  NSInteger row = [[self tableViewOnDemand] rowForView:sender];
+
+  if(row == -1) {
+    row = [[self tableViewOnDemand] clickedRow];
+  }
+  if(row > -1)
+  {
+    STTag* peekedTag = [[onDemandTags arrangedObjects] objectAtIndex:row];
+    if(peekedTag != nil)
+    {
+      [[self popoverViewController] setTag:peekedTag];
+      self.popoverView.contentViewController = [self popoverViewController]; //not sure why we have to rebind this
+      [[self popoverView] showRelativeToRect:[sender bounds] ofView:sender preferredEdge:NSMaxYEdge];
+    }
+    else
+    {
+      [[self popoverView] close];
+    }
+  } else {
+    [[self popoverView] close];
+  }
+}
+
+- (void)createPopover
+{
+  if (self.popoverView == nil)
+  {
+    _popoverView = [[NSPopover alloc] init];
+    self.popoverView.contentViewController = [self popoverViewController];
+    self.popoverView.appearance = [NSAppearance appearanceNamed:NSAppearanceNameVibrantLight];
+    self.popoverView.animates = YES;
+    self.popoverView.behavior = NSPopoverBehaviorTransient;
+    self.popoverView.delegate = self;
+  }
+}
+
+
+- (void)popoverWillShow:(NSNotification *)notification
+{
+  NSPopover *popover = notification.object;
+  if (popover != nil)
+  {
+  }
+}
+
+- (void)popoverDidShow:(NSNotification *)notification
+{
+}
+
+- (void)popoverWillClose:(NSNotification *)notification
+{
+  NSString *closeReason = [notification.userInfo valueForKey:NSPopoverCloseReasonKey];
+  if (closeReason)
+  {
+    // closeReason can be:
+    //      NSPopoverCloseReasonStandard
+    //      NSPopoverCloseReasonDetachToWindow
+  }
+}
+
+- (void)popoverDidClose:(NSNotification *)notification
+{
+  NSString *closeReason = [notification.userInfo valueForKey:NSPopoverCloseReasonKey];
+  if (closeReason)
+  {
+    // closeReason can be:
+    //      NSPopoverCloseReasonStandard
+    //      NSPopoverCloseReasonDetachToWindow
+  }
+  
+  // release our popover since it closed
+  _popoverView = nil;
 }
 
 

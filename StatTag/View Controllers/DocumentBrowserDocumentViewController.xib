@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12121" systemVersion="16F2073" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12121" systemVersion="17G2307" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12121"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -11,6 +11,7 @@
                 <outlet property="codeFilesViewController" destination="SaB-ML-Jdr" id="fSc-Ze-vJU"/>
                 <outlet property="duplicateTagsViewController" destination="Jo1-Bs-tdk" id="Trl-od-aao"/>
                 <outlet property="focusView" destination="iWr-N5-qZt" id="fM0-O8-HDz"/>
+                <outlet property="overlappingTagsViewController" destination="9iQ-HM-lSu" id="HAr-h7-VhF"/>
                 <outlet property="tagListViewController" destination="biz-vd-XGN" id="aTN-1g-dt2"/>
                 <outlet property="unlinkedTagsViewController" destination="Yuu-uq-xSn" id="f13-n1-lnp"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
@@ -52,5 +53,6 @@
         <viewController title="Tag List VIew Controller" nibName="UpdateOutputViewController" id="biz-vd-XGN" customClass="UpdateOutputViewController"/>
         <viewController title="Unlinked Tags" nibName="UnlinkedTagsViewController" id="Yuu-uq-xSn" customClass="UnlinkedTagsViewController"/>
         <viewController title="Duplicate Tags" nibName="DuplicateTagsViewController" id="Jo1-Bs-tdk" userLabel="Duplicate Tags View Controller" customClass="DuplicateTagsViewController"/>
+        <viewController title="Overlapping Tags" nibName="OverlappingTagsViewController" id="9iQ-HM-lSu" userLabel="Overlapping Tags View Controller" customClass="OverlappingTagsViewController"/>
     </objects>
 </document>

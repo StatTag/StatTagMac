@@ -9,15 +9,20 @@
 #import "STTagManager.h"
 #import "STDocumentManager.h"
 #import "STTag.h"
+#import "STTagUtil.h"
 #import "STCodeFile.h"
 #import "STMSWord2011.h"
 #import "STConstants.h"
 #import "STFieldTag.h"
 #import "STDuplicateTagResults.h"
+#import "STOverlappingTagResults.h"
 #import "STGlobals.h"
 #import "STThisAddIn.h"
 #import "STCodeFileAction.h"
 #import "WordHelpers.h"
+#import "STFactories.h"
+#import "STTagCollisionResult.h"
+#import "STICodeFileParser.h"
 
 #import <objc/message.h>
 
@@ -242,10 +247,84 @@ the DocumentManager instance that contains it.
   return duplicateTags;
 }
 
-/** 
+-(STOverlappingTagResults*)FindAllOverlappingTags
+{
+  NSArray<STCodeFile*>* files = [_DocumentManager GetCodeFileList];
+  STOverlappingTagResults* results = [[STOverlappingTagResults alloc] init];
+  for (STCodeFile* file in files) {
+    NSObject<STICodeFileParser>* parser = [STFactories GetParser:file];
+    if (parser == nil) {
+      continue;
+    }
+
+    NSArray<STTag*>* tags = [parser ParseIncludingInvalidTags:file];
+
+    // If there are 0 or 1 tags, there's no way any of them can overlap.  Just continue
+    if (tags == nil || [tags count] < 2) {
+      continue;
+    }
+
+    for (int index = 0; index < ([tags count] - 1); index++) {
+      STTag* tag1 = [tags objectAtIndex:index];
+      STTag* tag2 = [tags objectAtIndex:(index + 1)];
+      STTagCollisionResult* result = [STTagUtil DetectTagCollision:tag1 tag2:tag2];
+      if (result != nil && [result Collision] != NoOverlap && [result CollidingTag] != nil) {
+        NSMutableArray<NSMutableArray<STTag*>*>* collection = [results objectForKey:file];
+        if (collection == nil) {
+          collection = [[NSMutableArray<NSMutableArray<STTag*>*> alloc] init];
+          [results setObject:collection forKey:file];
+        }
+
+        // Our code file entry is established, now we need to figure out if these colliding tags are
+        // in a collision group already.  If so, we'll add the tags that are missing from the group.
+        // If not, we will create a new group.
+        NSMutableArray<STTag*>* foundTagGroup1 = nil;
+        NSMutableArray<STTag*>* foundTagGroup2 = nil;
+        for (int outerIndex = 0; outerIndex < [collection count]; outerIndex++) {
+          NSMutableArray<STTag*>* array = [collection objectAtIndex:outerIndex];
+          for (int innerIndex = 0; innerIndex < [array count]; innerIndex++) {
+            if ([[array objectAtIndex:innerIndex] EqualsWithPosition:tag1]) {
+              foundTagGroup1 = array;
+            }
+            if ([[array objectAtIndex:innerIndex] EqualsWithPosition:tag2]) {
+              foundTagGroup2 = array;
+            }
+
+            if (foundTagGroup1 != nil && foundTagGroup2 != nil) {
+              break;
+            }
+          }
+
+          if (foundTagGroup1 != nil && foundTagGroup2 != nil) {
+            break;
+          }
+        }
+
+        if (foundTagGroup1 == nil && foundTagGroup2 == nil) {
+          // Creating a new tag collision group
+          NSMutableArray<STTag*>* group = [[NSMutableArray<STTag*> alloc] init];
+          [group addObject:tag1];
+          [group addObject:tag2];
+          [collection addObject:group];
+        }
+        else if (foundTagGroup1 == nil) {
+          // Adding to tag2 collision group
+          [foundTagGroup2 addObject:tag1];
+        }
+        else if (foundTagGroup2 == nil) {
+          // Adding to tag1 collision group
+          [foundTagGroup1 addObject:tag2];
+        }
+      }
+    }
+  }
+  return results;
+}
+
+/**
  Search the active Word document and find all inserted tags.  Determine if the tag's
  code file is linked to this document, and report those that are not.
- 
+
  We have two scenarios we're looking for
  1) (Code file missing) Tag exists in document, but referenced code file does not
  2) (Tag no longer in code file) Tag exists in document, referenced code file exists, but tag no longer in code file
@@ -961,6 +1040,33 @@ the DocumentManager instance that contains it.
   @autoreleasepool {
     [shape setName:[tag Id]];
   }
+}
+
+-(void)RemoveCollidingTags:(NSArray<STTag*>*)tags
+{
+  if (tags == nil || [tags count] == 0) {
+    return;
+  }
+  
+  // By removing these in descending order, it helps us manage the
+  // offsets for the tags that we want to remove.  Otherwise, we will
+  // remove the first tag, and when we go to remove the second tag it
+  // is pointing to indices that have changed and it's not aware of.
+  NSArray *sortedArray = [tags sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
+    NSNumber* first = [(STTag*)a LineStart];
+    NSNumber* second = [(STTag*)b LineStart];
+    return [first compare:second];
+  }];
+  
+  NSError* error;
+  for (STTag* tag in sortedArray) {
+    [[tag CodeFile] RemoveCollidingTag:tag];
+  }
+  
+  // For this collection of tags, they all have to be in the same code file.  We will just then
+  // grab the first tag and save that code file, instead of saving this on each iteration or
+  // tracking unique code files.
+  [[[tags firstObject] CodeFile] Save:&error];
 }
 
 @end

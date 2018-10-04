@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "STDuplicateTagResults.h"
+#import "STOverlappingTagResults.h"
 @class STDocumentManager;
 @class STTag;
 @class STMSWord2011Field;
@@ -31,11 +32,14 @@ typedef void (^CodeFileActionTypeShape)(STMSWord2011Shape*, STTag*, id);
 
 -(NSArray<STTag*>*)GetTags;
 
+-(void)RemoveCollidingTags:(NSArray<STTag*>*)tags;
+
 +(BOOL)IsStatTagField:(STMSWord2011Field*) field;
 -(BOOL)IsLinkedField:(STMSWord2011Field*) field;
 -(STFieldTag*)DeserializeFieldTag:(STMSWord2011Field*) field;
 -(STFieldTag*)GetFieldTag:(STMSWord2011Field*) field;
 -(STDuplicateTagResults*)FindAllDuplicateTags;
+-(STOverlappingTagResults*)FindAllOverlappingTags;
 -(NSDictionary<NSString*, NSArray<STTag*>*>*) FindAllUnlinkedTags;
 -(NSMutableDictionary<NSString*, STMSWord2011Field*>*)GetUniqueFields;
 

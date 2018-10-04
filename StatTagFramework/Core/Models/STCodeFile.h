@@ -100,6 +100,13 @@
 - (void)RemoveTag:(STTag*)tag;
 
 /**
+ Removes a tag from the file, and from the internal cache.  This is different from RemoveTag in that
+ it does additional processing and handling of tags that may exist in the code file, but aren't known
+ (weren't loaded) because they collided with another tag.
+ */
+- (void)RemoveCollidingTag:(STTag*)tag;
+
+/**
  Updates or inserts an tag in the file.  An update takes place only if oldTag is defined, and it is able to match that old tag.
 
  @ param matchWithPosition: When looking to replace an existing tag (which assumes that oldTag is specified), this parameter when set to true will only replace the tag if the line numbers match.  This is to be used when updating duplicate named tags, but shouldn't be used otherwise.</param>

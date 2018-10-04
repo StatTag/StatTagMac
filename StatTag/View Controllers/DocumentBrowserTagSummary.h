@@ -21,6 +21,7 @@ typedef enum {
   TagIndicatorViewTagFocusAllTags,
   TagIndicatorViewTagFocusUnlinkedTags,
   TagIndicatorViewTagFocusDuplicateTags,
+  TagIndicatorViewTagFocusOverlappingTags,
   TagIndicatorViewTagFocusNone
 } TagIndicatorViewTagFocus;
 

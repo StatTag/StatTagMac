@@ -41,6 +41,7 @@ FOUNDATION_EXPORT const unsigned char StatTagVersionString[];
 #import <StatTagFramework/STBaseManager.h>
 #import <StatTagFramework/STDocumentManager.h>
 #import <StatTagFramework/STDuplicateTagResults.h>
+#import <StatTagFramework/STOverlappingTagResults.h>
 #import <StatTagFramework/STFieldGenerator.h>
 #import <StatTagFramework/STGridDataItem.h>
 #import <StatTagFramework/STUserSettings.h>
@@ -109,6 +110,7 @@ FOUNDATION_EXPORT const unsigned char StatTagVersionString[];
 #import <StatTagFramework/STTag.h>
 #import <StatTagFramework/STUpdatePair.h>
 #import <StatTagFramework/STValueFormat.h>
+#import <StatTagFramework/STTagCollisionResult.h>
 
 
 //--Parser

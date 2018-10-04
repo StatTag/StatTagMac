@@ -1127,28 +1127,34 @@ used to create the Word document.
 
 //MARK: add / update
 
+-(NSMutableArray<NSNumber*>*) InsertField:(id)tag
+{
+  return [self InsertField:tag insertPlaceholder:FALSE];
+}
+
 /**
  Given an tag, insert the result into the document at the current cursor position.
  
  @remark This method assumes the tag result is already refreshed.  It does not attempt to refresh or recalculate it.
  */
--(NSMutableArray<NSNumber*>*) InsertField:(id)tag {
+-(NSMutableArray<NSNumber*>*) InsertField:(id)tag insertPlaceholder:(BOOL)insertPlaceholder {
   //NSLog(@"InsertField for Tag");
   if([tag isKindOfClass:[STFieldTag class]]) {
-    return [self InsertFieldWithFieldTag:tag];
+    return [self InsertFieldWithFieldTag:tag insertPlaceholder:insertPlaceholder];
   } else if ([tag isKindOfClass:[STTag class]]) {
-    return [self InsertFieldWithFieldTag:[[STFieldTag alloc] initWithTag:tag]];
+    return [self InsertFieldWithFieldTag:[[STFieldTag alloc] initWithTag:tag] insertPlaceholder:insertPlaceholder];
   }
 
   return nil;
 }
+
 
 /**
  Given an tag, insert the result into the document at the current cursor position.
 
  @remark This method assumes the tag result is already refreshed.  It does not attempt to refresh or recalculate it.
  */
--(NSMutableArray<NSNumber*>*) InsertFieldWithFieldTag:(STFieldTag*)tag {
+-(NSMutableArray<NSNumber*>*) InsertFieldWithFieldTag:(STFieldTag*)tag insertPlaceholder:(BOOL)insertPlaceholder {
   //NSLog(@"InsertField - Started");
 
   NSMutableArray<NSNumber*>* addedFields = nil;
@@ -1162,7 +1168,7 @@ used to create the Word document.
     [[NSNotificationCenter defaultCenter] postNotificationName:@"tagUpdateStart" object:self userInfo:@{@"tagName":[tag Name], @"codeFileName":[[tag CodeFile] FileName], @"type" : @"field"}];
   });
   
-  if([[tag Type] isEqualToString:[STConstantsTagType Figure]]) {
+  if(!insertPlaceholder && [[tag Type] isEqualToString:[STConstantsTagType Figure]]) {
     //NSLog(@"Detected a Figure tag");
     [self InsertImage:tag];
     return addedFields;
@@ -1180,19 +1186,26 @@ used to create the Word document.
 
       // If the tag is a table, and the cell index is not set, it means we are inserting the entire
       // table into the document.  Otherwise, we are able to just insert a single table cell.
-      if ([[tag Type] isEqualToString: [STConstantsTagType Verbatim]])
+      if (!insertPlaceholder && [[tag Type] isEqualToString: [STConstantsTagType Verbatim]])
       {
         [self Log:@"Inserting verbatim output"];
         [self InsertVerbatim:selection tag:tag];
       }
-      else if([tag IsTableTag] && [tag TableCellIndex] == nil) {
+      else if(!insertPlaceholder && [tag IsTableTag] && [tag TableCellIndex] == nil) {
         //NSLog(@"Inserting a new table tag");
         addedFields = [self InsertTable:selection tag:tag];
       } else {
         //NSLog(@"Inserting a single tag field");
         STMSWord2011TextRange* range = [selection textObject];
-        [self CreateTagField:range tagIdentifier:[tag Name] displayValue:[tag FormattedResult] tag:tag withDoc:doc];
+        NSString* displayName = (insertPlaceholder ? [NSString stringWithFormat:@"[ %@ ]", [tag Name]] : [tag FormattedResult]);
+        [self CreateTagField:range tagIdentifier:[tag Name] displayValue:displayName tag:tag withDoc:doc];
       }
+      
+      //reset the selection so we don't overwrite our new field(s)
+      //move the selection to the end of the current selection
+      [app selection].selectionStart = [[app selection] selectionEnd];
+      [app selection].selectionEnd = [[app selection] selectionEnd];
+      
     }
   }
   @catch (NSException *exception) {
@@ -1204,11 +1217,12 @@ used to create the Word document.
     //Marshal.ReleaseComObject(document);
   }
 
+  
+  
   return addedFields;
   //NSLog(@"InsertField - Finished");
 
 }
-
 
 /**
 Insert an StatTag field at the currently specified document range.
@@ -1395,54 +1409,47 @@ Insert an StatTag field at the currently specified document range.
 /**
   Performs the insertion of tags into a document as fields.
 */
--(STStatsManagerExecuteResult*)InsertTagsInDocument:(NSArray<STTag*>*)tags
+-(STStatsManagerExecuteResult*)InsertTagsInDocument:(NSArray<STTag*>*)tags insertPlaceholder:(BOOL)insertPlaceholder
 {
-//  Cursor.Current = Cursors.WaitCursor;
-//  Globals.ThisAddIn.Application.ScreenUpdating = false;
-  
-  //NSInteger responseStatus = 0;
   STStatsManagerExecuteResult* allResults = [[STStatsManagerExecuteResult alloc] init];
   allResults.Success = true;
   
-  @try
-  {
+  @try {
     NSMutableArray<STTag*>* updatedTags = [[NSMutableArray<STTag*> alloc] init];
     NSMutableArray<STCodeFile*>* refreshedFiles = [[NSMutableArray<STCodeFile*> alloc] init];
 
     NSMutableArray<NSNumber*>* addedFields = [[NSMutableArray alloc] init];
-    for (STTag* tag in tags)
-    {
-      if(![refreshedFiles containsObject:[tag CodeFile]])
-      {
-        STStatsManagerExecuteResult* result = [_StatsManager ExecuteStatPackage:[tag CodeFile] filterMode:[STConstantsParserFilterMode TagList] tagsToRun:tags];
-        [[allResults UpdatedTags] addObjectsFromArray:[result UpdatedTags]];
-        [[allResults FailedTags] addObjectsFromArray:[result FailedTags]];
-        if (!result.Success)
-        {
-          //responseStatus = 1; //error
-          allResults.Success = false;
-          //break; //let's not break - let's tell them about all of the broken items across all code files
+    for (STTag* tag in tags) {
+      // The only time we worry about executing results and updating our cached data is when we are NOT
+      // inserting a placeholder.  This saves several cycles, making the field import faster.
+      if (!insertPlaceholder) {
+        if(![refreshedFiles containsObject:[tag CodeFile]]) {
+          STStatsManagerExecuteResult* result = [_StatsManager ExecuteStatPackage:[tag CodeFile] filterMode:[STConstantsParserFilterMode TagList] tagsToRun:tags];
+          [[allResults UpdatedTags] addObjectsFromArray:[result UpdatedTags]];
+          [[allResults FailedTags] addObjectsFromArray:[result FailedTags]];
+          if (!result.Success) {
+            allResults.Success = false;
+            //break; //let's not break - let's tell them about all of the broken items across all code files
+          }
+          
+          [updatedTags addObjectsFromArray:[result UpdatedTags]];
+          [refreshedFiles addObject:[tag CodeFile]];
         }
         
-        [updatedTags addObjectsFromArray:[result UpdatedTags]];
-        [refreshedFiles addObject:[tag CodeFile]];
-      }
-      
-      //update our tag's cached result
-      if([updatedTags containsObject:tag])
-      {
-        tag.CachedResult = [[updatedTags objectAtIndex:[updatedTags indexOfObject:tag]] CachedResult];
+        // Update our tag's cached result - it's important this is never done for a placeholder.  We discovered
+        // that setting this causes the JSON serialization to fail.
+        if([updatedTags containsObject:tag]) {
+          tag.CachedResult = [[updatedTags objectAtIndex:[updatedTags indexOfObject:tag]] CachedResult];
+        }
       }
 
-      @try
-      {
-        NSArray<NSNumber*>* fields = [self InsertField:tag];
+      @try {
+        NSArray<NSNumber*>* fields = [self InsertField:tag insertPlaceholder:insertPlaceholder];
         if (fields != nil) {
           [addedFields addObjectsFromArray:fields];
         }
       }
-      @catch (NSException* exception)
-      {
+      @catch (NSException* exception) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"tagUpdateComplete" object:self userInfo:@{@"tagName":[tag Name], @"tagID":[tag Id], @"codeFileName":[[tag CodeFile] FileName], @"type" : @"tag", @"no_result" : [NSNumber numberWithBool:YES], @"exception":exception}];
         allResults.Success = false;
         [[allResults FailedTags] addObject:tag];
@@ -1452,42 +1459,22 @@ Insert an StatTag field at the currently specified document range.
     // Now that all of the fields have been inserted, sweep through and update any existing
     // tags that changed.  We do this after the fields are inserted to better manage
     // the cursor position in the document.
-    // FIXME: really test this... it's really not clear if this is working.
-//    NSArray<STTag*> *theTags = [updatedTags valueForKey:@"Name"];
-//    NSOrderedSet<STTag*> *orderedSet = [NSOrderedSet<STTag*> orderedSetWithArray:theTags];
-//    NSSet<STTag*> *uniqueTags = [orderedSet set];
-//    updatedTags = [[NSMutableArray<STTag*> alloc] initWithArray:[uniqueTags allObjects]];
+    if (!insertPlaceholder) {
+      NSOrderedSet<STTag*> *orderedSet = [NSOrderedSet<STTag*> orderedSetWithArray:updatedTags];
+      NSSet<STTag*> *uniqueTags = [orderedSet set];
+      updatedTags = [[NSMutableArray<STTag*> alloc] initWithArray:[uniqueTags allObjects]];
 
-    NSOrderedSet<STTag*> *orderedSet = [NSOrderedSet<STTag*> orderedSetWithArray:updatedTags];
-    NSSet<STTag*> *uniqueTags = [orderedSet set];
-    updatedTags = [[NSMutableArray<STTag*> alloc] initWithArray:[uniqueTags allObjects]];
-
-    for (STTag* updatedTag in updatedTags)
-    {
-      [self UpdateFields:[[STUpdatePair alloc] init:updatedTag newItem:updatedTag] ignoreIndexes:addedFields];
+      for (STTag* updatedTag in updatedTags) {
+        [self UpdateFields:[[STUpdatePair alloc] init:updatedTag newItem:updatedTag] ignoreIndexes:addedFields];
+      }
     }
   }
-  @catch (NSException* exception)
-  {
-//    responseStatus = 1; //error
-//    [[NSNotificationCenter defaultCenter] postNotificationName:@"allTagUpdatesComplete" object:self userInfo:@{@"responseState":[NSNumber numberWithInteger:responseStatus]}];
-    //NSLog(@"%@", exception.reason);
-    //NSLog(@"method: %@, line : %d", NSStringFromSelector(_cmd), __LINE__);
-    //NSLog(@"%@", [NSThread callStackSymbols]);
+  @catch (NSException* exception) {
     [[self Logger] WriteException:exception];
     @throw exception;
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//      [STUIUtility ReportException:exception userMessage:@"There was an unexpected error when trying to insert the tag output into the Word document." logger:[self Logger]];
-//    });
   }
-  @finally
-  {
-//    Globals.ThisAddIn.Application.ScreenUpdating = true;
-//    Cursor.Current = Cursors.Default;
-  }
-//  [[NSNotificationCenter defaultCenter] postNotificationName:@"allTagUpdatesComplete" object:self userInfo:@{@"responseState":[NSNumber numberWithInteger:responseStatus]}];
-  return allResults;
 
+  return allResults;
 }
 
 
@@ -1501,9 +1488,11 @@ Insert an StatTag field at the currently specified document range.
 {
   NSDictionary<NSString*, NSArray<STTag*>*>* unlinkedResults = [_TagManager FindAllUnlinkedTags];
   STDuplicateTagResults* duplicateResults = [_TagManager FindAllDuplicateTags];
+  STOverlappingTagResults* overlappingResults = [_TagManager FindAllOverlappingTags];
   if (onlyShowDialogIfResultsFound
       && (unlinkedResults == nil || [unlinkedResults count] == 0)
-      && (duplicateResults == nil || [duplicateResults count] == 0))
+      && (duplicateResults == nil || [duplicateResults count] == 0)
+      && (overlappingResults == nil || [overlappingResults count] == 0))
   {
     return;
   }

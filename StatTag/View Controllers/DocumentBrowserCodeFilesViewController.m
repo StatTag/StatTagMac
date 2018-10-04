@@ -106,7 +106,6 @@
 {
   NSInteger numGoodTags = 0;
   NSInteger numDuplicateTags = 0;
-  NSInteger numUnlinkedTags = 0;
   
   for(STCodeFile* file in [self codeFiles]) {
     [file LoadTagsFromContent];
@@ -124,6 +123,7 @@
   
   //STDuplicateTagResults* duplicateTags = [[[self documentManager] TagManager] FindAllDuplicateTags];
   [self setDuplicateTags: [[[self documentManager] TagManager] FindAllDuplicateTags]];
+  [self setOverlappingTags: [[[self documentManager] TagManager] FindAllOverlappingTags]];
 
   numGoodTags = [tags count];
   for(STTag* t in [self duplicateTags]) {
@@ -135,6 +135,17 @@
 
   if (numDuplicateTags > 0) {
     [objs addObject:[[DocumentBrowserTagSummary alloc] initWithTitle:@"Duplicate Tags" andStyle:TagIndicatorViewTagStyleWarning withFocus:TagIndicatorViewTagFocusDuplicateTags andCount:numDuplicateTags andDisplayCount:TRUE]];
+  }
+  
+  if ([self overlappingTags] != nil && [[self overlappingTags] count] > 0) {
+    int overlappingTagGroupCounter = 0;
+    for (STCodeFile* key in [self overlappingTags]) {
+      NSMutableArray<NSMutableArray<STTag*>*>* value = [self overlappingTags][key];
+      if (value != nil) {
+        overlappingTagGroupCounter += [value count];
+      }
+    }
+    [objs addObject:[[DocumentBrowserTagSummary alloc] initWithTitle:@"Overlapping Tags" andStyle:TagIndicatorViewTagStyleWarning withFocus:TagIndicatorViewTagFocusOverlappingTags andCount:overlappingTagGroupCounter andDisplayCount:TRUE]];
   }
   
   [objs addObject:[[DocumentBrowserTagSummary alloc] initWithTitle:[NSString stringWithFormat:@"%@", @"Check Unlinked Tags"] andStyle:TagIndicatorViewTagStyleUnlinked withFocus:TagIndicatorViewTagFocusUnlinkedTags andCount:0 andDisplayCount:FALSE]];
@@ -179,7 +190,12 @@
     [[self delegate] codeFilesSetFocusOnUnlinkedTags:controller];
   }
 }
-
+-(void)codeFilesSetFocusOnOverlappingTags:(DocumentBrowserCodeFilesViewController*)controller
+{
+  if([[self delegate] respondsToSelector:@selector(codeFilesSetFocusOnOverlappingTags:)]) {
+    [[self delegate] codeFilesSetFocusOnOverlappingTags:controller];
+  }
+}
 
 - (void)keyDown:(NSEvent *)theEvent
 {
@@ -477,6 +493,9 @@
             break;
           case TagIndicatorViewTagFocusUnlinkedTags:
             [self codeFilesSetFocusOnUnlinkedTags:self];
+            break;
+          case TagIndicatorViewTagFocusOverlappingTags:
+            [self codeFilesSetFocusOnOverlappingTags:self];
             break;
           default:
             [self codeFilesSetFocusOnTags:self];

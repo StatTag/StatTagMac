@@ -15,10 +15,13 @@
 @interface TagCodePeekViewController : NSViewController
 {
   STTag* _tag;
+  STCodeFile* _codeFile;
   ScintillaEmbeddedViewController* _sourceEditor;
 }
 
 @property (strong, nonatomic) STTag* tag;
+
+@property (strong, nonatomic) STCodeFile* codeFile;
 
 @property (weak) IBOutlet NSTextField *tagCodePreview;
 
@@ -28,5 +31,6 @@
 @property (weak) IBOutlet NSView *sourceView;
 @property (strong) IBOutlet ScintillaEmbeddedViewController *sourceEditor;
 
+-(void)setCodeFile:(STCodeFile*)codeFile withStart:(NSNumber*)withStart andEnd:(NSNumber*)andEnd;
 
 @end

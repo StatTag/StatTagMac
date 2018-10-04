@@ -20,11 +20,12 @@
 @implementation TagCodePeekViewController
 
 @synthesize tag = _tag;
+@synthesize codeFile = _codeFile;
 @synthesize sourceEditor = _sourceEditor;
 
 
 
-static STCodeFile* codeFile;
+//static STCodeFile* codeFile;
 
 //MARK: storyboard / nib setup
 - (NSString *)nibName
@@ -57,8 +58,6 @@ static STCodeFile* codeFile;
 - (void)viewDidLoad {
   [super viewDidLoad];
   // Do view setup here.
-  [[self sourceEditor] setUsesInfoBar:NO];
-  [[self sourceEditor] setEditable:YES];
 }
 
 
@@ -68,6 +67,11 @@ static STCodeFile* codeFile;
   //they still exist, but aren't in the view hierarchy
   //unclear on what I'm missing here
   [ViewUtils fillView:[self sourceView] withView:[[self sourceEditor] view]];
+
+  [[self sourceEditor] hideLineNumbers];
+  [[self sourceEditor] hideSelectionMargin];
+  [[self sourceEditor] setUsesInfoBar:NO];
+  [[self sourceEditor] setEditable:NO];
 }
 
 -(STTag*)tag
@@ -88,6 +92,26 @@ static STCodeFile* codeFile;
   [[self view] setNeedsDisplay:YES];
 }
 
+-(STCodeFile*)codeFile
+{
+  return _codeFile;
+}
+
+-(void)setCodeFile:(STCodeFile*)codeFile withStart:(NSNumber*)startIndex andEnd:(NSNumber*)endIndex
+{
+  _tag = nil;
+  _codeFile = codeFile;
+  [[self tagLabel] setStringValue:[codeFile FileName]];
+  [[self tagCodePreview] setStringValue:[codeFile ContentString]];
+  
+  NSArray* subArray = [[codeFile Content] subarrayWithRange:NSMakeRange([startIndex integerValue], ([endIndex integerValue] - [startIndex integerValue] + 1))];
+  NSString *joinedString = [subArray componentsJoinedByString:@"\r"];
+  
+  [[self sourceEditor] loadSource:joinedString withPackageIdentifier:[codeFile StatisticalPackage]];
+  
+  [[self view] setNeedsLayout:YES];
+  [[self view] setNeedsDisplay:YES];
+}
 
 
 @end
