@@ -545,7 +545,7 @@ static NSString* PACKAGE_R = @"R";
   }
   return (NSArray<SCLine*>*)lines;
 }
--(void)setLinMarkerAtIndex:(NSInteger)index
+-(void)setLineMarkerAtIndex:(NSInteger)index
 {
   [self SetLineMarker:[[[scintillaHelper Lines] Lines] objectAtIndex: index ] andMark:YES];
 }

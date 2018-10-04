@@ -524,6 +524,61 @@ the cached results in another tag.
   
 }
 
+/**
+ Removes a tag from the file, and from the internal cache.  This is different from RemoveTag in that
+ it does additional processing and handling of tags that may exist in the code file, but aren't known
+ (weren't loaded) because they collided with another tag.
+ */
+- (void)RemoveCollidingTag:(STTag*)tag
+{
+  if (tag == nil) {
+    return;
+  }
+
+  if([_Tags containsObject:tag]) {
+    [_Tags removeObject:tag];
+  } else {
+    // If the exact object doesn't match, then search by equality.  Note that it's okay if we don't
+    // find the tag.  That just means it wasn't loaded.  We still want to proceed with removing
+    // the lines from the content cache.
+    NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(STTag *aTag, NSDictionary *bindings) {
+      return [aTag isEqual:tag];
+    }];
+    STTag *foundTag = [[_Tags filteredArrayUsingPredicate:predicate] firstObject];
+    if (foundTag != nil) {
+      [_Tags removeObject:foundTag];
+    }
+  }
+
+  [ContentCache removeObjectAtIndex:[[tag LineEnd] integerValue]]; //risky...
+  [ContentCache removeObjectAtIndex:[[tag LineStart] integerValue]]; //risky...
+
+  // Any tags below the one being removed need to be adjusted
+  for (STTag* otherTag in _Tags){
+    // If the other tag starts after the removed tag ends, we need to offset
+    // the start and end by two (one for each of the lines that were removed
+    // for the start and end comments, respectively)
+    if([otherTag LineStart] > [tag LineEnd]) {
+      NSInteger _lineStart = [[otherTag LineStart] integerValue] - 2;
+      otherTag.LineStart = [NSNumber numberWithInteger:_lineStart];
+
+      NSInteger _lineEnd = [[otherTag LineEnd] integerValue] - 2;
+      otherTag.LineEnd = [NSNumber numberWithInteger:_lineEnd];
+    }
+    // If the other tag only starts after the removed tag ends, we just offset
+    // by one to account for the removed start tag.  The removed end tag
+    // won't affect us.
+    else if (otherTag.LineStart > tag.LineStart) {
+      NSInteger _lineStart = [[otherTag LineStart] integerValue] - 1;
+      otherTag.LineStart = [NSNumber numberWithInteger:_lineStart];
+
+      NSInteger _lineEnd = [[otherTag LineEnd] integerValue] - 1;
+      otherTag.LineEnd = [NSNumber numberWithInteger:_lineEnd];
+    }
+  }
+
+  [self setContent:ContentCache];
+}
 
 /**
  Updates or inserts an tag in the file.  An update takes place only if oldTag is defined, and it is able to match that old tag.

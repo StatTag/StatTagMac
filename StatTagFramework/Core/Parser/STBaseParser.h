@@ -24,6 +24,8 @@
 -(NSArray<STTag*>*)Parse:(STCodeFile*)file filterMode:(NSInteger)filterMode;
 -(NSArray<STTag*>*)Parse:(STCodeFile*)file;
 
+-(NSArray<STTag*>*)ParseIncludingInvalidTags:(STCodeFile*)file;
+
 -(bool)IsTagStart:(NSString*)line;
 -(bool)IsTagEnd:(NSString*)line;
 

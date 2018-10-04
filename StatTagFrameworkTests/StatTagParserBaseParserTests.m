@@ -110,6 +110,20 @@
   XCTAssertEqual(0, [result count]);
 }
 
+-(void)testParseIncludingInvalidTags_Null_Empty{
+  StubParser* parser = [[StubParser alloc] init];
+  NSArray<STTag*>* result = [parser ParseIncludingInvalidTags:nil];
+
+  XCTAssertNotNil(result);
+  XCTAssertEqual(0, [result count]);
+
+  id mock = OCMClassMock([STCodeFile class]);
+  OCMStub([mock LoadFileContent]).andReturn([[NSArray<NSString*> alloc] init]);
+
+  result = [parser ParseIncludingInvalidTags:mock];
+  XCTAssertNotNil(result);
+  XCTAssertEqual(0, [result count]);
+}
 
 -(void)testParse_Simple{
   
@@ -129,7 +143,26 @@
   XCTAssertEqual(1, [result count]);
   XCTAssertEqual(0, [[result[0] LineStart] integerValue]);
   XCTAssertEqual(2, [[result[0] LineEnd] integerValue]);
+}
 
+-(void)testParseIncludingInvalidTags_Simple{
+
+  StubParser* parser = [[StubParser alloc] init];
+  NSArray<NSString*>* lines = [[NSArray<NSString*> alloc]
+                               initWithObjects:
+                               @"**>>>ST:Test",
+                               @"declare value",
+                               @"**<<<AM:Test",
+                               nil];
+
+  id mock = OCMClassMock([STCodeFile class]);
+  OCMStub([mock LoadFileContent]).andReturn([[NSArray<NSString*> alloc] initWithArray:lines]);
+
+  NSArray<STTag*>* result = [parser ParseIncludingInvalidTags:mock];
+
+  XCTAssertEqual(1, [result count]);
+  XCTAssertEqual(0, [[result[0] LineStart] integerValue]);
+  XCTAssertEqual(2, [[result[0] LineEnd] integerValue]);
 }
 
 -(void)testParse_StartNoEnd{
@@ -146,6 +179,25 @@
   
   NSArray<STTag*>* result = [parser Parse:mock];
   XCTAssertEqual(0, [result count]);
+}
+
+-(void)testParseIncludingInvalidTagsStartNoEnd
+{
+  StubParser* parser = [[StubParser alloc] init];
+  NSArray<NSString*>* lines = [[NSArray<NSString*> alloc]
+                               initWithObjects:
+                               @"**>>>ST:Test",
+                               @"declare value",
+                               nil];
+
+  id mock = OCMClassMock([STCodeFile class]);
+  OCMStub([mock LoadFileContent]).andReturn([[NSArray<NSString*> alloc] initWithArray:lines]);
+
+  NSArray<STTag*>* result = [parser ParseIncludingInvalidTags:mock];
+
+  XCTAssertEqual(1, [result count]);
+  XCTAssertEqual(0, [[result[0] LineStart] integerValue]);
+  XCTAssertNil([result[0] LineEnd]);
 }
 
 -(void)testParse_TwoStartsOneEnd{
@@ -169,8 +221,83 @@
   XCTAssertEqual(4, [[result[0] LineEnd] integerValue]);
 }
 
+-(void)testParseIncludingInvalidTagsTwoStartsOneEnd
+{
+  StubParser* parser = [[StubParser alloc] init];
+  NSArray<NSString*>* lines = [[NSArray<NSString*> alloc]
+                               initWithObjects:
+                               @"**>>>ST:Test",
+                               @"declare value",
+                               @"**>>>ST:Test",
+                               @"declare value",
+                               @"**<<<",
+                               nil];
+
+  id mock = OCMClassMock([STCodeFile class]);
+  OCMStub([mock LoadFileContent]).andReturn([[NSArray<NSString*> alloc] initWithArray:lines]);
+
+  NSArray<STTag*>* result = [parser ParseIncludingInvalidTags:mock];
+
+  XCTAssertEqual(2, [result count]);
+  XCTAssertEqual(0, [[result[0] LineStart] integerValue]);
+  XCTAssertNil([result[0] LineEnd]);
+  XCTAssertEqual(2, [[result[1] LineStart] integerValue]);
+  XCTAssertEqual(4, [[result[1] LineEnd] integerValue]);
+}
+
+-(void)testParseIncludingInvalidTagsOverlap
+{
+  StubParser* parser = [[StubParser alloc] init];
+  NSArray<NSString*>* lines = [[NSArray<NSString*> alloc]
+                               initWithObjects:
+                               @"**>>>ST:Test",
+                               @"declare value",
+                               @"**>>>ST:Test",
+                               @"declare value",
+                               @"**<<<",
+                               @"**<<<",
+                               nil];
+
+  id mock = OCMClassMock([STCodeFile class]);
+  OCMStub([mock LoadFileContent]).andReturn([[NSArray<NSString*> alloc] initWithArray:lines]);
+
+  NSArray<STTag*>* result = [parser ParseIncludingInvalidTags:mock];
+
+  XCTAssertEqual(2, [result count]);
+  XCTAssertEqual(0, [[result[0] LineStart] integerValue]);
+  XCTAssertEqual(5, [[result[0] LineEnd] integerValue]);
+  XCTAssertEqual(2, [[result[1] LineStart] integerValue]);
+  XCTAssertEqual(4, [[result[1] LineEnd] integerValue]);
+
+  lines = [[NSArray<NSString*> alloc]
+           initWithObjects:
+           @"**>>>ST:Test",
+           @"declare value",
+           @"**>>>ST:Test",
+           @"declare value",
+           @"**<<<",
+           @"**>>>ST:Test",
+           @"declare value",
+           @"**<<<",
+           @"**<<<",
+           nil];
+
+  id mock2 = OCMClassMock([STCodeFile class]);
+  OCMStub([mock2 LoadFileContent]).andReturn([[NSArray<NSString*> alloc] initWithArray:lines]);
+
+  result = [parser ParseIncludingInvalidTags:mock2];
+
+  XCTAssertEqual(3, [result count]);
+  XCTAssertEqual(0, [[result[0] LineStart] integerValue]);
+  XCTAssertEqual(8, [[result[0] LineEnd] integerValue]);
+  XCTAssertEqual(2, [[result[1] LineStart] integerValue]);
+  XCTAssertEqual(4, [[result[1] LineEnd] integerValue]);
+  XCTAssertEqual(5, [[result[2] LineStart] integerValue]);
+  XCTAssertEqual(7, [[result[2] LineEnd] integerValue]);
+}
+
 -(void)testParse_OnDemandFilter{
-  
+
   StubParser* parser = [[StubParser alloc] init];
   NSArray<NSString*>* lines = [[NSArray<NSString*> alloc]
                                initWithObjects:
@@ -228,6 +355,7 @@
   XCTAssertEqual(1, [result count]);
   XCTAssert([@"Test2" isEqualToString:[result[0] Name]]);
 }
+
 
 -(void)testDetectStartTag_Null_Empty{
   

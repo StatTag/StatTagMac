@@ -82,6 +82,8 @@
   self.duplicateTagsViewController.delegate = self;
   self.unlinkedTagsViewController.documentManager = _documentManager;
   self.unlinkedTagsViewController.delegate = self;
+  self.overlappingTagsViewController.documentManager = _documentManager;
+  self.overlappingTagsViewController.delegate = self;
 }
 -(STDocumentManager*)documentManager
 {
@@ -121,6 +123,22 @@
   
   [[self duplicateTagsViewController] setDuplicateTags:[self duplicateTags]];
   [[self codeFilesViewController] focusOnTags:TagIndicatorViewTagFocusDuplicateTags];
+}
+
+-(void)focusOnOverlappingTags
+{
+  if(![[[self focusView] subviews] containsObject:[[self overlappingTagsViewController] view]])
+  {
+    [[self focusView] setSubviews:[NSArray array]];
+    NSView *fView = self.overlappingTagsViewController.view;
+    fView.frame = self.focusView.bounds;
+    fView.autoresizingMask = (NSViewWidthSizable | NSViewHeightSizable);
+    [self.focusView setAutoresizesSubviews:YES];
+    [self.focusView addSubview:fView];
+  }
+  
+  [[self overlappingTagsViewController] setOverlappingTags:[self overlappingTags]];
+  [[self codeFilesViewController] focusOnTags:TagIndicatorViewTagFocusOverlappingTags];
 }
 
 -(void)focusOnUnlinkedTags
@@ -262,6 +280,13 @@
   [self focusOnUnlinkedTags];
 }
 
+-(void)codeFilesSetFocusOnOverlappingTags:(DocumentBrowserCodeFilesViewController*)controller;
+{
+  //NSLog(@"focusing on overlapping tags");
+  [self setOverlappingTags:[controller overlappingTags]];
+  [self focusOnOverlappingTags];
+}
+
 
 -(void)duplicateTagsDidChange:(DuplicateTagsViewController*)controller
 {
@@ -269,6 +294,13 @@
   [[self codeFilesViewController] configure];
   //[self setDuplicateTags:[controller duplicateTags]];
   [self focusOnDuplicateTags];
+}
+
+-(void)overlappingTagsDidChange:(OverlappingTagsViewController*)controller
+{
+  //our tags changed
+  [[self codeFilesViewController] configure];
+  [self focusOnOverlappingTags];
 }
 
 -(void)allTagsDidChange:(UpdateOutputViewController*)controller

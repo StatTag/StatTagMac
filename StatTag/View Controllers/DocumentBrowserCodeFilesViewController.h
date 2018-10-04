@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import <StatTagFramework/STDuplicateTagResults.h>
+#import <StatTagFramework/STOverlappingTagResults.h>
 #import "DocumentBrowserTagSummary.h"
 
 @class STCodeFile;
@@ -23,6 +24,7 @@
 -(void)codeFilesSetFocusOnTags:(DocumentBrowserCodeFilesViewController*)controller;
 -(void)codeFilesSetFocusOnDuplicateTags:(DocumentBrowserCodeFilesViewController*)controller;
 -(void)codeFilesSetFocusOnUnlinkedTags:(DocumentBrowserCodeFilesViewController*)controller;
+-(void)codeFilesSetFocusOnOverlappingTags:(DocumentBrowserCodeFilesViewController*)controller;
 @end
 
 //FIXME: this is a global... we should move this somewhere else managed by the framework
@@ -54,6 +56,7 @@
 
 
 @property (strong, nonatomic)STDuplicateTagResults* duplicateTags;
+@property (strong, nonatomic)STOverlappingTagResults* overlappingTags;
 @property (strong, nonatomic)NSDictionary<NSString*, NSArray<STTag*>*>* unlinkedTags;
 
 -(void)configure;

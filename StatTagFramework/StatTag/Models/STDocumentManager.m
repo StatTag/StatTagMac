@@ -1519,9 +1519,11 @@ Insert an StatTag field at the currently specified document range.
 {
   NSDictionary<NSString*, NSArray<STTag*>*>* unlinkedResults = [_TagManager FindAllUnlinkedTags];
   STDuplicateTagResults* duplicateResults = [_TagManager FindAllDuplicateTags];
+  STOverlappingTagResults* overlappingResults = [_TagManager FindAllOverlappingTags];
   if (onlyShowDialogIfResultsFound
       && (unlinkedResults == nil || [unlinkedResults count] == 0)
-      && (duplicateResults == nil || [duplicateResults count] == 0))
+      && (duplicateResults == nil || [duplicateResults count] == 0)
+      && (overlappingResults == nil || [overlappingResults count] == 0))
   {
     return;
   }

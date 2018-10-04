@@ -19,6 +19,8 @@
 -(NSArray<STTag*>*)Parse:(STCodeFile*)file filterMode:(NSInteger)filterMode;
 -(NSArray<STTag*>*)Parse:(STCodeFile*)file;
 
+-(NSArray<STTag*>*)ParseIncludingInvalidTags:(STCodeFile*)file;
+
 -(NSArray<STExecutionStep*>*)GetExecutionSteps:(STCodeFile*)file filterMode:(NSInteger)filterMode tagsToRun:(NSArray<STTag*>*)tagsToRun;
 -(NSArray<STExecutionStep*>*)GetExecutionSteps:(STCodeFile*)file filterMode:(NSInteger)filterMode;
 -(NSArray<STExecutionStep*>*)GetExecutionSteps:(STCodeFile*)file;
