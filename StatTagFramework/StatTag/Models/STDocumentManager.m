@@ -1411,55 +1411,45 @@ Insert an StatTag field at the currently specified document range.
 */
 -(STStatsManagerExecuteResult*)InsertTagsInDocument:(NSArray<STTag*>*)tags insertPlaceholder:(BOOL)insertPlaceholder
 {
-//  Cursor.Current = Cursors.WaitCursor;
-//  Globals.ThisAddIn.Application.ScreenUpdating = false;
-  
-  //NSInteger responseStatus = 0;
   STStatsManagerExecuteResult* allResults = [[STStatsManagerExecuteResult alloc] init];
   allResults.Success = true;
-
-  STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
-
   
-  @try
-  {
+  @try {
     NSMutableArray<STTag*>* updatedTags = [[NSMutableArray<STTag*> alloc] init];
     NSMutableArray<STCodeFile*>* refreshedFiles = [[NSMutableArray<STCodeFile*> alloc] init];
 
     NSMutableArray<NSNumber*>* addedFields = [[NSMutableArray alloc] init];
-    for (STTag* tag in tags)
-    {
-      if(![refreshedFiles containsObject:[tag CodeFile]])
-      {
-        STStatsManagerExecuteResult* result = [_StatsManager ExecuteStatPackage:[tag CodeFile] filterMode:[STConstantsParserFilterMode TagList] tagsToRun:tags];
-        [[allResults UpdatedTags] addObjectsFromArray:[result UpdatedTags]];
-        [[allResults FailedTags] addObjectsFromArray:[result FailedTags]];
-        if (!result.Success)
-        {
-          //responseStatus = 1; //error
-          allResults.Success = false;
-          //break; //let's not break - let's tell them about all of the broken items across all code files
+    for (STTag* tag in tags) {
+      // The only time we worry about executing results and updating our cached data is when we are NOT
+      // inserting a placeholder.  This saves several cycles, making the field import faster.
+      if (!insertPlaceholder) {
+        if(![refreshedFiles containsObject:[tag CodeFile]]) {
+          STStatsManagerExecuteResult* result = [_StatsManager ExecuteStatPackage:[tag CodeFile] filterMode:[STConstantsParserFilterMode TagList] tagsToRun:tags];
+          [[allResults UpdatedTags] addObjectsFromArray:[result UpdatedTags]];
+          [[allResults FailedTags] addObjectsFromArray:[result FailedTags]];
+          if (!result.Success) {
+            allResults.Success = false;
+            //break; //let's not break - let's tell them about all of the broken items across all code files
+          }
+          
+          [updatedTags addObjectsFromArray:[result UpdatedTags]];
+          [refreshedFiles addObject:[tag CodeFile]];
         }
         
-        [updatedTags addObjectsFromArray:[result UpdatedTags]];
-        [refreshedFiles addObject:[tag CodeFile]];
-      }
-      
-      //update our tag's cached result
-      if([updatedTags containsObject:tag])
-      {
-        tag.CachedResult = [[updatedTags objectAtIndex:[updatedTags indexOfObject:tag]] CachedResult];
+        // Update our tag's cached result - it's important this is never done for a placeholder.  We discovered
+        // that setting this causes the JSON serialization to fail.
+        if([updatedTags containsObject:tag]) {
+          tag.CachedResult = [[updatedTags objectAtIndex:[updatedTags indexOfObject:tag]] CachedResult];
+        }
       }
 
-      @try
-      {
+      @try {
         NSArray<NSNumber*>* fields = [self InsertField:tag insertPlaceholder:insertPlaceholder];
         if (fields != nil) {
           [addedFields addObjectsFromArray:fields];
         }
       }
-      @catch (NSException* exception)
-      {
+      @catch (NSException* exception) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"tagUpdateComplete" object:self userInfo:@{@"tagName":[tag Name], @"tagID":[tag Id], @"codeFileName":[[tag CodeFile] FileName], @"type" : @"tag", @"no_result" : [NSNumber numberWithBool:YES], @"exception":exception}];
         allResults.Success = false;
         [[allResults FailedTags] addObject:tag];
@@ -1469,43 +1459,22 @@ Insert an StatTag field at the currently specified document range.
     // Now that all of the fields have been inserted, sweep through and update any existing
     // tags that changed.  We do this after the fields are inserted to better manage
     // the cursor position in the document.
-    // FIXME: really test this... it's really not clear if this is working.
-//    NSArray<STTag*> *theTags = [updatedTags valueForKey:@"Name"];
-//    NSOrderedSet<STTag*> *orderedSet = [NSOrderedSet<STTag*> orderedSetWithArray:theTags];
-//    NSSet<STTag*> *uniqueTags = [orderedSet set];
-//    updatedTags = [[NSMutableArray<STTag*> alloc] initWithArray:[uniqueTags allObjects]];
-
-    NSOrderedSet<STTag*> *orderedSet = [NSOrderedSet<STTag*> orderedSetWithArray:updatedTags];
-    NSSet<STTag*> *uniqueTags = [orderedSet set];
-    updatedTags = [[NSMutableArray<STTag*> alloc] initWithArray:[uniqueTags allObjects]];
-
     if (!insertPlaceholder) {
+      NSOrderedSet<STTag*> *orderedSet = [NSOrderedSet<STTag*> orderedSetWithArray:updatedTags];
+      NSSet<STTag*> *uniqueTags = [orderedSet set];
+      updatedTags = [[NSMutableArray<STTag*> alloc] initWithArray:[uniqueTags allObjects]];
+
       for (STTag* updatedTag in updatedTags) {
         [self UpdateFields:[[STUpdatePair alloc] init:updatedTag newItem:updatedTag] ignoreIndexes:addedFields];
       }
     }
   }
-  @catch (NSException* exception)
-  {
-//    responseStatus = 1; //error
-//    [[NSNotificationCenter defaultCenter] postNotificationName:@"allTagUpdatesComplete" object:self userInfo:@{@"responseState":[NSNumber numberWithInteger:responseStatus]}];
-    //NSLog(@"%@", exception.reason);
-    //NSLog(@"method: %@, line : %d", NSStringFromSelector(_cmd), __LINE__);
-    //NSLog(@"%@", [NSThread callStackSymbols]);
+  @catch (NSException* exception) {
     [[self Logger] WriteException:exception];
     @throw exception;
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//      [STUIUtility ReportException:exception userMessage:@"There was an unexpected error when trying to insert the tag output into the Word document." logger:[self Logger]];
-//    });
   }
-  @finally
-  {
-//    Globals.ThisAddIn.Application.ScreenUpdating = true;
-//    Cursor.Current = Cursors.Default;
-  }
-//  [[NSNotificationCenter defaultCenter] postNotificationName:@"allTagUpdatesComplete" object:self userInfo:@{@"responseState":[NSNumber numberWithInteger:responseStatus]}];
-  return allResults;
 
+  return allResults;
 }
 
 
