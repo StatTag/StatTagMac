@@ -70,6 +70,9 @@
                                                                     <menuItem title="(Select tag to keep)" state="on" id="dLy-gG-ROG" userLabel="(Select tag to keep)"/>
                                                                 </items>
                                                             </menu>
+                                                            <connections>
+                                                                <action selector="takeActionOnOverlappingGroup:" target="-2" id="5qO-JI-pt6"/>
+                                                            </connections>
                                                         </popUpButtonCell>
                                                     </popUpButton>
                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jOd-ko-IvW">

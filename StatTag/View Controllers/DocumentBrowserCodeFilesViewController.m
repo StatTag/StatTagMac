@@ -138,7 +138,14 @@
   }
   
   if ([self overlappingTags] != nil && [[self overlappingTags] count] > 0) {
-    [objs addObject:[[DocumentBrowserTagSummary alloc] initWithTitle:@"Overlapping Tags" andStyle:TagIndicatorViewTagStyleWarning withFocus:TagIndicatorViewTagFocusOverlappingTags andCount:[[self overlappingTags] count] andDisplayCount:TRUE]];
+    int overlappingTagGroupCounter = 0;
+    for (STCodeFile* key in [self overlappingTags]) {
+      NSMutableArray<NSMutableArray<STTag*>*>* value = [self overlappingTags][key];
+      if (value != nil) {
+        overlappingTagGroupCounter += [value count];
+      }
+    }
+    [objs addObject:[[DocumentBrowserTagSummary alloc] initWithTitle:@"Overlapping Tags" andStyle:TagIndicatorViewTagStyleWarning withFocus:TagIndicatorViewTagFocusOverlappingTags andCount:overlappingTagGroupCounter andDisplayCount:TRUE]];
   }
   
   [objs addObject:[[DocumentBrowserTagSummary alloc] initWithTitle:[NSString stringWithFormat:@"%@", @"Check Unlinked Tags"] andStyle:TagIndicatorViewTagStyleUnlinked withFocus:TagIndicatorViewTagFocusUnlinkedTags andCount:0 andDisplayCount:FALSE]];

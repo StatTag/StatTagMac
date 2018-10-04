@@ -1042,4 +1042,31 @@ the DocumentManager instance that contains it.
   }
 }
 
+-(void)RemoveCollidingTags:(NSArray<STTag*>*)tags
+{
+  if (tags == nil || [tags count] == 0) {
+    return;
+  }
+  
+  // By removing these in descending order, it helps us manage the
+  // offsets for the tags that we want to remove.  Otherwise, we will
+  // remove the first tag, and when we go to remove the second tag it
+  // is pointing to indices that have changed and it's not aware of.
+  NSArray *sortedArray = [tags sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
+    NSNumber* first = [(STTag*)a LineStart];
+    NSNumber* second = [(STTag*)b LineStart];
+    return [first compare:second];
+  }];
+  
+  NSError* error;
+  for (STTag* tag in sortedArray) {
+    [[tag CodeFile] RemoveCollidingTag:tag];
+  }
+  
+  // For this collection of tags, they all have to be in the same code file.  We will just then
+  // grab the first tag and save that code file, instead of saving this on each iteration or
+  // tracking unique code files.
+  [[[tags firstObject] CodeFile] Save:&error];
+}
+
 @end

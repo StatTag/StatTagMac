@@ -41,5 +41,6 @@
 @property (strong, nonnull) IBOutlet NSPopover *popoverView;
 @property (strong, nonatomic, nonnull) NSString* peekTitle;
 
+- (IBAction)takeActionOnOverlappingGroup:(id)sender;
 
 @end

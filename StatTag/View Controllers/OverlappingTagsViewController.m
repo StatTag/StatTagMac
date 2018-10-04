@@ -105,7 +105,17 @@
     OverlappingTagsGroupRowView* groupCell = (OverlappingTagsGroupRowView*)[tableView makeViewWithIdentifier:@"overlappingTagGroupRow" owner:self];
     groupCell.groupName.objectValue = [entry title];
     groupCell.codeFileName.objectValue = [entry subTitle];
-    [groupCell.groupActionPopUpList addItemsWithTitles:[entry getTagNames]];
+    
+    NSPopUpButton* popup = [groupCell groupActionPopUpList];
+    [popup removeAllItems];
+    [popup addItemWithTitle:@"(Select tag to keep)"];
+    for (int index = 0; index < [[entry tags] count]; index++) {
+      STTag* tag = [[entry tags] objectAtIndex:index];
+      NSMenuItem* item = [[NSMenuItem alloc] initWithTitle:[tag Name] action:nil keyEquivalent:@""];
+      [item setTag:index];
+      [item setRepresentedObject:tag];
+      [[popup menu] insertItem:item atIndex:(index + 1)];
+    }
     [[groupCell imageView] setImage: [[entry codeFile] packageIcon]];
     return groupCell;
   }
@@ -120,6 +130,35 @@
   
   return cell;
   
+}
+
+- (IBAction)takeActionOnOverlappingGroup:(id)sender
+{
+  //NSLog(@"selected code file");
+  NSPopUpButton* popup = (NSPopUpButton*)sender;
+  if (popup == nil || [popup selectedItem] == nil) {
+    return;
+  }
+  
+  STTag* selectedTag = [[popup selectedItem] representedObject];
+  if (selectedTag == nil) {
+    return;
+  }
+
+  // Now loop through all of the tags in the popup list.  Those that aren't
+  // selected are going to be removed.
+  STTagManager* tagManager = [_documentManager TagManager];
+  NSMutableArray<STTag*>* tagsToRemove = [[NSMutableArray<STTag*> alloc] init];
+  NSArray<NSMenuItem*>* menuItems = [[popup menu] itemArray];
+  for (NSMenuItem* menuItem in menuItems) {
+    STTag* tag = [menuItem representedObject];
+    if (tag != nil && ![tag EqualsWithPosition:selectedTag]) {
+      [tagsToRemove addObject:tag];
+    }
+  }
+  
+  [tagManager RemoveCollidingTags:tagsToRemove];
+  [self overlappingTagsDidChange:self];
 }
 
 -(CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row {
