@@ -504,8 +504,8 @@ TagEditorViewController* tagEditorController;
 {
   
   //these should be moved to localization files and loaded
-  NSString* buttonInsertTextTemplate = @"Insert %@Tag%@ Into Document";
-  NSString* buttonRefreshTextTemplate = @"Refresh %@Tag%@";
+  NSString* buttonInsertTextTemplate = @"Insert %@Tag Placeholder%@";
+  NSString* buttonRefreshTextTemplate = @"Refresh %@Tag Result%@";
 
   NSInteger numSelected = [[onDemandTags selectedObjects] count];
   NSString* pluralSuffix = @"";
