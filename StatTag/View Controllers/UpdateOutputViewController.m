@@ -502,36 +502,19 @@ TagEditorViewController* tagEditorController;
 
 - (void)tableViewSelectionDidChange:(NSNotification *)notification
 {
-  
   //these should be moved to localization files and loaded
   NSString* buttonInsertTextTemplate = @"Insert %@Tag Placeholder%@";
-  NSString* buttonRefreshTextTemplate = @"Refresh %@Tag Result%@";
+  NSString* buttonRefreshTextTemplate = @"Update %@Tag Result%@";
 
   NSInteger numSelected = [[onDemandTags selectedObjects] count];
-  NSString* pluralSuffix = @"";
-  NSString* numSelectedText = @"";
+  NSString* pluralSuffix = (numSelected == 1) ? @"" : @"s";
+  NSString* numSelectedText = [NSString stringWithFormat:@"%ld ", numSelected];//note the trailing space
+  [[self buttonRefresh] setTitle:[NSString stringWithFormat:buttonRefreshTextTemplate, numSelectedText, pluralSuffix]];
+  [[self buttonInsert] setTitle:[NSString stringWithFormat:buttonInsertTextTemplate, numSelectedText, pluralSuffix]];
 
-  if(numSelected > 0)
-  {
-    //let's set the button title to include the # selected
-    //[[self buttonInsert] setTitle:@""];
-    [[self buttonInsert] setEnabled:YES];
-    [[self buttonRefresh] setEnabled:YES];
-    
-    numSelectedText = [NSString stringWithFormat:@"%ld ", numSelected];//note the trailing space
-    if(numSelected > 1){ //this might be an English only thing, so we should also put the suffix in the internationalization file
-      pluralSuffix = @"s";
-    }
-    
-    [[self buttonRefresh] setTitle:[NSString stringWithFormat:buttonRefreshTextTemplate, numSelectedText, pluralSuffix]];
-    [[self buttonInsert] setTitle:[NSString stringWithFormat:buttonInsertTextTemplate, numSelectedText, pluralSuffix]];
-    
-  } else {
-    [[self buttonInsert] setEnabled:NO];
-    [[self buttonRefresh] setEnabled:NO];
-    [[self buttonRefresh] setTitle:[NSString stringWithFormat:buttonRefreshTextTemplate, numSelectedText, pluralSuffix]];
-    [[self buttonInsert] setTitle:[NSString stringWithFormat:buttonInsertTextTemplate, numSelectedText, pluralSuffix]];
-  }
+  BOOL enabled = (numSelected > 0) ? YES : NO;
+  [[self buttonInsert] setEnabled:enabled];
+  [[self buttonRefresh] setEnabled:enabled];
   NSLog(@"");
 }
 
