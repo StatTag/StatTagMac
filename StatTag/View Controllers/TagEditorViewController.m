@@ -429,6 +429,9 @@ typedef enum {
 {
   NSMutableArray<NSString*>* errorCollection = [[NSMutableArray<NSString*> alloc] init];
   NSError* saveWarning;
+  BOOL duplicateTag = FALSE;
+  BOOL emptyName = FALSE;
+  
 
   // Check for duplicate names (if the name is set)
   NSCharacterSet *ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
@@ -449,6 +452,7 @@ typedef enum {
         if ([[aTag Name] isEqualToString:[[self tag] Name]] && ![aTag isEqual:[self tag]]){
           if(cf == codeFile) {
             //same codefile, so this is an error
+            duplicateTag = TRUE;
             [errorCollection addObject:[NSString stringWithFormat:@"Tag name is not unique.  Tag '%@' already appears in this code file.", [aTag Name]]];
           } else {
             //different codefile - we should warn
@@ -463,12 +467,15 @@ typedef enum {
   }
   // Or, alert the user that they need to supply a name
   else {
+    emptyName = TRUE;
     [errorCollection addObject:@"Tag name is blank."];
   }
 
+  BOOL noSelectedLines = FALSE;
   // Check if there are lines selected
   NSArray<NSNumber*>* selectedIndices = [[self sourceEditor ] GetSelectedIndices];
   if([selectedIndices count] == 0) {
+    noSelectedLines = TRUE;
     [[self tag] setLineStart: nil];
     [[self tag] setLineEnd: nil];
     [errorCollection addObject:@"No code selected. Select by clicking next to the line number."];
@@ -483,9 +490,11 @@ typedef enum {
     [[self tag] setLineEnd:[selectedIndices valueForKeyPath:@"@max.self"]];
   }
 
+  BOOL stoppableCollision = FALSE;
   // Detect if there are any stoppable collisions
   NSString* collisionError = [self detectStoppableCollision];
   if (collisionError != nil) {
+    stoppableCollision = TRUE;
     [errorCollection addObject:collisionError];
   }
   
@@ -514,6 +523,9 @@ typedef enum {
     }];
     return;
   }
+  
+  [[_tagBasicProperties tagNameLabel] setTextColor:(duplicateTag || emptyName) ? [NSColor redColor] : [NSColor blackColor]];
+  [_marginLabel setTextColor:(noSelectedLines || stoppableCollision) ? [NSColor redColor] : [NSColor blackColor]];
   
   NSUInteger errorCollectionCount = [errorCollection count];
   //oops! something bad happened - tell the user
