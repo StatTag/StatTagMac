@@ -394,7 +394,7 @@ typedef enum {
   [self validateSave:SaveActionTypeSaveAndClose];
 }
 
--(NSError*) detectStoppableCollision
+-(NSString*) detectStoppableCollision
 {
   if ([self tag] == nil) {
     return nil;
@@ -419,23 +419,23 @@ typedef enum {
     return nil;
   }
 
-  NSMutableDictionary *errorDetail = [NSMutableDictionary dictionary];
   STTag* collidingTag = [collisionResult CollidingTag];
-  [errorDetail setValue:[NSString stringWithFormat:@"The code that you have selected for your new tag overlaps with an existing tag ('%@').", [collidingTag Name]] forKey:NSLocalizedDescriptionKey];
-  NSError* error = [NSError errorWithDomain:@"com.stattag.StatTag" code:100 userInfo:errorDetail];
+  NSString* error = [NSString stringWithFormat:@"The code that you have selected for your new tag overlaps with an existing tag ('%@').", [collidingTag Name]];
   return error;
 }
 
+//NOTE: we're not saving yet - this is all save VALIDATION
 -(void)validateSave:(SaveActionType)actionAfterSave
 {
-  //NOTE: we're not saving yet - this is all save VALIDATION
-
-  NSError* saveError;
+  NSMutableArray<NSString*>* errorCollection = [[NSMutableArray<NSString*> alloc] init];
   NSError* saveWarning;
+  BOOL duplicateTag = FALSE;
+  BOOL emptyName = FALSE;
+  
 
+  // Check for duplicate names (if the name is set)
   NSCharacterSet *ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
-  if([[self tag] Name] != nil && [[[[self tag] Name] stringByTrimmingCharactersInSet: ws] length] > 0 )
-  {
+  if([[self tag] Name] != nil && [[[[self tag] Name] stringByTrimmingCharactersInSet: ws] length] > 0 ) {
     //FIXME:
     //if(! [[_tag Name] isEqualToString: [_textBoxTagName stringValue]]  ) {
     //if(! [[_tag Name] isEqualToString: [_textBoxTagName stringValue]]  ) {
@@ -452,10 +452,8 @@ typedef enum {
         if ([[aTag Name] isEqualToString:[[self tag] Name]] && ![aTag isEqual:[self tag]]){
           if(cf == codeFile) {
             //same codefile, so this is an error
-            //is the tag name reused (other than this tag)?
-            NSMutableDictionary *errorDetail = [NSMutableDictionary dictionary];
-            [errorDetail setValue:[NSString stringWithFormat:@"The Tag name %@ is already used in code file %@. You will need to specify a unique Tag name", [aTag Name], [codeFile FileName]] forKey:NSLocalizedDescriptionKey];
-            saveError = [NSError errorWithDomain:@"com.stattag.StatTag" code:100 userInfo:errorDetail];
+            duplicateTag = TRUE;
+            [errorCollection addObject:[NSString stringWithFormat:@"Tag name is not unique.  Tag '%@' already appears in this code file.", [aTag Name]]];
           } else {
             //different codefile - we should warn
             NSMutableDictionary *errorDetail = [NSMutableDictionary dictionary];
@@ -466,66 +464,50 @@ typedef enum {
       }
     }
     //}
-    
+  }
+  // Or, alert the user that they need to supply a name
+  else {
+    emptyName = TRUE;
+    [errorCollection addObject:@"Tag name is blank."];
+  }
+
+  BOOL noSelectedLines = FALSE;
+  // Check if there are lines selected
+  NSArray<NSNumber*>* selectedIndices = [[self sourceEditor ] GetSelectedIndices];
+  if([selectedIndices count] == 0) {
+    noSelectedLines = TRUE;
+    [[self tag] setLineStart: nil];
+    [[self tag] setLineEnd: nil];
+    [errorCollection addObject:@"No code selected. Select by clicking next to the line number."];
+  }
+  else if ([selectedIndices count] == 1) {
+    [[self tag] setLineStart: [selectedIndices firstObject]];
+    [[self tag] setLineEnd: [[self tag] LineStart]];
   }
   else {
-    NSMutableDictionary *errorDetail;
-    errorDetail = [NSMutableDictionary dictionary];
-    [errorDetail setValue:[NSString stringWithFormat:@"Please supply a tag name"] forKey:NSLocalizedDescriptionKey];
-    saveError = [NSError errorWithDomain:@"com.stattag.StatTag" code:100 userInfo:errorDetail];
-    
+    //http://stackoverflow.com/questions/15931112/finding-the-smallest-and-biggest-value-in-nsarray-of-nsnumbers
+    [[self tag] setLineStart:[selectedIndices valueForKeyPath:@"@min.self"]];
+    [[self tag] setLineEnd:[selectedIndices valueForKeyPath:@"@max.self"]];
   }
 
-  if(saveError == nil)
-  {
-    NSArray<NSNumber*>* selectedIndices = [[self sourceEditor ] GetSelectedIndices];
-    if([selectedIndices count] == 0)
-    {
-      [[self tag] setLineStart: nil];
-      [[self tag] setLineEnd: nil];
-      
-      NSMutableDictionary *errorDetail;
-      errorDetail = [NSMutableDictionary dictionary];
-      [errorDetail setValue:[NSString stringWithFormat:@"Please click on the margin of the code viewer to select the lines you would like to use in your tag"] forKey:NSLocalizedDescriptionKey];
-      saveError = [NSError errorWithDomain:@"com.stattag.StatTag" code:100 userInfo:errorDetail];
-      
-    }
-    else if ([selectedIndices count] == 1)
-    {
-      [[self tag] setLineStart: [selectedIndices firstObject]];
-      [[self tag] setLineEnd: [[self tag] LineStart]];
-    }
-    else
-    {
-      //http://stackoverflow.com/questions/15931112/finding-the-smallest-and-biggest-value-in-nsarray-of-nsnumbers
-      [[self tag] setLineStart:[selectedIndices valueForKeyPath:@"@min.self"]];
-      [[self tag] setLineEnd:[selectedIndices valueForKeyPath:@"@max.self"]];
-    }
+  BOOL stoppableCollision = FALSE;
+  // Detect if there are any stoppable collisions
+  NSString* collisionError = [self detectStoppableCollision];
+  if (collisionError != nil) {
+    stoppableCollision = TRUE;
+    [errorCollection addObject:collisionError];
   }
+  
 
-  if (saveError == nil) {
-    saveError = [self detectStoppableCollision];
+  if([[[self tag] Type] isEqualToString:[STConstantsTagType Value]]) {
+  } else if([[[self tag] Type] isEqualToString:[STConstantsTagType Table]]) {
+  } else if([[[self tag] Type] isEqualToString:[STConstantsTagType Figure]]) {
+  } else if([[[self tag] Type] isEqualToString:[STConstantsTagType Verbatim]]) {
+  } else {
+    [errorCollection addObject:@"Tag type is not yet supported."];
   }
   
-  if(saveError == nil)
-  {
-    if([[[self tag] Type] isEqualToString:[STConstantsTagType Value]]) {
-    } else if([[[self tag] Type] isEqualToString:[STConstantsTagType Table]]) {
-    } else if([[[self tag] Type] isEqualToString:[STConstantsTagType Figure]]) {
-    } else if([[[self tag] Type] isEqualToString:[STConstantsTagType Verbatim]]) {
-    } else {
-      NSMutableDictionary *errorDetail;
-      errorDetail = [NSMutableDictionary dictionary];
-      [errorDetail setValue:[NSString stringWithFormat:@"This tag type is not yet supported"] forKey:NSLocalizedDescriptionKey];
-      saveError = [NSError errorWithDomain:@"com.stattag.StatTag" code:100 userInfo:errorDetail];
-    }
-  }
-  
-  if(saveError != nil) {
-    //oops! something bad happened - tell the user
-    [NSApp presentError:saveError];
-    return;
-  } else if(saveWarning != nil) {
+  if (saveWarning != nil) {
     //warn the user - they can decide if they want to proceed
     NSAlert *alert = [[NSAlert alloc] init];
     [alert setMessageText:@"Tag name is not unique"];
@@ -539,6 +521,29 @@ typedef enum {
         [self saveAndClose:actionAfterSave];
       }
     }];
+    return;
+  }
+  
+  [[_tagBasicProperties tagNameLabel] setTextColor:(duplicateTag || emptyName) ? [NSColor redColor] : [NSColor blackColor]];
+  [_marginLabel setTextColor:(noSelectedLines || stoppableCollision) ? [NSColor redColor] : [NSColor blackColor]];
+  
+  NSUInteger errorCollectionCount = [errorCollection count];
+  //oops! something bad happened - tell the user
+  if(errorCollectionCount > 0) {
+    NSMutableString* errorMessage = [NSMutableString stringWithFormat:@"StatTag detected %lu problem%s with this tag:\r\n",
+                                     errorCollectionCount, (errorCollectionCount == 1 ? "" : "s")];
+    for (NSString* error in errorCollection) {
+      [errorMessage appendFormat:@"- %@\r\n", error];
+    }
+    
+    [errorMessage appendString:@"\r\nPlease see the User’s Guide for more information."];
+    
+    NSMutableDictionary *errorDetail = [NSMutableDictionary dictionary];
+    [errorDetail setValue:errorMessage forKey:NSLocalizedDescriptionKey];
+    NSError* saveError = [NSError errorWithDomain:@"com.stattag.StatTag" code:100 userInfo:errorDetail];
+    
+    [NSApp presentError:saveError];
+    return;
   } else {
     [self saveAndClose:actionAfterSave];
   }

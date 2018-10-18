@@ -66,6 +66,8 @@
 @property (weak) IBOutlet NSButton *buttonSave;
 @property (weak) IBOutlet NSButton *buttonCancel;
 
+@property (weak) IBOutlet NSTextField *marginLabel;
+
 @property (strong, nonatomic) NSMutableAttributedString* instructionTitleText;
 @property (strong, nonatomic) NSString* allowedCommandsText;
 
