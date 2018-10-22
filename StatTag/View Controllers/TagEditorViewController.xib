@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12121" systemVersion="17G2307" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12121" systemVersion="17G65" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12121"/>
         <capability name="box content view" minToolsVersion="7.0"/>
@@ -110,23 +110,23 @@
                         <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ohh-Td-ZVq">
                             <rect key="frame" x="0.0" y="100" width="300" height="289"/>
                             <clipView key="contentView" id="2He-An-dP7" customClass="FlippedClipView">
-                                <rect key="frame" x="1" y="1" width="298" height="287"/>
+                                <rect key="frame" x="1" y="1" width="283" height="287"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <stackView distribution="equalSpacing" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" ambiguous="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="asj-x8-Tj3" userLabel="Properties Stack View">
-                                        <rect key="frame" x="0.0" y="87" width="298" height="200"/>
+                                        <rect key="frame" x="0.0" y="87" width="283" height="200"/>
                                         <subviews>
                                             <customView ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ynp-E8-QQE">
-                                                <rect key="frame" x="0.0" y="150" width="298" height="50"/>
+                                                <rect key="frame" x="0.0" y="150" width="283" height="50"/>
                                             </customView>
                                             <customView ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LqL-kn-7dP">
-                                                <rect key="frame" x="0.0" y="100" width="298" height="50"/>
+                                                <rect key="frame" x="0.0" y="100" width="283" height="50"/>
                                             </customView>
                                             <customView ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ap9-Rh-z6C">
-                                                <rect key="frame" x="0.0" y="50" width="298" height="50"/>
+                                                <rect key="frame" x="0.0" y="50" width="283" height="50"/>
                                             </customView>
                                             <customView ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9oi-ab-Odp">
-                                                <rect key="frame" x="0.0" y="0.0" width="298" height="50"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="283" height="50"/>
                                             </customView>
                                         </subviews>
                                         <constraints>
@@ -165,7 +165,7 @@
                                 <autoresizingMask key="autoresizingMask"/>
                             </scroller>
                             <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="0.99078341013824889" horizontal="NO" id="7QE-lI-cHc">
-                                <rect key="frame" x="283" y="1" width="16" height="287"/>
+                                <rect key="frame" x="284" y="1" width="15" height="287"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </scroller>
                         </scrollView>
@@ -253,7 +253,7 @@ Gw
                         <font key="font" metaFont="system"/>
                         <segments>
                             <segment label="Save" tag="1"/>
-                            <segment image="NSTouchBarGoDownTemplate" width="16">
+                            <segment image="pulldownButtonSmallBlack" width="16">
                                 <nil key="label"/>
                                 <menu key="menu" id="rOs-Nk-V5k">
                                     <items>
@@ -302,6 +302,6 @@ Gw
         <viewController id="rGg-7P-f2W" customClass="ScintillaEmbeddedViewController"/>
     </objects>
     <resources>
-        <image name="NSTouchBarGoDownTemplate" width="16" height="30"/>
+        <image name="pulldownButtonSmallBlack" width="8" height="8"/>
     </resources>
 </document>
