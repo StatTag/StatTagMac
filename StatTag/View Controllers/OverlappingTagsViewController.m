@@ -111,7 +111,7 @@
     [popup addItemWithTitle:@"(Select tag to keep)"];
     for (int index = 0; index < [[entry tags] count]; index++) {
       STTag* tag = [[entry tags] objectAtIndex:index];
-      NSMenuItem* item = [[NSMenuItem alloc] initWithTitle:[tag Name] action:nil keyEquivalent:@""];
+      NSMenuItem* item = [[NSMenuItem alloc] initWithTitle:[NSString stringWithFormat:@"%@ (Lines %ld-%ld)", [tag Name], [[tag LineStart] integerValue], (long)[[tag LineEnd] integerValue]] action:nil keyEquivalent:@""];
       [item setTag:index];
       [item setRepresentedObject:tag];
       [[popup menu] insertItem:item atIndex:(index + 1)];
@@ -124,7 +124,7 @@
     STTag* tag = [[entry tags] firstObject];
     detailCell.tagName.objectValue = [tag Name];
     detailCell.tagType.objectValue = [tag Type];
-    detailCell.tagLines.objectValue = [NSString stringWithFormat:@"Lines: %ld-%ld", [[tag LineStart] integerValue], (long)[[tag LineEnd] integerValue]];
+    detailCell.tagLines.objectValue = [NSString stringWithFormat:@"Lines %ld-%ld", [[tag LineStart] integerValue], (long)[[tag LineEnd] integerValue]];
     return detailCell;
   }
   

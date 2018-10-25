@@ -1061,6 +1061,7 @@ the DocumentManager instance that contains it.
   NSError* error;
   for (STTag* tag in sortedArray) {
     [[tag CodeFile] RemoveCollidingTag:tag];
+    [STCodeFile OffsetTagListByRemovedTag:sortedArray removedTag:tag];
   }
   
   // For this collection of tags, they all have to be in the same code file.  We will just then

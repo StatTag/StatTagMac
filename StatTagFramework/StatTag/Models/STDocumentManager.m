@@ -323,7 +323,8 @@ used to create the Word document.
 /**
  Insert an image (given a definition from an tag) into the current Word document at the current cursor location.
  */
--(void) InsertImage:(STTag*) tag {
+-(void) InsertImage:(STMSWord2011SelectionObject*)selection tag:(STTag*) tag
+{
   //[NSException raise:@"InsertImage not implemented" format:@"InsertImage not implemented"];
   
   //NSLog(@"InsertImage - Started");
@@ -332,6 +333,8 @@ used to create the Word document.
     //NSLog(@"The tag is null, no action will be taken");
     return;
   }
+  
+  [selection delete];
 
   if ([tag CachedResult] == nil || [[tag CachedResult] count] == 0)
   {
@@ -1168,12 +1171,6 @@ used to create the Word document.
     [[NSNotificationCenter defaultCenter] postNotificationName:@"tagUpdateStart" object:self userInfo:@{@"tagName":[tag Name], @"codeFileName":[[tag CodeFile] FileName], @"type" : @"field"}];
   });
   
-  if(!insertPlaceholder && [[tag Type] isEqualToString:[STConstantsTagType Figure]]) {
-    //NSLog(@"Detected a Figure tag");
-    [self InsertImage:tag];
-    return addedFields;
-  }
-  
   @try {
     @autoreleasepool {
       STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
@@ -1181,6 +1178,12 @@ used to create the Word document.
       STMSWord2011SelectionObject* selection = [app selection];
       if(selection == nil) {
         //NSLog(@"There is no active selection");
+        return addedFields;
+      }
+      
+      if(!insertPlaceholder && [[tag Type] isEqualToString:[STConstantsTagType Figure]]) {
+        //NSLog(@"Detected a Figure tag");
+        [self InsertImage:selection tag:tag];
         return addedFields;
       }
 

@@ -128,4 +128,11 @@
  */
 -(void)UpdateContent:(NSString*)text error:(NSError*)outError;
 
+/**
+ Utility function to offset the line indexes of a list of tags, given a tag that
+ is being removed.  This will account for the various overlapping/embedding scenarios
+ that can affect line offsets.
+ */
++(void) OffsetTagListByRemovedTag:(NSArray<STTag*>*) tagList removedTag:(STTag*)removedTag;
+
 @end

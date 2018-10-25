@@ -508,20 +508,51 @@ the cached results in another tag.
   [ContentCache removeObjectAtIndex:[[tag LineEnd] integerValue]]; //risky...
   [ContentCache removeObjectAtIndex:[[tag LineStart] integerValue]]; //risky...
 
+  [STCodeFile OffsetTagListByRemovedTag:_Tags removedTag:tag];
+  
+  [self setContent:ContentCache];
+  
+}
+
++(void) OffsetTagListByRemovedTag:(NSArray<STTag*>*) tagList removedTag:(STTag*)removedTag
+{
   // Any tags below the one being removed need to be adjusted
-  for(STTag* otherTag in _Tags){
-    // Tags can't overlap, so we can simply check for the start after the end.
-    if([otherTag LineStart] > [tag LineEnd]) {
+  for(STTag* otherTag in tagList){
+    // If the other tag starts after the removed tag ends, we need to offset
+    // the start and end by two (one for each of the lines that were removed
+    // for the start and end comments, respectively)
+    if([otherTag LineStart] > [removedTag LineEnd]) {
       NSInteger _lineStart = [[otherTag LineStart] integerValue] -2;
       otherTag.LineStart = [NSNumber numberWithInteger:_lineStart];
       
       NSInteger _lineEnd = [[otherTag LineEnd] integerValue] -2;
       otherTag.LineEnd = [NSNumber numberWithInteger:_lineEnd];
     }
+    // If the other tag only starts after the removed tag ends, we just offset
+    // by one to account for the removed start tag.  The removed end tag
+    // won't affect us.
+    else if([otherTag LineStart] > [removedTag LineStart]) {
+      NSInteger _lineStart = [[otherTag LineStart] integerValue] -1;
+      otherTag.LineStart = [NSNumber numberWithInteger:_lineStart];
+      
+      NSInteger _lineEnd = [[otherTag LineEnd] integerValue] -1;
+      otherTag.LineEnd = [NSNumber numberWithInteger:_lineEnd];
+    }
+    // If the other tag starts before the removed tag starts, the start position
+    // isn't impacted.  But if it ends after the removed tag starts, we need to
+    // offset just our end position by 2
+    else if([otherTag LineStart] < [removedTag LineStart] && [otherTag LineEnd] > [removedTag LineEnd]) {
+      NSInteger _lineEnd = [[otherTag LineEnd] integerValue] -2;
+      otherTag.LineEnd = [NSNumber numberWithInteger:_lineEnd];
+    }
+    // If the other tag starts before the removed tag starts, the start position
+    // isn't impacted.  But if it ends after the removed tag end, we need to
+    // offset just our end position by 1
+    else if([otherTag LineStart] < [removedTag LineStart] && [otherTag LineEnd] > [removedTag LineStart]) {
+      NSInteger _lineEnd = [[otherTag LineEnd] integerValue] -1;
+      otherTag.LineEnd = [NSNumber numberWithInteger:_lineEnd];
+    }
   }
-  
-  [self setContent:ContentCache];
-  
 }
 
 /**
