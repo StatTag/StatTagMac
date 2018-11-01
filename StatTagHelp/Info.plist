@@ -15,15 +15,11 @@
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
-	<key>CFBundleVersion</key>
-	<string>1</string>
-	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2017 StatTag. All rights reserved.</string>
-	<key>NSPrincipalClass</key>
-	<string></string>
+	<string>2.0</string>
 	<key>CFBundleSignature</key>
 	<string>hbwr</string>
+	<key>CFBundleVersion</key>
+	<string>1</string>
 	<key>HPDBookAccessPath</key>
 	<string>redirect.html</string>
 	<key>HPDBookIconPath</key>
@@ -38,5 +34,9 @@
 	<false/>
 	<key>HPDMaxWindowWidth</key>
 	<integer>938</integer>
+	<key>NSHumanReadableCopyright</key>
+	<string>Copyright © 2018 StatTag. All rights reserved.</string>
+	<key>NSPrincipalClass</key>
+	<string></string>
 </dict>
 </plist>
