@@ -402,7 +402,7 @@ TagEditorViewController* tagEditorController;
     STTag* selectedTag = [[onDemandTags arrangedObjects] objectAtIndex:row];
     if(selectedTag != nil) {
       tagEditorController.documentManager = _documentManager;
-      tagEditorController.tag = selectedTag;
+      tagEditorController.tag = [[STTag alloc] initWithTag:selectedTag];  // Edit a copy, not the real tag
       tagEditorController.delegate = self;
       [self presentViewControllerAsSheet:tagEditorController];
     }
