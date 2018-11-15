@@ -55,14 +55,8 @@
 @synthesize originallySelectedCodeFile = _originallySelectedCodeFile;
 
 
-//@synthesize propertiesStackView = _propertiesStackView;
-STCodeFile* codeFile;
 STTag* _originalTag;
-//NSString* TagType;
 bool SaveOccurred;
-
-//NSString* instructionTitleText;
-//NSString* allowedCommandsText;
 
 //review this later for the table view
 //https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/CocoaBindings/Tasks/images.html
@@ -431,39 +425,32 @@ typedef enum {
   NSError* saveWarning;
   BOOL duplicateTag = FALSE;
   BOOL emptyName = FALSE;
-  
+  STCodeFile* codeFile = [[[self listCodeFile] selectedItem] representedObject];
 
   // Check for duplicate names (if the name is set)
   NSCharacterSet *ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
-  if([[self tag] Name] != nil && [[[[self tag] Name] stringByTrimmingCharactersInSet: ws] length] > 0 ) {
-    //FIXME:
-    //if(! [[_tag Name] isEqualToString: [_textBoxTagName stringValue]]  ) {
-    //if(! [[_tag Name] isEqualToString: [_textBoxTagName stringValue]]  ) {
-    //the name has been changed - so update it
-    //first see if we have a duplicate tag name
-    
-    //tag names must be unique within a code file
-    // it's allowed (but not ideal) for them to be duplicated between code files
-
-    for(STCodeFile* cf in [_documentManager GetCodeFileList]) {
-      for(STTag* aTag in [cf Tags]) {
-        //FIXME:
-        //if ([[aTag Name] isEqualToString:[_textBoxTagName stringValue]] && ![aTag isEqual:_tag]){
-        if ([[aTag Name] isEqualToString:[[self tag] Name]] && ![aTag isEqual:[self tag]]){
-          if(cf == codeFile) {
-            //same codefile, so this is an error
-            duplicateTag = TRUE;
-            [errorCollection addObject:[NSString stringWithFormat:@"Tag name is not unique.  Tag '%@' already appears in this code file.", [aTag Name]]];
-          } else {
-            //different codefile - we should warn
-            NSMutableDictionary *errorDetail = [NSMutableDictionary dictionary];
-            [errorDetail setValue:[NSString stringWithFormat:@"The Tag name %@ is already used in code file %@. Tag names should be unique. You may continue, but it is suggested you use a different name.", [aTag Name], [cf FileName]] forKey:NSLocalizedDescriptionKey];
-            saveWarning = [NSError errorWithDomain:@"com.stattag.StatTag" code:100 userInfo:errorDetail];
+  if([[self tag] Name] != nil
+     && [[[[self tag] Name] stringByTrimmingCharactersInSet: ws] length] > 0) {
+    if ([STTagUtil ShouldCheckForDuplicateLabel:_originalTag newTag:[self tag]]) {
+      // Tag names must be unique within a code file.  It's allowed (but not ideal) for them to be duplicated between code files
+      for (STCodeFile* cf in [_documentManager GetCodeFileList]) {
+        for (STTag* aTag in [cf Tags]) {
+          // If the tag names match, and it is not the same object (purposely using != instead of !isEqual).
+          if ([[aTag Name] isEqualToString:[[self tag] Name]] && aTag != [self tag]) {
+            if([cf isEqual:codeFile]) {
+              //same codefile, so this is an error
+              duplicateTag = TRUE;
+              [errorCollection addObject:[NSString stringWithFormat:@"Tag name is not unique.  Tag '%@' already appears in this code file.", [aTag Name]]];
+            } else {
+              //different codefile - we should warn
+              NSMutableDictionary *errorDetail = [NSMutableDictionary dictionary];
+              [errorDetail setValue:[NSString stringWithFormat:@"The Tag name %@ is already used in code file %@. Tag names should be unique. You may continue, but it is suggested you use a different name.", [aTag Name], [cf FileName]] forKey:NSLocalizedDescriptionKey];
+              saveWarning = [NSError errorWithDomain:@"com.stattag.StatTag" code:100 userInfo:errorDetail];
+            }
           }
         }
       }
     }
-    //}
   }
   // Or, alert the user that they need to supply a name
   else {
