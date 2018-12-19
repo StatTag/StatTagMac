@@ -50,6 +50,19 @@
   return regex;
 }
 
++(NSRegularExpression*)MultiLinePlotRegex {
+  NSError* error;
+  NSRegularExpression* regex =   [NSRegularExpression
+                                  regularExpressionWithPattern:@"\\)\\s*\\+[ \t]*[\\r\\n]+[ \t]*"
+                                  options:NSRegularExpressionDotMatchesLineSeparators
+                                  error:&error];
+  if(error){
+    //NSLog(@"R - FigureParameterRegex : %@", [error localizedDescription]);
+    //NSLog(@"R - [[self class] FigureCommand] : %@", [[self class] FigureCommands]);
+  }
+  return regex;
+}
+
 
 +(NSArray<NSString*>*)TableCommands {
   return [NSArray<NSString*> arrayWithObjects:@"write.csv", @"write.csv2", @"write.table", nil];
@@ -331,6 +344,9 @@ This will return the exact parameter that represents the image save location.  T
   int closedCount = 0;
   long currentStart = -1;
   long currentEnd = -1;
+  
+  // Take any plotting commands that span multiple lines and string them onto a single line.
+  modifiedText = [[STRParser MultiLinePlotRegex] stringByReplacingMatchesInString:modifiedText options:0 range:NSMakeRange(0, [modifiedText length]) withTemplate:@") + "];
 
   NSMutableCharacterSet* parenChars = [[NSMutableCharacterSet alloc] init];
   [parenChars addCharactersInString:@"()"];
@@ -390,7 +406,7 @@ This will return the exact parameter that represents the image save location.  T
  To prepare for use, we need to collapse down some of the text.  This includes:
   - Collapsing commands that span multiple lines into a single line
 */
--(NSArray<NSString*>*)PreProcessContent:(NSArray<NSString*>*)originalContent
+-(NSArray<NSString*>*)PreProcessContent:(NSArray<NSString*>*)originalContent automation:(NSObject<STIStatAutomation>*)automation
 {
   if (originalContent == nil || [originalContent count] == 0) {
     return [[NSArray<NSString*> alloc] init];

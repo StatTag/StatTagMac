@@ -20,6 +20,8 @@
 @implementation STRAutomation
 
 static NSString* const MATRIX_DIMENSION_NAMES_ATTRIBUTE = @"dimnames";
+static NSString* const TemporaryImageFileFolder = @"STTemp-Figures";
+static NSString* const TemporaryImageFileFilter = @"*.png";
 
 -(instancetype)init
 {
@@ -50,17 +52,48 @@ static NSString* const MATRIX_DIMENSION_NAMES_ATTRIBUTE = @"dimnames";
     NSString* escapedPath = [codeFile.FilePath stringByReplacingOccurrencesOfString:@"'" withString:@"\\'"];
     [self RunCommand:[NSString stringWithFormat:@"setwd(dirname('%@'))", escapedPath] tag:valueTag];
   }
+  
+  if (Engine != nil) {
+    // Initialize the temporary directory we'll use for figures
+    NSString* path = [[codeFile FilePath] stringByDeletingLastPathComponent];
+    if (![STGeneralUtil IsStringNullOrEmpty:path]) {
+      TemporaryImageFilePath = [NSMutableString stringWithFormat:@"%@/%@", path, TemporaryImageFileFolder];
+    }
+    else {
+      TemporaryImageFilePath = [NSMutableString stringWithFormat:@"./%@", TemporaryImageFileFolder];
+    }
+      
+    // Make sure the temp image folder is established.
+    NSFileManager* fileManager = [NSFileManager defaultManager];
+    BOOL isDir = YES;
+    if (![fileManager fileExistsAtPath:TemporaryImageFilePath isDirectory:&isDir]) {
+      NSURL *newURL = [NSURL URLWithString:TemporaryImageFilePath];
+      BOOL created = [fileManager createDirectoryAtURL:newURL withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+      
+    // Now, set up the R environment so it uses the PNG graphic device by default (if no other device
+    // is specified).
+    NSString* defaultGraphicsFunction = [NSString stringWithFormat:@".stattag_png = function() { png(filename=paste(\"%@/\", \"StatTagFigure%%03d.png\", sep=\"\")) }", TemporaryImageFilePath];
+    NSArray<NSString*>* graphicOptions = [NSArray<NSString*> arrayWithObjects:defaultGraphicsFunction, @"options(device=\".stattag_png\")", nil];
+    [self RunCommands:graphicOptions];
+    return YES;
+  }
 
-  return (Engine != nil);
+  return NO;
 }
 
 -(void)dealloc
 {
-    //if (Engine != null)
-    //{
-    //    Engine.Dispose();
-    //    Engine = null;
-    //}
+  if (Engine != nil)
+  {
+    [self RunCommand:@"graphics.off()"];
+  }
+  
+  [self CleanTemporaryImageFolder:YES];
+}
+
+-(void) CleanTemporaryImageFolder:(BOOL)something {
+  
 }
 
 +(BOOL)IsAppInstalled {

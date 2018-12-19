@@ -14,8 +14,9 @@ NSString *const STStatTagErrorDomain = @"StatTagErrorDomain";
 +(NSString*)Stata { return @"Stata";}
 +(NSString*)R { return @"R";}
 +(NSString*)SAS { return @"SAS";}
++(NSString*)RMarkdown { return @"R Markdown"; }
 +(NSArray<NSString *>*)GetList {
-  return [[NSArray alloc] initWithObjects:[STConstantsStatisticalPackages Stata], [STConstantsStatisticalPackages SAS], [STConstantsStatisticalPackages R],  nil];
+  return [[NSArray alloc] initWithObjects:[STConstantsStatisticalPackages Stata], [STConstantsStatisticalPackages SAS], [STConstantsStatisticalPackages R], [STConstantsStatisticalPackages RMarkdown],  nil];
 }
 @end
 
@@ -63,25 +64,27 @@ NSString *const STStatTagErrorDomain = @"StatTagErrorDomain";
 +(NSString*)SASFilter { return @"*.sas";} //"*.sas"
 +(NSString*)RLabel { return @"R";}
 +(NSString*)RFilter { return @"*.r";} //"*.r"
++(NSString*)RMarkdownLabel { return @"R Markdown";}
++(NSString*)RMarkdownFilter { return @"*.rmd";} //"*.r"
 +(NSString*)AllLabel { return @"All files";}
 +(NSString*)AllFilter { return @"*.*";}//never use this
 +(NSString*)SupportedLabel { return @"Supported files";}
 +(NSArray<NSString*>*)SupportedFileFiltersArray
 {
   //FIXME: don't do this... this is a shim to avoid changing the Windows pathing
-  NSString* allFilters = [NSString stringWithFormat:@"%@;%@;%@", [[self class] StataFilter], [[self class] SASFilter], [[self class] RFilter]];
+  NSString* allFilters = [NSString stringWithFormat:@"%@;%@;%@;%@", [[self class] StataFilter], [[self class] SASFilter], [[self class] RFilter], [[self class] RMarkdownFilter]];
   NSCharacterSet *removeChars = [NSCharacterSet characterSetWithCharactersInString:@"*."];
   allFilters = [[allFilters componentsSeparatedByCharactersInSet: removeChars] componentsJoinedByString: @""];
   return [allFilters componentsSeparatedByString:@";"];
 }
 +(NSString*)SupportedFileFilters {
-  return [[NSArray<NSString*> arrayWithObjects:[[self class] StataFilter], [[self class] SASFilter], [[self class] RFilter], nil] componentsJoinedByString:@";" ];
+  return [[NSArray<NSString*> arrayWithObjects:[[self class] StataFilter], [[self class] SASFilter], [[self class] RFilter], [[self class] RMarkdownFilter], nil] componentsJoinedByString:@";" ];
 }
 +(NSString*)FormatForOpenFileDialog {
-  return [NSString stringWithFormat:@"%@|%@|%@|%@|%@|%@|%@|%@|%@|%@",
+  return [NSString stringWithFormat:@"%@|%@|%@|%@|%@|%@|%@|%@|%@|%@|%@|%@",
 
           [STConstantsFileFilters SupportedLabel],
-          [[NSArray<NSString*> arrayWithObjects:[[self class] StataFilter], [[self class] SASFilter], [[self class] RFilter], nil] componentsJoinedByString:@";" ],
+          [[NSArray<NSString*> arrayWithObjects:[[self class] StataFilter], [[self class] SASFilter], [[self class] RFilter], [[self class] RMarkdownFilter], nil] componentsJoinedByString:@";" ],
           
           [STConstantsFileFilters StataLabel],
           [STConstantsFileFilters StataFilter],
@@ -89,6 +92,8 @@ NSString *const STStatTagErrorDomain = @"StatTagErrorDomain";
           [STConstantsFileFilters SASFilter],
           [STConstantsFileFilters RLabel],
           [STConstantsFileFilters RFilter],
+          [STConstantsFileFilters RMarkdownLabel],
+          [STConstantsFileFilters RMarkdownFilter],
           [STConstantsFileFilters AllLabel],
           [STConstantsFileFilters AllFilter]
         ];

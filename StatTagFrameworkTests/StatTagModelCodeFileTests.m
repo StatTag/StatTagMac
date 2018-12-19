@@ -221,7 +221,11 @@
   XCTAssert([[STConstantsStatisticalPackages SAS] isEqualToString:[STCodeFile GuessStatisticalPackage:@"C:\\test.sas"]]);
   XCTAssert([[STConstantsStatisticalPackages SAS] isEqualToString:[STCodeFile GuessStatisticalPackage:@"C:\\test.SAS"]]);
   XCTAssert([[STConstantsStatisticalPackages SAS] isEqualToString:[STCodeFile GuessStatisticalPackage:@"  C:\\test.sas  "]]);
-
+  
+  XCTAssert([[STConstantsStatisticalPackages RMarkdown] isEqualToString:[STCodeFile GuessStatisticalPackage:@"C:\\test.rmd"]]);
+  XCTAssert([[STConstantsStatisticalPackages RMarkdown] isEqualToString:[STCodeFile GuessStatisticalPackage:@"C:\\test.Rmd"]]);
+  XCTAssert([[STConstantsStatisticalPackages RMarkdown] isEqualToString:[STCodeFile GuessStatisticalPackage:@"C:\\test.RMd"]]);
+  XCTAssert([[STConstantsStatisticalPackages RMarkdown] isEqualToString:[STCodeFile GuessStatisticalPackage:@"  C:\\test.Rmd  "]]);
 }
 
 -(void)testGuessStatisticalPackage_Unknown {
@@ -233,6 +237,8 @@
   XCTAssert([@"" isEqualToString:[STCodeFile GuessStatisticalPackage:@"C:\\testsas"]]);
   XCTAssert([@"" isEqualToString:[STCodeFile GuessStatisticalPackage:@"C:\\testr"]]);
   XCTAssert([@"" isEqualToString:[STCodeFile GuessStatisticalPackage:@"C:\\testdo"]]);
+  XCTAssert([@"" isEqualToString:[STCodeFile GuessStatisticalPackage:@"C:\\testrmd"]]);
+  XCTAssert([@"" isEqualToString:[STCodeFile GuessStatisticalPackage:@"C:\\test.r md"]]);
 
 }
 

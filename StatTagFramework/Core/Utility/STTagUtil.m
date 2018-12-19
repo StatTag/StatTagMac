@@ -10,6 +10,7 @@
 #import "STTag.h"
 #import "STCodeFile.h"
 #import "STTagCollisionResult.h"
+#import "STGeneralUtil.h"
 
 @implementation STTagUtil
 
@@ -336,6 +337,21 @@
   }
 
   return [self DetectTagCollision:allTags tag:tag];
+}
+
+// Convert a tag name to something we know can be used in a file name.  Any character not allowed
+// (we're conservative, and are just allowing letters, digits, whitespace, dash and underscore)
+// is stripped entirely, not replaced with anything.
++(NSString*) TagNameAsFileName:(STTag*)tag
+{
+  if (tag == nil || [STGeneralUtil IsStringNullOrEmpty:[tag Name]]) {
+    return @"";
+  }
+  
+  NSMutableCharacterSet* validCharacters = [[NSCharacterSet alphanumericCharacterSet] mutableCopy];
+  [validCharacters addCharactersInString:@" _-"];
+  NSCharacterSet* invalidCharacters = [validCharacters invertedSet];
+  return [[[[tag Name] componentsSeparatedByCharactersInSet:invalidCharacters] componentsJoinedByString:@""] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 }
 
 @end

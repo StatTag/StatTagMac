@@ -141,7 +141,7 @@ const NSInteger RefreshStepInterval = 5;
     
   @try {
     // Get all of the commands in the code file that should be executed given the current filter
-    NSArray<STExecutionStep*>* steps = [parser GetExecutionSteps:file filterMode:filterMode tagsToRun:tagsToRun];
+    NSArray<STExecutionStep*>* steps = [parser GetExecutionSteps:file automation:automation filterMode:filterMode tagsToRun:tagsToRun];
     
     //C# apparently had this initially as an enumeration, then moved to index-based counting
     // not sure why, but following C#

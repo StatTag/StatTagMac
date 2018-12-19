@@ -29,8 +29,9 @@
 -(bool)IsTagStart:(NSString*)line;
 -(bool)IsTagEnd:(NSString*)line;
 
--(NSArray<STExecutionStep*>*)GetExecutionSteps:(STCodeFile*)file filterMode:(NSInteger)filterMode tagsToRun:(NSArray<STTag*>*)tagsToRun;
--(NSArray<STExecutionStep*>*)GetExecutionSteps:(STCodeFile*)file filterMode:(NSInteger)filterMode;
+-(NSArray<STExecutionStep*>*)GetExecutionSteps:(STCodeFile*)file automation:(NSObject<STIStatAutomation>*)automation filterMode:(NSInteger)filterMode tagsToRun:(NSArray<STTag*>*)tagsToRun;
+-(NSArray<STExecutionStep*>*)GetExecutionSteps:(STCodeFile*)file automation:(NSObject<STIStatAutomation>*)automation filterMode:(NSInteger)filterMode;
+-(NSArray<STExecutionStep*>*)GetExecutionSteps:(STCodeFile*)file automation:(NSObject<STIStatAutomation>*)automation;
 -(NSArray<STExecutionStep*>*)GetExecutionSteps:(STCodeFile*)file;
 
 +(NSString*)FormatCommandListAsNonCapturingGroup:(NSArray<NSString*>*)commands;
@@ -57,9 +58,11 @@
  @param originalContent The contents as read from the code file
  @returns A list of strings representing the code that should be executed
  */
--(NSArray<NSString*>*)PreProcessContent:(NSArray<NSString*>*) originalContent;
+-(NSArray<NSString*>*)PreProcessContent:(NSArray<NSString*>*) originalContent automation:(NSObject<STIStatAutomation>*)automation;
 
 -(NSArray<NSString*>*) PreProcessExecutionStepCode:(STExecutionStep*) step;
+
+-(NSArray<NSString*>*)PreProcessFile:(STCodeFile*) file automation:(NSObject<STIStatAutomation>*)automation;
 
 //MARK: private methods
 //had to make these public so we could use them in subclasses - these should probably be moved to a class extension

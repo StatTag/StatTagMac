@@ -737,7 +737,7 @@ Given a command string, extract all macros that are present.  This will remove m
  To prepare for use, we need to collapse down some of the text.  This includes:
   - Collapsing commands that span multiple lines into a single line
 */
--(NSArray<NSString*>*)PreProcessContent:(NSArray<NSString*>*)originalContent
+-(NSArray<NSString*>*)PreProcessContent:(NSArray<NSString*>*)originalContent automation:(NSObject<STIStatAutomation>*)automation
 {
   if (originalContent == nil || [originalContent count] == 0)
   {

@@ -18,6 +18,9 @@
 
 - (void) AppendAllText:(NSURL*)filePath withContent: (NSString*)content error:(NSError**)error;
 
+- (void) Move:(NSURL*)sourceFileName destFileName:(NSURL*)destFileName;
+- (void) Delete:(NSURL*)path;
+
 -(NSFileHandle*)OpenWrite:(NSURL*)filePath;
 
 @end
