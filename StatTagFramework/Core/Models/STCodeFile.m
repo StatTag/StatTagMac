@@ -473,6 +473,9 @@ the cached results in another tag.
   if ([STCodeFile FilterMatches:[STConstantsFileFilters RFilter] path:path]) {
     return [STConstantsStatisticalPackages R];
   }
+  if ([STCodeFile FilterMatches:[STConstantsFileFilters RMarkdownFilter] path:path]) {
+    return [STConstantsStatisticalPackages RMarkdown];
+  }
   
   return @"";
   
@@ -704,6 +707,9 @@ the cached results in another tag.
   }
 
   NSObject<STIGenerator>* generator = [STFactories GetGenerator:self];
+  if (generator == nil) {
+    return nil;
+  }
   
   [ContentCache insertObject:[generator CreateOpenTag:updatedTag] atIndex:[[updatedTag LineStart] integerValue]];
   updatedTag.LineEnd = [NSNumber numberWithInteger:[[updatedTag LineEnd] integerValue] +2 ]; // Offset one line for the opening tag, the second line is for the closing tag

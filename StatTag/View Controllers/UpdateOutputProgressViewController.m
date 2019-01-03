@@ -23,6 +23,7 @@
 @synthesize tagsToProcess = _tagsToProcess;
 @synthesize failedTags = _failedTags;
 @synthesize failedTagErrors = _failedTagErrors;
+@synthesize generalErrors = _generalErrors;
 
 @synthesize insert = _insert;
 
@@ -64,13 +65,9 @@
   [self setNumTagsToProcess:@0];
   _failedTags = [[NSMutableArray<STTag*> alloc] init];
   _failedTagErrors = [[NSMutableDictionary<STTag*, NSException*> alloc] init];
+  _generalErrors = [[NSMutableArray<NSException*> alloc] init];
 
   [self refreshTagsAsync];
-  
-  //StatTagResponseState responseState = [self refreshTagsAsync];
-  //[_delegate dismissUpdateOutputProgressController:self withReturnCode:responseState andFailedTags:[self failedTags] withErrors:[self failedTagErrors]];
-
-//  [self refreshTags];
 }
 
 - (void)refreshTagsAsync {
@@ -97,8 +94,7 @@
     
     @try {
 
-      if([self insert])
-      {
+      if([self insert]) {
         dispatch_async(dispatch_get_main_queue(), ^{
           [progressText setStringValue:@"Starting to insert tags..."];
         });
@@ -110,15 +106,11 @@
           [progressText setStringValue:@"Insert complete"];
           
           responseState = [result Success] == true ? OK : Error;
-          [[NSNotificationCenter defaultCenter] postNotificationName:@"allTagUpdatesComplete" object:self userInfo:@{@"responseState":[NSNumber numberWithInteger:responseState], @"failedTags":[result FailedTags]}];
-          //[_delegate dismissUpdateOutputProgressController:self withReturnCode:responseState andFailedTags:[self failedTags] withErrors:[self failedTagErrors]];
-          //return;
+          [[NSNotificationCenter defaultCenter] postNotificationName:@"allTagUpdatesComplete" object:self userInfo:@{@"responseState":[NSNumber numberWithInteger:responseState], @"failedTags":[result FailedTags], @"generalErrors" : [result GeneralErrors]}];
         });
 
       }
-      else
-      {
-  
+      else {
         STStatsManager* stats = [[STStatsManager alloc] initWithDocumentManager:_documentManager andSettingsManager:nil];
         #pragma unused (stats)
         
@@ -138,6 +130,7 @@
                                                    ];
             [[allResults FailedTags] addObjectsFromArray:[result FailedTags]];
             [[allResults UpdatedTags] addObjectsFromArray:[result UpdatedTags]];
+            [[allResults GeneralErrors] addObjectsFromArray:[result GeneralErrors]];
             [allResults setSuccess:([result Success] == true && [allResults Success] == true)];
             #pragma unused (result)
           }
@@ -163,45 +156,16 @@
           [progressIndicator stopAnimation:nil];
           
           [progressText setStringValue:@"Updates complete"];
-          //responseState = OK;
-          //[[NSNotificationCenter defaultCenter] postNotificationName:@"allTagUpdatesComplete" object:self userInfo:@{@"responseState":[NSNumber numberWithInteger:responseState]}];
-          //[_delegate dismissUpdateOutputProgressController:self withReturnCode:responseState  andFailedTags:[self failedTags] withErrors:[self failedTagErrors]];
           responseState = [allResults Success] == true ? OK : Error;
-          [[NSNotificationCenter defaultCenter] postNotificationName:@"allTagUpdatesComplete" object:self userInfo:@{@"responseState":[NSNumber numberWithInteger:responseState], @"failedTags":[allResults FailedTags]}];
+          [[NSNotificationCenter defaultCenter] postNotificationName:@"allTagUpdatesComplete" object:self userInfo:@{@"responseState":[NSNumber numberWithInteger:responseState], @"failedTags":[allResults FailedTags], @"generalErrors" : [allResults GeneralErrors]}];
 
         });
-      
       }
-      //      dispatch_async(dispatch_get_main_queue(), ^{
-      //        //        [NSApp endSheet:[self window]];
-      //        //        [[self window] orderOut:self];
-      //      });
-        
     }
     @catch (NSException* exc) {
-      //dispatch_async(dispatch_get_main_queue(), ^{
-        //responseState = Error;
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"allTagUpdatesComplete" object:self userInfo:@{@"responseState":[NSNumber numberWithInteger:Error]}];
-        //[_delegate dismissUpdateOutputProgressController:self withReturnCode:responseState andFailedTags:[self failedTags] withErrors:[self failedTagErrors]];
-        
-      //});
-
+      [[NSNotificationCenter defaultCenter] postNotificationName:@"allTagUpdatesComplete" object:self userInfo:@{@"responseState":[NSNumber numberWithInteger:Error]}];
     }
-
-
-    
   });
-
-  
-  //[[NSNotificationCenter defaultCenter] postNotificationName:@"allTagUpdatesComplete" object:self userInfo:@{@"responseState":[NSNumber numberWithInteger:responseState]}];
-  
-//  dispatch_sync(serialQ, ^{
-//    [[NSNotificationCenter defaultCenter] postNotificationName:@"allTagUpdatesComplete" object:self userInfo:@{@"responseState":[NSNumber numberWithInteger:responseState]}];
-//    //[_delegate dismissUpdateOutputProgressController:self withReturnCode:(StatTagResponseState)responseState andFailedTags:[self failedTags] withErrors:[self failedTagErrors]];
-//  });
-
-//  return responseState;
-
 }
 
 
@@ -274,8 +238,13 @@
   NSNumber* responseStateNum = [[notification userInfo] valueForKey:@"responseState"];
   StatTagResponseState responseState = (StatTagResponseState)[responseStateNum integerValue];
   
+  NSArray<NSException*>* errors = (NSArray<NSException*>*)[[notification userInfo] valueForKey:@"generalErrors"];
+  if (errors != nil) {
+    [[self generalErrors] addObjectsFromArray:errors];
+  }
+  
   dispatch_async(dispatch_get_main_queue(), ^{
-    [_delegate dismissUpdateOutputProgressController:self withReturnCode:(StatTagResponseState)responseState andFailedTags:[self failedTags] withErrors:[self failedTagErrors]];
+    [_delegate dismissUpdateOutputProgressController:self withReturnCode:(StatTagResponseState)responseState andFailedTags:[self failedTags] withErrors:[self failedTagErrors]  andGeneralErrors:[self generalErrors]];
   });
 }
 

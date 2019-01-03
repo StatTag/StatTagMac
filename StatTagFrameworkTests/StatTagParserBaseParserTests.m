@@ -70,7 +70,7 @@
   return nil;
 }
 
--(NSArray<NSString*>*) PreProcessContent:(NSArray<NSString*>*)originalContent
+-(NSArray<NSString*>*) PreProcessContent:(NSArray<NSString*>*)originalContent automation:(NSObject<STIStatAutomation>*) automation
 {
   return originalContent;
 }
@@ -393,7 +393,7 @@
   
   id mock = OCMClassMock([STCodeFile class]);
   OCMStub([mock LoadFileContent]).andReturn([[NSArray<NSString*> alloc] initWithArray:lines]);
-  result = [parser GetExecutionSteps:mock filterMode:[STConstantsParserFilterMode ExcludeOnDemand]];
+  result = [parser GetExecutionSteps:mock automation:NULL filterMode:[STConstantsParserFilterMode ExcludeOnDemand]];
   XCTAssertEqual(3, [result count]);
   XCTAssertEqual([STConstantsExecutionStepType CodeBlock], [result[0] Type] );
   XCTAssertNil([result[0] Tag]);
@@ -413,7 +413,7 @@
            @"declare value3",
            nil];
   OCMStub([mock LoadFileContent]).andReturn([[NSArray<NSString*> alloc] initWithArray:lines]);
-  result = [parser GetExecutionSteps:mock filterMode:[STConstantsParserFilterMode ExcludeOnDemand]];
+  result = [parser GetExecutionSteps:mock automation:NULL filterMode:[STConstantsParserFilterMode ExcludeOnDemand]];
 
   XCTAssertEqual(2, [result count]);
   XCTAssertEqual([STConstantsExecutionStepType Tag], [result[0] Type] );
@@ -433,7 +433,7 @@
            @"**<<<",
            nil];
   OCMStub([mock LoadFileContent]).andReturn([[NSArray<NSString*> alloc] initWithArray:lines]);
-  result = [parser GetExecutionSteps:mock filterMode:[STConstantsParserFilterMode ExcludeOnDemand]];
+  result = [parser GetExecutionSteps:mock automation:NULL filterMode:[STConstantsParserFilterMode ExcludeOnDemand]];
 
   XCTAssertEqual(2, [result count]);
   XCTAssertEqual([STConstantsExecutionStepType CodeBlock], [result[0] Type] );
@@ -458,7 +458,7 @@
            @"**<<<",
            nil];
   OCMStub([mock LoadFileContent]).andReturn([[NSArray<NSString*> alloc] initWithArray:lines]);
-  result = [parser GetExecutionSteps:mock filterMode:[STConstantsParserFilterMode ExcludeOnDemand]];
+  result = [parser GetExecutionSteps:mock automation:NULL filterMode:[STConstantsParserFilterMode ExcludeOnDemand]];
 
   XCTAssertEqual(3, [result count]);
   
@@ -489,7 +489,7 @@
   
   id mock = OCMClassMock([STCodeFile class]);
   OCMStub([mock LoadFileContent]).andReturn([[NSArray<NSString*> alloc] initWithArray:lines]);
-  result = [parser GetExecutionSteps:mock filterMode:[STConstantsParserFilterMode ExcludeOnDemand]];
+  result = [parser GetExecutionSteps:mock automation:NULL filterMode:[STConstantsParserFilterMode ExcludeOnDemand]];
   
   //need to go and look at the "excludeondemand" portion o fthe getexecutionsteps method
   XCTAssertEqual(2, [result count]);
@@ -500,7 +500,7 @@
   XCTAssertEqual([STConstantsExecutionStepType Tag], [result[1] Type] );
   XCTAssertNotNil([result[1] Tag]);
   
-  result = [parser GetExecutionSteps:mock];
+  result = [parser GetExecutionSteps:mock automation:NULL];
 
   XCTAssertEqual(3, [result count]);
 
@@ -535,14 +535,14 @@
   OCMStub([mock LoadFileContent]).andReturn([[NSArray<NSString*> alloc] initWithArray:lines]);
   id x;
   OCMStub([mock isEqual:x]).andReturn(true);
-  result = [parser GetExecutionSteps:mock filterMode:[STConstantsParserFilterMode TagList]];
+  result = [parser GetExecutionSteps:mock automation:NULL filterMode:[STConstantsParserFilterMode TagList]];
 
   XCTAssertEqual(3, [result count]);
 
   NSArray<STTag*>* taglist = [NSArray arrayWithObjects:
                               [STTag tagWithName:@"Test1" andCodeFile:mock andType:[STConstantsTagType Value]]
                               , nil];
-  result = [parser GetExecutionSteps:mock filterMode:[STConstantsParserFilterMode TagList] tagsToRun:taglist];
+  result = [parser GetExecutionSteps:mock automation:NULL filterMode:[STConstantsParserFilterMode TagList] tagsToRun:taglist];
 
   XCTAssertEqual(2, [result count]);
 

@@ -16,6 +16,15 @@
 		353D75A4202E191E006CF435 /* balanced.xlsx in Resources */ = {isa = PBXBuildFile; fileRef = 353D75A1202E191E006CF435 /* balanced.xlsx */; };
 		353D75A5202E191E006CF435 /* empty.xlsx in Resources */ = {isa = PBXBuildFile; fileRef = 353D75A2202E191E006CF435 /* empty.xlsx */; };
 		353D75A6202E191E006CF435 /* unbalanced.xlsx in Resources */ = {isa = PBXBuildFile; fileRef = 353D75A3202E191E006CF435 /* unbalanced.xlsx */; };
+		354350E221C956CB00FC58AE /* STRMarkdownAutomation.m in Sources */ = {isa = PBXBuildFile; fileRef = 354350E121C956CB00FC58AE /* STRMarkdownAutomation.m */; };
+		354350E821C9570400FC58AE /* STRMarkdownParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 354350E721C9570400FC58AE /* STRMarkdownParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		354350EA21C9571D00FC58AE /* STRMarkdownParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 354350E921C9571D00FC58AE /* STRMarkdownParser.m */; };
+		354350EC21C9574600FC58AE /* StatTagRMarkdownParserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 354350EB21C9574600FC58AE /* StatTagRMarkdownParserTests.m */; };
+		354350EE21C962C300FC58AE /* STRMarkdownGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 354350ED21C962C300FC58AE /* STRMarkdownGenerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		354350F021C962D200FC58AE /* STRMarkdownGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 354350EF21C962D200FC58AE /* STRMarkdownGenerator.m */; };
+		354350F221C9758900FC58AE /* STRMarkdownValueFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 354350F121C9758900FC58AE /* STRMarkdownValueFormatter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		354350F421C9759700FC58AE /* STRMarkdownValueFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 354350F321C9759700FC58AE /* STRMarkdownValueFormatter.m */; };
+		354350F521C98ABC00FC58AE /* STRMarkdownAutomation.h in Headers */ = {isa = PBXBuildFile; fileRef = 354350E621C956DA00FC58AE /* STRMarkdownAutomation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		35599224214C5644008B136D /* STOverlappingTagResults.h in Headers */ = {isa = PBXBuildFile; fileRef = 35599220214C55A6008B136D /* STOverlappingTagResults.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		359A93E22159630000F071CA /* OverlappingTagGroupEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 359A93DD2159630000F071CA /* OverlappingTagGroupEntry.m */; };
 		359A93E32159630000F071CA /* OverlappingTagsDetailRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 359A93DF2159630000F071CA /* OverlappingTagsDetailRowView.m */; };
@@ -501,6 +510,15 @@
 		353D75A1202E191E006CF435 /* balanced.xlsx */ = {isa = PBXFileReference; lastKnownFileType = file; name = balanced.xlsx; path = XLSX/balanced.xlsx; sourceTree = "<group>"; };
 		353D75A2202E191E006CF435 /* empty.xlsx */ = {isa = PBXFileReference; lastKnownFileType = file; name = empty.xlsx; path = XLSX/empty.xlsx; sourceTree = "<group>"; };
 		353D75A3202E191E006CF435 /* unbalanced.xlsx */ = {isa = PBXFileReference; lastKnownFileType = file; name = unbalanced.xlsx; path = XLSX/unbalanced.xlsx; sourceTree = "<group>"; };
+		354350E121C956CB00FC58AE /* STRMarkdownAutomation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STRMarkdownAutomation.m; sourceTree = "<group>"; };
+		354350E621C956DA00FC58AE /* STRMarkdownAutomation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = STRMarkdownAutomation.h; sourceTree = "<group>"; };
+		354350E721C9570400FC58AE /* STRMarkdownParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STRMarkdownParser.h; sourceTree = "<group>"; };
+		354350E921C9571D00FC58AE /* STRMarkdownParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STRMarkdownParser.m; sourceTree = "<group>"; };
+		354350EB21C9574600FC58AE /* StatTagRMarkdownParserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagRMarkdownParserTests.m; sourceTree = "<group>"; };
+		354350ED21C962C300FC58AE /* STRMarkdownGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STRMarkdownGenerator.h; sourceTree = "<group>"; };
+		354350EF21C962D200FC58AE /* STRMarkdownGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STRMarkdownGenerator.m; sourceTree = "<group>"; };
+		354350F121C9758900FC58AE /* STRMarkdownValueFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STRMarkdownValueFormatter.h; sourceTree = "<group>"; };
+		354350F321C9759700FC58AE /* STRMarkdownValueFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STRMarkdownValueFormatter.m; sourceTree = "<group>"; };
 		35599220214C55A6008B136D /* STOverlappingTagResults.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = STOverlappingTagResults.h; sourceTree = "<group>"; };
 		359A93DC2159630000F071CA /* OverlappingTagGroupEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OverlappingTagGroupEntry.h; sourceTree = "<group>"; };
 		359A93DD2159630000F071CA /* OverlappingTagGroupEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OverlappingTagGroupEntry.m; sourceTree = "<group>"; };
@@ -520,6 +538,7 @@
 		35C8025B202B8E4B004A2DA5 /* XLSX */ = {isa = PBXFileReference; lastKnownFileType = folder; path = XLSX; sourceTree = "<group>"; };
 		35CE4F9A1F141EAF00B1221B /* STRVerbatimDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = STRVerbatimDevice.h; sourceTree = "<group>"; };
 		35CE4F9B1F141EBF00B1221B /* STRVerbatimDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STRVerbatimDevice.m; sourceTree = "<group>"; };
+		35DD6E3D21CAE8D900FEEA05 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		35F2E7311EE1A93E0086F9D0 /* STRBaseValueFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STRBaseValueFormatter.h; sourceTree = "<group>"; };
 		35F2E7331EE1A94A0086F9D0 /* STRBaseValueFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STRBaseValueFormatter.m; sourceTree = "<group>"; };
 		35F649A0202BA7FA00CEC7D8 /* XlsxReaderWriter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = XlsxReaderWriter.xcodeproj; path = ../XlsxReaderWriter/XlsxReaderWriter.xcodeproj; sourceTree = "<group>"; };
@@ -992,6 +1011,7 @@
 		3500D5CB1EE066DA006AA0ED /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				35DD6E3D21CAE8D900FEEA05 /* Foundation.framework */,
 				35374312202BFB1D00325941 /* libz.tbd */,
 				3537430A202BF97100325941 /* libz.tbd */,
 				3500D5CE1EE066F7006AA0ED /* R.framework */,
@@ -1237,6 +1257,8 @@
 				382C28691D1488F200697D6F /* STIGenerator.h */,
 				38FF470A1DFEEBC000A65893 /* STRBaseGenerator.h */,
 				38FF470B1DFEEBC000A65893 /* STRBaseGenerator.m */,
+				354350ED21C962C300FC58AE /* STRMarkdownGenerator.h */,
+				354350EF21C962D200FC58AE /* STRMarkdownGenerator.m */,
 				38FF470E1DFEEC1D00A65893 /* STSASBaseGenerator.h */,
 				38FF470F1DFEEC1D00A65893 /* STSASBaseGenerator.m */,
 				382C28BE1D199F9A00697D6F /* STStataBaseGenerator.h */,
@@ -1295,9 +1317,11 @@
 				38C9B2071D109F6B003B571E /* STBaseValueFormatter.m */,
 				38C9B20A1D109FA8003B571E /* STIValueFormatter.h */,
 				38C9B20C1D10A2B2003B571E /* STStataBaseValueFormatter.h */,
-				35F2E7311EE1A93E0086F9D0 /* STRBaseValueFormatter.h */,
 				38C9B20D1D10A2B2003B571E /* STStataBaseValueFormatter.m */,
+				35F2E7311EE1A93E0086F9D0 /* STRBaseValueFormatter.h */,
 				35F2E7331EE1A94A0086F9D0 /* STRBaseValueFormatter.m */,
+				354350F121C9758900FC58AE /* STRMarkdownValueFormatter.h */,
+				354350F321C9759700FC58AE /* STRMarkdownValueFormatter.m */,
 			);
 			path = ValueFormatter;
 			sourceTree = "<group>";
@@ -1741,6 +1765,7 @@
 				387A0E381D242C4400F1FE9C /* StatTagParserTableParameterParserTests.m */,
 				387A0E361D24156900F1FE9C /* StatTagParserValueParameterParserTests.m */,
 				35AE14801F4DC69900A162C4 /* StatTagRParserTests.m */,
+				354350EB21C9574600FC58AE /* StatTagRMarkdownParserTests.m */,
 			);
 			name = Parser;
 			sourceTree = "<group>";
@@ -1893,6 +1918,8 @@
 				38FF473A1E08674F00A65893 /* STRCommands.m */,
 				35CE4F9A1F141EAF00B1221B /* STRVerbatimDevice.h */,
 				35CE4F9B1F141EBF00B1221B /* STRVerbatimDevice.m */,
+				354350E621C956DA00FC58AE /* STRMarkdownAutomation.h */,
+				354350E121C956CB00FC58AE /* STRMarkdownAutomation.m */,
 			);
 			path = R;
 			sourceTree = "<group>";
@@ -1949,6 +1976,8 @@
 				38FF472B1DFF490000A65893 /* STSASParser.m */,
 				387A0E231D22BC5F00F1FE9C /* STStataParser.h */,
 				387A0E241D22BC5F00F1FE9C /* STStataParser.m */,
+				354350E721C9570400FC58AE /* STRMarkdownParser.h */,
+				354350E921C9571D00FC58AE /* STRMarkdownParser.m */,
 			);
 			name = PlatformParsers;
 			sourceTree = "<group>";
@@ -2036,8 +2065,12 @@
 				382C28671D14880900697D6F /* STFactories.h in Headers */,
 				38FF470C1DFEEBC000A65893 /* STRBaseGenerator.h in Headers */,
 				38C9B2181D10A8CF003B571E /* STTag.h in Headers */,
+				354350F221C9758900FC58AE /* STRMarkdownValueFormatter.h in Headers */,
 				35F2E7321EE1A93E0086F9D0 /* STRBaseValueFormatter.h in Headers */,
+				354350E821C9570400FC58AE /* STRMarkdownParser.h in Headers */,
+				354350EE21C962C300FC58AE /* STRMarkdownGenerator.h in Headers */,
 				382C286A1D1488F200697D6F /* STIGenerator.h in Headers */,
+				354350F521C98ABC00FC58AE /* STRMarkdownAutomation.h in Headers */,
 				35599224214C5644008B136D /* STOverlappingTagResults.h in Headers */,
 				35AE14851F4DE69A00A162C4 /* STCodeParserUtil.h in Headers */,
 				38FF472C1DFF490000A65893 /* STRParser.h in Headers */,
@@ -2410,7 +2443,9 @@
 				382C285C1D133BCD00697D6F /* STValueFormat.m in Sources */,
 				380A679B1D1061110045B72B /* STTable.m in Sources */,
 				382C28A51D18322900697D6F /* STJSONUtility.m in Sources */,
+				354350EA21C9571D00FC58AE /* STRMarkdownParser.m in Sources */,
 				38EDF02B1D2C002A00ACD77B /* STStataAutomation.m in Sources */,
+				354350F421C9759700FC58AE /* STRMarkdownValueFormatter.m in Sources */,
 				385FDD381D33D02800AE0FE2 /* STGlobals.m in Sources */,
 				385FDD441D35681400AE0FE2 /* STFieldGenerator.m in Sources */,
 				380A67A71D1077490045B72B /* STConstants.m in Sources */,
@@ -2457,6 +2492,7 @@
 				38AD75C71E4923D30099752E /* NSString+MD5.m in Sources */,
 				38A7CE9D1D4FE29400B06AFF /* STSettingsManager.m in Sources */,
 				38E20DF01E08968600B524CE /* STBaseManager.m in Sources */,
+				354350E221C956CB00FC58AE /* STRMarkdownAutomation.m in Sources */,
 				3884513D1D19DCB3004C2B40 /* STValueParameterParser.m in Sources */,
 				35AE14831F4DE2F100A162C4 /* STCodeParserUtil.m in Sources */,
 				382C28DA1D19DAD500697D6F /* STTableParameterParser.m in Sources */,
@@ -2471,6 +2507,7 @@
 				38FF471D1DFF058900A65893 /* STTableUtil.m in Sources */,
 				38FF47381E08673F00A65893 /* STRAutomation.m in Sources */,
 				382C28D61D19D8E900697D6F /* STFigureParameterParser.m in Sources */,
+				354350F021C962D200FC58AE /* STRMarkdownGenerator.m in Sources */,
 				382C28681D14880900697D6F /* STFactories.m in Sources */,
 				382C28B11D1992E900697D6F /* STUpdatePair.m in Sources */,
 			);
@@ -2483,6 +2520,7 @@
 				382C28541D1324EB00697D6F /* ObjCPortingScratchPad.m in Sources */,
 				38E56FD41FFEC97B008988BE /* StatTagModelJSONTests.m in Sources */,
 				38A8C67A1FFFDF820082781B /* StatTagModelTableTests.m in Sources */,
+				354350EC21C9574600FC58AE /* StatTagRMarkdownParserTests.m in Sources */,
 				385FDD3E1D33FA1800AE0FE2 /* StatTagWord2011AutomationTests.m in Sources */,
 				382C286E1D16C77400697D6F /* StatTagModelCodeFileTests.m in Sources */,
 				38EDF0351D2C2FC200ACD77B /* StatTagStataAutomationTests.m in Sources */,

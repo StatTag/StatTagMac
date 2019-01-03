@@ -40,6 +40,8 @@ static SCScintilla* scintillaHelper;
 static NSString* PACKAGE_STATA = @"Stata";
 static NSString* PACKAGE_SAS = @"SAS";
 static NSString* PACKAGE_R = @"R";
+static NSString* PACKAGE_R_MARKDOWN = @"R Markdown";
+
 
 
 //MARK: storyboard / nib setup
@@ -276,7 +278,7 @@ static NSString* PACKAGE_R = @"R";
     [_sourceEditor setReferenceProperty: SCI_SETKEYWORDS parameter: 1 value: keywords];
     
     
-  } else if([packageType isEqualToString:PACKAGE_R]) {
+  } else if([packageType isEqualToString:PACKAGE_R] || [packageType isEqualToString:PACKAGE_R_MARKDOWN]) {
     //[_sourceView setMode:ACEModeR];
     [_sourceEditor setGeneralProperty: SCI_SETLEXER parameter: SCLEX_R value: 0];
     

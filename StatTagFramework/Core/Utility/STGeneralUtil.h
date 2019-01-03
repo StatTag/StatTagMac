@@ -21,4 +21,10 @@
 +(NSArray*)StringArrayToObjectArray:(NSArray<NSString*>*) data;
 +(BOOL)IsStringNullOrEmpty:(NSString*)str;
 
++(BOOL)DirectoryExists:(NSString*)path;
++(void)CleanDirectory:(NSString*)path filter:(NSString*)filter deleteDirectory:(BOOL)deleteDirectory;
++(BOOL)CreateDirectory:(NSString*)path;
++(NSArray<NSString*>*)GetFilesInFolder:(NSString*)path filter:(NSString*)filter;
++(void) CopyFile:(NSURL*)sourceFile toDestinationFile:(NSURL*)destinationFile;
+
 @end

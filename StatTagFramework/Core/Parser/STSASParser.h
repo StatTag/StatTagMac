@@ -33,7 +33,7 @@
 -(NSArray<NSString*>*) GetLogType:(NSString*)command;
 -(BOOL) IsCalculatedDisplayValue:(NSString*)command;
 -(NSArray<NSString*>*)GetMacros:(NSString*)command;
--(NSArray<NSString*>*)PreProcessContent:(NSArray<NSString*>*)originalContent;
+-(NSArray<NSString*>*)PreProcessContent:(NSArray<NSString*>*)originalContent automation:(NSObject<STIStatAutomation>*)automation;
 -(NSString*) GetMacroValueName:(NSString*)command;
 
 

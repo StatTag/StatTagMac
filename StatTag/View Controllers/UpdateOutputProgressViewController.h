@@ -14,7 +14,7 @@
 
 @class UpdateOutputProgressViewController;
 @protocol UpdateOutputProgressDelegate <NSObject>
-- (void)dismissUpdateOutputProgressController:(UpdateOutputProgressViewController*)controller withReturnCode:(StatTagResponseState)returnCode andFailedTags:(NSArray<STTag*>*)failedTags withErrors:(NSDictionary<STTag*, NSException*>*)errors;
+- (void)dismissUpdateOutputProgressController:(UpdateOutputProgressViewController*)controller withReturnCode:(StatTagResponseState)returnCode andFailedTags:(NSArray<STTag*>*)failedTags withErrors:(NSDictionary<STTag*, NSException*>*)errors andGeneralErrors:(NSArray<NSException*>*)generalErrors;
 @end
 
 
@@ -28,6 +28,7 @@
   BOOL _insert;
   NSMutableArray<STTag*>*_failedTags;
   NSMutableDictionary<STTag*, NSException*>* _failedTagErrors;
+  NSMutableArray<NSException*>* _generalErrors;
 }
 
 @property (strong, nonatomic) NSMutableArray<STTag*>* tagsToProcess;
@@ -47,6 +48,8 @@
 
 @property (strong, nonatomic) NSMutableArray<STTag*>*failedTags;
 @property (strong, nonatomic) NSMutableDictionary<STTag*, NSException*>*failedTagErrors;
+
+@property (strong, nonatomic) NSMutableArray<NSException*>* generalErrors;
 
 @property BOOL insert;
 

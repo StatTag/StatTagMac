@@ -14,11 +14,14 @@
 #import "STStataParser.h"
 #import "STSASParser.h"
 #import "STRParser.h"
+#import "STRMarkdownParser.h"
 #import "STBaseGenerator.h"
 #import "STStataBaseGenerator.h"
 #import "STRBaseGenerator.h"
+#import "STRMarkdownGenerator.h"
 #import "STStataBaseValueFormatter.h"
 #import "STRBaseValueFormatter.h"
+#import "STRMarkdownValueFormatter.h"
 
 @implementation STFactories
 
@@ -29,8 +32,12 @@
       return [[STStataParser alloc] init];
 //    } else if([[file StatisticalPackage] isEqualToString: [STConstantsStatisticalPackages SAS] ]) {
 //      return [[STSASParser alloc] init];
-    } else if([[file StatisticalPackage] isEqualToString: [STConstantsStatisticalPackages R] ]) {
+    }
+    else if([[file StatisticalPackage] isEqualToString: [STConstantsStatisticalPackages R] ]) {
       return [[STRParser alloc] init];
+    }
+    else if([[file StatisticalPackage] isEqualToString: [STConstantsStatisticalPackages RMarkdown] ]) {
+      return [[STRMarkdownParser alloc] init];
     }
   }
   return nil;
@@ -46,6 +53,9 @@
     else if([[file StatisticalPackage] isEqualToString: [STConstantsStatisticalPackages R] ]) {
         return [[STRBaseGenerator alloc] init];
     }
+    else if([[file StatisticalPackage] isEqualToString: [STConstantsStatisticalPackages RMarkdown] ]) {
+      return [[STRMarkdownGenerator alloc] init];
+    }
   }
   return nil;
 }
@@ -58,6 +68,9 @@
     }
     else if([[file StatisticalPackage] isEqualToString: [STConstantsStatisticalPackages R] ]) {
       return [[STRBaseValueFormatter alloc] init];
+    }
+    else if([[file StatisticalPackage] isEqualToString: [STConstantsStatisticalPackages RMarkdown] ]) {
+      return [[STRMarkdownValueFormatter alloc] init];
     }
   }
   return [[STBaseValueFormatter alloc] init];

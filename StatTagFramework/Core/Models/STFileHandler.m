@@ -203,5 +203,20 @@
   return nil;
 }
 
+-(void) Move:(NSURL*)sourceFileName destFileName:(NSURL*)destFileName error:(NSError**)error
+{
+  sourceFileName = [NSURL fileURLWithPath:[sourceFileName path]];
+  destFileName = [NSURL fileURLWithPath:[destFileName path]];
+  
+  NSFileManager *manager = [NSFileManager defaultManager];
+  [manager moveItemAtURL:sourceFileName toURL:destFileName error:error];
+}
+
+-(void) Delete:(NSURL*)path error:(NSError**)error
+{
+  path = [NSURL fileURLWithPath:[path path]];
+  NSFileManager *manager = [NSFileManager defaultManager];
+  [manager removeItemAtURL:path error:error];
+}
 
 @end

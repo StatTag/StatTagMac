@@ -20,6 +20,8 @@
 @implementation STRAutomation
 
 static NSString* const MATRIX_DIMENSION_NAMES_ATTRIBUTE = @"dimnames";
+static NSString* const TemporaryImageFileFolder = @"STTemp-Figures";
+static NSString* const TemporaryImageFileFilter = @"SELF EndsWith '.png'";
 
 -(instancetype)init
 {
@@ -50,24 +52,64 @@ static NSString* const MATRIX_DIMENSION_NAMES_ATTRIBUTE = @"dimnames";
     NSString* escapedPath = [codeFile.FilePath stringByReplacingOccurrencesOfString:@"'" withString:@"\\'"];
     [self RunCommand:[NSString stringWithFormat:@"setwd(dirname('%@'))", escapedPath] tag:valueTag];
   }
+  
+  if (Engine != nil) {
+    // Initialize the temporary directory we'll use for figures
+    NSString* path = [[codeFile FilePath] stringByDeletingLastPathComponent];
+    if (![STGeneralUtil IsStringNullOrEmpty:path]) {
+      TemporaryImageFilePath = [NSMutableString stringWithFormat:@"%@/%@", path, TemporaryImageFileFolder];
+    }
+    else {
+      TemporaryImageFilePath = [NSMutableString stringWithFormat:@"./%@", TemporaryImageFileFolder];
+    }
+      
+    // Make sure the temp image folder is established.
+    [STGeneralUtil CreateDirectory:TemporaryImageFilePath];
+      
+    // Now, set up the R environment so it uses the PNG graphic device by default (if no other device
+    // is specified).
+    NSString* defaultGraphicsFunction = [NSString stringWithFormat:@".stattag_png = function() { png(filename=paste(\"%@/\", \"StatTagFigure%%03d.png\", sep=\"\")) }", TemporaryImageFilePath];
+    NSArray<NSString*>* graphicOptions = [NSArray<NSString*> arrayWithObjects:defaultGraphicsFunction, @"options(device=\".stattag_png\")", nil];
+    [self RunCommands:graphicOptions];
+    return YES;
+  }
 
-  return (Engine != nil);
+  return NO;
 }
 
 -(void)dealloc
 {
-    //if (Engine != null)
-    //{
-    //    Engine.Dispose();
-    //    Engine = null;
-    //}
+  if (Engine != nil) {
+    // Part of our cleanup is ensuring all graphic devices are closed out.  Not everyone will do this
+    // in their code, and if not it can cause our process to stay running.
+    @try {
+      [self RunCommand:@"graphics.off()"];
+    }
+    @catch(NSException* e) {
+      // We are attempting to close graphic devices, but if it fails, it may not be catastrophic.
+      // For now, we are supressing notification to the user, since it may be a false alarm.
+    }
+  }
+  
+  [self CleanTemporaryImageFolder:YES];
+}
+
+// Helper method to clean out the temporary folder used for storing images
+-(void) CleanTemporaryImageFolder:(BOOL)deleteFolder
+{
+  if ([STGeneralUtil DirectoryExists:TemporaryImageFileFolder]) {
+    // TODO: Can we make this less brute-force?  We want to ensure we're not trying to access
+    // a file that's associated with an open graphics device.
+    [self RunCommand:@"graphics.off()"];
+    
+    [STGeneralUtil CleanDirectory:TemporaryImageFileFolder filter:TemporaryImageFileFilter deleteDirectory:deleteFolder];
+  }
 }
 
 +(BOOL)IsAppInstalled {
   //we're checking to see if the framework is installed, so let's see if we can create a class from the framework
   //FIXME: we're not using the right class name here - this would work (which is bad) if we have our R framework installed, but the main R framework is not available - so figure this out
-  if (NSClassFromString(@"REngine"))
-  {
+  if (NSClassFromString(@"REngine")) {
     return YES;
   }
   return NO;
@@ -95,21 +137,62 @@ static NSString* const MATRIX_DIMENSION_NAMES_ATTRIBUTE = @"dimnames";
 
   NSMutableArray<STCommandResult*>* commandResults = [[NSMutableArray<STCommandResult*> alloc] init];
   BOOL isVerbatimTag = (tag != nil && [[tag Type] isEqualToString:[STConstantsTagType Verbatim]]);
+  BOOL isFigureTag = (tag != nil && [[tag Type] isEqualToString:[STConstantsTagType Figure]]);
+  NSSortDescriptor* imageFileDescriptor = [NSSortDescriptor sortDescriptorWithKey:nil ascending:NO selector:@selector(localizedCompare:)];
   for (NSString* command in commands) {
-    // Start the verbatim logging cache, if that's what the user wants for this output
-    if ([Parser IsTagStart:command] && isVerbatimTag) {
-      [VerbatimLog StartCache];
+    if ([Parser IsTagStart:command]) {
+      // Start the verbatim logging cache, if that's what the user wants for this output
+      if (isVerbatimTag) {
+        [VerbatimLog StartCache];
+      }
+      // If we're going to be doing a figure, we want to clean out the old images so we know
+      // exactly which ones we're writing to.
+      else if (isFigureTag) {
+        [self CleanTemporaryImageFolder:NO];
+      }
     }
 
     STCommandResult* result = [self RunCommand:command tag:tag];
     if (result != nil && ![result IsEmpty] && !isVerbatimTag) {
       [commandResults addObject:result];
     }
-    else if ([Parser IsTagEnd:command] && isVerbatimTag) {
-      [VerbatimLog StopCache];
-      STCommandResult* verbatimResult = [[STCommandResult alloc] init];
-      verbatimResult.VerbatimResult = [[VerbatimLog GetCache] componentsJoinedByString:@""];
-      [commandResults addObject:verbatimResult];
+    else if ([Parser IsTagEnd:command]) {
+      if (isVerbatimTag) {
+        [VerbatimLog StopCache];
+        STCommandResult* verbatimResult = [[STCommandResult alloc] init];
+        verbatimResult.VerbatimResult = [[VerbatimLog GetCache] componentsJoinedByString:@""];
+        [commandResults addObject:verbatimResult];
+      }
+      // If this is the end of a figure tag, only proceed with this temp file processing if we don't
+      // already have a figure result of some sort.
+      else if (isFigureTag) {
+        NSUInteger index = [commandResults indexOfObjectPassingTest:
+         ^(STCommandResult* obj, NSUInteger idx, BOOL *stop) {
+           return (BOOL)!([STGeneralUtil IsStringNullOrEmpty:[obj FigureResult]]);
+         }];
+        if (index == NSNotFound) {
+          // Make sure the graphics device is closed. We're going with the assumption that a device
+          // was open and a figure was written out.
+          [self RunCommand:@"graphics.off()"];
+          
+          // If we don't have the file specified normally, we will use our fallback mechanism of writing to a
+          // temporary directory.
+          NSArray<NSString*>* files = [STGeneralUtil GetFilesInFolder:TemporaryImageFilePath filter:TemporaryImageFileFilter];
+          if ([files count] == 0) {
+            continue;
+          }
+          files = [files sortedArrayUsingDescriptors:@[imageFileDescriptor]];
+          NSURL* tempImageFileURL = [NSURL fileURLWithPath: [NSString stringWithFormat:@"%@/%@", TemporaryImageFilePath,[files objectAtIndex:0]] isDirectory:NO];
+          NSString* imageFolder = [TemporaryImageFilePath stringByDeletingLastPathComponent];
+          NSString* imageFile = [NSString stringWithFormat:@"%@/%@.png", imageFolder, [STTagUtil TagNameAsFileName:tag]];
+          NSURL* imageFileURL = [NSURL fileURLWithPath:imageFile isDirectory:NO];
+          [STGeneralUtil CopyFile:tempImageFileURL toDestinationFile:imageFileURL];
+          
+          STCommandResult* imageResult = [[STCommandResult alloc] init];
+          imageResult.FigureResult = imageFile;
+          [commandResults addObject:imageResult];
+        }
+      }
     }
   }
   
@@ -119,6 +202,51 @@ static NSString* const MATRIX_DIMENSION_NAMES_ATTRIBUTE = @"dimnames";
 -(STCommandResult*)RunCommand:(NSString*)command
 {
   return [self RunCommand:command tag:nil];
+}
+
+-(STCommandResult*)HandleTableResult:(STTag*)tag command:(NSString*)command result:(RCSymbolicExpression*)result
+{
+  // We take a hint from the tag type to identify tables.  Because of how open R is with its
+  // return of results, a user can just specify a variable and get the result.
+  if ([[tag Type] isEqualToString:[STConstantsTagType Table]]) {
+    STCommandResult* commandResult = [[STCommandResult alloc] init];
+    commandResult.TableResult = [self GetTableResult:command result:result];
+    return commandResult;
+  }
+  return nil;
+}
+
+-(STCommandResult*)HandleImageResult:(STTag*)tag command:(NSString*)command result:(RCSymbolicExpression*)result
+{
+  if ([Parser IsImageExport:command]) {
+    // Attempt to extract the save location (either a file name, relative path, or absolute path)
+    // If it is empty, we will assign one to the image based on the tag name, and use that so
+    // the image is properly imported.
+    NSString* saveLocation = [Parser GetImageSaveLocation:command];
+    if ([STGeneralUtil IsStringNullOrEmpty:saveLocation]) {
+      saveLocation = @"\"tmp\"";
+    }
+    STCommandResult* commandResult = [[STCommandResult alloc] init];
+    commandResult.FigureResult = [self GetExpandedFilePath:saveLocation];
+    return commandResult;
+  }
+  return nil;
+}
+
+-(STCommandResult*)HandleValueResult:(STTag*)tag command:(NSString*)command result:(RCSymbolicExpression*)result
+{
+  // If we have a value command, we will pull out the last relevant line from the output.
+  // Because we treat every type of output as a possible value result, we are only going
+  // to capture the result if it's flagged as a tag.
+  if ([[tag Type] isEqualToString:[STConstantsTagType Value]]) {
+    NSArray* data = [result AsCharacter];
+    if (data != nil) {
+      STCommandResult* valueResult = [[STCommandResult alloc] init];
+      valueResult.ValueResult = [self GetValueResult:result];
+      return valueResult;
+    }
+  }
+  return nil;
 }
 
 -(STCommandResult*)RunCommand:(NSString*)command tag:(STTag*)tag
@@ -146,31 +274,21 @@ static NSString* const MATRIX_DIMENSION_NAMES_ATTRIBUTE = @"dimnames";
         // If there is no tag associated with the command that was run, we aren't going to bother
         // parsing and processing the results.  This is for blocks of codes in between tags
         if (tag != nil) {
-          // We take a hint from the tag type to identify tables.  Because of how open R is with its
-          // return of results, a user can just specify a variable and get the result.
-          if ([[tag Type] isEqualToString:[STConstantsTagType Table]]) {
-              STCommandResult* commandResult = [[STCommandResult alloc] init];
-              commandResult.TableResult = [self GetTableResult:command result:result];
-              return commandResult;
-          }
-
-          // Image comes next, because everything else we will count as a value type.
-          if ([Parser IsImageExport:command]) {
-            STCommandResult* commandResult = [[STCommandResult alloc] init];
-            commandResult.FigureResult = [self GetExpandedFilePath:[Parser GetImageSaveLocation:command]];
+          // Start with tables
+          STCommandResult* commandResult = [self HandleTableResult:tag command:command result:result];
+          if (commandResult != nil) {
             return commandResult;
           }
 
-          // If we have a value command, we will pull out the last relevant line from the output.
-          // Because we treat every type of output as a possible value result, we are only going
-          // to capture the result if it's flagged as a tag.
-          if ([[tag Type] isEqualToString:[STConstantsTagType Value]]) {
-            NSArray* data = [result AsCharacter];
-            if (data != nil) {
-              STCommandResult* valueResult = [[STCommandResult alloc] init];
-              valueResult.ValueResult = [self GetValueResult:result];
-              return valueResult;
-            }
+          // Image comes next, because everything else we will count as a value type.
+          commandResult = [self HandleImageResult:tag command:command result:result];
+          if (commandResult != nil) {
+            return commandResult;
+          }
+
+          commandResult = [self HandleValueResult:tag command:command result:result];
+          if (commandResult != nil) {
+            return commandResult;
           }
         }
       }

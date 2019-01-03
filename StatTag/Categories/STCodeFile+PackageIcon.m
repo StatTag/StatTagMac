@@ -14,14 +14,13 @@
 -(NSImage*)packageIcon
 {
   NSImage* img;
-  if([[self StatisticalPackage] isEqualToString: [STConstantsStatisticalPackages Stata]])
-  {
+  if([[self StatisticalPackage] isEqualToString: [STConstantsStatisticalPackages Stata]]) {
     img = [NSImage imageNamed:@"stats_package_stata"];
-  } else if ([[self StatisticalPackage] isEqualToString: [STConstantsStatisticalPackages R]])
-  {
+  } else if ([[self StatisticalPackage] isEqualToString: [STConstantsStatisticalPackages R]]) {
     img = [NSImage imageNamed:@"stats_package_r"];
-  } else if ([[self StatisticalPackage] isEqualToString: [STConstantsStatisticalPackages SAS]])
-  {
+  } else if ([[self StatisticalPackage] isEqualToString: [STConstantsStatisticalPackages RMarkdown]]) {
+    img = [NSImage imageNamed:@"stats_package_rmd"];
+  } else if ([[self StatisticalPackage] isEqualToString: [STConstantsStatisticalPackages SAS]]) {
     img = [NSImage imageNamed:@"stats_package_sas"];
   } else {
     img = [NSImage imageNamed:@"stattag_tag_purple"];

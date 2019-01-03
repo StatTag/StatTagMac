@@ -293,10 +293,10 @@
 -(void)testPreProcessContent_Empty
 {
   STStataParser* parser = [[STStataParser alloc] init];
-  XCTAssertEqual(0, [[parser PreProcessContent:nil] count]);
+  XCTAssertEqual(0, [[parser PreProcessContent:nil automation:nil] count]);
 
   NSArray<NSString*>* emptyList = [[NSArray<NSString*> alloc] init];
-  XCTAssertEqual(0, [[parser PreProcessContent:emptyList] count]);
+  XCTAssertEqual(0, [[parser PreProcessContent:emptyList automation:nil] count]);
 }
 
 -(void)testPreProcessContent_TrailingComment
@@ -313,14 +313,14 @@
                                   @"Second line",
                                   @"Third line",
                                   nil];
-  XCTAssertEqual(4, [[parser PreProcessContent:testList] count]);
+  XCTAssertEqual(4, [[parser PreProcessContent:testList automation:nil] count]);
   
   testList = [NSArray<NSString*> arrayWithObjects:
               @"First line",
               @"Second line ///",
               @"Third line",
               nil];
-  XCTAssertEqual(3, [[parser PreProcessContent:testList] count]);
+  XCTAssertEqual(3, [[parser PreProcessContent:testList automation:nil] count]);
   /*
    Result:
    "First line",
@@ -333,7 +333,7 @@
               @"Second line ///",
               @"Third line ///",
               nil];
-  XCTAssertEqual(2, [[parser PreProcessContent:testList] count]);
+  XCTAssertEqual(2, [[parser PreProcessContent:testList automation:nil] count]);
   
 }
 
@@ -352,7 +352,7 @@
               @"Second line /*",
               @"*/Third line",
               nil];
-  NSArray<NSString*>* results = [parser PreProcessContent:testList];
+  NSArray<NSString*>* results = [parser PreProcessContent:testList automation:nil];
   XCTAssertEqual(3, [results count]);
   XCTAssert([@"clear all\r\nFirst line\r\nSecond line Third line" isEqualToString:[results componentsJoinedByString:@"\r\n"]]);
 
@@ -362,7 +362,7 @@
               @"Second line ///",
               @"Third line */",
               nil];
-  results = [parser PreProcessContent:testList];
+  results = [parser PreProcessContent:testList automation:nil];
   XCTAssertEqual(2, [results count]);
   XCTAssert([@"clear all\r\nFirst line" isEqualToString:[results componentsJoinedByString:@"\r\n"]]);
 
@@ -374,7 +374,7 @@
               @"Third line */",
               @"Fourth line */",
               nil];
-  results = [parser PreProcessContent:testList];
+  results = [parser PreProcessContent:testList automation:nil];
   XCTAssertEqual(2, [results count]);
   XCTAssert([@"clear all\r\nFirst line" isEqualToString:[results componentsJoinedByString:@"\r\n"]]);
 
@@ -387,7 +387,7 @@
               @"/*Third line*/",
               @"Fourth line",
               nil];
-  results = [parser PreProcessContent:testList];
+  results = [parser PreProcessContent:testList automation:nil];
   XCTAssertEqual(5, [results count]);
   XCTAssert([@"clear all\r\n\r\nSecond line\r\n\r\nFourth line" isEqualToString:[results componentsJoinedByString:@"\r\n"]]);
 
@@ -397,7 +397,7 @@
               @"/*Third line*/",
               @"Fourth line",
               nil];
-  results = [parser PreProcessContent:testList];
+  results = [parser PreProcessContent:testList automation:nil];
   XCTAssertEqual(5, [results count]);
   XCTAssert([@"clear all\r\n\r\n \r\n\r\nFourth line" isEqualToString:[results componentsJoinedByString:@"\r\n"]]);
 
@@ -409,7 +409,7 @@
               @"/*Third line",
               @"Fourth line*/*/",
               nil];
-  results = [parser PreProcessContent:testList];
+  results = [parser PreProcessContent:testList automation:nil];
   XCTAssertEqual(5, [results count]);
   XCTAssert([@"clear all\r\n/*First line\r\n/*Second line*//*More on the same line*/\r\n/*Third line\r\nFourth line*/*/" isEqualToString:[results componentsJoinedByString:@"\r\n"]]);
 
@@ -419,21 +419,21 @@
               @"/*Third line",
               @"Fourth line*/ */",
               nil];
-  results = [parser PreProcessContent:testList];
+  results = [parser PreProcessContent:testList automation:nil];
   XCTAssertEqual(1, [results count]);
   XCTAssert([@"clear all" isEqualToString:[results componentsJoinedByString:@"\r\n"]]);
 
   testList = [NSArray<NSString*> arrayWithObjects:
               @"/**/First line",
               nil];
-  XCTAssertEqual(2, [[parser PreProcessContent:testList] count]);
-  XCTAssert([@"clear all\r\nFirst line" isEqualToString:[[parser PreProcessContent:testList] componentsJoinedByString:@"\r\n"]]);
+  XCTAssertEqual(2, [[parser PreProcessContent:testList automation:nil] count]);
+  XCTAssert([@"clear all\r\nFirst line" isEqualToString:[[parser PreProcessContent:testList automation:nil] componentsJoinedByString:@"\r\n"]]);
 
   testList = [NSArray<NSString*> arrayWithObjects:
               @"First line/**/",
               nil];
-  XCTAssertEqual(2, [[parser PreProcessContent:testList] count]);
-  XCTAssert([@"clear all\r\nFirst line" isEqualToString:[[parser PreProcessContent:testList] componentsJoinedByString:@"\r\n"]]);
+  XCTAssertEqual(2, [[parser PreProcessContent:testList automation:nil] count]);
+  XCTAssert([@"clear all\r\nFirst line" isEqualToString:[[parser PreProcessContent:testList automation:nil] componentsJoinedByString:@"\r\n"]]);
 }
 
 
