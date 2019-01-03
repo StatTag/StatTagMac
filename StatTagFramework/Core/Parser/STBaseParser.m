@@ -92,10 +92,13 @@
 }
 
 
--(NSArray<NSString*>*)PreProcessContent:(NSArray<NSString*>*) originalContent {
+-(NSArray<NSString*>*)PreProcessContent:(NSArray<NSString*>*) originalContent automation:(NSObject<STIStatAutomation>*)automation {
   return nil;
 }
 
+-(NSArray<NSString*>*)PreProcessFile:(STCodeFile*) file automation:(NSObject<STIStatAutomation>*)automation {
+  return [file LoadFileContent];
+}
 
 // Provides a hook to perform any processing on a block of code (one or more
 // lines) before it is executed by the statistical software.  The default
@@ -268,15 +271,19 @@
 
 
 -(NSArray<STExecutionStep*>*)GetExecutionSteps:(STCodeFile*)file{
-  return [self GetExecutionSteps:file filterMode:[STConstantsParserFilterMode IncludeAll] tagsToRun:nil];
+  return [self GetExecutionSteps:file automation:nil filterMode:[STConstantsParserFilterMode IncludeAll] tagsToRun:nil];
 }
--(NSArray<STExecutionStep*>*)GetExecutionSteps:(STCodeFile*)file filterMode:(NSInteger)filterMode{
-  return [self GetExecutionSteps:file filterMode:filterMode tagsToRun:nil];
+-(NSArray<STExecutionStep*>*)GetExecutionSteps:(STCodeFile*)file automation:(NSObject<STIStatAutomation>*)automation{
+  return [self GetExecutionSteps:file automation:automation filterMode:[STConstantsParserFilterMode IncludeAll] tagsToRun:nil];
 }
--(NSArray<STExecutionStep*>*)GetExecutionSteps:(STCodeFile*)file filterMode:(NSInteger)filterMode tagsToRun:(NSArray<STTag*>*)tagsToRun {
+-(NSArray<STExecutionStep*>*)GetExecutionSteps:(STCodeFile*)file automation:(NSObject<STIStatAutomation>*)automation filterMode:(NSInteger)filterMode{
+  return [self GetExecutionSteps:file automation:automation filterMode:filterMode tagsToRun:nil];
+}
+-(NSArray<STExecutionStep*>*)GetExecutionSteps:(STCodeFile*)file automation:(NSObject<STIStatAutomation>*)automation filterMode:(NSInteger)filterMode tagsToRun:(NSArray<STTag*>*)tagsToRun {
   
   NSMutableArray<STExecutionStep*> *executionSteps = [[NSMutableArray alloc]init];
-  NSMutableArray<NSString*> *lines = [[NSMutableArray alloc] initWithArray:[self PreProcessContent:[file LoadFileContent]]];
+  NSMutableArray<NSString*>* content = [[NSMutableArray alloc] initWithArray:[self PreProcessFile:file automation:automation]];
+  NSMutableArray<NSString*> *lines = [[NSMutableArray alloc] initWithArray:[self PreProcessContent:content automation:automation]];
 
   if(lines == nil || [lines count] == 0){
     return executionSteps;

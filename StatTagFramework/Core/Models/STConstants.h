@@ -19,6 +19,7 @@ extern NSString *const STStatTagErrorDomain;
 +(NSString*)Stata;
 +(NSString*)R;
 +(NSString*)SAS;
++(NSString*)RMarkdown;
 +(NSArray<NSString *>*)GetList;
 @end
 
@@ -55,6 +56,8 @@ extern NSString *const STStatTagErrorDomain;
 +(NSString*)StataFilter;
 +(NSString*)RLabel;
 +(NSString*)RFilter;
++(NSString*)RMarkdownLabel;
++(NSString*)RMarkdownFilter;
 +(NSString*)SASLabel;
 +(NSString*)SASFilter;
 +(NSString*)AllLabel;

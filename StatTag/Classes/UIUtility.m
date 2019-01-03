@@ -23,8 +23,10 @@
       formatter = [[STSASCommands alloc] init];
     } else if([[file StatisticalPackage] isEqualToString:[STConstantsStatisticalPackages R]]) {
       formatter = [[STRCommands alloc] init];
+    } else if([[file StatisticalPackage] isEqualToString:[STConstantsStatisticalPackages RMarkdown]]) {
+      formatter = [[STRCommands alloc] init];
     }
-    
+  
     if(formatter != nil) {
       if([resultType isEqualToString:[STConstantsTagType Value]]) {
         return [formatter ValueResultCommands];

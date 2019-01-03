@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "STIStatAutomation.h"
 //#import "STTag.h"
 @class STTag;
 @class STCodeFile;
@@ -21,8 +22,9 @@
 
 -(NSArray<STTag*>*)ParseIncludingInvalidTags:(STCodeFile*)file;
 
--(NSArray<STExecutionStep*>*)GetExecutionSteps:(STCodeFile*)file filterMode:(NSInteger)filterMode tagsToRun:(NSArray<STTag*>*)tagsToRun;
--(NSArray<STExecutionStep*>*)GetExecutionSteps:(STCodeFile*)file filterMode:(NSInteger)filterMode;
+-(NSArray<STExecutionStep*>*)GetExecutionSteps:(STCodeFile*)file automation:(NSObject<STIStatAutomation>*)automation filterMode:(NSInteger)filterMode tagsToRun:(NSArray<STTag*>*)tagsToRun;
+-(NSArray<STExecutionStep*>*)GetExecutionSteps:(STCodeFile*)file automation:(NSObject<STIStatAutomation>*)automation filterMode:(NSInteger)filterMode;
+-(NSArray<STExecutionStep*>*)GetExecutionSteps:(STCodeFile*)file automation:(NSObject<STIStatAutomation>*)automation;
 -(NSArray<STExecutionStep*>*)GetExecutionSteps:(STCodeFile*)file;
 
 -(NSArray<NSString*>*) PreProcessExecutionStepCode:(STExecutionStep*) step;

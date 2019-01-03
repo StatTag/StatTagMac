@@ -556,4 +556,33 @@ NSMutableArray<STCodeFile*>* DistinctTags;
   XCTAssertEqual(existingTag, [result CollidingTag]);
 }
 
+-(void)testTagNameAsFileName_NullEmpty {
+  XCTAssertEqualObjects(@"", [STTagUtil TagNameAsFileName:nil]);
+
+  STTag* emptyTag = [STTag tagWithName:nil andCodeFile:nil];
+  XCTAssertEqualObjects(@"", [STTagUtil TagNameAsFileName:emptyTag]);
+  emptyTag = [STTag tagWithName:@"" andCodeFile:nil];
+  XCTAssertEqualObjects(@"", [STTagUtil TagNameAsFileName:emptyTag]);
+  emptyTag = [STTag tagWithName:@"   " andCodeFile:nil];
+  XCTAssertEqualObjects(@"", [STTagUtil TagNameAsFileName:emptyTag]);
+}
+
+-(void)testTagNameAsFileName_Unchanged {
+  STTag* tag = [STTag tagWithName:@"Test Tag Name 1" andCodeFile:nil];
+  XCTAssertEqualObjects([tag Name], [STTagUtil TagNameAsFileName:tag]);
+  tag = [STTag tagWithName:@"123456" andCodeFile:nil];
+  XCTAssertEqualObjects([tag Name], [STTagUtil TagNameAsFileName:tag]);
+  tag = [STTag tagWithName:@"12-34_56" andCodeFile:nil];
+  XCTAssertEqualObjects([tag Name], [STTagUtil TagNameAsFileName:tag]);
+}
+
+-(void)testTagNameAsFileName_StripCharacters {
+  STTag* tag = [STTag tagWithName:@"Test/Tag/Name_&*@(@#*(#$1" andCodeFile:nil];
+  XCTAssertEqualObjects(@"TestTagName_1", [STTagUtil TagNameAsFileName:tag]);
+  tag = [STTag tagWithName:@" Figure 1.2 " andCodeFile:nil];
+  XCTAssertEqualObjects(@"Figure 12", [STTagUtil TagNameAsFileName:tag]);
+  tag = [STTag tagWithName:@"Invalid\r\n\tWhite space" andCodeFile:nil];
+  XCTAssertEqualObjects(@"InvalidWhite space", [STTagUtil TagNameAsFileName:tag]);
+}
+
 @end

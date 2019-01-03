@@ -32,7 +32,7 @@
 -(NSString*)GetTableDataPath:(NSString*)command;
 
 //-(BOOL) IsStartingLog:(NSString*)command;
--(NSArray<NSString*>*)PreProcessContent:(NSArray<NSString*>*)originalContent;
+-(NSArray<NSString*>*)PreProcessContent:(NSArray<NSString*>*)originalContent automation:(NSObject<STIStatAutomation>*)automation;
 -(NSArray<NSString*>*)CollapseMultiLineCommands:(NSArray<NSString*>*)originalContent;
 
 @end

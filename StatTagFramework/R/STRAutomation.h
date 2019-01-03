@@ -20,6 +20,7 @@
   NSMutableArray<NSString*>* OpenLogs;
   RCEngine* Engine;
   STRVerbatimDevice* VerbatimLog;
+  NSMutableString* TemporaryImageFilePath;
 }
 
 -(BOOL)Initialize:(STCodeFile*)codeFile withLogManager:(STLogManager*)logManager;

@@ -41,4 +41,6 @@
 +(STTagCollisionResult*) DetectTagCollision:(NSArray<STTag*>*) allTags tag:(STTag*)tag;
 +(STTagCollisionResult*) DetectTagCollision:(STTag*)tag;
 +(STTagCollisionResult*) DetectTagCollision:(STTag*)tag1 tag2:(STTag*)tag2;
+
++(NSString*) TagNameAsFileName:(STTag*)tag;
 @end

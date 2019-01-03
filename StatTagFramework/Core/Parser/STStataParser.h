@@ -60,7 +60,7 @@
 
 -(BOOL) IsCalculatedDisplayValue:(NSString*)command;
 -(NSArray<NSString*>*)GetMacros:(NSString*)command;
--(NSArray<NSString*>*)PreProcessContent:(NSArray<NSString*>*)originalContent;
+-(NSArray<NSString*>*)PreProcessContent:(NSArray<NSString*>*)originalContent automation:(NSObject<STIStatAutomation>*)automation;
 -(NSArray<NSString*>*) PreProcessExecutionStepCode:(STExecutionStep*) step;
 -(NSString*) GetMacroValueName:(NSString*)command;
 -(BOOL) IsSavedResultCommand:(NSString*)command;

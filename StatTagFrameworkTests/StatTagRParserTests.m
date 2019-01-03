@@ -169,6 +169,45 @@
   XCTAssertEqualObjects(@"cmd(  ))", modifiedText[0]);
 }
 
+-(void) testCollapseMultiLineCommands_PlotCommands
+{
+  STRParser* parser = [[STRParser alloc] init];
+  
+  // Multiple ggplot commands strung together across multiple lines, with varying
+  // whitespace between the segments
+  NSArray<NSString*>* text = [NSArray<NSString*> arrayWithObjects:
+          @"Plot_DistSpeed <- ggplot(data=cars, aes(x=dist, y=speed)) +",
+          @" \t geom_boxplot() +",
+          @"geom_point()+",
+          @"ggtitle(\"Dist x Speed\") + \t ",
+          @"theme(plot.title = element_text(hjust = 0.5))", nil];
+  NSArray<NSString*>* modifiedText = [parser CollapseMultiLineCommands:text];
+  XCTAssertEqual(1, [modifiedText count]);
+  XCTAssertEqualObjects(@"Plot_DistSpeed <- ggplot(data=cars, aes(x=dist, y=speed)) + geom_boxplot() + geom_point() + ggtitle(\"Dist x Speed\") + theme(plot.title = element_text(hjust = 0.5))", modifiedText[0]);
+  
+  // This mixes multi-line commands as well as strung together commands
+  text = [NSArray<NSString*> arrayWithObjects:
+          @"Plot_DistSpeed <- ggplot(",
+          @"  data=cars, aes(x=dist, y=speed)) +",
+          @" \t geom_boxplot() +",
+          @"geom_point()+",
+          @"ggtitle(\"Dist x Speed\") + \t ",
+          @"theme(plot.title = element_text(hjust = 0.5))", nil];
+  modifiedText = [parser CollapseMultiLineCommands:text];
+  XCTAssertEqual(1, [modifiedText count]);
+  XCTAssertEqualObjects(@"Plot_DistSpeed <- ggplot(    data=cars, aes(x=dist, y=speed)) + geom_boxplot() + geom_point() + ggtitle(\"Dist x Speed\") + theme(plot.title = element_text(hjust = 0.5))", modifiedText[0]);
+  
+  // This isn't valid R, but makes sure we're not collapsing general addition
+  text = [NSArray<NSString*> arrayWithObjects:
+          @"1 + ",
+          @"2 + ",
+          @"3+4+5+",
+          @"\t6", nil];
+  modifiedText = [parser CollapseMultiLineCommands:text];
+  XCTAssertEqual(4, [modifiedText count]);
+  XCTAssertEqualObjects(@"1 + \r\n2 + \r\n3+4+5+\r\n\t6", [modifiedText componentsJoinedByString:@"\r\n"]);
+}
+
 
 -(void) testPreProcessContent
 {
@@ -176,14 +215,14 @@
 
   // No comments to remove
   NSArray<NSString*>* text = [NSArray<NSString*> arrayWithObjects:@"line 1", @"line 2", @"line 3", nil];
-  NSArray<NSString*>* modifiedText = [parser PreProcessContent:text];
+  NSArray<NSString*>* modifiedText = [parser PreProcessContent:text automation:nil];
   XCTAssertEqual([text count], [modifiedText count]);
   for (int index = 0; index < [text count]; index++) {
     XCTAssertEqualObjects(text[index], modifiedText[index]);
   }
 
   text = [NSArray<NSString*> arrayWithObjects:@"line 1 // comment", @"line 2", @"line 3", nil];
-  modifiedText = [parser PreProcessContent:text];
+  modifiedText = [parser PreProcessContent:text automation:nil];
   XCTAssertEqual([text count], [modifiedText count]);
   XCTAssertEqualObjects(@"line 1 ", modifiedText[0]);
 
@@ -191,7 +230,7 @@
     @"hours <- read.csv(file = \"//path/to/data.csv\",header=TRUE, na=\"\") // comment 2",
     @"line 3 // comment 3",
           nil];
-  modifiedText = [parser PreProcessContent:text];
+  modifiedText = [parser PreProcessContent:text automation:nil];
   XCTAssertEqual([text count], [modifiedText count]);
   XCTAssertEqualObjects(@"line 1 ", modifiedText[0]);
   XCTAssertEqualObjects(@"hours <- read.csv(file = \"//path/to/data.csv\",header=TRUE, na=\"\") ", modifiedText[1]);

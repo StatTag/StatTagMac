@@ -22,6 +22,7 @@
  */
 @interface STStatsManagerExecuteResult : NSObject {
   BOOL _Success;
+  NSMutableArray<NSException*>* GeneralErrors;
   NSMutableArray<STTag*>* UpdatedTags;
   NSMutableArray<STTag*>* FailedTags;
 }
@@ -36,7 +37,10 @@
 */
 @property (strong, nonatomic) NSMutableArray<STTag*>* UpdatedTags;
 @property (strong, nonatomic) NSMutableArray<STTag*>* FailedTags;
-
+/**
+ A collection of exceptions caught while processing
+ */
+@property (strong, nonatomic) NSMutableArray<NSException*>* GeneralErrors;
 
 @end
 
