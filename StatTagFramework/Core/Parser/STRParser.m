@@ -339,7 +339,7 @@ This will return the exact parameter that represents the image save location.  T
 -(NSArray<NSString*>*)CollapseMultiLineCommands:(NSArray<NSString*>*)originalContent
 {
   NSString* originalText = [originalContent componentsJoinedByString:@"\r\n"];
-  NSMutableString* modifiedText = originalText;
+  NSString* modifiedText = originalText;
   int openCount = 0;
   int closedCount = 0;
   long currentStart = -1;

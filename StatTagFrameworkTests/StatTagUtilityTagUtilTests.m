@@ -581,6 +581,8 @@ NSMutableArray<STCodeFile*>* DistinctTags;
   XCTAssertEqualObjects(@"TestTagName_1", [STTagUtil TagNameAsFileName:tag]);
   tag = [STTag tagWithName:@" Figure 1.2 " andCodeFile:nil];
   XCTAssertEqualObjects(@"Figure 12", [STTagUtil TagNameAsFileName:tag]);
+  tag = [STTag tagWithName:@"Invalid\r\n\tWhite space" andCodeFile:nil];
+  XCTAssertEqualObjects(@"InvalidWhite space", [STTagUtil TagNameAsFileName:tag]);
 }
 
 @end

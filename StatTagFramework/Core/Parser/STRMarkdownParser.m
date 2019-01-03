@@ -89,7 +89,9 @@ NSString* const TempFileSuffix = @".st-tmp";
   // Move will throw an error if the file doesn't exist, so that will be our implied error check.
   // Let's give the generated file a new name, just to help us identify that it was created by StatTag
   NSString* updatedCodeFilePath = [NSString stringWithFormat:@"%@%@", generatedCodeFilePath, TempFileSuffix];
-  [[self FileHandler] Move:[NSURL URLWithString:generatedCodeFilePath] destFileName:[NSURL URLWithString:updatedCodeFilePath]];
+  NSURL* sourceURL = [NSURL URLWithString:generatedCodeFilePath];
+  NSURL* destURL = [NSURL URLWithString:updatedCodeFilePath];
+  [[self FileHandler] Move:sourceURL destFileName:destURL error:nil];
   generatedCodeFilePath = updatedCodeFilePath;
   
   STCodeFile* tempCodeFile = [[STCodeFile alloc] init];
@@ -98,7 +100,7 @@ NSString* const TempFileSuffix = @".st-tmp";
   NSArray<NSString*>* processedFileResults = [super PreProcessFile:tempCodeFile automation:automation];
   
   // Clean up the generated R file
-  [[self FileHandler] Delete:[NSURL URLWithString:generatedCodeFilePath]];
+  [[self FileHandler] Delete:[NSURL URLWithString:generatedCodeFilePath] error:nil];
   return [self ReplaceKnitrCommands:processedFileResults];
 }
 

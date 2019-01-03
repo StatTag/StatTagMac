@@ -9,5 +9,18 @@
 #ifndef STRMarkdownAutomation_h
 #define STRMarkdownAutomation_h
 
+#import "STRCommands.h"
+#import "STIStatAutomation.h"
+#import "STLogManager.h"
+
+@class STRMarkdownParser;
+
+@interface STRMarkdownAutomation : STRAutomation {
+}
+
+-(BOOL)Initialize:(STCodeFile*)codeFile withLogManager:(STLogManager*)logManager;
+
+@end
+
 
 #endif /* STRMarkdownAutomation_h */

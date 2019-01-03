@@ -253,7 +253,8 @@ TagEditorViewController* tagEditorController;
   [self presentViewControllerAsSheet:tagUpdateProgressController];
 }
 
-- (void)dismissUpdateOutputProgressController:(UpdateOutputProgressViewController *)controller withReturnCode:(StatTagResponseState)returnCode andFailedTags:(NSArray<STTag *> *)failedTags withErrors:(NSDictionary<STTag*, NSException*>*)failedTagErrors{
+- (void)dismissUpdateOutputProgressController:(UpdateOutputProgressViewController *)controller withReturnCode:(StatTagResponseState)returnCode andFailedTags:(NSArray<STTag *> *)failedTags withErrors:(NSDictionary<STTag*, NSException*>*)failedTagErrors andGeneralErrors:(NSArray<NSException*>*)generalErrors
+{
   //FIXME: need to handle errors from worker sheet
   [self dismissViewController:controller];
   if(returnCode == OK && [failedTags count] <= 0) {
@@ -264,13 +265,13 @@ TagEditorViewController* tagEditorController;
   
   if(returnCode == Error || [failedTags count] > 0)
   {
-    [self alertUserToFailedTags:failedTags withErrors:failedTagErrors];
+    [self alertUserToFailedTags:failedTags withErrors:failedTagErrors andGeneralErrors:generalErrors];
   }
   
   [[NSNotificationCenter defaultCenter] postNotificationName:@"tagInsertRefreshCompleted" object:self userInfo:nil];
 }
 
--(void)alertUserToFailedTags:(NSArray<STTag*>*)failedTags withErrors:(NSDictionary<STTag*, NSException*>*)failedTagErrors
+-(void)alertUserToFailedTags:(NSArray<STTag*>*)failedTags withErrors:(NSDictionary<STTag*, NSException*>*)failedTagErrors andGeneralErrors:(NSArray<NSException*>*)generalErrors
 {
   //we should really fix how this all works
   //NSLog(@"failed tags : %@", failedTags);
@@ -284,10 +285,17 @@ TagEditorViewController* tagEditorController;
   [alert setMessageText:@"Not All Tags Could be Processed"];
 
   NSMutableString* content = [[NSMutableString alloc] init];
-  if(failedTags == nil || [failedTags count] <= 0)
-  {
-    //it's possible we have generalized failures not directly related to a tag
-    [content appendString:@"StatTag encountered an error and could not continue processing the requested tag(s).\n"];
+  if(failedTags == nil || [failedTags count] <= 0) {
+    // It's possible we have generalized failures not directly related to a tag.  Check to see if any error information
+    // is provided, otherwise we will provide a generic error message.
+    if (generalErrors == nil || [generalErrors count] <= 0) {
+      [content appendString:@"StatTag encountered an error and could not continue processing the requested tag(s).\n"];
+    }
+    else {
+      for (NSException* ex in generalErrors) {
+        [content appendString:[NSString stringWithFormat:@"•  %@\n", [[ex userInfo] valueForKey:@"ErrorDescription"] ]];
+      }
+    }
   } else {
     [content appendString:@"StatTag could not run the following tags\n\n"];
     for(STTag* t in failedTags)
