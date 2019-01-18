@@ -19,7 +19,7 @@
   } else if ([[self StatisticalPackage] isEqualToString: [STConstantsStatisticalPackages R]]) {
     img = [NSImage imageNamed:@"stats_package_r"];
   } else if ([[self StatisticalPackage] isEqualToString: [STConstantsStatisticalPackages RMarkdown]]) {
-    img = [NSImage imageNamed:@"stats_package_rmd"];
+    img = [NSImage imageNamed:@"stats_package_rmd_file"];
   } else if ([[self StatisticalPackage] isEqualToString: [STConstantsStatisticalPackages SAS]]) {
     img = [NSImage imageNamed:@"stats_package_sas"];
   } else {
