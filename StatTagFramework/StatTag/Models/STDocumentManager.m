@@ -1196,7 +1196,7 @@ used to create the Word document.
       }
       else if(!insertPlaceholder && [tag IsTableTag] && [tag TableCellIndex] == nil) {
         //NSLog(@"Inserting a new table tag");
-        addedFields = [self InsertTable:selection tag:tag];
+        addedFields = [NSMutableArray arrayWithArray:[self InsertTable:selection tag:tag]];
       } else {
         //NSLog(@"Inserting a single tag field");
         STMSWord2011TextRange* range = [selection textObject];
