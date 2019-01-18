@@ -156,6 +156,14 @@
   STMSWord2011SelectionObject* aSelection = [wordApp selection];
 
   STMSWord2011Field* outerField = [[aSelection fields] firstObject];
+  NSString* outerFieldContent = [[outerField fieldCode] content];
+  // If the field content ends in a space, but the original formatted value we wanted inserted does not, that means
+  // we've been hit by a [quirk? bug?] in Word where the AppleScript method to create a field is adding a trailing
+  // space that appears in our field. We don't want the extra space, so we will explicitly trim the content in the
+  // macro field before proceeding.
+  if ([outerFieldContent hasSuffix:@" "] && ![formattedValue hasSuffix:@" "]) {
+    [[outerField fieldCode] setContent:[outerFieldContent stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
+  }
   
   STMSWord2011TextRange* outerRange = [outerField resultRange];
   
