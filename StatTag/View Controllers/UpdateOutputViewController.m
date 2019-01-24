@@ -293,7 +293,11 @@ TagEditorViewController* tagEditorController;
     }
     else {
       for (NSException* ex in generalErrors) {
-        [content appendString:[NSString stringWithFormat:@"•  %@\n", [[ex userInfo] valueForKey:@"ErrorDescription"] ]];
+        NSString* errorDescription = [[ex userInfo] valueForKey:@"ErrorDescription"];
+        if (errorDescription == nil) {
+          errorDescription = [ex reason];
+        }
+        [content appendString:[NSString stringWithFormat:@"•  %@\n", errorDescription]];
       }
     }
   } else {
