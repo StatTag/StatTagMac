@@ -122,27 +122,28 @@
 
         STStatsManagerExecuteResult* allResults = [[STStatsManagerExecuteResult alloc] init];
         [allResults setSuccess:true];
-        //dispatch_async(dispatch_get_main_queue(), ^{
-          for(STCodeFile* cf in [_documentManager GetCodeFileList]) {
-            STStatsManagerExecuteResult* result = [stats ExecuteStatPackage:cf
-                                                                 filterMode:[STConstantsParserFilterMode TagList]
-                                                                  tagsToRun:_tagsToProcess
-                                                   ];
-            [[allResults FailedTags] addObjectsFromArray:[result FailedTags]];
-            [[allResults UpdatedTags] addObjectsFromArray:[result UpdatedTags]];
-            [[allResults GeneralErrors] addObjectsFromArray:[result GeneralErrors]];
-            [allResults setSuccess:([result Success] == true && [allResults Success] == true)];
-            #pragma unused (result)
-          }
-        //});
+        for(STCodeFile* cf in [_documentManager GetCodeFileList]) {
+          STStatsManagerExecuteResult* result = [stats ExecuteStatPackage:cf
+                                                               filterMode:[STConstantsParserFilterMode TagList]
+                                                                tagsToRun:_tagsToProcess
+                                                 ];
+          [[allResults FailedTags] addObjectsFromArray:[result FailedTags]];
+          [[allResults UpdatedTags] addObjectsFromArray:[result UpdatedTags]];
+          [[allResults GeneralErrors] addObjectsFromArray:[result GeneralErrors]];
+          [allResults setSuccess:([result Success] == true && [allResults Success] == true)];
+          #pragma unused (result)
+        }
         
         dispatch_async(dispatch_get_main_queue(), ^{
 
           [progressText setStringValue:@"Updating Fields in Microsoft Word..."];
           
           //can we move this to a background thread?
-          for(STTag* tag in _tagsToProcess)
-          {
+          // For this loop, we can't use _tagsToProcess.  The tags within that collection aren't updated when
+          // ExecuteStatPackage is run, and so it will have invalid/out of date results.  Instead, we use the
+          // results of the code execution to get the list of UpdatedTags.  Those objects will have been updated
+          // with the appropriate values.
+          for (STTag* tag in [allResults UpdatedTags]) {
             STUpdatePair<STTag*>* pair = [[STUpdatePair alloc] init];
             pair.Old = tag;
             pair.New = tag;
