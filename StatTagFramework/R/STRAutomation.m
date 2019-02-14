@@ -86,6 +86,7 @@ static NSString* const TemporaryImageFileFilter = @"SELF EndsWith '.png'";
       [self RunCommand:@"graphics.off()"];
     }
     @catch(NSException* e) {
+      LOG_STATTAG_ERROR(e);
       // We are attempting to close graphic devices, but if it fails, it may not be catastrophic.
       // For now, we are supressing notification to the user, since it may be a false alarm.
     }
@@ -116,6 +117,62 @@ static NSString* const TemporaryImageFileFilter = @"SELF EndsWith '.png'";
   //return [STCocoaUtil appIsPresentForBundleID:[[self class] determineInstalledAppBundleIdentifier]];
 }
 
++(NSString*)InstallationInformation
+{
+  //NSMutableString* appInfo = [NSMutableString stringWithFormat:@"R Installed = NO"];
+
+  NSMutableArray<NSString*>* results = [[NSMutableArray<NSString*> alloc] init];
+
+  @try {
+
+    RCEngine* engine = [RCEngine GetInstance];
+
+    if(engine != nil) {
+      [results addObject:@"R Installed = YES"];
+
+      NSMutableArray<NSString*>* RProfileCommands = [[NSMutableArray<NSString*> alloc] init];
+      [RProfileCommands addObject: @"sessionInfo()"]; //get session info
+      [RProfileCommands addObject: @"R.home()"]; //get session info
+      [RProfileCommands addObject: @".libPaths()"]; //get session info
+      [RProfileCommands addObject: @"with(as.data.frame(installed.packages(fields = c(\"Package\", \"Version\"))), paste(Package, Version, sep = \"\", collapse = \", \" ))"];
+      
+      RCSymbolicExpression* result;
+      
+      for(NSString* command in RProfileCommands)
+      {
+        result = [engine Evaluate:command];
+        if (result != nil) {
+          NSArray* characterArray;
+          if ([result IsList]) {
+            characterArray = [[[result AsList] ElementAt:0] AsCharacter];
+          } else if ([result IsVector]) {
+            characterArray = @[[result AsCharacterMatrix]];
+          }
+          
+          if (characterArray == nil || [characterArray count] == 0) {
+            [results addObject:[NSString stringWithFormat: @"Unable to retrieve R for command '%@'", command]];
+          } else {
+            [results addObject:[NSString stringWithFormat:@"%@ : %@", command, [characterArray componentsJoinedByString:@", "]]];
+          }
+        }
+      }
+      
+      //FIXME: having issues with engine being null - circle back
+      //try knitR explicitly
+      //STRMarkdownAutomation* rMarkdown = [[STRMarkdownAutomation alloc] init];
+      //BOOL knitRInstalled = [rMarkdown knitRInstalled];
+      //[results addObject:[NSString stringWithFormat:@"knitR Installed: %hhd", knitRInstalled]];
+    } else {
+      [results addObject:@"R Installed = YES, but unable to retrieve desired session info"];
+    }
+  }
+  @catch (NSException *exception) {
+    [results addObject:@"Exception attempting to communicate with R. R may not be installed or there might be other configuration issues."];
+    [results addObject:[exception description]];
+  }
+  
+  return [results componentsJoinedByString:@"\r\n"];
+}
 
 -(NSArray<STCommandResult*>*)RunCommands:(NSArray<NSString*>*)commands
 {
@@ -211,6 +268,7 @@ static NSString* const TemporaryImageFileFilter = @"SELF EndsWith '.png'";
   if ([[tag Type] isEqualToString:[STConstantsTagType Table]]) {
     STCommandResult* commandResult = [[STCommandResult alloc] init];
     commandResult.TableResult = [self GetTableResult:command result:result];
+    LOG_STATTAG_DEBUG([commandResult TableResult]);
     return commandResult;
   }
   return nil;
@@ -228,6 +286,7 @@ static NSString* const TemporaryImageFileFilter = @"SELF EndsWith '.png'";
     }
     STCommandResult* commandResult = [[STCommandResult alloc] init];
     commandResult.FigureResult = [self GetExpandedFilePath:saveLocation];
+    LOG_STATTAG_DEBUG([commandResult FigureResult]);
     return commandResult;
   }
   return nil;
@@ -243,6 +302,7 @@ static NSString* const TemporaryImageFileFilter = @"SELF EndsWith '.png'";
     if (data != nil) {
       STCommandResult* valueResult = [[STCommandResult alloc] init];
       valueResult.ValueResult = [self GetValueResult:result];
+      LOG_STATTAG_DEBUG([valueResult ValueResult]);
       return valueResult;
     }
   }
@@ -295,9 +355,11 @@ static NSString* const TemporaryImageFileFilter = @"SELF EndsWith '.png'";
       @catch(NSException* exception)
       {
         errorInfo = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInteger:0], @"ErrorCode", [STConstantsStatisticalPackages R], @"StatisticalPackage", [exception reason], @"ErrorDescription", nil];
-        @throw [NSException exceptionWithName:NSGenericException
-                                       reason:[NSString stringWithFormat:@"There was an error while running the R command: %@", command]
-                                     userInfo:errorInfo];
+        NSException* exc = [NSException exceptionWithName:NSGenericException
+                                                   reason:[NSString stringWithFormat:@"There was an error while running the R command: %@", command]
+                                                 userInfo:errorInfo];
+        LOG_STATTAG_ERROR(exc);
+        @throw exc;
       }@finally {
       }
         
@@ -428,6 +490,7 @@ static NSString* const TemporaryImageFileFilter = @"SELF EndsWith '.png'";
         table.ColumnSize = columnCount;
         table.RowSize = rowCount;
         table.Data = [STTableUtil MergeTableVectorsToArray:[data RowNames] columnNames:[data ColumnNames] data:[self FlattenDataFrame:data] totalRows:rowCount totalColumns:columnCount];
+        LOG_STATTAG_DEBUG([table Data]);
         return table;
     }
     else if ([result IsList]) {

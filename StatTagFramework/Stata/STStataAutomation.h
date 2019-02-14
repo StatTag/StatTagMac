@@ -122,6 +122,8 @@ extern NSString* const EndLoggingCommand;
 
 -(NSString*)ReplaceMacroWithValue:(NSString*)originalString macro:(NSString*)macro value:(NSString*)value;
 
++(NSString*)determineInstalledAppBundleIdentifier;
+
 -(NSString*)GetInitializationErrorMessage;
 
 @end

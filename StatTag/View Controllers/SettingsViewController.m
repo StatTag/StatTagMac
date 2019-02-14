@@ -14,6 +14,10 @@
 #import "StatTagFramework.h"
 #import "StatTagShared.h"
 
+#import "DisclosureViewController.h"
+#import "ViewUtils.h"
+
+
 @interface SettingsViewController ()
 
 @end
@@ -25,7 +29,8 @@
 @synthesize labelFilePath;
 @synthesize boxView;
 @synthesize boxGeneral;
-
+@synthesize buttonOpenLogFileFolder;
+@synthesize configDisclosureButton;
 
 @synthesize settings = _settings;
 @synthesize settingsManager = _settingsManager;
@@ -82,22 +87,43 @@ NSString* const defaultLogFileName = @"StatTag.log";
 }
 
 -(void)setup {
+  
   [[self checkboxLogging] setState: [[self settings] EnableLogging] ? NSOnState : NSOffState];
-  if([[self settings] LogLocation] != nil && [[[self settings] LogLocation] length] > 0 && ![[[self settings] LogLocation] isEqualToString:@"Log Path Not Set"] && [[self logManager] IsValidLogPath: [[self settings] LogLocation]]) {
+//  if([[self settings] LogLocation] != nil && [[[self settings] LogLocation] length] > 0 && ![[[self settings] LogLocation] isEqualToString:@"Log Path Not Set"] && [[self logManager] IsValidLogPath: [[self settings] LogLocation]]) {
+  if([self logFileAccessible]) {
     [[self labelFilePath] setStringValue: [[self settings] LogLocation]];
   } else {
     [self setDefaultPath];
   }
   
   [self UpdateLoggingControls];
+  
+  //[[self configDetailsDisclosureViewController] view]
+  [ViewUtils fillView:[self configDetailsView] withView:[[self configDetailsViewController] view]];
+  
+  //[ViewUtils fillView: withView:[_tagBasicProperties view]];
+  
+  
+  //[self setConfigurationText];
 }
 
 - (IBAction)checkboxLoggingChanged:(id)sender {
-  [self UpdateLoggingControls];
   [self saveSettings];
 }
 
 - (IBAction)labelFilePathClicked:(id)sender {
+}
+
+- (IBAction)openLogFileFolder:(id)sender {
+  [[NSWorkspace sharedWorkspace] selectFile:[[self settings] LogLocation] inFileViewerRootedAtPath:[[self settings] LogLocation]];
+}
+
+-(BOOL)logFileAccessible
+{
+  if([[self settings] LogLocation] != nil && [[[self settings] LogLocation] length] > 0 && ![[[self settings] LogLocation] isEqualToString:@"Log Path Not Set"] && [[self logManager] IsValidLogPath: [[self settings] LogLocation]]) {
+    return YES;
+  }
+  return NO;
 }
 
 - (IBAction)chooseFile:(id)sender {
@@ -151,6 +177,7 @@ NSString* const defaultLogFileName = @"StatTag.log";
     [[self logManager] UpdateSettings:[self settings]];
     //[[self logManager] UpdateSettings:[self properties]];
   }
+  [self UpdateLoggingControls];
 }
 
 -(void) UpdateLoggingControls
@@ -160,6 +187,11 @@ NSString* const defaultLogFileName = @"StatTag.log";
     [[self labelFilePath] setTextColor:[NSColor grayColor]];
   } else {
     [[self labelFilePath] setTextColor:[NSColor controlTextColor]];
+  }
+  if([self logFileAccessible]) {
+    [[self buttonOpenLogFileFolder] setEnabled:YES];
+  } else {
+    [[self buttonOpenLogFileFolder] setEnabled:NO];
   }
 }
 

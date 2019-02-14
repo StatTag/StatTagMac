@@ -135,6 +135,8 @@
 		383F3B981DA679AE0069C78E /* TagPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 383F3B961DA679AE0069C78E /* TagPreviewController.m */; };
 		383F3B991DA679AE0069C78E /* TagPreviewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 383F3B971DA679AE0069C78E /* TagPreviewController.xib */; };
 		383F3B9C1DA684390069C78E /* TagGridView.m in Sources */ = {isa = PBXBuildFile; fileRef = 383F3B9B1DA684390069C78E /* TagGridView.m */; };
+		38459D712215F46400095F51 /* ConfigInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38459D6F2215F46400095F51 /* ConfigInfoViewController.m */; };
+		38459D722215F46400095F51 /* ConfigInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38459D702215F46400095F51 /* ConfigInfoViewController.xib */; };
 		3846CC3A1DA49B0E0066D186 /* FlippedScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3846CC391DA49B0E0066D186 /* FlippedScrollView.m */; };
 		3846CC3D1DA49B840066D186 /* FlippedClipView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3846CC3C1DA49B840066D186 /* FlippedClipView.m */; };
 		384764B01DA52D6400FCDABE /* TablePropertiesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 384764AE1DA52D6400FCDABE /* TablePropertiesController.m */; };
@@ -667,6 +669,9 @@
 		383F3B971DA679AE0069C78E /* TagPreviewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TagPreviewController.xib; sourceTree = "<group>"; };
 		383F3B9A1DA684390069C78E /* TagGridView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagGridView.h; sourceTree = "<group>"; };
 		383F3B9B1DA684390069C78E /* TagGridView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagGridView.m; sourceTree = "<group>"; };
+		38459D6E2215F46400095F51 /* ConfigInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfigInfoViewController.h; sourceTree = "<group>"; };
+		38459D6F2215F46400095F51 /* ConfigInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfigInfoViewController.m; sourceTree = "<group>"; };
+		38459D702215F46400095F51 /* ConfigInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConfigInfoViewController.xib; sourceTree = "<group>"; };
 		3846CC381DA49B0E0066D186 /* FlippedScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlippedScrollView.h; sourceTree = "<group>"; };
 		3846CC391DA49B0E0066D186 /* FlippedScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlippedScrollView.m; sourceTree = "<group>"; };
 		3846CC3B1DA49B840066D186 /* FlippedClipView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlippedClipView.h; sourceTree = "<group>"; };
@@ -1708,6 +1713,9 @@
 				38D8B1C11D9586D200BF878A /* UpdateOutputViewController.xib */,
 				3820C7BA210920F600D42F9F /* NSSegmentedCellNoDelay.h */,
 				3820C7BB210920F600D42F9F /* NSSegmentedCellNoDelay.m */,
+				38459D6E2215F46400095F51 /* ConfigInfoViewController.h */,
+				38459D6F2215F46400095F51 /* ConfigInfoViewController.m */,
+				38459D702215F46400095F51 /* ConfigInfoViewController.xib */,
 			);
 			name = GeneralViewControllers;
 			sourceTree = "<group>";
@@ -2335,6 +2343,7 @@
 				38FFDD251E8D5C3F004D92C3 /* UnlinkedTagsViewController.xib in Resources */,
 				3876323F1DA7D6FA00680898 /* PercentagePropertiesController.xib in Resources */,
 				386689571E9BD37D00A5A1CB /* DocumentBrowserDocumentViewController.xib in Resources */,
+				38459D722215F46400095F51 /* ConfigInfoViewController.xib in Resources */,
 				385EF1421D95D53C005768C7 /* StatTagMacros.dotm in Resources */,
 				3836F5561D92C89900BF0DD4 /* Assets.xcassets in Resources */,
 				38D8B1C31D9586D200BF878A /* UpdateOutputViewController.xib in Resources */,
@@ -2635,6 +2644,7 @@
 				385221C51DAD5D0B005E804B /* SCPerLine.m in Sources */,
 				387632541DA9402500680898 /* STTag+Preview.m in Sources */,
 				3816AC111ED846670045390E /* SamplesInstallerViewController.m in Sources */,
+				38459D712215F46400095F51 /* ConfigInfoViewController.m in Sources */,
 				38F803491D9C50C000C8F1EA /* SCLine.mm in Sources */,
 				384764B51DA5683100FCDABE /* NumericValuePropertiesController.m in Sources */,
 				3871BA6A1E9E919600B00C22 /* UnlinkedTagsDetailRowView.m in Sources */,
@@ -2858,6 +2868,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(LOCAL_LIBRARY_DIR)/Frameworks/R.framework/Headers",
 					"\"$(SRCROOT)/../XlsxReaderWriter/\"/**",
+					"\"$(BUILT_PRODUCTS_DIR)/include\"/**",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/StatTagFramework/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -2899,6 +2910,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(LOCAL_LIBRARY_DIR)/Frameworks/R.framework/Headers",
 					"\"$(SRCROOT)/../XlsxReaderWriter/\"/**",
+					"\"$(BUILT_PRODUCTS_DIR)/include\"/**",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/StatTagFramework/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";

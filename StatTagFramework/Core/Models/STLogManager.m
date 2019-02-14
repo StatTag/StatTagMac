@@ -11,6 +11,9 @@
 #import "STCocoaUtil.h"
 #import "STFileHandler.h"
 
+//@import CocoaLumberjack;
+
+
 @implementation STLogManager
 
 @synthesize Enabled = _Enabled;
@@ -18,10 +21,11 @@
 
 @synthesize LogFilePath = _LogFilePath;
 
+@synthesize logLevel = _logLevel;
+@synthesize wroteHeader = _wroteHeader;
+
 //singleton
 static STLogManager *sharedInstance = nil;
-
-
 
 
 - (void) setLogFilePath:(NSURL*)p {
@@ -50,6 +54,8 @@ static STLogManager *sharedInstance = nil;
     dateFormatter = [[NSDateFormatter alloc] init];
     dateFormatter.dateFormat = @"MM/dd/yyyy HH:mm:ss.SSS";
     _FileHandler = [[STFileHandler alloc] init];
+    _logLevel = STLogError;
+    _wroteHeader = FALSE;
   }
   return self;
 }
@@ -117,6 +123,17 @@ static STLogManager *sharedInstance = nil;
   return true;
 }
 
+-(void)WriteHeader
+{
+  if(![self wroteHeader])
+  {
+    //write the header info
+    //NSLog(@"Log Exception: %@", [exc description]);
+    [self setWroteHeader:YES];
+    [self WriteMessage:[NSString stringWithFormat:@"macOS: %@; Hardware: %@; Memory: %@; StatTag: %@", [STCocoaUtil macOSVersion], [STCocoaUtil machineModel], [STCocoaUtil physicalMemory], [STCocoaUtil bundleVersionInfo]]];
+    [self WriteMessage:[NSString stringWithFormat:@"Word: %@", [STCocoaUtil getAssociatedAppInfo]]];
+  }
+}
 
 /**
  Updates the internal settings used by this log manager, when given a set of application settings.
@@ -143,6 +160,20 @@ static STLogManager *sharedInstance = nil;
   _Enabled = (enabled && [self IsValidLogPath:[[self LogFilePath] path]]);
 }
 
+-(void) WriteLog:(id)message logLevel:(STLogLevel)logLevel
+{
+  if(logLevel <= [self logLevel])
+  {
+    if([message isKindOfClass:[NSException class]] | [message isKindOfClass:[NSError class]])
+    {
+      [self WriteException:message];
+    } else if ([message isKindOfClass:[NSString class]]) {
+      [self WriteMessage: message];
+    } else if ([message respondsToSelector:@selector(description)]){
+      [self WriteMessage: [message description]];
+    }
+  }
+}
 
 /**
   Writes a message to the log file.
@@ -151,10 +182,17 @@ static STLogManager *sharedInstance = nil;
 */
 -(void) WriteMessage:(NSString*)text
 {
+  dispatch_async(dispatch_get_main_queue(), ^{
+    NSLog(@"%@", text);
+  });
+
   if (_Enabled && [self IsValidLogPath:[[self LogFilePath] path]])
   {
-    NSError* err;
-    [[self FileHandler] AppendAllText:[self LogFilePath] withContent:[NSString stringWithFormat:@"%@ - %@\r\n", [dateFormatter stringFromDate:[NSDate date]], text] error:&err];
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+      NSError* err;
+      [self WriteHeader];
+      [[self FileHandler] AppendAllText:[self LogFilePath] withContent:[NSString stringWithFormat:@"%@ - %@\r\n", [dateFormatter stringFromDate:[NSDate date]], text] error:&err];
+    });
   }
 }
 
@@ -182,9 +220,11 @@ static STLogManager *sharedInstance = nil;
   {
     errorDescription = exc;
   }
-  
-  //NSLog(@"Log Exception: %@", [exc description]);
-  [self WriteMessage:[NSString stringWithFormat:@"Error: %@, macOS: %@, Hardware: %@, Stack trace: %@", errorDescription, [STCocoaUtil macOSVersion], [STCocoaUtil machineModel], stackTrace]];
+
+  [self WriteMessage:[NSString stringWithFormat:@"Error: %@/r/nStack trace: %@", errorDescription, stackTrace]];
+
+//  //NSLog(@"Log Exception: %@", [exc description]);
+//  [self WriteMessage:[NSString stringWithFormat:@"Error: %@, macOS: %@, Hardware: %@, Stack trace: %@", errorDescription, [STCocoaUtil macOSVersion], [STCocoaUtil machineModel], stackTrace]];
 
 }
 

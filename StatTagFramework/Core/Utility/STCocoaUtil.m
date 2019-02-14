@@ -16,6 +16,11 @@
 #import <AppKit/AppKit.h>
 #import <ScriptingBridge/ScriptingBridge.h>
 
+#import "STThisAddIn.h"
+#import "STStataAutomation.h"
+//#import <RCocoa/RCocoa.h>
+#import "STRAutomation.h"
+
 @implementation STCocoaUtil
 
 +(NSURL*)appURLForBundleId:(NSString*)bundleID {
@@ -143,29 +148,126 @@
   return versionBuildString;
 }
 
++(NSString*)getWordVersion
+{
+  //determineInstalledAppBundleIdentifier
+  if([STThisAddIn IsAppInstalled])
+  {
+    return [self getApplicationDetailsForBundleID:[STThisAddIn determineInstalledAppBundleIdentifier]];
+  } 
+  else {
+    return @"Not Installed";
+  }
+}
+
++(NSString*)getStataVersion
+{
+  if([STStataAutomation IsAppInstalled])
+  {
+    return [self getApplicationDetailsForBundleID:[STStataAutomation determineInstalledAppBundleIdentifier]];
+  }
+  else {
+    return @"Not Installed";
+  }
+}
+
++(NSString*)getRVersion
+{
+  return [STRAutomation InstallationInformation];
+//  if([STStataAutomation IsAppInstalled])
+//  {
+//    return [self getApplicationDetailsForBundleID:[STStataAutomation determineInstalledAppBundleIdentifier]];
+//  }
+//  else {
+//    return @"Not Installed";
+//  }
+}
+
++(NSString*)getAssociatedAppInfo
+{
+  return [NSString stringWithFormat:@"Microsoft Word: %@\r\nStata: %@\r\nR: %@", [self getWordVersion], [self getStataVersion], [self getRVersion]];
+}
+
++(NSAttributedString*)boldString:(NSString*)str
+{
+  NSFont *font = [NSFont boldSystemFontOfSize:12];
+  return [[NSAttributedString alloc] initWithString:str attributes:@{NSFontAttributeName : font}];
+}
+
++(NSAttributedString*)getAssociatedAppInfoAttributedString
+{
+  
+  NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:@""];
+
+  NSDictionary<NSString*, NSString*> *info = [self getAssociatedAppInfoDict];
+
+  
+  for (NSString* key in info) {
+    NSString* value = info[key];
+    [str appendAttributedString:[self boldString:key]];
+    [str appendAttributedString:[[NSAttributedString alloc] initWithString:@": "]];
+    [str appendAttributedString:[[NSAttributedString alloc] initWithString:value]];
+    [str appendAttributedString:[[NSAttributedString alloc] initWithString:@"\r\n"]];
+  }
+  
+  return str;
+}
+
++(NSDictionary<NSString*, NSString*>*)getAssociatedAppInfoDict
+{
+  NSMutableDictionary<NSString*, NSString*> *dict = [[NSMutableDictionary<NSString*, NSString*> alloc] init];
+  [dict setObject:[STCocoaUtil macOSVersion] forKey:@"macOS Version"];
+  [dict setObject:[STCocoaUtil machineModel] forKey:@"Machine Model"];
+  [dict setObject:[STCocoaUtil physicalMemory] forKey:@"Memory"];
+  [dict setObject:[STCocoaUtil bundleVersionInfo] forKey:@"StatTag Version"];
+  
+  [dict setObject:[self getWordVersion] forKey:@"Microsoft Word"];
+  [dict setObject:[self getStataVersion] forKey:@"Stata"];
+  [dict setObject:[self getRVersion] forKey:@"R"];
+  
+  return dict;
+}
+
+
 +(NSString*)getApplicationDetailsForBundleID:(NSString*)bundleID {
   //http://stackoverflow.com/questions/26829104/how-to-retrieve-an-applications-version-string
   
-    NSWorkspace *ws = [NSWorkspace sharedWorkspace];
-    NSArray *apps = [ws runningApplications];
-    for (NSRunningApplication *app in apps)
-    {
-      //[app displayIdentifier];
-      if([[app bundleIdentifier] isEqualToString:bundleID]) {      
-        pid_t pid = [app processIdentifier ];
-        NSBundle *bundle = [NSBundle bundleWithURL:[app bundleURL]];
-        NSDictionary *info = [bundle infoDictionary];
-        
-        NSString* name = info[@"CFBundleName"];
-        NSString* identifier = info[@"CFBundleIdentifier"];
-        NSString* version = info[@"CFBundleVersion"];
-        NSString* shortVersion = info[@"CFBundleShortVersionString"];
-        NSString* appInfo = [NSString stringWithFormat:@"PID: %ld, Name: %@, Identifier: %@, Version: %@ (%@)", (long)pid, name, identifier, version, shortVersion];
-        return appInfo;
-      }
-    }
+  //NSString* appInfo;
   
-  return nil;
+
+  NSURL* localPath = [self appURLForBundleId:bundleID];
+  
+  NSBundle* bundle = [NSBundle bundleWithURL:localPath];
+
+  NSDictionary *info = [bundle infoDictionary];
+  NSString* name = info[@"CFBundleName"];
+  NSString* identifier = info[@"CFBundleIdentifier"];
+  NSString* version = info[@"CFBundleVersion"];
+  NSString* shortVersion = info[@"CFBundleShortVersionString"];
+
+  return [NSString stringWithFormat:@"Bundle ID: %@, Name: %@, Identifier: %@, Version: %@ (%@), Path: %@", bundleID, name, identifier, version, shortVersion, [localPath path]];
+  
+  //NSMutableArray<NSString*>* appInfo = [[NSMutableArray<NSString*> alloc] init];;
+//  NSWorkspace *ws = [NSWorkspace sharedWorkspace];
+//  NSArray *apps = [ws runningApplications];
+
+//  for (NSRunningApplication *app in apps)
+//  {
+//    //[app displayIdentifier];
+//    if([[app bundleIdentifier] isEqualToString:bundleID]) {      
+//      pid_t pid = [app processIdentifier ];
+//
+//      NSBundle *bundle = [NSBundle bundleWithURL:[app bundleURL]];
+//      NSDictionary *info = [bundle infoDictionary];
+//      
+//
+//      [runningInfo addObject:@""];
+//      //[runningInfo appendString:[NSString stringWithFormat:@"Bundle ID: %@, PID: %ld, Name: %@, Identifier: %@, Version: %@ (%@)", bundleID, (long)pid, name, identifier, version, shortVersion]];
+//
+//    }
+//  }
+
+//  return [runningInfo componentsJoinedByString:@", "];
 }
 
 /*

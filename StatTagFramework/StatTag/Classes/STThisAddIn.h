@@ -62,6 +62,6 @@
  */
 -(void)Application_DocumentOpen:(STMSWord2011Document*)doc;
 
-
++(NSString*)determineInstalledAppBundleIdentifier;
 
 @end

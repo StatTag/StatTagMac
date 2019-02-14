@@ -19,6 +19,7 @@
 }
 
 -(BOOL)Initialize:(STCodeFile*)codeFile withLogManager:(STLogManager*)logManager;
+-(BOOL)knitRInstalled;
 
 @end
 

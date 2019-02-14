@@ -12,6 +12,7 @@
 #import "MainTabViewController.h"
 
 #import "StatTagShared.h"
+#import "StatTagFramework.h"
 
 #import "ManageCodeFilesViewController.h"
 #import "SettingsViewController.h"
@@ -74,7 +75,9 @@
   {
     [MacroInstallerUtility installMacros];
   }
-  
+
+  LOG_STATTAG_DEBUG(@"Initializing Application");
+
 }
 
 -(void)runStatTagWithDocumentBrowser
@@ -150,8 +153,6 @@
   
   [[self aboutWindowController] showWindow:self]; // show the window
   
-  //NSLog(@"open about");
-
 }
 
 - (IBAction)openSamplesInstallerWindow:(id)sender {

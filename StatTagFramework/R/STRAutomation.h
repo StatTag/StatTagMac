@@ -26,4 +26,7 @@
 -(BOOL)Initialize:(STCodeFile*)codeFile withLogManager:(STLogManager*)logManager;
 -(NSString*)GetInitializationErrorMessage;
 
++(NSString*)InstallationInformation;
+
+
 @end

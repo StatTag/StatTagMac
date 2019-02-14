@@ -26,7 +26,6 @@
   
   NSString* buildInfo = [NSString stringWithFormat:@"%@ (%@)", appVersionString, appBuildString];
   [[self buildTextField] setStringValue:buildInfo];
-  
 }
 
 - (NSString *)nibName
