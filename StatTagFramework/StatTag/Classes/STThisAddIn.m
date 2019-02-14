@@ -66,7 +66,7 @@
       _SettingsManager = [[STSettingsManager alloc] init];
 
       [[self SettingsManager] Load];
-      [[self LogManager] UpdateSettings:[[[self SettingsManager] Settings] EnableLogging]  filePath:[[[self SettingsManager] Settings] LogLocation]];
+      [[self LogManager] UpdateSettings:[[[self SettingsManager] Settings] EnableLogging]  filePath:[[[self SettingsManager] Settings] LogLocation] logLevel:[[[self SettingsManager] Settings] LogLevel]];
       _DocumentManager.Logger = [self LogManager];
       
     }
@@ -141,7 +141,7 @@
   // We'll load at Startup but won't save on Shutdown.  We only save when the user makes
   // a change and then confirms it through the Settings dialog.
   [[self SettingsManager] Load];
-  [[self LogManager] UpdateSettings:[[[self SettingsManager] Settings] EnableLogging]  filePath:[[[self SettingsManager] Settings] LogLocation]];
+  [[self LogManager] UpdateSettings:[[[self SettingsManager] Settings] EnableLogging]  filePath:[[[self SettingsManager] Settings] LogLocation] logLevel:[[[self SettingsManager] Settings]LogLevel]];
   [[self LogManager] WriteMessage:@"Startup completed"];
   _DocumentManager.Logger = [self LogManager];
 

@@ -19,6 +19,7 @@
   if(self) {
     _StataLocation = @"";
     _LogLocation = @"";
+    _LogLevel = STLogError;
   }
   return self;
 }

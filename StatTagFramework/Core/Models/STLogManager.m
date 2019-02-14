@@ -143,7 +143,7 @@ static STLogManager *sharedInstance = nil;
  @param settings : Application settings
  */
 -(void)UpdateSettings:(STUserSettings*)settings {
-  [self UpdateSettings:[settings EnableLogging] filePath:[settings LogLocation]];
+  [self UpdateSettings:[settings EnableLogging] filePath:[settings LogLocation] logLevel:[settings LogLevel]];
 }
 
 /**
@@ -154,15 +154,16 @@ static STLogManager *sharedInstance = nil;
   @param enabled : If logging is enabled by the user
   @param filePath : The path of the log file to write to.
  */
--(void)UpdateSettings:(BOOL)enabled filePath:(NSString*)filePath {
+-(void)UpdateSettings:(BOOL)enabled filePath:(NSString*)filePath logLevel:(STLogLevel)logLevel {
   //self.LogFilePath = filePath;
   [self setLogFilePathWithString:filePath];
   _Enabled = (enabled && [self IsValidLogPath:[[self LogFilePath] path]]);
+  _logLevel = logLevel;
 }
 
 -(void) WriteLog:(id)message logLevel:(STLogLevel)logLevel
 {
-  if(logLevel <= [self logLevel])
+  if(logLevel >= [self logLevel])
   {
     if([message isKindOfClass:[NSException class]] | [message isKindOfClass:[NSError class]])
     {

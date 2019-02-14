@@ -48,6 +48,7 @@ typedef NS_ENUM(NSInteger, STLogLevel) {
 
 @property (strong, nonatomic) NSObject<STIFileHandler>* FileHandler;
 
+
 + (id)sharedInstance;
 
 -(instancetype)init;
@@ -82,7 +83,7 @@ typedef NS_ENUM(NSInteger, STLogLevel) {
  @param enabled : If logging is enabled by the user
  @param filePath : The path of the log file to write to.
  */
--(void)UpdateSettings:(BOOL)enabled filePath:(NSString*)filePath;
+-(void)UpdateSettings:(BOOL)enabled filePath:(NSString*)filePath logLevel:(STLogLevel)logLevel;
 
 
 /**

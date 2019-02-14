@@ -17,23 +17,24 @@
                 <outlet property="configDetailsView" destination="7Vd-kp-qe9" id="RaE-1M-PWw"/>
                 <outlet property="configDetailsViewController" destination="eVd-qv-fEd" id="Oe3-q7-Fsv"/>
                 <outlet property="labelFilePath" destination="RJE-dJ-G6u" id="T5K-0M-mAU"/>
+                <outlet property="logLevelDropdown" destination="3GO-F7-B0u" id="Pcq-Mo-u8e"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView id="Hz6-mo-xeY">
-            <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
+            <rect key="frame" x="0.0" y="0.0" width="480" height="375"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <box borderType="line" title="General" translatesAutoresizingMaskIntoConstraints="NO" id="cZ4-M5-QuD">
-                    <rect key="frame" x="17" y="16" width="446" height="284"/>
+                    <rect key="frame" x="17" y="16" width="446" height="339"/>
                     <view key="contentView" id="33C-ff-rKk">
-                        <rect key="frame" x="1" y="1" width="444" height="268"/>
+                        <rect key="frame" x="1" y="1" width="444" height="323"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button translatesAutoresizingMaskIntoConstraints="NO" id="n1Z-0A-46h">
-                                <rect key="frame" x="18" y="232" width="408" height="18"/>
+                                <rect key="frame" x="18" y="287" width="408" height="18"/>
                                 <buttonCell key="cell" type="check" title="Enable the debug text file" bezelStyle="regularSquare" imagePosition="left" inset="2" id="1h5-C0-r5a">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -43,7 +44,7 @@
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" setsMaxLayoutWidthAtFirstLayout="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RJE-dJ-G6u">
-                                <rect key="frame" x="114" y="209" width="282" height="17"/>
+                                <rect key="frame" x="114" y="239" width="282" height="17"/>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" placeholderString="Log Path Not Set" id="EyT-3A-Ryc">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
@@ -55,7 +56,7 @@
                                 </connections>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5sE-yd-FR7">
-                                <rect key="frame" x="18" y="209" width="88" height="17"/>
+                                <rect key="frame" x="18" y="239" width="88" height="17"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="84" id="Sf0-yN-i92"/>
                                 </constraints>
@@ -65,18 +66,8 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4S7-7A-rTx">
-                                <rect key="frame" x="319" y="162" width="111" height="32"/>
-                                <buttonCell key="cell" type="push" title="Choose File" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="1NY-hU-EeP">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="chooseFile:" target="-2" id="WTR-gX-evc"/>
-                                </connections>
-                            </button>
                             <button translatesAutoresizingMaskIntoConstraints="NO" id="13T-ho-Lrk">
-                                <rect key="frame" x="402" y="208" width="22" height="22"/>
+                                <rect key="frame" x="402" y="238" width="22" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="22" id="F8K-Ge-GfF"/>
                                     <constraint firstAttribute="height" constant="22" id="xay-jn-ibZ"/>
@@ -90,26 +81,71 @@
                                 </connections>
                             </button>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="7Vd-kp-qe9">
-                                <rect key="frame" x="20" y="12" width="404" height="145"/>
+                                <rect key="frame" x="20" y="12" width="404" height="184"/>
                             </customView>
+                            <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3GO-F7-B0u">
+                                <rect key="frame" x="114" y="257" width="107" height="26"/>
+                                <popUpButtonCell key="cell" type="push" title="Errors" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="5" imageScaling="proportionallyDown" inset="2" selectedItem="nkd-gg-Rej" id="qEU-Xy-IW1">
+                                    <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="menu"/>
+                                    <menu key="menu" id="Pkg-2g-SD0">
+                                        <items>
+                                            <menuItem title="Errors" state="on" tag="5" id="nkd-gg-Rej"/>
+                                            <menuItem title="Warnings" tag="4" id="irB-bx-4XQ"/>
+                                            <menuItem title="Information" tag="3" id="Iyy-9g-wKR"/>
+                                            <menuItem title="Debugging" tag="2" id="YCc-IX-31K"/>
+                                            <menuItem title="Verbose" tag="1" id="9hZ-CX-EqA"/>
+                                        </items>
+                                    </menu>
+                                </popUpButtonCell>
+                                <connections>
+                                    <action selector="logLevelChanged:" target="-2" id="eb2-Z6-T6u"/>
+                                </connections>
+                            </popUpButton>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LsC-t8-Ob8">
+                                <rect key="frame" x="18" y="264" width="88" height="17"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="84" id="xqz-e8-6EB"/>
+                                </constraints>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Log Level:" id="i7q-7T-fAr">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4S7-7A-rTx">
+                                <rect key="frame" x="319" y="201" width="111" height="32"/>
+                                <buttonCell key="cell" type="push" title="Choose File" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="1NY-hU-EeP">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="chooseFile:" target="-2" id="WTR-gX-evc"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstItem="13T-ho-Lrk" firstAttribute="leading" secondItem="RJE-dJ-G6u" secondAttribute="trailing" constant="8" id="3qU-1t-X42"/>
+                            <constraint firstItem="LsC-t8-Ob8" firstAttribute="top" secondItem="n1Z-0A-46h" secondAttribute="bottom" constant="8" id="48m-4X-Rdu"/>
                             <constraint firstItem="13T-ho-Lrk" firstAttribute="top" secondItem="RJE-dJ-G6u" secondAttribute="top" constant="-4" id="4hR-1D-n3U"/>
-                            <constraint firstItem="4S7-7A-rTx" firstAttribute="top" secondItem="RJE-dJ-G6u" secondAttribute="bottom" constant="19" id="5R0-7m-LZD"/>
+                            <constraint firstItem="4S7-7A-rTx" firstAttribute="top" secondItem="RJE-dJ-G6u" secondAttribute="bottom" constant="10" id="5R0-7m-LZD"/>
                             <constraint firstItem="n1Z-0A-46h" firstAttribute="top" secondItem="33C-ff-rKk" secondAttribute="top" constant="20" id="60c-dx-wzp"/>
                             <constraint firstAttribute="bottom" secondItem="7Vd-kp-qe9" secondAttribute="bottom" constant="12" id="6yw-cO-M7e"/>
                             <constraint firstAttribute="trailing" secondItem="13T-ho-Lrk" secondAttribute="trailing" constant="20" id="8r7-Bo-nXy"/>
                             <constraint firstAttribute="trailing" secondItem="7Vd-kp-qe9" secondAttribute="trailing" constant="20" id="9eN-6j-4dB"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="3GO-F7-B0u" secondAttribute="trailing" constant="20" id="B1C-Lv-Gxb"/>
+                            <constraint firstItem="5sE-yd-FR7" firstAttribute="top" secondItem="LsC-t8-Ob8" secondAttribute="bottom" constant="8" id="FBN-Q5-9zv"/>
                             <constraint firstAttribute="trailing" secondItem="n1Z-0A-46h" secondAttribute="trailing" constant="20" id="FGW-hV-UG2"/>
                             <constraint firstItem="7Vd-kp-qe9" firstAttribute="leading" secondItem="33C-ff-rKk" secondAttribute="leading" constant="20" id="LMw-45-TV3"/>
                             <constraint firstItem="n1Z-0A-46h" firstAttribute="leading" secondItem="33C-ff-rKk" secondAttribute="leading" constant="20" id="Lc2-mq-P1p"/>
                             <constraint firstItem="5sE-yd-FR7" firstAttribute="leading" secondItem="33C-ff-rKk" secondAttribute="leading" constant="20" id="Le3-vV-2RO"/>
                             <constraint firstAttribute="trailing" secondItem="4S7-7A-rTx" secondAttribute="trailing" constant="20" id="T8s-B8-weK"/>
-                            <constraint firstItem="RJE-dJ-G6u" firstAttribute="top" secondItem="n1Z-0A-46h" secondAttribute="bottom" constant="8" id="UWv-er-8Xa"/>
                             <constraint firstItem="RJE-dJ-G6u" firstAttribute="leading" secondItem="5sE-yd-FR7" secondAttribute="trailing" constant="12" id="VS7-dz-H4v"/>
                             <constraint firstItem="7Vd-kp-qe9" firstAttribute="top" secondItem="4S7-7A-rTx" secondAttribute="bottom" constant="12" id="W6p-gW-A1c"/>
-                            <constraint firstItem="5sE-yd-FR7" firstAttribute="top" secondItem="n1Z-0A-46h" secondAttribute="bottom" constant="8" id="sMQ-hX-uiQ"/>
+                            <constraint firstItem="LsC-t8-Ob8" firstAttribute="leading" secondItem="33C-ff-rKk" secondAttribute="leading" constant="20" id="bCA-3V-MBQ"/>
+                            <constraint firstItem="3GO-F7-B0u" firstAttribute="top" secondItem="LsC-t8-Ob8" secondAttribute="top" id="bS6-pY-QgM"/>
+                            <constraint firstItem="3GO-F7-B0u" firstAttribute="leading" secondItem="LsC-t8-Ob8" secondAttribute="trailing" constant="12" id="r1m-u7-Q98"/>
+                            <constraint firstItem="RJE-dJ-G6u" firstAttribute="top" secondItem="5sE-yd-FR7" secondAttribute="top" id="zSZ-Jz-447"/>
                         </constraints>
                     </view>
                 </box>
@@ -120,6 +156,7 @@
                 <constraint firstAttribute="trailing" secondItem="cZ4-M5-QuD" secondAttribute="trailing" constant="20" id="h2i-4Z-pgS"/>
                 <constraint firstAttribute="bottom" secondItem="cZ4-M5-QuD" secondAttribute="bottom" constant="20" id="jlu-XI-rh9"/>
             </constraints>
+            <point key="canvasLocation" x="131" y="126.5"/>
         </customView>
         <userDefaultsController representsSharedInstance="YES" id="aZF-Iy-cIY"/>
         <viewController title="ConfigDetailsDisclosureView" id="jkm-96-Edc" customClass="DisclosureViewController"/>

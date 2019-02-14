@@ -31,6 +31,7 @@
 @synthesize boxGeneral;
 @synthesize buttonOpenLogFileFolder;
 @synthesize configDisclosureButton;
+@synthesize logLevelDropdown;
 
 @synthesize settings = _settings;
 @synthesize settingsManager = _settingsManager;
@@ -95,7 +96,7 @@ NSString* const defaultLogFileName = @"StatTag.log";
   } else {
     [self setDefaultPath];
   }
-  
+
   [self UpdateLoggingControls];
   
   //[[self configDetailsDisclosureViewController] view]
@@ -106,6 +107,11 @@ NSString* const defaultLogFileName = @"StatTag.log";
   
   //[self setConfigurationText];
 }
+
+- (IBAction)logLevelChanged:(id)sender {
+  [self saveSettings];
+}
+
 
 - (IBAction)checkboxLoggingChanged:(id)sender {
   [self saveSettings];
@@ -167,14 +173,19 @@ NSString* const defaultLogFileName = @"StatTag.log";
 -(void)saveSettings {
   [[self settings] setEnableLogging:[[self checkboxLogging] state ] == NSOnState ? YES : NO ];
   [[self settings] setLogLocation:[labelFilePath stringValue]];
+
   
   if ([[self settings] EnableLogging] && ![[self logManager] IsValidLogPath: [[self settings] LogLocation]])
   {
     [STUIUtility WarningMessageBoxWithTitle:@"Unable to access debug file." andDetail:@"The debug file you have selected appears to be invalid, or you do not have rights to access it.\r\nPlease select a valid path for the debug file, or disable debugging." logger:nil];
   } else {
+    STLogLevel level = [[self logLevelDropdown] selectedTag];
+    [[self settings] setLogLevel:level];
+
     [[self settingsManager] setSettings:[self settings]];
     [[self settingsManager] Save];
     [[self logManager] UpdateSettings:[self settings]];
+    
     //[[self logManager] UpdateSettings:[self properties]];
   }
   [self UpdateLoggingControls];
@@ -182,11 +193,15 @@ NSString* const defaultLogFileName = @"StatTag.log";
 
 -(void) UpdateLoggingControls
 {
+  [[self logLevelDropdown] selectItemWithTag:[[self settings] LogLevel]];
+
   BOOL enabled = [[self checkboxLogging] state]  == NSOnState ? YES : NO ;
   if (enabled == NO) {
     [[self labelFilePath] setTextColor:[NSColor grayColor]];
+    [[self logLevelDropdown] setEnabled:FALSE];
   } else {
     [[self labelFilePath] setTextColor:[NSColor controlTextColor]];
+    [[self logLevelDropdown] setEnabled:true];
   }
   if([self logFileAccessible]) {
     [[self buttonOpenLogFileFolder] setEnabled:YES];
