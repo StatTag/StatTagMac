@@ -22,6 +22,7 @@
 #import "STTableUtil.h"
 #import "STSettingsManager.h"
 #import "STDocumentMetadata.h"
+#import "STLogManager.h"
 
 @implementation STDocumentManager
 
@@ -800,9 +801,8 @@ used to create the Word document.
     return [selection cells];
   }
   @catch (NSException *exception) {
-    //NSLog(@"%@", exception.reason);
-    //NSLog(@"method: %@, line : %d", NSStringFromSelector(_cmd), __LINE__);
-    //NSLog(@"%@", [NSThread callStackSymbols]);
+    [self Log:@"Exception thrown when calling GetCells"];
+    [self LogException:exception];
   }
   return nil;
 }
@@ -929,8 +929,14 @@ used to create the Word document.
   
   // Insert a new table if there is none selected.
   if (cellsCount == 0) {
-    //NSLog(@"No cells selected, creating a new table");
+    [self Log:@"No cells selected, creating a new table"];
     STMSWord2011Table* wordTable = [self CreateWordTableForTableResult:selection table:table format:[tag TableFormat] dimensions:dimensions];
+    if (wordTable == NULL) {
+      [self Log:@"Received a NULL table reference after calling CreateWordTableForTableResult"];
+    }
+    else {
+      [self Log:[NSString stringWithFormat:@"Created table : %@", wordTable]];
+    }
     [WordHelpers select:wordTable];
     
     // The table will be the size we need.  Update these tracking variables with the cells and
@@ -942,7 +948,7 @@ used to create the Word document.
   // likely means the user has their cursor in a table.  We are going to assume they want us to
   // fill in that table.
   else if (cellsCount == 1 && [[selection textObject] startOfContent] == [[selection textObject] endOfContent]) {
-    //NSLog(@"Cursor is in a single table cell, selecting table");
+    [self Log:@"Cursor is in a single table cell, selecting table"];
     cells = [self SelectExistingTableRange:[cells firstObject] table:[[selection tables] firstObject] dimensions:dimensions];
     cellsCount = [cells count];
   }
@@ -950,12 +956,16 @@ used to create the Word document.
   NSArray<NSString*>* displayData = [STTableUtil GetDisplayableVector:[table FormattedCells] format:[tag TableFormat]];
   if (displayData == nil || [displayData count] == 0) {
     [STUIUtility WarningMessageBoxWithTitle:@"There are no table results to insert." andDetail:@"" logger:[self Logger]];
+    [self Log:@"No table results to insert"];
     return addedFields;
   }
   
   if (cells == nil) {
-    //NSLog(@"Unable to insert the table because the cells collection came back as nil.");
+    [self Log:@"Unable to insert the table because the cells collection came back as nil."];
     return addedFields;
+  }
+  else {
+    [self Log:[NSString stringWithFormat:@"Cell count is %ld", (long)cellsCount]];
   }
 
   /*
@@ -986,12 +996,11 @@ used to create the Word document.
     point.x = [cell rowIndex];
     point.y = [cell columnIndex];
     [cellPoints addObject:[NSValue valueWithPoint:point]];
-    //NSLog(@"cell (%ld,%ld)", [cell rowIndex], [cell columnIndex]);
+    [self Log:[NSString stringWithFormat:@"cell (%ld,%ld)", [cell rowIndex], [cell columnIndex]]];
   }
   
   STMSWord2011Cell* findCell = [cells firstObject];
-  STMSWord2011Table* cellTable;
-
+  STMSWord2011Table* cellTable = NULL;
   for(STMSWord2011Table* aTable in [doc tables]) {
     STMSWord2011Cell* tableCell = [aTable getCellFromTableRow:[findCell rowIndex] column:[findCell columnIndex]];
     if([[findCell textObject] startOfContent] == [[tableCell textObject] startOfContent]
@@ -1000,8 +1009,12 @@ used to create the Word document.
       break;
     }
   }
+    
+    if (cellTable == NULL) {
+      [self Log:@"Unable to find a table object that matches the cell in our table range"];
+    }
   
-  //NSLog(@"cell Points : %@", cellPoints);
+    [self Log:[NSString stringWithFormat:@"cell Points : %@", cellPoints]];
 
   // Wait, why aren't I using a for (NSInteger index = 0...) loop instead of this foreach?
   // There is some weird issue with the Cells collection that was crashing when I used
