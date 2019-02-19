@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "STLogManager.h"
 
 @class STLogManager;
 
@@ -22,13 +23,14 @@
  Wrapper around a LogManager instance.  Since logging is not always enabled/available for this object
  the wrapper only writes if a logger is accessible.
  */
--(void)Log:(NSString*)text;
+-(void)Log:(id)logMessage;
+-(void)Log:(id)logMessage logLevel:(STLogLevel)logLevel;
 
 /**
  Wrapper around a LogManager instance.  Since logging is not always enabled/available for this object
  the wrapper only writes if a logger is accessible.
  */
--(void)LogException:(id)exc;
+-(void)LogException:(id)logMessage;
 
 
 @end
