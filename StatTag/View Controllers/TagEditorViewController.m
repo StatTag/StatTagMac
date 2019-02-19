@@ -69,6 +69,11 @@ typedef enum {
   SaveActionTypeSaveAndCreateAnother = 2
 } SaveActionType;
 
+typedef enum {
+  CodeFindActionTypeBack = 0,
+  CodeFindActionTypeForward = 1
+} CodeFindActionType;
+
 
 -(void)startObservingEditorDirectives
 {
@@ -104,6 +109,9 @@ typedef enum {
   self.tagBasicProperties.delegate = self;
   self.tagValueProperties.delegate = self;
   self.tagTableProperties.delegate = self;
+  
+  //search field delegate
+  //[[self findCodeTextSearchField] setDelegate:self];
   
   [self setShowTagValuePropertiesView:NO];
 
@@ -154,6 +162,9 @@ typedef enum {
 }
 
 -(void)viewWillAppear {
+
+  [[self findCodeTextSearchField] setStringValue:@""];//clear out on re-open
+
   [[self tagValuePropertiesView] setHidden:YES];
   [[self tagTablePropertiesView] setHidden:YES];
   [ViewUtils fillView:[self sourceView] withView:[[self sourceEditor] view]];
@@ -163,6 +174,8 @@ typedef enum {
 }
 
 -(void)viewDidAppear {
+  [[[self view] window] makeFirstResponder:[self view]]; //don't give focus to any specific control. EX: don't go to "search"
+  
   [self startObservingEditorDirectives];
   [self initializeTagInfo];
 }
@@ -353,19 +366,33 @@ typedef enum {
  [ [self sourceEditor] loadSource:[codeFile ContentString] withPackageIdentifier:[codeFile StatisticalPackage]];
 }
 
-//note: moved to delegate - just showing how this is done with NSTextDelegate
-//-(void)controlTextDidChange:(NSNotification *)obj {
-//  //in the XIB, make sure your text field points to file's owner as the delegate
-//  if ([obj object] == _textBoxTagName) {
-//    // Ignore reserved characters
-//    // we can get away with this because the strings are really tiny - but this seems like overkill
-//    [_textBoxTagName setStringValue: [[_textBoxTagName stringValue] stringByReplacingOccurrencesOfString:[STConstantsReservedCharacters TagTableCellDelimiter] withString:@""]];
-//  }
-//  
-//  //this might be smarter  - right now we actually wind up moving key positions, which is bad
-//  //http://stackoverflow.com/questions/12161654/restrict-nstextfield-to-only-allow-numbers
-//  
-//}
+-(void)controlTextDidChange:(NSNotification *)notification {
+  //  //in the XIB, make sure your text field points to file's owner as the delegate
+  if([[[notification object] identifier] isEqualToString:@"codeSearchField"]){
+    NSSearchField* searchField = (NSSearchField*) [notification object];
+
+    //reset selection on search field change. Otherwise we just wind up searching forward on each keystroke
+    [[_sourceEditor sourceEditor] setGeneralProperty:SCI_SETSELECTIONSTART value:0];
+    [[_sourceEditor sourceEditor] setGeneralProperty:SCI_SETSELECTIONEND value:0];
+
+    [self searchForTextInCodeFile:searchField backWards:NO];
+  }
+}
+
+//submit on return
+- (void)controlTextDidEndEditing:(NSNotification *)notification {
+
+  if([[[notification object] identifier] isEqualToString:@"codeSearchField"]){
+
+    //NSTextField *textField = [notification object];
+    if([[[notification userInfo] objectForKey:@"NSTextMovement"] integerValue] == NSReturnTextMovement)
+    {
+      NSSearchField* searchField = (NSSearchField*) [notification object];
+      [self searchForTextInCodeFile:searchField backWards:NO];
+    }
+  }
+}
+
 
 -(void)forciblyDismissEditor
 {
@@ -738,6 +765,45 @@ typedef enum {
 }
 - (void)useThousandsSeparatorDidChange:(TablePropertiesController*)controller {
 }
+
+
+//MARK: Code File Search
+- (IBAction)findCodeTextBackForward:(id)sender {
+  NSInteger clickedSegment = [sender selectedSegment];
+  NSInteger clickedSegmentTag = [[sender cell] tagForSegment:clickedSegment];
+  if(clickedSegmentTag == CodeFindActionTypeBack) {
+    [self searchForTextInCodeFile:[self findCodeTextSearchField] backWards:YES];
+  } else if (clickedSegmentTag == CodeFindActionTypeForward) {
+    [self searchForTextInCodeFile:[self findCodeTextSearchField] backWards:NO];
+  }
+}
+
+-(void)searchForTextInCodeFile:(NSSearchField*)searchField backWards:(BOOL)backwards {
+  NSString* searchString = [searchField stringValue];
+  if([searchString length] > 0) {
+    [[_sourceEditor sourceEditor] findAndHighlightText:searchString matchCase:NO wholeWord:NO scrollTo:YES wrap:YES backwards:backwards];
+  }
+}
+
+/*
+- (BOOL)control:(NSControl *)control textView:(NSTextView *)fieldEditor doCommandBySelector:(SEL)commandSelector
+{
+  if([control i])
+  NSLog(@"Selector method is (%@)", NSStringFromSelector( commandSelector ) );
+  if (commandSelector == @selector(insertNewline:)) {
+    //[self searchForTextInCodeFile:[self findCodeTextSearchField] backWards:NO];
+    
+  }
+  return YES;
+  // return YES if the action was handled; otherwise NO
+}
+*/
+- (IBAction)searchFromSearchField:(id)sender {
+  [self searchForTextInCodeFile:[self findCodeTextSearchField] backWards:NO];
+//  NSLog(@"searching!");
+}
+
+
 
 
 //MARK: KVO
