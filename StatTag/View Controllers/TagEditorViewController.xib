@@ -155,7 +155,7 @@
                                             <customView ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LqL-kn-7dP">
                                                 <rect key="frame" x="0.0" y="100" width="283" height="50"/>
                                             </customView>
-                                            <customView ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ap9-Rh-z6C">
+                                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="Ap9-Rh-z6C">
                                                 <rect key="frame" x="0.0" y="50" width="283" height="50"/>
                                             </customView>
                                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="9oi-ab-Odp">
