@@ -42,6 +42,7 @@
   [[self tagPropertiesArrayController] setContent:nil];
   [[self tagJSONTextView] setString:@""];
   [[self cachedResultTextView] setString:@""];
+  [[self tagCachedResultTextView] setString:@""];
   
   //field list
   for (NSInteger index = 0; index < [[[[self statTagWordDocument] document] fields] count] ; index++)
@@ -118,6 +119,7 @@
       
       
       [[self cachedResultTextView] setString:[NSString stringWithFormat:@"%@", [[wordField fieldTag] CachedResult]]];
+      [[self tagCachedResultTextView] setString:[NSString stringWithFormat:@"%@", [[wordField tag] CachedResult]]];
       
     }
   }

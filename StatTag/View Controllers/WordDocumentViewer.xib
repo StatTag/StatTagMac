@@ -14,6 +14,7 @@
                 <outlet property="propertiesArrayController" destination="jDB-5E-K0x" id="TU8-TO-Ttc"/>
                 <outlet property="propertyContentsTextView" destination="ToH-Sk-yGk" id="mZD-Te-BeG"/>
                 <outlet property="propertyListTableView" destination="F35-Pm-4oZ" id="kUW-ez-ORe"/>
+                <outlet property="tagCachedResultTextView" destination="d6p-fs-Y6b" id="Guh-cS-tyy"/>
                 <outlet property="tagJSONTextView" destination="wH3-iX-4SU" id="fVX-Pf-24H"/>
                 <outlet property="tagPropertiesArrayController" destination="0J1-Gb-XUY" id="MQy-Z7-Rt1"/>
                 <outlet property="tagPropertiesTableView" destination="vUb-wm-x3g" id="8wZ-wd-obB"/>
@@ -617,6 +618,46 @@
                                                         <constraint firstAttribute="bottom" secondItem="42x-GD-0xX" secondAttribute="bottom" id="dpI-3N-mje"/>
                                                         <constraint firstAttribute="trailing" secondItem="42x-GD-0xX" secondAttribute="trailing" id="viz-kF-B42"/>
                                                         <constraint firstItem="42x-GD-0xX" firstAttribute="leading" secondItem="mc0-qk-Fr8" secondAttribute="leading" id="zg7-XN-AYR"/>
+                                                    </constraints>
+                                                </view>
+                                            </tabViewItem>
+                                            <tabViewItem label="Tag Cache" identifier="" id="OhD-fT-hLC">
+                                                <view key="view" id="M24-iZ-2iD">
+                                                    <rect key="frame" x="10" y="33" width="580" height="390"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    <subviews>
+                                                        <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vDO-y8-itx">
+                                                            <rect key="frame" x="0.0" y="0.0" width="580" height="390"/>
+                                                            <clipView key="contentView" id="8nb-QQ-fDn">
+                                                                <rect key="frame" x="1" y="1" width="563" height="388"/>
+                                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                                <subviews>
+                                                                    <textView importsGraphics="NO" usesFontPanel="YES" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="d6p-fs-Y6b">
+                                                                        <rect key="frame" x="0.0" y="-1" width="563" height="388"/>
+                                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                        <size key="minSize" width="563" height="388"/>
+                                                                        <size key="maxSize" width="563" height="10000000"/>
+                                                                        <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                    </textView>
+                                                                </subviews>
+                                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                            </clipView>
+                                                            <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="5ma-vD-Dpv">
+                                                                <rect key="frame" x="-100" y="-100" width="87" height="18"/>
+                                                                <autoresizingMask key="autoresizingMask"/>
+                                                            </scroller>
+                                                            <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="wfp-Zi-tOa">
+                                                                <rect key="frame" x="564" y="1" width="15" height="388"/>
+                                                                <autoresizingMask key="autoresizingMask"/>
+                                                            </scroller>
+                                                        </scrollView>
+                                                    </subviews>
+                                                    <constraints>
+                                                        <constraint firstItem="vDO-y8-itx" firstAttribute="top" secondItem="M24-iZ-2iD" secondAttribute="top" id="7Ip-bc-u08"/>
+                                                        <constraint firstAttribute="bottom" secondItem="vDO-y8-itx" secondAttribute="bottom" id="8LA-aQ-dcu"/>
+                                                        <constraint firstAttribute="trailing" secondItem="vDO-y8-itx" secondAttribute="trailing" id="Lw4-NS-fWk"/>
+                                                        <constraint firstItem="vDO-y8-itx" firstAttribute="leading" secondItem="M24-iZ-2iD" secondAttribute="leading" id="rZa-lZ-mxS"/>
                                                     </constraints>
                                                 </view>
                                             </tabViewItem>

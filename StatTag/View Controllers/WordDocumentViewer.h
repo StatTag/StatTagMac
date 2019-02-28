@@ -45,6 +45,7 @@
 @property (strong) IBOutlet NSArrayController *tagPropertiesArrayController;
 @property (unsafe_unretained) IBOutlet NSTextView *tagJSONTextView;
 @property (unsafe_unretained) IBOutlet NSTextView *cachedResultTextView;
+@property (unsafe_unretained) IBOutlet NSTextView *tagCachedResultTextView;
 
 
 @end
