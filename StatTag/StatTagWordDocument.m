@@ -476,5 +476,10 @@
 //
 //}
 
+-(NSString*)description
+{
+  return [[self document] name];
+}
+
 
 @end

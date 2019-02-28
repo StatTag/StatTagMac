@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12121" systemVersion="17G5019" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12120"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12121"/>
         <capability name="box content view" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -10,6 +10,7 @@
             <connections>
                 <outlet property="documentBrowserDocumentView" destination="qqD-xq-xMg" id="dmy-aP-JE8"/>
                 <outlet property="documentBrowserDocumentViewController" destination="uDW-ps-Zxi" id="N72-kh-sWp"/>
+                <outlet property="documentDebugMenu" destination="9I5-SZ-frk" id="7CU-Wn-JvA"/>
                 <outlet property="documentsArrayController" destination="Tmg-8e-Yto" id="mi3-yo-uz6"/>
                 <outlet property="documentsTableView" destination="tL3-6A-LkR" id="GD5-eC-PT1"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
@@ -117,6 +118,7 @@
                                 </tableColumns>
                                 <connections>
                                     <outlet property="delegate" destination="-2" id="eoO-8m-SqB"/>
+                                    <outlet property="menu" destination="9I5-SZ-frk" id="QLI-fr-3Kw"/>
                                 </connections>
                             </tableView>
                         </subviews>
@@ -190,6 +192,16 @@
         <arrayController selectsInsertedObjects="NO" id="Tmg-8e-Yto" userLabel="Documents Array Controller"/>
         <userDefaultsController representsSharedInstance="YES" id="Tuo-5q-6gX"/>
         <viewController title="Document View Controller" nibName="DocumentBrowserDocumentViewController" id="uDW-ps-Zxi" customClass="DocumentBrowserDocumentViewController"/>
+        <menu title="Document Debug Menu" id="9I5-SZ-frk">
+            <items>
+                <menuItem title="Show Document Debug" keyEquivalent="D" id="ELM-no-eJM">
+                    <connections>
+                        <action selector="activeDocumentDebugView:" target="-2" id="bHO-QI-A7Y"/>
+                    </connections>
+                </menuItem>
+            </items>
+            <point key="canvasLocation" x="-279" y="12"/>
+        </menu>
     </objects>
     <resources>
         <image name="stattag_logo_text_white" width="512" height="149"/>

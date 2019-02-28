@@ -58,4 +58,6 @@
 -(void)loadDocument;
 -(void)cachesDidChangeForTags:(NSArray<STTag*>*)tags orCodeFilePath:(NSString*)codeFilePath;
 
+-(NSString*)description;
+
 @end

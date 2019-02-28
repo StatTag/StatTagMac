@@ -40,6 +40,8 @@
 		35DD5320202BAFB000449124 /* libXlsxReaderWriter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 35F649A9202BA7FB00CEC7D8 /* libXlsxReaderWriter.a */; };
 		35F2E7321EE1A93E0086F9D0 /* STRBaseValueFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 35F2E7311EE1A93E0086F9D0 /* STRBaseValueFormatter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		35F2E7341EE1A94A0086F9D0 /* STRBaseValueFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F2E7331EE1A94A0086F9D0 /* STRBaseValueFormatter.m */; };
+		380137CA2226D80300C5B6B8 /* WordFieldTreeItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 380137C92226D80300C5B6B8 /* WordFieldTreeItem.m */; };
+		380137D0222737D600C5B6B8 /* WordDocProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 380137CF222737D600C5B6B8 /* WordDocProperty.m */; };
 		380A67971D102FFA0045B72B /* TestDestinationTextFile.txt in Resources */ = {isa = PBXBuildFile; fileRef = 380A67961D102FFA0045B72B /* TestDestinationTextFile.txt */; };
 		380A679A1D1061110045B72B /* STTable.h in Headers */ = {isa = PBXBuildFile; fileRef = 380A67981D1061100045B72B /* STTable.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		380A679B1D1061110045B72B /* STTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 380A67991D1061100045B72B /* STTable.m */; };
@@ -187,6 +189,8 @@
 		386992D71DBD10D400852B6E /* STUIUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 386992D51DBD10D400852B6E /* STUIUtility.m */; };
 		3871BA6A1E9E919600B00C22 /* UnlinkedTagsDetailRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3871BA691E9E919600B00C22 /* UnlinkedTagsDetailRowView.m */; };
 		3871BA6D1E9EE87900B00C22 /* STDocumentManager+TagUsage.m in Sources */ = {isa = PBXBuildFile; fileRef = 3871BA6C1E9EE87900B00C22 /* STDocumentManager+TagUsage.m */; };
+		3873524622259A9B00E341E0 /* WordDocumentViewer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3873524422259A9B00E341E0 /* WordDocumentViewer.m */; };
+		3873524722259A9B00E341E0 /* WordDocumentViewer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3873524522259A9B00E341E0 /* WordDocumentViewer.xib */; };
 		3876323F1DA7D6FA00680898 /* PercentagePropertiesController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3876323E1DA7D6FA00680898 /* PercentagePropertiesController.xib */; };
 		387632411DA7D70500680898 /* PercentagePropertiesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 387632401DA7D70500680898 /* PercentagePropertiesController.m */; };
 		387632461DA7E2AC00680898 /* DateTimePropertiesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 387632441DA7E2AC00680898 /* DateTimePropertiesController.m */; };
@@ -544,6 +548,10 @@
 		35F2E7311EE1A93E0086F9D0 /* STRBaseValueFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STRBaseValueFormatter.h; sourceTree = "<group>"; };
 		35F2E7331EE1A94A0086F9D0 /* STRBaseValueFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STRBaseValueFormatter.m; sourceTree = "<group>"; };
 		35F649A0202BA7FA00CEC7D8 /* XlsxReaderWriter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = XlsxReaderWriter.xcodeproj; path = ../XlsxReaderWriter/XlsxReaderWriter.xcodeproj; sourceTree = "<group>"; };
+		380137C82226D80300C5B6B8 /* WordFieldTreeItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WordFieldTreeItem.h; sourceTree = "<group>"; };
+		380137C92226D80300C5B6B8 /* WordFieldTreeItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WordFieldTreeItem.m; sourceTree = "<group>"; };
+		380137CE222737D600C5B6B8 /* WordDocProperty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WordDocProperty.h; sourceTree = "<group>"; };
+		380137CF222737D600C5B6B8 /* WordDocProperty.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WordDocProperty.m; sourceTree = "<group>"; };
 		380A67961D102FFA0045B72B /* TestDestinationTextFile.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TestDestinationTextFile.txt; sourceTree = "<group>"; };
 		380A67981D1061100045B72B /* STTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STTable.h; sourceTree = "<group>"; };
 		380A67991D1061100045B72B /* STTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STTable.m; sourceTree = "<group>"; };
@@ -745,6 +753,9 @@
 		3871BA691E9E919600B00C22 /* UnlinkedTagsDetailRowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnlinkedTagsDetailRowView.m; sourceTree = "<group>"; };
 		3871BA6B1E9EE87900B00C22 /* STDocumentManager+TagUsage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "STDocumentManager+TagUsage.h"; sourceTree = "<group>"; };
 		3871BA6C1E9EE87900B00C22 /* STDocumentManager+TagUsage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "STDocumentManager+TagUsage.m"; sourceTree = "<group>"; };
+		3873524322259A9B00E341E0 /* WordDocumentViewer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WordDocumentViewer.h; sourceTree = "<group>"; };
+		3873524422259A9B00E341E0 /* WordDocumentViewer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WordDocumentViewer.m; sourceTree = "<group>"; };
+		3873524522259A9B00E341E0 /* WordDocumentViewer.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WordDocumentViewer.xib; sourceTree = "<group>"; };
 		3876323E1DA7D6FA00680898 /* PercentagePropertiesController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PercentagePropertiesController.xib; sourceTree = "<group>"; };
 		387632401DA7D70500680898 /* PercentagePropertiesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PercentagePropertiesController.m; sourceTree = "<group>"; };
 		387632421DA7D70E00680898 /* PercentagePropertiesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PercentagePropertiesController.h; sourceTree = "<group>"; };
@@ -1400,6 +1411,7 @@
 		3836F5831D92CE7200BF0DD4 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				3873523F22259A6900E341E0 /* Debugging */,
 				38C3CC721DA428D100CEA70C /* DisclosureView */,
 				38F803611D9DCB5800C8F1EA /* TagEditorControlViews */,
 				38F8033D1D9C4B3500C8F1EA /* ScintillaHelpers */,
@@ -1568,6 +1580,20 @@
 				38FFDD231E8D5C3F004D92C3 /* UnlinkedTagsViewController.xib */,
 			);
 			name = UnlinkedTags;
+			sourceTree = "<group>";
+		};
+		3873523F22259A6900E341E0 /* Debugging */ = {
+			isa = PBXGroup;
+			children = (
+				3873524322259A9B00E341E0 /* WordDocumentViewer.h */,
+				3873524422259A9B00E341E0 /* WordDocumentViewer.m */,
+				3873524522259A9B00E341E0 /* WordDocumentViewer.xib */,
+				380137C82226D80300C5B6B8 /* WordFieldTreeItem.h */,
+				380137C92226D80300C5B6B8 /* WordFieldTreeItem.m */,
+				380137CE222737D600C5B6B8 /* WordDocProperty.h */,
+				380137CF222737D600C5B6B8 /* WordDocProperty.m */,
+			);
+			name = Debugging;
 			sourceTree = "<group>";
 		};
 		387632511DA93FF400680898 /* Categories */ = {
@@ -2359,6 +2385,7 @@
 				3879D5EB1E6DD09C00BF1964 /* StatTagMacroInstallText.rtf in Resources */,
 				38FACC831E894E3200E3BB82 /* DocumentBrowserViewController.xib in Resources */,
 				387632471DA7E2AC00680898 /* DateTimePropertiesController.xib in Resources */,
+				3873524722259A9B00E341E0 /* WordDocumentViewer.xib in Resources */,
 				38E22ABB1E9D4388005DFFE9 /* TagCodePeekViewController.xib in Resources */,
 				38F803661D9DCB8900C8F1EA /* ValuePropertiesController.xib in Resources */,
 				387632501DA83B6C00680898 /* StatTagNeedsWordViewController.xib in Resources */,
@@ -2614,11 +2641,13 @@
 				385221C91DAE90CF005E804B /* SCMarker.mm in Sources */,
 				386992D21DB8E6F500852B6E /* STCodeFile+FileAttributes.m in Sources */,
 				385AE28F1FBC980A001F4DA1 /* UnlinkedFieldCheckProgressViewController.m in Sources */,
+				3873524622259A9B00E341E0 /* WordDocumentViewer.m in Sources */,
 				38F803461D9C4CEB00C8F1EA /* SCMarkerHandle.mm in Sources */,
 				38C3CC7A1DA4298E00CEA70C /* TagEditorViewController.m in Sources */,
 				359A93E42159630000F071CA /* OverlappingTagsGroupRowView.m in Sources */,
 				387632411DA7D70500680898 /* PercentagePropertiesController.m in Sources */,
 				38FFDD161E8C3937004D92C3 /* STCodeFile+PackageIcon.m in Sources */,
+				380137CA2226D80300C5B6B8 /* WordFieldTreeItem.m in Sources */,
 				386992CF1DB6CE2A00852B6E /* STDocumentManager+FileMonitor.m in Sources */,
 				382443A31DBE8E7200EF0048 /* STCodeFile+TagInfo.m in Sources */,
 				3828F3361ED9CC6D00DABA43 /* NSURL+FileAccess.m in Sources */,
@@ -2631,6 +2660,7 @@
 				384764B01DA52D6400FCDABE /* TablePropertiesController.m in Sources */,
 				38FACC821E894E3200E3BB82 /* DocumentBrowserViewController.m in Sources */,
 				387632461DA7E2AC00680898 /* DateTimePropertiesController.m in Sources */,
+				380137D0222737D600C5B6B8 /* WordDocProperty.m in Sources */,
 				386689561E9BD37D00A5A1CB /* DocumentBrowserDocumentViewController.m in Sources */,
 				38EDC05C1EE0EF2200A7BFD2 /* DuplicateTagRenameViewController.m in Sources */,
 				38C3CC761DA428E700CEA70C /* DisclosureViewController.m in Sources */,
