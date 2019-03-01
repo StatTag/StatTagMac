@@ -297,6 +297,8 @@ used to create the Word document.
     if([self DocumentVariableExists:variable]) {
       //NSLog(@"variable : %@ has value : %@", [variable name], [variable variableValue]);
       NSMutableArray<STCodeFile*>* list = [[NSMutableArray<STCodeFile*> alloc] initWithArray:[STCodeFile DeserializeList:[variable variableValue] error:nil]];
+      NSMutableArray<STCodeFile*>* existingCodeFileList = DocumentCodeFiles[[document fullName]];
+      [self MergeCachesFromCodeFileList:existingCodeFileList toList:list];
       [DocumentCodeFiles setObject:list forKey:[document fullName]];
       //NSLog(@"Document variable existed, loaded %lu code files", (unsigned long)[list count]);
     } else {
@@ -320,6 +322,34 @@ used to create the Word document.
   //NSLog(@"LoadCodeFileListFromDocument - Finished");
 }
 
+// Used when we are reloading our list of code files.  We assume that there is an existing list of code files which
+// contain cached results.  If so, we want to populate those in our new collection of code files for the tags that
+// match.
+-(void) MergeCachesFromCodeFileList:(NSArray<STCodeFile*>*)existingCodeFiles toList:(NSArray<STCodeFile*>*)newCodeFiles
+{
+  // If either collection is nil, we know there's no work to be done.
+  if (existingCodeFiles == nil || newCodeFiles == nil) {
+    return;
+  }
+  
+  for (STCodeFile* codeFile in newCodeFiles) {
+    if ([codeFile Tags] == nil) {
+      continue;
+    }
+    
+    // Find the code file from the existing code file list, based on the file path.
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.FilePath == [c] %@",[codeFile FilePath]];
+    NSArray* results = [existingCodeFiles filteredArrayUsingPredicate:predicate];
+    if ([results count] > 0) {
+      STCodeFile* fileMatch = [results objectAtIndex:0];
+      if ([fileMatch Tags] != nil) {
+        for (STTag* tag in [codeFile Tags]) {
+          [codeFile SetCachedTag:[fileMatch Tags] Tag:tag];
+        }
+      }
+    }
+  }
+}
 
 /**
  Insert an image (given a definition from an tag) into the current Word document at the current cursor location.
