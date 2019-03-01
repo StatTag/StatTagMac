@@ -58,9 +58,16 @@
   [dict setValue:[self ValueResult] forKey:@"ValueResult"];
   [dict setValue:[self FigureResult] forKey:@"FigureResult"];
   [dict setValue:@([[NSNumber numberWithBool:[self IsEmpty]] boolValue]) forKey:@"IsEmpty"];
-  if([self TableResult] != nil){
-    [dict setObject:[[self TableResult] toDictionary] forKey:@"TableResult"]; //this might be a problem
-  }
+
+  // Per the comment within this commented block, we do have a problem adding the table results to the object.
+  // It ends up making the dictionary unserializable to JSON, which (of course) means downstream problems as
+  // we can't serialize the data needed for a field.
+  // TODO - We really should fix this, but for now can get by without it. When this issue came up, we found
+  // that the result was previously empty anyway.
+//  if([self TableResult] != nil){
+//    [dict setObject:[[self TableResult] toDictionary] forKey:@"TableResult"]; //this might be a problem
+//  }
+
   return dict;
 }
 
