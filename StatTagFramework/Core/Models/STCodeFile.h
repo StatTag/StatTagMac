@@ -116,6 +116,8 @@
 - (STTag*)AddTag:(STTag*)newTag oldTag:(STTag*)oldTag;
 - (STTag*)AddTag:(STTag*)newTag;
 
+-(void)SetCachedTag:(NSArray<STTag*>*)existingTags Tag:(STTag*)tag;
+
 /**
  Look at all of the tags that are defined within this code file, and create a list
  of any tags that have duplicate names.

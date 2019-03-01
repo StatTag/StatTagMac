@@ -19,7 +19,6 @@
 @synthesize unlinkedTags = _unlinkedTags;
 @synthesize processingDuplicateTags = _processingDuplicateTags;
 @synthesize duplicateTags = _duplicateTags;
-@synthesize tags = _tags;
 @synthesize codeFiles = _codeFiles;
 @synthesize codeFilePaths = _codeFilePaths;
 
@@ -52,7 +51,6 @@
   _unlinkedTags = [[NSMutableDictionary<NSString*, NSMutableArray<STTag*>*> alloc] init];
   _processingDuplicateTags = NO;
   _duplicateTags = [[NSMutableArray<STTag*> alloc] init];
-  _tags = [[NSMutableArray<STTag*> alloc] init];
   _codeFiles = [[NSMutableArray<STCodeFile*> alloc] init];
   _priorFieldList = [[NSMutableDictionary<NSString*, StatTagWordDocumentFieldTag*> alloc] init];
   _threadLimit = 2;
@@ -80,11 +78,6 @@
     [[[StatTagShared sharedInstance] docManager] LoadAllTagsFromCodeFiles];
     //NSLog(@"self tags count : %ld", [[self tags] count]);
     //NSLog(@"raw result array: %@", [[[StatTagShared sharedInstance] docManager] GetTags]);
-    if([[[[StatTagShared sharedInstance] docManager] GetTags] count] == 0)
-    {
-      [self setTags:[NSMutableArray<STTag*> arrayWithArray:[[[StatTagShared sharedInstance] docManager] GetTags]]];
-    }
-    [self setTags:[NSMutableArray<STTag*> arrayWithArray:[[[StatTagShared sharedInstance] docManager] GetTags]]];
     //NSLog(@"loadDocument - codefiles: %@", [self codeFiles]);
     //NSLog(@"loadDocument - tags: %@", [self tags]);
     //NSLog(@"self tags count : %ld", [[self tags] count]);
@@ -274,7 +267,7 @@
 -(BOOL)isUnlinkedTag:(STTag*)tag
 {
   if(tag != nil) {
-    if(![[self codeFilePaths] containsObject:[tag CodeFilePath]] || ![[self tags] containsObject:tag]) {
+    if(![[self codeFilePaths] containsObject:[tag CodeFilePath]] || ![[[[[StatTagShared sharedInstance] docManager] TagManager] GetTags ] containsObject:tag]) {
 //      NSLog(@"tag is unlinked - %@", tag);
 //      NSLog(@"isUnlinkedTag: all CodeFilePaths -> %@", [self codeFilePaths]);
 //      NSLog(@"isUnlinkedTag: tag CodeFilePath -> %@", [tag CodeFilePath]);

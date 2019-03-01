@@ -69,7 +69,7 @@
   //FIXME: the original code makes use of ToString in places, but it's not clear how the default implementation works (STTableFormat)
   //for now, it appears the original c# just returns class name as the default ToString
   
-  return [NSString stringWithFormat:@"%@ - (Rows: %ld, Cols: %ld)\r\n%@", [self class], (long)[self RowSize], (long)[self ColumnSize], [[self Data] description]];
+  return [NSString stringWithFormat:@"%@ - (Rows: %ld, Cols: %ld)\n%@", [self class], (long)[self RowSize], (long)[self ColumnSize], [[self Data] description]];
   //return NSStringFromClass([self class]);
   
 }

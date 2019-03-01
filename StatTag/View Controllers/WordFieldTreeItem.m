@@ -111,7 +111,7 @@
       
       [self setNodeTitle:[fieldTag Name]];
       if(document != nil) {
-        for(STTag* sttag in [document tags])
+        for(STTag* sttag in [[[[StatTagShared sharedInstance] docManager] TagManager] GetTags])
         {
           if([[fieldTag Id] isEqualToString: [sttag Id]])
           {
