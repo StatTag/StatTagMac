@@ -18,6 +18,8 @@
 
 @implementation ConfigInfoViewController
 
+@synthesize configInfoTextView;
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 }
@@ -27,5 +29,12 @@
   //
   [[[self configInfoTextView] textStorage] setAttributedString:[STCocoaUtil getAssociatedAppInfoAttributedString]];
 }
+
+- (IBAction)copyConfigToClipboard:(id)sender {
+  NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
+  [pasteboard clearContents];
+  [pasteboard writeObjects:@[[configInfoTextView string]]];
+}
+
 
 @end

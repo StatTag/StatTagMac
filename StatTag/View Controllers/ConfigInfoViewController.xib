@@ -15,53 +15,77 @@
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView id="Hz6-mo-xeY">
-            <rect key="frame" x="0.0" y="0.0" width="480" height="272"/>
+            <rect key="frame" x="0.0" y="0.0" width="480" height="185"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZW2-lE-2aU">
-                    <rect key="frame" x="0.0" y="0.0" width="480" height="251"/>
+                    <rect key="frame" x="0.0" y="0.0" width="480" height="164"/>
                     <clipView key="contentView" id="dZF-f6-XYt">
-                        <rect key="frame" x="1" y="1" width="463" height="249"/>
+                        <rect key="frame" x="1" y="1" width="463" height="162"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView editable="NO" importsGraphics="NO" usesFontPanel="YES" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="WdU-T3-poc">
-                                <rect key="frame" x="0.0" y="0.0" width="443" height="249"/>
+                                <rect key="frame" x="0.0" y="0.0" width="443" height="162"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <size key="minSize" width="463" height="249"/>
-                                <size key="maxSize" width="463" height="10000000"/>
+                                <size key="minSize" width="463" height="162"/>
+                                <size key="maxSize" width="480" height="10000000"/>
                                 <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </clipView>
+                    <constraints>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="120" id="Oo7-Ry-6Wt"/>
+                    </constraints>
                     <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="bjc-Ht-I4y">
                         <rect key="frame" x="-100" y="-100" width="87" height="18"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
                     <scroller key="verticalScroller" verticalHuggingPriority="750" horizontal="NO" id="TLf-CB-Fcf">
-                        <rect key="frame" x="464" y="1" width="15" height="249"/>
+                        <rect key="frame" x="464" y="1" width="15" height="162"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
                 </scrollView>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GOe-Qf-IpM">
-                    <rect key="frame" x="-2" y="255" width="484" height="17"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Configuration Details" id="kV2-Ff-ag4">
+                    <rect key="frame" x="-2" y="168" width="454" height="17"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="System Details" id="kV2-Ff-ag4">
                         <font key="font" metaFont="systemSemibold" size="13"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="37g-bN-XcR">
+                    <rect key="frame" x="458" y="163" width="22" height="22"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="22" id="gxc-ym-Ziy"/>
+                        <constraint firstAttribute="width" constant="22" id="x8R-Ii-kbY"/>
+                    </constraints>
+                    <buttonCell key="cell" type="square" alternateTitle="Copy to Clipboard" bezelStyle="shadowlessSquare" image="clipboard" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="jFz-s7-cCk">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="copyConfigToClipboard:" target="-2" id="vPJ-Vw-LWw"/>
+                    </connections>
+                </button>
             </subviews>
             <constraints>
+                <constraint firstAttribute="trailing" secondItem="37g-bN-XcR" secondAttribute="trailing" id="3Of-0C-Gb7"/>
                 <constraint firstItem="ZW2-lE-2aU" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="5kW-YE-1aw"/>
-                <constraint firstAttribute="trailing" secondItem="GOe-Qf-IpM" secondAttribute="trailing" id="87U-aJ-4UL"/>
+                <constraint firstItem="37g-bN-XcR" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="5yS-kg-7da"/>
                 <constraint firstAttribute="bottom" secondItem="ZW2-lE-2aU" secondAttribute="bottom" id="Fye-YW-PC0"/>
+                <constraint firstItem="dZF-f6-XYt" firstAttribute="top" secondItem="37g-bN-XcR" secondAttribute="bottom" id="P1S-EG-cqB"/>
                 <constraint firstAttribute="trailing" secondItem="ZW2-lE-2aU" secondAttribute="trailing" id="T4k-6I-sTM"/>
+                <constraint firstItem="37g-bN-XcR" firstAttribute="leading" secondItem="GOe-Qf-IpM" secondAttribute="trailing" constant="8" id="VKv-hs-QUa"/>
                 <constraint firstItem="GOe-Qf-IpM" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="YtY-go-mKo"/>
                 <constraint firstItem="GOe-Qf-IpM" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="aVN-U9-6Tc"/>
                 <constraint firstItem="ZW2-lE-2aU" firstAttribute="top" secondItem="GOe-Qf-IpM" secondAttribute="bottom" constant="4" id="n2w-cP-Wc4"/>
             </constraints>
+            <point key="canvasLocation" x="132" y="119.5"/>
         </customView>
     </objects>
+    <resources>
+        <image name="clipboard" width="22" height="22"/>
+    </resources>
 </document>
