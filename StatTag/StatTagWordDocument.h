@@ -34,8 +34,6 @@
 @property BOOL processingDuplicateTags;
 @property NSMutableArray<STTag*>* duplicateTags;
 
-@property NSMutableArray<STTag*>* tags;
-
 @property NSMutableArray<STCodeFile*>* codeFiles;
 @property NSMutableArray<NSString*>* codeFilePaths;
 

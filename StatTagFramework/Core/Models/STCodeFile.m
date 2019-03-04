@@ -227,6 +227,9 @@ NSObject<STIFileHandler>* _FileHandler;
   if(preserveCache){
     savedTags = [[NSArray<STTag*> alloc] initWithArray:_Tags];    
   }
+  else {
+    NSLog(@"Not saving cache");
+  }
   
   // Any time we try to load, reset the list of tags that may exist
   _Tags = [[NSMutableArray<STTag*> alloc] init];
