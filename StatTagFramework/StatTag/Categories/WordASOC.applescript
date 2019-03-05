@@ -458,7 +458,7 @@ on insertTextboxAtRangeStart:theRangeStart andRangeEnd:theRangeEnd forShapeName:
         set allow overlap of wrap format of myShape to false
 
         --we need to compute the size of the shape and then resize to fit the contents
-        set fontMultiplier to 1.35 as real
+        set fontMultiplier to 1.40 as real
 
         set name of font object of text range of text frame of myShape to fontFace
         set font size of font object of text range of text frame of myShape to fontSize
@@ -494,7 +494,7 @@ on updateShapeHeightToFitTextContents: shapeName andFontSize:fontSize andFontFac
       if name of aShape is equal to shapeName then
         set aShape to contents of aShape
         
-        set fontMultiplier to 1.35 as real
+        set fontMultiplier to 1.40 as real
         
         set name of font object of text range of text frame of aShape to fontFace
         set font size of font object of text range of text frame of aShape to fontSize
