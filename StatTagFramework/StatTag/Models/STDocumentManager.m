@@ -620,6 +620,8 @@ used to create the Word document.
         }
 
         [[[shape textFrame] textRange] setContent:[tag FormattedResult]];
+        //recalculate the frame height so our contents now fit
+        [WordHelpers updateShapeHeightToFitTextContents:[shape name] andFontSize:9.0 andFontFace:@"Courier New"];
       }
     }
   }
@@ -914,14 +916,19 @@ used to create the Word document.
   }
   
   STCommandResult* result = [[tag CachedResult] firstObject];
-  if (result != nil)
+  NSString* verbatimResult = [result VerbatimResult];
+  if(verbatimResult == nil) {
+    verbatimResult = [tag FormattedResult];
+  }
+  
+  if (verbatimResult != nil)
   {
     //STMSWord2011TextRange* range = [selection formattedText];//unclear if this is what we want to use
     NSInteger rangeStart = [selection selectionStart];
     NSInteger rangeEnd = [selection selectionEnd];
     
     //we have to offload this directly to AppleScript so we can do what we need to
-    [WordHelpers insertTextboxAtRangeStart:rangeStart andRangeEnd:rangeEnd forShapeName:[tag Id] withShapetext:[result VerbatimResult] andFontSize:9.0 andFontFace:@"Courier New"];
+    [WordHelpers insertTextboxAtRangeStart:rangeStart andRangeEnd:rangeEnd forShapeName:[tag Id] withShapetext:verbatimResult andFontSize:9.0 andFontFace:@"Courier New"];
   }
   
   //[self Log:@"InsertVerbatim - Finished"];
@@ -1260,9 +1267,10 @@ used to create the Word document.
 
       // If the tag is a table, and the cell index is not set, it means we are inserting the entire
       // table into the document.  Otherwise, we are able to just insert a single table cell.
-      if (!insertPlaceholder && [[tag Type] isEqualToString: [STConstantsTagType Verbatim]])
+      if (insertPlaceholder && [[tag Type] isEqualToString: [STConstantsTagType Verbatim]])
       {
         [self Log:@"Inserting verbatim output"];
+        
         [self InsertVerbatim:selection tag:tag];
       }
       else if(!insertPlaceholder && [tag IsTableTag] && [tag TableCellIndex] == nil) {

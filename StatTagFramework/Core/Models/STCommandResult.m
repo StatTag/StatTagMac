@@ -57,6 +57,7 @@
   NSMutableDictionary* dict = [NSMutableDictionary dictionaryWithDictionary:[super toDictionary]];
   [dict setValue:[self ValueResult] forKey:@"ValueResult"];
   [dict setValue:[self FigureResult] forKey:@"FigureResult"];
+  [dict setValue:[self VerbatimResult] forKey:@"VerbatimResult"];
   [dict setValue:@([[NSNumber numberWithBool:[self IsEmpty]] boolValue]) forKey:@"IsEmpty"];
 
   // Per the comment within this commented block, we do have a problem adding the table results to the object.

@@ -478,6 +478,41 @@ on insertTextboxAtRangeStart:theRangeStart andRangeEnd:theRangeEnd forShapeName:
 end insertTextboxAtRangeStart:andRangeEnd:forShapeName:withShapetext:andFontSize:andFontFace:
 
 
+on updateShapeHeightToFitTextContents: shapeName andFontSize:fontSize andFontFace:fontFace
+#on updateShapeHeightToFitTextContents(shapeName, fontSize, fontFace)
+  
+  set shapeName to shapeName as string
+  set fontSize to fontSize as real
+  set fontFace to fontFace as string
+  
+  tell application "Microsoft Word"
+    
+    
+    set myShapes to (get shapes of active document)
+    
+    repeat with aShape in myShapes
+      if name of aShape is equal to shapeName then
+        set aShape to contents of aShape
+        
+        set fontMultiplier to 1.35 as real
+        
+        set name of font object of text range of text frame of aShape to fontFace
+        set font size of font object of text range of text frame of aShape to fontSize
+        
+        #now we need to calculate the # of lines in the newly widened text frame and then expand the height to fit the contents based on that width and # of lines
+        set lineCount to compute text range statistics text range of text frame of aShape statistic statistic lines
+        set height of aShape to lineCount * (fontSize * fontMultiplier)
+        
+      end if
+    end repeat
+    
+  end tell
+end updateShapeHeightToFitTextContents:andFontSize:andFontFace:
+  #end updateShapeHeightToFitTextContents
+
+
+
+
 on insertFieldAtRangeStart:theRangeStart andRangeEnd:theRangeEnd forFieldType:fieldType withText:fieldText
 
   #fieldType -> https://msdn.microsoft.com/en-us/vba/word-vba/articles/wdfieldtype-enumeration-word?f=255&MSPPError=-2147217396

@@ -71,6 +71,14 @@
     WordDocProperty* p = [[WordDocProperty alloc] initWithName:[prop name] andValue:[prop value] forType:@"Custom"];
     [[self propertiesArrayController] addObject:p];
   }
+
+  /*
+  for(STMSWord2011Variable* var in [[[self statTagWordDocument] document] shapes]) {
+    WordDocProperty* p = [[WordDocProperty alloc] initWithName:[var name] andValue:[var name] forType:@"Shape"];
+    [[self propertiesArrayController] addObject:p];
+  }
+  */
+
   /*
   for(STMSWord2011DocumentProperty* prop in [[[self statTagWordDocument] document] documentProperties])
   {

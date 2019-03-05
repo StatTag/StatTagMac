@@ -10,6 +10,7 @@
 #import "STMSWord2011.h"
 #import <StatTagFramework/StatTagFramework.h>
 #import "WordASOC.h"
+#import "StatTagShared.h"
 
 @implementation WordHelpers
 
@@ -519,6 +520,8 @@ static WordHelpers* sharedInstance = nil;
 {
   [[self class] sharedInstance];
 
+  //[[[StatTagShared sharedInstance] logManager] WriteLog:[NSString stringWithFormat:@"insertTextboxAtRangeStart:%ld andRangeEnd:%ld forShapeName:%@ withShapetext:NA andFontSize:%f andFontFace:%@", theRangeStart, theRangeEnd, shapeName, fontSize, fontFace] logLevel:STLogVerbose];
+
   /*
    Why are we replacing the \r\n's with \n?
    When we send the text over to AppleScript (again - because of Word issues), AppleScript has to count the # of characters - which includes the line breaks and carriage returns in order to calculate the incoming text size. We then extend the text selection to that length (which should… ideally… be the length of the verbatim result.) Turns out - there are issues. The “\r\n” are counted. BUT when we insert the text, “\r\n” is converted to a single line feed character. So - for every “\r\n” in the original text we’re losing _one_ character - because it’s replaced with (linefeed). So - we’re slowly eating away at the following text. For each missing “\r” we eat one character by incorrectly extended the text range into the subsequent content.
@@ -527,6 +530,13 @@ static WordHelpers* sharedInstance = nil;
   
   WordASOC *asoc = [[NSClassFromString(@"WordASOC") alloc] init];
   [asoc insertTextboxAtRangeStart:[NSNumber numberWithInteger:theRangeStart] andRangeEnd:[NSNumber numberWithInteger:theRangeEnd] forShapeName:shapeName withShapetext:shapeText andFontSize:[NSNumber numberWithDouble:fontSize] andFontFace:fontFace];
+}
+
++(void)updateShapeHeightToFitTextContents:(NSString*)shapeName andFontSize:(double)fontSize andFontFace:(NSString*)fontFace;
+{
+  [[self class] sharedInstance];
+  WordASOC *asoc = [[NSClassFromString(@"WordASOC") alloc] init];
+  [asoc updateShapeHeightToFitTextContents:shapeName andFontSize:[NSNumber numberWithDouble:fontSize] andFontFace:fontFace];
 }
 
 +(void)insertFieldAtRangeStart:(NSInteger)theRangeStart andRangeEnd:(NSInteger)theRangeEnd forFieldType:(NSInteger)fieldType withText:(NSString*)fieldText

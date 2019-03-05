@@ -38,7 +38,7 @@
   return self;
 }
 
--(instancetype)initWithField:(STMSWord2011Field*) wordField andParentField:(WordFieldTreeItem*)parent forDocument:(StatTagWordDocument*)document
+-(instancetype)initWithField:(STMSWord2011Field*)wordField andParentField:(WordFieldTreeItem*)parent forDocument:(StatTagWordDocument*)document
 {
   self = [super init];
   if (self != nil)
