@@ -125,7 +125,7 @@ static NSString* const TemporaryImageFileFilter = @"SELF EndsWith '.png'";
 
   @try {
 
-    RCEngine* engine = [RCEngine GetInstance];
+    RCEngine* engine = [RCEngine GetInstance:[STRVerbatimDevice GetInstance]];
 
     if(engine != nil) {
       [results addObject:@"R Installed = YES"];
