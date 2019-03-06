@@ -137,6 +137,9 @@
 		383F3B981DA679AE0069C78E /* TagPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 383F3B961DA679AE0069C78E /* TagPreviewController.m */; };
 		383F3B991DA679AE0069C78E /* TagPreviewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 383F3B971DA679AE0069C78E /* TagPreviewController.xib */; };
 		383F3B9C1DA684390069C78E /* TagGridView.m in Sources */ = {isa = PBXBuildFile; fileRef = 383F3B9B1DA684390069C78E /* TagGridView.m */; };
+		383F8D102230420600B38238 /* StatTag_About.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 383F8D0F2230420600B38238 /* StatTag_About.rtf */; };
+		383F8D1322304B5F00B38238 /* StatTag_Citation.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 383F8D1222304B5F00B38238 /* StatTag_Citation.rtf */; };
+		383F8D152230628000B38238 /* StatTag_Acknowledgements.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 383F8D142230628000B38238 /* StatTag_Acknowledgements.rtf */; };
 		38459D712215F46400095F51 /* ConfigInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38459D6F2215F46400095F51 /* ConfigInfoViewController.m */; };
 		38459D722215F46400095F51 /* ConfigInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38459D702215F46400095F51 /* ConfigInfoViewController.xib */; };
 		3846CC3A1DA49B0E0066D186 /* FlippedScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3846CC391DA49B0E0066D186 /* FlippedScrollView.m */; };
@@ -677,6 +680,9 @@
 		383F3B971DA679AE0069C78E /* TagPreviewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TagPreviewController.xib; sourceTree = "<group>"; };
 		383F3B9A1DA684390069C78E /* TagGridView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagGridView.h; sourceTree = "<group>"; };
 		383F3B9B1DA684390069C78E /* TagGridView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagGridView.m; sourceTree = "<group>"; };
+		383F8D0F2230420600B38238 /* StatTag_About.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; name = StatTag_About.rtf; path = "../Word Support/StatTag_About.rtf"; sourceTree = "<group>"; };
+		383F8D1222304B5F00B38238 /* StatTag_Citation.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = StatTag_Citation.rtf; sourceTree = "<group>"; };
+		383F8D142230628000B38238 /* StatTag_Acknowledgements.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; name = StatTag_Acknowledgements.rtf; path = "StatTag/Word Support/StatTag_Acknowledgements.rtf"; sourceTree = SOURCE_ROOT; };
 		38459D6E2215F46400095F51 /* ConfigInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfigInfoViewController.h; sourceTree = "<group>"; };
 		38459D6F2215F46400095F51 /* ConfigInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfigInfoViewController.m; sourceTree = "<group>"; };
 		38459D702215F46400095F51 /* ConfigInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConfigInfoViewController.xib; sourceTree = "<group>"; };
@@ -1443,6 +1449,19 @@
 			path = IntegrationTests;
 			sourceTree = "<group>";
 		};
+		383F8D112230421B00B38238 /* About */ = {
+			isa = PBXGroup;
+			children = (
+				38FFDD171E8C7CB6004D92C3 /* AboutViewController.h */,
+				38FFDD181E8C7CB6004D92C3 /* AboutViewController.m */,
+				38FFDD191E8C7CB6004D92C3 /* AboutViewController.xib */,
+				383F8D0F2230420600B38238 /* StatTag_About.rtf */,
+				383F8D142230628000B38238 /* StatTag_Acknowledgements.rtf */,
+				383F8D1222304B5F00B38238 /* StatTag_Citation.rtf */,
+			);
+			name = About;
+			sourceTree = "<group>";
+		};
 		38516FCC1DF5C712006989BC /* ThirdParty */ = {
 			isa = PBXGroup;
 			children = (
@@ -1479,9 +1498,9 @@
 		385EF13F1D95D52A005768C7 /* Word Support */ = {
 			isa = PBXGroup;
 			children = (
-				3879D5EA1E6DD09C00BF1964 /* StatTagMacroInstallText.rtf */,
 				3824439D1DBE567D00EF0048 /* StatTagScriptSupport.scpt */,
 				385EF1401D95D53C005768C7 /* StatTagMacros.dotm */,
+				3879D5EA1E6DD09C00BF1964 /* StatTagMacroInstallText.rtf */,
 				38EF1A661D99544F008EA9B0 /* readme.md */,
 				3824439F1DBE612800EF0048 /* StatTagMacroInstallationScript.sh */,
 				3879D5EE1E6E179100BF1964 /* StatTagMacroRemovalScript.sh */,
@@ -1713,9 +1732,7 @@
 		38C4656E1FA2696E0080586E /* GeneralViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				38FFDD171E8C7CB6004D92C3 /* AboutViewController.h */,
-				38FFDD181E8C7CB6004D92C3 /* AboutViewController.m */,
-				38FFDD191E8C7CB6004D92C3 /* AboutViewController.xib */,
+				383F8D112230421B00B38238 /* About */,
 				3836F5A21D92D07700BF0DD4 /* ManageCodeFilesViewController.h */,
 				3836F5A31D92D07700BF0DD4 /* ManageCodeFilesViewController.m */,
 				3836F5A41D92D07700BF0DD4 /* ManageCodeFilesViewController.xib */,
@@ -2368,6 +2385,7 @@
 				3836F57D1D92C8EA00BF0DD4 /* StatTag.sdef in Resources */,
 				38FFDD251E8D5C3F004D92C3 /* UnlinkedTagsViewController.xib in Resources */,
 				3876323F1DA7D6FA00680898 /* PercentagePropertiesController.xib in Resources */,
+				383F8D1322304B5F00B38238 /* StatTag_Citation.rtf in Resources */,
 				386689571E9BD37D00A5A1CB /* DocumentBrowserDocumentViewController.xib in Resources */,
 				38459D722215F46400095F51 /* ConfigInfoViewController.xib in Resources */,
 				385EF1421D95D53C005768C7 /* StatTagMacros.dotm in Resources */,
@@ -2390,6 +2408,7 @@
 				38F803661D9DCB8900C8F1EA /* ValuePropertiesController.xib in Resources */,
 				387632501DA83B6C00680898 /* StatTagNeedsWordViewController.xib in Resources */,
 				38FFDD1B1E8C7CB6004D92C3 /* AboutViewController.xib in Resources */,
+				383F8D102230420600B38238 /* StatTag_About.rtf in Resources */,
 				382443A01DBE6D0E00EF0048 /* StatTagMacroInstallationScript.sh in Resources */,
 				3866894D1E9BC6EC00A5A1CB /* DuplicateTagsViewController.xib in Resources */,
 				38FFDD1D1E8C8ED1004D92C3 /* Credits.rtf in Resources */,
@@ -2397,6 +2416,7 @@
 				38EDC05D1EE0EF2200A7BFD2 /* DuplicateTagRenameViewController.xib in Resources */,
 				383F3B991DA679AE0069C78E /* TagPreviewController.xib in Resources */,
 				3816AC121ED846670045390E /* SamplesInstallerViewController.xib in Resources */,
+				383F8D152230628000B38238 /* StatTag_Acknowledgements.rtf in Resources */,
 				3836F5A11D92D03D00BF0DD4 /* SettingsViewController.xib in Resources */,
 				3836F5A61D92D07700BF0DD4 /* ManageCodeFilesViewController.xib in Resources */,
 				3879D5EF1E6E179100BF1964 /* StatTagMacroRemovalScript.sh in Resources */,
