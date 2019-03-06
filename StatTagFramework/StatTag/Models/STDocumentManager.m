@@ -610,7 +610,10 @@ used to create the Word document.
         if ([tag Type] != [STConstantsTagType Verbatim])
         {
           [self Log:[NSString stringWithFormat:@"The tag (%@) was inserted as verbatim but is now a different type.  We are unable to update it.", [tag Id]]];
+          continue;
         }
+
+
         
         // If the tag update pair is set, it will be in response to renaming.  Make sure
         // we apply the new tag name to the control
@@ -618,10 +621,15 @@ used to create the Word document.
         {
           [shape setName:[[tagUpdatePair New] Id]];
         }
+        
+        if([[shape name] isEqualToString:[[tagUpdatePair New] Id]]) {
+          [self Log:[NSString stringWithFormat:@"Updating verbatim for tag ID (%@) and shape name: %@", [tag Id], [shape name]] logLevel:STLogVerbose];
 
-        [[[shape textFrame] textRange] setContent:[tag FormattedResult]];
-        //recalculate the frame height so our contents now fit
-        [WordHelpers updateShapeHeightToFitTextContents:[shape name] andFontSize:9.0 andFontFace:@"Courier New"];
+          [[[shape textFrame] textRange] setContent:[tag FormattedResult]];
+          //recalculate the frame height so our contents now fit
+          [WordHelpers updateShapeHeightToFitTextContents:[shape name] andFontSize:9.0 andFontFace:@"Courier New"];
+        }
+
       }
     }
   }

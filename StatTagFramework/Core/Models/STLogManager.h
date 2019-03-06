@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "STIFileHandler.h"
 
+//#import "StatTagShared.h"
 
 #define LOG_STATTAG_VERBOSE(message) [[STLogManager sharedInstance] WriteLog:message logLevel:STLogVerbose]
 #define LOG_STATTAG_DEBUG(message) [[STLogManager sharedInstance] WriteLog:message logLevel:STLogDebug]
@@ -20,6 +21,7 @@
 
 
 @class STUserSettings;
+@class STSettingsManager;
 
 typedef NS_ENUM(NSInteger, STLogLevel) {
   STLogVerbose = 1,
@@ -39,6 +41,11 @@ typedef NS_ENUM(NSInteger, STLogLevel) {
   NSObject<STIFileHandler>* _FileHandler;
   STLogLevel _logLevel;
   BOOL _wroteHeader;
+  
+  STSettingsManager* _settingsManager;
+  STUserSettings* _settings;
+
+  
 }
 
 @property (nonatomic) BOOL Enabled;
@@ -48,6 +55,12 @@ typedef NS_ENUM(NSInteger, STLogLevel) {
 
 @property (strong, nonatomic) NSObject<STIFileHandler>* FileHandler;
 
++(NSString*) allowedExtensions_Log;
++(NSString*) defaultLogFileName;
++(NSString*) defaultLogFilePath;
+//@property NSString* allowedExtensions_Log;
+//@property NSString* defaultLogFileName;
+//@property NSString* defaultLogFilePath;
 
 + (id)sharedInstance;
 

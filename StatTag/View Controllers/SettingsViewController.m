@@ -40,8 +40,6 @@
 //we don't need this one...
 //NSString* const ExecutableFileFilter = @"Application Executable|*.exe";
 //NSString* const LogFileFilter = @"Log File|*.log";
-NSString* const allowedExtensions_Log = @"txt/TXT/log/LOG";
-NSString* const defaultLogFileName = @"StatTag.log";
 
 
 - (void)viewWillLayout {
@@ -82,9 +80,10 @@ NSString* const defaultLogFileName = @"StatTag.log";
 -(void)setDefaultPath {
   //NSFileManager* fileManager = [NSFileManager defaultManager];
   //NSString* homeDirectory = NSHomeDirectory();
-  NSString* documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
   
-  [[self labelFilePath] setStringValue: [documentsDirectory stringByAppendingPathComponent:defaultLogFileName]];
+  //NSString* documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
+  //[[self labelFilePath] setStringValue: [documentsDirectory stringByAppendingPathComponent:defaultLogFileName]];
+  [[self labelFilePath] setStringValue: [STLogManager defaultLogFilePath]];
 }
 
 -(void)setup {
@@ -142,7 +141,7 @@ NSString* const defaultLogFileName = @"StatTag.log";
   [openPanel setAllowsMultipleSelection:NO];
   
   
-  NSArray<NSString*>* types = [allowedExtensions_Log pathComponents];
+  NSArray<NSString*>* types = [[STLogManager allowedExtensions_Log] pathComponents];
   [openPanel setAllowedFileTypes:types];
   
   
@@ -157,7 +156,7 @@ NSString* const defaultLogFileName = @"StatTag.log";
     {
       NSURL* url = [files objectAtIndex:i];
       if ([fileManager fileExistsAtPath:[url path] isDirectory:&isDir] && isDir) {
-        url = [url URLByAppendingPathComponent:defaultLogFileName];
+        url = [url URLByAppendingPathComponent:[STLogManager defaultLogFilePath]];
       }
       
       [[self labelFilePath] setStringValue:[url path]];

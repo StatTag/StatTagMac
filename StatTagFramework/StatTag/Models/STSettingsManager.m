@@ -82,8 +82,9 @@ static NSString* const LogLevelKey = @"Log Level";
   _Settings.EnableLogging = [[prefsDict objectForKey:LogEnabledKey] boolValue];
   _Settings.RunCodeOnOpen = [[prefsDict objectForKey:RunCodeOnOpenKey] boolValue];
 
-  LOG_STATTAG_DEBUG(@"Loaded Settings");
-  LOG_STATTAG_DEBUG([self description]);
+  //removing for now - circular loop w our log
+  //LOG_STATTAG_DEBUG(@"Loaded Settings");
+  //LOG_STATTAG_DEBUG([self description]);
   //[[STLogManager sharedInstance] setLogLevel:[_Settings LogLevel]];
 
 // we can't use the app-based domain because it will be the host app and not the StatTag framework's domain

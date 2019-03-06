@@ -11,6 +11,9 @@
 #import "STCocoaUtil.h"
 #import "STFileHandler.h"
 
+#import "STSettingsManager.h"
+
+
 //@import CocoaLumberjack;
 
 
@@ -23,6 +26,10 @@
 
 @synthesize logLevel = _logLevel;
 @synthesize wroteHeader = _wroteHeader;
+
+//@synthesize settings = _settings;
+//@synthesize settingsManager = _settingsManager;
+
 
 //singleton
 static STLogManager *sharedInstance = nil;
@@ -56,6 +63,9 @@ static STLogManager *sharedInstance = nil;
     _FileHandler = [[STFileHandler alloc] init];
     _logLevel = STLogError;
     _wroteHeader = FALSE;
+    
+    _settingsManager = [[STSettingsManager alloc] init];
+    
   }
   return self;
 }
@@ -111,6 +121,9 @@ static STLogManager *sharedInstance = nil;
     // Check write access
     NSURL* logPath = [NSURL fileURLWithPath:logFilePath];
     NSFileHandle* __unused stream = [[self FileHandler] OpenWrite: logPath];
+    if(stream == nil) {
+      return false;
+    }
   }
   @catch (NSException* exc)
   {
@@ -159,6 +172,7 @@ static STLogManager *sharedInstance = nil;
   [self setLogFilePathWithString:filePath];
   _Enabled = (enabled && [self IsValidLogPath:[[self LogFilePath] path]]);
   _logLevel = logLevel;
+  
 }
 
 -(void) WriteLog:(id)message logLevel:(STLogLevel)logLevel
@@ -183,19 +197,50 @@ static STLogManager *sharedInstance = nil;
 */
 -(void) WriteMessage:(NSString*)text
 {
-  dispatch_async(dispatch_get_main_queue(), ^{
+  //dispatch_async(dispatch_get_main_queue(), ^{
+  dispatch_async(dispatch_get_global_queue(0, 0), ^{
     NSLog(@"%@", text);
   });
 
-  if (_Enabled && [self IsValidLogPath:[[self LogFilePath] path]])
+  
+  //if (_Enabled && [self IsValidLogPath:[[self LogFilePath] path]])
+  if (_Enabled)
   {
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
+
       NSError* err;
-      [self WriteHeader];
-      [[self FileHandler] AppendAllText:[self LogFilePath] withContent:[NSString stringWithFormat:@"%@ - %@\r\n", [dateFormatter stringFromDate:[NSDate date]], text] error:&err];
+
+      if(![self IsValidLogPath:[[self LogFilePath] path]]) {
+
+        [self setLogFilePathWithString:[STLogManager defaultLogFilePath]];
+        [_settingsManager Load]; //be careful here - avoid enabling logging when setting settings for now - otherweise - infinite loop
+        _settings = [_settingsManager Settings]; //just for setup
+        [_settings setLogLocation:[[self LogFilePath] path]];
+        [_settingsManager setSettings:_settings];
+        
+        [[NSFileManager defaultManager] createFileAtPath:[[self LogFilePath] path] contents:[[NSData alloc] init] attributes:nil];
+
+      }
+      if([self IsValidLogPath:[[self LogFilePath] path]]) {
+        [self WriteHeader];
+        [[self FileHandler] AppendAllText:[self LogFilePath] withContent:[NSString stringWithFormat:@"%@ - %@\r\n", [dateFormatter stringFromDate:[NSDate date]], text] error:&err];
+      }
     });
+    
   }
 }
+
++(NSString*) allowedExtensions_Log {
+  return @"txt/TXT/log/LOG";
+}
++(NSString*) defaultLogFileName {
+ return @"StatTag.log";
+}
++(NSString*) defaultLogFilePath {
+  NSString* documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
+  return [documentsDirectory stringByAppendingPathComponent:[STLogManager defaultLogFileName]];
+}
+
 
 /**
  Writes the details of an exception to the log file.

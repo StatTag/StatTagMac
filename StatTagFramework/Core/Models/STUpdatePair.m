@@ -27,5 +27,9 @@
   return self;
 }
 
+-(NSString*)description {
+  return [NSString stringWithFormat:@"OLD: %@ ; NEW: %@", [[self Old] description], [[self New] description]];
+}
+
 
 @end
