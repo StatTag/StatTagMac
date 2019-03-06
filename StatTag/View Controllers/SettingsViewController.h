@@ -53,13 +53,7 @@ IB_DESIGNABLE
 
 
 @property (weak) IBOutlet NSButton *buttonOpenLogFileFolder;
-@property (weak) IBOutlet NSButton *configDisclosureButton;
 
-
-@property (strong) IBOutlet DisclosureViewController *configDetailsDisclosureViewController;
-
-@property (strong) IBOutlet ConfigInfoViewController *configDetailsViewController;
-@property (weak) IBOutlet NSView *configDetailsView;
 
 
 

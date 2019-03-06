@@ -30,7 +30,6 @@
 @synthesize boxView;
 @synthesize boxGeneral;
 @synthesize buttonOpenLogFileFolder;
-@synthesize configDisclosureButton;
 @synthesize logLevelDropdown;
 
 @synthesize settings = _settings;
@@ -96,15 +95,7 @@
     [self setDefaultPath];
   }
 
-  [self UpdateLoggingControls];
-  
-  //[[self configDetailsDisclosureViewController] view]
-  [ViewUtils fillView:[self configDetailsView] withView:[[self configDetailsViewController] view]];
-  
-  //[ViewUtils fillView: withView:[_tagBasicProperties view]];
-  
-  
-  //[self setConfigurationText];
+  [self UpdateLoggingControls];  
 }
 
 - (IBAction)logLevelChanged:(id)sender {
