@@ -37,7 +37,6 @@
 		35C218E22152C81E00E16BC7 /* OverlappingTagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35C218E02152C81E00E16BC7 /* OverlappingTagsViewController.m */; };
 		35C218E32152C81E00E16BC7 /* OverlappingTagsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 35C218E12152C81E00E16BC7 /* OverlappingTagsViewController.xib */; };
 		35CE4F9C1F141EBF00B1221B /* STRVerbatimDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 35CE4F9B1F141EBF00B1221B /* STRVerbatimDevice.m */; };
-		35DD5320202BAFB000449124 /* libXlsxReaderWriter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 35F649A9202BA7FB00CEC7D8 /* libXlsxReaderWriter.a */; };
 		35F2E7321EE1A93E0086F9D0 /* STRBaseValueFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 35F2E7311EE1A93E0086F9D0 /* STRBaseValueFormatter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		35F2E7341EE1A94A0086F9D0 /* STRBaseValueFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F2E7331EE1A94A0086F9D0 /* STRBaseValueFormatter.m */; };
 		380137CA2226D80300C5B6B8 /* WordFieldTreeItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 380137C92226D80300C5B6B8 /* WordFieldTreeItem.m */; };
@@ -1013,7 +1012,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				3537430B202BF97100325941 /* libz.tbd in Frameworks */,
-				35DD5320202BAFB000449124 /* libXlsxReaderWriter.a in Frameworks */,
 				38E2D0C3202A0F9000512B8C /* RCocoa.framework in Frameworks */,
 				38D8B1B21D9496C300BF878A /* StatTagFramework.framework in Frameworks */,
 				38A877CD1D9AEEA7002F37DA /* Scintilla.framework in Frameworks */,
