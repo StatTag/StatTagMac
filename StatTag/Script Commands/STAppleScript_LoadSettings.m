@@ -96,6 +96,7 @@
 
 -(id)performDefaultImplementation {
 
+  LOG_STATTAG_VERBOSE(@"AppleScript opening 'Settings'");
   AppDelegate* appDelegate = (AppDelegate*)[[NSApplication sharedApplication] delegate];
   [appDelegate openPreferences];
   
@@ -107,6 +108,7 @@
 
 -(id)performDefaultImplementation {
   
+  LOG_STATTAG_VERBOSE(@"AppleScript opening 'About'");
   AppDelegate* appDelegate = (AppDelegate*)[[NSApplication sharedApplication] delegate];
   [appDelegate openAboutWindow];
   
@@ -119,7 +121,7 @@
 -(id)performDefaultImplementation {
   
 //  AppDelegate* appDelegate = (AppDelegate*)[[NSApplication sharedApplication] delegate];
-  
+  LOG_STATTAG_VERBOSE(@"AppleScript opening 'Help'");
   NSURL * helpFile = [[NSBundle mainBundle] URLForResource:@"StatTagHelp" withExtension:@"help"];
   [[NSWorkspace sharedWorkspace] openURL:helpFile];
   
@@ -137,6 +139,7 @@
 
   //set the active document to the current document on screen
   //we don't need to do anything past that because the code file list will display in the code file panel
+  LOG_STATTAG_VERBOSE(@"AppleScript opening 'Manage Code Files'");
   [[NSNotificationCenter defaultCenter] postNotificationName:@"activeDocumentDidChange" object:self userInfo:nil];
   
   return nil;
@@ -148,7 +151,8 @@
 -(id)performDefaultImplementation {
   //activate the document
   //select "all tags"
-  
+  LOG_STATTAG_VERBOSE(@"AppleScript opening 'Manage Tags'");
+
   //we choose "all tags" by default when we load the content
   [[NSNotificationCenter defaultCenter] postNotificationName:@"activeDocumentDidChange" object:self userInfo:nil];
 
@@ -173,6 +177,7 @@
   
   //Change in plan. We're now just sending the index of the field
   // we're doing this because it's easier for us to reconstitute the required elements to properly identify a complete tag - the tag name and the code file path
+  LOG_STATTAG_VERBOSE(@"AppleScript attempting to open Tag");
   NSString* tagFieldIDString = [[self evaluatedArguments] valueForKey:@"TagFieldID"];
   if(tagFieldIDString != nil)
   {
@@ -183,8 +188,13 @@
     
     //if(tagName != nil)
     //{
-      [[NSNotificationCenter defaultCenter] postNotificationName:@"activeTagDidChange" object:self userInfo:userInfo];
+    LOG_STATTAG_DEBUG(@"AppleScript asked us to open a tag");
+    LOG_STATTAG_DEBUG(userInfo);
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"activeTagDidChange" object:self userInfo:userInfo];
     //}
+  } else {
+    LOG_STATTAG_ERROR(@"AppleScript attempted to open tag, but Tag Field ID was empty");
   }
   
   return nil;

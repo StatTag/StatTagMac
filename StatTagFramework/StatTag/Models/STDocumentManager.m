@@ -22,6 +22,7 @@
 #import "STTableUtil.h"
 #import "STSettingsManager.h"
 #import "STDocumentMetadata.h"
+#import "STLogManager.h"
 
 @implementation STDocumentManager
 
@@ -296,6 +297,8 @@ used to create the Word document.
     if([self DocumentVariableExists:variable]) {
       //NSLog(@"variable : %@ has value : %@", [variable name], [variable variableValue]);
       NSMutableArray<STCodeFile*>* list = [[NSMutableArray<STCodeFile*> alloc] initWithArray:[STCodeFile DeserializeList:[variable variableValue] error:nil]];
+      NSMutableArray<STCodeFile*>* existingCodeFileList = DocumentCodeFiles[[document fullName]];
+      [self MergeCachesFromCodeFileList:existingCodeFileList toList:list];
       [DocumentCodeFiles setObject:list forKey:[document fullName]];
       //NSLog(@"Document variable existed, loaded %lu code files", (unsigned long)[list count]);
     } else {
@@ -319,6 +322,34 @@ used to create the Word document.
   //NSLog(@"LoadCodeFileListFromDocument - Finished");
 }
 
+// Used when we are reloading our list of code files.  We assume that there is an existing list of code files which
+// contain cached results.  If so, we want to populate those in our new collection of code files for the tags that
+// match.
+-(void) MergeCachesFromCodeFileList:(NSArray<STCodeFile*>*)existingCodeFiles toList:(NSArray<STCodeFile*>*)newCodeFiles
+{
+  // If either collection is nil, we know there's no work to be done.
+  if (existingCodeFiles == nil || newCodeFiles == nil) {
+    return;
+  }
+  
+  for (STCodeFile* codeFile in newCodeFiles) {
+    if ([codeFile Tags] == nil) {
+      continue;
+    }
+    
+    // Find the code file from the existing code file list, based on the file path.
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.FilePath == [c] %@",[codeFile FilePath]];
+    NSArray* results = [existingCodeFiles filteredArrayUsingPredicate:predicate];
+    if ([results count] > 0) {
+      STCodeFile* fileMatch = [results objectAtIndex:0];
+      if ([fileMatch Tags] != nil) {
+        for (STTag* tag in [codeFile Tags]) {
+          [codeFile SetCachedTag:[fileMatch Tags] Tag:tag];
+        }
+      }
+    }
+  }
+}
 
 /**
  Insert an image (given a definition from an tag) into the current Word document at the current cursor location.
@@ -579,7 +610,10 @@ used to create the Word document.
         if ([tag Type] != [STConstantsTagType Verbatim])
         {
           [self Log:[NSString stringWithFormat:@"The tag (%@) was inserted as verbatim but is now a different type.  We are unable to update it.", [tag Id]]];
+          continue;
         }
+
+
         
         // If the tag update pair is set, it will be in response to renaming.  Make sure
         // we apply the new tag name to the control
@@ -587,8 +621,15 @@ used to create the Word document.
         {
           [shape setName:[[tagUpdatePair New] Id]];
         }
+        
+        if([[shape name] isEqualToString:[[tagUpdatePair New] Id]]) {
+          [self Log:[NSString stringWithFormat:@"Updating verbatim for tag ID (%@) and shape name: %@", [tag Id], [shape name]] logLevel:STLogVerbose];
 
-        [[[shape textFrame] textRange] setContent:[tag FormattedResult]];
+          [[[shape textFrame] textRange] setContent:[tag FormattedResult]];
+          //recalculate the frame height so our contents now fit
+          [WordHelpers updateShapeHeightToFitTextContents:[shape name] andFontSize:9.0 andFontFace:@"Courier New"];
+        }
+
       }
     }
   }
@@ -795,14 +836,43 @@ used to create the Word document.
  Helper function to retrieve Cells from a Selection.  This guards against exceptions
  and just returns null when thrown (indicating no Cells found).
  */
--(SBElementArray<STMSWord2011Cell*>*)GetCells:(STMSWord2011SelectionObject*)selection {
+-(NSMutableArray<STMSWord2011Cell*>*)GetCells:(STMSWord2011SelectionObject*)selection {
   @try {
-    return [selection cells];
+    NSMutableArray<STMSWord2011Cell*>* cells = [[NSMutableArray<STMSWord2011Cell*> alloc] init];
+    SBElementArray<STMSWord2011Cell*>* selectedCells = [selection cells];
+    // If the cells in the selection come back as a NULL collection, there could be two things going on.  First, and
+    // most likely, there are just no cells selected.  However, we have found issues with Word on macOS 10.14 where the
+    // selection is correct, but the cells collection comes back NULL anyway.  We're going to do some additional checks
+    // for that second scenario.
+    if (selectedCells == NULL) {
+      // Check to see if there is a selected table.  If so, we'll try and unpack cells from that.  If not, we're assuming
+      // there truly are no cells selected, and we're done.
+      SBElementArray<STMSWord2011Table*>* selectedTables = [selection tables];
+      if (selectedTables == NULL || [selectedTables count] == 0) {
+        return nil;
+      }
+      
+      STMSWord2011Table* table = [[selection tables] firstObject];
+      // Iterate through the rows and columns.  And yes, this needs to be 1-based indexes instead of 0-based.
+      for (int rowIndex = 1; rowIndex <= [table numberOfRows]; rowIndex++) {
+        for (int colIndex = 1; colIndex <= [table numberOfColumns]; colIndex++) {
+          [cells addObject:[table getCellFromTableRow:rowIndex column:colIndex]];
+        }
+      }
+    }
+    else {
+      // If the cells collection does exist in our selection, we are going to convert the scripting bridge collection
+      // to a regular NSMutableArray
+      for (STMSWord2011Cell* cell in selectedCells) {
+        [cells addObject:cell];
+      }
+    }
+    
+    return cells;
   }
   @catch (NSException *exception) {
-    //NSLog(@"%@", exception.reason);
-    //NSLog(@"method: %@, line : %d", NSStringFromSelector(_cmd), __LINE__);
-    //NSLog(@"%@", [NSThread callStackSymbols]);
+    [self Log:@"Exception thrown when calling GetCells"];
+    [self LogException:exception];
   }
   return nil;
 }
@@ -854,14 +924,19 @@ used to create the Word document.
   }
   
   STCommandResult* result = [[tag CachedResult] firstObject];
-  if (result != nil)
+  NSString* verbatimResult = [result VerbatimResult];
+  if(verbatimResult == nil) {
+    verbatimResult = [tag FormattedResult];
+  }
+  
+  if (verbatimResult != nil)
   {
     //STMSWord2011TextRange* range = [selection formattedText];//unclear if this is what we want to use
     NSInteger rangeStart = [selection selectionStart];
     NSInteger rangeEnd = [selection selectionEnd];
     
     //we have to offload this directly to AppleScript so we can do what we need to
-    [WordHelpers insertTextboxAtRangeStart:rangeStart andRangeEnd:rangeEnd forShapeName:[tag Id] withShapetext:[result VerbatimResult] andFontSize:9.0 andFontFace:@"Courier New"];
+    [WordHelpers insertTextboxAtRangeStart:rangeStart andRangeEnd:rangeEnd forShapeName:[tag Id] withShapetext:verbatimResult andFontSize:9.0 andFontFace:@"Courier New"];
   }
   
   //[self Log:@"InsertVerbatim - Finished"];
@@ -874,185 +949,196 @@ used to create the Word document.
  @remark This assumes that the tag is known to be a table result.
  */
 -(NSArray<NSNumber*>*)InsertTable:(STMSWord2011SelectionObject*)selection tag:(STTag*)tag {
-
+  
   //NSLog(@"InsertTable - Started");
   NSMutableArray<NSNumber*>* addedFields = [[NSMutableArray alloc] init];
-
+  
   //FIXME: more "end of document padding"
   //we're going to insert a pad after the table for the moment - same issue we have with field insertions at the end of the document
   @autoreleasepool {
-  NSInteger selectionStart = [selection selectionStart];
-  NSInteger selectionEnd = [selection selectionEnd];
-
-  STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
-  STMSWord2011Document* doc = [app activeDocument];
-  NSInteger fieldCloseLength = [[STFieldGenerator FieldClose] length];
-  NSInteger docEndOfContent = [[doc textObject] endOfContent];
-
-  STMSWord2011TextRange* selectionRange = [selection textObject];
-  if((selectionEnd + fieldCloseLength) > docEndOfContent) {
-    STMSWord2011TextRange* padRange = [WordHelpers DuplicateRange:selectionRange];
-    [WordHelpers setRange:&padRange start:selectionEnd end:selectionEnd];
+    NSInteger selectionStart = [selection selectionStart];
+    NSInteger selectionEnd = [selection selectionEnd];
     
-    //NSLog(@"startOfContent: %ld", [padRange startOfContent]);
-    //NSLog(@"endOfContent: %ld", [padRange endOfContent]);
+    STMSWord2011Application* app = [[[STGlobals sharedInstance] ThisAddIn] Application];
+    STMSWord2011Document* doc = [app activeDocument];
+    NSInteger fieldCloseLength = [[STFieldGenerator FieldClose] length];
+    NSInteger docEndOfContent = [[doc textObject] endOfContent];
     
-    for(NSInteger i = 0; i < fieldCloseLength; i++) {
-      [WordHelpers insertParagraphAtRange:padRange];
-    }
-    [WordHelpers setRange:&padRange start:[padRange startOfContent] end:[padRange endOfContent] + fieldCloseLength];
-    [WordHelpers selectTextAtRangeStart:selectionStart andEnd:selectionEnd];
-    selection = [[[[STGlobals sharedInstance] ThisAddIn] Application] selection];
-  }
-
-  
-  
-  if (tag == nil) {
-    //NSLog(@"Unable to insert the table because the tag is nil");
-    return addedFields;
-  }
-  
-  if (![tag HasTableData]) {
     STMSWord2011TextRange* selectionRange = [selection textObject];
-    [self CreateTagField:selectionRange tagIdentifier:[tag Id] displayValue:[STConstantsPlaceholders EmptyField] tag:tag withDoc:doc];
-    //NSLog(@"Unable to insert the table because there are no cached results for the tag");
-    return addedFields;
-  }
-  
-  SBElementArray<STMSWord2011Cell*>* cells = [self GetCells:selection];
-  [tag UpdateFormattedTableData];
-
-  STTable* table = [[[tag CachedResult] firstObject] TableResult];
-  NSArray<NSNumber*>* dimensions = [tag GetTableDisplayDimensions];
-  
-  NSInteger cellsCount = cells == nil ? 0 : [cells count];  // Because of the issue we mention below, pull the cell count right away
-  
-  // Insert a new table if there is none selected.
-  if (cellsCount == 0) {
-    //NSLog(@"No cells selected, creating a new table");
-    STMSWord2011Table* wordTable = [self CreateWordTableForTableResult:selection table:table format:[tag TableFormat] dimensions:dimensions];
-    [WordHelpers select:wordTable];
-    
-    // The table will be the size we need.  Update these tracking variables with the cells and
-    // total size so that we can begin inserting data.
-    cells = [self GetCells:selection];
-    cellsCount = [[dimensions objectAtIndex:0] integerValue] * [[dimensions objectAtIndex:1] integerValue];
-  }
-  // Our heuristic is that a single cell selected with the selection being the same position most
-  // likely means the user has their cursor in a table.  We are going to assume they want us to
-  // fill in that table.
-  else if (cellsCount == 1 && [[selection textObject] startOfContent] == [[selection textObject] endOfContent]) {
-    //NSLog(@"Cursor is in a single table cell, selecting table");
-    cells = [self SelectExistingTableRange:[cells firstObject] table:[[selection tables] firstObject] dimensions:dimensions];
-    cellsCount = [cells count];
-  }
-  
-  NSArray<NSString*>* displayData = [STTableUtil GetDisplayableVector:[table FormattedCells] format:[tag TableFormat]];
-  if (displayData == nil || [displayData count] == 0) {
-    [STUIUtility WarningMessageBoxWithTitle:@"There are no table results to insert." andDetail:@"" logger:[self Logger]];
-    return addedFields;
-  }
-  
-  if (cells == nil) {
-    //NSLog(@"Unable to insert the table because the cells collection came back as nil.");
-    return addedFields;
-  }
-
-  /*
-   This is way more gnarly than the Windows version.
-   
-   In the Mac version, if we adjust ANY of the cell data inside of the cell list, the cell list is sort of... invalidated.  We modified the range info, etc. so the meaning of "the cell" is lost.  The reference to the object will be there, but the object loses the row/column position info as well as the key bit - the text range.
-   
-   So we have to do this differently... we have to build a reference to our origin table, then store and re-use the row/column (think: x,y) positions - then we can run through that (x,y) list and rebuild the cell (referencing the origin table)
-   
-   To do that, we're going to abuse NSPoint
-   
-   1) We have a cell collection
-   2) cells in the collection have positions within their parent table - we store those points (x,y) in an array (our point array)
-   3) cells (in the Mac version) do NOT have pointers to their parent table - BUT they do have a text range with a start/end position
-   4) we get our first cell in our cell list
-   5) we iterate through the list of the tables in the document
-   6) we take our “key” cell (1,1) and ask the table to return its (1,1) cell
-   7) since the cell is a copy in the Mac version, we can’t just do a pointer / equivalency check (not the same object) - BUT we can compare the text range start / end - “same cell”
-   8) once we have the “same” cell, we know it’s the same table
-   9) we store that table reference
-   10) then - we iterate through our point array and then say “get cell from table”
-   
-   */
-  
-  NSMutableArray<NSValue*>* cellPoints = [[NSMutableArray<NSValue*> alloc] init];
-  for (STMSWord2011Cell* cell in cells) {
-    NSPoint point;
-    point.x = [cell rowIndex];
-    point.y = [cell columnIndex];
-    [cellPoints addObject:[NSValue valueWithPoint:point]];
-    //NSLog(@"cell (%ld,%ld)", [cell rowIndex], [cell columnIndex]);
-  }
-  
-  STMSWord2011Cell* findCell = [cells firstObject];
-  STMSWord2011Table* cellTable;
-
-  for(STMSWord2011Table* aTable in [doc tables]) {
-    STMSWord2011Cell* tableCell = [aTable getCellFromTableRow:[findCell rowIndex] column:[findCell columnIndex]];
-    if([[findCell textObject] startOfContent] == [[tableCell textObject] startOfContent]
-       && [[findCell textObject] endOfContent] == [[tableCell textObject] endOfContent]) {
-      cellTable = aTable;
-      break;
-    }
-  }
-  
-  //NSLog(@"cell Points : %@", cellPoints);
-
-  // Wait, why aren't I using a for (NSInteger index = 0...) loop instead of this foreach?
-  // There is some weird issue with the Cells collection that was crashing when I used
-  // a for loop and index.  After a few iterations it was chopping out a few of the
-  // cells, which caused a crash.  No idea why, and moved to this approach in the interest
-  // of time.  Long-term it'd be nice to figure out what was causing the crash.
-  NSInteger index = 0;
-  for (NSValue* value in cellPoints) {
-    NSPoint cellPoint = [value pointValue];
-    STMSWord2011Cell* cell = [cellTable getCellFromTableRow:cellPoint.x column:cellPoint.y];
-    
-    if (index >= [displayData count]) {
-      //NSLog(@"Index %ld is beyond result cell length of %ld", index, [displayData count]);
-      break;
+    if((selectionEnd + fieldCloseLength) > docEndOfContent) {
+      STMSWord2011TextRange* padRange = [WordHelpers DuplicateRange:selectionRange];
+      [WordHelpers setRange:&padRange start:selectionEnd end:selectionEnd];
+      
+      //NSLog(@"startOfContent: %ld", [padRange startOfContent]);
+      //NSLog(@"endOfContent: %ld", [padRange endOfContent]);
+      
+      for(NSInteger i = 0; i < fieldCloseLength; i++) {
+        [WordHelpers insertParagraphAtRange:padRange];
+      }
+      [WordHelpers setRange:&padRange start:[padRange startOfContent] end:[padRange endOfContent] + fieldCloseLength];
+      [WordHelpers selectTextAtRangeStart:selectionStart andEnd:selectionEnd];
+      selection = [[[[STGlobals sharedInstance] ThisAddIn] Application] selection];
     }
     
-    // When inserting a field in a table cell, the cell object will often give us back a range that
-    // extends one character too far.  For some reason (still not known), if we use this range as-is,
-    // we fail to insert a new field.  Instead, we will just insert at the beginning of the cell.
-    STMSWord2011TextRange* range = [cell textObject];
-    [WordHelpers setRange:&range start:([range startOfContent]) end:([range startOfContent]) withDoc:doc];
-
-    // Make a copy of the tag and set the cell index.  This will let us discriminate which cell an tag
-    // value is related with, since we have multiple fields (and therefore multiple copies of the tag) in the
-    // document.  Note that we are wiping out the cached value to just have the individual cell value present.
-    STCommandResult* commandResult = [[STCommandResult alloc] init];
-    commandResult.ValueResult = [displayData objectAtIndex:index];
-    NSMutableArray<STCommandResult*>* cachedResult = [[NSMutableArray<STCommandResult*> alloc] init];
-    [cachedResult addObject:commandResult];
-    STFieldTag* innerTag = [[STFieldTag alloc] initWithTag:tag andTableCellIndex:[NSNumber numberWithInteger:index]];
-    innerTag.CachedResult = cachedResult;
+    if (tag == nil) {
+      [self Log:@"Unable to insert the table because the tag is nil"];
+      return addedFields;
+    }
     
-    STMSWord2011Field* field = [self CreateTagField:range tagIdentifier:[NSString stringWithFormat:@"%@%@%ld", [tag Name], [STConstantsReservedCharacters TagTableCellDelimiter], index] displayValue:[innerTag FormattedResult] tag:innerTag withDoc:doc];
-    [addedFields addObject:[NSNumber numberWithInteger:[field entry_index]]];
-    index++;
-  }
-  
-  [self WarnOnMismatchedCellCount:cellsCount dataLength:[displayData count] ];
-  
-  // Once the table has been inserted, re-select it (inserting fields messes with the previous selection) and
-  // insert a new line after it.  This gives us spacing after a table so inserting multiple tables doesn't have
-  // them all glued together.
-  
-  [WordHelpers select:[[selection tables] firstObject]];
-  
-  STMSWord2011SelectionObject* tableSelection = [app selection];
-  [self InsertNewLineAndMoveDown:tableSelection];
-  return addedFields;
-  //NSLog(@"InsertTable - Finished");
+    if (![tag HasTableData]) {
+      STMSWord2011TextRange* selectionRange = [selection textObject];
+      [self CreateTagField:selectionRange tagIdentifier:[tag Id] displayValue:[STConstantsPlaceholders EmptyField] tag:tag withDoc:doc];
+      [self Log:@"Unable to insert the table because there are no cached results for the tag"];
+      return addedFields;
+    }
+    
+    NSMutableArray<STMSWord2011Cell*>* cells = [self GetCells:selection];
+    [tag UpdateFormattedTableData];
+    
+    STTable* table = [[[tag CachedResult] firstObject] TableResult];
+    NSArray<NSNumber*>* dimensions = [tag GetTableDisplayDimensions];
+    
+    NSInteger cellsCount = cells == nil ? 0 : [cells count];  // Because of the issue we mention below, pull the cell count right away
+    
+    // Insert a new table if there is none selected.
+    if (cellsCount == 0) {
+      [self Log:@"No cells selected, creating a new table"];
+      STMSWord2011Table* wordTable = [self CreateWordTableForTableResult:selection table:table format:[tag TableFormat] dimensions:dimensions];
+      if (wordTable == NULL) {
+        [self Log:@"Received a NULL table reference after calling CreateWordTableForTableResult"];
+      }
+      else {
+        [self Log:[NSString stringWithFormat:@"Created table : %@", wordTable]];
+      }
+      
+      [WordHelpers select:wordTable];
+      // The table will be the size we need.  Update these tracking variables with the cells and
+      // total size so that we can begin inserting data.
+      cells = [self GetCells:selection];
+      cellsCount = [[dimensions objectAtIndex:0] integerValue] * [[dimensions objectAtIndex:1] integerValue];
+    }
+    // Our heuristic is that a single cell selected with the selection being the same position most
+    // likely means the user has their cursor in a table.  We are going to assume they want us to
+    // fill in that table.
+    else if (cellsCount == 1 && [[selection textObject] startOfContent] == [[selection textObject] endOfContent]) {
+      [self Log:@"Cursor is in a single table cell, selecting table"];
+      cells = [self SelectExistingTableRange:[cells firstObject] table:[[selection tables] firstObject] dimensions:dimensions];
+      cellsCount = [cells count];
+    }
+    
+    NSArray<NSString*>* displayData = [STTableUtil GetDisplayableVector:[table FormattedCells] format:[tag TableFormat]];
+    if (displayData == nil || [displayData count] == 0) {
+      [STUIUtility WarningMessageBoxWithTitle:@"There are no table results to insert." andDetail:@"" logger:[self Logger]];
+      [self Log:@"No table results to insert"];
+      return addedFields;
+    }
+    
+    if (cells == nil) {
+      [self Log:@"Unable to insert the table because the cells collection came back as nil."];
+      return addedFields;
+    }
+    
+    [self Log:[NSString stringWithFormat:@"Number of cells we will attempt to fill is %ld", (long)cellsCount]];
+    
+    /*
+     This is way more gnarly than the Windows version.
+     
+     In the Mac version, if we adjust ANY of the cell data inside of the cell list, the cell list is sort of... invalidated.  We modified the range info, etc. so the meaning of "the cell" is lost.  The reference to the object will be there, but the object loses the row/column position info as well as the key bit - the text range.
+     
+     So we have to do this differently... we have to build a reference to our origin table, then store and re-use the row/column (think: x,y) positions - then we can run through that (x,y) list and rebuild the cell (referencing the origin table)
+     
+     To do that, we're going to abuse NSPoint
+     
+     1) We have a cell collection
+     2) cells in the collection have positions within their parent table - we store those points (x,y) in an array (our point array)
+     3) cells (in the Mac version) do NOT have pointers to their parent table - BUT they do have a text range with a start/end position
+     4) we get our first cell in our cell list
+     5) we iterate through the list of the tables in the document
+     6) we take our “key” cell (1,1) and ask the table to return its (1,1) cell
+     7) since the cell is a copy in the Mac version, we can’t just do a pointer / equivalency check (not the same object) - BUT we can compare the text range start / end - “same cell”
+     8) once we have the “same” cell, we know it’s the same table
+     9) we store that table reference
+     10) then - we iterate through our point array and then say “get cell from table”
+     
+     */
+    
+    NSMutableArray<NSValue*>* cellPoints = [[NSMutableArray<NSValue*> alloc] init];
+    for (STMSWord2011Cell* cell in cells) {
+      NSPoint point;
+      point.x = [cell rowIndex];
+      point.y = [cell columnIndex];
+      [cellPoints addObject:[NSValue valueWithPoint:point]];
+      [self Log:[NSString stringWithFormat:@"cell (%ld,%ld)", [cell rowIndex], [cell columnIndex]]];
+    }
+    
+    STMSWord2011Cell* findCell = [cells firstObject];
+    STMSWord2011Table* cellTable = NULL;
+    for(STMSWord2011Table* aTable in [doc tables]) {
+      STMSWord2011Cell* tableCell = [aTable getCellFromTableRow:[findCell rowIndex] column:[findCell columnIndex]];
+      if([[findCell textObject] startOfContent] == [[tableCell textObject] startOfContent]
+         && [[findCell textObject] endOfContent] == [[tableCell textObject] endOfContent]) {
+        cellTable = aTable;
+        break;
+      }
+    }
+    
+    if (cellTable == NULL) {
+      [self Log:@"Unable to find a table object that matches the cell in our table range"];
+    }
+    
+    [self Log:[NSString stringWithFormat:@"cell Points : %@", cellPoints]];
+    
+    // Wait, why aren't I using a for (NSInteger index = 0...) loop instead of this foreach?
+    // There is some weird issue with the Cells collection that was crashing when I used
+    // a for loop and index.  After a few iterations it was chopping out a few of the
+    // cells, which caused a crash.  No idea why, and moved to this approach in the interest
+    // of time.  Long-term it'd be nice to figure out what was causing the crash.
+    NSInteger index = 0;
+    for (NSValue* value in cellPoints) {
+      NSPoint cellPoint = [value pointValue];
+      STMSWord2011Cell* cell = [cellTable getCellFromTableRow:cellPoint.x column:cellPoint.y];
+      
+      if (index >= [displayData count]) {
+        //NSLog(@"Index %ld is beyond result cell length of %ld", index, [displayData count]);
+        break;
+      }
+      
+      // When inserting a field in a table cell, the cell object will often give us back a range that
+      // extends one character too far.  For some reason (still not known), if we use this range as-is,
+      // we fail to insert a new field.  Instead, we will just insert at the beginning of the cell.
+      STMSWord2011TextRange* range = [cell textObject];
+      [WordHelpers setRange:&range start:([range startOfContent]) end:([range startOfContent]) withDoc:doc];
+      
+      // Make a copy of the tag and set the cell index.  This will let us discriminate which cell an tag
+      // value is related with, since we have multiple fields (and therefore multiple copies of the tag) in the
+      // document.  Note that we are wiping out the cached value to just have the individual cell value present.
+      STCommandResult* commandResult = [[STCommandResult alloc] init];
+      commandResult.ValueResult = [displayData objectAtIndex:index];
+      NSMutableArray<STCommandResult*>* cachedResult = [[NSMutableArray<STCommandResult*> alloc] init];
+      [cachedResult addObject:commandResult];
+      STFieldTag* innerTag = [[STFieldTag alloc] initWithTag:tag andTableCellIndex:[NSNumber numberWithInteger:index]];
+      innerTag.CachedResult = cachedResult;
+      
+      STMSWord2011Field* field = [self CreateTagField:range tagIdentifier:[NSString stringWithFormat:@"%@%@%ld", [tag Name], [STConstantsReservedCharacters TagTableCellDelimiter], index] displayValue:[innerTag FormattedResult] tag:innerTag withDoc:doc];
+      [addedFields addObject:[NSNumber numberWithInteger:[field entry_index]]];
+      index++;
+    }
+    
+    [self WarnOnMismatchedCellCount:cellsCount dataLength:[displayData count] ];
+    
+    // Once the table has been inserted, re-select it (inserting fields messes with the previous selection) and
+    // insert a new line after it.  This gives us spacing after a table so inserting multiple tables doesn't have
+    // them all glued together.
+    
+    [WordHelpers select:[[selection tables] firstObject]];
+    
+    STMSWord2011SelectionObject* tableSelection = [app selection];
+    [self InsertNewLineAndMoveDown:tableSelection];
+    return addedFields;
+    //NSLog(@"InsertTable - Finished");
   }
 }
+
 
 
 /**
@@ -1189,9 +1275,10 @@ used to create the Word document.
 
       // If the tag is a table, and the cell index is not set, it means we are inserting the entire
       // table into the document.  Otherwise, we are able to just insert a single table cell.
-      if (!insertPlaceholder && [[tag Type] isEqualToString: [STConstantsTagType Verbatim]])
+      if (insertPlaceholder && [[tag Type] isEqualToString: [STConstantsTagType Verbatim]])
       {
         [self Log:@"Inserting verbatim output"];
+        
         [self InsertVerbatim:selection tag:tag];
       }
       else if(!insertPlaceholder && [tag IsTableTag] && [tag TableCellIndex] == nil) {

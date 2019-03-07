@@ -8,6 +8,10 @@
 
 #import <Cocoa/Cocoa.h>
 
+#import "ConfigInfoViewController.h"
+#import "DisclosureViewController.h"
+#import "StatTagShared.h"
+
 @class STUserSettings;
 @class STSettingsManager;
 @class STLogManager;
@@ -17,10 +21,14 @@ IB_DESIGNABLE
 
 @interface SettingsViewController : NSViewController  {
   __weak NSButton *buttonChooseFile;
+  __weak NSButton *buttonOpenLogFileFolder;
+  __weak NSButton *configDisclosureButton;
   __weak NSButton *buttonCancelSave;
+  __weak NSLayoutConstraint *configDetailsTextBoxHeightConstraint;
   __weak NSView *buttonSave;
   __weak NSButton *checkboxLogging;
   __weak NSTextField *labelFilePath;
+  __weak NSPopUpButton *logLevelDropdown;
   __weak NSView *boxView;
   __weak NSBox *boxGeneral;
   STUserSettings* _settings;
@@ -41,6 +49,11 @@ IB_DESIGNABLE
 @property (strong, nonatomic) STLogManager* logManager;
 
 @property (weak) IBOutlet NSPathControl *logPathControl;
+@property (weak) IBOutlet NSPopUpButton *logLevelDropdown;
+
+
+@property (weak) IBOutlet NSButton *buttonOpenLogFileFolder;
+
 
 
 

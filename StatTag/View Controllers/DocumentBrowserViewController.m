@@ -17,6 +17,8 @@
 
 #import <QuartzCore/CALayer.h>
 
+#import "WordDocumentViewer.h"
+
 @interface DocumentBrowserViewController ()
 
 @end
@@ -24,6 +26,9 @@
 @implementation DocumentBrowserViewController
 
 @synthesize documentManager = _documentManager;
+
+WordDocumentViewer* wordDocViewer;
+
 
 - (void)awakeFromNib {
 }
@@ -46,6 +51,7 @@
 {
   _documentManager = [[StatTagShared sharedInstance] docManager];
   self.documentBrowserDocumentViewController.documentManager = _documentManager;
+  
 }
 
 - (void)viewDidLoad {
@@ -158,6 +164,7 @@
   //http://stackoverflow.com/questions/20676801/how-do-you-get-a-custom-view-controller-to-load-its-view-into-placeholder-in-ano
 
   //examine our shared document notification events and see if we need to act
+  
 }
 
 -(void)viewApplicationDidBecomeActive
@@ -235,6 +242,16 @@
     [STUIUtility WarningMessageBoxWithTitle:userAlertInformation andDetail:userInformativeText logger:nil];
   }
   //-(NSDictionary<NSString*, FileChangeNotificationData*>*)getPrioritizedFileNotifications
+  
+  //placeholder
+  if([[[StatTagShared sharedInstance] logManager] logLevel] <= STLogDebug)
+  {
+    [[self documentsTableView] setMenu:[self documentDebugMenu]];
+  } else {
+    [[self documentsTableView] setMenu:nil];
+  }
+  
+
 }
 
 -(void)setActiveDocument
@@ -541,7 +558,41 @@
 
 
 
+//Debug menu
+- (IBAction)activeDocumentDebugView:(id)sender {
+  
+  NSInteger row = [self.documentsTableView selectedRow];
+  
+  if(row == -1) {
+    //row = [[self tableViewOnDemand] clickedRow];
+    row = [[self documentsTableView] clickedRow];
+  }
+  if(row < 0) {
+    return;
+  }
+  
 
+  //StatTagWordDocument* doc = [self documentsTableView] obj
+  if (wordDocViewer == nil)
+  {
+    wordDocViewer = [[WordDocumentViewer alloc] init];
+    [wordDocViewer setDelegate:self];
+  }
+  
+  //send in the active doc
+  //StatTagWordDocument* doc = [[StatTagShared sharedInstance] doc];
+  
+  StatTagWordDocument* doc = [[StatTagShared sharedInstance] activeStatTagWordDocument];
+  [wordDocViewer setStatTagWordDocument:doc];
+
+  [self presentViewControllerAsSheet:wordDocViewer];
+  
+}
+
+- (void)dismissWordDocumentViewerController:(WordDocumentViewer*)controller withReturnCode:(StatTagResponseState)returnCode;
+{
+  [self dismissViewController:controller];
+}
 
 
 @end

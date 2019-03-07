@@ -7,7 +7,6 @@
 //
 
 #import "STBaseManager.h"
-#import "STLogManager.h"
 
 @implementation STBaseManager
 
@@ -26,20 +25,29 @@
  Wrapper around a LogManager instance.  Since logging is not always enabled/available for this object
  the wrapper only writes if a logger is accessible.
  */
--(void)Log:(NSString*)text{
+-(void)Log:(id)logMessage{
   if ([self Logger] != nil)
   {
-    [[self Logger] WriteMessage:text];
+    [[self Logger] WriteLog:logMessage logLevel:STLogVerbose];
   }
 }
+-(void)Log:(id)logMessage logLevel:(STLogLevel)logLevel{
+  if ([self Logger] != nil)
+  {
+    [[self Logger] WriteLog:logMessage logLevel:logLevel];
+  }
+}
+
+
 /**
   Wrapper around a LogManager instance.  Since logging is not always enabled/available for this object
   the wrapper only writes if a logger is accessible.
  */
--(void)LogException:(id)exc{
+-(void)LogException:(id)logMessage{
   if ([self Logger] != nil)
   {
-    [[self Logger] WriteException:exc];
+    [[self Logger] WriteLog:logMessage logLevel:STLogError];
+    //[[self Logger] WriteException:exc];
   }
 }
 

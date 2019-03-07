@@ -29,7 +29,7 @@
 - (void)tagsShouldRefreshForCodeFile:(STCodeFile*)codeFile;
 @end
 
-@interface TagEditorViewController : NSViewController <NSTextFieldDelegate, TagBasicPropertiesControllerDelegate, ValuePropertiesControllerDelegate, TablePropertiesControllerDelegate> {
+@interface TagEditorViewController : NSViewController <NSTextFieldDelegate, TagBasicPropertiesControllerDelegate, ValuePropertiesControllerDelegate, TablePropertiesControllerDelegate, NSSearchFieldDelegate> {
   STTag* _tag;
   STDocumentManager* _documentManager;
   
@@ -45,6 +45,7 @@
   STCodeFile* _originallySelectedCodeFile;
   
   NSInteger _scintillaLastLineNumber;
+  
 }
 
 @property (strong, nonatomic) STTag* tag;
@@ -111,6 +112,11 @@
 
 - (IBAction)saveAndCreateAnother:(id)sender;
 - (IBAction)saveButtonClick:(id)sender;
+
+
+@property (weak) IBOutlet NSSegmentedControl *findCodeTextBackForward;
+@property (weak) IBOutlet NSSearchField *findCodeTextSearchField;
+
 
 
 /*

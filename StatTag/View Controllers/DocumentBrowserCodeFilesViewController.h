@@ -54,7 +54,6 @@
 @property (nonatomic, weak) id<DocumentBrowserCodeFilesDelegate> delegate;
 //@property (nonatomic, weak) id<DocumentBrowserDocumentDelegate> documentBrowserDelegate;
 
-
 @property (strong, nonatomic)STDuplicateTagResults* duplicateTags;
 @property (strong, nonatomic)STOverlappingTagResults* overlappingTags;
 @property (strong, nonatomic)NSDictionary<NSString*, NSArray<STTag*>*>* unlinkedTags;
@@ -62,5 +61,7 @@
 -(void)configure;
 -(void)updateTagSummary;
 -(void)focusOnTags:(TagIndicatorViewTagFocus)tagFocus;
+
+
 
 @end

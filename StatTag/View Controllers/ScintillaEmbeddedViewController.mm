@@ -547,6 +547,7 @@ static NSString* PACKAGE_R_MARKDOWN = @"R Markdown";
   }
   return (NSArray<SCLine*>*)lines;
 }
+
 -(void)setLineMarkerAtIndex:(NSInteger)index
 {
   [self SetLineMarker:[[[scintillaHelper Lines] Lines] objectAtIndex: index ] andMark:YES];
@@ -554,6 +555,7 @@ static NSString* PACKAGE_R_MARKDOWN = @"R Markdown";
 -(void)scrollToLine:(NSInteger)startIndex
 {
   [scintillaHelper LineScroll:startIndex columns:0];
+  
 }
 
 

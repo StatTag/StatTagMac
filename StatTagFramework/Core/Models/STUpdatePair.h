@@ -19,4 +19,6 @@
 -(instancetype)init;
 -(instancetype)init:(T)oldItem newItem:(T)newItem;
 
+-(NSString*)description;
+
 @end

@@ -38,7 +38,26 @@
   // We think this is a fair assumption because the recommendation from StatTag is to
   // run your code to completion before running it in StatTag.  That means the user
   // should have knitted their R Markdown document.
-  RCSymbolicExpression* expression = [Engine Evaluate:@"require('knitr')"];
+
+  if([self knitRInstalled])
+  {
+    return YES;
+  }
+  
+  NSDictionary* errorInfo = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInteger:0], @"ErrorCode",
+                             [STConstantsStatisticalPackages R], @"StatisticalPackage",
+                             @"To run R Markdown documents, StatTag requires that you have the knitr package installed.\r\n\r\nPlease see the User’s Guide for more information.", @"ErrorDescription",
+                             nil];
+  @throw [NSException exceptionWithName:NSGenericException
+                                 reason:@"R Markdown not found"
+                               userInfo:errorInfo];
+  return NO;
+}
+
+-(BOOL)knitRInstalled
+{
+  //RCSymbolicExpression* expression = [Engine Evaluate:@"'knitr' %in% rownames(installed.packages())"];
+  RCSymbolicExpression* expression = [Engine Evaluate:@"require('knitr')"]; //originally was require('knitr')
   if (expression != nil) {
     NSArray<NSNumber*>* logicalResult = [expression AsLogical];
     if (logicalResult != nil && [logicalResult count] > 0) {
@@ -48,14 +67,6 @@
       }
     }
   }
-
-  NSDictionary* errorInfo = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInteger:0], @"ErrorCode",
-                             [STConstantsStatisticalPackages R], @"StatisticalPackage",
-                             @"To run R Markdown documents, StatTag requires that you have the knitr package installed.\r\n\r\nPlease see the User’s Guide for more information.", @"ErrorDescription",
-                             nil];
-  @throw [NSException exceptionWithName:NSGenericException
-                                 reason:@"R Markdown not found"
-                               userInfo:errorInfo];
   return NO;
 }
 

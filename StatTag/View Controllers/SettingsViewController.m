@@ -14,6 +14,10 @@
 #import "StatTagFramework.h"
 #import "StatTagShared.h"
 
+#import "DisclosureViewController.h"
+#import "ViewUtils.h"
+
+
 @interface SettingsViewController ()
 
 @end
@@ -25,7 +29,8 @@
 @synthesize labelFilePath;
 @synthesize boxView;
 @synthesize boxGeneral;
-
+@synthesize buttonOpenLogFileFolder;
+@synthesize logLevelDropdown;
 
 @synthesize settings = _settings;
 @synthesize settingsManager = _settingsManager;
@@ -34,8 +39,6 @@
 //we don't need this one...
 //NSString* const ExecutableFileFilter = @"Application Executable|*.exe";
 //NSString* const LogFileFilter = @"Log File|*.log";
-NSString* const allowedExtensions_Log = @"txt/TXT/log/LOG";
-NSString* const defaultLogFileName = @"StatTag.log";
 
 
 - (void)viewWillLayout {
@@ -76,28 +79,47 @@ NSString* const defaultLogFileName = @"StatTag.log";
 -(void)setDefaultPath {
   //NSFileManager* fileManager = [NSFileManager defaultManager];
   //NSString* homeDirectory = NSHomeDirectory();
-  NSString* documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
   
-  [[self labelFilePath] setStringValue: [documentsDirectory stringByAppendingPathComponent:defaultLogFileName]];
+  //NSString* documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
+  //[[self labelFilePath] setStringValue: [documentsDirectory stringByAppendingPathComponent:defaultLogFileName]];
+  [[self labelFilePath] setStringValue: [STLogManager defaultLogFilePath]];
 }
 
 -(void)setup {
+  
   [[self checkboxLogging] setState: [[self settings] EnableLogging] ? NSOnState : NSOffState];
-  if([[self settings] LogLocation] != nil && [[[self settings] LogLocation] length] > 0 && ![[[self settings] LogLocation] isEqualToString:@"Log Path Not Set"] && [[self logManager] IsValidLogPath: [[self settings] LogLocation]]) {
+//  if([[self settings] LogLocation] != nil && [[[self settings] LogLocation] length] > 0 && ![[[self settings] LogLocation] isEqualToString:@"Log Path Not Set"] && [[self logManager] IsValidLogPath: [[self settings] LogLocation]]) {
+  if([self logFileAccessible]) {
     [[self labelFilePath] setStringValue: [[self settings] LogLocation]];
   } else {
     [self setDefaultPath];
   }
-  
-  [self UpdateLoggingControls];
+
+  [self UpdateLoggingControls];  
 }
 
+- (IBAction)logLevelChanged:(id)sender {
+  [self saveSettings];
+}
+
+
 - (IBAction)checkboxLoggingChanged:(id)sender {
-  [self UpdateLoggingControls];
   [self saveSettings];
 }
 
 - (IBAction)labelFilePathClicked:(id)sender {
+}
+
+- (IBAction)openLogFileFolder:(id)sender {
+  [[NSWorkspace sharedWorkspace] selectFile:[[self settings] LogLocation] inFileViewerRootedAtPath:[[self settings] LogLocation]];
+}
+
+-(BOOL)logFileAccessible
+{
+  if([[self settings] LogLocation] != nil && [[[self settings] LogLocation] length] > 0 && ![[[self settings] LogLocation] isEqualToString:@"Log Path Not Set"] && [[self logManager] IsValidLogPath: [[self settings] LogLocation]]) {
+    return YES;
+  }
+  return NO;
 }
 
 - (IBAction)chooseFile:(id)sender {
@@ -110,7 +132,7 @@ NSString* const defaultLogFileName = @"StatTag.log";
   [openPanel setAllowsMultipleSelection:NO];
   
   
-  NSArray<NSString*>* types = [allowedExtensions_Log pathComponents];
+  NSArray<NSString*>* types = [[STLogManager allowedExtensions_Log] pathComponents];
   [openPanel setAllowedFileTypes:types];
   
   
@@ -125,7 +147,7 @@ NSString* const defaultLogFileName = @"StatTag.log";
     {
       NSURL* url = [files objectAtIndex:i];
       if ([fileManager fileExistsAtPath:[url path] isDirectory:&isDir] && isDir) {
-        url = [url URLByAppendingPathComponent:defaultLogFileName];
+        url = [url URLByAppendingPathComponent:[STLogManager defaultLogFilePath]];
       }
       
       [[self labelFilePath] setStringValue:[url path]];
@@ -141,25 +163,40 @@ NSString* const defaultLogFileName = @"StatTag.log";
 -(void)saveSettings {
   [[self settings] setEnableLogging:[[self checkboxLogging] state ] == NSOnState ? YES : NO ];
   [[self settings] setLogLocation:[labelFilePath stringValue]];
+
   
   if ([[self settings] EnableLogging] && ![[self logManager] IsValidLogPath: [[self settings] LogLocation]])
   {
     [STUIUtility WarningMessageBoxWithTitle:@"Unable to access debug file." andDetail:@"The debug file you have selected appears to be invalid, or you do not have rights to access it.\r\nPlease select a valid path for the debug file, or disable debugging." logger:nil];
   } else {
+    STLogLevel level = [[self logLevelDropdown] selectedTag];
+    [[self settings] setLogLevel:level];
+
     [[self settingsManager] setSettings:[self settings]];
     [[self settingsManager] Save];
     [[self logManager] UpdateSettings:[self settings]];
+    
     //[[self logManager] UpdateSettings:[self properties]];
   }
+  [self UpdateLoggingControls];
 }
 
 -(void) UpdateLoggingControls
 {
+  [[self logLevelDropdown] selectItemWithTag:[[self settings] LogLevel]];
+
   BOOL enabled = [[self checkboxLogging] state]  == NSOnState ? YES : NO ;
   if (enabled == NO) {
     [[self labelFilePath] setTextColor:[NSColor grayColor]];
+    [[self logLevelDropdown] setEnabled:FALSE];
   } else {
     [[self labelFilePath] setTextColor:[NSColor controlTextColor]];
+    [[self logLevelDropdown] setEnabled:true];
+  }
+  if([self logFileAccessible]) {
+    [[self buttonOpenLogFileFolder] setEnabled:YES];
+  } else {
+    [[self buttonOpenLogFileFolder] setEnabled:NO];
   }
 }
 

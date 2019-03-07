@@ -26,4 +26,11 @@
 
 +(NSArray<NSString*>*)splitStringIntoArray:(NSString*)str;
 
++(NSString*)getAssociatedAppInfo;
++(NSDictionary<NSString*, NSString*>*)getAssociatedAppInfoDict;
++(NSAttributedString*)getAssociatedAppInfoAttributedString;
+
++(NSAttributedString*)boldString:(NSString*)str;
+
+
 @end

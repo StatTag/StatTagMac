@@ -240,6 +240,7 @@ NSString* const CurrentTagFormatVersion = @"1.0.0";
   [dict setValue:_LineEnd forKey:@"LineEnd"];
   //[dict setValue:[self Id] forKey:@"Id"]; //this is a read only item
   [dict setValue:[self FormattedResult] forKey:@"FormattedResult"];
+  //[dict setValue:[[[self FormattedResult] stringByReplacingOccurrencesOfString:@"\n" withString:@"\\n"] stringByReplacingOccurrencesOfString:@"\r" withString:@"\\r"] forKey:@"FormattedResult"];
   
   //retain any unknown / unsupported keys/values we may have
   //these might be legacy StatTag items or newer items we don't yet know about - we don't want to break document compatibility

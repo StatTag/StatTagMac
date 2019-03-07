@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "STLogManager.h"
 
 /**
   User preferences and settings for StatTag.
@@ -15,6 +16,8 @@
   NSString* _StataLocation;
   BOOL _EnableLogging;
   NSString* _LogLocation;
+
+  STLogLevel _LogLevel;
   
   NSString* _RepresentMissingValues;
   NSString* _CustomMissingValue;
@@ -36,6 +39,8 @@
  Automatically run attached statistical code and update a document when the Word document is opened.
  */
 @property BOOL RunCodeOnOpen;
+
+@property STLogLevel LogLevel;
 
 
 /**

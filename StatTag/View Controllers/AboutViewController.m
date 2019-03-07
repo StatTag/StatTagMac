@@ -8,6 +8,7 @@
 
 #import "AboutViewController.h"
 #import "UIUtility.h"
+#import "ViewUtils.h"
 
 @interface AboutViewController ()
 
@@ -27,7 +28,17 @@
   NSString* buildInfo = [NSString stringWithFormat:@"%@ (%@)", appVersionString, appBuildString];
   [[self buildTextField] setStringValue:buildInfo];
   
+  
+  [[[self aboutTextView] textStorage] setAttributedString: [self readAttributedStringFromBundleFile:@"StatTag_About"]];
+  [[[self acknoweldgementsTextView] textStorage] setAttributedString: [self readAttributedStringFromBundleFile:@"StatTag_Acknowledgements"]];
+  [[self citationLabel] setAttributedStringValue: [self readAttributedStringFromBundleFile:@"StatTag_Citation"]];
+
 }
+
+-(void)viewWillAppear {
+  [ViewUtils fillView:[self systemInfoView] withView:[[self systemInfoViewController] view]];
+}
+
 
 - (NSString *)nibName
 {
@@ -41,6 +52,30 @@
     [[NSBundle mainBundle] loadNibNamed:[self nibName] owner:self topLevelObjects:nil];
   }
   return self;
+}
+
+- (IBAction)copyCitationToClipboard:(id)sender {
+  NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
+  [pasteboard clearContents];
+  [pasteboard writeObjects:@[[[self citationLabel] stringValue]]];
+}
+
+
+-(NSAttributedString*)readAttributedStringFromBundleFile:(NSString*)fileName
+{
+  NSAttributedString* content;
+  if(fileName != nil)
+  {
+    NSData *data;
+    
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:fileName ofType:@"rtf"];
+    data = [NSData dataWithContentsOfFile:filePath];
+    if (data)
+    {
+      content = [[NSAttributedString alloc] initWithRTF:data documentAttributes:nil];
+    }
+  }
+  return content;
 }
 
 

@@ -34,8 +34,6 @@
 @property BOOL processingDuplicateTags;
 @property NSMutableArray<STTag*>* duplicateTags;
 
-@property NSMutableArray<STTag*>* tags;
-
 @property NSMutableArray<STCodeFile*>* codeFiles;
 @property NSMutableArray<NSString*>* codeFilePaths;
 
@@ -57,5 +55,7 @@
 -(void)validateUnlinkedTags;
 -(void)loadDocument;
 -(void)cachesDidChangeForTags:(NSArray<STTag*>*)tags orCodeFilePath:(NSString*)codeFilePath;
+
+-(NSString*)description;
 
 @end

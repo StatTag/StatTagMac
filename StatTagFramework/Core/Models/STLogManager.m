@@ -11,6 +11,12 @@
 #import "STCocoaUtil.h"
 #import "STFileHandler.h"
 
+#import "STSettingsManager.h"
+
+
+//@import CocoaLumberjack;
+
+
 @implementation STLogManager
 
 @synthesize Enabled = _Enabled;
@@ -18,10 +24,15 @@
 
 @synthesize LogFilePath = _LogFilePath;
 
+@synthesize logLevel = _logLevel;
+@synthesize wroteHeader = _wroteHeader;
+
+//@synthesize settings = _settings;
+//@synthesize settingsManager = _settingsManager;
+
+
 //singleton
 static STLogManager *sharedInstance = nil;
-
-
 
 
 - (void) setLogFilePath:(NSURL*)p {
@@ -50,6 +61,11 @@ static STLogManager *sharedInstance = nil;
     dateFormatter = [[NSDateFormatter alloc] init];
     dateFormatter.dateFormat = @"MM/dd/yyyy HH:mm:ss.SSS";
     _FileHandler = [[STFileHandler alloc] init];
+    _logLevel = STLogError;
+    _wroteHeader = FALSE;
+    
+    _settingsManager = [[STSettingsManager alloc] init];
+    
   }
   return self;
 }
@@ -105,6 +121,9 @@ static STLogManager *sharedInstance = nil;
     // Check write access
     NSURL* logPath = [NSURL fileURLWithPath:logFilePath];
     NSFileHandle* __unused stream = [[self FileHandler] OpenWrite: logPath];
+    if(stream == nil) {
+      return false;
+    }
   }
   @catch (NSException* exc)
   {
@@ -117,6 +136,17 @@ static STLogManager *sharedInstance = nil;
   return true;
 }
 
+-(void)WriteHeader
+{
+  if(![self wroteHeader])
+  {
+    //write the header info
+    //NSLog(@"Log Exception: %@", [exc description]);
+    [self setWroteHeader:YES];
+    [self WriteMessage:[NSString stringWithFormat:@"macOS: %@; Hardware: %@; Memory: %@; StatTag: %@", [STCocoaUtil macOSVersion], [STCocoaUtil machineModel], [STCocoaUtil physicalMemory], [STCocoaUtil bundleVersionInfo]]];
+    [self WriteMessage:[NSString stringWithFormat:@"Word: %@", [STCocoaUtil getAssociatedAppInfo]]];
+  }
+}
 
 /**
  Updates the internal settings used by this log manager, when given a set of application settings.
@@ -126,7 +156,7 @@ static STLogManager *sharedInstance = nil;
  @param settings : Application settings
  */
 -(void)UpdateSettings:(STUserSettings*)settings {
-  [self UpdateSettings:[settings EnableLogging] filePath:[settings LogLocation]];
+  [self UpdateSettings:[settings EnableLogging] filePath:[settings LogLocation] logLevel:[settings LogLevel]];
 }
 
 /**
@@ -137,12 +167,28 @@ static STLogManager *sharedInstance = nil;
   @param enabled : If logging is enabled by the user
   @param filePath : The path of the log file to write to.
  */
--(void)UpdateSettings:(BOOL)enabled filePath:(NSString*)filePath {
+-(void)UpdateSettings:(BOOL)enabled filePath:(NSString*)filePath logLevel:(STLogLevel)logLevel {
   //self.LogFilePath = filePath;
   [self setLogFilePathWithString:filePath];
   _Enabled = (enabled && [self IsValidLogPath:[[self LogFilePath] path]]);
+  _logLevel = logLevel;
+  
 }
 
+-(void) WriteLog:(id)message logLevel:(STLogLevel)logLevel
+{
+  if(logLevel >= [self logLevel])
+  {
+    if([message isKindOfClass:[NSException class]] | [message isKindOfClass:[NSError class]])
+    {
+      [self WriteException:message];
+    } else if ([message isKindOfClass:[NSString class]]) {
+      [self WriteMessage: message];
+    } else if ([message respondsToSelector:@selector(description)]){
+      [self WriteMessage: [message description]];
+    }
+  }
+}
 
 /**
   Writes a message to the log file.
@@ -151,12 +197,50 @@ static STLogManager *sharedInstance = nil;
 */
 -(void) WriteMessage:(NSString*)text
 {
-  if (_Enabled && [self IsValidLogPath:[[self LogFilePath] path]])
+  //dispatch_async(dispatch_get_main_queue(), ^{
+  dispatch_async(dispatch_get_global_queue(0, 0), ^{
+    NSLog(@"%@", text);
+  });
+
+  
+  //if (_Enabled && [self IsValidLogPath:[[self LogFilePath] path]])
+  if (_Enabled)
   {
-    NSError* err;
-    [[self FileHandler] AppendAllText:[self LogFilePath] withContent:[NSString stringWithFormat:@"%@ - %@\r\n", [dateFormatter stringFromDate:[NSDate date]], text] error:&err];
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+
+      NSError* err;
+
+      if(![self IsValidLogPath:[[self LogFilePath] path]]) {
+
+        [self setLogFilePathWithString:[STLogManager defaultLogFilePath]];
+        [_settingsManager Load]; //be careful here - avoid enabling logging when setting settings for now - otherweise - infinite loop
+        _settings = [_settingsManager Settings]; //just for setup
+        [_settings setLogLocation:[[self LogFilePath] path]];
+        [_settingsManager setSettings:_settings];
+        
+        [[NSFileManager defaultManager] createFileAtPath:[[self LogFilePath] path] contents:[[NSData alloc] init] attributes:nil];
+
+      }
+      if([self IsValidLogPath:[[self LogFilePath] path]]) {
+        [self WriteHeader];
+        [[self FileHandler] AppendAllText:[self LogFilePath] withContent:[NSString stringWithFormat:@"%@ - %@\r\n", [dateFormatter stringFromDate:[NSDate date]], text] error:&err];
+      }
+    });
+    
   }
 }
+
++(NSString*) allowedExtensions_Log {
+  return @"txt/TXT/log/LOG";
+}
++(NSString*) defaultLogFileName {
+ return @"StatTag.log";
+}
++(NSString*) defaultLogFilePath {
+  NSString* documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
+  return [documentsDirectory stringByAppendingPathComponent:[STLogManager defaultLogFileName]];
+}
+
 
 /**
  Writes the details of an exception to the log file.
@@ -182,9 +266,11 @@ static STLogManager *sharedInstance = nil;
   {
     errorDescription = exc;
   }
-  
-  //NSLog(@"Log Exception: %@", [exc description]);
-  [self WriteMessage:[NSString stringWithFormat:@"Error: %@, macOS: %@, Hardware: %@, Stack trace: %@", errorDescription, [STCocoaUtil macOSVersion], [STCocoaUtil machineModel], stackTrace]];
+
+  [self WriteMessage:[NSString stringWithFormat:@"Error: %@/r/nStack trace: %@", errorDescription, stackTrace]];
+
+//  //NSLog(@"Log Exception: %@", [exc description]);
+//  [self WriteMessage:[NSString stringWithFormat:@"Error: %@, macOS: %@, Hardware: %@, Stack trace: %@", errorDescription, [STCocoaUtil macOSVersion], [STCocoaUtil machineModel], stackTrace]];
 
 }
 

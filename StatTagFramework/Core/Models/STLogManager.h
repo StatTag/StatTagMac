@@ -9,19 +9,58 @@
 #import <Foundation/Foundation.h>
 #import "STIFileHandler.h"
 
+//#import "StatTagShared.h"
+
+#define LOG_STATTAG_VERBOSE(message) [[STLogManager sharedInstance] WriteLog:message logLevel:STLogVerbose]
+#define LOG_STATTAG_DEBUG(message) [[STLogManager sharedInstance] WriteLog:message logLevel:STLogDebug]
+#define LOG_STATTAG_INFO(message) [[STLogManager sharedInstance] WriteLog:message logLevel:STLogInfo]
+#define LOG_STATTAG_WARN(message) [[STLogManager sharedInstance] WriteLog:message logLevel:STLogWarn]
+#define LOG_STATTAG_ERROR(message) [[STLogManager sharedInstance] WriteLog:message logLevel:STLogError]
+//#define LOG_STATTAGFRAMEWORK_MESSAGE(var, ...) [[STLogManager sharedInstance] WriteMessage:var, ## __VA_ARGS__]
+//#define LOG_STATTAGFRAMEWORK_EXCEPTION(var, ...) [[STLogManager sharedInstance] logManager] WriteException:var, ## __VA_ARGS__]
+
+
 @class STUserSettings;
+@class STSettingsManager;
+
+typedef NS_ENUM(NSInteger, STLogLevel) {
+  STLogVerbose = 1,
+  STLogDebug = 2,
+  STLogInfo = 3,
+  STLogWarn = 4,
+  STLogError = 5
+};
+
+
+
 
 @interface STLogManager : NSObject {
   BOOL _Enabled;
   NSURL* _LogFilePath;
   NSDateFormatter* dateFormatter;
   NSObject<STIFileHandler>* _FileHandler;
+  STLogLevel _logLevel;
+  BOOL _wroteHeader;
+  
+  STSettingsManager* _settingsManager;
+  STUserSettings* _settings;
+
+  
 }
 
 @property (nonatomic) BOOL Enabled;
 @property (copy, nonatomic) NSURL* LogFilePath;
+@property (nonatomic) STLogLevel logLevel;
+@property (nonatomic) BOOL wroteHeader;
 
 @property (strong, nonatomic) NSObject<STIFileHandler>* FileHandler;
+
++(NSString*) allowedExtensions_Log;
++(NSString*) defaultLogFileName;
++(NSString*) defaultLogFilePath;
+//@property NSString* allowedExtensions_Log;
+//@property NSString* defaultLogFileName;
+//@property NSString* defaultLogFilePath;
 
 + (id)sharedInstance;
 
@@ -57,7 +96,7 @@
  @param enabled : If logging is enabled by the user
  @param filePath : The path of the log file to write to.
  */
--(void)UpdateSettings:(BOOL)enabled filePath:(NSString*)filePath;
+-(void)UpdateSettings:(BOOL)enabled filePath:(NSString*)filePath logLevel:(STLogLevel)logLevel;
 
 
 /**
@@ -75,8 +114,7 @@
 //-(void)WriteException:(NSException*) exc;
 -(void)WriteException:(id) exc;
 
-//#define LOG_STATTAGFRAMEWORK_MESSAGE(var, ...) [[STLogManager sharedInstance] WriteMessage:var, ## __VA_ARGS__]
-//#define LOG_STATTAGFRAMEWORK_EXCEPTION(var, ...) [[STLogManager sharedInstance] logManager] WriteException:var, ## __VA_ARGS__]
-
+-(void)WriteLog:(id)message logLevel:(STLogLevel)logLevel;
 
 @end
+

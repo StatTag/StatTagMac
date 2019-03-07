@@ -8,11 +8,12 @@
 
 #import <Cocoa/Cocoa.h>
 #import "DocumentBrowserCodeFilesViewController.h"
+#import "WordDocumentViewer.h"
 
 @class DocumentBrowserDocumentViewController;
 
 
-@interface DocumentBrowserViewController : NSViewController <NSTableViewDelegate, DocumentBrowserCodeFilesDelegate> {
+@interface DocumentBrowserViewController : NSViewController <NSTableViewDelegate, DocumentBrowserCodeFilesDelegate, WordDocumentViewerDelegate> {
   STDocumentManager* _documentManager;
 }
 
@@ -26,5 +27,8 @@
 @property (strong) IBOutlet DocumentBrowserDocumentViewController *documentBrowserDocumentViewController;
 @property (weak) IBOutlet NSView *documentBrowserDocumentView;
 
+//document debug viewer
+@property (strong) IBOutlet NSMenu *documentDebugMenu;
+- (void)dismissWordDocumentViewerController:(WordDocumentViewer*)controller withReturnCode:(StatTagResponseState)returnCode;
 
 @end
