@@ -469,9 +469,7 @@ on insertTextboxAtRangeStart:theRangeStart andRangeEnd:theRangeEnd forShapeName:
         #now we need to calculate the # of lines in the newly widened text frame and then expand the height to fit the contents based on that width and # of lines
         set lineCount to compute text range statistics text range of text frame of myShape statistic statistic lines
         set newHeight to lineCount * (fontSize * multiplier) as real
-        if newHeight < 14 then
-          set newHeight to 16.0
-        end if
+        set newHeight to newHeight + 3.5 #offset to account for default margin
         set height of aShape to newHeight
       end repeat
 
@@ -512,9 +510,7 @@ on updateShapeHeightToFitTextContentsForShapeNamed: shapeName andFontSize:fontSi
         #now we need to calculate the # of lines in the newly widened text frame and then expand the height to fit the contents based on that width and # of lines
         set lineCount to compute text range statistics text range of text frame of aShape statistic statistic lines
         set newHeight to lineCount * (fontSize * multiplier) as real
-        if newHeight < 14 then
-          set newHeight to 16.0
-        end if
+        set newHeight to newHeight + 3.5 #offset to account for default margin
         set height of aShape to newHeight
 
 
