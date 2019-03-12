@@ -685,10 +685,22 @@ Microsoft Word.</span></p>
 <p class=MsoNormal>StatTag is provided as a free app written in Objective-C.
 Once installed, StatTag is accessible from the Word toolbar or through the
 standalone application. This user’s guide covers use of StatTag within a macOS
-environment for Microsoft Word partnered with Stata (StataCorp. 2015. Stata
-Statistical Software: Release 14. College Station, TX: StataCorp LP) and R (R
-Foundation for Statistical Computing. 2015. R version 3.5.1. Vienna, Austria)
-statistical software.</p>
+environment for Microsoft Word partnered with:</p>
+
+<p class=MsoListParagraphCxSpFirst style='text-indent:-.25in'><span
+style='font-family:Symbol'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span>Stata (StataCorp. 2015. Stata Statistical Software: Release 14.
+College Station, TX: StataCorp LP), </p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-.25in'><span
+style='font-family:Symbol'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span>R (R Foundation for Statistical Computing. 2015. R version 3.5.1.
+Vienna, Austria), and </p>
+
+<p class=MsoListParagraphCxSpLast style='text-indent:-.25in'><span
+style='font-family:Symbol'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span>R Markdown (R Studio. 2016. R Studio Inc.: R version 3.5.1.
+Vienna, Austria)</p>
 
 <h2><a name="_Toc484435147"></a><a name="_Toc484435059">Requirements</a></h2>
 
@@ -713,6 +725,10 @@ style='font-family:"Courier New"'>o<span style='font:7.0pt "Times New Roman"'>&n
 <p class=MsoListParagraphCxSpMiddle style='margin-left:1.0in;text-indent:-.25in'><span
 style='font-family:"Courier New"'>o<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;
 </span></span>R</p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:1.0in;text-indent:-.25in'><span
+style='font-family:"Courier New"'>o<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;
+</span></span>R Markdown (R Studio, R)</p>
 
 <p class=MsoListParagraphCxSpLast>&nbsp;</p>
 
@@ -788,8 +804,8 @@ name="_Toc484435061">3.0<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&
 </span>Basics of StatTag</a></h1>
 
 <p class=MsoNormal>StatTag will link any code file written for supported
-statistical applications (Stata (.do) or R (.R)) with your Word document, run
-the code file from Word, and insert any tagged results. </p>
+statistical applications (Stata (.do), R (.R) R Markdown (.Rmd)) with your Word
+document, run the code file from Word, and insert any tagged results. </p>
 
 <p class=MsoNormal>&nbsp;</p>
 
@@ -861,12 +877,12 @@ document authoring. Word provides the document formatting and editing tools.</p>
 <h2><a name="_Toc484435152">Code File</a></h2>
 
 <p class=MsoNormal>A Code File is text file with commands that are intended to
-run in any of the supported statistical applications (currently Stata and R,
-possibly Matlab or other programs in future releases)). A code file is the
-source file that your project or study uses to compute findings from data sets.
-With StatTag, code files are “linked” to Microsoft Word documents so that they
-can be imported and used. The code files are read so that you can identify
-sections that produce output that you wish to embed in Word.</p>
+run in any of the supported statistical applications (currently Stata, R, R
+Markdown, and possibly Matlab or other programs in future releases)). A code
+file is the source file that your project or study uses to compute findings
+from data sets. With StatTag, code files are “linked” to Microsoft Word
+documents so that they can be imported and used. The code files are read so
+that you can identify sections that produce output that you wish to embed in Word.</p>
 
 <h2><a name="_Toc484435153">Tag</a></h2>
 
@@ -878,8 +894,8 @@ your Word document.</p>
 
 <p class=MsoNormal>&nbsp;</p>
 
-<p class=MsoNormal>A tag is defined by three components, which make up the “identity”
-for a tag:</p>
+<p class=MsoNormal>A tag is defined by three components, which make up the
+“identity” for a tag:</p>
 
 <p class=MsoListParagraphCxSpFirst style='text-indent:-.25in'><span
 style='font-family:Symbol'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -918,7 +934,7 @@ Word. It makes interaction with StatTag easier and more reliable. The StatTag
 toolbar has two groups of buttons which provide quick access to key functions</p>
 
 <h2><span style='position:relative;z-index:251746304'><span style='position:
-absolute;left:-11px;top:-782px;width:178px;height:48px'><img width=178
+absolute;left:-11px;top:-797px;width:178px;height:48px'><img width=178
 height=48 src="stattag_help.fld/image004.png"></span></span><img border=0
 width=465 height=78 src="stattag_help.fld/image005.png"></h2>
 
@@ -1064,7 +1080,7 @@ name="_Toc330113050"></a><a name="_Toc453575811"></a><a name="_Toc452986515">Set
 <p class=MsoNormal>&nbsp;</p>
 
 <p class=MsoNormal>This button opens an interface to enable logging which
-controls generaiton of a log file that can be used for troubleshooting. This is
+controls generation of a log file that can be used for troubleshooting. This is
 disabled by default, but if you encounter errors and would like to request
 assistance please do the following: (1) enable the debug file, by checking the
 box, which will write a plain text file to your computer; (2) run your program
@@ -1318,8 +1334,8 @@ name="_Toc452986502">The <i>Code Files</i> function enables linking one or more
 code files with your Word document. The first step to using StatTag is to
 connect your Word document with your statistical code. Note that it is possible
 to connect multiple code files to one Word document, and you may use code files
-from Stata and/or R in a single document. </a>This panel will show any code
-files currently linked to you active Word document.</p>
+from Stata, R, and/or R Markdown in a single document. </a>This panel will show
+any code files currently linked to you active Word document.</p>
 
 <p class=MsoNormal>&nbsp;</p>
 
@@ -1464,9 +1480,8 @@ style='font-size:11.0pt'>C.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbs
 style='font-size:11.0pt'><span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </span>ii.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </span></span><span style='font-size:11.0pt'>The tag name is the unique name of
-the result of interest, and should only be used once within each code file to
-identify a result. StatTag will warn you if you try to use a tag name more than
-once.</span></p>
+the result of interest, and should only be used once within each code file to identify
+a result. StatTag will warn you if you try to use a tag name more than once.</span></p>
 
 <p class=MsoNoSpacing style='margin-left:.75in;text-indent:-.75in'><span
 style='font-size:11.0pt'><span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -1746,14 +1761,15 @@ identify tags). Four types of results can be tagged.</p>
   border-left:none;border-bottom:solid #7F7F7F 1.0pt;border-right:none;
   padding:0in 5.4pt 0in 5.4pt;height:40.85pt'>
   <p class=MsoNormal><span style='position:relative;z-index:251706368'><span
-  style='position:absolute;left:-46px;top:-2671px;width:36px;height:36px'><img
+  style='position:absolute;left:-46px;top:-2686px;width:36px;height:36px'><img
   width=36 height=36 src="stattag_help.fld/image023.png"></span></span></p>
   </td>
   <td width=336 valign=top style='width:3.5in;border-top:solid #7F7F7F 1.0pt;
   border-left:none;border-bottom:solid #7F7F7F 1.0pt;border-right:none;
   padding:0in 5.4pt 0in 5.4pt;height:40.85pt'>
   <p class=MsoNormal><b><img border=0 width=45 height=35 id="Picture 1"
-  src="stattag_help.fld/image024.png"></b></p>
+  src="stattag_help.fld/image024.png">      or        <img border=0 width=31
+  height=36 id="Picture 10" src="stattag_help.fld/image025.jpg"></b></p>
   </td>
  </tr>
  <tr>
@@ -1820,11 +1836,28 @@ identify tags). Four types of results can be tagged.</p>
 
 <p class=MsoNormal>&nbsp;</p>
 
-<p class=MsoNoSpacing>In order to return results from your statistical analysis
-to Word, your results must be created and either printed to the results window
-of your statistical program or to file through one of the above commands, and
-encapsulated in a tag. Other lines in your statistical code should not be
-encapsulated by tags, as they may cause errors. </p>
+<p class=MsoNoSpacing style='margin-left:.5in'><img width=25 height=41
+src="stattag_help.fld/image020.png" align=left hspace=12></p>
+
+<div style='border-top:solid windowtext 1.0pt;border-left:none;border-bottom:
+solid windowtext 1.0pt;border-right:none;padding:1.0pt 0in 1.0pt 0in'>
+
+<p class=MsoNoSpacing style='border:none;padding:0in'><b><span
+style='font-size:11.0pt;color:black'>Tip:</span></b><span style='font-size:
+11.0pt;color:black'> </span><span style='font-size:11.0pt'>When using an R
+Markdown file, the code must be contained within “code chunks”. Inline code is
+not supported by StatTag. If an R Markdown code file has the same file name and
+pathway as an R code file, you should rename one or the other.</span></p>
+
+</div>
+
+<p class=MsoNormal><span style='font-size:12.0pt;font-family:"Times New Roman",serif'>&nbsp;</span></p>
+
+<p class=MsoNoSpacing><span style='font-size:11.0pt'>In order to return results
+from your statistical analysis to Word, your results must be created and either
+printed to the results window of your statistical program or to file through
+one of the above commands, and encapsulated in a tag. Other lines in your
+statistical code should not be encapsulated by tags, as they may cause errors. </span></p>
 
 <h2>Values</h2>
 
@@ -1840,25 +1873,28 @@ command will not return data in any other format, such as a matrix or table.</p>
 
 <p class=MsoNormal style='margin-left:45.0pt'><span style='position:relative;
 z-index:251691008'><span style='left:0px;position:absolute;left:-11px;
-top:-2761px;width:36px;height:36px'><img width=36 height=36
+top:-2795px;width:36px;height:36px'><img width=36 height=36
 src="stattag_help.fld/image023.png"></span></span>The <span class=Code><span
 style='font-size:10.0pt;color:#1F3864'>display</span></span> command is
 typically used in Stata code with the return command to retrieve stored
 results, or with local or global macro variables. </p>
 
-<p class=MsoNormal style='margin-left:45.0pt'>&nbsp;</p>
-
 <p class=MsoNormal style='margin-left:45.0pt'><span style='position:relative;
+z-index:251752448'><span style='left:0px;position:absolute;left:33px;
+top:-2786px;width:31px;height:36px'><img width=31 height=36
+src="stattag_help.fld/image025.jpg"></span></span>&nbsp;</p>
+
+<br clear=ALL>
+
+<p class=MsoNormal style='margin-left:81.0pt'><span style='position:relative;
 z-index:251708416'><span style='left:0px;position:absolute;left:-10px;
-top:-2768px;width:37px;height:28px'><img width=37 height=28
+top:-2803px;width:37px;height:29px'><img width=37 height=29
 src="stattag_help.fld/image024.png"></span></span>R commands that return a
 single value (e.g., <span style='font-size:10.0pt;font-family:Consolas;
 color:#595959'>print</span>) may be used.  If the value returned has more than
 one element (such as a vector), only the first element will be used. </p>
 
 <p class=MsoNormal style='margin-left:45.0pt'>&nbsp;</p>
-
-<p class=MsoNormal>&nbsp;</p>
 
 <h2><a name="_Toc475094644">Tables</a></h2>
 
@@ -1870,7 +1906,7 @@ command or R commands that return a collection of values.</p>
 
 <p class=MsoNormal style='margin-left:45.0pt'><span style='position:relative;
 z-index:251694080'><span style='left:0px;position:absolute;left:-14px;
-top:-2807px;width:36px;height:36px'><img width=36 height=36
+top:-2837px;width:36px;height:36px'><img width=36 height=36
 src="stattag_help.fld/image023.png"></span></span>The <span class=Code><span
 style='font-size:10.0pt;color:#1F3864'>matrix list</span></span> command is
 used in Stata code to print a matrix to the results window. The <span
@@ -1882,11 +1918,16 @@ class=Code><span style='font-size:10.0pt;color:#1F3864'>estout</span></span>,
 or <span class=Code><span style='font-size:10.0pt;color:#1F3864'>estimates
 table</span></span> commands. </p>
 
-<p class=MsoNormal style='margin-left:45.0pt'>&nbsp;</p>
-
 <p class=MsoNormal style='margin-left:45.0pt'><span style='position:relative;
+z-index:251754496'><span style='left:0px;position:absolute;left:33px;
+top:-2836px;width:31px;height:36px'><img width=31 height=36
+src="stattag_help.fld/image025.jpg"></span></span>&nbsp;</p>
+
+<br clear=ALL>
+
+<p class=MsoNormal style='margin-left:81.0pt'><span style='position:relative;
 z-index:251710464'><span style='left:0px;position:absolute;left:-10px;
-top:-2824px;width:37px;height:28px'><img width=37 height=28
+top:-2854px;width:37px;height:28px'><img width=37 height=28
 src="stattag_help.fld/image024.png"></span></span>R commands that return a
 collection of values (data frame, matrix, vector, or list) can be used as table
 results by StatTag.</p>
@@ -1904,7 +1945,7 @@ font-family:Consolas;color:#595959;background:white'>pdf</span> (R). </p>
 
 <p class=MsoNormal style='margin-left:45.0pt'><span style='position:relative;
 z-index:251696128'><span style='left:0px;position:absolute;left:-14px;
-top:-2849px;width:36px;height:36px'><img width=36 height=36
+top:-2879px;width:36px;height:36px'><img width=36 height=36
 src="stattag_help.fld/image023.png"></span></span>The <span class=Code><span
 style='font-size:10.0pt;color:#1F3864'>graph export</span></span> command is
 used in Stata code to save a graph or figure to file outside of Stata, the
@@ -1915,11 +1956,16 @@ name to be specified along with the file format, and the replace option to
 overwrite an existing file as required. The command will export the last graph
 rendered in Stata. </p>
 
-<p class=MsoNormal style='margin-left:45.0pt'>&nbsp;</p>
-
 <p class=MsoNormal style='margin-left:45.0pt'><span style='position:relative;
+z-index:251756544'><span style='left:0px;position:absolute;left:33px;
+top:-2886px;width:31px;height:36px'><img width=31 height=36
+src="stattag_help.fld/image025.jpg"></span></span>&nbsp;</p>
+
+<br clear=ALL>
+
+<p class=MsoNormal style='margin-left:81.0pt'><span style='position:relative;
 z-index:251712512'><span style='left:0px;position:absolute;left:-10px;
-top:-2874px;width:37px;height:29px'><img width=37 height=29
+top:-2904px;width:37px;height:29px'><img width=37 height=29
 src="stattag_help.fld/image024.png"></span></span>The <span style='font-size:
 10.0pt;font-family:Consolas;color:#595959;background:white'>win.metafile, png,
 jpeg, bmp </span>and<span style='font-size:10.0pt;font-family:Consolas;
@@ -1939,16 +1985,19 @@ inserted text may be further formatted in Word. </p>
 
 <p class=MsoNormal style='margin-left:45.0pt'><span style='position:relative;
 z-index:251698176'><span style='left:0px;position:absolute;left:-14px;
-top:-2904px;width:36px;height:36px'><img width=36 height=36
+top:-2938px;width:36px;height:36px'><img width=36 height=36
 src="stattag_help.fld/image023.png"></span></span>Tagging code as verbatim in
 Stata will result in the insertion of any output printed to the Stata results
 screen. </p>
 
 <h1 style='margin-left:0in;text-indent:0in'><a name="_Toc475094647">&nbsp;</a></h1>
 
-<p class=MsoNormal style='margin-left:45.0pt'><span style='position:relative;
+<p class=MsoNormal style='margin-left:81.0pt'><span style='position:relative;
+z-index:251758592'><span style='left:0px;position:absolute;left:33px;
+top:-2960px;width:31px;height:36px'><img width=31 height=36
+src="stattag_help.fld/image025.jpg"></span></span><span style='position:relative;
 z-index:251714560'><span style='left:0px;position:absolute;left:-10px;
-top:-2926px;width:37px;height:29px'><img width=37 height=29
+top:-2960px;width:37px;height:28px'><img width=37 height=28
 src="stattag_help.fld/image024.png"></span></span>Tagging code as verbatim in R
 will result in the insertion of any output printed to the R console. </p>
 
@@ -2017,7 +2066,7 @@ for each tag.</p>
 <div style='border-top:solid windowtext 1.0pt;border-left:none;border-bottom:
 solid windowtext 1.0pt;border-right:none;padding:1.0pt 0in 1.0pt 0in'>
 
-<p class=MsoNoSpacing style='border:none;padding:0in'><img width=25 height=28
+<p class=MsoNoSpacing style='border:none;padding:0in'><img width=25 height=29
 src="stattag_help.fld/image002.jpg" align=left hspace=12><b><span
 style='font-size:11.0pt;color:black'>Note:</span></b><span style='font-size:
 11.0pt;color:black'> T</span><span style='font-size:11.0pt'>ags cannot be
@@ -2046,12 +2095,12 @@ etc.)</span></p>
 </span>Click on the <b>add</b> (<b>+</b>) button in the Tag Manager to open the
 Tag Editor.</p>
 
-<p class=MsoNoSpacing style='margin-left:.5in;text-indent:-.25in'>2.<span
-style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span><span
-style='font-size:11.0pt'>Highlight the line of code containing the</span>
-desired line of code (i.e. for a value:<span style='font-size:11.0pt'> <span
-class=Code><span style='font-family:"Calibri",sans-serif;color:#1F3864'>display
-</span></span>or R command</span>)<span style='font-size:11.0pt'>. </span></p>
+<p class=MsoNoSpacing style='margin-left:.5in;text-indent:-.25in'><span
+style='font-size:11.0pt'>2.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span style='font-size:11.0pt'>Highlight the line of code
+containing the desired line of code (i.e. for a value: <span class=Code><span
+style='font-family:"Calibri",sans-serif;color:#1F3864'>display </span></span>or
+R command). </span></p>
 
 <p class=MsoNoSpacing style='margin-left:.5in'><img width=25 height=41
 src="stattag_help.fld/image020.png" align=left hspace=12></p>
@@ -2064,10 +2113,11 @@ margin-left:.5in;margin-right:0in'>
 style='color:black'>Tip:</span></b><span style='color:black'> </span><span
 style='font-size:11.0pt'>To highlight, click between the line number and the
 start of the line of code. Clicking in this margin will highlight the line of
-code in purple.<b> </b>In the R example below, this location is outlined in
-red.<b> </b></span><span style='color:black'>Y</span>ou can sometimes select
-multiple lines, but as best practice, select only the line(s) containing the
-result of interest. <span style='color:black'> </span></p>
+code in purple.<b> </b>In the R example below, this location is outlined in red.<b>
+</b></span><span style='font-size:11.0pt;color:black'>Y</span><span
+style='font-size:11.0pt'>ou can sometimes select multiple lines, but as best
+practice, select only the line(s) containing the result of interest.</span> <span
+style='color:black'> </span></p>
 
 </div>
 
@@ -2075,7 +2125,7 @@ result of interest. <span style='color:black'> </span></p>
 6.0pt;margin-left:.5in'>&nbsp;</p>
 
 <p class=MsoNoSpacing><img border=0 width=468 height=217 id="Picture 56"
-src="stattag_help.fld/image025.png"></p>
+src="stattag_help.fld/image026.png"></p>
 
 <p class=MsoNoSpacing style='margin-left:.5in'><span style='font-size:11.0pt'>&nbsp;</span></p>
 
@@ -2162,7 +2212,7 @@ brackets (e.g. “[my tag name]”) in your Word document. This allows you to
 insert many tags without ever running the statistical code file.</span></p>
 
 <p class=MsoNoSpacing style='margin-left:.5in'><span style='font-size:11.0pt'><img
-border=0 width=468 height=83 id="Picture 64" src="stattag_help.fld/image026.png"></span></p>
+border=0 width=468 height=83 id="Picture 64" src="stattag_help.fld/image027.png"></span></p>
 
 <p class=MsoNoSpacing style='margin-left:.5in;text-indent:-.25in'><span
 style='font-size:11.0pt'>3.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -2172,7 +2222,7 @@ repeating the steps above.</span></p>
 <p class=MsoNoSpacing style='text-indent:27.0pt'><img width=25 height=41
 src="stattag_help.fld/image020.png" align=left hspace=12><span
 style='font-size:11.0pt'><img border=0 width=468 height=71 id="Picture 65"
-src="stattag_help.fld/image027.png"></span></p>
+src="stattag_help.fld/image028.png"></span></p>
 
 <p class=MsoNoSpacing style='text-indent:27.0pt'><span style='font-size:11.0pt'>&nbsp;</span></p>
 
@@ -2194,13 +2244,13 @@ style='font-size:11.0pt;color:black'>Tip:</span></b><span style='font-size:
 style='font-size:11.0pt'>4.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
 </span></span><span style='font-size:11.0pt'>To fill in the values for the
 tags, within the Tag Manager, select all the tags you wish to fill in. Click “<i>Update
-X Selected Tags</i>”. This action executes the code file silently and returns the
-results within the placeholders in Word.</span></p>
+X Selected Tags</i>”. This action executes the code file silently and returns
+the results within the placeholders in Word.</span></p>
 
 <p class=MsoNoSpacing><span style='font-size:11.0pt'>&nbsp;</span></p>
 
 <p class=MsoNoSpacing style='text-indent:.5in'><span style='font-size:11.0pt'><img
-border=0 width=468 height=69 id="Picture 67" src="stattag_help.fld/image028.png"></span></p>
+border=0 width=468 height=69 id="Picture 67" src="stattag_help.fld/image029.png"></span></p>
 
 <h2>Update</h2>
 
@@ -2218,7 +2268,7 @@ margin-left:.5in;margin-right:0in'>
 src="stattag_help.fld/image020.png" align=left hspace=12><b><span
 style='font-size:11.0pt;color:black'>Tip:</span></b><span style='font-size:
 11.0pt;color:black'> From the Tag Manager, select the peek (<img border=0
-width=17 height=10 id="Picture 80" src="stattag_help.fld/image029.png">) to
+width=17 height=10 id="Picture 80" src="stattag_help.fld/image030.png">) to
 quickly view the code associated with a tag without opening the Tag Editor. </span></p>
 
 </div>
@@ -2230,7 +2280,7 @@ name="_Toc525559732"></a><a name="_Toc525559633"></a><a name="_Toc475094636"></a
 name="_Toc471372891"></a><a name="_Toc462397809"></a><a name="_Toc461800075"></a><a
 name="_Toc461795202"></a><a name="_Toc330113047"></a><a name="_Toc453575806"></a><a
 name="_Toc452986510"><img border=0 width=389 height=290 id="Picture 20"
-src="stattag_help.fld/image030.png"> </a></h2>
+src="stattag_help.fld/image031.png"> </a></h2>
 
 <h2>&nbsp;</h2>
 
@@ -2313,7 +2363,7 @@ formatting options for Figures or Verbatim. </p>
 
 <h1><a name="_Toc529965165"><span style='font-size:14.0pt;line-height:110%'>5.1<span
 style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span></span></a><img width=134 height=94 src="stattag_help.fld/image031.png"
+</span></span></a><img width=134 height=94 src="stattag_help.fld/image032.png"
 align=left hspace=12>Values</h1>
 
 <p class=MsoNormal>Values can be formatted by default (per the exact
@@ -2327,7 +2377,7 @@ places. Formatting is selected from the drop down list. </p>
 14.0pt;line-height:110%'>5.2<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </span></span>Tables</a> </h1>
 
-<p class=MsoNormal><img width=151 height=173 src="stattag_help.fld/image032.png"
+<p class=MsoNormal><img width=151 height=173 src="stattag_help.fld/image033.png"
 align=left hspace=12>Matrices and tables are inserted to Word through StatTag
 using different mechanisms depending on the statistical software used. By
 default, where data are blank or missing, a “.” is returned in the particular
@@ -2362,12 +2412,13 @@ margin-left:.5in;margin-right:0in'>
 
 <p class=MsoNoSpacing style='border:none;padding:0in'><img width=25 height=41
 src="stattag_help.fld/image020.png" align=left hspace=12><b><span
-style='color:black'>Tip:</span></b><span style='color:black'> </span>Data from
-individual cells in an inserted table can be copied elsewhere within the Word
-document text, and will retain their linkage to the original data. For example,
-to include a p-value from a table in the text, copy the result from the table
-and paste into the text. When the table is updated, the value in the text will
-be updated as well.</p>
+style='font-size:11.0pt;color:black'>Tip:</span></b><span style='font-size:
+11.0pt;color:black'> </span><span style='font-size:11.0pt'>Data from individual
+cells in an inserted table can be copied elsewhere within the Word document
+text, and will retain their linkage to the original data. For example, to
+include a p-value from a table in the text, copy the result from the table and
+paste into the text. When the table is updated, the value in the text will be
+updated as well.</span></p>
 
 </div>
 
@@ -2443,8 +2494,8 @@ within another tag.</p>
 <p class=MsoNormal>Tags can become “unlinked” if the statistical code is
 unlinked from the Word document, or if the statistical code is edited outside
 of StatTag and the StatTag notations are modified. For example, code could
-become unlinked if the code file (.do or .R) is moved to new location without
-changing the code file path in StatTag.</p>
+become unlinked if the code file (.do, .R, or .Rmd) is moved to new location
+without changing the code file path in StatTag.</p>
 
 <p class=MsoNormal>&nbsp;</p>
 
@@ -2489,14 +2540,14 @@ Word document cannot be linked to a given tag</p>
 <h3>Checking for Unlinked Tags</h3>
 
 <p class=MsoNormal>In order to determine if there are Unlinked Tags in your
-document, select the “Check Unlinked Tags” option in the tag dashboard. This will
-start the process of validating your StatTag Word document, including detecting
-if any of the existing tags are no longer accessible.</p>
+document, select the “Check Unlinked Tags” option in the tag dashboard. This
+will start the process of validating your StatTag Word document, including
+detecting if any of the existing tags are no longer accessible.</p>
 
 <p class=MsoNormal>&nbsp;</p>
 
 <p class=MsoNormal><img border=0 width=454 height=229 id="Picture 39"
-src="stattag_help.fld/image033.png"></p>
+src="stattag_help.fld/image034.png"></p>
 
 <p class=MsoNormal>&nbsp;</p>
 
@@ -2653,7 +2704,7 @@ the Tag Dashboard</p>
 <p class=MsoNormal>&nbsp;</p>
 
 <p class=MsoNormal><img border=0 width=402 height=187 id="Picture 38"
-src="stattag_help.fld/image034.png"></p>
+src="stattag_help.fld/image035.png"></p>
 
 <p class=MsoNormal>&nbsp;</p>
 
@@ -2663,7 +2714,7 @@ individual tag’s code.</p>
 <p class=MsoNormal>&nbsp;</p>
 
 <p class=MsoNormal><img border=0 width=279 height=168 id="Picture 15"
-src="stattag_help.fld/image035.png"></p>
+src="stattag_help.fld/image036.png"></p>
 
 <p class=MsoNormal>&nbsp;</p>
 
@@ -2674,7 +2725,7 @@ tag.</p>
 <p class=MsoNormal>&nbsp;</p>
 
 <p class=MsoNormal><img border=0 width=289 height=172 id="Picture 24"
-src="stattag_help.fld/image036.png"></p>
+src="stattag_help.fld/image037.png"></p>
 
 <p class=MsoNormal>&nbsp;</p>
 
@@ -2715,7 +2766,7 @@ the tag you wish to keep</b> from the drop-down list next to the group name</p>
 <p class=MsoNormal>&nbsp;</p>
 
 <p class=MsoNormal><img border=0 width=468 height=105 id="Picture 14"
-src="stattag_help.fld/image037.png"></p>
+src="stattag_help.fld/image038.png"></p>
 
 <p class=MsoNormal>&nbsp;</p>
 
@@ -2730,95 +2781,119 @@ src="stattag_help.fld/image037.png"></p>
  <tr>
   <td width=252 valign=top style='width:189.0pt;border:none;border-bottom:solid #666666 1.0pt;
   padding:0in 5.4pt 0in 5.4pt'>
-  <p class=MsoNoSpacing><b>Error</b></p>
+  <p class=MsoNoSpacing><b><span style='font-size:11.0pt'>Error</span></b></p>
   </td>
   <td width=372 valign=top style='width:279.0pt;border:none;border-bottom:solid #666666 1.0pt;
   padding:0in 5.4pt 0in 5.4pt'>
-  <p class=MsoNoSpacing><b>Solution</b></p>
+  <p class=MsoNoSpacing><b><span style='font-size:11.0pt'>Solution</span></b></p>
   </td>
  </tr>
  <tr>
   <td width=252 valign=top style='width:189.0pt;padding:0in 5.4pt 0in 5.4pt'>
   <p class=MsoNoSpacing style='margin-top:6.0pt;margin-right:0in;margin-bottom:
-  6.0pt;margin-left:0in'><b>A tag displays [NO RESULT] instead of a value</b></p>
+  6.0pt;margin-left:0in'><b><span style='font-size:11.0pt'>A tag displays [NO
+  RESULT] instead of a value</span></b></p>
   </td>
   <td width=372 valign=top style='width:279.0pt;padding:0in 5.4pt 0in 5.4pt'>
   <p class=MsoNoSpacing style='margin-top:6.0pt;margin-right:0in;margin-bottom:
-  6.0pt;margin-left:0in'>StatTag returns this value when the plug-in does not
+  6.0pt;margin-left:0in'><span style='font-size:11.0pt'>StatTag</span><span
+  style='font-size:11.0pt'> returns this value when the plug-in does not
   capture any information from the statistical program. If your tag returns
-  this result, complete these steps:</p>
+  this result, complete these steps:</span></p>
   <p class=MsoNoSpacing style='margin-top:6.0pt;margin-right:0in;margin-bottom:
-  6.0pt;margin-left:0in'>1. Close the statistical program if it is open.</p>
+  6.0pt;margin-left:0in'><span style='font-size:11.0pt'>1. Close the
+  statistical program if it is open.</span></p>
   <p class=MsoNoSpacing style='margin-top:6.0pt;margin-right:0in;margin-bottom:
-  6.0pt;margin-left:0in'>2. Check to ensure the tag encapsulates a keyword
-  command. </p>
+  6.0pt;margin-left:0in'><span style='font-size:11.0pt'>2. Check to ensure the
+  tag encapsulates a </span><span style='font-size:11.0pt'>keyword</span><span
+  style='font-size:11.0pt'> command. </span></p>
   <p class=MsoNoSpacing style='margin-top:6.0pt;margin-right:0in;margin-bottom:
-  6.0pt;margin-left:0in'>3. Check to ensure the statistical code is running
-  correctly. <b>Run the code in the native software and check for any errors or
-  warnings. </b></p>
+  6.0pt;margin-left:0in'><span style='font-size:11.0pt'>3. Check to ensure the
+  statistical code is running correctly. <b>Run the code in the native software
+  and check for any errors or warnings. </b></span></p>
   <p class=MsoNoSpacing style='margin-top:6.0pt;margin-right:0in;margin-bottom:
-  6.0pt;margin-left:0in'>4. Review any files created on disk to ensure they
-  contain the expected output, and they are created each time the code is run.</p>
+  6.0pt;margin-left:0in'><span style='font-size:11.0pt'>4. Review any files
+  created on disk to ensure they contain the expected output, and they are
+  created each time the code is run.</span></p>
   </td>
  </tr>
  <tr>
   <td width=252 valign=top style='width:189.0pt;padding:0in 5.4pt 0in 5.4pt'>
   <p class=MsoNoSpacing style='margin-top:6.0pt;margin-right:0in;margin-bottom:
-  6.0pt;margin-left:0in'><b>My document takes a long time to update</b></p>
+  6.0pt;margin-left:0in'><b><span style='font-size:11.0pt'>My document takes a
+  long time to update</span></b></p>
   </td>
   <td width=372 valign=top style='width:279.0pt;padding:0in 5.4pt 0in 5.4pt'>
   <p class=MsoNoSpacing style='margin-top:6.0pt;margin-right:0in;margin-bottom:
-  6.0pt;margin-left:0in'>Inserting and updating tables can take a long time due
-  to the number of fields. </p>
+  6.0pt;margin-left:0in'><span style='font-size:11.0pt'>Inserting and updating
+  tables can take a long time due to the number of fields. </span></p>
   </td>
  </tr>
  <tr>
   <td width=252 valign=top style='width:189.0pt;padding:0in 5.4pt 0in 5.4pt'>
   <p class=MsoNoSpacing style='margin-top:6.0pt;margin-right:0in;margin-bottom:
-  6.0pt;margin-left:0in'><b>Warning is displayed when a tag is defined</b></p>
+  6.0pt;margin-left:0in'><b><span style='font-size:11.0pt'>Could not
+  communicate with R</span></b></p>
   </td>
   <td width=372 valign=top style='width:279.0pt;padding:0in 5.4pt 0in 5.4pt'>
   <p class=MsoNoSpacing style='margin-top:6.0pt;margin-right:0in;margin-bottom:
-  6.0pt;margin-left:0in'>If a red warning notice is given, you have not
-  highlighted a keyword command in your code. Check to ensure you have selected
-  the right option of Value, Table, or Figure, and you have highlighted a
-  section of code containing the corresponding command.</p>
+  6.0pt;margin-left:0in'><span style='font-size:11.0pt'>StatTag locates R
+  software through the Registry Key. If your R Software was installed by a
+  third party (e.i. an IT administrator) then the registry key may be located
+  under a different account.</span></p>
   </td>
  </tr>
  <tr>
   <td width=252 valign=top style='width:189.0pt;padding:0in 5.4pt 0in 5.4pt'>
   <p class=MsoNoSpacing style='margin-top:6.0pt;margin-right:0in;margin-bottom:
-  6.0pt;margin-left:0in'><b>Looping</b></p>
+  6.0pt;margin-left:0in'><b><span style='font-size:11.0pt'>Warning is displayed
+  when a tag is defined</span></b></p>
   </td>
   <td width=372 valign=top style='width:279.0pt;padding:0in 5.4pt 0in 5.4pt'>
   <p class=MsoNoSpacing style='margin-top:6.0pt;margin-right:0in;margin-bottom:
-  6.0pt;margin-left:0in'>Tags must be standalone, and should not be embedded
-  within a loop. </p>
+  6.0pt;margin-left:0in'><span style='font-size:11.0pt'>If a red warning notice
+  is given, you have not highlighted </span><span style='font-size:11.0pt'>a
+  keyword command in your code. Check to ensure you have selected the right
+  option of Value, Table, or Figure, and you have highlighted a section of code
+  containing the corresponding command.</span></p>
   </td>
  </tr>
  <tr>
   <td width=252 valign=top style='width:189.0pt;padding:0in 5.4pt 0in 5.4pt'>
   <p class=MsoNoSpacing style='margin-top:6.0pt;margin-right:0in;margin-bottom:
-  6.0pt;margin-left:0in'><b>Embedded Tags</b></p>
+  6.0pt;margin-left:0in'><b><span style='font-size:11.0pt'>Looping</span></b></p>
   </td>
   <td width=372 valign=top style='width:279.0pt;padding:0in 5.4pt 0in 5.4pt'>
   <p class=MsoNoSpacing style='margin-top:6.0pt;margin-right:0in;margin-bottom:
-  6.0pt;margin-left:0in'>Tags should not encapsulate other tags. </p>
+  6.0pt;margin-left:0in'><span style='font-size:11.0pt'>Tags must be
+  standalone, and should not be embedded within a loop. </span></p>
+  </td>
+ </tr>
+ <tr>
+  <td width=252 valign=top style='width:189.0pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNoSpacing style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  6.0pt;margin-left:0in'><b><span style='font-size:11.0pt'>Embedded Tags</span></b></p>
+  </td>
+  <td width=372 valign=top style='width:279.0pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNoSpacing style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  6.0pt;margin-left:0in'><span style='font-size:11.0pt'>Tags should not encapsulate
+  other tags. </span></p>
   </td>
  </tr>
  <tr>
   <td width=252 valign=top style='width:189.0pt;border:none;border-bottom:solid #7F7F7F 1.0pt;
   padding:0in 5.4pt 0in 5.4pt'>
   <p class=MsoNoSpacing style='margin-top:6.0pt;margin-right:0in;margin-bottom:
-  6.0pt;margin-left:0in'><b>My tag from R inserts but is blank</b></p>
+  6.0pt;margin-left:0in'><b><span style='font-size:11.0pt'>My tag from R
+  inserts but is blank</span></b></p>
   </td>
   <td width=372 valign=top style='width:279.0pt;border:none;border-bottom:solid #7F7F7F 1.0pt;
   padding:0in 5.4pt 0in 5.4pt'>
   <p class=MsoNoSpacing style='margin-top:6.0pt;margin-right:0in;margin-bottom:
-  6.0pt;margin-left:0in'>Try encapsulating your R command with the “print”
-  function.  For example, summary output from a regression model may not show
-  up as verbatim output with “summary(myModel)” as the tagged code, but
-  “print(summary(myModel))” should work. </p>
+  6.0pt;margin-left:0in'><span style='font-size:11.0pt'>Try encapsulating your
+  R command with the “print” function.  For example, summary output from a
+  regression model may not show up as verbatim output with “summary(myModel)”
+  as the tagged code, but “print(summary(myModel))” should work. </span></p>
   </td>
  </tr>
 </table>
@@ -2847,39 +2922,12 @@ Windows. The Stata Journal, 13(1); 39-64.</p>
 <p class=MsoNormal>&nbsp;</p>
 
 <p class=MsoNormal>StatTag makes use of the following open source projects
-(licenses in <a href="#_Appendix_I._Licenses">Appendix I</a>):</p>
+(licenses in <a href="#_Appendix_B._Licenses">Appendix B</a>):</p>
 
 <p class=MsoListParagraphCxSpFirst style='text-indent:-.25in'><span lang=FR
 style='font-family:Symbol'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </span></span><span lang=FR>Scintilla - </span><a
 href="http://www.scintilla.org/"><span lang=FR>http://www.scintilla.org/</span></a><span
-lang=FR> </span></p>
-
-<p class=MsoListParagraphCxSpMiddle style='text-indent:-.25in'><span lang=FR
-style='font-family:Symbol'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span></span><span lang=FR>ScintillaNET - </span><a
-href="https://github.com/jacobslusser/ScintillaNET"><span lang=FR>https://github.com/jacobslusser/ScintillaNET</span></a><span
-lang=FR> </span></p>
-
-<p class=MsoListParagraphCxSpMiddle style='text-indent:-.25in'><span lang=FR
-style='font-family:Symbol'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span></span><span lang=FR>Json.NET - </span><a
-href="http://www.newtonsoft.com/json"><span lang=FR>http://www.newtonsoft.com/json</span></a><span
-lang=FR> </span></p>
-
-<p class=MsoListParagraphCxSpMiddle style='text-indent:-.25in'><span
-style='font-family:Symbol'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span></span>SASHarness - <a href="https://github.com/cjdinger/SasHarness">https://github.com/cjdinger/SasHarness</a></p>
-
-<p class=MsoListParagraphCxSpMiddle style='margin-left:1.0in;text-indent:-.25in'><span
-style='font-family:"Courier New"'>o<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;
-</span></span>Hemedinger, C. (2013). Create Your Own Client Apps Using SAS®
-Integration Technologies. SAS Global Forum 2013. Paper 003-2013.</p>
-
-<p class=MsoListParagraphCxSpMiddle style='text-indent:-.25in'><span lang=FR
-style='font-family:Symbol'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span></span><span lang=FR>R.NET - </span><a
-href="https://github.com/jmp75/rdotnet"><span lang=FR>https://github.com/jmp75/rdotnet</span></a><span
 lang=FR> </span></p>
 
 <p class=MsoListParagraphCxSpMiddle style='text-indent:-.25in'><span lang=FR
@@ -2906,10 +2954,10 @@ University.</span></i></p>
 
 <p class=MsoNormal style='margin-left:-13.5pt'><span style='position:relative;
 z-index:251718656'><span style='left:0px;position:absolute;left:287px;
-top:-5067px;width:173px;height:46px'><img width=173 height=46
-src="stattag_help.fld/image038.jpg"></span></span><span style='font-size:18.0pt;
+top:-5086px;width:173px;height:47px'><img width=173 height=47
+src="stattag_help.fld/image039.jpg"></span></span><span style='font-size:18.0pt;
 font-family:"Calibri Light",sans-serif;color:black'><img border=0 width=288
-height=44 id="Picture 16" src="stattag_help.fld/image039.jpg"
+height=44 id="Picture 16" src="stattag_help.fld/image040.jpg"
 alt="Macintosh HD:private:var:folders:6c:0m1m2bts1g7_32jw_cf_3w1rsh2h6h:T:TemporaryItems:NM-NUCATS-cobrand-RGB.jpg"></span><a
 name="_Appendix_B._Example"></a><a name="_Appendix_B._Example_1"></a><a
 name="_Appendix_C._The"></a><a name="_Appendix_C._Example"></a><a
@@ -3020,8 +3068,8 @@ style='page-break-before:always'>
 
 <p class=MsoNormal><a name="_Toc475094654"><b><span style='font-size:16.0pt'>&nbsp;</span></b></a></p>
 
-<h1 style='margin-left:0in;text-indent:0in'><a name="_Toc529965171">Appendix B.
-Licenses</a></h1>
+<h1 style='margin-left:0in;text-indent:0in'><a name="_Toc529965171"></a><a
+name="_Appendix_B._Licenses"></a>Appendix B. Licenses</h1>
 
 <h2><a name="_Toc475094655"></a><a name="_Toc471372909"></a><a
 name="_Toc462397835"></a><a name="_Toc461800101"></a><a name="_Toc461795229"></a><a
@@ -3092,645 +3140,6 @@ CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE,
 DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS
 ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE.</p>
-
-<p class=MsoNormal>&nbsp;</p>
-
-<h2><a name="_Toc475094657"></a><a name="_Toc471372911"></a><a
-name="_Toc462397837"></a><a name="_Toc461800103"></a><a name="_Toc330113072">License
-for ScintillaNET</a></h2>
-
-<p class=MsoNormal>The MIT License (MIT)</p>
-
-<p class=MsoNormal>&nbsp;</p>
-
-<p class=MsoNormal>Copyright (c) 2016, Jacob Slusser,
-https://github.com/jacobslusser</p>
-
-<p class=MsoNormal>&nbsp;</p>
-
-<p class=MsoNormal>Permission is hereby granted, free of charge, to any person
-obtaining a copy of this software and associated documentation files (the
-&quot;Software&quot;), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish, distribute,
-sublicense, and/or sell copies of the Software, and to permit persons to whom the
-Software is furnished to do so, subject to the following conditions:</p>
-
-<p class=MsoNormal>&nbsp;</p>
-
-<p class=MsoNormal>The above copyright notice and this permission notice shall
-be included in all copies or substantial portions of the Software.</p>
-
-<p class=MsoNormal>&nbsp;</p>
-
-<p class=MsoNormal>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY
-OF ANY KIND, EXPRESS OR</p>
-
-<p class=MsoNormal>IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY,</p>
-
-<p class=MsoNormal>FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO
-EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES
-OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-DEALINGS IN THE SOFTWARE.</p>
-
-<p class=MsoNormal>&nbsp;</p>
-
-<h2><a name="_Toc475094658"></a><a name="_Toc471372912"></a><a
-name="_Toc462397838"></a><a name="_Toc461800104"></a><a name="_Toc461795232"></a><a
-name="_Toc330113073">License for Json.NET</a></h2>
-
-<p class=MsoNormal>The MIT License (MIT)</p>
-
-<p class=MsoNormal>&nbsp;</p>
-
-<p class=MsoNormal>Copyright (c) 2007 James Newton-King</p>
-
-<p class=MsoNormal>&nbsp;</p>
-
-<p class=MsoNormal>Permission is hereby granted, free of charge, to any person
-obtaining a copy of this software and associated documentation files (the
-&quot;Software&quot;), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish, distribute,
-sublicense, and/or sell copies of the Software, and to permit persons to whom
-the Software is furnished to do so, subject to the following conditions:</p>
-
-<p class=MsoNormal>&nbsp;</p>
-
-<p class=MsoNormal>The above copyright notice and this permission notice shall
-be included in all copies or substantial portions of the Software.</p>
-
-<p class=MsoNormal>&nbsp;</p>
-
-<p class=MsoNormal>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY
-OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO
-EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES
-OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-DEALINGS IN THE SOFTWARE.</p>
-
-<p class=MsoNormal>&nbsp;</p>
-
-<h2><a name="_Toc475094659"></a><a name="_Toc471372913">License for R.NET</a></h2>
-
-<p class=MsoNormal>New BSD License (BSD)</p>
-
-<p class=MsoNormal>Copyright (c) 2010, RecycleBin</p>
-
-<p class=MsoNormal>All rights reserved.</p>
-
-<p class=MsoNormal>&nbsp;</p>
-
-<p class=MsoNormal>Redistribution and use in source and binary forms, with or
-without modification, are permitted provided that the following conditions are
-met:</p>
-
-<p class=MsoNormal>&nbsp;</p>
-
-<p class=MsoNormal>* Redistributions of source code must retain the above
-copyright notice, this list of conditions and the following disclaimer.</p>
-
-<p class=MsoNormal>&nbsp;</p>
-
-<p class=MsoNormal>* Redistributions in binary form must reproduce the above
-copyright notice, this list of conditions and the following disclaimer in the
-documentation and/or other materials provided with the distribution.</p>
-
-<p class=MsoNormal>&nbsp;</p>
-
-<p class=MsoNormal>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
-CONTRIBUTORS &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES,
-INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
-FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
-COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
-INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
-OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
-ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
-
-<p class=MsoNormal>&nbsp;</p>
-
-<h2>License for ScintillaNET Find &amp; Replace Dialog</h2>
-
-<p class=MsoNormal>MIT License</p>
-
-<p class=MsoNormal>&nbsp;</p>
-
-<p class=MsoNormal>Copyright (c) 2017 Steve Towner</p>
-
-<p class=MsoNormal>&nbsp;</p>
-
-<p class=MsoNormal>Permission is hereby granted, free of charge, to any person
-obtaining a copy of this software and associated documentation files (the
-&quot;Software&quot;), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish, distribute,
-sublicense, and/or sell copies of the Software, and to permit persons to whom
-the Software is furnished to do so, subject to the following conditions:</p>
-
-<p class=MsoNormal>&nbsp;</p>
-
-<p class=MsoNormal>The above copyright notice and this permission notice shall
-be included in all copies or substantial portions of the Software.</p>
-
-<p class=MsoNormal>&nbsp;</p>
-
-<p class=MsoNormal>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY
-OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO
-EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES
-OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-DEALINGS IN THE SOFTWARE. </p>
-
-<p class=MsoNormal>&nbsp;</p>
-
-<h2>License for log4net</h2>
-
-<p class=MsoNormal>Apache License</p>
-
-<p class=MsoNormal>Version 2.0, January 2004</p>
-
-<p class=MsoNormal>http://www.apache.org/licenses/</p>
-
-<p class=MsoNormal> </p>
-
-<p class=MsoNormal>TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION</p>
-
-<p class=MsoNormal> </p>
-
-<p class=MsoNormal>1. Definitions.</p>
-
-<p class=MsoNormal> </p>
-
-<p class=MsoNormal>&quot;License&quot; shall mean the terms and conditions for
-use, reproduction, and distribution as defined by Sections 1 through 9 of this
-document.</p>
-
-<p class=MsoNormal> </p>
-
-<p class=MsoNormal>&quot;Licensor&quot; shall mean the copyright owner or
-entity authorized by the copyright owner that is granting the License.</p>
-
-<p class=MsoNormal> </p>
-
-<p class=MsoNormal>&quot;Legal Entity&quot; shall mean the union of the acting
-entity and all other entities that control, are controlled by, or are under
-common control with that entity. For the purposes of this definition, &quot;control&quot;
-means (i) the power, direct or indirect, to cause the direction or management
-of such entity, whether by contract or otherwise, or (ii) ownership of fifty
-percent (50%) or more of the outstanding shares, or (iii) beneficial ownership
-of such entity.</p>
-
-<p class=MsoNormal> </p>
-
-<p class=MsoNormal>&quot;You&quot; (or &quot;Your&quot;) shall mean an
-individual or Legal Entity exercising permissions granted by this License.</p>
-
-<p class=MsoNormal> </p>
-
-<p class=MsoNormal>&quot;Source&quot; form shall mean the preferred form for
-making modifications, including but not limited to software source code,
-documentation source, and configuration files.</p>
-
-<p class=MsoNormal> </p>
-
-<p class=MsoNormal>&quot;Object&quot; form shall mean any form resulting from
-mechanical transformation or translation of a Source form, including but not
-limited to compiled object code, generated documentation, and conversions to
-other media types.</p>
-
-<p class=MsoNormal> </p>
-
-<p class=MsoNormal>&quot;Work&quot; shall mean the work of authorship, whether
-in Source or Object form, made available under the License, as indicated by a copyright
-notice that is included in or attached to the work (an example is provided in
-the Appendix below).</p>
-
-<p class=MsoNormal> </p>
-
-<p class=MsoNormal>&quot;Derivative Works&quot; shall mean any work, whether in
-Source or Object form, that is based on (or derived from) the Work and for
-which the editorial revisions, annotations, elaborations, or other
-modifications represent, as a whole, an original work of authorship. For the
-purposes of this License, Derivative Works shall not include works that remain
-separable from, or merely link (or bind by name) to the interfaces of, the Work
-and Derivative Works thereof.</p>
-
-<p class=MsoNormal> </p>
-
-<p class=MsoNormal>&quot;Contribution&quot; shall mean any work of authorship,
-including the original version of the Work and any modifications or additions to
-that Work or Derivative Works thereof, that is intentionally submitted to
-Licensor for inclusion in the Work by the copyright owner or by an individual
-or Legal Entity authorized to submit on behalf of the copyright owner. For the
-purposes of this definition, &quot;submitted&quot; means any form of
-electronic, verbal, or written communication sent to the Licensor or its
-representatives, including but not limited to communication on electronic
-mailing lists, source code control systems, and issue tracking systems that are
-managed by, or on behalf of, the Licensor for the purpose of discussing and
-improving the Work, but excluding communication that is conspicuously marked or
-otherwise designated in writing by the copyright owner as &quot;Not a
-Contribution.&quot;</p>
-
-<p class=MsoNormal> </p>
-
-<p class=MsoNormal>&quot;Contributor&quot; shall mean Licensor and any
-individual or Legal Entity on behalf of whom a Contribution has been received
-by Licensor and subsequently incorporated within the Work.</p>
-
-<p class=MsoNormal> </p>
-
-<p class=MsoNormal>2. Grant of Copyright License. Subject to the terms and
-conditions of this License, each Contributor hereby grants to You a perpetual, worldwide,
-non-exclusive, no-charge, royalty-free, irrevocable copyright license to
-reproduce, prepare Derivative Works of, publicly display, publicly perform,
-sublicense, and distribute the Work and such Derivative Works in Source or
-Object form.</p>
-
-<p class=MsoNormal> </p>
-
-<p class=MsoNormal>3. Grant of Patent License. Subject to the terms and
-conditions of this License, each Contributor hereby grants to You a perpetual, worldwide,
-non-exclusive, no-charge, royalty-free, irrevocable (except as stated in this
-section) patent license to make, have made, use, offer to sell, sell, import,
-and otherwise transfer the Work, where such license applies only to those
-patent claims licensable by such Contributor that are necessarily infringed by
-their Contribution(s) alone or by combination of their Contribution(s) with the
-Work to which such Contribution(s) was submitted. If You institute patent
-litigation against any entity (including a cross-claim or counterclaim in a
-lawsuit) alleging that the Work or a Contribution incorporated within the Work
-constitutes direct or contributory patent infringement, then any patent
-licenses granted to You under this License for that Work shall terminate as of
-the date such litigation is filed.</p>
-
-<p class=MsoNormal> </p>
-
-<p class=MsoNormal>4. Redistribution. You may reproduce and distribute copies
-of the Work or Derivative Works thereof in any medium, with or without modifications,
-and in Source or Object form, provided that You meet the following conditions:</p>
-
-<p class=MsoNormal> </p>
-
-<p class=MsoNormal>(a) You must give any other recipients of the Work or Derivative
-Works a copy of this License; and</p>
-
-<p class=MsoNormal> </p>
-
-<p class=MsoNormal>(b) You must cause any modified files to carry prominent
-notices stating that You changed the files; and</p>
-
-<p class=MsoNormal> </p>
-
-<p class=MsoNormal>(c) You must retain, in the Source form of any Derivative Works
-that You distribute, all copyright, patent, trademark, and attribution notices
-from the Source form of the Work, excluding those notices that do not pertain
-to any part of the Derivative Works; and</p>
-
-<p class=MsoNormal> </p>
-
-<p class=MsoNormal>(d) If the Work includes a &quot;NOTICE&quot; text file as part
-of its distribution, then any Derivative Works that You distribute must include
-a readable copy of the attribution notices contained within such NOTICE file,
-excluding those notices that do not pertain to any part of the Derivative
-Works, in at least one of the following places: within a NOTICE text file
-distributed as part of the Derivative Works; within the Source form or documentation,
-if provided along with the Derivative Works; or, within a display generated by
-the Derivative Works, if and wherever such third-party notices normally appear.
-The contents of the NOTICE file are for informational purposes only and do not
-modify the License. You may add Your own attribution notices within Derivative
-Works that You distribute, alongside or as an addendum to the NOTICE text from
-the Work, provided that such additional attribution notices cannot be construed
-as modifying the License.</p>
-
-<p class=MsoNormal> </p>
-
-<p class=MsoNormal>You may add Your own copyright statement to Your
-modifications and may provide additional or different license terms and conditions
-for use, reproduction, or distribution of Your modifications, or for any such
-Derivative Works as a whole, provided Your use, reproduction, and distribution
-of the Work otherwise complies with the conditions stated in this License.</p>
-
-<p class=MsoNormal> </p>
-
-<p class=MsoNormal>5. Submission of Contributions. Unless You explicitly state
-otherwise, any Contribution intentionally submitted for inclusion in the Work by
-You to the Licensor shall be under the terms and conditions of this License,
-without any additional terms or conditions. Notwithstanding the above, nothing
-herein shall supersede or modify the terms of any separate license agreement
-you may have executed with Licensor regarding such Contributions.</p>
-
-<p class=MsoNormal> </p>
-
-<p class=MsoNormal>6. Trademarks. This License does not grant permission to use
-the trade names, trademarks, service marks, or product names of the Licensor, except
-as required for reasonable and customary use in describing the origin of the
-Work and reproducing the content of the NOTICE file.</p>
-
-<p class=MsoNormal> </p>
-
-<p class=MsoNormal>7. Disclaimer of Warranty. Unless required by applicable law
-or agreed to in writing, Licensor provides the Work (and each Contributor
-provides its Contributions) on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES
-OR CONDITIONS OF ANY KIND, either express or implied, including, without
-limitation, any warranties or conditions of TITLE, NON-INFRINGEMENT,
-MERCHANTABILITY, or FITNESS FOR A PARTICULAR PURPOSE. You are solely
-responsible for determining the appropriateness of using or redistributing the
-Work and assume any risks associated with Your exercise of permissions under
-this License.</p>
-
-<p class=MsoNormal> </p>
-
-<p class=MsoNormal>8. Limitation of Liability. In no event and under no legal
-theory, whether in tort (including negligence), contract, or otherwise, unless
-required by applicable law (such as deliberate and grossly negligent acts) or
-agreed to in writing, shall any Contributor be liable to You for damages,
-including any direct, indirect, special, incidental, or consequential damages
-of any character arising as a result of this License or out of the use or
-inability to use the Work (including but not limited to damages for loss of
-goodwill, work stoppage, computer failure or malfunction, or any and all other
-commercial damages or losses), even if such Contributor has been advised of the
-possibility of such damages.</p>
-
-<p class=MsoNormal> </p>
-
-<p class=MsoNormal>9. Accepting Warranty or Additional Liability. While
-redistributing the Work or Derivative Works thereof, You may choose to offer, and
-charge a fee for, acceptance of support, warranty, indemnity, or other
-liability obligations and/or rights consistent with this License. However, in
-accepting such obligations, You may act only on Your own behalf and on Your
-sole responsibility, not on behalf of any other Contributor, and only if You
-agree to indemnify, defend, and hold each Contributor harmless for any
-liability incurred by, or claims asserted against, such Contributor by reason of
-your accepting any such warranty or additional liability.</p>
-
-<p class=MsoNormal> </p>
-
-<p class=MsoNormal>END OF TERMS AND CONDITIONS</p>
-
-<p class=MsoNormal> </p>
-
-<p class=MsoNormal>APPENDIX: How to apply the Apache License to your work.</p>
-
-<p class=MsoNormal> </p>
-
-<p class=MsoNormal>To apply the Apache License to your work, attach the
-following boilerplate notice, with the fields enclosed by brackets
-&quot;[]&quot; replaced with your own identifying information. (Don't include the
-brackets!)  The text should be enclosed in the appropriate comment syntax for
-the file format. We also recommend that a file or class name and description of
-purpose be included on the same &quot;printed page&quot; as the copyright
-notice for easier identification within third-party archives.</p>
-
-<p class=MsoNormal> </p>
-
-<p class=MsoNormal>Copyright [yyyy] [name of copyright owner]</p>
-
-<p class=MsoNormal> </p>
-
-<p class=MsoNormal>Licensed under the Apache License, Version 2.0 (the
-&quot;License&quot;); you may not use this file except in compliance with the
-License.</p>
-
-<p class=MsoNormal>&nbsp;</p>
-
-<p class=MsoNormal>You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0</p>
-
-<p class=MsoNormal> </p>
-
-<p class=MsoNormal>Unless required by applicable law or agreed to in writing,
-software distributed under the License is distributed on an &quot;AS IS&quot;
-BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and limitations
-under the License. <br clear=all style='page-break-before:always'>
-</p>
-
-<p class=MsoNormal>&nbsp;</p>
-
-<h2>License for EPPlus</h2>
-
-<p class=MsoNormal>GNU LESSER GENERAL PUBLIC LICENSE</p>
-
-<p class=MsoNormal>Version 3, 29 June 2007</p>
-
-<p class=MsoNormal>&nbsp;</p>
-
-<p class=MsoNormal>Copyright (C) 2007 Free Software Foundation, Inc.
-&lt;http://fsf.org/&gt;</p>
-
-<p class=MsoNormal> Everyone is permitted to copy and distribute verbatim
-copies of this license document, but changing it is not allowed.</p>
-
-<p class=MsoNormal>&nbsp;</p>
-
-<p class=MsoNormal>This version of the GNU Lesser General Public License
-incorporates the terms and conditions of version 3 of the GNU General Public
-License, supplemented by the additional permissions listed below.</p>
-
-<p class=MsoNormal>&nbsp;</p>
-
-<p class=MsoNormal>0. Additional Definitions.</p>
-
-<p class=MsoNormal>&nbsp;</p>
-
-<p class=MsoNormal>As used herein, &quot;this License&quot; refers to version 3
-of the GNU Lesser General Public License, and the &quot;GNU GPL&quot; refers to
-version 3 of the GNU General Public License.</p>
-
-<p class=MsoNormal>&nbsp;</p>
-
-<p class=MsoNormal>&quot;The Library&quot; refers to a covered work governed by
-this License, other than an Application or a Combined Work as defined below.</p>
-
-<p class=MsoNormal>&nbsp;</p>
-
-<p class=MsoNormal>An &quot;Application&quot; is any work that makes use of an
-interface provided by the Library, but which is not otherwise based on the
-Library. Defining a subclass of a class defined by the Library is deemed a mode
-of using an interface provided by the Library.</p>
-
-<p class=MsoNormal>&nbsp;</p>
-
-<p class=MsoNormal>A &quot;Combined Work&quot; is a work produced by combining
-or linking an Application with the Library.  The particular version of the
-Library with which the Combined Work was made is also called the &quot;Linked
-Version&quot;.</p>
-
-<p class=MsoNormal>&nbsp;</p>
-
-<p class=MsoNormal>The &quot;Minimal Corresponding Source&quot; for a Combined
-Work means the Corresponding Source for the Combined Work, excluding any source
-code for portions of the Combined Work that, considered in isolation, are based
-on the Application, and not on the Linked Version.</p>
-
-<p class=MsoNormal>&nbsp;</p>
-
-<p class=MsoNormal>The &quot;Corresponding Application Code&quot; for a
-Combined Work means the object code and/or source code for the Application,
-including any data and utility programs needed for reproducing the Combined
-Work from the Application, but excluding the System Libraries of the Combined
-Work.</p>
-
-<p class=MsoNormal>&nbsp;</p>
-
-<p class=MsoNormal>1. Exception to Section 3 of the GNU GPL.</p>
-
-<p class=MsoNormal>You may convey a covered work under sections 3 and 4 of this
-License without being bound by section 3 of the GNU GPL.</p>
-
-<p class=MsoNormal>&nbsp;</p>
-
-<p class=MsoNormal>2. Conveying Modified Versions.</p>
-
-<p class=MsoNormal>If you modify a copy of the Library, and, in your
-modifications, a facility refers to a function or data to be supplied by an
-Application that uses the facility (other than as an argument passed when the
-facility is invoked), then you may convey a copy of the modified version:</p>
-
-<p class=MsoNormal>&nbsp;</p>
-
-<p class=MsoNormal>a) under this License, provided that you make a good faith
-effort to ensure that, in the event an Application does not supply the function
-or data, the facility still operates, and performs whatever part of its purpose
-remains meaningful, or</p>
-
-<p class=MsoNormal>&nbsp;</p>
-
-<p class=MsoNormal>b) under the GNU GPL, with none of the additional
-permissions of this License applicable to that copy.</p>
-
-<p class=MsoNormal>&nbsp;</p>
-
-<p class=MsoNormal>3. Object Code Incorporating Material from Library Header
-Files.</p>
-
-<p class=MsoNormal>The object code form of an Application may incorporate
-material from a header file that is part of the Library.  You may convey such
-object code under terms of your choice, provided that, if the incorporated
-material is not limited to numerical parameters, data structure layouts and
-accessors, or small macros, inline functions and templates (ten or fewer lines
-in length), you do both of the following:</p>
-
-<p class=MsoNormal>&nbsp;</p>
-
-<p class=MsoNormal>a) Give prominent notice with each copy of the object code
-that the Library is used in it and that the Library and its use are covered by
-this License.</p>
-
-<p class=MsoNormal>&nbsp;</p>
-
-<p class=MsoNormal>b) Accompany the object code with a copy of the GNU GPL and
-this license document.</p>
-
-<p class=MsoNormal>&nbsp;</p>
-
-<p class=MsoNormal>4. Combined Works.</p>
-
-<p class=MsoNormal>You may convey a Combined Work under terms of your choice
-that, taken together, effectively do not restrict modification of the portions
-of the Library contained in the Combined Work and reverse engineering for
-debugging such modifications, if you also do each of the following:</p>
-
-<p class=MsoNormal>&nbsp;</p>
-
-<p class=MsoNormal>a) Give prominent notice with each copy of the Combined Work
-that the Library is used in it and that the Library and its use are covered by
-this License.</p>
-
-<p class=MsoNormal>&nbsp;</p>
-
-<p class=MsoNormal>b) Accompany the Combined Work with a copy of the GNU GPL
-and this license document.</p>
-
-<p class=MsoNormal>&nbsp;</p>
-
-<p class=MsoNormal>c) For a Combined Work that displays copyright notices
-during execution, include the copyright notice for the Library among these
-notices, as well as a reference directing the user to the copies of the GNU GPL
-and this license document.</p>
-
-<p class=MsoNormal>&nbsp;</p>
-
-<p class=MsoNormal>d) Do one of the following:</p>
-
-<p class=MsoNormal style='margin-left:.5in'>0) Convey the Minimal Corresponding
-Source under the terms of this        License, and the Corresponding
-Application Code in a form suitable for, and under terms that permit, the user
-to recombine or relink the Application with a modified version of the Linked
-Version to produce a modified Combined Work, in the manner specified by section
-6 of the GNU GPL for conveying Corresponding Source.</p>
-
-<p class=MsoNormal>&nbsp;</p>
-
-<p class=MsoNormal style='margin-left:.5in'>1) Use a suitable shared library
-mechanism for linking with the Library.  A suitable mechanism is one that (a)
-uses at run time a copy of the Library already present on the user's computer
-system, and (b) will operate properly with a modified version of the Library
-that is interface-compatible with the Linked Version.</p>
-
-<p class=MsoNormal>&nbsp;</p>
-
-<p class=MsoNormal>e) Provide Installation Information, but only if you would
-otherwise be required to provide such information under section 6 of the GNU
-GPL, and only to the extent that such information is necessary to install and
-execute a modified version of the Combined Work produced by recombining or
-relinking the Application with a modified version of the Linked Version. (If
-you use option 4d0, the Installation Information must accompany the Minimal
-Corresponding Source and Corresponding Application Code. If you use option 4d1,
-you must provide the Installation Information in the manner specified by
-section 6 of the GNU GPL for conveying Corresponding Source.)</p>
-
-<p class=MsoNormal>&nbsp;</p>
-
-<p class=MsoNormal>5. Combined Libraries.</p>
-
-<p class=MsoNormal>You may place library facilities that are a work based on
-the Library side by side in a single library together with other library
-facilities that are not Applications and are not covered by this License, and
-convey such a combined library under terms of your choice, if you do both of
-the following:</p>
-
-<p class=MsoNormal>&nbsp;</p>
-
-<p class=MsoNormal>a) Accompany the combined library with a copy of the same
-work based on the Library, uncombined with any other library facilities,
-conveyed under the terms of this License.</p>
-
-<p class=MsoNormal>&nbsp;</p>
-
-<p class=MsoNormal>b) Give prominent notice with the combined library that part
-of it is a work based on the Library, and explaining where to find the
-accompanying uncombined form of the same work.</p>
-
-<p class=MsoNormal>&nbsp;</p>
-
-<p class=MsoNormal>6. Revised Versions of the GNU Lesser General Public
-License.</p>
-
-<p class=MsoNormal>The Free Software Foundation may publish revised and/or new
-versions of the GNU Lesser General Public License from time to time. Such new
-versions will be similar in spirit to the present version, but may differ in
-detail to address new problems or concerns.</p>
-
-<p class=MsoNormal>&nbsp;</p>
-
-<p class=MsoNormal>Each version is given a distinguishing version number. If
-the Library as you received it specifies that a certain numbered version of the
-GNU Lesser General Public License &quot;or any later version&quot; applies to
-it, you have the option of following the terms and conditions either of that
-published version or of any later version published by the Free Software
-Foundation. If the Library as you received it does not specify a version number
-of the GNU Lesser General Public License, you may choose any version of the GNU
-Lesser General Public License ever published by the Free Software Foundation.</p>
-
-<p class=MsoNormal>&nbsp;</p>
-
-<p class=MsoNormal>If the Library as you received it specifies that a proxy can
-decide whether future versions of the GNU Lesser General Public License shall
-apply, that proxy's public statement of acceptance of any version is permanent
-authorization for you to choose that version for the Library.</p>
 
 <p class=MsoNormal>&nbsp;</p>
 
