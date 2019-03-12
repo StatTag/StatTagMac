@@ -62,10 +62,10 @@
 +(NSString*)getActiveDocumentName;
 
 
-+(void)insertTextboxAtRangeStart:(NSInteger)theRangeStart andRangeEnd:(NSInteger)theRangeEnd forShapeName:(NSString*)shapeName withShapetext:(NSString*)shapeText andFontSize:(double)fontSize andFontFace:(NSString*)fontFace;
++(void)insertTextboxAtRangeStart:(NSInteger)theRangeStart andRangeEnd:(NSInteger)theRangeEnd forShapeName:(NSString*)shapeName withShapetext:(NSString*)shapeText andFontSize:(double)fontSize andFontFace:(NSString*)fontFace withMultiplier:(double)multiplier;
 
-+(void)updateShapeHeightToFitTextContents:(NSString*)shapeName andFontSize:(double)fontSize andFontFace:(NSString*)fontFace;
++(void)updateShapeHeightToFitTextContentsForShapeNamed:(NSString*)shapeName andFontSize:(double)fontSize andFontFace:(NSString*)fontFace withMultiplier:(double)multiplier;
 
-+(void)insertFieldAtRangeStart:(NSInteger)theRangeStart andRangeEnd:(NSInteger)theRangeEnd forFieldType:(NSInteger)fieldType withText:(NSString*)fieldText;
++(void)insertFieldAtRangeStart:(NSInteger)theRangeStart andRangeEnd:(NSInteger)theRangeEnd forFieldType:(NSInteger)fieldType withText:(NSString*)fieldText  ;
 
 @end

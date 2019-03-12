@@ -388,7 +388,7 @@ on insertTextboxAtRangeStart:theRangeStart andRangeEnd:theRangeEnd forShapeName:
 end insertTextboxAtRangeStart:andRangeEnd:forShapeName:withShapetext:andFontSize:andFontFace:
 *)
 
-on insertTextboxAtRangeStart:theRangeStart andRangeEnd:theRangeEnd forShapeName:shapeName withShapetext:shapeText andFontSize:fontSize andFontFace:fontFace
+on insertTextboxAtRangeStart:theRangeStart andRangeEnd:theRangeEnd forShapeName:shapeName withShapetext:shapeText andFontSize:fontSize andFontFace:fontFace withMultiplier:multiplier
 
   set theRangeStart to theRangeStart as integer
   set theRangeEnd to theRangeEnd as integer
@@ -398,6 +398,9 @@ on insertTextboxAtRangeStart:theRangeStart andRangeEnd:theRangeEnd forShapeName:
 
   set fontSize to fontSize as real
   set fontFace to fontFace as string
+  set multiplier to multiplier as real
+
+  if multiplier <= 0.0 then set multiplier to 1.4
 
   tell application "Microsoft Word"
       
@@ -458,14 +461,14 @@ on insertTextboxAtRangeStart:theRangeStart andRangeEnd:theRangeEnd forShapeName:
         set allow overlap of wrap format of myShape to false
 
         --we need to compute the size of the shape and then resize to fit the contents
-        set fontMultiplier to 1.40 as real
+        #set fontMultiplier to 1.40 as real
 
         set name of font object of text range of text frame of myShape to fontFace
         set font size of font object of text range of text frame of myShape to fontSize
 
         #now we need to calculate the # of lines in the newly widened text frame and then expand the height to fit the contents based on that width and # of lines
         set lineCount to compute text range statistics text range of text frame of myShape statistic statistic lines
-        set height of myShape to lineCount * (fontSize * fontMultiplier)
+        set height of myShape to lineCount * (fontSize * multiplier)
       end repeat
 
       #reset our selection so we don't have issues with textboxes trying to insert into textboxes
@@ -475,16 +478,19 @@ on insertTextboxAtRangeStart:theRangeStart andRangeEnd:theRangeEnd forShapeName:
       type paragraph selection
   end tell
 
-end insertTextboxAtRangeStart:andRangeEnd:forShapeName:withShapetext:andFontSize:andFontFace:
+end insertTextboxAtRangeStart:andRangeEnd:forShapeName:withShapetext:andFontSize:andFontFace:withMultiplier:
 
 
-on updateShapeHeightToFitTextContents: shapeName andFontSize:fontSize andFontFace:fontFace
-#on updateShapeHeightToFitTextContents(shapeName, fontSize, fontFace)
+on updateShapeHeightToFitTextContentsForShapeNamed: shapeName andFontSize:fontSize andFontFace:fontFace withMultiplier:multiplier
+#on updateShapeHeightToFitTextContentsForShapeNamed(shapeName, fontSize, fontFace)
   
   set shapeName to shapeName as string
   set fontSize to fontSize as real
   set fontFace to fontFace as string
+  set multiplier to multiplier as real
   
+  if multiplier <= 0.0 then set multiplier to 1.4
+
   tell application "Microsoft Word"
     
     
@@ -494,21 +500,21 @@ on updateShapeHeightToFitTextContents: shapeName andFontSize:fontSize andFontFac
       if name of aShape is equal to shapeName then
         set aShape to contents of aShape
         
-        set fontMultiplier to 1.40 as real
+        #set fontMultiplier to 1.40 as real
         
         set name of font object of text range of text frame of aShape to fontFace
         set font size of font object of text range of text frame of aShape to fontSize
         
         #now we need to calculate the # of lines in the newly widened text frame and then expand the height to fit the contents based on that width and # of lines
         set lineCount to compute text range statistics text range of text frame of aShape statistic statistic lines
-        set height of aShape to lineCount * (fontSize * fontMultiplier)
+        set height of aShape to lineCount * (fontSize * multiplier)
         
       end if
     end repeat
     
   end tell
-end updateShapeHeightToFitTextContents:andFontSize:andFontFace:
-  #end updateShapeHeightToFitTextContents
+end updateShapeHeightToFitTextContentsForShapeNamed:andFontSize:andFontFace:withMultiplier:
+  #end updateShapeHeightToFitTextContentsForShapeNamed
 
 
 
