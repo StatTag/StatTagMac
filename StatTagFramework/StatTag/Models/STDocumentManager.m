@@ -627,7 +627,7 @@ used to create the Word document.
 
           [[[shape textFrame] textRange] setContent:[tag FormattedResult]];
           //recalculate the frame height so our contents now fit
-          [WordHelpers updateShapeHeightToFitTextContents:[shape name] andFontSize:9.0 andFontFace:@"Courier New"];
+          [WordHelpers updateShapeHeightToFitTextContentsForShapeNamed:[shape name] andFontSize:9.0 andFontFace:@"Courier New" withMultiplier:0];
         }
 
       }
@@ -913,10 +913,10 @@ used to create the Word document.
 /// </summary>
 /// <param name="selection"></param>
 /// <param name="tag"></param>
--(void)InsertVerbatim:(STMSWord2011SelectionObject*)selection tag:(STTag*)tag
+-(void)InsertVerbatim:(STMSWord2011SelectionObject*)selection tag:(STTag*)tag withFontMultiplier:(double)multiplier
 {
   //[self Log:@"InsertVerbatim - Started"];
-  
+
   if (tag == nil)
   {
     [self Log:@"Unable to insert the verbatim output because the tag is null"];
@@ -935,8 +935,12 @@ used to create the Word document.
     NSInteger rangeStart = [selection selectionStart];
     NSInteger rangeEnd = [selection selectionEnd];
     
+    if(multiplier <= 0) {
+      multiplier = 1.40;
+    }
+    
     //we have to offload this directly to AppleScript so we can do what we need to
-    [WordHelpers insertTextboxAtRangeStart:rangeStart andRangeEnd:rangeEnd forShapeName:[tag Id] withShapetext:verbatimResult andFontSize:9.0 andFontFace:@"Courier New"];
+    [WordHelpers insertTextboxAtRangeStart:rangeStart andRangeEnd:rangeEnd forShapeName:[tag Id] withShapetext:verbatimResult andFontSize:9.0 andFontFace:@"Courier New" withMultiplier:0];
   }
   
   //[self Log:@"InsertVerbatim - Finished"];
@@ -1279,7 +1283,7 @@ used to create the Word document.
       {
         [self Log:@"Inserting verbatim output"];
         
-        [self InsertVerbatim:selection tag:tag];
+        [self InsertVerbatim:selection tag:tag withFontMultiplier:1.4];
       }
       else if(!insertPlaceholder && [tag IsTableTag] && [tag TableCellIndex] == nil) {
         //NSLog(@"Inserting a new table tag");

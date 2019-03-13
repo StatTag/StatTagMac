@@ -707,7 +707,7 @@
   NSInteger rangeStart = [[[app selection] textObject] startOfContent];
   NSInteger rangeEnd = [[[app selection] textObject] endOfContent];
   
-  [WordHelpers insertTextboxAtRangeStart:rangeStart andRangeEnd:rangeEnd forShapeName: @"my shape id" withShapetext:shapeText andFontSize:9.0 andFontFace: @"Courier New"];
+  [WordHelpers insertTextboxAtRangeStart:rangeStart andRangeEnd:rangeEnd forShapeName: @"my shape id" withShapetext:shapeText andFontSize:9.0 andFontFace: @"Courier New" withMultiplier:0];
 }
 
 

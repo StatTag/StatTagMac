@@ -35,9 +35,9 @@
 
 -(void)setActiveDocumentByDocName:(NSString*)theName;
 
--(void)insertTextboxAtRangeStart:(NSNumber*)theRangeStart andRangeEnd:(NSNumber*)theRangeEnd forShapeName:(NSString*)shapeName withShapetext:(NSString*)shapeText andFontSize:(NSNumber*)fontSize andFontFace:(NSString*)fontFace;
+-(void)insertTextboxAtRangeStart:(NSNumber*)theRangeStart andRangeEnd:(NSNumber*)theRangeEnd forShapeName:(NSString*)shapeName withShapetext:(NSString*)shapeText andFontSize:(NSNumber*)fontSize andFontFace:(NSString*)fontFace withMultiplier:(NSNumber*)multiplier;
 
--(void)updateShapeHeightToFitTextContents:(NSString*)shapeName andFontSize:(NSNumber*)fontSize andFontFace:(NSString*)fontFace;
+-(void)updateShapeHeightToFitTextContentsForShapeNamed:(NSString*)shapeName andFontSize:(NSNumber*)fontSize andFontFace:(NSString*)fontFace withMultiplier:(NSNumber*)multiplier;
 
 -(void)insertFieldAtRangeStart:(NSNumber*)theRangeStart andRangeEnd:(NSNumber*)theRangeEnd forFieldType:(NSNumber*)fieldType withText:(NSString*)fieldText;
 
