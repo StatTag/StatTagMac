@@ -516,10 +516,14 @@ static WordHelpers* sharedInstance = nil;
 }
 
 
-+(void)insertTextboxAtRangeStart:(NSInteger)theRangeStart andRangeEnd:(NSInteger)theRangeEnd forShapeName:(NSString*)shapeName withShapetext:(NSString*)shapeText andFontSize:(double)fontSize andFontFace:(NSString*)fontFace
++(void)insertTextboxAtRangeStart:(NSInteger)theRangeStart andRangeEnd:(NSInteger)theRangeEnd forShapeName:(NSString*)shapeName withShapetext:(NSString*)shapeText andFontSize:(double)fontSize andFontFace:(NSString*)fontFace withMultiplier:(double)multiplier
 {
   [[self class] sharedInstance];
 
+  if(multiplier <= 0) {
+    multiplier = 1.40;
+  }
+  
   //[[[StatTagShared sharedInstance] logManager] WriteLog:[NSString stringWithFormat:@"insertTextboxAtRangeStart:%ld andRangeEnd:%ld forShapeName:%@ withShapetext:NA andFontSize:%f andFontFace:%@", theRangeStart, theRangeEnd, shapeName, fontSize, fontFace] logLevel:STLogVerbose];
 
   /*
@@ -529,14 +533,18 @@ static WordHelpers* sharedInstance = nil;
   shapeText = [shapeText stringByReplacingOccurrencesOfString:@"\r\n" withString:@"\n"];
   
   WordASOC *asoc = [[NSClassFromString(@"WordASOC") alloc] init];
-  [asoc insertTextboxAtRangeStart:[NSNumber numberWithInteger:theRangeStart] andRangeEnd:[NSNumber numberWithInteger:theRangeEnd] forShapeName:shapeName withShapetext:shapeText andFontSize:[NSNumber numberWithDouble:fontSize] andFontFace:fontFace];
+  [asoc insertTextboxAtRangeStart:[NSNumber numberWithInteger:theRangeStart] andRangeEnd:[NSNumber numberWithInteger:theRangeEnd] forShapeName:shapeName withShapetext:shapeText andFontSize:[NSNumber numberWithDouble:fontSize] andFontFace:fontFace withMultiplier:[NSNumber numberWithDouble:multiplier]];
 }
 
-+(void)updateShapeHeightToFitTextContents:(NSString*)shapeName andFontSize:(double)fontSize andFontFace:(NSString*)fontFace;
++(void)updateShapeHeightToFitTextContentsForShapeNamed:(NSString*)shapeName andFontSize:(double)fontSize andFontFace:(NSString*)fontFace withMultiplier:(double)multiplier;
 {
+  if(multiplier <= 0) {
+    multiplier = 1.40;
+  }
+
   [[self class] sharedInstance];
   WordASOC *asoc = [[NSClassFromString(@"WordASOC") alloc] init];
-  [asoc updateShapeHeightToFitTextContents:shapeName andFontSize:[NSNumber numberWithDouble:fontSize] andFontFace:fontFace];
+  [asoc updateShapeHeightToFitTextContentsForShapeNamed:shapeName andFontSize:[NSNumber numberWithDouble:fontSize] andFontFace:fontFace withMultiplier:[NSNumber numberWithDouble:multiplier]];
 }
 
 +(void)insertFieldAtRangeStart:(NSInteger)theRangeStart andRangeEnd:(NSInteger)theRangeEnd forFieldType:(NSInteger)fieldType withText:(NSString*)fieldText
