@@ -640,6 +640,66 @@
 //  Assert.AreEqual("(?:test1|test2)", BaseParser.FormatCommandListAsNonCapturingGroup(new[] { "test1", "test2" }));
 }
 
+-(void)testIsTagStart
+{
+  StubParser* parser = [[StubParser alloc] init];
+  NSArray<NSString*>* lines = [[NSArray<NSString*> alloc]
+                               initWithObjects:
+                               @"**>>>ST:Value(Label=\"Test1\", Frequency=\"On Demand\")",
+                               @"declare value",
+                               @"**<<<",
+                               nil];
+  XCTAssertTrue([parser IsTagStart:[lines objectAtIndex:0]]);
+  XCTAssertFalse([parser IsTagStart:[lines objectAtIndex:1]]);
+  XCTAssertFalse([parser IsTagStart:[lines objectAtIndex:2]]);
+}
+
+-(void)testIsTagStart_FollowingCharacters
+{
+  StubParser* parser = [[StubParser alloc] init];
+  NSArray<NSString*>* lines = [[NSArray<NSString*> alloc]
+                               initWithObjects:
+                              @"Test '**>>>ST:Value(Label=\"Test1\", Frequency=\"On Demand\")'",      // Within a quote
+                              @"* **>>>ST:Value(Label=\"Test1\", Frequency=\"On Demand\")",           // Follows a comment and a space
+                              @"* *>>>ST:Value(Label=\"Test1\", Frequency=\"On Demand\")",            // Space between comment characters
+                              @"'Test '\r\n**>>>ST:Value(Label=\"Test1\", Frequency=\"On Demand\")",  // Should be captured - follows newline
+                              nil];
+  XCTAssertFalse([parser IsTagStart:[lines objectAtIndex:0]]);
+  XCTAssertFalse([parser IsTagStart:[lines objectAtIndex:1]]);
+  XCTAssertFalse([parser IsTagStart:[lines objectAtIndex:2]]);
+  XCTAssertTrue([parser IsTagStart:[lines objectAtIndex:3]]);
+}
+
+-(void)testIsTagEnd
+{
+  StubParser* parser = [[StubParser alloc] init];
+  NSArray<NSString*>* lines = [[NSArray<NSString*> alloc]
+                               initWithObjects:
+                               @"**>>>ST:Value(Label=\"Test1\", Frequency=\"On Demand\")",
+                               @"declare value",
+                               @"**<<<",
+                               nil];
+  XCTAssertFalse([parser IsTagEnd:[lines objectAtIndex:0]]);
+  XCTAssertFalse([parser IsTagEnd:[lines objectAtIndex:1]]);
+  XCTAssertTrue([parser IsTagEnd:[lines objectAtIndex:2]]);
+}
+
+-(void)testIsTagEnd_FollowingCharacters
+{
+  StubParser* parser = [[StubParser alloc] init];
+  NSArray<NSString*>* lines = [[NSArray<NSString*> alloc]
+                               initWithObjects:
+                               @"Test '**<<<'",      // Within a quote
+                               @"* **<<<",           // Follows a comment and a space
+                               @"* *<<<",            // Space between comment characters
+                               @"'Test '\r\n**<<<",  // Should be captured - follows newline
+                               nil];
+  XCTAssertFalse([parser IsTagEnd:[lines objectAtIndex:0]]);
+  XCTAssertFalse([parser IsTagEnd:[lines objectAtIndex:1]]);
+  XCTAssertFalse([parser IsTagEnd:[lines objectAtIndex:2]]);
+  XCTAssertTrue([parser IsTagEnd:[lines objectAtIndex:3]]);
+}
+
 -(void)testIsRelativePath
 {
     StubParser* parser = [[StubParser alloc] init];

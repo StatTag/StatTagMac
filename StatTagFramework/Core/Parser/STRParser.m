@@ -63,6 +63,15 @@
   return regex;
 }
 
++(NSRegularExpression*)MultiLinePipeRegex {
+  NSError* error;
+  NSRegularExpression* regex =   [NSRegularExpression
+                                  regularExpressionWithPattern:@"(%(?:[<T]?>|\\$)%)[ \t]*[\\r\\n]+[ \t]*"
+                                  options:NSRegularExpressionDotMatchesLineSeparators
+                                  error:&error];
+  return regex;
+}
+
 
 +(NSArray<NSString*>*)TableCommands {
   return [NSArray<NSString*> arrayWithObjects:@"write.csv", @"write.csv2", @"write.table", nil];
@@ -347,6 +356,8 @@ This will return the exact parameter that represents the image save location.  T
   
   // Take any plotting commands that span multiple lines and string them onto a single line.
   modifiedText = [[STRParser MultiLinePlotRegex] stringByReplacingMatchesInString:modifiedText options:0 range:NSMakeRange(0, [modifiedText length]) withTemplate:@") + "];
+  // Likewise, take any piped commands and string them onto a single line.
+  modifiedText = [[STRParser MultiLinePipeRegex] stringByReplacingMatchesInString:modifiedText options:0 range:NSMakeRange(0, [modifiedText length]) withTemplate:@"$1 "];
 
   NSMutableCharacterSet* parenChars = [[NSMutableCharacterSet alloc] init];
   [parenChars addCharactersInString:@"()"];
@@ -402,6 +413,107 @@ This will return the exact parameter that represents the image save location.  T
   return [modifiedText componentsSeparatedByString:@"\r\n"];
 }
 
+// Internal function to take a string and parse it, removing any trailing comments
+// from the end of each command line.
+-(NSString*) StripTrailingComments:(NSString*)text
+{
+  NSUInteger length = [text length];
+  unichar characters[length];
+  [text getCharacters:characters range:NSMakeRange(0, length)];
+  BOOL inString = false;
+  BOOL inComment = false;
+  BOOL isEscaped = false;
+  unichar stringChar = ' ';
+  for (int index = 0; index < length; index++) {
+    unichar chr = characters[index];
+    
+    // We will first handle escaped character scenarios.  Note that if we know we are in a comment, we want
+    // to bypass any of these checks.  That will force our escaped text within the comment to get cleared
+    // out (which is our desired goal).
+    if (!inComment) {
+      // If we previously saw the escape character, we're going to skip this one and reset the escaped
+      // character flag.
+      if (isEscaped) {
+        isEscaped = false;
+        continue;
+      }
+      
+      // Start by looking for the escape character.  If we find it, set our flag so we know to skip the next
+      // character from special handling.
+      if (chr == '\\') {
+        isEscaped = true;
+        continue;
+      }
+    }
+    
+    // Next, set the state of our parsing of the string.  Detect different scenarios with quotes and comment
+    // markers, as well as newlines, which modify our parsing state.
+    switch (chr) {
+      case '\'':
+      case '"': {
+        // We've found a quote char.  We can only consider ourselves in a string if we're not
+        // in a comment and if we're not in a string or we didn't find the matching closing quote.
+        inString = (!inComment && (!inString || chr != stringChar));
+        if (inString) {
+          stringChar = chr;
+          continue;
+        }
+        break;
+      }
+      case '#': {
+        // Here's our comment character - if we're not in a string, then we are in a comment at this
+        // point and need to start tracking that.
+        if (!inString) {
+          inComment = true;
+        }
+        break;
+      }
+      case '\r':
+      case '\n': {
+        // We're no longer in a comment or string once we find the newline
+        inComment = false;
+        inString = false;
+        continue;
+      }
+    }
+    
+    // Finally - if we reach this point and we are in a comment we want to clean it out.  This is tightly
+    // coupled to other behavior in PreProcessContent which is going to trim strings.  However, by setting
+    // the character to a space and relying on the trim, we simplify this work (since we don't need to
+    // resize the string or build a new one).
+    if (inComment) {
+      characters[index] = ' ';
+    }
+  }
+  
+  return [[NSString stringWithCharacters:characters length:length] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+}
+
+// Provides a hook to perform any processing on a block of code (one or more
+// lines) before it is executed by the statistical software.  The default
+// behavior is to return the parameter untouched.
+-(NSArray<NSString*>*) PreProcessExecutionStepCode:(STExecutionStep*) step
+{
+  if (step == nil || [step Code] == nil) {
+    return nil;
+  }
+  
+  NSMutableArray<NSString*>* code = [step Code];
+  if ([code count] == 0) {
+    return code;
+  }
+  
+  for (int index = 0; index < [code count]; index++) {
+    if ([step Tag] != nil && ([self IsTagStart:code[index]] || [self IsTagEnd:code[index]])) {
+      continue;
+    }
+    code[index] = [self StripTrailingComments:code[index]];
+  }
+  
+  step.Code = code;
+  return [super PreProcessExecutionStepCode:step];
+}
+
 /**
  To prepare for use, we need to collapse down some of the text.  This includes:
   - Collapsing commands that span multiple lines into a single line
@@ -412,10 +524,7 @@ This will return the exact parameter that represents the image save location.  T
     return [[NSArray<NSString*> alloc] init];
   }
 
-  NSString* originalText = [originalContent componentsJoinedByString:@"\r\n"];
-  NSMutableString* modifiedText = [STCodeParserUtil StripTrailingComments:originalText];
-  // Ensure all multi-line function calls are collapsed
-  return [modifiedText componentsSeparatedByString:@"\r\n"];
+  return originalContent;
 }
 
 
