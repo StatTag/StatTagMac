@@ -54,13 +54,13 @@
   // We have changed the original Regex to match Foundation-style escaping and removed the extraneous braces that would otherwise cause problems. 
   NSError *error;
   if(_StartTagRegEx == nil){
-    _StartTagRegEx = [NSRegularExpression regularExpressionWithPattern:[NSString stringWithFormat:@"\\s*[\\%@]{2,}\\s*%@\\s*%@(.*)", [self CommentCharacter], [STConstantsTagTags StartTag], [STConstantsTagTags TagPrefix]] options:0 error:&error] ;
+    _StartTagRegEx = [NSRegularExpression regularExpressionWithPattern:[NSString stringWithFormat:@"^\\s*[\\%@]{2,}\\s*%@\\s*%@(.*)", [self CommentCharacter], [STConstantsTagTags StartTag], [STConstantsTagTags TagPrefix]] options:NSRegularExpressionAnchorsMatchLines error:&error] ;
     if(error != nil){
       //NSLog(@"%@ - StartTagRegEx: %@", NSStringFromSelector(_cmd), error);
     }
   }
   if(_EndTagRegEx == nil){
-    _EndTagRegEx = [NSRegularExpression regularExpressionWithPattern:[NSString stringWithFormat:@"\\s*[\\%@]{2,}\\s*%@", [self CommentCharacter], [STConstantsTagTags EndTag]] options:0 error:&error] ;
+    _EndTagRegEx = [NSRegularExpression regularExpressionWithPattern:[NSString stringWithFormat:@"^\\s*[\\%@]{2,}\\s*%@", [self CommentCharacter], [STConstantsTagTags EndTag]] options:NSRegularExpressionAnchorsMatchLines error:&error] ;
     if(error != nil){
       //NSLog(@"%@ - EndTagRegEx: %@", NSStringFromSelector(_cmd), error);
     }

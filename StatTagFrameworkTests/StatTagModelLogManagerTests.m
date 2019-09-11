@@ -119,7 +119,7 @@
         ++callCount;
       });
   STLogManager* manager = [[STLogManager alloc] initWithFileHandler:mock];
-  [manager UpdateSettings:NO filePath:nil];
+  [manager UpdateSettings:NO filePath:nil logLevel:STLogDebug];
   [manager WriteMessage:@"Test"];
   // Never called if disabled
   XCTAssertEqual(0, callCount);
@@ -144,7 +144,7 @@
     ++callCount;
   });
   STLogManager* manager = [[STLogManager alloc] initWithFileHandler:mock];
-  [manager UpdateSettings:YES filePath:@"Test.log"];
+  [manager UpdateSettings:YES filePath:@"Test.log" logLevel:STLogDebug];
   [manager WriteMessage:@"Test"];
   XCTAssertEqual(1, callCount);
 
@@ -168,7 +168,7 @@
     ++callCount;
   });
   STLogManager* manager = [[STLogManager alloc] initWithFileHandler:mock];
-  [manager UpdateSettings:YES filePath:@"Test.log"];
+  [manager UpdateSettings:YES filePath:@"Test.log" logLevel:STLogDebug];
   [manager WriteException:[NSException exceptionWithName:@"Test exception" reason:@"Because we're testing" userInfo:nil]];
   XCTAssertEqual(1, callCount);
 
