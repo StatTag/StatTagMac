@@ -369,11 +369,13 @@ const NSInteger ShowStata = 3;
     substringS = [substringS stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     NSArray<NSString*>* substring = [substringS componentsSeparatedByString:@"\r"];
 
-    // Lines prefixed with ". " are from Stata to echo our commands and can be removed.  Note that we somtimes
+    // Lines prefixed with ". " or "> " are from Stata to echo our commands and can be removed.  Note that we somtimes
     // end up with a line that is just a period - this is a ". " line that got trimmed and can be removed (but
     // we only do that if it is the last line, not globally).
-    NSPredicate* predLine = [NSPredicate predicateWithFormat:@"NOT SELF BEGINSWITH[c] %@", @". "];
-    NSMutableArray<NSString*>* interimLines = [NSMutableArray arrayWithArray:[substring filteredArrayUsingPredicate:predLine]];
+    NSPredicate* predLine1 = [NSPredicate predicateWithFormat:@"NOT SELF BEGINSWITH[c] %@", @". "];
+    NSMutableArray<NSString*>* interimLines = [NSMutableArray arrayWithArray:[substring filteredArrayUsingPredicate:predLine1]];
+    NSPredicate* predLine2 = [NSPredicate predicateWithFormat:@"NOT SELF BEGINSWITH[c] %@", @"> "];
+    interimLines = [NSMutableArray arrayWithArray:[interimLines filteredArrayUsingPredicate:predLine2]];
     if ([interimLines count] > 0 && [[interimLines lastObject] isEqualToString:@"."]) {
       [interimLines removeLastObject];
     }
