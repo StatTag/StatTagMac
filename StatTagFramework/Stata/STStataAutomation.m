@@ -394,10 +394,6 @@ const NSInteger ShowStata = 3;
         [interimLines addObject:line];
       }
     }
-    //NSPredicate* predLine1 = [NSPredicate predicateWithFormat:@"NOT SELF BEGINSWITH[c] %@", @". "];
-    //NSMutableArray<NSString*>* interimLines = [NSMutableArray arrayWithArray:[substring filteredArrayUsingPredicate:predLine1]];
-    //NSPredicate* predLine2 = [NSPredicate predicateWithFormat:@"NOT SELF BEGINSWITH[c] %@", @"> "];
-    //interimLines = [NSMutableArray arrayWithArray:[interimLines filteredArrayUsingPredicate:predLine2]];
     if ([interimLines count] > 0 && [[interimLines lastObject] isEqualToString:@"."]) {
       [interimLines removeLastObject];
     }
