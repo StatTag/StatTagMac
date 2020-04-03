@@ -147,7 +147,7 @@
     {
       NSURL* url = [files objectAtIndex:i];
       if ([fileManager fileExistsAtPath:[url path] isDirectory:&isDir] && isDir) {
-        url = [url URLByAppendingPathComponent:[STLogManager defaultLogFilePath]];
+        url = [url URLByAppendingPathComponent:[STLogManager defaultLogFileName]];
       }
       
       [[self labelFilePath] setStringValue:[url path]];
