@@ -318,11 +318,19 @@ static NSString* const TemporaryImageFileFilter = @"SELF EndsWith '.png'";
         result = [Engine Evaluate:command];
       }
       @catch(NSException* exception) {
-        errorInfo = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInteger:0], @"ErrorCode", [STConstantsStatisticalPackages R], @"StatisticalPackage", [exception reason], @"ErrorDescription", nil];
+        // There is a known issue with variables named with extended characters (e.g., UTF-8).  We won't parse the
+        // whole command to find this, but if we detect UTF-8 characters in the string, we will provide a warning to the
+        // user that they need to be aware of the bug, and to resolve it if that's the case.
+        NSString* errorDescription = [exception reason];
+        if (command != nil && ![command canBeConvertedToEncoding:NSASCIIStringEncoding]) {
+          errorDescription = [NSString stringWithFormat:@"%@\n\n**NOTE**: There is a known issue where StatTag does not handle non-ASCII variable names in R (e.g., ä <- 100).  You will need to change this within your R file to an ASCII variable name.", errorDescription];
+        }
+
+        errorInfo = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInteger:0], @"ErrorCode", [STConstantsStatisticalPackages R], @"StatisticalPackage", errorDescription, @"ErrorDescription", nil];
         @throw [NSException exceptionWithName:NSGenericException
                                        reason:[NSString stringWithFormat:@"There was an error while parsing the R command: %@", command]
                                      userInfo:errorInfo];
-      }@finally {
+      } @finally {
       }
 
       if (result == nil) {
