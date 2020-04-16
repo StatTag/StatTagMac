@@ -17,7 +17,7 @@
 {
 }
 
--(id) initWithEngineAndExpressionAndLength: (RCEngine*)eng expression: (SEXP)sexp length: (int)len;
+-(id) initWithEngineAndExpressionAndLength: (RCEngine*)eng expression: (id)sexp length: (int)len;
 -(void) SetVector: (NSArray<ObjectType>*) values;
 -(NSArray<NSString*>*) Names;
 -(R_xlen_t) Length;
