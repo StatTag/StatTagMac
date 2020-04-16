@@ -59,6 +59,7 @@ extern "C" {
 
 
 #import <R/R.h>
+
 #import "RSEXP.h"
 #import "RCSymbolicExpression.h"
 #import "RCCharacterDeviceAdapter.h"
@@ -73,6 +74,11 @@ extern "C" {
 /* macros for translatable strings */
 #define NLS(S) NSLocalizedString(S,@"")
 #define NLSC(S,C) NSLocalizedString(S,C)
+
+// Solution for dynamic casting taken from - https://stackoverflow.com/a/10557838/
+# include <objc/runtime.h>
+#define objc_dynamic_cast(obj, cls) \
+([obj isKindOfClass:(Class)objc_getClass(#cls)] ? (cls *)obj : NULL)
 
 extern BOOL preventReentrance;
 
