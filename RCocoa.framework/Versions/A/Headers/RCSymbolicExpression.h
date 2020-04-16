@@ -30,14 +30,14 @@
 
 @interface RCSymbolicExpression : NSObject
 {
-    SEXP _expression;
+    id _expression;
     RCEngine* _engine;
     bool isProtected;
 }
 
 +(RCFunction*) _getAsListFunction;
 
--(id) initWithEngineAndExpression: (RCEngine*)eng expression: (SEXP)sexp;
+-(id) initWithEngineAndExpression: (RCEngine*)eng expression: (id)sexp;
 
 // Gets the symbolic expression type
 -(int) Type;
@@ -61,7 +61,7 @@
 -(void) SetAttribute: (RCSymbolicExpression*) symbol value:(RCSymbolicExpression*) value;
 
 // Get the underlying SEXP pointer
--(SEXP) GetHandle;
+-(id) GetHandle;
 
 // Type detection methods
 -(BOOL) IsVector;

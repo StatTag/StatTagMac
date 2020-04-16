@@ -43,12 +43,12 @@
 #include <Rversion.h>
 
 @interface RSEXP : NSObject {
-    SEXP xp;
+    id xp;
     RSEXP *attr;
 }
 
 /** constructors */
-- (id) initWithSEXP: (SEXP) ct;
+- (id) initWithSEXP: (id) ct;
 - (id) initWithString: (NSString*) str;
 - (id) initWithDoubleArray: (double*) arr length: (int) len;
 - (id) initWithIntArray: (int*) arr length: (int) len;
@@ -64,7 +64,7 @@
 /** direct access (avoid if possible) */
 - (void) protect;
 - (void) unprotect;
-- (SEXP) directSEXP;
+- (id) directSEXP;
 
 /** non-converting accessor methods */
 - (int) integer;

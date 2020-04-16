@@ -18,7 +18,7 @@
     NSMutableArray* _values;
 }
 
--(id) initWithEngineAndExpressionAndDimensions: (RCEngine*)eng expression: (SEXP)sexp rowCount: (int)rowCount columnCount: (int)columnCount;
+-(id) initWithEngineAndExpressionAndDimensions: (RCEngine*)eng expression: (id)sexp rowCount: (int)rowCount columnCount: (int)columnCount;
 -(int) RowCount;
 -(int) ColumnCount;
 -(ObjectType) ElementAt: (int)row column:(int)column;
