@@ -378,14 +378,33 @@ static WordHelpers* sharedInstance = nil;
     }
   }
 
-  SBElementArray<STMSWord2011Field*>* fields = [document fields];
+  // For now, limiting to these story ranges.  The macOS Word API doesn't let us enumerate over all
+  // story ranges, so that's why we name them instead.
+  [allFields addObjectsFromArray:[[self class] getAllFieldsFromStoryRange:STMSWord2011E160MainTextStory inDocument:document]];
+  [allFields addObjectsFromArray:[[self class] getAllFieldsFromStoryRange:STMSWord2011E160FootnotesStory inDocument:document]];
+  [allFields addObjectsFromArray:[[self class] getAllFieldsFromStoryRange:STMSWord2011E160EndnotesStory inDocument:document]];
+
+  return allFields;
+}
+
+// Returns all of the fields from a specific story range within a document.  A "story range" is a named
+// part of the document (e.g., main text, footnotes) that can contain other Word objects.  Ideally we
+// would process all story ranges, but the macOS Word API does not let us reliably access the StoryRanges
+// collection like we can on Windows.  This provides a wrapper function that we can call to process a
+// single, named story range.
++(NSMutableArray<STMSWord2011Field*>*) getAllFieldsFromStoryRange:(STMSWord2011E160)storyType inDocument:(STMSWord2011Document*)document
+{
+  NSMutableArray<STMSWord2011Field*>* allFields = [[NSMutableArray alloc] init];
+  STMSWord2011StoryRange* range = [document getStoryRangeStoryType:storyType];
+  SBElementArray<STMSWord2011Field*>* fields = [range fields];
   NSInteger fieldsCount = [fields count];
   for (NSInteger fieldIndex = 0; fieldIndex < fieldsCount; fieldIndex++) {
     [allFields addObject:fields[fieldIndex]];
   }
-
+  
   return allFields;
 }
+
 
 +(void)select:(STMSWord2011BaseObject*)wordObject {
   @autoreleasepool {
