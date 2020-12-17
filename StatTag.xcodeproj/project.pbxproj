@@ -7,11 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3500D5CF1EE066F7006AA0ED /* R.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3500D5CE1EE066F7006AA0ED /* R.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		350943C9214831AC00DAAADC /* STTagCollisionResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 350943C8214831AC00DAAADC /* STTagCollisionResult.m */; };
 		350943CB2148496D00DAAADC /* STTagCollisionResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 350943CA214831C100DAAADC /* STTagCollisionResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3537430B202BF97100325941 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3537430A202BF97100325941 /* libz.tbd */; };
-		35374311202BFB1600325941 /* libXlsxReaderWriter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 35F649A9202BA7FB00CEC7D8 /* libXlsxReaderWriter.a */; };
 		35374313202BFB1D00325941 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 35374312202BFB1D00325941 /* libz.tbd */; };
 		353D75A4202E191E006CF435 /* balanced.xlsx in Resources */ = {isa = PBXBuildFile; fileRef = 353D75A1202E191E006CF435 /* balanced.xlsx */; };
 		353D75A5202E191E006CF435 /* empty.xlsx in Resources */ = {isa = PBXBuildFile; fileRef = 353D75A2202E191E006CF435 /* empty.xlsx */; };
@@ -62,6 +60,9 @@
 		3824439E1DBE567D00EF0048 /* StatTagScriptSupport.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 3824439D1DBE567D00EF0048 /* StatTagScriptSupport.scpt */; };
 		382443A01DBE6D0E00EF0048 /* StatTagMacroInstallationScript.sh in Resources */ = {isa = PBXBuildFile; fileRef = 3824439F1DBE612800EF0048 /* StatTagMacroInstallationScript.sh */; };
 		382443A31DBE8E7200EF0048 /* STCodeFile+TagInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 382443A21DBE8E7200EF0048 /* STCodeFile+TagInfo.m */; };
+		3827BDA22582925900956A8D /* libXlsxReaderWriter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3827BD952582922200956A8D /* libXlsxReaderWriter.a */; };
+		3827BDA32582936500956A8D /* XlsxReaderWriter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3827BD992582922200956A8D /* XlsxReaderWriter.framework */; };
+		3827BDA42582936500956A8D /* XlsxReaderWriter.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3827BD992582922200956A8D /* XlsxReaderWriter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3828C8131E9CF82E000A4159 /* DuplicateTagGroupRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3828C8121E9CF82E000A4159 /* DuplicateTagGroupRowView.m */; };
 		3828C8161E9D0AB8000A4159 /* DuplicateTagDetailRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3828C8151E9D0AB8000A4159 /* DuplicateTagDetailRowView.m */; };
 		3828C8191E9D12AD000A4159 /* STTag+TagContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 3828C8181E9D12AD000A4159 /* STTag+TagContent.m */; };
@@ -148,6 +149,11 @@
 		384764B51DA5683100FCDABE /* NumericValuePropertiesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 384764B31DA5683100FCDABE /* NumericValuePropertiesController.m */; };
 		384764B61DA5683100FCDABE /* NumericValuePropertiesController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 384764B41DA5683100FCDABE /* NumericValuePropertiesController.xib */; };
 		384764B91DA56B8300FCDABE /* IntegerOnlyNumberFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 384764B81DA56B8300FCDABE /* IntegerOnlyNumberFormatter.m */; };
+		384C8E8325829C6C002F196C /* Scintilla.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 384C8E8225829C13002F196C /* Scintilla.framework */; };
+		384C8E8425829C6C002F196C /* Scintilla.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 384C8E8225829C13002F196C /* Scintilla.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		384C8ED42582A0F8002F196C /* ZipArchive.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 384C8ED32582A0F7002F196C /* ZipArchive.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		384C8ED52582A4E1002F196C /* R.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3500D5CE1EE066F7006AA0ED /* R.framework */; };
+		384C8ED925830747002F196C /* RCocoa.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 38E2D0C02028A36100512B8C /* RCocoa.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		384CE6741DF5D5930076FBDB /* testArrayFile.txt in Resources */ = {isa = PBXBuildFile; fileRef = 384CE6731DF5D5930076FBDB /* testArrayFile.txt */; };
 		384CE6791DF5F2FC0076FBDB /* STFilterFormat.h in Headers */ = {isa = PBXBuildFile; fileRef = 384CE6771DF5F2FC0076FBDB /* STFilterFormat.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		384CE67A1DF5F2FC0076FBDB /* STFilterFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = 384CE6781DF5F2FC0076FBDB /* STFilterFormat.m */; };
@@ -233,10 +239,10 @@
 		38A7CE991D4FDFB600B06AFF /* STGridDataItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A7CE971D4FDFB600B06AFF /* STGridDataItem.m */; };
 		38A7CE9C1D4FE29400B06AFF /* STSettingsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 38A7CE9A1D4FE29400B06AFF /* STSettingsManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38A7CE9D1D4FE29400B06AFF /* STSettingsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A7CE9B1D4FE29400B06AFF /* STSettingsManager.m */; };
-		38A877CD1D9AEEA7002F37DA /* Scintilla.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38A877CB1D9AEEA0002F37DA /* Scintilla.framework */; };
-		38A877CE1D9AEEA7002F37DA /* Scintilla.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 38A877CB1D9AEEA0002F37DA /* Scintilla.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		38A8C6791FFFDF820082781B /* StatTagModelTableFormatTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 380A679C1D1061490045B72B /* StatTagModelTableFormatTests.m */; };
 		38A8C67A1FFFDF820082781B /* StatTagModelTableTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 384CE6751DF5F16F0076FBDB /* StatTagModelTableTests.m */; };
+		38AB26D5258A5344007D30A2 /* RCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38E2D0C02028A36100512B8C /* RCocoa.framework */; };
+		38AB26D6258A5344007D30A2 /* RCocoa.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 38E2D0C02028A36100512B8C /* RCocoa.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		38AB41841DA1564C00EA464C /* TagEditorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38AB41831DA1564C00EA464C /* TagEditorViewController.xib */; };
 		38AB418D1DA1BC2900EA464C /* TagBasicPropertiesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38AB418B1DA1BC2900EA464C /* TagBasicPropertiesController.m */; };
 		38AB418E1DA1BC2900EA464C /* TagBasicPropertiesController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38AB418C1DA1BC2900EA464C /* TagBasicPropertiesController.xib */; };
@@ -306,8 +312,6 @@
 		38E22ABB1E9D4388005DFFE9 /* TagCodePeekViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38E22AB91E9D4388005DFFE9 /* TagCodePeekViewController.xib */; };
 		38E22ABF1E9D5FBC005DFFE9 /* ScintillaEmbeddedViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 38E22ABD1E9D5FBC005DFFE9 /* ScintillaEmbeddedViewController.mm */; };
 		38E22AC01E9D5FBC005DFFE9 /* ScintillaEmbeddedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38E22ABE1E9D5FBC005DFFE9 /* ScintillaEmbeddedViewController.xib */; };
-		38E2D0B920289EF600512B8C /* RCocoa.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3500D5CC1EE066DA006AA0ED /* RCocoa.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		38E2D0C3202A0F9000512B8C /* RCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38E2D0C02028A36100512B8C /* RCocoa.framework */; };
 		38E2D0CF202A1A8300512B8C /* RCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38E2D0C02028A36100512B8C /* RCocoa.framework */; };
 		38E56FD41FFEC97B008988BE /* StatTagModelJSONTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 385906ED1D1C6E280088A0D7 /* StatTagModelJSONTests.m */; };
 		38E56FD61FFECE25008988BE /* StatTagRParserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 35AE14801F4DC69900A162C4 /* StatTagRParserTests.m */; };
@@ -329,7 +333,6 @@
 		38EDF0321D2C2E6900ACD77B /* STCocoaUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 38EDF0301D2C2E6900ACD77B /* STCocoaUtil.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38EDF0331D2C2E6900ACD77B /* STCocoaUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EDF0311D2C2E6900ACD77B /* STCocoaUtil.m */; };
 		38EDF0351D2C2FC200ACD77B /* StatTagStataAutomationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EDF0341D2C2FC200ACD77B /* StatTagStataAutomationTests.m */; };
-		38F5E91A20079ABF007C0E10 /* RCocoa.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3500D5CC1EE066DA006AA0ED /* RCocoa.framework */; };
 		38F803431D9C4B9A00C8F1EA /* SCHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F803421D9C4B9A00C8F1EA /* SCHelpers.m */; };
 		38F803461D9C4CEB00C8F1EA /* SCMarkerHandle.mm in Sources */ = {isa = PBXBuildFile; fileRef = 38F803451D9C4CEB00C8F1EA /* SCMarkerHandle.mm */; };
 		38F803491D9C50C000C8F1EA /* SCLine.mm in Sources */ = {isa = PBXBuildFile; fileRef = 38F803481D9C50C000C8F1EA /* SCLine.mm */; };
@@ -376,41 +379,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		3537430F202BFB0B00325941 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 35F649A0202BA7FA00CEC7D8 /* XlsxReaderWriter.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 22156D571C46B42500BB5779;
-			remoteInfo = "XlsxReaderWriter Mac";
-		};
-		35F649A8202BA7FB00CEC7D8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 35F649A0202BA7FA00CEC7D8 /* XlsxReaderWriter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 45B6E23A1A148F7500288A78;
-			remoteInfo = XlsxReaderWriter;
-		};
-		35F649AA202BA7FB00CEC7D8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 35F649A0202BA7FA00CEC7D8 /* XlsxReaderWriter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 45B6E2451A148F7500288A78;
-			remoteInfo = XlsxReaderWriterTests;
-		};
-		35F649AC202BA7FB00CEC7D8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 35F649A0202BA7FA00CEC7D8 /* XlsxReaderWriter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 22156D581C46B42500BB5779;
-			remoteInfo = "XlsxReaderWriter Mac";
-		};
-		35F649B1202BABA000CEC7D8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 35F649A0202BA7FA00CEC7D8 /* XlsxReaderWriter.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 22156D571C46B42500BB5779;
-			remoteInfo = "XlsxReaderWriter Mac";
-		};
 		3816AC011ED5CA5A0045390E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 382C8D1A1D0F672F00FE6878 /* Project object */;
@@ -418,12 +386,68 @@
 			remoteGlobalIDString = 3816ABF51ED5C1B10045390E;
 			remoteInfo = StatTagHelp;
 		};
+		3827BD942582922200956A8D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3827BD8C2582922200956A8D /* XlsxReaderWriter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 45B6E23A1A148F7500288A78;
+			remoteInfo = XlsxReaderWriter;
+		};
+		3827BD962582922200956A8D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3827BD8C2582922200956A8D /* XlsxReaderWriter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 45B6E2451A148F7500288A78;
+			remoteInfo = XlsxReaderWriterTests;
+		};
+		3827BD982582922200956A8D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3827BD8C2582922200956A8D /* XlsxReaderWriter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 22156D581C46B42500BB5779;
+			remoteInfo = "XlsxReaderWriter-Mac";
+		};
+		3827BD9A2582922200956A8D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3827BD8C2582922200956A8D /* XlsxReaderWriter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8289AA632041D9F900E00603;
+			remoteInfo = "XlsxReaderWriter-iOS";
+		};
+		3827BD9C2582922200956A8D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3827BD8C2582922200956A8D /* XlsxReaderWriter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8289AAD620420FFC00E00603;
+			remoteInfo = "XlsxReaderWriter-WatchOS";
+		};
+		3827BD9E2582924500956A8D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3827BD8C2582922200956A8D /* XlsxReaderWriter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 45B6E2391A148F7500288A78;
+			remoteInfo = XlsxReaderWriter;
+		};
+		3827BDA02582924500956A8D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3827BD8C2582922200956A8D /* XlsxReaderWriter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 22156D571C46B42500BB5779;
+			remoteInfo = "XlsxReaderWriter-Mac";
+		};
 		3836F5601D92C89900BF0DD4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 382C8D1A1D0F672F00FE6878 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 3836F5491D92C89900BF0DD4;
 			remoteInfo = StatTag;
+		};
+		384C8E8125829C13002F196C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 384C8E7D25829C13002F196C /* ScintillaFramework.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
+			remoteInfo = Scintilla;
 		};
 		38D8B1B41D9496C300BF878A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -453,13 +477,6 @@
 			remoteGlobalIDString = 350C8C6F1E1E8FEF003DE3F8;
 			remoteInfo = RCocoa;
 		};
-		38E2D0E5202A7BBC00512B8C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 38E2D0BA2028A36100512B8C /* RCocoa.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 350C8C6F1E1E8FEF003DE3F8;
-			remoteInfo = RCocoa;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -469,7 +486,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 16;
 			files = (
-				38F5E91A20079ABF007C0E10 /* RCocoa.framework in CopyFiles */,
 				387A0E351D23111C00F1FE9C /* OCMock.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -490,9 +506,9 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				38E2D0B920289EF600512B8C /* RCocoa.framework in Embed Frameworks */,
 				38D8B1B31D9496C300BF878A /* StatTagFramework.framework in Embed Frameworks */,
-				38A877CE1D9AEEA7002F37DA /* Scintilla.framework in Embed Frameworks */,
+				38AB26D6258A5344007D30A2 /* RCocoa.framework in Embed Frameworks */,
+				384C8E8425829C6C002F196C /* Scintilla.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -503,6 +519,9 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				384C8ED925830747002F196C /* RCocoa.framework in CopyFiles */,
+				3827BDA42582936500956A8D /* XlsxReaderWriter.framework in CopyFiles */,
+				384C8ED42582A0F8002F196C /* ZipArchive.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -549,7 +568,6 @@
 		35DD6E3D21CAE8D900FEEA05 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		35F2E7311EE1A93E0086F9D0 /* STRBaseValueFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STRBaseValueFormatter.h; sourceTree = "<group>"; };
 		35F2E7331EE1A94A0086F9D0 /* STRBaseValueFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STRBaseValueFormatter.m; sourceTree = "<group>"; };
-		35F649A0202BA7FA00CEC7D8 /* XlsxReaderWriter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = XlsxReaderWriter.xcodeproj; path = ../XlsxReaderWriter/XlsxReaderWriter.xcodeproj; sourceTree = "<group>"; };
 		380137C82226D80300C5B6B8 /* WordFieldTreeItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WordFieldTreeItem.h; sourceTree = "<group>"; };
 		380137C92226D80300C5B6B8 /* WordFieldTreeItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WordFieldTreeItem.m; sourceTree = "<group>"; };
 		380137CE222737D600C5B6B8 /* WordDocProperty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WordDocProperty.h; sourceTree = "<group>"; };
@@ -584,6 +602,7 @@
 		3824439F1DBE612800EF0048 /* StatTagMacroInstallationScript.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = StatTagMacroInstallationScript.sh; sourceTree = "<group>"; };
 		382443A11DBE8E7200EF0048 /* STCodeFile+TagInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "STCodeFile+TagInfo.h"; sourceTree = "<group>"; };
 		382443A21DBE8E7200EF0048 /* STCodeFile+TagInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "STCodeFile+TagInfo.m"; sourceTree = "<group>"; };
+		3827BD8C2582922200956A8D /* XlsxReaderWriter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = XlsxReaderWriter.xcodeproj; path = ../XlsxReaderWriter/XlsxReaderWriter.xcodeproj; sourceTree = "<group>"; };
 		3828C8111E9CF82E000A4159 /* DuplicateTagGroupRowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DuplicateTagGroupRowView.h; sourceTree = "<group>"; };
 		3828C8121E9CF82E000A4159 /* DuplicateTagGroupRowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DuplicateTagGroupRowView.m; sourceTree = "<group>"; };
 		3828C8141E9D0AB8000A4159 /* DuplicateTagDetailRowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DuplicateTagDetailRowView.h; sourceTree = "<group>"; };
@@ -697,6 +716,10 @@
 		384764B41DA5683100FCDABE /* NumericValuePropertiesController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NumericValuePropertiesController.xib; sourceTree = "<group>"; };
 		384764B71DA56B8300FCDABE /* IntegerOnlyNumberFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntegerOnlyNumberFormatter.h; sourceTree = "<group>"; };
 		384764B81DA56B8300FCDABE /* IntegerOnlyNumberFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntegerOnlyNumberFormatter.m; sourceTree = "<group>"; };
+		384C8E7D25829C13002F196C /* ScintillaFramework.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ScintillaFramework.xcodeproj; path = ../scintilla/cocoa/ScintillaFramework/ScintillaFramework.xcodeproj; sourceTree = "<group>"; };
+		384C8ECF25829FA1002F196C /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
+		384C8ED125829FB8002F196C /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		384C8ED32582A0F7002F196C /* ZipArchive.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ZipArchive.framework; sourceTree = "<group>"; };
 		384CE6731DF5D5930076FBDB /* testArrayFile.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = testArrayFile.txt; sourceTree = "<group>"; };
 		384CE6751DF5F16F0076FBDB /* StatTagModelTableTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatTagModelTableTests.m; sourceTree = "<group>"; };
 		384CE6771DF5F2FC0076FBDB /* STFilterFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STFilterFormat.h; sourceTree = "<group>"; };
@@ -754,6 +777,7 @@
 		386992D11DB8E6F500852B6E /* STCodeFile+FileAttributes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "STCodeFile+FileAttributes.m"; sourceTree = "<group>"; };
 		386992D41DBD10D400852B6E /* STUIUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STUIUtility.h; sourceTree = "<group>"; };
 		386992D51DBD10D400852B6E /* STUIUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STUIUtility.m; sourceTree = "<group>"; };
+		386C0BEB2584431C0094F380 /* StatTag.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = StatTag.entitlements; sourceTree = "<group>"; };
 		3871BA681E9E919600B00C22 /* UnlinkedTagsDetailRowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnlinkedTagsDetailRowView.h; sourceTree = "<group>"; };
 		3871BA691E9E919600B00C22 /* UnlinkedTagsDetailRowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnlinkedTagsDetailRowView.m; sourceTree = "<group>"; };
 		3871BA6B1E9EE87900B00C22 /* STDocumentManager+TagUsage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "STDocumentManager+TagUsage.h"; sourceTree = "<group>"; };
@@ -813,7 +837,6 @@
 		38A7CE9A1D4FE29400B06AFF /* STSettingsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = STSettingsManager.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		38A7CE9B1D4FE29400B06AFF /* STSettingsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = STSettingsManager.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		38A843A21D9B051100357727 /* readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = readme.md; sourceTree = "<group>"; };
-		38A877CB1D9AEEA0002F37DA /* Scintilla.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Scintilla.framework; sourceTree = "<group>"; };
 		38AB41831DA1564C00EA464C /* TagEditorViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TagEditorViewController.xib; sourceTree = "<group>"; };
 		38AB418A1DA1BC2900EA464C /* TagBasicPropertiesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagBasicPropertiesController.h; sourceTree = "<group>"; };
 		38AB418B1DA1BC2900EA464C /* TagBasicPropertiesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagBasicPropertiesController.m; sourceTree = "<group>"; };
@@ -988,11 +1011,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3827BDA22582925900956A8D /* libXlsxReaderWriter.a in Frameworks */,
+				384C8ED52582A4E1002F196C /* R.framework in Frameworks */,
 				35374313202BFB1D00325941 /* libz.tbd in Frameworks */,
-				35374311202BFB1600325941 /* libXlsxReaderWriter.a in Frameworks */,
 				38E2D0CF202A1A8300512B8C /* RCocoa.framework in Frameworks */,
-				3500D5CF1EE066F7006AA0ED /* R.framework in Frameworks */,
 				38BE59AC1D52AA1000FF9E99 /* Cocoa.framework in Frameworks */,
+				3827BDA32582936500956A8D /* XlsxReaderWriter.framework in Frameworks */,
 				38C91F461D36FC8A0048A95E /* AppleScriptObjC.framework in Frameworks */,
 				382C28711D180CB900697D6F /* SystemConfiguration.framework in Frameworks */,
 			);
@@ -1012,9 +1036,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				3537430B202BF97100325941 /* libz.tbd in Frameworks */,
-				38E2D0C3202A0F9000512B8C /* RCocoa.framework in Frameworks */,
+				384C8E8325829C6C002F196C /* Scintilla.framework in Frameworks */,
 				38D8B1B21D9496C300BF878A /* StatTagFramework.framework in Frameworks */,
-				38A877CD1D9AEEA7002F37DA /* Scintilla.framework in Frameworks */,
+				38AB26D5258A5344007D30A2 /* RCocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1031,6 +1055,8 @@
 		3500D5CB1EE066DA006AA0ED /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				384C8ED125829FB8002F196C /* Security.framework */,
+				384C8ECF25829FA1002F196C /* libiconv.tbd */,
 				35DD6E3D21CAE8D900FEEA05 /* Foundation.framework */,
 				35374312202BFB1D00325941 /* libz.tbd */,
 				3537430A202BF97100325941 /* libz.tbd */,
@@ -1067,16 +1093,6 @@
 			name = OverlappingTags;
 			sourceTree = "<group>";
 		};
-		35F649A1202BA7FA00CEC7D8 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				35F649A9202BA7FB00CEC7D8 /* libXlsxReaderWriter.a */,
-				35F649AB202BA7FB00CEC7D8 /* XlsxReaderWriterTests.xctest */,
-				35F649AD202BA7FB00CEC7D8 /* XlsxReaderWriter.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		380CBD401E89C141006E92D1 /* DocumentBrowser */ = {
 			isa = PBXGroup;
 			children = (
@@ -1109,6 +1125,18 @@
 			path = StatTagHelp;
 			sourceTree = "<group>";
 		};
+		3827BD8D2582922200956A8D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3827BD952582922200956A8D /* libXlsxReaderWriter.a */,
+				3827BD972582922200956A8D /* XlsxReaderWriterTests.xctest */,
+				3827BD992582922200956A8D /* XlsxReaderWriter.framework */,
+				3827BD9B2582922200956A8D /* XlsxReaderWriter.framework */,
+				3827BD9D2582922200956A8D /* XlsxReaderWriter.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		3828F33C1EDB20A300DABA43 /* SamplesInstaller */ = {
 			isa = PBXGroup;
 			children = (
@@ -1138,9 +1166,10 @@
 		382C8D191D0F672F00FE6878 = {
 			isa = PBXGroup;
 			children = (
-				35F649A0202BA7FA00CEC7D8 /* XlsxReaderWriter.xcodeproj */,
+				384C8ED32582A0F7002F196C /* ZipArchive.framework */,
+				384C8E7D25829C13002F196C /* ScintillaFramework.xcodeproj */,
+				3827BD8C2582922200956A8D /* XlsxReaderWriter.xcodeproj */,
 				38E2D0BA2028A36100512B8C /* RCocoa.xcodeproj */,
-				38A877CB1D9AEEA0002F37DA /* Scintilla.framework */,
 				38C91F4A1D37AC710048A95E /* Cocoa.framework */,
 				38C91F451D36FC8A0048A95E /* AppleScriptObjC.framework */,
 				387A0E2F1D230DAF00F1FE9C /* OCMock.framework */,
@@ -1362,6 +1391,7 @@
 			children = (
 				3836F54C1D92C89900BF0DD4 /* AppDelegate.h */,
 				3836F54D1D92C89900BF0DD4 /* AppDelegate.m */,
+				386C0BEB2584431C0094F380 /* StatTag.entitlements */,
 				3836F5551D92C89900BF0DD4 /* Assets.xcassets */,
 				387632511DA93FF400680898 /* Categories */,
 				38F803501D9DAF5500C8F1EA /* Classes */,
@@ -1458,6 +1488,14 @@
 				383F8D1222304B5F00B38238 /* StatTag_Citation.rtf */,
 			);
 			name = About;
+			sourceTree = "<group>";
+		};
+		384C8E7E25829C13002F196C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				384C8E8225829C13002F196C /* Scintilla.framework */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		38516FCC1DF5C712006989BC /* ThirdParty */ = {
@@ -2159,11 +2197,13 @@
 				382C8D201D0F672F00FE6878 /* Headers */,
 				382C8D211D0F672F00FE6878 /* Resources */,
 				387D6F0B1D5A845400C4087F /* Embed XPC Services */,
+				38EAE38F258BDD8200729904 /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				35374310202BFB0B00325941 /* PBXTargetDependency */,
+				3827BD9F2582924500956A8D /* PBXTargetDependency */,
+				3827BDA12582924500956A8D /* PBXTargetDependency */,
 				38E2D0DC202A76BD00512B8C /* PBXTargetDependency */,
 			);
 			name = StatTagFramework;
@@ -2200,12 +2240,11 @@
 				38D8B1B61D9496C300BF878A /* Embed Frameworks */,
 				3836F5481D92C89900BF0DD4 /* Resources */,
 				357B7D391F1D31150009C543 /* ShellScript */,
+				384C8E7C258298DC002F196C /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				35F649B2202BABA000CEC7D8 /* PBXTargetDependency */,
-				38E2D0E6202A7BBC00512B8C /* PBXTargetDependency */,
 				3816AC021ED5CA5A0045390E /* PBXTargetDependency */,
 				38D8B1B51D9496C300BF878A /* PBXTargetDependency */,
 			);
@@ -2255,7 +2294,7 @@
 					};
 					3836F5491D92C89900BF0DD4 = {
 						CreatedOnToolsVersion = 8.0;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 					};
 					3836F55E1D92C89900BF0DD4 = {
 						CreatedOnToolsVersion = 8.0;
@@ -2269,6 +2308,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -2281,8 +2321,12 @@
 					ProjectRef = 38E2D0BA2028A36100512B8C /* RCocoa.xcodeproj */;
 				},
 				{
-					ProductGroup = 35F649A1202BA7FA00CEC7D8 /* Products */;
-					ProjectRef = 35F649A0202BA7FA00CEC7D8 /* XlsxReaderWriter.xcodeproj */;
+					ProductGroup = 384C8E7E25829C13002F196C /* Products */;
+					ProjectRef = 384C8E7D25829C13002F196C /* ScintillaFramework.xcodeproj */;
+				},
+				{
+					ProductGroup = 3827BD8D2582922200956A8D /* Products */;
+					ProjectRef = 3827BD8C2582922200956A8D /* XlsxReaderWriter.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -2297,25 +2341,46 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		35F649A9202BA7FB00CEC7D8 /* libXlsxReaderWriter.a */ = {
+		3827BD952582922200956A8D /* libXlsxReaderWriter.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libXlsxReaderWriter.a;
-			remoteRef = 35F649A8202BA7FB00CEC7D8 /* PBXContainerItemProxy */;
+			remoteRef = 3827BD942582922200956A8D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		35F649AB202BA7FB00CEC7D8 /* XlsxReaderWriterTests.xctest */ = {
+		3827BD972582922200956A8D /* XlsxReaderWriterTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = XlsxReaderWriterTests.xctest;
-			remoteRef = 35F649AA202BA7FB00CEC7D8 /* PBXContainerItemProxy */;
+			remoteRef = 3827BD962582922200956A8D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		35F649AD202BA7FB00CEC7D8 /* XlsxReaderWriter.framework */ = {
+		3827BD992582922200956A8D /* XlsxReaderWriter.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = XlsxReaderWriter.framework;
-			remoteRef = 35F649AC202BA7FB00CEC7D8 /* PBXContainerItemProxy */;
+			remoteRef = 3827BD982582922200956A8D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3827BD9B2582922200956A8D /* XlsxReaderWriter.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = XlsxReaderWriter.framework;
+			remoteRef = 3827BD9A2582922200956A8D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3827BD9D2582922200956A8D /* XlsxReaderWriter.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = XlsxReaderWriter.framework;
+			remoteRef = 3827BD9C2582922200956A8D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		384C8E8225829C13002F196C /* Scintilla.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Scintilla.framework;
+			remoteRef = 384C8E8125829C13002F196C /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		38E2D0C02028A36100512B8C /* RCocoa.framework */ = {
@@ -2473,6 +2538,40 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "echo \"CONTENTS_FOLDER_PATH = $CONTENTS_FOLDER_PATH\"\necho \"SRCROOT = $SRCROOT\"\nfind \"${SRCROOT}/StatTagFrameworkTests/IntegrationTests/$1\" -type f -print0 | xargs -0 touch";
+		};
+		384C8E7C258298DC002F196C /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#for f in $(find $CODESIGNING_FOLDER_PATH -name '*.framework')\n#do\n#echo “$f”\n#codesign --force --sign \"${CODE_SIGN_IDENTITY}\" --preserve-metadata=identifier,entitlements --timestamp=none \"$f\"\n#codesign --force --sign \"${CODE_SIGN_IDENTITY}\" --preserve-metadata=identifier,entitlements --timestamp=none \"$f\"\n#done\n";
+		};
+		38EAE38F258BDD8200729904 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n# Type a script or drag a script file from your workspace to insert its path.\nBuildRVersion=$(otool -L \"$TARGET_BUILD_DIR/StatTagFramework.Framework/$TARGET_NAME\" | grep -Eo \"R.framework\\/Versions\\/(.*)\\/Resources\" | grep -Eo '[+-]?[0-9]+([.][0-9]+)?')\n#echo $BuildRVersion\ninstall_name_tool -change /Library/Frameworks/R.framework/Versions/$BuildRVersion/Resources/lib/libR.dylib /Library/Frameworks/R.framework/Versions/Current/Resources/lib/libR.dylib \"$TARGET_BUILD_DIR/StatTagFramework.Framework/$TARGET_NAME\"\ninstall_name_tool -change /Library/Frameworks/R.framework/Versions/$BuildRVersion/Resources/lib/libR.dylib /Library/Frameworks/R.framework/Versions/Current/Resources/lib/libR.dylib \"$TARGET_BUILD_DIR/StatTagFramework.Framework/Versions/A/$TARGET_NAME\"\ninstall_name_tool -change /Library/Frameworks/R.framework/Versions/$BuildRVersion/Resources/lib/libR.dylib /Library/Frameworks/R.framework/Versions/Current/Resources/lib/libR.dylib \"$TARGET_BUILD_DIR/StatTagFramework.Framework/Versions/Current/$TARGET_NAME\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -2713,20 +2812,20 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		35374310202BFB0B00325941 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "XlsxReaderWriter Mac";
-			targetProxy = 3537430F202BFB0B00325941 /* PBXContainerItemProxy */;
-		};
-		35F649B2202BABA000CEC7D8 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "XlsxReaderWriter Mac";
-			targetProxy = 35F649B1202BABA000CEC7D8 /* PBXContainerItemProxy */;
-		};
 		3816AC021ED5CA5A0045390E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 3816ABF51ED5C1B10045390E /* StatTagHelp */;
 			targetProxy = 3816AC011ED5CA5A0045390E /* PBXContainerItemProxy */;
+		};
+		3827BD9F2582924500956A8D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = XlsxReaderWriter;
+			targetProxy = 3827BD9E2582924500956A8D /* PBXContainerItemProxy */;
+		};
+		3827BDA12582924500956A8D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "XlsxReaderWriter-Mac";
+			targetProxy = 3827BDA02582924500956A8D /* PBXContainerItemProxy */;
 		};
 		3836F5611D92C89900BF0DD4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -2742,11 +2841,6 @@
 			isa = PBXTargetDependency;
 			name = RCocoa;
 			targetProxy = 38E2D0DB202A76BD00512B8C /* PBXContainerItemProxy */;
-		};
-		38E2D0E6202A7BBC00512B8C /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = RCocoa;
-			targetProxy = 38E2D0E5202A7BBC00512B8C /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -2900,7 +2994,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -2922,17 +3017,20 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"$(inherited)",
 					"-lz",
+					"-all_load",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = edu.northwestern.nucats.StatTagFramework;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SDKROOT = macosx10.11;
+				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/XlsxReaderWriter/**";
 			};
 			name = Debug;
 		};
@@ -2941,7 +3039,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -2964,16 +3063,20 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"$(inherited)",
 					"-lz",
+					"-all_load",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = edu.northwestern.nucats.StatTagFramework;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SDKROOT = macosx10.11;
+				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/XlsxReaderWriter/**";
 			};
 			name = Release;
 		};
@@ -2993,7 +3096,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = stattag.org.StatTagFrameworkTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx10.11;
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
@@ -3013,7 +3116,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = stattag.org.StatTagFrameworkTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx10.11;
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};
@@ -3025,10 +3128,12 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
-				CODE_SIGN_IDENTITY = "Developer ID Application";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_ENTITLEMENTS = StatTag/StatTag.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = E74ZKF37E6;
+				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -3045,6 +3150,7 @@
 				INFOPLIST_FILE = StatTag/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks /Library/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_CODE_SIGN_FLAGS = "--deep";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -3052,9 +3158,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = edu.northwestern.nucats.StatTag;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3a9c2162-3025-4f51-8b56-c178a708b201";
-				PROVISIONING_PROFILE_SPECIFIER = "StatTag DeveloperID";
-				SDKROOT = macosx10.12;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = macosx;
 				SKIP_INSTALL = NO;
 				USER_HEADER_SEARCH_PATHS = "";
 			};
@@ -3068,10 +3174,12 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
-				CODE_SIGN_IDENTITY = "Developer ID Application";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_ENTITLEMENTS = StatTag/StatTag.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = E74ZKF37E6;
+				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -3088,6 +3196,8 @@
 				INFOPLIST_FILE = StatTag/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks /Library/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CODE_SIGN_FLAGS = "--deep";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -3095,9 +3205,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = edu.northwestern.nucats.StatTag;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3a9c2162-3025-4f51-8b56-c178a708b201";
-				PROVISIONING_PROFILE_SPECIFIER = "StatTag DeveloperID";
-				SDKROOT = macosx10.12;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = macosx;
 				SKIP_INSTALL = NO;
 				USER_HEADER_SEARCH_PATHS = "";
 			};

@@ -37,6 +37,7 @@ NSString* const DisplayWorkingDirectoryCommand = @"display \"`c(pwd)'\"";
 
 +(NSArray<NSString*>*) StataProcessNames {
   return [NSArray arrayWithObjects:
+          @"com.stata.stata16",
           @"com.stata.stata15",
           @"com.stata.stata14",
           @"com.stata.stata13",

@@ -11,7 +11,9 @@
 #import "CHCSVParser.h"
 #import "STFileHandler.h"
 #import "STTableData.h"
-#import "BRAOfficeDocumentPackage.h"
+//#import "BRAOfficeDocumentPackage.h"
+#import "XlsxReaderWriter.h"
+
 
 @implementation STDataFileToTable
 

@@ -11,11 +11,12 @@
 #import "STRParser.h"
 #import "STCommandResult.h"
 #import "STTag.h"
-#import <RCocoa/RCocoa.h>
 #import "STTable.h"
 #import "STTableUtil.h"
 #import "STRVerbatimDevice.h"
 #import "STGeneralUtil.h"
+#import <RCocoa/RCocoa.h>
+
 
 @implementation STRAutomation
 
