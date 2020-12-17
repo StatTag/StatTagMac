@@ -154,8 +154,8 @@
 /// <returns></returns>
 +(BOOL)TagsOutsideEachOther:(STTag*) tag1 tag2:(STTag*)tag2
 {
-  return (tag1.LineStart > tag2.LineEnd && tag1.LineEnd > tag2.LineEnd)
-  || (tag1.LineStart < tag2.LineStart && tag1.LineEnd < tag2.LineStart);
+  return (tag1.LineStart.integerValue > tag2.LineEnd.integerValue && tag1.LineEnd.integerValue > tag2.LineEnd.integerValue)
+  || (tag1.LineStart.integerValue < tag2.LineStart.integerValue && tag1.LineEnd.integerValue < tag2.LineStart.integerValue);
 }
 
 /// <summary>
@@ -166,7 +166,7 @@
 /// <returns></returns>
 +(BOOL)TagsOverlapExact:(STTag*) tag1 tag2:(STTag*)tag2
 {
-  return (tag1.LineStart == tag2.LineStart && tag1.LineEnd == tag2.LineEnd && !([[tag1 Id] isEqualToString:[tag2 Id]]));
+  return (tag1.LineStart.integerValue == tag2.LineStart.integerValue && tag1.LineEnd.integerValue == tag2.LineEnd.integerValue && !([[tag1 Id] isEqualToString:[tag2 Id]]));
 }
 
 /// <summary>
@@ -177,7 +177,7 @@
 /// <returns></returns>
 +(BOOL)TagEmbeddedWithin:(STTag*) tag1 tag2:(STTag*)tag2
 {
-  return (tag1.LineStart >= tag2.LineStart && tag1.LineEnd <= tag2.LineEnd)
+  return (tag1.LineStart.integerValue >= tag2.LineStart.integerValue && tag1.LineEnd.integerValue <= tag2.LineEnd.integerValue)
   && !([self TagsOverlapExact:tag1 tag2:tag2]);
 }
 
@@ -190,7 +190,7 @@
 /// <returns></returns>
 +(BOOL)TagOverlapsFront:(STTag*) tag1 tag2:(STTag*)tag2
 {
-  return (tag1.LineStart < tag2.LineStart && tag1.LineEnd <= tag2.LineEnd && tag1.LineEnd >= tag2.LineStart);
+  return (tag1.LineStart.integerValue < tag2.LineStart.integerValue && tag1.LineEnd.integerValue <= tag2.LineEnd.integerValue && tag1.LineEnd.integerValue >= tag2.LineStart.integerValue);
 }
 
 /// <summary>
@@ -202,7 +202,7 @@
 /// <returns></returns>
 +(BOOL)TagOverlapsBack:(STTag*) tag1 tag2:(STTag*)tag2
 {
-  return (tag1.LineEnd > tag2.LineEnd && tag1.LineStart <= tag2.LineEnd && tag1.LineStart >= tag2.LineStart);
+  return (tag1.LineEnd.integerValue > tag2.LineEnd.integerValue && tag1.LineStart.integerValue <= tag2.LineEnd.integerValue && tag1.LineStart.integerValue >= tag2.LineStart.integerValue);
 }
 
 +(STTagCollisionResult*) DetectTagCollision:(STTag*)tag1 tag2:(STTag*)tag2
@@ -269,7 +269,11 @@
   //                 [ - Tag 2 - ]
   BOOL allTagsOutside = TRUE;
   for (int index = 0; index < [allTags count]; index++) {
+    
+    //NSLog(@"TAG %@ with start/end [%@ , %@]", [tag Name], [tag LineStart], [tag LineEnd]);
+    //NSLog(@"COMPARING TO TAG %@ with start/end [%@ , %@]", [[allTags objectAtIndex:index] Name], [[allTags objectAtIndex:index] LineStart], [[allTags objectAtIndex:index] LineEnd]);
     allTagsOutside = allTagsOutside && [self TagsOutsideEachOther:[allTags objectAtIndex:index] tag2:tag];
+    //NSLog(@"RESULT %d", allTagsOutside);
   }
   if (allTagsOutside == TRUE) {
     return [[STTagCollisionResult alloc] init:nil collision:NoOverlap];
