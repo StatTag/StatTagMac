@@ -120,7 +120,8 @@ static NSString* PACKAGE_R_MARKDOWN = @"R Markdown";
   
   
   // Number of styles we use with this lexer.
-  [_sourceEditor setGeneralProperty: SCI_SETSTYLEBITS value: [_sourceEditor getGeneralProperty: SCI_GETSTYLEBITSNEEDED]];
+  //FIXME: Not sure this will work. SCINTILLA DISABLED FOR 10.14 https://www.scintilla.org/ScintillaDoc.html
+  //[_sourceEditor setGeneralProperty: SCI_SETSTYLEBITS value: [_sourceEditor getGeneralProperty: SCI_GETSTYLEBITSNEEDED]];
   
   // Line number style.
   [_sourceEditor setColorProperty: SCI_STYLESETFORE parameter: STYLE_LINENUMBER fromHTML: @"#F0F0F0"];
