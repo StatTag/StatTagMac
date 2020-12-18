@@ -31,4 +31,7 @@
 @property (strong) IBOutlet NSMenu *documentDebugMenu;
 - (void)dismissWordDocumentViewerController:(WordDocumentViewer*)controller withReturnCode:(StatTagResponseState)returnCode;
 
+@property (weak) IBOutlet NSView *attentionView;
+
+
 @end

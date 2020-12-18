@@ -60,6 +60,10 @@ WordDocumentViewer* wordDocViewer;
 
   [self setup];
 
+  //register our hidden view for clicking
+  NSClickGestureRecognizer *attentionViewClickGesture = [[NSClickGestureRecognizer alloc] initWithTarget:self action:@selector(attentionViewClicked:)];
+  [[self attentionView] addGestureRecognizer:attentionViewClickGesture];
+  
   //we're going to attach to the default notification center so we can force-reload changed documents
   // when the window regains focus
 
@@ -168,36 +172,65 @@ WordDocumentViewer* wordDocViewer;
   
 }
 
+-(void)promptForPrivacy {
+}
+  
+-(BOOL)checkPrivacy:(BOOL)promptUserForAction {
+  BOOL privacyAuthGranted = FALSE;
 
--(void)checkPrivacy {
   if (@available(macOS 10.14, *)) {
     //FIXME: working on privacy info here
+    BOOL privacyAuthGranted_Word = FALSE;
     if([STCocoaUtil appURLForBundleId:@"com.microsoft.Word"]){
       NSString* wordMessage = @"StatTag Cannot Access Microsoft Word";
       NSString* wordInformativeText = @"StatTag requires AppleScript access to Microsoft Word in order to function. Please grant StatTag access to Microsoft Word in your Automation security preferences.";
       PrivacyConsentState wordPrivacyConsent = [[STPrivacyConsentController sharedController] automationConsentForBundleIdentifier:@"com.microsoft.Word" promptIfNeeded:YES MessageText:wordMessage InformativeText:wordInformativeText];
       if (wordPrivacyConsent != PrivacyConsentStateGranted && wordPrivacyConsent != PrivacyConsentStateUnknown) {
-        NSLog(@"Microsoft Word currently not authorized. Prompting.");
-          [[STPrivacyConsentController sharedController] RequestAutomationConsent:wordMessage InformativeText:wordInformativeText];
+        //NSLog(@"Microsoft Word currently not authorized. Prompting.");
+          if(promptUserForAction){
+            [[STPrivacyConsentController sharedController] RequestAutomationConsent:wordMessage InformativeText:wordInformativeText];
+          }
+      } else {
+        privacyAuthGranted_Word = TRUE;
       }
     }
 
+    BOOL privacyAuthGranted_Stata = FALSE;
     NSString* stataBundleIdentifier = [STStataAutomation determineInstalledAppBundleIdentifier];
     if(stataBundleIdentifier != nil) {
       NSString* stataMessage = @"StatTag Cannot Access Stata";
       NSString* stataInformativeText = @"StatTag requires AppleScript access to Stata in order to function. Please grant StatTag access to Stata in your Automation security preferences.";
       PrivacyConsentState stataPrivacyConsent = [[STPrivacyConsentController sharedController] automationConsentForBundleIdentifier:stataBundleIdentifier promptIfNeeded:YES MessageText:stataMessage InformativeText:stataInformativeText];
-      if (stataPrivacyConsent != PrivacyConsentStateGranted && stataPrivacyConsent != PrivacyConsentStateUnknown) {
+      if (stataPrivacyConsent != PrivacyConsentStateGranted && stataPrivacyConsent != PrivacyConsentStateUnknown ) {
+        if(promptUserForAction){
           [[STPrivacyConsentController sharedController] RequestAutomationConsent:stataMessage InformativeText:stataInformativeText];
+        }
+      } else {
+        privacyAuthGranted_Stata = TRUE;
       }
     }
+    
+    privacyAuthGranted = privacyAuthGranted_Word == TRUE && privacyAuthGranted_Stata == TRUE;
+    
+  } else {
+    privacyAuthGranted = TRUE;
   }
-
+  return privacyAuthGranted;
+}
+-(IBAction)attentionViewClicked:(id)sender {
+  if([[self attentionView] isHidden] == FALSE){
+    [self checkPrivacy:TRUE];
+  }
 }
 
 -(void)viewApplicationDidBecomeActive
 {
-    [self checkPrivacy];
+  [[self attentionView] setHidden:TRUE];
+  BOOL privacyAuthGranted = [self checkPrivacy:FALSE];
+  if(privacyAuthGranted == FALSE){
+    [[self attentionView] setHidden:FALSE];
+  }
+  
   
   //NSLog(@"DocumentBrowserViewController - viewApplicationDidBecomeActive");
   [self loadDocsAndContent];

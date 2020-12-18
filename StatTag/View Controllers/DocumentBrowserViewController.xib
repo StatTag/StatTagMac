@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12121" systemVersion="17G5019" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14868" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12121"/>
-        <capability name="box content view" minToolsVersion="7.0"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14868"/>
+        <capability name="System colors introduced in macOS 10.13" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="DocumentBrowserViewController">
             <connections>
+                <outlet property="attentionView" destination="Hb3-BJ-tjZ" id="Wn8-v1-HgW"/>
                 <outlet property="documentBrowserDocumentView" destination="qqD-xq-xMg" id="dmy-aP-JE8"/>
                 <outlet property="documentBrowserDocumentViewController" destination="uDW-ps-Zxi" id="N72-kh-sWp"/>
                 <outlet property="documentDebugMenu" destination="9I5-SZ-frk" id="7CU-Wn-JvA"/>
@@ -26,13 +28,13 @@
                     <rect key="frame" x="238" y="0.0" width="5" height="400"/>
                 </box>
                 <box boxType="custom" borderType="line" borderWidth="0.0" title="Box" translatesAutoresizingMaskIntoConstraints="NO" id="63T-gx-hZb">
-                    <rect key="frame" x="0.0" y="330" width="240" height="20"/>
+                    <rect key="frame" x="0.0" y="331" width="240" height="19"/>
                     <view key="contentView" id="Jyk-2t-YL4">
-                        <rect key="frame" x="0.0" y="0.0" width="240" height="20"/>
+                        <rect key="frame" x="0.0" y="0.0" width="240" height="19"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wxg-3H-hFh">
-                                <rect key="frame" x="2" y="2" width="236" height="16"/>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Wxg-3H-hFh">
+                                <rect key="frame" x="2" y="2" width="236" height="15"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="OPEN WORD DOCUMENTS" id="dwp-oQ-1wE">
                                     <font key="font" metaFont="systemBold" size="12"/>
                                     <color key="textColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -49,19 +51,19 @@
                     <color key="fillColor" red="0.29803922770000002" green="0.29803922770000002" blue="0.29803922770000002" alpha="1" colorSpace="calibratedRGB"/>
                 </box>
                 <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="32" horizontalPageScroll="10" verticalLineScroll="32" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qg9-Xy-nMv">
-                    <rect key="frame" x="0.0" y="0.0" width="240" height="330"/>
+                    <rect key="frame" x="0.0" y="0.0" width="240" height="331"/>
                     <clipView key="contentView" id="sGr-JV-1Dm">
-                        <rect key="frame" x="0.0" y="0.0" width="240" height="330"/>
+                        <rect key="frame" x="0.0" y="0.0" width="240" height="331"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView identifier="documentListTableView" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="30" rowSizeStyle="automatic" viewBased="YES" id="tL3-6A-LkR">
-                                <rect key="frame" x="0.0" y="0.0" width="240" height="330"/>
+                                <rect key="frame" x="0.0" y="0.0" width="240" height="331"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <size key="intercellSpacing" width="3" height="2"/>
                                 <color key="backgroundColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                 <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                 <tableColumns>
-                                    <tableColumn identifier="" width="237" minWidth="40" maxWidth="1000" id="LTG-ww-hqy">
+                                    <tableColumn width="237" minWidth="40" maxWidth="1000" id="LTG-ww-hqy">
                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
                                             <font key="font" metaFont="smallSystem"/>
                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -86,8 +88,8 @@
                                                         </constraints>
                                                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="word_doc" id="o13-ph-54z"/>
                                                     </imageView>
-                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xue-dM-Q0S">
-                                                        <rect key="frame" x="34" y="6" width="203" height="17"/>
+                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Xue-dM-Q0S">
+                                                        <rect key="frame" x="34" y="6" width="203" height="16"/>
                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="mN3-U7-gRr">
                                                             <font key="font" metaFont="system"/>
                                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -155,9 +157,61 @@
                                 </constraints>
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageAlignment="left" imageScaling="proportionallyDown" image="stattag_logo_text_white" id="Ud7-L3-sTc"/>
                             </imageView>
+                            <customView hidden="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hb3-BJ-tjZ">
+                                <rect key="frame" x="214" y="6" width="729" height="38"/>
+                                <subviews>
+                                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lIU-Sc-GJz">
+                                        <rect key="frame" x="454" y="0.0" width="38" height="38"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="38" id="U1W-Bs-fkt"/>
+                                            <constraint firstAttribute="width" constant="38" id="m1w-n9-wc8"/>
+                                        </constraints>
+                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="warning" id="efd-gn-sjD"/>
+                                    </imageView>
+                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="8k6-6I-uje">
+                                        <rect key="frame" x="504" y="0.0" width="225" height="38"/>
+                                        <subviews>
+                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Vgb-zx-lF5">
+                                                <rect key="frame" x="19" y="21" width="208" height="17"/>
+                                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="StatTag Needs Your Attention" id="xeU-O6-boD">
+                                                    <font key="font" metaFont="systemBold" size="14"/>
+                                                    <color key="textColor" name="findHighlightColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                            </textField>
+                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ir4-57-w8l">
+                                                <rect key="frame" x="96" y="2" width="131" height="15"/>
+                                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Click to Show Details" id="cK9-ux-UI5">
+                                                    <font key="font" metaFont="systemBold" size="12"/>
+                                                    <color key="textColor" name="findHighlightColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                            </textField>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="Vgb-zx-lF5" secondAttribute="trailing" id="6jr-R8-bRN"/>
+                                            <constraint firstItem="ir4-57-w8l" firstAttribute="top" secondItem="Vgb-zx-lF5" secondAttribute="bottom" constant="4" id="8No-Wo-PWt"/>
+                                            <constraint firstAttribute="trailing" secondItem="ir4-57-w8l" secondAttribute="trailing" id="GzX-eS-Ewf"/>
+                                            <constraint firstAttribute="width" constant="225" id="Oc0-XB-Chm"/>
+                                            <constraint firstItem="Vgb-zx-lF5" firstAttribute="top" secondItem="8k6-6I-uje" secondAttribute="top" id="Y6f-eE-f7G"/>
+                                        </constraints>
+                                    </customView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="lIU-Sc-GJz" firstAttribute="centerY" secondItem="Hb3-BJ-tjZ" secondAttribute="centerY" id="0fI-ET-Dj7"/>
+                                    <constraint firstItem="8k6-6I-uje" firstAttribute="leading" secondItem="lIU-Sc-GJz" secondAttribute="trailing" constant="12" id="PXb-1u-72g"/>
+                                    <constraint firstItem="8k6-6I-uje" firstAttribute="top" secondItem="Hb3-BJ-tjZ" secondAttribute="top" id="gNh-Om-scp"/>
+                                    <constraint firstAttribute="bottom" secondItem="8k6-6I-uje" secondAttribute="bottom" id="rbX-KC-HMn"/>
+                                    <constraint firstAttribute="trailing" secondItem="8k6-6I-uje" secondAttribute="trailing" id="ygB-b8-kzZ"/>
+                                </constraints>
+                            </customView>
                         </subviews>
                         <constraints>
+                            <constraint firstItem="Hb3-BJ-tjZ" firstAttribute="top" secondItem="Cn2-Ea-Oo9" secondAttribute="top" constant="6" id="86R-cv-K3i"/>
                             <constraint firstItem="lUH-36-BfT" firstAttribute="leading" secondItem="Cn2-Ea-Oo9" secondAttribute="leading" constant="8" id="BEP-0u-CZl"/>
+                            <constraint firstItem="Hb3-BJ-tjZ" firstAttribute="leading" secondItem="lUH-36-BfT" secondAttribute="trailing" constant="20" id="Exg-Qh-MP1"/>
+                            <constraint firstAttribute="trailing" secondItem="Hb3-BJ-tjZ" secondAttribute="trailing" constant="6" id="STW-L8-NRS"/>
+                            <constraint firstAttribute="bottom" secondItem="Hb3-BJ-tjZ" secondAttribute="bottom" constant="6" id="cr1-B3-v76"/>
                             <constraint firstAttribute="bottom" secondItem="lUH-36-BfT" secondAttribute="bottom" constant="6" id="oiJ-Rp-bI2"/>
                             <constraint firstItem="lUH-36-BfT" firstAttribute="top" secondItem="Cn2-Ea-Oo9" secondAttribute="top" constant="8" id="sdK-ND-9ib"/>
                         </constraints>
@@ -205,6 +259,7 @@
     </objects>
     <resources>
         <image name="stattag_logo_text_white" width="512" height="149"/>
+        <image name="warning" width="512" height="512"/>
         <image name="word_doc" width="378" height="426"/>
     </resources>
 </document>
