@@ -14,6 +14,7 @@
 #import "UnlinkedTagsViewController.h"
 #import "DocumentBrowserDocumentViewController.h"
 #import "STDocumentManager+FileMonitor.h"
+#import "STPrivacyConsentController.h"
 
 #import <QuartzCore/CALayer.h>
 
@@ -167,8 +168,35 @@ WordDocumentViewer* wordDocViewer;
   
 }
 
+
+-(void)checkPrivacy {
+  //FIXME: working on privacy info here
+  if([STCocoaUtil appURLForBundleId:@"com.microsoft.Word"]){
+    NSString* wordMessage = @"StatTag Cannot Access Microsoft Word";
+    NSString* wordInformativeText = @"StatTag requires AppleScript access to Microsoft Word in order to function. Please grant StatTag access to Microsoft Word in your Automation security preferences.";
+    PrivacyConsentState wordPrivacyConsent = [[STPrivacyConsentController sharedController] automationConsentForBundleIdentifier:@"com.microsoft.Word" promptIfNeeded:YES MessageText:wordMessage InformativeText:wordInformativeText];
+    if (wordPrivacyConsent != PrivacyConsentStateGranted && wordPrivacyConsent != PrivacyConsentStateUnknown) {
+      NSLog(@"Microsoft Word currently not authorized. Prompting.");
+        [[STPrivacyConsentController sharedController] RequestAutomationConsent:wordMessage InformativeText:wordInformativeText];
+    }
+  }
+
+  NSString* stataBundleIdentifier = [STStataAutomation determineInstalledAppBundleIdentifier];
+  if(stataBundleIdentifier != nil) {
+    NSString* stataMessage = @"StatTag Cannot Access Stata";
+    NSString* stataInformativeText = @"StatTag requires AppleScript access to Stata in order to function. Please grant StatTag access to Stata in your Automation security preferences.";
+    PrivacyConsentState stataPrivacyConsent = [[STPrivacyConsentController sharedController] automationConsentForBundleIdentifier:stataBundleIdentifier promptIfNeeded:YES MessageText:stataMessage InformativeText:stataInformativeText];
+    if (stataPrivacyConsent != PrivacyConsentStateGranted && stataPrivacyConsent != PrivacyConsentStateUnknown) {
+        [[STPrivacyConsentController sharedController] RequestAutomationConsent:stataMessage InformativeText:stataInformativeText];
+    }
+  }
+}
+
 -(void)viewApplicationDidBecomeActive
 {
+  
+  [self checkPrivacy];
+  
   //NSLog(@"DocumentBrowserViewController - viewApplicationDidBecomeActive");
   [self loadDocsAndContent];
   //NSLog(@"%@", [[self documentManager] fileNotifications]);

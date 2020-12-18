@@ -315,6 +315,10 @@
 		38E2D0CF202A1A8300512B8C /* RCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38E2D0C02028A36100512B8C /* RCocoa.framework */; };
 		38E56FD41FFEC97B008988BE /* StatTagModelJSONTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 385906ED1D1C6E280088A0D7 /* StatTagModelJSONTests.m */; };
 		38E56FD61FFECE25008988BE /* StatTagRParserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 35AE14801F4DC69900A162C4 /* StatTagRParserTests.m */; };
+		38E597DF258CEA0700B5C1B9 /* STPrivacyConsentController.h in Headers */ = {isa = PBXBuildFile; fileRef = 38E597DD258CEA0700B5C1B9 /* STPrivacyConsentController.h */; };
+		38E597E0258CEA0700B5C1B9 /* STPrivacyConsentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38E597DE258CEA0700B5C1B9 /* STPrivacyConsentController.m */; };
+		38E597E8258CFCF500B5C1B9 /* STPrivacyMonitoredApp.h in Headers */ = {isa = PBXBuildFile; fileRef = 38E597E6258CFCF500B5C1B9 /* STPrivacyMonitoredApp.h */; };
+		38E597E9258CFCF500B5C1B9 /* STPrivacyMonitoredApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 38E597E7258CFCF500B5C1B9 /* STPrivacyMonitoredApp.m */; };
 		38E96E8D1F29589A00DF9B85 /* RestorableWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38E96E8C1F29589A00DF9B85 /* RestorableWindowController.m */; };
 		38E9CB101E1473A9006B3571 /* TableValueFilterFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 38E9CB0F1E1473A9006B3571 /* TableValueFilterFormatter.m */; };
 		38EC4E1D1F8BC77B00986314 /* TagIndicatorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 380CBD431E89C272006E92D1 /* TagIndicatorView.xib */; };
@@ -922,6 +926,10 @@
 		38E22ABD1E9D5FBC005DFFE9 /* ScintillaEmbeddedViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ScintillaEmbeddedViewController.mm; sourceTree = "<group>"; };
 		38E22ABE1E9D5FBC005DFFE9 /* ScintillaEmbeddedViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScintillaEmbeddedViewController.xib; sourceTree = "<group>"; };
 		38E2D0BA2028A36100512B8C /* RCocoa.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCocoa.xcodeproj; path = ../rcocoa/RCocoa.xcodeproj; sourceTree = "<group>"; };
+		38E597DD258CEA0700B5C1B9 /* STPrivacyConsentController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = STPrivacyConsentController.h; sourceTree = "<group>"; };
+		38E597DE258CEA0700B5C1B9 /* STPrivacyConsentController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = STPrivacyConsentController.m; sourceTree = "<group>"; };
+		38E597E6258CFCF500B5C1B9 /* STPrivacyMonitoredApp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = STPrivacyMonitoredApp.h; sourceTree = "<group>"; };
+		38E597E7258CFCF500B5C1B9 /* STPrivacyMonitoredApp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = STPrivacyMonitoredApp.m; sourceTree = "<group>"; };
 		38E96E8B1F29589A00DF9B85 /* RestorableWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestorableWindowController.h; sourceTree = "<group>"; };
 		38E96E8C1F29589A00DF9B85 /* RestorableWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestorableWindowController.m; sourceTree = "<group>"; };
 		38E9CB0E1E1473A9006B3571 /* TableValueFilterFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableValueFilterFormatter.h; sourceTree = "<group>"; };
@@ -1617,6 +1625,10 @@
 			children = (
 				386992D41DBD10D400852B6E /* STUIUtility.h */,
 				386992D51DBD10D400852B6E /* STUIUtility.m */,
+				38E597DD258CEA0700B5C1B9 /* STPrivacyConsentController.h */,
+				38E597DE258CEA0700B5C1B9 /* STPrivacyConsentController.m */,
+				38E597E6258CFCF500B5C1B9 /* STPrivacyMonitoredApp.h */,
+				38E597E7258CFCF500B5C1B9 /* STPrivacyMonitoredApp.m */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -2112,6 +2124,7 @@
 				38F803581D9DB2B300C8F1EA /* STSASAutomation.h in Headers */,
 				38FF473B1E08674F00A65893 /* STRCommands.h in Headers */,
 				38FF47201DFF185100A65893 /* STLogManager.h in Headers */,
+				38E597DF258CEA0700B5C1B9 /* STPrivacyConsentController.h in Headers */,
 				38EDC0611EE3101100A7BFD2 /* STVerbatimGenerator.h in Headers */,
 				38FF471C1DFF058900A65893 /* STTableUtil.h in Headers */,
 				35A70E2C202B5CB4001E3259 /* NSString+SymlinksAndAliases.h in Headers */,
@@ -2147,6 +2160,7 @@
 				38B91248201120F300A17458 /* STDocumentMetadata.h in Headers */,
 				38C9B2081D109F6B003B571E /* STBaseValueFormatter.h in Headers */,
 				382C28A41D18322900697D6F /* STJSONUtility.h in Headers */,
+				38E597E8258CFCF500B5C1B9 /* STPrivacyMonitoredApp.h in Headers */,
 				382C28561D13306400697D6F /* STTableFormat.h in Headers */,
 				382C284E1D1202D400697D6F /* STBaseParameterParser.h in Headers */,
 				382C28671D14880900697D6F /* STFactories.h in Headers */,
@@ -2634,6 +2648,7 @@
 				38FF47261DFF19A000A65893 /* STUserSettings.m in Sources */,
 				382C28581D13307200697D6F /* STTableFormat.m in Sources */,
 				385FDD291D32F6DD00AE0FE2 /* STTagManager.m in Sources */,
+				38E597E0258CEA0700B5C1B9 /* STPrivacyConsentController.m in Sources */,
 				38C91F751D37FAEC0048A95E /* WordASOC.applescript in Sources */,
 				382C28BD1D199ED000697D6F /* STFigureGenerator.m in Sources */,
 				38F803591D9DB2B300C8F1EA /* STSASAutomation.m in Sources */,
@@ -2661,6 +2676,7 @@
 				38FF47381E08673F00A65893 /* STRAutomation.m in Sources */,
 				382C28D61D19D8E900697D6F /* STFigureParameterParser.m in Sources */,
 				354350F021C962D200FC58AE /* STRMarkdownGenerator.m in Sources */,
+				38E597E9258CFCF500B5C1B9 /* STPrivacyMonitoredApp.m in Sources */,
 				382C28681D14880900697D6F /* STFactories.m in Sources */,
 				382C28B11D1992E900697D6F /* STUpdatePair.m in Sources */,
 			);
