@@ -194,8 +194,9 @@ WordDocumentViewer* wordDocViewer;
 
 -(void)viewApplicationDidBecomeActive
 {
-  
-  [self checkPrivacy];
+  if (@available(macOS 10.14, *)) {
+    [self checkPrivacy];
+  }
   
   //NSLog(@"DocumentBrowserViewController - viewApplicationDidBecomeActive");
   [self loadDocsAndContent];
