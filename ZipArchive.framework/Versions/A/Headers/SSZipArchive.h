@@ -10,7 +10,12 @@
 #define _SSZIPARCHIVE_H
 
 #import <Foundation/Foundation.h>
-#include "SSZipCommon.h"
+
+#if COCOAPODS
+#import <SSZipArchive/SSZipCommon.h>
+#else
+#import <ZipArchive/SSZipCommon.h>
+#endif
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -31,6 +36,9 @@ typedef NS_ENUM(NSInteger, SSZipArchiveErrorCode) {
 // Password check
 + (BOOL)isFilePasswordProtectedAtPath:(NSString *)path;
 + (BOOL)isPasswordValidForArchiveAtPath:(NSString *)path password:(NSString *)pw error:(NSError * _Nullable * _Nullable)error NS_SWIFT_NOTHROW;
+
+// Total payload size
++ (NSNumber *)payloadSizeForArchiveAtPath:(NSString *)path error:(NSError **)error;
 
 // Unzip
 + (BOOL)unzipFileAtPath:(NSString *)path toDestination:(NSString *)destination;
