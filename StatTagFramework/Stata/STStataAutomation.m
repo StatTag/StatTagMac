@@ -37,6 +37,7 @@ NSString* const DisplayWorkingDirectoryCommand = @"display \"`c(pwd)'\"";
 
 +(NSArray<NSString*>*) StataProcessNames {
   return [NSArray arrayWithObjects:
+          @"com.stata.stata16",
           @"com.stata.stata15",
           @"com.stata.stata14",
           @"com.stata.stata13",
@@ -135,6 +136,11 @@ const NSInteger ShowStata = 3;
   @try {
     OpenLogs = [[NSMutableArray<STStataParserLog*> alloc] init];
     _AppBundleIdentifier = [[self class] determineInstalledAppBundleIdentifier];
+
+    if (_AppBundleIdentifier == nil) {
+      return FALSE;
+    }
+
     if([[self class] IsAppInstalled]){
       @autoreleasepool {
         Application = [SBApplication applicationWithBundleIdentifier:_AppBundleIdentifier];

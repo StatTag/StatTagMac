@@ -115,11 +115,11 @@ const NSInteger RefreshStepInterval = 5;
   @try {
     NSObject<STIStatAutomation>* automation = [[self class] GetStatAutomation:file];
     if(! [automation Initialize:file withLogManager:[[self DocumentManager] Logger]]){
-      //FIXME: we should probably do something w/ NSError here?
-      /*
-       MessageBox.Show(automation.GetInitializationErrorMessage(), UIUtility.GetAddInName());
-       */
-      //   UIUtility.GetAddInName());
+      NSException* exc = [NSException
+                          exceptionWithName:@"StatTagException"
+                          reason:[automation GetInitializationErrorMessage]
+                          userInfo:nil];
+      [[result GeneralErrors] addObject:exc];
       return result;
     }
     
