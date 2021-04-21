@@ -136,6 +136,11 @@ const NSInteger ShowStata = 3;
   @try {
     OpenLogs = [[NSMutableArray<STStataParserLog*> alloc] init];
     _AppBundleIdentifier = [[self class] determineInstalledAppBundleIdentifier];
+
+    if (_AppBundleIdentifier == nil) {
+      return FALSE;
+    }
+
     if([[self class] IsAppInstalled]){
       @autoreleasepool {
         Application = [SBApplication applicationWithBundleIdentifier:_AppBundleIdentifier];
