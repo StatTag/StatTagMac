@@ -64,6 +64,8 @@ enum {
 - (PrivacyConsentState)automationConsentForBundleIdentifier:(NSString *)bundleIdentifier promptIfNeeded:(BOOL)promptIfNeeded
 {
     PrivacyConsentState result;
+    return PrivacyConsentStateGranted;
+  
     if (@available(macOS 10.14, *)) {
         AEAddressDesc addressDesc;
         // We need a C string here, not an NSString
@@ -133,13 +135,15 @@ enum {
   NSRunningApplication *app = notification.userInfo[NSWorkspaceApplicationKey];
   STPrivacyMonitoredApp *monitoredApp = [[self monitoredApps] objectForKey:app.bundleIdentifier];
   if(monitoredApp != nil){
-    PrivacyConsentState privacyConsentState = [self automationConsentForBundleIdentifier:app.bundleIdentifier promptIfNeeded:YES];
-    [monitoredApp setPrivacyConsentState:privacyConsentState];
-    [[self monitoredApps] setObject:monitoredApp forKey:app.bundleIdentifier];
-    if (privacyConsentState != PrivacyConsentStateGranted) {
-        NSLog(@"StatTag: applicationLaunched privacy check indicated application currently denied. Prompting for access.");
-        [self RequestAutomationConsent:[monitoredApp messageText] InformativeText:[monitoredApp informativeText]];
-    }
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+      PrivacyConsentState privacyConsentState = [self automationConsentForBundleIdentifier:app.bundleIdentifier promptIfNeeded:YES];
+      [monitoredApp setPrivacyConsentState:privacyConsentState];
+      [[self monitoredApps] setObject:monitoredApp forKey:app.bundleIdentifier];
+      if (privacyConsentState != PrivacyConsentStateGranted) {
+          NSLog(@"StatTag: applicationLaunched privacy check indicated application currently denied. Prompting for access.");
+          [self RequestAutomationConsent:[monitoredApp messageText] InformativeText:[monitoredApp informativeText]];
+      }
+    });
   }
 }
 

@@ -18,6 +18,12 @@
 #import <RCocoa/RCocoa.h>
 
 
+//FIXME: remove these and remove the type includes so we don't have this issue below
+//#import <R/R.h>
+//#import <R/Rinternals.h>
+
+
+
 @implementation STRAutomation
 
 static NSString* const MATRIX_DIMENSION_NAMES_ATTRIBUTE = @"dimnames";
@@ -36,43 +42,45 @@ static NSString* const TemporaryImageFileFilter = @"SELF EndsWith '.png'";
 
 -(BOOL)Initialize:(STCodeFile*)codeFile withLogManager:(STLogManager*)logManager
 {
-  if (Engine == nil) {
-    Engine = [RCEngine GetInstance:VerbatimLog];
-  }
+  if([STRAutomation IsAppInstalled]){
+    if (Engine == nil) {
+      Engine = [RCEngine GetInstance:VerbatimLog];
+    }
 
-  if (Engine != nil && codeFile != nil) {
-    // If a code file is provided, we will attempt to set the working directory in
-    // R to the same directory as the file.  This is done to avoid issues where,
-    // because we're executing R from an app, it uses the working directory as the
-    // app bundle directory (which users would not have rights to).
-    // Since Initialize is called once per file execution, we want to make sure this
-    // is called here so any subsequent code execution where the working directory
-    // is changed is respected and we don't overwrite it.
-    STTag* valueTag = [[STTag alloc] init];
-    valueTag.Type = [STConstantsTagType Value];
-    NSString* escapedPath = [codeFile.FilePath stringByReplacingOccurrencesOfString:@"'" withString:@"\\'"];
-    [self RunCommand:[NSString stringWithFormat:@"setwd(dirname('%@'))", escapedPath] tag:valueTag];
-  }
-  
-  if (Engine != nil) {
-    // Initialize the temporary directory we'll use for figures
-    NSString* path = [[codeFile FilePath] stringByDeletingLastPathComponent];
-    if (![STGeneralUtil IsStringNullOrEmpty:path]) {
-      TemporaryImageFilePath = [NSMutableString stringWithFormat:@"%@/%@", path, TemporaryImageFileFolder];
+    if (Engine != nil && codeFile != nil) {
+      // If a code file is provided, we will attempt to set the working directory in
+      // R to the same directory as the file.  This is done to avoid issues where,
+      // because we're executing R from an app, it uses the working directory as the
+      // app bundle directory (which users would not have rights to).
+      // Since Initialize is called once per file execution, we want to make sure this
+      // is called here so any subsequent code execution where the working directory
+      // is changed is respected and we don't overwrite it.
+      STTag* valueTag = [[STTag alloc] init];
+      valueTag.Type = [STConstantsTagType Value];
+      NSString* escapedPath = [codeFile.FilePath stringByReplacingOccurrencesOfString:@"'" withString:@"\\'"];
+      [self RunCommand:[NSString stringWithFormat:@"setwd(dirname('%@'))", escapedPath] tag:valueTag];
     }
-    else {
-      TemporaryImageFilePath = [NSMutableString stringWithFormat:@"./%@", TemporaryImageFileFolder];
+    
+    if (Engine != nil) {
+      // Initialize the temporary directory we'll use for figures
+      NSString* path = [[codeFile FilePath] stringByDeletingLastPathComponent];
+      if (![STGeneralUtil IsStringNullOrEmpty:path]) {
+        TemporaryImageFilePath = [NSMutableString stringWithFormat:@"%@/%@", path, TemporaryImageFileFolder];
+      }
+      else {
+        TemporaryImageFilePath = [NSMutableString stringWithFormat:@"./%@", TemporaryImageFileFolder];
+      }
+        
+      // Make sure the temp image folder is established.
+      [STGeneralUtil CreateDirectory:TemporaryImageFilePath];
+        
+      // Now, set up the R environment so it uses the PNG graphic device by default (if no other device
+      // is specified).
+      NSString* defaultGraphicsFunction = [NSString stringWithFormat:@".stattag_png = function() { png(filename=paste(\"%@/\", \"StatTagFigure%%03d.png\", sep=\"\")) }", TemporaryImageFilePath];
+      NSArray<NSString*>* graphicOptions = [NSArray<NSString*> arrayWithObjects:defaultGraphicsFunction, @"options(device=\".stattag_png\")", nil];
+      [self RunCommands:graphicOptions];
+      return YES;
     }
-      
-    // Make sure the temp image folder is established.
-    [STGeneralUtil CreateDirectory:TemporaryImageFilePath];
-      
-    // Now, set up the R environment so it uses the PNG graphic device by default (if no other device
-    // is specified).
-    NSString* defaultGraphicsFunction = [NSString stringWithFormat:@".stattag_png = function() { png(filename=paste(\"%@/\", \"StatTagFigure%%03d.png\", sep=\"\")) }", TemporaryImageFilePath];
-    NSArray<NSString*>* graphicOptions = [NSArray<NSString*> arrayWithObjects:defaultGraphicsFunction, @"options(device=\".stattag_png\")", nil];
-    [self RunCommands:graphicOptions];
-    return YES;
   }
 
   return NO;
@@ -109,13 +117,11 @@ static NSString* const TemporaryImageFileFilter = @"SELF EndsWith '.png'";
 }
 
 +(BOOL)IsAppInstalled {
-  //we're checking to see if the framework is installed, so let's see if we can create a class from the framework
-  //FIXME: we're not using the right class name here - this would work (which is bad) if we have our R framework installed, but the main R framework is not available - so figure this out
-  if (NSClassFromString(@"REngine")) {
+  BOOL RIsInstalled = [RCEngine RIsInstalled];
+  if (RIsInstalled) {
     return YES;
   }
   return NO;
-  //return [STCocoaUtil appIsPresentForBundleID:[[self class] determineInstalledAppBundleIdentifier]];
 }
 
 +(NSString*)InstallationInformation
@@ -123,48 +129,44 @@ static NSString* const TemporaryImageFileFilter = @"SELF EndsWith '.png'";
   //NSMutableString* appInfo = [NSMutableString stringWithFormat:@"R Installed = NO"];
 
   NSMutableArray<NSString*>* results = [[NSMutableArray<NSString*> alloc] init];
-
+  
   @try {
 
-    RCEngine* engine = [RCEngine GetInstance:[STRVerbatimDevice GetInstance]];
+    if([STRAutomation IsAppInstalled]){
+      RCEngine* engine = [RCEngine GetInstance:[STRVerbatimDevice GetInstance]];
 
-    if(engine != nil) {
-      [results addObject:@"R Installed = YES"];
+      if(engine != nil) {
+        [results addObject:@"R Installed = YES"];
 
-      NSMutableArray<NSString*>* RProfileCommands = [[NSMutableArray<NSString*> alloc] init];
-      [RProfileCommands addObject: @"sessionInfo()"]; //get session info
-      [RProfileCommands addObject: @"R.home()"]; //get session info
-      [RProfileCommands addObject: @".libPaths()"]; //get session info
-      [RProfileCommands addObject: @"with(as.data.frame(installed.packages(fields = c(\"Package\", \"Version\"))), paste(Package, Version, sep = \"\", collapse = \", \" ))"];
-      
-      RCSymbolicExpression* result;
-      
-      for(NSString* command in RProfileCommands)
-      {
-        result = [engine Evaluate:command];
-        if (result != nil) {
-          NSArray* characterArray;
-          if ([result IsList]) {
-            characterArray = [[[result AsList] ElementAt:0] AsCharacter];
-          } else if ([result IsVector]) {
-            characterArray = @[[result AsCharacterMatrix]];
-          }
-          
-          if (characterArray == nil || [characterArray count] == 0) {
-            [results addObject:[NSString stringWithFormat: @"Unable to retrieve R for command '%@'", command]];
-          } else {
-            [results addObject:[NSString stringWithFormat:@"%@ : %@", command, [characterArray componentsJoinedByString:@", "]]];
+        NSMutableArray<NSString*>* RProfileCommands = [[NSMutableArray<NSString*> alloc] init];
+        [RProfileCommands addObject: @"sessionInfo()"]; //get session info
+        [RProfileCommands addObject: @"R.home()"]; //get session info
+        [RProfileCommands addObject: @".libPaths()"]; //get session info
+        [RProfileCommands addObject: @"with(as.data.frame(installed.packages(fields = c(\"Package\", \"Version\"))), paste(Package, Version, sep = \"\", collapse = \", \" ))"];
+        
+        RCSymbolicExpression* result;
+        
+        for(NSString* command in RProfileCommands)
+        {
+          result = [engine Evaluate:command];
+          if (result != nil) {
+            NSArray* characterArray;
+            if ([result IsList]) {
+              characterArray = [[[result AsList] ElementAt:0] AsCharacter];
+            } else if ([result IsVector]) {
+              characterArray = @[[result AsCharacterMatrix]];
+            }
+            
+            if (characterArray == nil || [characterArray count] == 0) {
+              [results addObject:[NSString stringWithFormat: @"Unable to retrieve R for command '%@'", command]];
+            } else {
+              [results addObject:[NSString stringWithFormat:@"%@ : %@", command, [characterArray componentsJoinedByString:@", "]]];
+            }
           }
         }
-      }
-      
-      //FIXME: having issues with engine being null - circle back
-      //try knitR explicitly
-      //STRMarkdownAutomation* rMarkdown = [[STRMarkdownAutomation alloc] init];
-      //BOOL knitRInstalled = [rMarkdown knitRInstalled];
-      //[results addObject:[NSString stringWithFormat:@"knitR Installed: %hhd", knitRInstalled]];
-    } else {
-      [results addObject:@"R Installed = YES, but unable to retrieve desired session info"];
+      } else {
+        [results addObject:@"R Installed = YES, but unable to retrieve desired session info"];
+      }      
     }
   }
   @catch (NSException *exception) {
@@ -560,7 +562,7 @@ static NSString* const TemporaryImageFileFilter = @"SELF EndsWith '.png'";
     }
 
     int type = [result Type];
-    if (type == REALSXP || type == INTSXP || type == STRSXP || type == LGLSXP) {
+    if (type == RC_REALSXP || type == RC_INTSXP || type == RC_STRSXP || type == RC_LGLSXP) {
         NSArray* data = [result AsCharacter];
         STTable* table = [[STTable alloc] init];
         table.ColumnSize = 1;
@@ -616,10 +618,10 @@ static NSString* const TemporaryImageFileFilter = @"SELF EndsWith '.png'";
     }
 
     switch ([result Type]) {
-        case REALSXP:
-        case INTSXP:
-        case STRSXP:
-        case LGLSXP: {
+        case RC_REALSXP:
+        case RC_INTSXP:
+        case RC_STRSXP:
+        case RC_LGLSXP: {
             NSArray* characterArray = [result AsCharacter];
             return [self FirstOrDefault:characterArray];
         }
