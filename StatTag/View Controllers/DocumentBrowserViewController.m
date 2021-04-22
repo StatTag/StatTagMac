@@ -195,9 +195,12 @@ WordDocumentViewer* wordDocViewer;
       }
     }
 
-    BOOL privacyAuthGranted_Stata = FALSE;
+    // By default it will be TRUE - this will handle if Stata doesn't exist on
+    // the user's machine.
+    BOOL privacyAuthGranted_Stata = TRUE;
     NSString* stataBundleIdentifier = [STStataAutomation determineInstalledAppBundleIdentifier];
     if(stataBundleIdentifier != nil) {
+      privacyAuthGranted_Stata = FALSE;
       NSString* stataMessage = @"StatTag Cannot Access Stata";
       NSString* stataInformativeText = @"StatTag requires AppleScript access to Stata in order to function. Please grant StatTag access to Stata in your Automation security preferences.";
       PrivacyConsentState stataPrivacyConsent = [[STPrivacyConsentController sharedController] automationConsentForBundleIdentifier:stataBundleIdentifier promptIfNeeded:YES MessageText:stataMessage InformativeText:stataInformativeText];
