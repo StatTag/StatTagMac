@@ -152,7 +152,6 @@
 		384C8E8325829C6C002F196C /* Scintilla.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 384C8E8225829C13002F196C /* Scintilla.framework */; };
 		384C8E8425829C6C002F196C /* Scintilla.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 384C8E8225829C13002F196C /* Scintilla.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		384C8ED42582A0F8002F196C /* ZipArchive.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 384C8ED32582A0F7002F196C /* ZipArchive.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		384C8ED52582A4E1002F196C /* R.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3500D5CE1EE066F7006AA0ED /* R.framework */; };
 		384C8ED925830747002F196C /* RCocoa.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 38E2D0C02028A36100512B8C /* RCocoa.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		384CE6741DF5D5930076FBDB /* testArrayFile.txt in Resources */ = {isa = PBXBuildFile; fileRef = 384CE6731DF5D5930076FBDB /* testArrayFile.txt */; };
 		384CE6791DF5F2FC0076FBDB /* STFilterFormat.h in Headers */ = {isa = PBXBuildFile; fileRef = 384CE6771DF5F2FC0076FBDB /* STFilterFormat.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -233,6 +232,7 @@
 		3888FAC3201A3EE80090176D /* STBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 3888FAC1201A3EE80090176D /* STBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3888FAC4201A3EE80090176D /* STBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 3888FAC2201A3EE80090176D /* STBase.m */; };
 		388ABF881DA5B1F600F08956 /* ViewUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 388ABF871DA5B1F500F08956 /* ViewUtils.m */; };
+		38908380262A8D0300267EA7 /* XlsxReaderWriter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3827BD992582922200956A8D /* XlsxReaderWriter.framework */; };
 		389591B51E8A991F003FE9E3 /* DocumentBrowserTagSummary.m in Sources */ = {isa = PBXBuildFile; fileRef = 389591B41E8A991F003FE9E3 /* DocumentBrowserTagSummary.m */; };
 		389B20561F3E01D400D853EF /* STDocumentManager+CodeFileManagement.m in Sources */ = {isa = PBXBuildFile; fileRef = 389B20551F3E01D400D853EF /* STDocumentManager+CodeFileManagement.m */; };
 		38A7CE981D4FDFB600B06AFF /* STGridDataItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 38A7CE961D4FDFB600B06AFF /* STGridDataItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1020,13 +1020,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				3827BDA22582925900956A8D /* libXlsxReaderWriter.a in Frameworks */,
-				384C8ED52582A4E1002F196C /* R.framework in Frameworks */,
 				35374313202BFB1D00325941 /* libz.tbd in Frameworks */,
 				38E2D0CF202A1A8300512B8C /* RCocoa.framework in Frameworks */,
 				38BE59AC1D52AA1000FF9E99 /* Cocoa.framework in Frameworks */,
 				3827BDA32582936500956A8D /* XlsxReaderWriter.framework in Frameworks */,
 				38C91F461D36FC8A0048A95E /* AppleScriptObjC.framework in Frameworks */,
 				382C28711D180CB900697D6F /* SystemConfiguration.framework in Frameworks */,
+				38908380262A8D0300267EA7 /* XlsxReaderWriter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2585,7 +2585,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n# Type a script or drag a script file from your workspace to insert its path.\nBuildRVersion=$(otool -L \"$TARGET_BUILD_DIR/StatTagFramework.Framework/$TARGET_NAME\" | grep -Eo \"R.framework\\/Versions\\/(.*)\\/Resources\" | grep -Eo '[+-]?[0-9]+([.][0-9]+)?')\n#echo $BuildRVersion\ninstall_name_tool -change /Library/Frameworks/R.framework/Versions/$BuildRVersion/Resources/lib/libR.dylib /Library/Frameworks/R.framework/Versions/Current/Resources/lib/libR.dylib \"$TARGET_BUILD_DIR/StatTagFramework.Framework/$TARGET_NAME\"\ninstall_name_tool -change /Library/Frameworks/R.framework/Versions/$BuildRVersion/Resources/lib/libR.dylib /Library/Frameworks/R.framework/Versions/Current/Resources/lib/libR.dylib \"$TARGET_BUILD_DIR/StatTagFramework.Framework/Versions/A/$TARGET_NAME\"\ninstall_name_tool -change /Library/Frameworks/R.framework/Versions/$BuildRVersion/Resources/lib/libR.dylib /Library/Frameworks/R.framework/Versions/Current/Resources/lib/libR.dylib \"$TARGET_BUILD_DIR/StatTagFramework.Framework/Versions/Current/$TARGET_NAME\"\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n# Type a script or drag a script file from your workspace to insert its path.\nBuildRVersion=$(otool -L \"$TARGET_BUILD_DIR/StatTagFramework.Framework/$TARGET_NAME\" | grep -Eo \"R.framework\\/Versions\\/(.*)\\/Resources\" | grep -Eo '[+-]?[0-9]+([.][0-9]+)?')\n#echo $BuildRVersion\ninstall_name_tool -change /Library/Frameworks/R.framework/Versions/$BuildRVersion/Resources/lib/libR.dylib /Library/Frameworks/R.framework/Versions/Current/Resources/lib/libR.dylib \"$TARGET_BUILD_DIR/StatTagFramework.Framework/$TARGET_NAME\"\ninstall_name_tool -change /Library/Frameworks/R.framework/Versions/$BuildRVersion/Resources/lib/libR.dylib /Library/Frameworks/R.framework/Versions/Current/Resources/lib/libR.dylib  \"$TARGET_BUILD_DIR/StatTagFramework.Framework/Versions/A/$TARGET_NAME\"\ninstall_name_tool -change /Library/Frameworks/R.framework/Versions/$BuildRVersion/Resources/lib/libR.dylib /Library/Frameworks/R.framework/Versions/Current/Resources/lib/libR.dylib \"$TARGET_BUILD_DIR/StatTagFramework.Framework/Versions/Current/$TARGET_NAME\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
