@@ -191,7 +191,7 @@
 +(NSAttributedString*)boldString:(NSString*)str
 {
   NSFont *font = [NSFont boldSystemFontOfSize:12];
-  return [[NSAttributedString alloc] initWithString:str attributes:@{NSFontAttributeName : font}];
+  return [[NSAttributedString alloc] initWithString:str attributes:@{NSFontAttributeName : font, NSForegroundColorAttributeName : NSColor.textColor}];
 }
 
 +(NSAttributedString*)getAssociatedAppInfoAttributedString
@@ -201,13 +201,14 @@
 
   NSDictionary<NSString*, NSString*> *info = [self getAssociatedAppInfoDict];
 
+    id fontAttrs = @{NSForegroundColorAttributeName : NSColor.textColor};
   
   for (NSString* key in info) {
     NSString* value = info[key];
     [str appendAttributedString:[self boldString:key]];
-    [str appendAttributedString:[[NSAttributedString alloc] initWithString:@": "]];
-    [str appendAttributedString:[[NSAttributedString alloc] initWithString:value]];
-    [str appendAttributedString:[[NSAttributedString alloc] initWithString:@"\r\n"]];
+    [str appendAttributedString:[[NSAttributedString alloc] initWithString:@": " attributes:fontAttrs]];
+    [str appendAttributedString:[[NSAttributedString alloc] initWithString:value attributes:fontAttrs]];
+    [str appendAttributedString:[[NSAttributedString alloc] initWithString:@"\r\n" attributes:fontAttrs]];
   }
   
   return str;
