@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12121" systemVersion="17G2307" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="18122" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12121"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="18122"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -24,16 +25,16 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="zWV-C1-XJY">
-                    <rect key="frame" x="0.0" y="0.0" width="232" height="272"/>
+                    <rect key="frame" x="0.0" y="0.0" width="250" height="272"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="232" id="THf-fN-lSX"/>
+                        <constraint firstAttribute="width" constant="250" id="THf-fN-lSX"/>
                     </constraints>
                 </customView>
                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="iWr-N5-qZt">
-                    <rect key="frame" x="233" y="0.0" width="247" height="272"/>
+                    <rect key="frame" x="251" y="0.0" width="229" height="272"/>
                 </customView>
                 <box horizontalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="EhP-gv-U15">
-                    <rect key="frame" x="230" y="0.0" width="5" height="272"/>
+                    <rect key="frame" x="248" y="0.0" width="5" height="272"/>
                 </box>
             </subviews>
             <constraints>
@@ -48,6 +49,7 @@
                 <constraint firstAttribute="bottom" secondItem="zWV-C1-XJY" secondAttribute="bottom" id="su7-98-bSf"/>
                 <constraint firstItem="zWV-C1-XJY" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="yqG-pY-EOK"/>
             </constraints>
+            <point key="canvasLocation" x="109" y="111"/>
         </customView>
         <viewController title="Code Files View Controller" nibName="DocumentBrowserCodeFilesViewController" id="SaB-ML-Jdr" customClass="DocumentBrowserCodeFilesViewController"/>
         <viewController title="Tag List VIew Controller" nibName="UpdateOutputViewController" id="biz-vd-XGN" customClass="UpdateOutputViewController"/>

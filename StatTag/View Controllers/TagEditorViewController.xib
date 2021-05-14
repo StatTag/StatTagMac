@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12121" systemVersion="17G5019" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="18122" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12121"/>
-        <capability name="box content view" minToolsVersion="7.0"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="18122"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
-        <capability name="stacking Non-gravity area distributions on NSStackView" minToolsVersion="7.0" minSystemVersion="10.11"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="TagEditorViewController">
@@ -46,7 +45,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="669" height="450"/>
                     <subviews>
                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mA0-B2-GeQ">
-                            <rect key="frame" x="6" y="425" width="62" height="17"/>
+                            <rect key="frame" x="6" y="426" width="62" height="16"/>
                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Code file:" id="CSe-Ie-4AR">
                                 <font key="font" metaFont="system"/>
                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -54,7 +53,7 @@
                             </textFieldCell>
                         </textField>
                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="i52-gS-FJO">
-                            <rect key="frame" x="6" y="402" width="205" height="17"/>
+                            <rect key="frame" x="6" y="404" width="205" height="16"/>
                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Click on the margin to define tag:" id="Xx7-3F-dgY">
                                 <font key="font" metaFont="system"/>
                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -62,13 +61,13 @@
                             </textFieldCell>
                         </textField>
                         <customView translatesAutoresizingMaskIntoConstraints="NO" id="6Lh-06-MJS">
-                            <rect key="frame" x="8" y="8" width="658" height="388"/>
+                            <rect key="frame" x="8" y="8" width="658" height="390"/>
                             <constraints>
                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="250" id="tfG-HK-yg9"/>
                             </constraints>
                         </customView>
                         <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="XiB-LI-d7f">
-                            <rect key="frame" x="72" y="419" width="101" height="26"/>
+                            <rect key="frame" x="71" y="419" width="103" height="25"/>
                             <constraints>
                                 <constraint firstAttribute="width" relation="lessThanOrEqual" constant="900" id="YSg-xb-7sD"/>
                             </constraints>
@@ -91,7 +90,7 @@
                             </connections>
                         </popUpButton>
                         <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ld6-VR-t7U">
-                            <rect key="frame" x="608" y="401" width="43" height="21"/>
+                            <rect key="frame" x="609" y="402" width="43" height="21"/>
                             <segmentedCell key="cell" controlSize="small" borderStyle="border" alignment="left" style="rounded" trackingMode="momentary" id="yYO-FM-Zyv">
                                 <font key="font" metaFont="smallSystem"/>
                                 <segments>
@@ -103,8 +102,8 @@
                                 <action selector="findCodeTextBackForward:" target="-2" id="vrW-KJ-2Oc"/>
                             </connections>
                         </segmentedControl>
-                        <searchField identifier="codeSearchField" wantsLayer="YES" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A2E-i9-sxg">
-                            <rect key="frame" x="484" y="402" width="120" height="19"/>
+                        <searchField identifier="codeSearchField" wantsLayer="YES" verticalHuggingPriority="750" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A2E-i9-sxg">
+                            <rect key="frame" x="486" y="403" width="120" height="19"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="120" id="HR6-Rn-8dM"/>
                             </constraints>
@@ -138,12 +137,12 @@
                     </constraints>
                 </customView>
                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="9bD-7j-Tah" userLabel="Properties View">
-                    <rect key="frame" x="669" y="61" width="300" height="389"/>
+                    <rect key="frame" x="669" y="60" width="300" height="390"/>
                     <subviews>
                         <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ohh-Td-ZVq">
-                            <rect key="frame" x="0.0" y="100" width="300" height="289"/>
+                            <rect key="frame" x="0.0" y="100" width="300" height="290"/>
                             <clipView key="contentView" id="2He-An-dP7" customClass="FlippedClipView">
-                                <rect key="frame" x="1" y="1" width="283" height="287"/>
+                                <rect key="frame" x="1" y="1" width="283" height="288"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <stackView distribution="equalSpacing" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" ambiguous="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="asj-x8-Tj3" userLabel="Properties Stack View">
@@ -198,7 +197,7 @@
                                 <autoresizingMask key="autoresizingMask"/>
                             </scroller>
                             <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="0.99078341013824889" horizontal="NO" id="7QE-lI-cHc">
-                                <rect key="frame" x="284" y="1" width="15" height="287"/>
+                                <rect key="frame" x="284" y="1" width="15" height="288"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </scroller>
                         </scrollView>
@@ -268,7 +267,7 @@
                     </constraints>
                 </customView>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="NoP-JE-Fei">
-                    <rect key="frame" x="780" y="13" width="82" height="32"/>
+                    <rect key="frame" x="803" y="13" width="76" height="32"/>
                     <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Il9-AR-kOE">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
@@ -281,7 +280,7 @@ Gw
                     </connections>
                 </button>
                 <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="KG1-jb-j30">
-                    <rect key="frame" x="874" y="18" width="77" height="24"/>
+                    <rect key="frame" x="889" y="18" width="63" height="24"/>
                     <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="momentary" id="Tmx-sO-9P5" customClass="NSSegmentedCellNoDelay">
                         <font key="font" metaFont="system"/>
                         <segments>
@@ -335,8 +334,8 @@ Gw
         <viewController id="rGg-7P-f2W" customClass="ScintillaEmbeddedViewController"/>
     </objects>
     <resources>
-        <image name="NSGoLeftTemplate" width="9" height="12"/>
-        <image name="NSGoRightTemplate" width="9" height="12"/>
+        <image name="NSGoLeftTemplate" width="10" height="14"/>
+        <image name="NSGoRightTemplate" width="10" height="14"/>
         <image name="pulldownButtonSmallBlack" width="8" height="8"/>
     </resources>
 </document>
