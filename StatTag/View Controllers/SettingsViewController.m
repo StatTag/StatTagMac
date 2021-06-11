@@ -44,7 +44,6 @@
 - (void)viewWillLayout {
   [[self boxGeneral] setBoxType:NSBoxCustom];
   [[self boxGeneral] setBorderType:NSLineBorder];
-  [[self boxGeneral] setFillColor:[NSColor whiteColor]];
 }
 
 - (void)viewDidLoad {
