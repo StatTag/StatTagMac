@@ -23,5 +23,8 @@
 -(void)openAboutWindow;
 - (IBAction)openSamplesInstallerWindow:(id)sender;
 
+-(void)openAlertPanelWithMessageText:(NSString*)messageText andInformativeText:(NSString*)informativeText;
+-(void)openAlertPanelWithMessageText:(NSString*)messageText andInformativeText:(NSString*)informativeText Type:(NSAlertStyle)alertStyle;
+
 @end
 

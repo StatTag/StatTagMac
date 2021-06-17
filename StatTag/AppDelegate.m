@@ -60,6 +60,7 @@
 
 -(void)applicationWillFinishLaunching:(NSNotification *)notification
 {
+  [self subscribeToNotifications];
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
@@ -109,6 +110,7 @@
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
   // Insert code here to tear down your application
+  [self unsubscribeFromNotifications];
   [[[StatTagShared sharedInstance] documentManager] stopMonitoringCodeFiles];
 }
 
@@ -124,6 +126,7 @@
 -(IBAction)openPreferences:(id)sender {
   [self openPreferences];
 }
+
 
 -(void)openPreferences {
   NSStoryboard *storyBoard = [NSStoryboard storyboardWithName:@"Main" bundle:nil]; // get a reference to the storyboard
@@ -176,6 +179,48 @@
 
 - (IBAction)removeWordMacros:(id)sender {
   [MacroInstallerUtility removeMacros];
+}
+
+
+-(void)subscribeToNotifications
+{
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(openStatTagAlertPanel:)
+                                               name:@"openStatTagAlertPanel"
+                                             object:nil];
+}
+
+-(void)unsubscribeFromNotifications
+{
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+-(void)openStatTagAlertPanel:(NSNotification*)notification {
+  NSDictionary* notificationInfo = [notification userInfo];
+  NSString* messageText = [notificationInfo valueForKey:@"messageText"];
+  NSString* informativeText = [notificationInfo valueForKey:@"informativeText"];
+
+  //NSAlertStyle alertStyle = [notificationInfo valueForKey:@"alertStyle"];
+
+  [self openAlertPanelWithMessageText:messageText andInformativeText:informativeText];
+  
+}
+
+-(void)openAlertPanelWithMessageText:(NSString*)messageText andInformativeText:(NSString*)informativeText {
+  [self openAlertPanelWithMessageText:messageText andInformativeText:informativeText ofType:NSInformationalAlertStyle];
+}
+
+-(void)openAlertPanelWithMessageText:(NSString*)messageText andInformativeText:(NSString*)informativeText ofType:(NSAlertStyle)alertStyle {
+  
+  //  alertStyle = NSWarningAlertStyle;
+  
+  NSAlert *alert = [[NSAlert alloc] init];
+  [alert setMessageText:messageText];
+  [alert setInformativeText:informativeText];
+  [alert setAlertStyle:alertStyle];
+  [alert addButtonWithTitle:@"Ok"];
+  [alert runModal];
+  
 }
 
 

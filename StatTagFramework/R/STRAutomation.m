@@ -17,7 +17,6 @@
 #import "STGeneralUtil.h"
 #import <RCocoa/RCocoa.h>
 
-
 //FIXME: remove these and remove the type includes so we don't have this issue below
 //#import <R/R.h>
 //#import <R/Rinternals.h>
@@ -118,9 +117,54 @@ static NSString* const TemporaryImageFileFilter = @"SELF EndsWith '.png'";
 
 +(BOOL)IsAppInstalled {
   BOOL RIsInstalled = [RCEngine RIsInstalled];
+  
   if (RIsInstalled) {
     return YES;
   }
+  
+  NSLog(@"R is not installed or not compatible. Trying to determine reason.");
+
+  BOOL InstallationValidForPath = [RCEngine RInstallationIsValid];
+  NSString* RCurrentVersionPath = [RCEngine GetCurrentRVersionPath];
+
+  if(RCurrentVersionPath != nil){
+    if(InstallationValidForPath){
+
+      BOOL RVersionsCompatible = [RCEngine CurrentRVersionCanRunAgainstCompiledVersion];
+
+      NSNumber* RCompileVersion = [RCEngine ConvertVersionStringToVersionNumber:[RCEngine GetCompileRVersion]];
+      NSNumber* RVersionNumber = [RCEngine ConvertVersionStringToVersionNumber:[RCEngine GetCurrentRVersionNumber]];
+      
+      NSLog(@"RCocoa - RVersionsCompatible = '%d'", RVersionsCompatible);
+      NSLog(@"RCocoa - Compiled R version = '%@', Current R version = '%@'", RCompileVersion, RVersionNumber);
+
+      if(!RVersionsCompatible){
+        NSString* messageText = @"StatTag is not compatible with the current version of R";
+        NSString* informativeText = [NSString stringWithFormat:@"You are using R version %@. StatTag requires a minimum R version of %@.", RVersionNumber, RCompileVersion] ;
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+          [[NSNotificationCenter defaultCenter] postNotificationName:@"openStatTagAlertPanel" object:self userInfo:@{@"messageText":messageText, @"informativeText":informativeText}];
+        });
+      }
+
+    } else {
+      //we can have R installed, but it can be broken - missing dylib under the directory
+      //some R installations seem to remove prior installations, but leave the directory
+      NSString* informativeText = [NSString stringWithFormat:@"R is installed, but it does not appear to working as expected. Please confirm R is valid. '%@'", RCurrentVersionPath] ;
+
+      dispatch_async(dispatch_get_main_queue(), ^{
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"openStatTagAlertPanel" object:self userInfo:@{@"messageText":@"Cannot run R", @"informativeText":informativeText}];
+      });
+    }
+  } else {
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [[NSNotificationCenter defaultCenter] postNotificationName:@"openStatTagAlertPanel" object:self userInfo:@{@"messageText":@"Cannot run R", @"informativeText":@"It does not appear that R is installed."}];
+    });
+
+  }
+
+  
+  
   return NO;
 }
 
