@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12121" systemVersion="17G5019" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12121"/>
-        <capability name="box content view" minToolsVersion="7.0"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17701"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -27,11 +27,11 @@
                 <box borderType="line" title="General" translatesAutoresizingMaskIntoConstraints="NO" id="cZ4-M5-QuD">
                     <rect key="frame" x="17" y="16" width="446" height="174"/>
                     <view key="contentView" id="33C-ff-rKk">
-                        <rect key="frame" x="1" y="1" width="444" height="158"/>
+                        <rect key="frame" x="3" y="3" width="440" height="156"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button translatesAutoresizingMaskIntoConstraints="NO" id="n1Z-0A-46h">
-                                <rect key="frame" x="18" y="122" width="408" height="18"/>
+                                <rect key="frame" x="18" y="120" width="404" height="18"/>
                                 <buttonCell key="cell" type="check" title="Enable the debug text file" bezelStyle="regularSquare" imagePosition="left" inset="2" id="1h5-C0-r5a">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -41,7 +41,7 @@
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" setsMaxLayoutWidthAtFirstLayout="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RJE-dJ-G6u">
-                                <rect key="frame" x="114" y="74" width="282" height="17"/>
+                                <rect key="frame" x="114" y="74" width="278" height="16"/>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" placeholderString="Log Path Not Set" id="EyT-3A-Ryc">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
@@ -49,11 +49,10 @@
                                 </textFieldCell>
                                 <connections>
                                     <action selector="labelFilePathClicked:" target="-2" id="8NK-ZX-5Cd"/>
-                                    <binding destination="-2" name="value" keyPath="self.logManager.LogFilePath" id="9Da-5U-xRZ"/>
                                 </connections>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5sE-yd-FR7">
-                                <rect key="frame" x="18" y="74" width="88" height="17"/>
+                                <rect key="frame" x="18" y="74" width="88" height="16"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="84" id="Sf0-yN-i92"/>
                                 </constraints>
@@ -64,7 +63,7 @@
                                 </textFieldCell>
                             </textField>
                             <button translatesAutoresizingMaskIntoConstraints="NO" id="13T-ho-Lrk">
-                                <rect key="frame" x="402" y="73" width="22" height="22"/>
+                                <rect key="frame" x="398" y="72" width="22" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="22" id="F8K-Ge-GfF"/>
                                     <constraint firstAttribute="height" constant="22" id="xay-jn-ibZ"/>
@@ -78,7 +77,7 @@
                                 </connections>
                             </button>
                             <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3GO-F7-B0u">
-                                <rect key="frame" x="114" y="92" width="107" height="26"/>
+                                <rect key="frame" x="114" y="90" width="108" height="25"/>
                                 <popUpButtonCell key="cell" type="push" title="Errors" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="5" imageScaling="proportionallyDown" inset="2" selectedItem="nkd-gg-Rej" id="qEU-Xy-IW1">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
@@ -97,7 +96,7 @@
                                 </connections>
                             </popUpButton>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LsC-t8-Ob8">
-                                <rect key="frame" x="18" y="99" width="88" height="17"/>
+                                <rect key="frame" x="18" y="98" width="88" height="16"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="84" id="xqz-e8-6EB"/>
                                 </constraints>
@@ -108,7 +107,7 @@
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4S7-7A-rTx">
-                                <rect key="frame" x="319" y="36" width="111" height="32"/>
+                                <rect key="frame" x="315" y="36" width="111" height="32"/>
                                 <buttonCell key="cell" type="push" title="Choose File" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="1NY-hU-EeP">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
