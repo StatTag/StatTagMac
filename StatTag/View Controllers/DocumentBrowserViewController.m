@@ -233,7 +233,8 @@ WordDocumentViewer* wordDocViewer;
   if(privacyAuthGranted == FALSE){
     [[self attentionView] setHidden:FALSE];
   }
-  
+
+  [[[StatTagShared sharedInstance] logManager] WriteLog:[NSString stringWithFormat:@"privacyAuthGranted %hhd", privacyAuthGranted] logLevel:STLogVerbose];
   
   //NSLog(@"DocumentBrowserViewController - viewApplicationDidBecomeActive");
   [self loadDocsAndContent];

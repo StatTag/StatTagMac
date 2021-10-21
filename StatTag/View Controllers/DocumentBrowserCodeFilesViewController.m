@@ -271,11 +271,17 @@
   //BOOL isDir;
   //NSFileManager* fileManager = [NSFileManager defaultManager];
   
+  [[[StatTagShared sharedInstance] logManager] WriteLog:@"Preparing to add file" logLevel:STLogVerbose];
   if ( [openPanel runModal] == NSModalResponseOK )
   {
     NSArray<NSURL*>* files = [openPanel URLs];
+    [[[StatTagShared sharedInstance] logManager] WriteLog:[NSString stringWithFormat:@"Adding %lu files", [files count]] logLevel:STLogVerbose];
     [self addCodeFilesByURL:files];
     [[[StatTagShared sharedInstance] activeStatTagWordDocument] loadDocument];
+    [[[StatTagShared sharedInstance] logManager] WriteLog:@"Reloaded document" logLevel:STLogVerbose];
+  }
+  else {
+    [[[StatTagShared sharedInstance] logManager] WriteLog:@"Cancelled adding a file" logLevel:STLogVerbose];
   }
   
 }
@@ -298,9 +304,13 @@
     //if([[STConstantsFileFilters SupportedFileFiltersArray] containsObject:[url pathExtension]])
     if([STCodeFile fileIsSupported:url])
     {
+      [[[StatTagShared sharedInstance] logManager] WriteLog:[NSString stringWithFormat:@"Adding file %@", url] logLevel:STLogVerbose];
       STCodeFile* cf = [[STCodeFile alloc] init];
       cf.FilePathURL = url;
       [codefiles addObject:cf];
+    }
+    else {
+      [[[StatTagShared sharedInstance] logManager] WriteLog:[NSString stringWithFormat:@"Ignoring file %@ - not supported", url] logLevel:STLogVerbose];
     }
   }
   //remove duplicates
@@ -349,6 +359,7 @@
   [alert beginSheetModalForWindow:[[NSApplication sharedApplication] mainWindow] completionHandler:^(NSModalResponse returnCode) {
     if (returnCode == NSAlertFirstButtonReturn) {
       NSIndexSet* selectedFiles = [arrayController selectionIndexes];
+      [[[StatTagShared sharedInstance] logManager] WriteLog:[NSString stringWithFormat:@"Removing %lu files", [selectedFiles count]] logLevel:STLogVerbose];
       [arrayController removeObjectsAtArrangedObjectIndexes:selectedFiles];
       [arrayController rearrangeObjects];
       [[[StatTagShared sharedInstance] activeStatTagWordDocument] loadDocument];
