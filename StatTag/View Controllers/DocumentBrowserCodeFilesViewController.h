@@ -44,6 +44,8 @@
 @property (strong, nonatomic) STDocumentManager* documentManager;
 
 @property (weak) IBOutlet NSTableView *tagSummaryTableView;
+@property (weak) IBOutlet NSButton *addCodeFile;
+@property (weak) IBOutlet NSButton *removeCodeFile;
 
 @property (strong) IBOutlet NSArrayController *tagSummaryArrayController;
 

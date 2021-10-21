@@ -101,6 +101,7 @@
 
 -(void) UpdateRenamedTags:(NSArray<STUpdatePair<STTag*>*>*) updates;
 
+-(BOOL)HasCodeFiles;
 -(NSMutableArray<STCodeFile*>*)GetCodeFileList;
 -(NSMutableArray<STCodeFile*>*)GetCodeFileList:(STMSWord2011Document*)document;
 -(void)SetCodeFileList:(NSArray<STCodeFile*>*)files;
