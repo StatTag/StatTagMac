@@ -85,22 +85,26 @@
 
 -(void)configure
 {
-  [[StatTagShared sharedInstance] setDoc:[[StatTagShared sharedInstance] doc]];
-  [_documentManager LoadCodeFileListFromDocument:[[StatTagShared sharedInstance] doc]];
-  
-  self.codeFiles = [[self documentManager] GetCodeFileList];
-  [arrayController rearrangeObjects];
+  STMSWord2011Document* doc = [[StatTagShared sharedInstance] doc];
+  // It's possible to get back a document object even if there is no active document.  We
+  // need to further check if it is really there.
+  if (doc != nil && [doc name] != nil) {
+    [[StatTagShared sharedInstance] setDoc:doc];
+    [_documentManager LoadCodeFileListFromDocument:doc];
+    
+    self.codeFiles = [[self documentManager] GetCodeFileList];
+    [_removeCodeFile setEnabled:[self enableRemoveCodeFile]];
+    [_addCodeFile setEnabled:TRUE];
+  } else {
+    [[StatTagShared sharedInstance] setDoc:nil];
+    self.codeFiles = nil;
+    [_removeCodeFile setEnabled:FALSE];
+    [_addCodeFile setEnabled:FALSE];
+  }
 
-  //var documentMetadata = Manager.LoadMetadataFromCurrentDocument(false);
-  
-  
-  // [_documentManager LoadCodeFileListFromDocument:[[StatTagShared sharedInstance] doc]];
-  // [self beginLoadingUnlinkedTags];
+  [arrayController rearrangeObjects];
   [self updateTagSummary];
 }
-
-
-
 
 -(void)updateTagSummary
 {
@@ -267,11 +271,17 @@
   //BOOL isDir;
   //NSFileManager* fileManager = [NSFileManager defaultManager];
   
+  [[[StatTagShared sharedInstance] logManager] WriteLog:@"Preparing to add file" logLevel:STLogVerbose];
   if ( [openPanel runModal] == NSModalResponseOK )
   {
     NSArray<NSURL*>* files = [openPanel URLs];
+    [[[StatTagShared sharedInstance] logManager] WriteLog:[NSString stringWithFormat:@"Adding %lu files", [files count]] logLevel:STLogVerbose];
     [self addCodeFilesByURL:files];
     [[[StatTagShared sharedInstance] activeStatTagWordDocument] loadDocument];
+    [[[StatTagShared sharedInstance] logManager] WriteLog:@"Reloaded document" logLevel:STLogVerbose];
+  }
+  else {
+    [[[StatTagShared sharedInstance] logManager] WriteLog:@"Cancelled adding a file" logLevel:STLogVerbose];
   }
   
 }
@@ -294,9 +304,13 @@
     //if([[STConstantsFileFilters SupportedFileFiltersArray] containsObject:[url pathExtension]])
     if([STCodeFile fileIsSupported:url])
     {
+      [[[StatTagShared sharedInstance] logManager] WriteLog:[NSString stringWithFormat:@"Adding file %@", url] logLevel:STLogVerbose];
       STCodeFile* cf = [[STCodeFile alloc] init];
       cf.FilePathURL = url;
       [codefiles addObject:cf];
+    }
+    else {
+      [[[StatTagShared sharedInstance] logManager] WriteLog:[NSString stringWithFormat:@"Ignoring file %@ - not supported", url] logLevel:STLogVerbose];
     }
   }
   //remove duplicates
@@ -316,12 +330,25 @@
   
   //NSLog(@"arrayController content = %@", [arrayController content]);
   
+  [_removeCodeFile setEnabled:[self enableRemoveCodeFile]];
+
   //re-sort in case the user has sorted a column
   [arrayController rearrangeObjects];
 
 }
 
+- (BOOL)enableRemoveCodeFile
+{
+  return [[self documentManager] HasCodeFiles] && [[arrayController selectionIndexes] count] > 0;
+}
+
 - (IBAction)removeFiles:(id)sender {
+  
+  // If nothing is selected, don't prompt the user or proceed.
+  NSIndexSet* selectedFiles = [arrayController selectionIndexes];
+  if ([selectedFiles count] <= 0) {
+    return;
+  }
   
   NSAlert *alert = [[NSAlert alloc] init];
   [alert setAlertStyle:NSAlertStyleWarning];
@@ -332,9 +359,11 @@
   [alert beginSheetModalForWindow:[[NSApplication sharedApplication] mainWindow] completionHandler:^(NSModalResponse returnCode) {
     if (returnCode == NSAlertFirstButtonReturn) {
       NSIndexSet* selectedFiles = [arrayController selectionIndexes];
+      [[[StatTagShared sharedInstance] logManager] WriteLog:[NSString stringWithFormat:@"Removing %lu files", [selectedFiles count]] logLevel:STLogVerbose];
       [arrayController removeObjectsAtArrangedObjectIndexes:selectedFiles];
       [arrayController rearrangeObjects];
       [[[StatTagShared sharedInstance] activeStatTagWordDocument] loadDocument];
+      [_removeCodeFile setEnabled:[self enableRemoveCodeFile]];
     } else if (returnCode == NSAlertSecondButtonReturn) {
     }
   }];
@@ -519,6 +548,7 @@
       //since interaction with EITHER of these two tables impacts the other table,
       // only fire for the file table view
       
+      [_removeCodeFile setEnabled:[self enableRemoveCodeFile]];
       
       //we have a user behavior where people want to select code files that are currently unlinked. If we have a selection that contains ONLY unlinked tags, let's load the unlinked tags UI
       NSPredicate* unlinkedCodeFilePredicate = [NSPredicate predicateWithFormat:@"fileAccessibleAtPath = NO"];

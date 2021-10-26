@@ -164,12 +164,12 @@ used to create the Word document.
 
   if (![self DocumentVariableExists:variable])
   {
-    //Log(string.Format("Metadata variable does not exist.  Adding attribute value of {0}", attribute));
+    [[self Logger] WriteLog:[NSString stringWithFormat:@"Metadata variable does not exist.  Adding attribute value of %@", attribute] logLevel:STLogVerbose];
     [WordHelpers createOrUpdateDocumentVariableWithName:MetadataAttribute andValue:attribute];
   }
   else
   {
-    //Log(string.Format("Metadata variable already exists.  Updating attribute value to {0}", attribute));
+    [[self Logger] WriteLog:[NSString stringWithFormat:@"Metadata variable already exists.  Updating attribute value to %@", attribute] logLevel:STLogVerbose];
     [WordHelpers createOrUpdateDocumentVariableWithName:MetadataAttribute andValue:attribute];
   }
 
@@ -244,7 +244,7 @@ used to create the Word document.
     if(![self DocumentVariableExists:variable]) {
       if (hasCodeFiles)
       {
-        //NSLog(@"%@", [NSString stringWithFormat:@"Document variable does not exist.  Adding attribute value of %@", attribute]);
+        [[self Logger] WriteLog:[NSString stringWithFormat:@"Document variable does not exist.  Adding attribute value of  %@", attribute] logLevel:STLogVerbose];
         [WordHelpers createOrUpdateDocumentVariableWithName:ConfigurationAttribute andValue:attribute];
       }
       else
@@ -1770,6 +1770,10 @@ Insert an StatTag field at the currently specified document range.
   }
 }
 
+-(BOOL)HasCodeFiles {
+  NSMutableArray<STCodeFile*>* list = [self GetCodeFileList];
+  return (list != nil && [list count] > 0);
+}
 
 /**
  Helper accessor to get the list of code files associated with a document.  If the code file list

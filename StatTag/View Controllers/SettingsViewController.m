@@ -141,22 +141,32 @@
   if ( [openPanel runModal] == NSModalResponseOK )
   {
     NSArray<NSURL*>* files = [openPanel URLs];
-    
+    BOOL selectedDir = FALSE;
+    NSURL* newLogFile = nil;
     for( NSInteger i = 0; i < [files count]; i++ )
     {
       NSURL* url = [files objectAtIndex:i];
       if ([fileManager fileExistsAtPath:[url path] isDirectory:&isDir] && isDir) {
+        selectedDir = TRUE;
         url = [url URLByAppendingPathComponent:[STLogManager defaultLogFileName]];
       }
       
-      [[self labelFilePath] setStringValue:[url path]];
+      newLogFile = url;
     }
     
-    [self saveSettings];
+    // If the user has selected a directory to place the file into, but hasn't selected
+    // a specific file, we will see if we need to create one for them.
+    if (selectedDir) {
+      if (![[self logManager] IsValidLogPath:[newLogFile path]]) {
+        // Initialize an empty file.  This will make it available for writing
+        // in the rest of our logging code
+        [fileManager createFileAtPath:[newLogFile path] contents:nil attributes:nil];
+      }
+    }
     
+    [[self labelFilePath] setStringValue:[newLogFile path]];
+    [self saveSettings];
   }
-  
-  
 }
 
 -(void)saveSettings {

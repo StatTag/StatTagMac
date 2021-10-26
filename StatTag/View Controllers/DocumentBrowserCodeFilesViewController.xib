@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="18122" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="18122"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17701"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="DocumentBrowserCodeFilesViewController">
             <connections>
+                <outlet property="addCodeFile" destination="AxT-W1-BWb" id="lWt-r2-Q8L"/>
                 <outlet property="arrayController" destination="dNU-vC-xar" id="lAl-lX-hz4"/>
                 <outlet property="fileTableView" destination="WqB-pS-IU6" id="NuW-fy-7aO"/>
+                <outlet property="removeCodeFile" destination="4vi-41-ffn" id="WQe-QT-eGo"/>
                 <outlet property="tagSummaryArrayController" destination="r6k-fG-ho7" id="NbL-jL-UPW"/>
                 <outlet property="tagSummaryTableView" destination="NqN-TR-2EJ" id="xIZ-FD-cxn"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
@@ -24,11 +26,11 @@
                 <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="42" horizontalPageScroll="10" verticalLineScroll="42" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fep-eZ-Lfn" userLabel="Scroll View - Code Files">
                     <rect key="frame" x="0.0" y="19" width="232" height="185"/>
                     <clipView key="contentView" id="5ib-Aa-Xio">
-                        <rect key="frame" x="0.0" y="0.0" width="232" height="170"/>
+                        <rect key="frame" x="0.0" y="0.0" width="232" height="185"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView identifier="fileTableView" verticalHuggingPriority="750" tag="2" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnSelection="YES" autosaveColumns="NO" rowHeight="40" rowSizeStyle="automatic" viewBased="YES" id="WqB-pS-IU6">
-                                <rect key="frame" x="0.0" y="0.0" width="243" height="170"/>
+                                <rect key="frame" x="0.0" y="0.0" width="232" height="185"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <size key="intercellSpacing" width="3" height="2"/>
                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -43,7 +45,7 @@
                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                         <prototypeCellViews>
                                             <tableCellView id="azK-EH-Shx">
-                                                <rect key="frame" x="11" y="1" width="41" height="40"/>
+                                                <rect key="frame" x="1" y="1" width="36" height="40"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vnO-pP-jiL">
@@ -74,7 +76,7 @@
                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                         <prototypeCellViews>
                                             <tableCellView id="PV6-Xf-Fh8">
-                                                <rect key="frame" x="55" y="1" width="150" height="40"/>
+                                                <rect key="frame" x="40" y="1" width="150" height="40"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Yka-hl-Xib">
@@ -124,7 +126,7 @@
                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                         <prototypeCellViews>
                                             <tableCellView id="Zv0-K9-Ktq">
-                                                <rect key="frame" x="208" y="1" width="23" height="40"/>
+                                                <rect key="frame" x="193" y="1" width="19" height="40"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SJg-u2-VoB">
@@ -155,7 +157,7 @@
                             </tableView>
                         </subviews>
                     </clipView>
-                    <scroller key="horizontalScroller" verticalHuggingPriority="750" doubleValue="0.18181818181818182" horizontal="YES" id="4XW-fq-hXw">
+                    <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="0.18181818181818182" horizontal="YES" id="4XW-fq-hXw">
                         <rect key="frame" x="0.0" y="170" width="232" height="15"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
@@ -175,7 +177,7 @@
                                 <constraints>
                                     <constraint firstAttribute="width" constant="25" id="u70-uv-Op6"/>
                                 </constraints>
-                                <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSAddTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="kvW-CT-lwh">
+                                <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSAddTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" enabled="NO" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="kvW-CT-lwh">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
@@ -188,7 +190,7 @@
                                 <constraints>
                                     <constraint firstAttribute="width" constant="25" id="wqV-QI-v1m"/>
                                 </constraints>
-                                <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSRemoveTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="I61-aB-dwj">
+                                <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSRemoveTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" enabled="NO" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="I61-aB-dwj">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
@@ -237,11 +239,11 @@
                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                         <prototypeCellViews>
                                             <tableCellView identifier="tagDashboardCell" id="fY4-JU-rfs" customClass="TagIndicatorView">
-                                                <rect key="frame" x="11" y="3" width="209" height="17"/>
+                                                <rect key="frame" x="1" y="3" width="200" height="17"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ree-VA-AzC">
-                                                        <rect key="frame" x="0.0" y="0.0" width="160" height="17"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="151" height="17"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="3we-3T-AIP">
                                                             <font key="font" metaFont="system"/>
@@ -263,7 +265,7 @@
                                                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="tag_button" id="HgQ-ca-AVf"/>
                                                     </imageView>
                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" allowsExpansionToolTips="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Lje-Xa-pDs">
-                                                        <rect key="frame" x="195" y="-1" width="4" height="17"/>
+                                                        <rect key="frame" x="193" y="-1" width="4" height="17"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="right" title="0" id="nKV-0u-osg">
                                                             <font key="font" metaFont="smallSystem"/>
@@ -387,8 +389,8 @@
         <userDefaultsController representsSharedInstance="YES" id="5fi-Pt-83n"/>
     </objects>
     <resources>
-        <image name="NSAddTemplate" width="14" height="13"/>
-        <image name="NSRemoveTemplate" width="14" height="4"/>
+        <image name="NSAddTemplate" width="11" height="11"/>
+        <image name="NSRemoveTemplate" width="11" height="11"/>
         <image name="stats_package_stata" width="512" height="512"/>
         <image name="tag_button" width="494" height="223"/>
         <image name="unlinked_tag_button" width="494" height="223"/>
