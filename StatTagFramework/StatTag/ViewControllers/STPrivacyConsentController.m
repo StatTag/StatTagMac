@@ -41,11 +41,11 @@
 
 
 // !!!: Workaround for Apple bug. Their AppleEvents.h header conditionally defines errAEEventWouldRequireUserConsent and one other constant, valid only for 10.14 and higher, which means our code inside the @available() check would fail to compile. Remove this definition when they fix it.
-#if __MAC_OS_X_VERSION_MIN_REQUIRED <= __MAC_10_14
-enum {
-    errAEEventWouldRequireUserConsent = -1744, /* Determining whether this can be sent would require prompting the user, and the AppleEvent was sent with kAEDoNotPromptForPermission */
-};
-#endif
+//#if __MAC_OS_X_VERSION_MIN_REQUIRED <= __MAC_10_14
+//enum {
+//    errAEEventWouldRequireUserConsent = -1744, /* Determining whether this can be sent would require prompting the user, and the AppleEvent was sent with kAEDoNotPromptForPermission */
+//};
+//#endif
 
 - (void)launchPrivacyAndSecurityPreferencesAutomationSubPane
 {

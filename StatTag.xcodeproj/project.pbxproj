@@ -9,6 +9,14 @@
 /* Begin PBXBuildFile section */
 		350943C9214831AC00DAAADC /* STTagCollisionResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 350943C8214831AC00DAAADC /* STTagCollisionResult.m */; };
 		350943CB2148496D00DAAADC /* STTagCollisionResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 350943CA214831C100DAAADC /* STTagCollisionResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3517E8F32BFEA65E00442592 /* ZipArchive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 352C43652BF7E23C00EF90B4 /* ZipArchive.framework */; };
+		3517E8F42BFEA65E00442592 /* ZipArchive.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 352C43652BF7E23C00EF90B4 /* ZipArchive.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		352C43672BF7E23C00EF90B4 /* ZipArchive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 352C43652BF7E23C00EF90B4 /* ZipArchive.framework */; };
+		352C43692BF7E23C00EF90B4 /* ZipArchive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 352C43652BF7E23C00EF90B4 /* ZipArchive.framework */; };
+		352C43702BF7F5A200EF90B4 /* XlsxReaderWriter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 352C436F2BF7F5A200EF90B4 /* XlsxReaderWriter.framework */; };
+		352C43712BF7F5A200EF90B4 /* XlsxReaderWriter.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 352C436F2BF7F5A200EF90B4 /* XlsxReaderWriter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		352C43722BF7F5AD00EF90B4 /* ZipArchive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 352C43652BF7E23C00EF90B4 /* ZipArchive.framework */; };
+		352C43732BF7F5AD00EF90B4 /* ZipArchive.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 352C43652BF7E23C00EF90B4 /* ZipArchive.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3537430B202BF97100325941 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3537430A202BF97100325941 /* libz.tbd */; };
 		35374313202BFB1D00325941 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 35374312202BFB1D00325941 /* libz.tbd */; };
 		353D75A4202E191E006CF435 /* balanced.xlsx in Resources */ = {isa = PBXBuildFile; fileRef = 353D75A1202E191E006CF435 /* balanced.xlsx */; };
@@ -60,9 +68,6 @@
 		3824439E1DBE567D00EF0048 /* StatTagScriptSupport.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 3824439D1DBE567D00EF0048 /* StatTagScriptSupport.scpt */; };
 		382443A01DBE6D0E00EF0048 /* StatTagMacroInstallationScript.sh in Resources */ = {isa = PBXBuildFile; fileRef = 3824439F1DBE612800EF0048 /* StatTagMacroInstallationScript.sh */; };
 		382443A31DBE8E7200EF0048 /* STCodeFile+TagInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 382443A21DBE8E7200EF0048 /* STCodeFile+TagInfo.m */; };
-		3827BDA22582925900956A8D /* libXlsxReaderWriter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3827BD952582922200956A8D /* libXlsxReaderWriter.a */; };
-		3827BDA32582936500956A8D /* XlsxReaderWriter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3827BD992582922200956A8D /* XlsxReaderWriter.framework */; };
-		3827BDA42582936500956A8D /* XlsxReaderWriter.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3827BD992582922200956A8D /* XlsxReaderWriter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3828C8131E9CF82E000A4159 /* DuplicateTagGroupRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3828C8121E9CF82E000A4159 /* DuplicateTagGroupRowView.m */; };
 		3828C8161E9D0AB8000A4159 /* DuplicateTagDetailRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3828C8151E9D0AB8000A4159 /* DuplicateTagDetailRowView.m */; };
 		3828C8191E9D12AD000A4159 /* STTag+TagContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 3828C8181E9D12AD000A4159 /* STTag+TagContent.m */; };
@@ -134,8 +139,6 @@
 		3836F5A91D92EBCB00BF0DD4 /* MainTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3836F5A81D92EBCB00BF0DD4 /* MainTabViewController.m */; };
 		3836F5AD1D92ED9D00BF0DD4 /* STAppleScript_LoadSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 3836F5AC1D92ED9D00BF0DD4 /* STAppleScript_LoadSettings.m */; };
 		383A27931E800583009379F1 /* sample.txt in Resources */ = {isa = PBXBuildFile; fileRef = 383A27921E800583009379F1 /* sample.txt */; };
-		383C64DF264EC00E002DDE55 /* ZipArchive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 383C64D6264EBEFB002DDE55 /* ZipArchive.framework */; };
-		383C64E0264EC00E002DDE55 /* ZipArchive.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 383C64D6264EBEFB002DDE55 /* ZipArchive.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		383F3B981DA679AE0069C78E /* TagPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 383F3B961DA679AE0069C78E /* TagPreviewController.m */; };
 		383F3B991DA679AE0069C78E /* TagPreviewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 383F3B971DA679AE0069C78E /* TagPreviewController.xib */; };
 		383F3B9C1DA684390069C78E /* TagGridView.m in Sources */ = {isa = PBXBuildFile; fileRef = 383F3B9B1DA684390069C78E /* TagGridView.m */; };
@@ -233,7 +236,6 @@
 		3888FAC3201A3EE80090176D /* STBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 3888FAC1201A3EE80090176D /* STBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3888FAC4201A3EE80090176D /* STBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 3888FAC2201A3EE80090176D /* STBase.m */; };
 		388ABF881DA5B1F600F08956 /* ViewUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 388ABF871DA5B1F500F08956 /* ViewUtils.m */; };
-		38908380262A8D0300267EA7 /* XlsxReaderWriter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3827BD992582922200956A8D /* XlsxReaderWriter.framework */; };
 		389591B51E8A991F003FE9E3 /* DocumentBrowserTagSummary.m in Sources */ = {isa = PBXBuildFile; fileRef = 389591B41E8A991F003FE9E3 /* DocumentBrowserTagSummary.m */; };
 		389B20561F3E01D400D853EF /* STDocumentManager+CodeFileManagement.m in Sources */ = {isa = PBXBuildFile; fileRef = 389B20551F3E01D400D853EF /* STDocumentManager+CodeFileManagement.m */; };
 		38A7CE981D4FDFB600B06AFF /* STGridDataItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 38A7CE961D4FDFB600B06AFF /* STGridDataItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -391,89 +393,12 @@
 			remoteGlobalIDString = 3816ABF51ED5C1B10045390E;
 			remoteInfo = StatTagHelp;
 		};
-		3827BD942582922200956A8D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3827BD8C2582922200956A8D /* XlsxReaderWriter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 45B6E23A1A148F7500288A78;
-			remoteInfo = XlsxReaderWriter;
-		};
-		3827BD962582922200956A8D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3827BD8C2582922200956A8D /* XlsxReaderWriter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 45B6E2451A148F7500288A78;
-			remoteInfo = XlsxReaderWriterTests;
-		};
-		3827BD982582922200956A8D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3827BD8C2582922200956A8D /* XlsxReaderWriter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 22156D581C46B42500BB5779;
-			remoteInfo = "XlsxReaderWriter-Mac";
-		};
-		3827BD9A2582922200956A8D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3827BD8C2582922200956A8D /* XlsxReaderWriter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8289AA632041D9F900E00603;
-			remoteInfo = "XlsxReaderWriter-iOS";
-		};
-		3827BD9C2582922200956A8D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3827BD8C2582922200956A8D /* XlsxReaderWriter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8289AAD620420FFC00E00603;
-			remoteInfo = "XlsxReaderWriter-WatchOS";
-		};
-		3827BD9E2582924500956A8D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3827BD8C2582922200956A8D /* XlsxReaderWriter.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 45B6E2391A148F7500288A78;
-			remoteInfo = XlsxReaderWriter;
-		};
-		3827BDA02582924500956A8D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3827BD8C2582922200956A8D /* XlsxReaderWriter.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 22156D571C46B42500BB5779;
-			remoteInfo = "XlsxReaderWriter-Mac";
-		};
 		3836F5601D92C89900BF0DD4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 382C8D1A1D0F672F00FE6878 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 3836F5491D92C89900BF0DD4;
 			remoteInfo = StatTag;
-		};
-		383C64D3264EBEFB002DDE55 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 383C64C7264EBEFA002DDE55 /* ZipArchive.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = B423AE1A1C0DF76A0004A2F1;
-			remoteInfo = "ZipArchive-iOS";
-		};
-		383C64D5264EBEFB002DDE55 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 383C64C7264EBEFA002DDE55 /* ZipArchive.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = AFF75A241C37279600F450AC;
-			remoteInfo = "ZipArchive-Mac";
-		};
-		383C64D7264EBEFB002DDE55 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 383C64C7264EBEFA002DDE55 /* ZipArchive.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 37952C261F63B50D00DD6677;
-			remoteInfo = "ZipArchive-tvos";
-		};
-		383C64D9264EBEFB002DDE55 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 383C64C7264EBEFA002DDE55 /* ZipArchive.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 37952C5E1F63BB7100DD6677;
-			remoteInfo = "ZipArchive-watchos";
 		};
 		384C8E8125829C13002F196C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -540,6 +465,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				38D8B1B31D9496C300BF878A /* StatTagFramework.framework in Embed Frameworks */,
+				3517E8F42BFEA65E00442592 /* ZipArchive.framework in Embed Frameworks */,
 				38AB26D6258A5344007D30A2 /* RCocoa.framework in Embed Frameworks */,
 				384C8E8425829C6C002F196C /* Scintilla.framework in Embed Frameworks */,
 			);
@@ -552,9 +478,9 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				383C64E0264EC00E002DDE55 /* ZipArchive.framework in CopyFiles */,
+				352C43732BF7F5AD00EF90B4 /* ZipArchive.framework in CopyFiles */,
 				384C8ED925830747002F196C /* RCocoa.framework in CopyFiles */,
-				3827BDA42582936500956A8D /* XlsxReaderWriter.framework in CopyFiles */,
+				352C43712BF7F5A200EF90B4 /* XlsxReaderWriter.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -565,6 +491,8 @@
 		3500D5CE1EE066F7006AA0ED /* R.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = R.framework; path = ../../../../Library/Frameworks/R.framework; sourceTree = "<group>"; };
 		350943C8214831AC00DAAADC /* STTagCollisionResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STTagCollisionResult.m; sourceTree = "<group>"; };
 		350943CA214831C100DAAADC /* STTagCollisionResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = STTagCollisionResult.h; sourceTree = "<group>"; };
+		352C43652BF7E23C00EF90B4 /* ZipArchive.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ZipArchive.framework; path = ../../../../../Library/Frameworks/ZipArchive.framework; sourceTree = "<group>"; };
+		352C436F2BF7F5A200EF90B4 /* XlsxReaderWriter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XlsxReaderWriter.framework; path = ../../../../../Library/Frameworks/XlsxReaderWriter.framework; sourceTree = "<group>"; };
 		3537430A202BF97100325941 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		35374312202BFB1D00325941 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/usr/lib/libz.tbd; sourceTree = DEVELOPER_DIR; };
 		353D75A1202E191E006CF435 /* balanced.xlsx */ = {isa = PBXFileReference; lastKnownFileType = file; name = balanced.xlsx; path = XLSX/balanced.xlsx; sourceTree = "<group>"; };
@@ -635,7 +563,6 @@
 		3824439F1DBE612800EF0048 /* StatTagMacroInstallationScript.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = StatTagMacroInstallationScript.sh; sourceTree = "<group>"; };
 		382443A11DBE8E7200EF0048 /* STCodeFile+TagInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "STCodeFile+TagInfo.h"; sourceTree = "<group>"; };
 		382443A21DBE8E7200EF0048 /* STCodeFile+TagInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "STCodeFile+TagInfo.m"; sourceTree = "<group>"; };
-		3827BD8C2582922200956A8D /* XlsxReaderWriter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = XlsxReaderWriter.xcodeproj; path = ../XlsxReaderWriter/XlsxReaderWriter.xcodeproj; sourceTree = "<group>"; };
 		3828C8111E9CF82E000A4159 /* DuplicateTagGroupRowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DuplicateTagGroupRowView.h; sourceTree = "<group>"; };
 		3828C8121E9CF82E000A4159 /* DuplicateTagGroupRowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DuplicateTagGroupRowView.m; sourceTree = "<group>"; };
 		3828C8141E9D0AB8000A4159 /* DuplicateTagDetailRowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DuplicateTagDetailRowView.h; sourceTree = "<group>"; };
@@ -726,7 +653,6 @@
 		3836F5AB1D92ED9D00BF0DD4 /* STAppleScript_LoadSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STAppleScript_LoadSettings.h; sourceTree = "<group>"; };
 		3836F5AC1D92ED9D00BF0DD4 /* STAppleScript_LoadSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STAppleScript_LoadSettings.m; sourceTree = "<group>"; };
 		383A27921E800583009379F1 /* sample.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sample.txt; sourceTree = "<group>"; };
-		383C64C7264EBEFA002DDE55 /* ZipArchive.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ZipArchive.xcodeproj; path = ../ZipArchive/ZipArchive.xcodeproj; sourceTree = "<group>"; };
 		383F3B951DA679AE0069C78E /* TagPreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagPreviewController.h; sourceTree = "<group>"; };
 		383F3B961DA679AE0069C78E /* TagPreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagPreviewController.m; sourceTree = "<group>"; };
 		383F3B971DA679AE0069C78E /* TagPreviewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TagPreviewController.xib; sourceTree = "<group>"; };
@@ -1048,15 +974,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				383C64DF264EC00E002DDE55 /* ZipArchive.framework in Frameworks */,
-				3827BDA22582925900956A8D /* libXlsxReaderWriter.a in Frameworks */,
 				35374313202BFB1D00325941 /* libz.tbd in Frameworks */,
 				38E2D0CF202A1A8300512B8C /* RCocoa.framework in Frameworks */,
 				38BE59AC1D52AA1000FF9E99 /* Cocoa.framework in Frameworks */,
-				3827BDA32582936500956A8D /* XlsxReaderWriter.framework in Frameworks */,
 				38C91F461D36FC8A0048A95E /* AppleScriptObjC.framework in Frameworks */,
 				382C28711D180CB900697D6F /* SystemConfiguration.framework in Frameworks */,
-				38908380262A8D0300267EA7 /* XlsxReaderWriter.framework in Frameworks */,
+				352C43702BF7F5A200EF90B4 /* XlsxReaderWriter.framework in Frameworks */,
+				352C43722BF7F5AD00EF90B4 /* ZipArchive.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1064,6 +988,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				352C43672BF7E23C00EF90B4 /* ZipArchive.framework in Frameworks */,
 				387A0E301D230DAF00F1FE9C /* OCMock.framework in Frameworks */,
 				382C8D461D101C2700FE6878 /* StatTagFramework.framework in Frameworks */,
 			);
@@ -1077,6 +1002,7 @@
 				384C8E8325829C6C002F196C /* Scintilla.framework in Frameworks */,
 				38D8B1B21D9496C300BF878A /* StatTagFramework.framework in Frameworks */,
 				38AB26D5258A5344007D30A2 /* RCocoa.framework in Frameworks */,
+				3517E8F32BFEA65E00442592 /* ZipArchive.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1084,6 +1010,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				352C43692BF7E23C00EF90B4 /* ZipArchive.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1093,6 +1020,7 @@
 		3500D5CB1EE066DA006AA0ED /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				352C436F2BF7F5A200EF90B4 /* XlsxReaderWriter.framework */,
 				384C8ED125829FB8002F196C /* Security.framework */,
 				384C8ECF25829FA1002F196C /* libiconv.tbd */,
 				35DD6E3D21CAE8D900FEEA05 /* Foundation.framework */,
@@ -1163,18 +1091,6 @@
 			path = StatTagHelp;
 			sourceTree = "<group>";
 		};
-		3827BD8D2582922200956A8D /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				3827BD952582922200956A8D /* libXlsxReaderWriter.a */,
-				3827BD972582922200956A8D /* XlsxReaderWriterTests.xctest */,
-				3827BD992582922200956A8D /* XlsxReaderWriter.framework */,
-				3827BD9B2582922200956A8D /* XlsxReaderWriter.framework */,
-				3827BD9D2582922200956A8D /* XlsxReaderWriter.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		3828F33C1EDB20A300DABA43 /* SamplesInstaller */ = {
 			isa = PBXGroup;
 			children = (
@@ -1204,14 +1120,13 @@
 		382C8D191D0F672F00FE6878 = {
 			isa = PBXGroup;
 			children = (
-				383C64C7264EBEFA002DDE55 /* ZipArchive.xcodeproj */,
 				384C8E7D25829C13002F196C /* ScintillaFramework.xcodeproj */,
-				3827BD8C2582922200956A8D /* XlsxReaderWriter.xcodeproj */,
 				38E2D0BA2028A36100512B8C /* RCocoa.xcodeproj */,
 				38C91F4A1D37AC710048A95E /* Cocoa.framework */,
 				38C91F451D36FC8A0048A95E /* AppleScriptObjC.framework */,
 				387A0E2F1D230DAF00F1FE9C /* OCMock.framework */,
 				382C28701D180CB900697D6F /* SystemConfiguration.framework */,
+				352C43652BF7E23C00EF90B4 /* ZipArchive.framework */,
 				382C8D251D0F672F00FE6878 /* StatTagFramework */,
 				382C8D421D101C2700FE6878 /* StatTagFrameworkTests */,
 				3836F54B1D92C89900BF0DD4 /* StatTag */,
@@ -1513,17 +1428,6 @@
 				383A27921E800583009379F1 /* sample.txt */,
 			);
 			path = IntegrationTests;
-			sourceTree = "<group>";
-		};
-		383C64C8264EBEFA002DDE55 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				383C64D4264EBEFB002DDE55 /* ZipArchive.framework */,
-				383C64D6264EBEFB002DDE55 /* ZipArchive.framework */,
-				383C64D8264EBEFB002DDE55 /* ZipArchive.framework */,
-				383C64DA264EBEFB002DDE55 /* ZipArchive.framework */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		383F8D112230421B00B38238 /* About */ = {
@@ -2257,8 +2161,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				3827BD9F2582924500956A8D /* PBXTargetDependency */,
-				3827BDA12582924500956A8D /* PBXTargetDependency */,
 				38E2D0DC202A76BD00512B8C /* PBXTargetDependency */,
 			);
 			name = StatTagFramework;
@@ -2379,14 +2281,6 @@
 					ProductGroup = 384C8E7E25829C13002F196C /* Products */;
 					ProjectRef = 384C8E7D25829C13002F196C /* ScintillaFramework.xcodeproj */;
 				},
-				{
-					ProductGroup = 3827BD8D2582922200956A8D /* Products */;
-					ProjectRef = 3827BD8C2582922200956A8D /* XlsxReaderWriter.xcodeproj */;
-				},
-				{
-					ProductGroup = 383C64C8264EBEFA002DDE55 /* Products */;
-					ProjectRef = 383C64C7264EBEFA002DDE55 /* ZipArchive.xcodeproj */;
-				},
 			);
 			projectRoot = "";
 			targets = (
@@ -2400,69 +2294,6 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		3827BD952582922200956A8D /* libXlsxReaderWriter.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libXlsxReaderWriter.a;
-			remoteRef = 3827BD942582922200956A8D /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		3827BD972582922200956A8D /* XlsxReaderWriterTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = XlsxReaderWriterTests.xctest;
-			remoteRef = 3827BD962582922200956A8D /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		3827BD992582922200956A8D /* XlsxReaderWriter.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = XlsxReaderWriter.framework;
-			remoteRef = 3827BD982582922200956A8D /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		3827BD9B2582922200956A8D /* XlsxReaderWriter.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = XlsxReaderWriter.framework;
-			remoteRef = 3827BD9A2582922200956A8D /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		3827BD9D2582922200956A8D /* XlsxReaderWriter.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = XlsxReaderWriter.framework;
-			remoteRef = 3827BD9C2582922200956A8D /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		383C64D4264EBEFB002DDE55 /* ZipArchive.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = ZipArchive.framework;
-			remoteRef = 383C64D3264EBEFB002DDE55 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		383C64D6264EBEFB002DDE55 /* ZipArchive.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = ZipArchive.framework;
-			remoteRef = 383C64D5264EBEFB002DDE55 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		383C64D8264EBEFB002DDE55 /* ZipArchive.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = ZipArchive.framework;
-			remoteRef = 383C64D7264EBEFB002DDE55 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		383C64DA264EBEFB002DDE55 /* ZipArchive.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = ZipArchive.framework;
-			remoteRef = 383C64D9264EBEFB002DDE55 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		384C8E8225829C13002F196C /* Scintilla.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -2906,16 +2737,6 @@
 			target = 3816ABF51ED5C1B10045390E /* StatTagHelp */;
 			targetProxy = 3816AC011ED5CA5A0045390E /* PBXContainerItemProxy */;
 		};
-		3827BD9F2582924500956A8D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = XlsxReaderWriter;
-			targetProxy = 3827BD9E2582924500956A8D /* PBXContainerItemProxy */;
-		};
-		3827BDA12582924500956A8D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "XlsxReaderWriter-Mac";
-			targetProxy = 3827BDA02582924500956A8D /* PBXContainerItemProxy */;
-		};
 		3836F5611D92C89900BF0DD4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 3836F5491D92C89900BF0DD4 /* StatTag */;
@@ -2957,7 +2778,7 @@
 				INFOPLIST_FILE = StatTagHelp/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				MARKETING_VERSION = "3.0.7-beta5";
+				MARKETING_VERSION = 3.0.9;
 				PRODUCT_BUNDLE_IDENTIFIER = edu.northwestern.nucats.StatTagHelp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2977,7 +2798,7 @@
 				INFOPLIST_FILE = StatTagHelp/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				MARKETING_VERSION = "3.0.7-beta5";
+				MARKETING_VERSION = 3.0.9;
 				PRODUCT_BUNDLE_IDENTIFIER = edu.northwestern.nucats.StatTagHelp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -3100,6 +2921,7 @@
 					"$(LOCAL_LIBRARY_DIR)/Frameworks/**",
 					"$(PROJECT_DIR)",
 					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 				);
 				FRAMEWORK_VERSION = A;
 				HEADER_SEARCH_PATHS = (
@@ -3110,8 +2932,8 @@
 				INFOPLIST_FILE = "$(SRCROOT)/StatTagFramework/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				MARKETING_VERSION = "3.0.7-beta5";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MARKETING_VERSION = 3.0.9;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -3147,6 +2969,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks/**",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 				);
 				FRAMEWORK_VERSION = A;
 				GCC_OPTIMIZATION_LEVEL = s;
@@ -3158,8 +2981,8 @@
 				INFOPLIST_FILE = "$(SRCROOT)/StatTagFramework/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				MARKETING_VERSION = "3.0.7-beta5";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MARKETING_VERSION = 3.0.9;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -3187,6 +3010,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 				);
 				INFOPLIST_FILE = StatTagFrameworkTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
@@ -3207,6 +3031,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 				);
 				INFOPLIST_FILE = StatTagFrameworkTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
@@ -3235,6 +3060,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 				);
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_INPUT_FILETYPE = automatic;
@@ -3247,8 +3073,8 @@
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../XlsxReaderWriter/\"/**";
 				INFOPLIST_FILE = StatTag/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks /Library/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				MARKETING_VERSION = 3.0.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MARKETING_VERSION = 3.0.9;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -3283,6 +3109,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 				);
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_INPUT_FILETYPE = automatic;
@@ -3295,8 +3122,8 @@
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../XlsxReaderWriter/\"/**";
 				INFOPLIST_FILE = StatTag/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks /Library/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				MARKETING_VERSION = 3.0.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MARKETING_VERSION = 3.0.9;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				OTHER_LDFLAGS = (
@@ -3324,6 +3151,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = E74ZKF37E6;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+				);
 				INFOPLIST_FILE = StatTagTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
@@ -3344,6 +3175,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = E74ZKF37E6;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+				);
 				INFOPLIST_FILE = StatTagTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
